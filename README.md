@@ -9,12 +9,11 @@ Example
 
 Suppose you have a csv, xls, xlsx file as the following:
 
-.|A|B|C
--|-|-|-
-1|1|2|3
-2|2|3|4
-3|3|4|5
-
+```
+1,2,3
+2,3,4
+3,4,5
+```
 
 The following code will print out the first column:
 
