@@ -73,16 +73,25 @@ class XLSXReader:
     def cell_value(self, row, column):
         return none_value(self.ws.cell("%s%d" % (self._get_columns(column), row)).value).strip()
 
-class ReaderFactory:
-
-    @staticmethod
-    def get_reader(file):
+class Reader:
+    def __init__(self, file):
         if file.endswith(".xlsx"):
-            reader = XLSXReader(file)
+            self.reader = XLSXReader(file)
         elif file.endswith(".xls"):
-            reader = XLSReader(file)
+            self.reader = XLSReader(file)
         elif file.endswith(".csv"):
-            reader = CSVReader(file)
+            self.reader = CSVReader(file)
         else:
-            reader = None
-        return reader
+            raise NotImplementedError("can not open %s" % file)
+
+    def first_row(self):
+        return self.reader.first_row()
+
+    def row_index(self, value):
+        return self.reader.row_index(value)
+
+    def number_of_rows(self):
+        return self.reader.number_of_rows()
+
+    def cell_value(self, row, column):
+        return self.reader.cell_value(row, column)
