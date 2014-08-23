@@ -2,16 +2,6 @@ import csv
 from openpyxl import load_workbook
 import xlrd
 
-def none_value(value):
-    if value is None:
-        return ""
-    else:
-        if isinstance(value, unicode):
-            str_value = value.encode('ascii', 'xmlcharrefreplace')
-        else:
-            str_value = str(value)
-        str_value.replace('"', '')
-        return str_value
 
 class CSVReader:
     def __init__(self, file):
@@ -29,7 +19,11 @@ class CSVReader:
         return len(self.array)
 
     def cell_value(self, row, column):
-        return none_value(self.array[row][column].strip().rstrip())
+        return self.array[row][column]
+
+    def row_range(self):
+        return range(self.first_row(), self.number_of_rows())
+
 
 class XLSReader:
     def __init__(self, file):
@@ -45,8 +39,11 @@ class XLSReader:
     def first_row(self):
         return 0
 
+    def row_range(self):
+        return range(self.first_row(), self.number_of_rows())
+
     def cell_value(self, row, column):
-        return none_value(self.worksheet.cell_value(row, column).strip().rstrip())
+        return self.worksheet.cell_value(row, column)
 
 class XLSXReader:
     def __init__(self, file):
@@ -55,11 +52,11 @@ class XLSXReader:
         self.columns = [x for x in 'ABCDEFGHIJKLMNOPQRST']
 
     def _get_columns(self, index):
-        len = len(self.columns)
-        if index < len:
+        length = len(self.columns)
+        if index < length:
             return self.columns[index]
         else:
-            return self._get_columns(index/len) + self.columns[index%len]
+            return self._get_columns(index/length) + self.columns[index%length]
             
     def first_row(self):
         return 1
@@ -68,10 +65,13 @@ class XLSXReader:
         return value
 
     def number_of_rows(self):
-        return self.ws.get_highest_row() + 1
+        return self.ws.get_highest_row()
+
+    def row_range(self):
+        return range(self.first_row(), self.number_of_rows()+1)
 
     def cell_value(self, row, column):
-        return none_value(self.ws.cell("%s%d" % (self._get_columns(column), row)).value).strip()
+        return self.ws.cell("%s%d" % (self._get_columns(column), row)).value
 
 class Reader:
     def __init__(self, file):
@@ -95,3 +95,6 @@ class Reader:
 
     def cell_value(self, row, column):
         return self.reader.cell_value(row, column)
+
+    def row_range(self):
+        return self.reader.row_range()
