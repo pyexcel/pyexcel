@@ -43,3 +43,6 @@ class TestXLSReader(unittest.TestCase):
         r = pyexcel.Reader(self.testfile)
         assert 2 == r.row_index(r.first_row()+1)
 
+    def test_number_of_columns(self):
+        r = pyexcel.Reader(self.testfile)
+        assert 4 == r.number_of_columns()

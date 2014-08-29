@@ -2,6 +2,11 @@ import csv
 from openpyxl import load_workbook
 import xlrd
 
+"""
+Design assumption:
+
+It is a MxN formed table
+"""
 
 class CSVReader:
     def __init__(self, file):
@@ -18,6 +23,17 @@ class CSVReader:
     def number_of_rows(self):
         return len(self.array)
 
+    def number_of_columns(self):
+        """
+        Return the number of columns
+
+        assuming the length of each row is uniform
+        """
+        if len(self.array) > 1:
+            return len(self.array[0])
+        else:
+            return 0
+
     def cell_value(self, row, column):
         return self.array[row][column]
 
@@ -32,6 +48,9 @@ class XLSReader:
         
     def number_of_rows(self):
         return self.worksheet.nrows
+
+    def number_of_columns(self):
+        return self.worksheet.ncols
 
     def row_index(self, value):
         return value + 1
@@ -67,11 +86,23 @@ class XLSXReader:
     def number_of_rows(self):
         return self.ws.get_highest_row()
 
+    def number_of_columns(self):
+        if self.ws.get_highest_row() > 0:
+            count = 0
+            for i in range(0,self.ws.get_highest_column()):
+                if self.cell_value(self.first_row(), i) is None:
+                    break
+                count = count + 1
+            return count
+        else:
+            return 0
+
     def row_range(self):
         return range(self.first_row(), self.number_of_rows()+1)
 
     def cell_value(self, row, column):
         return self.ws.cell("%s%d" % (self._get_columns(column), row)).value
+
 
 class Reader:
     def __init__(self, file):
@@ -92,6 +123,9 @@ class Reader:
 
     def number_of_rows(self):
         return self.reader.number_of_rows()
+
+    def number_of_columns(self):
+        return self.reader.number_of_columns()
 
     def cell_value(self, row, column):
         return self.reader.cell_value(row, column)
