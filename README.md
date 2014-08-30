@@ -11,15 +11,15 @@ Suppose you have a csv, xls, xlsx file as the following:
 
 ```
 1,2,3 <- row starts at 0 -\
-2,3,4                      > row_range()
-3,4,5 <- number_of_rows()-/
+4,5,6                      > row_range()
+7,8,9 <- number_of_rows()-/
 ^   ^
 |   number_of_columns() -\
 |                         > column_range()
 column starts at 0      -/
 ```
 
-The following code will print out the first column:
+The following code:
 
 ```python
 import pyexcel
@@ -30,3 +30,10 @@ for r in spreadsheet.row_range():
     for c in spreadsheet.column_range():
         print spreadsheet.cell_value(r, j)
 ```
+
+will print them out as:
+
+```
+123456789
+```
+
