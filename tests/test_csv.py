@@ -32,20 +32,12 @@ class TestCSVReader(unittest.TestCase):
         for i in r.row_range():
             print r.cell_value(i,1)
             assert str(i+1) == r.cell_value(i,1)
-            assert str(r.row_index(i)) == r.cell_value(i,1)
+        assert "3" == r.cell_value(2, 3)
             
     def test_row_range(self):
         r = pyexcel.Reader(self.testfile)
         assert self.rows == len(r.row_range())
             
-    def test_first_row(self):
-        r = pyexcel.Reader(self.testfile)
-        assert "1" == r.cell_value(r.first_row(),0)
-
-    def test_row_index(self):
-        r = pyexcel.Reader(self.testfile)
-        assert 2 == r.row_index(r.first_row()+1)
-
     def test_number_of_columns(self):
         r = pyexcel.Reader(self.testfile)
         assert 4 == r.number_of_columns()

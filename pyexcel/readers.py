@@ -14,12 +14,6 @@ class CSVReader:
         reader = csv.reader(open(file, 'rb'), dialect=csv.excel)
         self.array.extend(reader)
 
-    def first_row(self):
-        return 0
-
-    def row_index(self, value):
-        return value + 1
-
     def number_of_rows(self):
         return len(self.array)
 
@@ -37,9 +31,6 @@ class CSVReader:
     def cell_value(self, row, column):
         return self.array[row][column]
 
-    def row_range(self):
-        return range(self.first_row(), self.number_of_rows())
-
 
 class XLSReader:
     def __init__(self, file):
@@ -51,15 +42,6 @@ class XLSReader:
 
     def number_of_columns(self):
         return self.worksheet.ncols
-
-    def row_index(self, value):
-        return value + 1
-
-    def first_row(self):
-        return 0
-
-    def row_range(self):
-        return range(self.first_row(), self.number_of_rows())
 
     def cell_value(self, row, column):
         return self.worksheet.cell_value(row, column)
@@ -77,12 +59,6 @@ class XLSXReader:
         else:
             return self._get_columns(index/length) + self.columns[index%length]
             
-    def first_row(self):
-        return 1
-
-    def row_index(self, value):
-        return value
-
     def number_of_rows(self):
         return self.ws.get_highest_row()
 
@@ -90,18 +66,16 @@ class XLSXReader:
         if self.ws.get_highest_row() > 0:
             count = 0
             for i in range(0,self.ws.get_highest_column()):
-                if self.cell_value(self.first_row(), i) is None:
+                if self.cell_value(0, i) is None:
                     break
                 count = count + 1
             return count
         else:
             return 0
 
-    def row_range(self):
-        return range(self.first_row(), self.number_of_rows()+1)
-
     def cell_value(self, row, column):
-        return self.ws.cell("%s%d" % (self._get_columns(column), row)).value
+        actual_row = row + 1
+        return self.ws.cell("%s%d" % (self._get_columns(column), actual_row)).value
 
 
 class Reader:
@@ -115,12 +89,6 @@ class Reader:
         else:
             raise NotImplementedError("can not open %s" % file)
 
-    def first_row(self):
-        return self.reader.first_row()
-
-    def row_index(self, value):
-        return self.reader.row_index(value)
-
     def number_of_rows(self):
         return self.reader.number_of_rows()
 
@@ -128,7 +96,13 @@ class Reader:
         return self.reader.number_of_columns()
 
     def cell_value(self, row, column):
-        return self.reader.cell_value(row, column)
+        if row in self.row_range() and column in self.column_range():
+            return self.reader.cell_value(row, column)
+        else:
+            return None
 
     def row_range(self):
-        return self.reader.row_range()
+        return range(0, self.reader.number_of_rows())
+
+    def column_range(self):
+        return range(0, self.reader.number_of_columns())
