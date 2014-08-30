@@ -42,6 +42,8 @@ class CSVReader:
 class XLSReader:
     """
     xls reader
+    
+    Currently only support first sheet in the file
     """
     def __init__(self, file):
         import xlrd
@@ -69,6 +71,8 @@ class XLSReader:
 class XLSXReader:
     """
     xlsx reader
+    
+    Currently only support the active sheet in the file
     """
     def __init__(self, file):
         from openpyxl import load_workbook
@@ -110,6 +114,19 @@ class XLSXReader:
         actual_row = row + 1
         return self.ws.cell("%s%d" % (self._get_columns(column), actual_row)).value
 
+        
+class ODSReaderImp(CSVReader):
+    """
+    ods reader
+
+    Currently only support first sheet in the file
+    """
+    def __init__(self, file):
+        import odsreader
+        self.ods = odsreader.ODSReader(file)
+        keys = self.ods.SHEETS.keys()
+        self.array = self.ods.getSheet(keys[0])
+
 
 class Reader:
     """
@@ -127,6 +144,8 @@ class Reader:
             self.reader = XLSReader(file)
         elif file.endswith(".csv"):
             self.reader = CSVReader(file)
+        elif file.endswith(".ods"):
+            self.reader = ODSReaderImp(file)
         else:
             raise NotImplementedError("can not open %s" % file)
 

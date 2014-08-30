@@ -37,3 +37,15 @@ will print them out as:
 123456789
 ```
 
+Dependencies
+============
+
+odfpy
+xlrd
+openpyxl
+
+
+Note
+=====
+
+ods reader is made by [Marco Conti](https://github.com/marcoconti83/read-ods-with-odfpy)
