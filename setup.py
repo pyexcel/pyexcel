@@ -10,7 +10,7 @@ setup(
     author="C. W.",
     version='0.0.1',
     url="https://github.com/chfw/pyexcel",
-    description='Python Wrapper for reading uniform distributed data table in csv, xls, and xlsx files',
+    description='Python Wrapper for reading uniform distributed data table in csv, ods, xls, and xlsx files',
     install_requires=[
         'xlrd',
         'openpyxl',

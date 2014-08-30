@@ -1,7 +1,7 @@
 pyexcel
 =======
 
-Python Wrapper for reading uniform distributed data table in csv, xls, and xlsx files
+Python Wrapper for reading uniform distributed data table in csv, ods, xls, and xlsx files
 
 
 Example
@@ -24,7 +24,7 @@ The following code:
 ```python
 import pyexcel
 
-spreadsheet = pyexcel.Reader("your.csv") # "your.xls", "your.xlsx"
+spreadsheet = pyexcel.Reader("your.csv") # "your.xls", "your.xlsx", "your.ods"
 
 for r in spreadsheet.row_range():
     for c in spreadsheet.column_range():
