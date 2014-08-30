@@ -24,17 +24,25 @@ The following code:
 ```python
 import pyexcel
 
-spreadsheet = pyexcel.Reader("your.csv") # "your.xls", "your.xlsx", "your.ods"
+spreadsheet = pyexcel.Reader("example.csv") # "example.xls", "example.xlsx", "example.ods"
 
 for r in spreadsheet.row_range():
     for c in spreadsheet.column_range():
-        print spreadsheet.cell_value(r, j)
+        print spreadsheet.cell_value(r, c)
 ```
 
 will print them out as:
 
 ```
-123456789
+1
+2
+3
+4
+5
+6
+7
+8
+9
 ```
 
 Dependencies
