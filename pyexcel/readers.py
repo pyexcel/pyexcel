@@ -1,7 +1,3 @@
-import csv
-from openpyxl import load_workbook
-import xlrd
-
 """
 Design assumption:
 
@@ -10,6 +6,7 @@ It is a MxN formed table
 
 class CSVReader:
     def __init__(self, file):
+        import csv
         self.array = []
         reader = csv.reader(open(file, 'rb'), dialect=csv.excel)
         self.array.extend(reader)
@@ -34,6 +31,7 @@ class CSVReader:
 
 class XLSReader:
     def __init__(self, file):
+        import xlrd
         self.workbook = xlrd.open_workbook(file)
         self.worksheet = self.workbook.sheet_by_index(0)
         
@@ -48,6 +46,7 @@ class XLSReader:
 
 class XLSXReader:
     def __init__(self, file):
+        from openpyxl import load_workbook
         self.wb = load_workbook(file)
         self.ws = self.wb.active
         self.columns = [x for x in 'ABCDEFGHIJKLMNOPQRST']
