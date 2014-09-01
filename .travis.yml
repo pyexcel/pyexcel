@@ -1,0 +1,18 @@
+language: python
+notifications:
+email: false
+env:
+global:
+python:
+- 2.6
+- 2.7
+- pypy
+- 3.2
+- 3.3
+install:
+- pip install -r requirements.txt
+- pip install -r tests/requirements.txt
+script:
+nosetests --rednose --with-cov
+after_success:
+codecov
