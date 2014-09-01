@@ -1,4 +1,4 @@
-pyexcel
+pyexcel [![Build Status](https://api.travis-ci.org/chfw/pyexcel.png)](http://travis-ci.org/chfw/pyexcel)
 =======
 
 Python Wrapper for reading uniform distributed data table in csv, ods, xls, and xlsx files
@@ -48,9 +48,9 @@ will print them out as:
 Dependencies
 ============
 
-odfpy
-xlrd
-openpyxl
+*odfpy
+*xlrd
+*openpyxl
 
 
 Note

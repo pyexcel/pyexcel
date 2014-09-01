@@ -14,7 +14,7 @@ setup(
     install_requires=[
         'xlrd',
         'openpyxl',
-        "odfpy"
+        'odfpy'
     ],
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     include_package_data=True,
