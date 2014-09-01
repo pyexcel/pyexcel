@@ -4,8 +4,7 @@ pyexcel [![Build Status](https://api.travis-ci.org/chfw/pyexcel.png)](http://tra
 Python Wrapper for reading uniform distributed data table in csv, ods, xls, and xlsx files
 
 
-Example
-=======
+# Example
 
 Suppose you have a csv, xls, xlsx file as the following:
 
@@ -45,15 +44,13 @@ will print them out as:
 9
 ```
 
-Dependencies
-============
+# Dependencies
 
-*odfpy
-*xlrd
-*openpyxl
+* odfpy
+* xlrd
+* openpyxl
 
 
-Note
-=====
+# Note
 
 ods reader is made by [Marco Conti](https://github.com/marcoconti83/read-ods-with-odfpy)
