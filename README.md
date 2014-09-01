@@ -1,10 +1,9 @@
-pyexcel [![Build Status](https://api.travis-ci.org/chfw/pyexcel.png)](http://travis-ci.org/chfw/pyexcel)
-=======
+# pyexcel [![Build Status](https://api.travis-ci.org/chfw/pyexcel.png)](http://travis-ci.org/chfw/pyexcel)
 
 Python Wrapper for reading uniform distributed data table in csv, ods, xls, and xlsx files
 
 
-# Example
+## Example
 
 Suppose you have a csv, xls, xlsx file as the following:
 
@@ -44,13 +43,29 @@ will print them out as:
 9
 ```
 
-# Dependencies
+And the following code:
+
+```python
+import pyexcel
+
+spreadsheet = pyexcel.Reader("example.csv") # "example.xls","example.xlsx","example.ods"
+
+print spreadsheet.json()
+```
+
+will print them out as json:
+
+```
+[["1", "2", "3"], ["4", "5", "6"], ["7", "8", "9"]]
+```
+
+## Dependencies
 
 * odfpy
 * xlrd
 * openpyxl
 
 
-# Note
+## Note
 
 ods reader is made by [Marco Conti](https://github.com/marcoconti83/read-ods-with-odfpy)

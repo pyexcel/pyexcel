@@ -4,6 +4,8 @@ Design assumption:
 It is a MxN formed table
 
 """
+import json
+
 
 class CSVReader:
     """
@@ -38,6 +40,11 @@ class CSVReader:
         """
         return self.array[row][column]
 
+    def json(self):
+        """
+        Return json representation of the data
+        """
+        return json.dumps(self.array)
 
 class XLSReader:
     """
@@ -67,6 +74,14 @@ class XLSReader:
         Random access to the xls cells
         """
         return self.worksheet.cell_value(row, column)
+
+    def json(self):
+        array = []
+        for i in range(0, self.number_of_rows()):
+            array.append(self.worksheet.row_values(i,
+                                                   start_colx=0,
+                                                   end_colx=self.number_of_columns()))
+        return json.dumps(array)
 
 class XLSXReader:
     """
@@ -113,6 +128,14 @@ class XLSXReader:
         """
         actual_row = row + 1
         return self.ws.cell("%s%d" % (self._get_columns(column), actual_row)).value
+
+    def json(self):
+        array = []
+        for r in range(0, self.number_of_rows()):
+            array.append([])
+            for c in range(0, self.number_of_columns()):
+                array[r].append(self.cell_value(r,c))
+        return json.dumps(array)
 
         
 class ODSReaderImp(CSVReader):
@@ -181,3 +204,6 @@ class Reader:
         Utility function to get column range
         """
         return range(0, self.reader.number_of_columns())
+
+    def json(self):
+        return self.reader.json()

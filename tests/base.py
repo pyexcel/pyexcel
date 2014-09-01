@@ -24,6 +24,10 @@ class PyexcelBase:
         r = pyexcel.Reader(self.testfile)
         assert 4 == r.number_of_columns()
 
+    def test_json(self):
+        r = pyexcel.Reader(self.testfile)
+        assert r.json() == '[["1", "1", "1", "1"], ["2", "2", "2", "2"], ["3", "3", "3", "3"]]'
+
 class PyexcelXlsBase(PyexcelBase):
     def test_cell_value(self):
         r = pyexcel.Reader(self.testfile)
@@ -34,3 +38,12 @@ class PyexcelXlsBase(PyexcelBase):
             print r.cell_value(i,1)
             assert i+1 == r.cell_value(i,1)
         assert 3 == r.cell_value(2, 3)
+
+    def test_json(self):
+        r = pyexcel.Reader(self.testfile)
+        assert r.json() == '[[1.0, 1.0, 1.0, 1.0], [2.0, 2.0, 2.0, 2.0], [3.0, 3.0, 3.0, 3.0]]'
+
+class PyexcelXlsxBase(PyexcelXlsBase):
+    def test_json(self):
+        r = pyexcel.Reader(self.testfile)
+        assert r.json() == '[[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]'
