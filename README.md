@@ -1,6 +1,6 @@
 # pyexcel [![Build Status](https://api.travis-ci.org/chfw/pyexcel.png)](http://travis-ci.org/chfw/pyexcel) [![codecov.io](https://codecov.io/github/chfw/pyexcel/coverage.png)](https://codecov.io/github/chfw/pyexcel)
 
-Python Wrapper for reading uniform distributed data table in csv, ods, xls, and xlsx files
+Python Wrapper for reading uniform distributed data table in csv, ods, xls, xlsx and xlsm files
 
 
 ## Example
@@ -22,7 +22,8 @@ The following code:
 ```python
 import pyexcel
 
-spreadsheet = pyexcel.Reader("example.csv") # "example.xls","example.xlsx","example.ods"
+# "example.xls","example.xlsx","example.ods","example.xlsm"
+spreadsheet = pyexcel.Reader("example.csv") 
 
 for r in spreadsheet.row_range():
     for c in spreadsheet.column_range():
@@ -48,7 +49,8 @@ And the following code:
 ```python
 import pyexcel
 
-spreadsheet = pyexcel.Reader("example.csv") # "example.xls","example.xlsx","example.ods"
+# "example.xls","example.xlsx","example.ods", "example.xlsm"
+spreadsheet = pyexcel.Reader("example.csv") 
 
 print spreadsheet.json()
 ```
@@ -63,7 +65,6 @@ will print them out as json:
 
 * odfpy
 * xlrd
-* openpyxl
 
 
 ## Note

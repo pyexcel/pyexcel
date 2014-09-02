@@ -1,5 +1,6 @@
 import pyexcel
 
-spreadsheet = pyexcel.Reader("example.csv")  # "example.xls","example.xlsx","example.ods"
+# "example.xls","example.xlsx","example.ods", "example.xlsm"
+spreadsheet = pyexcel.Reader("example.csv")
 
 print spreadsheet.json()

@@ -14,5 +14,5 @@ class TestXLSXReader(unittest.TestCase, PyexcelXlsBase):
         2,2,2,2
         3,3,3,3
         """
-        self.testfile = os.path.join("tests", "testxlsx.xlsx")
+        self.testfile = os.path.join("tests", "testxlsm.xlsm")
         self.rows = 3

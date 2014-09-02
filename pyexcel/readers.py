@@ -83,60 +83,6 @@ class XLSReader:
                                                    end_colx=self.number_of_columns()))
         return json.dumps(array)
 
-class XLSXReader:
-    """
-    xlsx reader
-    
-    Currently only support the active sheet in the file
-    """
-    def __init__(self, file):
-        from openpyxl import load_workbook
-        self.wb = load_workbook(file)
-        self.ws = self.wb.active
-        self.columns = [x for x in 'ABCDEFGHIJKLMNOPQRST']
-
-    def _get_columns(self, index):
-        length = len(self.columns)
-        if index < length:
-            return self.columns[index]
-        else:
-            return self._get_columns(index/length) + self.columns[index%length]
-            
-    def number_of_rows(self):
-        """
-        Number of rows in the xlsx file
-        """        
-        return self.ws.get_highest_row()
-
-    def number_of_columns(self):
-        """
-        Number of columns in the xlsx file
-        """
-        if self.ws.get_highest_row() > 0:
-            count = 0
-            for i in range(0,self.ws.get_highest_column()):
-                if self.cell_value(0, i) is None:
-                    break
-                count = count + 1
-            return count
-        else:
-            return 0
-
-    def cell_value(self, row, column):
-        """
-        Random access to the xlsx cells
-        """
-        actual_row = row + 1
-        return self.ws.cell("%s%d" % (self._get_columns(column), actual_row)).value
-
-    def json(self):
-        array = []
-        for r in range(0, self.number_of_rows()):
-            array.append([])
-            for c in range(0, self.number_of_columns()):
-                array[r].append(self.cell_value(r,c))
-        return json.dumps(array)
-
         
 class ODSReaderImp(CSVReader):
     """
@@ -161,9 +107,7 @@ class Reader:
 
         Selecting a specific reader according to file extension
         """
-        if file.endswith(".xlsx"):
-            self.reader = XLSXReader(file)
-        elif file.endswith(".xls"):
+        if file.endswith(".xlsm") or file.endswith(".xlsx") or file.endswith(".xls"):
             self.reader = XLSReader(file)
         elif file.endswith(".csv"):
             self.reader = CSVReader(file)
