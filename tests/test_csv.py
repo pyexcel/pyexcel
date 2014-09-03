@@ -1,6 +1,7 @@
 import unittest
 import os
 from base import PyexcelBase
+import pyexcel
 
 
 class TestCSVReader(unittest.TestCase, PyexcelBase):
@@ -14,11 +15,12 @@ class TestCSVReader(unittest.TestCase, PyexcelBase):
         """
         self.testfile = "testcsv.csv"
         self.rows = 3
-        f = open(self.testfile, "w")
+        w = pyexcel.Writer(self.testfile)
         for i in range(0,self.rows):
             row = i + 1
-            f.write("%s,%s,%s,%s\n" % (row, row, row, row))
-        f.close()
+            array = [row, row, row, row]
+            w.write_row(array)
+        w.close()
 
     def tearDown(self):
         if os.path.exists(self.testfile):
