@@ -44,6 +44,18 @@ will print them out as:
 9
 ```
 
+To get the same result above, you can iterate it through:
+
+```python
+import pyexcel
+
+# "example.xls","example.xlsx","example.ods", "example.xlsm"
+spreadsheet = pyexcel.Reader("example.csv") 
+
+for value in spreadsheet:
+    print value
+```
+
 And the following code:
 
 ```python

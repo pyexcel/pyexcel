@@ -5,7 +5,7 @@ It is a MxN formed table
 
 """
 import json
-
+from iterators import HorizontalIterator, VerticalIterator, HorizontalReverseIterator, VerticalReverseIterator
 
 class CSVReader:
     """
@@ -115,6 +115,18 @@ class Reader:
             self.reader = ODSReaderImp(file)
         else:
             raise NotImplementedError("can not open %s" % file)
+
+    def __iter__(self):
+        return HorizontalIterator(self)
+
+    def reverse(self):
+        return HorizontalReverseIterator(self)
+
+    def vertical(self):
+        return VerticalIterator(self)
+
+    def rvertical(self):
+        return VerticalReverseIterator(self)
 
     def number_of_rows(self):
         """
