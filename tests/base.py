@@ -10,11 +10,11 @@ class PyexcelBase:
         r = pyexcel.Reader(self.testfile)
         for i in range(0, self.rows):
             row = i + 1
-            assert str(row) == r.cell_value(i,0)
+            assert row == r.cell_value(i,1)
         for i in r.row_range():
             print r.cell_value(i,1)
-            assert str(i+1) == r.cell_value(i,1)
-        assert "3" == r.cell_value(2, 3)
+            assert i+1 == r.cell_value(i,1)
+        assert 3 == r.cell_value(2, 3)
             
     def test_row_range(self):
         r = pyexcel.Reader(self.testfile)
@@ -29,15 +29,6 @@ class PyexcelBase:
         assert r.json() == '[["1", "1", "1", "1"], ["2", "2", "2", "2"], ["3", "3", "3", "3"]]'
 
 class PyexcelXlsBase(PyexcelBase):
-    def test_cell_value(self):
-        r = pyexcel.Reader(self.testfile)
-        for i in range(0, self.rows):
-            row = i + 1
-            assert row == r.cell_value(i,1)
-        for i in r.row_range():
-            print r.cell_value(i,1)
-            assert i+1 == r.cell_value(i,1)
-        assert 3 == r.cell_value(2, 3)
 
     def test_json(self):
         r = pyexcel.Reader(self.testfile)

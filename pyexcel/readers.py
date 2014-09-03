@@ -41,7 +41,14 @@ class CSVReader:
         """
         Random access to the csv cells
         """
-        return self.array[row][column]
+        value = self.array[row][column]
+        try:
+            if "." in value:
+                return float(value)
+            else:
+                return int(value)
+        except ValueError:
+            return value
 
     def json(self):
         """

@@ -5,28 +5,30 @@ import pyexcel
 class TestIterator(unittest.TestCase):
     def setUp(self):
         """
-        Declare the test xls file.
+        Make a test csv file as:
 
-        It is pre-made as csv file:
-
-        1,1,1,1
-        2,2,2,2
-        3,3,3,3
+        1,2,3,4
+        5,6,7,8
+        9,10,11,12
         """
-        self.testfile = os.path.join("tests", "testxls.xls")
-        self.rows = 3
+        self.testfile = "testcsv.csv"
+        f = open(self.testfile, "w")
+        for i in [0,4,8]:
+            f.write("%s,%s,%s,%s\n" % (i+1, i+2, i+3, i+4))
+        f.close()
 
     def test_horizontal_iterator(self):
         r = pyexcel.Reader(self.testfile)
-        result = [1,1,1,1,2,2,2,2,3,3,3,3]
+        result = [1,2,3,4,5,6,7,8,9,10,11,12]
         actual = []
         for v in r:
             actual.append(v)
+        print actual
         assert result == actual
         
     def test_horizontal_reverse_iterator(self):
         r = pyexcel.Reader(self.testfile)
-        result = [3,3,3,3,2,2,2,2,1,1,1,1]
+        result = [12,11,10,9,8,7,6,5,4,3,2,1]
         actual = []
         for v in r.reverse():
             actual.append(v)
@@ -34,7 +36,7 @@ class TestIterator(unittest.TestCase):
 
     def test_vertical_iterator(self):
         r = pyexcel.Reader(self.testfile)
-        result = [1,2,3,1,2,3,1,2,3,1,2,3]
+        result = [1,5,9,2,6,10,3,7,11,4,8,12]
         actual = []
         for v in r.vertical():
             actual.append(v)
@@ -42,9 +44,45 @@ class TestIterator(unittest.TestCase):
         
     def test_vertical_reverse_iterator(self):
         r = pyexcel.Reader(self.testfile)
-        result = [3,2,1,3,2,1,3,2,1,3,2,1]
+        result = [12,8,4,11,7,3,10,6,2,9,5,1]
         actual = []
         for v in r.rvertical():
             actual.append(v)
+        assert result == actual
+        
+    def test_horizontal_top_right_2_bottom_left_iterator(self):
+        r = pyexcel.Reader(self.testfile)
+        result = [4,3,2,1,8,7,6,5,12,11,10,9]
+        actual = []
+        for v in pyexcel.iterators.HTRBLIterator(r):
+            actual.append(v)
+        print actual
+        assert result == actual
+        
+    def test_horizontal_bottom_left_2_top_right_iterator(self):
+        r = pyexcel.Reader(self.testfile)
+        result = [9,10,11,12,5,6,7,8,1,2,3,4]
+        actual = []
+        for v in pyexcel.iterators.HBLTRIterator(r):
+            actual.append(v)
+        print actual
+        assert result == actual
+        
+    def test_vertical_bottom_left_2_top_right_iterator(self):
+        r = pyexcel.Reader(self.testfile)
+        result = [9,5,1,10,6,2,11,7,3,12,8,4]
+        actual = []
+        for v in pyexcel.iterators.VBLTRIterator(r):
+            actual.append(v)
+        print actual
+        assert result == actual
+        
+    def test_vertical_top_right_2_bottom_left_iterator(self):
+        r = pyexcel.Reader(self.testfile)
+        result = [4,8,12,3,7,11,2,6,10,1,5,9]
+        actual = []
+        for v in pyexcel.iterators.VTRBLIterator(r):
+            actual.append(v)
+        print actual
         assert result == actual
 
