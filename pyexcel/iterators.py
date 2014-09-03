@@ -1,4 +1,7 @@
-class HorizontalIterator:
+class HTLBRIterator:
+    """
+    Iterate horizontally from top left to bottom right
+    """
     def __init__(self, reader):
         self.reader_ref = reader
         self.current = 0
@@ -7,48 +10,61 @@ class HorizontalIterator:
     def __iter__(self):
         return self
 
+    def next_cell_position(self):
+        return (self.current / self.reader_ref.number_of_columns(),
+                self.current % self.reader_ref.number_of_columns())
+
+    def move_cursor(self):
+        self.current += 1
+
+    def get_next_value(self):
+        row, column = self.next_cell_position()
+        self.move_cursor()
+        return self.reader_ref.cell_value(row, column)
+
+    def exit_condition(self):
+        return self.current >= self.total
+        
     def next(self):
-        if self.current >= self.total:
+        if self.exit_condition():
             raise StopIteration
         else:
-            row = self.current / self.reader_ref.number_of_columns()
-            column = self.current % self.reader_ref.number_of_columns()
-            self.current += 1
-            return self.reader_ref.cell_value(row, column)
+            return self.get_next_value()
 
-class VerticalIterator(HorizontalIterator):
-    def next(self):
-        if self.current >= self.total:
-            raise StopIteration
-        else:
-            row = self.current % self.reader_ref.number_of_rows()
-            column = self.current / self.reader_ref.number_of_rows()
-            self.current += 1
-            return self.reader_ref.cell_value(row, column)
 
-class HorizontalReverseIterator:
+class VTLBRIterator(HTLBRIterator):
+    """
+    Iterate vertically from top left to bottom right
+    """
+    def next_cell_position(self):
+        return (self.current % self.reader_ref.number_of_rows(),
+                self.current / self.reader_ref.number_of_rows())
+
+class HBRTLIterator(HTLBRIterator):
+    """
+    Iterate horizontally from bottom right to top left
+    """
+    
     def __init__(self, reader):
         self.reader_ref = reader
         self.current = reader.number_of_rows() * reader.number_of_columns()
 
-    def __iter__(self):
-        return self
+    def exit_condition(self):
+        return self.current <= 0
 
-    def next(self):
-        if self.current <= 0:
-            raise StopIteration
-        else:
-            self.current -= 1
-            row = self.current / self.reader_ref.number_of_columns()
-            column = self.current % self.reader_ref.number_of_columns()
-            return self.reader_ref.cell_value(row, column)
+    def move_cursor(self):
+        self.current -= 1
 
-class VerticalReverseIterator(HorizontalReverseIterator):
-    def next(self):
-        if self.current <=0:
-            raise StopIteration
-        else:
-            self.current -= 1
-            row = self.current % self.reader_ref.number_of_rows()
-            column = self.current / self.reader_ref.number_of_rows()
-            return self.reader_ref.cell_value(row, column)
+    def get_next_value(self):
+        self.move_cursor()
+        row, column = self.next_cell_position()
+        return self.reader_ref.cell_value(row, column)
+        
+
+class VBRTLIterator(HBRTLIterator):
+    """
+    Iterate vertically from bottom right to top left
+    """
+    def next_cell_position(self):
+        return (self.current % self.reader_ref.number_of_rows(),
+                self.current / self.reader_ref.number_of_rows())

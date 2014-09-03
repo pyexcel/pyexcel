@@ -5,7 +5,10 @@ It is a MxN formed table
 
 """
 import json
-from iterators import HorizontalIterator, VerticalIterator, HorizontalReverseIterator, VerticalReverseIterator
+from iterators import (HBRTLIterator,
+                       HTLBRIterator,
+                       VBRTLIterator,
+                       VTLBRIterator)
 
 class CSVReader:
     """
@@ -49,14 +52,14 @@ class CSVReader:
 class XLSReader:
     """
     xls reader
-    
+
     Currently only support first sheet in the file
     """
     def __init__(self, file):
         import xlrd
         self.workbook = xlrd.open_workbook(file)
         self.worksheet = self.workbook.sheet_by_index(0)
-        
+
     def number_of_rows(self):
         """
         Number of rows in the xls file
@@ -66,7 +69,7 @@ class XLSReader:
     def number_of_columns(self):
         """
         Number of columns in the xls file
-        """        
+        """
         return self.worksheet.ncols
 
     def cell_value(self, row, column):
@@ -83,7 +86,7 @@ class XLSReader:
                                                    end_colx=self.number_of_columns()))
         return json.dumps(array)
 
-        
+
 class ODSReaderImp(CSVReader):
     """
     ods reader
@@ -117,16 +120,16 @@ class Reader:
             raise NotImplementedError("can not open %s" % file)
 
     def __iter__(self):
-        return HorizontalIterator(self)
+        return HTLBRIterator(self)
 
     def reverse(self):
-        return HorizontalReverseIterator(self)
+        return HBRTLIterator(self)
 
     def vertical(self):
-        return VerticalIterator(self)
+        return VTLBRIterator(self)
 
     def rvertical(self):
-        return VerticalReverseIterator(self)
+        return VBRTLIterator(self)
 
     def number_of_rows(self):
         """
