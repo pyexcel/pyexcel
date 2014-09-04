@@ -101,7 +101,7 @@ class ODSReaderImp(CSVReader):
     Currently only support first sheet in the file
     """
     def __init__(self, file):
-        import odsreader
+        import ext.odsreader as odsreader
         self.ods = odsreader.ODSReader(file)
         keys = self.ods.SHEETS.keys()
         self.array = self.ods.getSheet(keys[0])
