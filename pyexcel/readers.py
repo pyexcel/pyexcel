@@ -51,18 +51,6 @@ class CSVReader:
         except ValueError:
             return value
 
-    def row_at(self, index):
-        """
-        Returns an array that collects all data at the specified row
-        """
-        if index in range(0, self.number_of_rows()):
-            cell_array = []
-            for i in range(0, self.number_of_columns()):
-                cell_array.append(self.cell_value(index, i))
-            return cell_array
-        else:
-            return None
-
     def json(self):
         """
         Return json representation of the data
@@ -97,17 +85,6 @@ class XLSReader:
         Random access to the xls cells
         """
         return self.worksheet.cell_value(row, column)
-
-    def row_at(self, index):
-        """
-        Returns an array that collects all data at the specified row
-        """
-        if index in range(0, self.number_of_rows()):
-            return self.worksheet.row_values(i,
-                                             start_colx=0,
-                                             end_colx=self.number_of_columns())
-        else:
-            return None
 
     def json(self):
         array = []
@@ -203,7 +180,10 @@ class Reader:
         Returns an array that collects all data at the specified row
         """
         if index in self.row_range():
-            return self.reader.row_at(index)
+            cell_array = []
+            for i in self.column_range():
+                cell_array.append(self.cell_value(index, i))
+            return cell_array
         else:
             return None
 
