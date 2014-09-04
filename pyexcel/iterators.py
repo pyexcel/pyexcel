@@ -211,6 +211,9 @@ class RowIterator:
             raise StopIteration
 
 class ColumnIterator:
+    """
+    Column Iterator
+    """
     def __init__(self, reader):
         self.reader_ref = reader
         self.current = 0

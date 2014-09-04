@@ -144,6 +144,9 @@ class Reader:
         return RowIterator(self)
 
     def columns(self):
+        """
+        Returns a column iterator
+        """
         return ColumnIterator(self)
 
     def number_of_rows(self):
