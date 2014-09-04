@@ -23,6 +23,14 @@ class TestIterator(unittest.TestCase):
         actual = []
         for v in r:
             actual.append(v)
+        assert result == actual
+        
+    def test_row_iterator(self):
+        r = pyexcel.Reader(self.testfile)
+        result = [1,2,3,4,5,6,7,8,9,10,11,12]
+        actual = []
+        for v in r.rows():
+            actual += v
         print actual
         assert result == actual
         
@@ -85,4 +93,3 @@ class TestIterator(unittest.TestCase):
             actual.append(v)
         print actual
         assert result == actual
-

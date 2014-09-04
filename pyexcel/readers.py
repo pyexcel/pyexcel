@@ -8,7 +8,8 @@ import json
 from iterators import (HBRTLIterator,
                        HTLBRIterator,
                        VBRTLIterator,
-                       VTLBRIterator)
+                       VTLBRIterator,
+                       RowIterator)
 
 class CSVReader:
     """
@@ -50,6 +51,18 @@ class CSVReader:
         except ValueError:
             return value
 
+    def row_at(self, index):
+        """
+        Returns an array that collects all data at the specified row
+        """
+        if index in range(0, self.number_of_rows()):
+            cell_array = []
+            for i in range(0, self.number_of_columns()):
+                cell_array.append(self.cell_value(index, i))
+            return cell_array
+        else:
+            return None
+
     def json(self):
         """
         Return json representation of the data
@@ -84,6 +97,17 @@ class XLSReader:
         Random access to the xls cells
         """
         return self.worksheet.cell_value(row, column)
+
+    def row_at(self, index):
+        """
+        Returns an array that collects all data at the specified row
+        """
+        if index in range(0, self.number_of_rows()):
+            return self.worksheet.row_values(i,
+                                             start_colx=0,
+                                             end_colx=self.number_of_columns())
+        else:
+            return None
 
     def json(self):
         array = []
@@ -138,6 +162,9 @@ class Reader:
     def rvertical(self):
         return VBRTLIterator(self)
 
+    def rows(self):
+        return RowIterator(self)
+
     def number_of_rows(self):
         """
         Number of rows in the data file
@@ -171,5 +198,17 @@ class Reader:
         """
         return range(0, self.reader.number_of_columns())
 
+    def row_at(self, index):
+        """
+        Returns an array that collects all data at the specified row
+        """
+        if index in self.row_range():
+            return self.reader.row_at(index)
+        else:
+            return None
+
     def json(self):
+        """
+        Returns a json represetation of excel sheet
+        """
         return self.reader.json()
