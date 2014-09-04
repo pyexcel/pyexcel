@@ -4,7 +4,6 @@ Design assumption:
 It is a MxN formed table
 
 """
-import json
 from iterators import (HBRTLIterator,
                        HTLBRIterator,
                        VBRTLIterator,
@@ -54,11 +53,6 @@ class CSVReader:
         except ValueError:
             return value
 
-    def json(self):
-        """
-        Return json representation of the data
-        """
-        return json.dumps(self.array)
 
 class XLSReader:
     """
@@ -88,14 +82,6 @@ class XLSReader:
         Random access to the xls cells
         """
         return self.worksheet.cell_value(row, column)
-
-    def json(self):
-        array = []
-        for i in range(0, self.number_of_rows()):
-            array.append(self.worksheet.row_values(i,
-                                                   start_colx=0,
-                                                   end_colx=self.number_of_columns()))
-        return json.dumps(array)
 
 
 class ODSReaderImp(CSVReader):
@@ -216,9 +202,3 @@ class Reader:
             return cell_array
         else:
             return None
-
-    def json(self):
-        """
-        Returns a json represetation of excel sheet
-        """
-        return self.reader.json()
