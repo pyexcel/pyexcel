@@ -8,7 +8,11 @@ import json
 from iterators import (HBRTLIterator,
                        HTLBRIterator,
                        VBRTLIterator,
-                       VTLBRIterator)
+                       VTLBRIterator,
+                       RowIterator,
+                       RowReverseIterator,
+                       ColumnIterator,
+                       ColumnReverseIterator)
 
 class CSVReader:
     """
@@ -138,6 +142,24 @@ class Reader:
     def rvertical(self):
         return VBRTLIterator(self)
 
+    def rows(self):
+        return RowIterator(self)
+
+    def rrows(self):
+        return RowReverseIterator(self)
+
+    def columns(self):
+        """
+        Returns a column iterator
+        """
+        return ColumnIterator(self)
+
+    def rcolumns(self):
+        """
+        Returns a column iterator
+        """
+        return ColumnReverseIterator(self)
+
     def number_of_rows(self):
         """
         Number of rows in the data file
@@ -171,5 +193,32 @@ class Reader:
         """
         return range(0, self.reader.number_of_columns())
 
+    def row_at(self, index):
+        """
+        Returns an array that collects all data at the specified row
+        """
+        if index in self.row_range():
+            cell_array = []
+            for i in self.column_range():
+                cell_array.append(self.cell_value(index, i))
+            return cell_array
+        else:
+            return None
+
+    def column_at(self, index):
+        """
+        Returns an array that collects all data at the specified column
+        """
+        if index in self.column_range():
+            cell_array = []
+            for i in self.row_range():
+                cell_array.append(self.cell_value(i, index))
+            return cell_array
+        else:
+            return None
+
     def json(self):
+        """
+        Returns a json represetation of excel sheet
+        """
         return self.reader.json()

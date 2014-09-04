@@ -75,7 +75,12 @@ class VBRTLIterator(HBRTLIterator):
 
 class HTRBLIterator:
     """
+    Horizontal Top Right to Bottom Left Iterator
+    
     Iterate horizontally from top right to bottom left
+    <<S
+    <<<
+    E<<
     """
     def __init__(self, reader):
         self.reader_ref = reader
@@ -107,7 +112,12 @@ class HTRBLIterator:
 
 class VTRBLIterator(HTRBLIterator):
     """
+    Vertical Top Right to Bottom Left Iterator
+    
     Iterate horizontally from top left to bottom right
+    ||S
+    |||
+    E||
     """
     def __init__(self, reader):
         self.reader_ref = reader
@@ -127,7 +137,13 @@ class VTRBLIterator(HTRBLIterator):
 
 class VBLTRIterator(HTRBLIterator):
     """
+    Vertical Bottom Left to Top Right Iterator
+    
     Iterate vertically from bottom left to top right
+    ^^E
+    ^^^
+    S^^
+    ->
     """
     def __init__(self, reader):
         self.reader_ref = reader
@@ -153,7 +169,12 @@ class VBLTRIterator(HTRBLIterator):
 
 class HBLTRIterator(VBLTRIterator):
     """
+    Horizontal Bottom Left to Top Right Iterator
+    
     Iterate horizontally from bottom left to top right
+    >>E
+    >>> ^
+    S>> |
     """
     def __init__(self, reader):
         self.reader_ref = reader
@@ -172,3 +193,70 @@ class HBLTRIterator(VBLTRIterator):
             self.row -= 1
             self.column = 0
         return self.reader_ref.cell_value(self.row, self.column)
+
+
+class RowIterator:
+    def __init__(self, reader):
+        self.reader_ref = reader
+        self.current = 0
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.current in self.reader_ref.row_range():
+            self.current += 1
+            return self.reader_ref.row_at(self.current-1)
+        else:
+            raise StopIteration
+
+class RowReverseIterator:
+    def __init__(self, reader):
+        self.reader_ref = reader
+        self.current = reader.number_of_rows() - 1
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.current in self.reader_ref.row_range():
+            self.current -= 1
+            return self.reader_ref.row_at(self.current+1)
+        else:
+            raise StopIteration
+
+class ColumnIterator:
+    """
+    Column Iterator
+    """
+    def __init__(self, reader):
+        self.reader_ref = reader
+        self.current = 0
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.current in self.reader_ref.column_range():
+            self.current += 1
+            return self.reader_ref.column_at(self.current-1)
+        else:
+            raise StopIteration
+
+class ColumnReverseIterator:
+    """
+    Column Reverse Iterator
+    """
+    def __init__(self, reader):
+        self.reader_ref = reader
+        self.current = reader.number_of_columns() - 1
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.current in self.reader_ref.column_range():
+            self.current -= 1
+            return self.reader_ref.column_at(self.current+1)
+        else:
+            raise StopIteration
