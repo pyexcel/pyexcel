@@ -10,7 +10,9 @@ from iterators import (HBRTLIterator,
                        VBRTLIterator,
                        VTLBRIterator,
                        RowIterator,
-                       ColumnIterator)
+                       RowReverseIterator,
+                       ColumnIterator,
+                       ColumnReverseIterator)
 
 class CSVReader:
     """
@@ -143,11 +145,20 @@ class Reader:
     def rows(self):
         return RowIterator(self)
 
+    def rrows(self):
+        return RowReverseIterator(self)
+
     def columns(self):
         """
         Returns a column iterator
         """
         return ColumnIterator(self)
+
+    def rcolumns(self):
+        """
+        Returns a column iterator
+        """
+        return ColumnReverseIterator(self)
 
     def number_of_rows(self):
         """

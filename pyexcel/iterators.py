@@ -210,6 +210,21 @@ class RowIterator:
         else:
             raise StopIteration
 
+class RowReverseIterator:
+    def __init__(self, reader):
+        self.reader_ref = reader
+        self.current = reader.number_of_rows() - 1
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.current in self.reader_ref.row_range():
+            self.current -= 1
+            return self.reader_ref.row_at(self.current+1)
+        else:
+            raise StopIteration
+
 class ColumnIterator:
     """
     Column Iterator
@@ -225,5 +240,23 @@ class ColumnIterator:
         if self.current in self.reader_ref.column_range():
             self.current += 1
             return self.reader_ref.column_at(self.current-1)
+        else:
+            raise StopIteration
+
+class ColumnReverseIterator:
+    """
+    Column Reverse Iterator
+    """
+    def __init__(self, reader):
+        self.reader_ref = reader
+        self.current = reader.number_of_columns() - 1
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.current in self.reader_ref.column_range():
+            self.current -= 1
+            return self.reader_ref.column_at(self.current+1)
         else:
             raise StopIteration
