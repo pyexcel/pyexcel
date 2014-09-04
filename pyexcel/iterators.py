@@ -209,3 +209,18 @@ class RowIterator:
             return self.reader_ref.row_at(self.current-1)
         else:
             raise StopIteration
+
+class ColumnIterator:
+    def __init__(self, reader):
+        self.reader_ref = reader
+        self.current = 0
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.current in self.reader_ref.column_range():
+            self.current += 1
+            return self.reader_ref.column_at(self.current-1)
+        else:
+            raise StopIteration

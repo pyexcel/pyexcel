@@ -50,6 +50,14 @@ class TestIterator(unittest.TestCase):
             actual.append(v)
         assert result == actual
         
+    def test_column_iterator(self):
+        r = pyexcel.Reader(self.testfile)
+        result = [1,5,9,2,6,10,3,7,11,4,8,12]
+        actual = []
+        for v in r.columns():
+            actual += v
+        assert result == actual
+        
     def test_vertical_reverse_iterator(self):
         r = pyexcel.Reader(self.testfile)
         result = [12,8,4,11,7,3,10,6,2,9,5,1]

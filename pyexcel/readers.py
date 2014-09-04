@@ -9,7 +9,8 @@ from iterators import (HBRTLIterator,
                        HTLBRIterator,
                        VBRTLIterator,
                        VTLBRIterator,
-                       RowIterator)
+                       RowIterator,
+                       ColumnIterator)
 
 class CSVReader:
     """
@@ -142,6 +143,9 @@ class Reader:
     def rows(self):
         return RowIterator(self)
 
+    def columns(self):
+        return ColumnIterator(self)
+
     def number_of_rows(self):
         """
         Number of rows in the data file
@@ -183,6 +187,18 @@ class Reader:
             cell_array = []
             for i in self.column_range():
                 cell_array.append(self.cell_value(index, i))
+            return cell_array
+        else:
+            return None
+
+    def column_at(self, index):
+        """
+        Returns an array that collects all data at the specified column
+        """
+        if index in self.column_range():
+            cell_array = []
+            for i in self.row_range():
+                cell_array.append(self.cell_value(i, index))
             return cell_array
         else:
             return None
