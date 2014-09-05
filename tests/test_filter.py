@@ -1,9 +1,8 @@
-import unittest
 import os
 import pyexcel
 
 
-class TestFilter(unittest.TestCase):
+class TestFilter:
     def setUp(self):
         """
         Make a test csv file as:

@@ -1,10 +1,9 @@
-import unittest
 import os
 from base import PyexcelBase
 import pyexcel
 
 
-class TestCSVReader(unittest.TestCase, PyexcelBase):
+class TestCSVReader(PyexcelBase):
     def setUp(self):
         """
         Make a test csv file as:

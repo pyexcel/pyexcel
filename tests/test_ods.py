@@ -1,9 +1,8 @@
-import unittest
 import os
 from base import PyexcelBase
 
 
-class TestODSReader(unittest.TestCase, PyexcelBase):
+class TestODSReader(PyexcelBase):
     def setUp(self):
         """
         Declare the test xls file.

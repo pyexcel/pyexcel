@@ -1,8 +1,7 @@
-import unittest
 import os
 from base import PyexcelXlsBase
 
-class TestXLSReader(unittest.TestCase, PyexcelXlsBase):
+class TestXLSReader(PyexcelXlsBase):
     def setUp(self):
         """
         Declare the test xls file.
