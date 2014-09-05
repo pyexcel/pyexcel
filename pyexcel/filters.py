@@ -4,9 +4,9 @@ from readers import Reader
 #1   3 4   6 7
 #1   2 3   4 5
 
-class ColumnFilter:
-    def __init__(self, indices):
-        self.indices = sorted(indices)
+class ColumnIndexFilter:
+    def __init__(self, func):
+        self.eval_func = func
 
     def rows(self):
         return 0
@@ -16,8 +16,8 @@ class ColumnFilter:
 
     def validate_filter(self, reader):
         new_indices = []
-        for i in self.indices:
-            if i in reader.column_range():
+        for i in reader.column_range():
+            if self.eval_func(i):
                 new_indices.append(i)
         self.indices = new_indices
 
@@ -28,22 +28,30 @@ class ColumnFilter:
                 new_column += 1
         return row, new_column
 
-class RowFilter:
+
+class ColumnFilter(ColumnIndexFilter):
     def __init__(self, indices):
-        self.indices = sorted(indices)
+        eval_func = lambda x: x in indices
+        ColumnIndexFilter.__init__(self, eval_func)
+    
+
+class RowIndexFilter:
+    def __init__(self, func):
+        self.eval_func = func
+        self.indices = None
+
+    def validate_filter(self, reader):
+        new_indices = []
+        for i in reader.row_range():
+            if self.eval_func(i):
+                new_indices.append(i)
+        self.indices = new_indices
 
     def rows(self):
         return len(self.indices)
 
     def columns(self):
         return 0
-
-    def validate_filter(self, reader):
-        new_indices = []
-        for i in self.indices:
-            if i in reader.row_range():
-                new_indices.append(i)
-        self.indices = new_indices
 
     def translate(self, row, column):
         new_row = row
@@ -53,6 +61,12 @@ class RowFilter:
         return new_row, column
 
 
+class RowFilter(RowIndexFilter):
+    def __init__(self, indices):
+        eval_func = lambda x: x in indices
+        RowIndexFilter.__init__(self, eval_func)
+
+        
 class FilterReader(Reader):
     def number_of_rows(self):
         """

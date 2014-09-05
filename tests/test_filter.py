@@ -52,6 +52,16 @@ class TestFilter(unittest.TestCase):
         actual = pyexcel.utils.to_array(r)
         assert result == actual
         
+    def test_column_index_filter(self):
+        r = pyexcel.FilterReader(self.testfile)
+        test_func = lambda x: x in [0,2]
+        r.filter(pyexcel.filters.ColumnIndexFilter(test_func))
+        assert r.number_of_rows() == 3
+        assert r.number_of_columns() == 2
+        result = [2,4,6,8,10,12]
+        actual = pyexcel.utils.to_array(r)
+        assert result == actual
+        
     def test_row_filter(self):
         r = pyexcel.FilterReader(self.testfile)
         r.filter(pyexcel.filters.RowFilter([1]))
@@ -85,3 +95,12 @@ class TestFilter(unittest.TestCase):
         actual = pyexcel.utils.to_array(r)
         assert result == actual
         
+    def test_row_index_filter(self):
+        r = pyexcel.FilterReader(self.testfile)
+        filter_func = lambda x: x in [1]
+        r.filter(pyexcel.filters.RowIndexFilter(filter_func))
+        assert r.number_of_rows() == 2
+        assert r.number_of_columns() == 4
+        result = [1,2,3,4,9,10,11,12]
+        actual = pyexcel.utils.to_array(r)
+        assert result == actual
