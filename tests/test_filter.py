@@ -62,6 +62,24 @@ class TestFilter(unittest.TestCase):
         actual = pyexcel.utils.to_array(r)
         assert result == actual
         
+    def test_even_column_filter(self):
+        r = pyexcel.FilterReader(self.testfile)
+        r.filter(pyexcel.filters.EvenColumnFilter())
+        assert r.number_of_rows() == 3
+        assert r.number_of_columns() == 2
+        result = [1,3,5,7,9,11]
+        actual = pyexcel.utils.to_array(r)
+        assert result == actual
+        
+    def test_odd_column_filter(self):
+        r = pyexcel.FilterReader(self.testfile)
+        r.filter(pyexcel.filters.OddColumnFilter())
+        assert r.number_of_rows() == 3
+        assert r.number_of_columns() == 2
+        result = [2,4,6,8,10,12]
+        actual = pyexcel.utils.to_array(r)
+        assert result == actual
+
     def test_row_filter(self):
         r = pyexcel.FilterReader(self.testfile)
         r.filter(pyexcel.filters.RowFilter([1]))
@@ -104,3 +122,25 @@ class TestFilter(unittest.TestCase):
         result = [1,2,3,4,9,10,11,12]
         actual = pyexcel.utils.to_array(r)
         assert result == actual
+        
+    def test_even_row_filter(self):
+        r = pyexcel.FilterReader(self.testfile)
+        r.filter(pyexcel.filters.EvenRowFilter())
+        assert r.number_of_rows() == 2
+        assert r.number_of_columns() == 4
+        result = [1,2,3,4,9,10,11,12]
+        actual = pyexcel.utils.to_array(r)
+        assert result == actual
+        
+    def test_odd_row_filter(self):
+        r = pyexcel.FilterReader(self.testfile)
+        r.filter(pyexcel.filters.OddRowFilter())
+        assert r.number_of_rows() == 1
+        assert r.number_of_columns() == 4
+        result = [5,6,7,8]
+        actual = pyexcel.utils.to_array(r)
+        assert result == actual
+
+    def tearDown(self):
+        if os.path.exists(self.testfile):
+            os.unlink(self.testfile)

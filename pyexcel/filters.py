@@ -33,7 +33,19 @@ class ColumnFilter(ColumnIndexFilter):
     def __init__(self, indices):
         eval_func = lambda x: x in indices
         ColumnIndexFilter.__init__(self, eval_func)
-    
+
+
+class OddColumnFilter(ColumnIndexFilter):
+    def __init__(self):
+        eval_func = lambda x: (x+1) % 2 == 1
+        ColumnIndexFilter.__init__(self, eval_func)
+
+
+class EvenColumnFilter(ColumnIndexFilter):
+    def __init__(self):
+        eval_func = lambda x: (x+1) % 2 == 0
+        ColumnIndexFilter.__init__(self, eval_func)
+
 
 class RowIndexFilter:
     def __init__(self, func):
@@ -64,6 +76,18 @@ class RowIndexFilter:
 class RowFilter(RowIndexFilter):
     def __init__(self, indices):
         eval_func = lambda x: x in indices
+        RowIndexFilter.__init__(self, eval_func)
+
+
+class OddRowFilter(RowIndexFilter):
+    def __init__(self):
+        eval_func = lambda x: (x+1) % 2 == 1
+        RowIndexFilter.__init__(self, eval_func)
+
+
+class EvenRowFilter(RowIndexFilter):
+    def __init__(self):
+        eval_func = lambda x: (x+1) % 2 == 0
         RowIndexFilter.__init__(self, eval_func)
 
         

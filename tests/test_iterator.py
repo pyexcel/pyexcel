@@ -1,8 +1,7 @@
-import unittest
 import os
 import pyexcel
 
-class TestIterator(unittest.TestCase):
+class TestIterator:
     def setUp(self):
         """
         Make a test csv file as:
@@ -113,3 +112,7 @@ class TestIterator(unittest.TestCase):
         result = [4,8,12,3,7,11,2,6,10,1,5,9]
         actual = pyexcel.utils.to_array(pyexcel.iterators.VTRBLIterator(r))
         assert result == actual
+
+    def tearDown(self):
+        if os.path.exists(self.testfile):
+            os.unlink(self.testfile)
