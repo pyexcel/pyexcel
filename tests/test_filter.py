@@ -13,10 +13,11 @@ class TestFilter(unittest.TestCase):
         9,10,11,12
         """
         self.testfile = "testcsv.csv"
-        f = open(self.testfile, "w")
+        w = pyexcel.Writer(self.testfile)
         for i in [0,4,8]:
-            f.write("%s,%s,%s,%s\n" % (i+1, i+2, i+3, i+4))
-        f.close()
+            array = [i+1, i+2, i+3, i+4]
+            w.write_row(array)
+        w.close()
 
     def test_column_filter(self):
         r = pyexcel.FilterReader(self.testfile)
