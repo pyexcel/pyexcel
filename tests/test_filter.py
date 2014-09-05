@@ -17,6 +17,12 @@ class TestFilter:
             array = [i+1, i+2, i+3, i+4]
             w.write_row(array)
         w.close()
+        
+    def test_use_filter_reader_without_filter(self):
+        r = pyexcel.FilterReader(self.testfile)
+        result = [1,2,3,4,5,6,7,8,9,10,11,12]
+        actual = pyexcel.utils.to_array(r)
+        assert result == actual
 
     def test_column_filter(self):
         r = pyexcel.FilterReader(self.testfile)

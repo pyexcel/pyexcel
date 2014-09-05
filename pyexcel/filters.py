@@ -92,20 +92,21 @@ class EvenRowFilter(RowIndexFilter):
 
         
 class FilterReader(Reader):
+    _filter = None
     def number_of_rows(self):
         """
         Number of rows in the data file
         """
-        if self.filter:
-            return self.reader.number_of_rows() - self.filter.rows()
+        if self._filter:
+            return self.reader.number_of_rows() - self._filter.rows()
         else:
             return self.reader.number_of_rows()
     def number_of_columns(self):
         """
         Number of columns in the data file
         """
-        if self.filter:
-            return self.reader.number_of_columns() - self.filter.columns()
+        if self._filter:
+            return self.reader.number_of_columns() - self._filter.columns()
         else:
             return self.reader.number_of_columns()
     def cell_value(self, row, column):
@@ -113,14 +114,14 @@ class FilterReader(Reader):
         Random access to the data cells
         """
         if row in self.row_range() and column in self.column_range():
-            if self.filter:
-                new_row, new_column = self.filter.translate(row, column)
+            if self._filter:
+                new_row, new_column = self._filter.translate(row, column)
                 return self.reader.cell_value(new_row, new_column)
             else:
                 return self.reader.cell_value(row, column)
         else:
             return None
     def filter(self, afilter):
-        self.filter = afilter
-        self.filter.validate_filter(self)
+        self._filter = afilter
+        self._filter.validate_filter(self)
         return self
