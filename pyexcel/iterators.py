@@ -205,8 +205,9 @@ class RowIterator:
 
     def next(self):
         if self.current in self.reader_ref.row_range():
+            row = self.current
             self.current += 1
-            return self.reader_ref.row_at(self.current-1)
+            return self.reader_ref.row_at(row)
         else:
             raise StopIteration
 

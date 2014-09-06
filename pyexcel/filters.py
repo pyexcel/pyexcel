@@ -60,17 +60,23 @@ class RowIndexFilter:
         self.indices = new_indices
 
     def rows(self):
-        return len(self.indices)
+        if self.indices:
+            return len(self.indices)
+        else:
+            return 0
 
     def columns(self):
         return 0
 
     def translate(self, row, column):
-        new_row = row
-        for i in self.indices:
-            if i <= new_row:
-                new_row += 1
-        return new_row, column
+        if self.indices:
+            new_row = row
+            for i in self.indices:
+                if i <= new_row:
+                    new_row += 1
+            return new_row, column
+        else:
+            return row, column
 
 
 class RowFilter(RowIndexFilter):
@@ -90,9 +96,41 @@ class EvenRowFilter(RowIndexFilter):
         eval_func = lambda x: (x+1) % 2 == 0
         RowIndexFilter.__init__(self, eval_func)
 
+
+class RowValueFilter(RowIndexFilter):
+
+    def validate_filter(self, reader):
+        new_indices = []
+        index = 0
+        for r in reader.rows():
+            if not self.eval_func(r):
+                new_indices.append(index)
+            index += 1
+        self.indices = new_indices
+
+class RowInFileFilter(RowValueFilter):
+
+    def __init__(self, reader):
+        filter_func = lambda row_a: reader.contains((lambda row_b: row_a == row_b))
+        RowValueFilter.__init__(self, filter_func)
+
         
 class FilterReader(Reader):
     _filter = None
+    def row_range(self):
+        if self._filter:
+            new_rows = self.reader.number_of_rows() - self._filter.rows()
+            return range(0, new_rows)
+        else:
+            return range(0, self.reader.number_of_rows())
+        
+    def column_range(self):
+        if self._filter:
+            new_columns = self.reader.number_of_columns() - self._filter.columns()
+            return range(0, new_columns)
+        else:
+            return range(0, self.reader.number_of_columns())
+        
     def number_of_rows(self):
         """
         Number of rows in the data file
@@ -122,6 +160,6 @@ class FilterReader(Reader):
         else:
             return None
     def filter(self, afilter):
+        afilter.validate_filter(self)
         self._filter = afilter
-        self._filter.validate_filter(self)
         return self

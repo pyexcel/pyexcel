@@ -45,6 +45,12 @@ class TestReader:
         except NotImplementedError:
             assert 1==1
 
+    def test_contains(self):
+        r = pyexcel.Reader(self.testfile)
+        f = lambda row: row[0]=='a' and row[1] == 'b'
+        assert r.contains(f) == True
+        
+
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)

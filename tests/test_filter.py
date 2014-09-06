@@ -149,3 +149,63 @@ class TestFilter:
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
+
+class TestComplexFilter:
+    def setUp(self):
+        """
+        Make a test csv file as:
+
+        1,2,3,4
+        5,6,7,8
+        9,10,11,12
+        """
+        self.testfile1 = "testcsv1.csv"
+        w = pyexcel.Writer(self.testfile1)
+        content = [
+            [1,'a'],
+            [2,'b'],
+            [3,'c'],
+            [4,'d'],
+            [5,'e'],
+            [6,'f'],
+            [7,'g'],
+            [8,'h']
+        ]
+        for row in content:
+            w.write_row(row)
+        w.close()
+        self.testfile2 = "testcsv2.csv"
+        w = pyexcel.Writer(self.testfile2)
+        content = [
+            [1,'a','c'],
+            [2,'b','h'],
+            [3,'c','c'],
+            [8,'h','d']
+        ]
+        for row in content:
+            w.write_row(row)
+        w.close()
+
+    def test_row_value_filter(self):
+        r1 = pyexcel.FilterReader("testcsv1.csv")
+        r2 = pyexcel.Reader("testcsv2.csv")
+        filter_func = lambda array: r2.contains((lambda row: array[0] == row[0] and array[1] == row[1]))
+        r1.filter(pyexcel.filters.RowValueFilter(filter_func))
+        result = [1, 'a', 2, 'b', 3, 'c', 8, 'h']
+        actual = pyexcel.utils.to_array(r1)
+        assert result == actual
+
+    def test_row_in_file_filter(self):
+        r1 = pyexcel.FilterReader("testcsv1.csv")
+        r2 = pyexcel.FilterReader("testcsv2.csv")
+        r2.filter(pyexcel.filters.ColumnFilter([2]))
+        r1.filter(pyexcel.filters.RowInFileFilter(r2))
+        result = [1, 'a', 2, 'b', 3, 'c', 8, 'h']
+        actual = pyexcel.utils.to_array(r1)
+        assert result == actual        
+        
+    def tearDown(self):
+        if os.path.exists(self.testfile1):
+            os.unlink(self.testfile1)
+        if os.path.exists(self.testfile2):
+            os.unlink(self.testfile2)

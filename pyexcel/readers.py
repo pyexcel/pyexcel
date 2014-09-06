@@ -224,3 +224,10 @@ class Reader:
             return cell_array
         else:
             return None
+
+    def contains(self, predicate):
+        for r in self.rows():
+            if predicate(r):
+                return True
+        else:
+            return False
