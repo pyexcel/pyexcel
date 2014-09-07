@@ -77,7 +77,7 @@ will print them out as json:
 
 * odfpy
 * xlrd
-
+* xlwt
 
 ## Note
 

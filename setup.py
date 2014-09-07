@@ -13,7 +13,8 @@ setup(
     description='Python Wrapper for reading uniform distributed data table in csv, ods, xls, and xlsx files',
     install_requires=[
         'xlrd',
-        'odfpy'
+        'odfpy',
+        'xlwt'
     ],
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     include_package_data=True,
