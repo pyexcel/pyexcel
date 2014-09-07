@@ -1,5 +1,3 @@
-import sys
-print sys.path
 import xlwt
 
 class CSVWriter:
