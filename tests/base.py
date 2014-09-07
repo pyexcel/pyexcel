@@ -2,6 +2,22 @@ import pyexcel
 
 
 class PyexcelBase:
+    def _write_test_file(self, file):
+        """
+        Make a test csv file as:
+
+        1,1,1,1
+        2,2,2,2
+        3,3,3,3
+        """
+        self.rows = 3
+        w = pyexcel.Writer(file)
+        for i in range(0,self.rows):
+            row = i + 1
+            array = [row, row, row, row]
+            w.write_row(array)
+        w.close()
+        
     def test_number_of_rows(self):
         r = pyexcel.Reader(self.testfile)
         assert self.rows == r.number_of_rows()
