@@ -1,5 +1,45 @@
 import pyexcel
 
+class PyexcelWriterBase:
+    """
+    Abstract functional test for writers
+
+    testfile and testfile2 have to be initialized before
+    it is used for testing
+    """
+    content = [
+        [1,2,3,4,5],
+        [1,2,3,4,5],
+        [1,2,3,4,5],
+        [1,2,3,4,5]
+    ]
+    
+    def test_write_table(self):
+        w = pyexcel.Writer(self.testfile)
+        w.write_table(self.content)
+        w.close()
+        r = pyexcel.Reader(self.testfile)
+        actual = pyexcel.utils.to_array(r.rows())
+        assert actual == self.content
+
+    def test_write_reader(self):
+        """
+        Use reader as data container
+
+        this test case shows the file written by pyexcel
+        can be read back by itself
+        """
+        w = pyexcel.Writer(self.testfile)
+        w.write_table(self.content)
+        w.close()
+        r = pyexcel.Reader(self.testfile)
+        w2 = pyexcel.Writer(self.testfile2)
+        w2.write_reader(r)
+        w2.close()
+        r2 = pyexcel.Reader(self.testfile2)
+        actual = pyexcel.utils.to_array(r2.rows())
+        assert actual == self.content
+    
 
 class PyexcelBase:
     def _write_test_file(self, file):

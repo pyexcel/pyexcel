@@ -68,5 +68,17 @@ class Writer:
     def write_row(self, array):
         self.writer.write_row(array)
 
+    def write_table(self, table):
+        """
+        Write a table
+
+        table can be two dimensional array or a row iterator
+        """
+        for row in table:
+            self.writer.write_row(row)
+
+    def write_reader(self, reader):
+        self.write_table(reader.rows())
+
     def close(self):
         self.writer.close()
