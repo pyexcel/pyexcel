@@ -171,8 +171,7 @@ class TestComplexFilter:
             [7,'g'],
             [8,'h']
         ]
-        for row in content:
-            w.write_row(row)
+        w.write_table(content)
         w.close()
         self.testfile2 = "testcsv2.csv"
         w = pyexcel.Writer(self.testfile2)
@@ -182,8 +181,7 @@ class TestComplexFilter:
             [3,'c','c'],
             [8,'h','d']
         ]
-        for row in content:
-            w.write_row(row)
+        w.write_table(content)
         w.close()
 
     def test_row_value_filter(self):
@@ -209,3 +207,34 @@ class TestComplexFilter:
             os.unlink(self.testfile1)
         if os.path.exists(self.testfile2):
             os.unlink(self.testfile2)
+
+
+class TestHeaderFilter:
+    def setUp(self):
+        self.testfile = "test.csv"
+        self.content = [
+            ["X", "Y", "Z"],
+            [1,2,3],
+            [1,2,3],
+            [1,2,3],
+            [1,2,3],
+            [1,2,3]
+        ]
+        w = pyexcel.Writer(self.testfile)
+        w.write_table(self.content)
+        w.close()
+
+    def test_content_is_read(self):
+        r = pyexcel.HatReader(self.testfile)
+        actual = pyexcel.utils.to_array(r.rows())
+        assert self.content[1:] == actual
+
+    def test_headers(self):
+        r = pyexcel.HatReader(self.testfile)
+        actual = r.hat()
+        assert self.content[0] == actual
+
+    def tearDown(self):
+        if os.path.exists(self.testfile):
+            os.unlink(self.testfile)
+        

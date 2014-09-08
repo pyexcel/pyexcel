@@ -1,8 +1,14 @@
-from readers import Reader
-#1 2 3 4 5 6 7
+"""
+Design note for filter algorithm
+
+#1 2 3 4 5 6 7  <- original index
 #  x     x
-#1   3 4   6 7
-#1   2 3   4 5
+#1   3 4   6 7  <- filtered index
+#1   2 3   4 5  <- actual index after filtering
+
+"""
+from readers import Reader
+
 
 class ColumnIndexFilter:
     def __init__(self, func):
@@ -86,12 +92,22 @@ class RowFilter(RowIndexFilter):
 
 
 class OddRowFilter(RowIndexFilter):
+    """
+    Filter out odd rows
+
+    row 0 is seen as the first row
+    """
     def __init__(self):
         eval_func = lambda x: (x+1) % 2 == 1
         RowIndexFilter.__init__(self, eval_func)
 
 
 class EvenRowFilter(RowIndexFilter):
+    """
+    Filter out even rows
+
+    row 0 is seen as the first row
+    """
     def __init__(self):
         eval_func = lambda x: (x+1) % 2 == 0
         RowIndexFilter.__init__(self, eval_func)
@@ -107,6 +123,7 @@ class RowValueFilter(RowIndexFilter):
                 new_indices.append(index)
             index += 1
         self.indices = new_indices
+
 
 class RowInFileFilter(RowValueFilter):
 
@@ -163,3 +180,17 @@ class FilterReader(Reader):
         afilter.validate_filter(self)
         self._filter = afilter
         return self
+
+        
+class HatReader(FilterReader):
+
+    def __init__(self, file):
+        FilterReader.__init__(self, file)
+        # filter out the first row
+        self.filter(RowFilter([0]))
+
+    def hat(self):
+        headers = []
+        for i in self.column_range():
+            headers.append(self.reader.cell_value(0,i))
+        return headers
