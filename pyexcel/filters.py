@@ -8,6 +8,7 @@ Design note for filter algorithm
 
 """
 from readers import Reader
+from iterators import HatColumnIterator
 
 
 class ColumnIndexFilter:
@@ -183,14 +184,35 @@ class FilterReader(Reader):
 
         
 class HatReader(FilterReader):
+    """
+    For data with column headers
 
+    x y z
+    1 2 3
+    4 5 6
+    """
     def __init__(self, file):
         FilterReader.__init__(self, file)
         # filter out the first row
         self.filter(RowFilter([0]))
+        self.headers = None
+
+    def _headers(self):
+        self.headers = []
+        for i in self.column_range():
+            self.headers.append(self.reader.cell_value(0,i))
 
     def hat(self):
-        headers = []
-        for i in self.column_range():
-            headers.append(self.reader.cell_value(0,i))
-        return headers
+        if self.headers is None:
+            self._headers()
+        return self.headers
+
+    def named_column_at(self, name):
+        if self.headers is None:
+            self._headers()
+        index = self.headers.index(name)
+        column_array = self.column_at(index)
+        return {name:column_array}
+
+    def __iter__(self):
+        return HatColumnIterator(self)

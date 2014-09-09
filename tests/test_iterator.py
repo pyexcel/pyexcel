@@ -116,3 +116,34 @@ class TestIterator:
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
+
+
+class TestHatIterators:
+    def setUp(self):
+        self.testfile = "test.csv"
+        self.content = [
+            ["X", "Y", "Z"],
+            [1,2,3],
+            [1,2,3],
+            [1,2,3],
+            [1,2,3],
+            [1,2,3]
+        ]
+        w = pyexcel.Writer(self.testfile)
+        w.write_table(self.content)
+        w.close()
+
+    def test_hat_column_iterator(self):
+        r = pyexcel.HatReader(self.testfile)
+        result = pyexcel.utils.to_dict(r)
+        actual = {
+            "X":[1,1,1,1,1],
+            "Y":[2,2,2,2,2],
+            "Z":[3,3,3,3,3],
+        }
+        assert result == actual
+
+    def tearDown(self):
+        if os.path.exists(self.testfile):
+            os.unlink(self.testfile)
+        

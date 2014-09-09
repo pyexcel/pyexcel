@@ -244,6 +244,27 @@ class ColumnIterator:
         else:
             raise StopIteration
 
+
+class HatColumnIterator:
+    """
+    Column Iterator
+    """
+    def __init__(self, reader):
+        self.reader_ref = reader
+        self.current = 0
+        self.headers = reader.hat()
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.current in self.reader_ref.column_range():
+            self.current += 1
+            return self.reader_ref.named_column_at(self.headers[self.current-1])
+        else:
+            raise StopIteration
+
+
 class ColumnReverseIterator:
     """
     Column Reverse Iterator

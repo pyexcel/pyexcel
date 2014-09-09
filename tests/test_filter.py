@@ -234,6 +234,12 @@ class TestHeaderFilter:
         actual = r.hat()
         assert self.content[0] == actual
 
+    def test_named_column_at(self):
+        r = pyexcel.HatReader(self.testfile)
+        result = r.named_column_at("X")
+        actual = {"X":[1,1,1,1,1]}
+        assert result == actual
+
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
