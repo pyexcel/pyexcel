@@ -22,7 +22,8 @@ class ODSWriter:
     def close(self):
         self.doc.spreadsheet.addElement(self.table)
         self.doc.write(self.file)
-            
+
+
 class CSVWriter:
     def __init__(self, file):
         import csv
@@ -54,6 +55,7 @@ class XLSWriter:
     def close(self):
         self.wb.save(self.file)
 
+
 class Writer:
     def __init__(self, file):
         if file.endswith(".csv"):
@@ -80,5 +82,21 @@ class Writer:
     def write_reader(self, reader):
         self.write_table(reader.rows())
 
+    def write_hat_table(self, the_dict):
+        keys = the_dict.keys()
+        self.writer.write_row(keys)
+        min_length = -1
+        for k in keys:
+            column_length = len(the_dict[k])
+            if min_length == -1:
+                min_length = column_length
+            elif min_length > column_length:
+                min_length = column_length
+        for i in range(0, min_length):
+            row_data = []
+            for k in keys:
+                row_data.append(the_dict[k][i])
+            self.writer.write_row(row_data)
+            
     def close(self):
         self.writer.close()

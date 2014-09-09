@@ -39,6 +39,25 @@ class PyexcelWriterBase:
         r2 = pyexcel.Reader(self.testfile2)
         actual = pyexcel.utils.to_array(r2.rows())
         assert actual == self.content
+
+
+class PyexcelHatWriterBase:
+    """
+    Abstract functional test for hat writers
+    """
+    content = {
+        "X": [1,2,3,4,5],
+        "Y": [6,7,8,9,10],
+        "Z": [11,12,13,14,15],
+    }
+    
+    def test_hat_table(self):
+        w = pyexcel.Writer(self.testfile)
+        w.write_hat_table(self.content)
+        w.close()
+        r = pyexcel.HatReader(self.testfile)
+        actual = pyexcel.utils.to_dict(r)
+        assert actual == self.content
     
 
 class PyexcelBase:
