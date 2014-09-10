@@ -20,6 +20,24 @@ class TestProcessings:
         w = pyexcel.Writer(self.testfile)
         w.write_hat_table(self.content)
         w.close()
+        self.testfile2 = "test.csv"
+        self.content2 = {
+            "O": [1,2,3,4,5],
+            "P": [6,7,8,9,10],
+            "Q": [11,12,13,14,15],
+        }
+        w = pyexcel.Writer(self.testfile2)
+        w.write_hat_table(self.content2)
+        w.close()
+        self.testfile3 = "test.xls"
+        self.content3 = {
+            "R": [1,2,3,4,5],
+            "S": [6,7,8,9,10],
+            "T": [11,12,13,14,15],
+        }
+        w = pyexcel.Writer(self.testfile3)
+        w.write_hat_table(self.content3)
+        w.close()
 
     def test_update_a_column(self):
         custom_column = {"Z": [33,44,55,66,77]}
@@ -27,9 +45,37 @@ class TestProcessings:
         r = pyexcel.HatReader("pyexcel_%s" % self.testfile)
         data = pyexcel.utils.to_dict(r)
         assert data["Z"] == custom_column["Z"]
+
+    def test_merge_two_files(self):
+        pyexcel.processings.merge_two_files(self.testfile, self.testfile2)
+        r = pyexcel.HatReader("pyexcel_merged.csv")
+        data = pyexcel.utils.to_dict(r)
+        content = {}
+        content.update(self.content)
+        content.update(self.content2)
+        assert data == content
+        
+    def test_merge_files(self):
+        file_array = [self.testfile, self.testfile2, self.testfile3]
+        pyexcel.processings.merge_files(file_array)
+        r = pyexcel.HatReader("pyexcel_merged.csv")
+        data = pyexcel.utils.to_dict(r)
+        content = {}
+        content.update(self.content)
+        content.update(self.content2)
+        content.update(self.content3)
+        assert data == content
         
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
-            auto_gen_file = "pyexcel_%s" % self.testfile
+        if os.path.exists(self.testfile2):
+            os.unlink(self.testfile2)
+        if os.path.exists(self.testfile3):
+            os.unlink(self.testfile3)
+        auto_gen_file = "pyexcel_%s" % self.testfile
+        if os.path.exists(auto_gen_file):
             os.unlink(auto_gen_file)
+        another_gen_file = "pyexcel_merged.csv"
+        if os.path.exists(another_gen_file):
+            os.unlink(another_gen_file)
