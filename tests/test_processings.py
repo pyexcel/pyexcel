@@ -66,6 +66,31 @@ class TestProcessings:
         content.update(self.content3)
         assert data == content
         
+    def test_merge_two_readers(self):
+        r1 = pyexcel.HatReader(self.testfile)
+        r2 = pyexcel.HatReader(self.testfile2)
+        pyexcel.processings.merge_two_files(r1, r2)
+        r = pyexcel.HatReader("pyexcel_merged.csv")
+        data = pyexcel.utils.to_dict(r)
+        content = {}
+        content.update(self.content)
+        content.update(self.content2)
+        assert data == content
+        
+    def test_merge_readers(self):
+        r1 = pyexcel.HatReader(self.testfile)
+        r2 = pyexcel.HatReader(self.testfile2)
+        r3 = pyexcel.HatReader(self.testfile3)
+        file_array = [r1, r2, r3]
+        pyexcel.processings.merge_files(file_array)
+        r = pyexcel.HatReader("pyexcel_merged.csv")
+        data = pyexcel.utils.to_dict(r)
+        content = {}
+        content.update(self.content)
+        content.update(self.content2)
+        content.update(self.content3)
+        assert data == content
+        
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)

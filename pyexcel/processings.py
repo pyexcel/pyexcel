@@ -50,4 +50,30 @@ def merge_two_files(file1, file2, outfilename="pyexcel_merged.csv"):
     if os.path.exists(outfilename):
         raise NotImplementedError(__WARNING_TEXT__)
     files = [file1, file2]
-    merge_files(files)
+    merge_files(files, outfilename)
+
+def merge_readers(reader_array, outfilename="pyexcel_merged.csv"):
+    """
+
+    Assuming data file with column headers
+    Constraints: only write the minimum number of rows
+    """
+    if os.path.exists(outfilename):
+        raise NotImplementedError(__WARNING_TEXT__)
+    content = {}
+    for r in reader_array:
+        content.update(to_dict(r))
+    w = Writer(outfilename)
+    w.write_hat_table(content)
+    w.close()
+
+def merge_two_readers(reader1, reader2, outfilename="pyexcel_merged.csv"):
+    """
+
+    Assuming data file with column headers
+    Constraints: only write the minimum number of rows
+    """
+    if os.path.exists(outfilename):
+        raise NotImplementedError(__WARNING_TEXT__)
+    reader_array = [reader1, reader2]
+    merge_readers(reader_array, outfilename)
