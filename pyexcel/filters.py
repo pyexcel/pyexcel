@@ -182,8 +182,8 @@ class FilterReader(Reader):
         self._filter = afilter
         return self
 
-        
-class HatReader(FilterReader):
+
+class GenericHatReader(FilterReader):
     """
     For data with column headers
 
@@ -191,8 +191,8 @@ class HatReader(FilterReader):
     1 2 3
     4 5 6
     """
-    def __init__(self, file):
-        FilterReader.__init__(self, file)
+    def __init__(self, reader):
+        self.reader = reader
         # filter out the first row
         self.filter(RowFilter([0]))
         self.headers = None
@@ -216,3 +216,66 @@ class HatReader(FilterReader):
 
     def __iter__(self):
         return HatColumnIterator(self)
+
+
+class HatReader(GenericHatReader):
+    def __init__(self, file):
+        reader = Reader(file)
+        GenericHatReader.__init__(self, reader)
+
+
+class FilterHatReader(GenericHatReader):
+    def __init__(self, file):
+        self.reader = FilterReader(file)
+        GenericHatReader.filter(self, RowFilter([0]))
+        self.headers = None
+
+    def filter(self, filter):
+        self.reader.filter(filter)
+        self._filter.validate_filter(self)
+
+
+class RowFilterHatReader(GenericHatReader):
+    def __init__(self, file):
+        self.reader = FilterHatReader(file)
+
+    def hat(self):
+        return self.reader.hat()
+
+    def named_column_at(self, name):
+        headers = self.hat()
+        index = headers.index(name)
+        column_array = self.column_at(index)
+        return {name:column_array}
+
+    def filter(self, afilter):
+        if isinstance(afilter, ColumnIndexFilter):
+            self.reader.filter(afilter)
+        else:
+            GenericHatReader.filter(self, afilter)
+
+#    def hat(self):
+#        if self.headers is None:
+#            self._headers()
+#        return self.headers
+#
+#    def _headers(self):
+#        if self._filter:
+#            headers = self.reader.hat()
+#            filtered_headers = []
+#            for column in self.column_range():
+#                new_row, new_column = self._filter.translate(0, column)
+#                filtered_headers.append(headers[column])
+#            self.headers = filtered_headers
+#        else:
+#            self.headers = self.reader.hat()
+#
+#    def named_column_at(self, name):
+#        if self.headers is None:
+#            self._headers()
+#        index = self.headers.index(name)
+#        column_array = self.column_at(index)
+#        return {name: column_array}
+#
+#    def __iter__(self):
+#        return HatColumnIterator(self)
