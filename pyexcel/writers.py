@@ -83,7 +83,7 @@ class Writer:
         self.write_table(reader.rows())
 
     def write_hat_table(self, the_dict):
-        keys = the_dict.keys()
+        keys = sorted(the_dict.keys())
         self.writer.write_row(keys)
         min_length = -1
         for k in keys:

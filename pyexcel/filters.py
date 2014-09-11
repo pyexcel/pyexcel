@@ -253,29 +253,3 @@ class RowFilterHatReader(GenericHatReader):
             self.reader.filter(afilter)
         else:
             GenericHatReader.filter(self, afilter)
-
-#    def hat(self):
-#        if self.headers is None:
-#            self._headers()
-#        return self.headers
-#
-#    def _headers(self):
-#        if self._filter:
-#            headers = self.reader.hat()
-#            filtered_headers = []
-#            for column in self.column_range():
-#                new_row, new_column = self._filter.translate(0, column)
-#                filtered_headers.append(headers[column])
-#            self.headers = filtered_headers
-#        else:
-#            self.headers = self.reader.hat()
-#
-#    def named_column_at(self, name):
-#        if self.headers is None:
-#            self._headers()
-#        index = self.headers.index(name)
-#        column_array = self.column_at(index)
-#        return {name: column_array}
-#
-#    def __iter__(self):
-#        return HatColumnIterator(self)
