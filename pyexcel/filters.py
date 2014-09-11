@@ -129,26 +129,27 @@ class RowValueFilter(RowIndexFilter):
 class RowInFileFilter(RowValueFilter):
 
     def __init__(self, reader):
-        filter_func = lambda row_a: reader.contains((lambda row_b: row_a == row_b))
-        RowValueFilter.__init__(self, filter_func)
+        func = lambda row_a: reader.contains((lambda row_b: row_a == row_b))
+        RowValueFilter.__init__(self, func)
 
-        
+
 class FilterReader(Reader):
     _filter = None
+
     def row_range(self):
         if self._filter:
             new_rows = self.reader.number_of_rows() - self._filter.rows()
             return range(0, new_rows)
         else:
             return range(0, self.reader.number_of_rows())
-        
+
     def column_range(self):
         if self._filter:
-            new_columns = self.reader.number_of_columns() - self._filter.columns()
-            return range(0, new_columns)
+            new_cols = self.reader.number_of_columns() - self._filter.columns()
+            return range(0, new_cols)
         else:
             return range(0, self.reader.number_of_columns())
-        
+
     def number_of_rows(self):
         """
         Number of rows in the data file
@@ -157,6 +158,7 @@ class FilterReader(Reader):
             return self.reader.number_of_rows() - self._filter.rows()
         else:
             return self.reader.number_of_rows()
+
     def number_of_columns(self):
         """
         Number of columns in the data file
@@ -165,6 +167,7 @@ class FilterReader(Reader):
             return self.reader.number_of_columns() - self._filter.columns()
         else:
             return self.reader.number_of_columns()
+
     def cell_value(self, row, column):
         """
         Random access to the data cells
@@ -177,6 +180,7 @@ class FilterReader(Reader):
                 return self.reader.cell_value(row, column)
         else:
             return None
+
     def filter(self, afilter):
         afilter.validate_filter(self)
         self._filter = afilter
@@ -200,7 +204,7 @@ class GenericHatReader(FilterReader):
     def _headers(self):
         self.headers = []
         for i in self.column_range():
-            self.headers.append(self.reader.cell_value(0,i))
+            self.headers.append(self.reader.cell_value(0, i))
 
     def hat(self):
         if self.headers is None:
@@ -212,7 +216,7 @@ class GenericHatReader(FilterReader):
             self._headers()
         index = self.headers.index(name)
         column_array = self.column_at(index)
-        return {name:column_array}
+        return {name: column_array}
 
     def __iter__(self):
         return HatColumnIterator(self)
@@ -246,7 +250,7 @@ class RowFilterHatReader(GenericHatReader):
         headers = self.hat()
         index = headers.index(name)
         column_array = self.column_at(index)
-        return {name:column_array}
+        return {name: column_array}
 
     def filter(self, afilter):
         if isinstance(afilter, ColumnIndexFilter):

@@ -36,7 +36,7 @@ class CSVWriter:
     def close(self):
         self.f.close()
 
-        
+
 class XLSWriter:
     def __init__(self, file):
         import xlwt
@@ -58,10 +58,10 @@ class XLSWriter:
 
 class Writer:
     def __init__(self, file):
-        if file.endswith(".csv"):
-            self.writer = CSVWriter(file)
-        elif file.endswith(".xls") or file.endswith(".xlsx") or file.endswith(".xlsm"):
+        if file.endswith(".xls") or file.endswith(".xlsx") or file.endswith(".xlsm"):
             self.writer = XLSWriter(file)
+        elif file.endswith(".csv"):
+            self.writer = CSVWriter(file)
         elif file.endswith(".ods"):
             self.writer = ODSWriter(file)
         else:
@@ -97,6 +97,6 @@ class Writer:
             for k in keys:
                 row_data.append(the_dict[k][i])
             self.writer.write_row(row_data)
-            
+
     def close(self):
         self.writer.close()

@@ -1,17 +1,17 @@
 import json
 
 
-def to_json(iterator):
-    array = []
-    for i in iterator:
-        array.append(i)
-    return json.dumps(array)
-
 def to_array(iterator):
     array = []
     for i in iterator:
         array.append(i)
     return array
+
+
+def to_json(iterator):
+    array = to_array(iterator)
+    return json.dumps(array)
+
 
 def to_dict(iterator):
     the_dict = {}
@@ -22,9 +22,10 @@ def to_dict(iterator):
             the_dict.update(c)
         else:
             key = series % count
-            the_dict.update({key:c})
+            the_dict.update({key: c})
             count += 1
     return the_dict
+
 
 def to_one_dimensional_array(iterator):
     array = []
@@ -33,4 +34,4 @@ def to_one_dimensional_array(iterator):
             array += i
         else:
             array.append(i)
-    return array    
+    return array

@@ -13,6 +13,7 @@ from iterators import (HBRTLIterator,
                        ColumnIterator,
                        ColumnReverseIterator)
 
+
 class CSVReader:
     """
     csv reader
@@ -107,7 +108,7 @@ class Reader:
 
         Selecting a specific reader according to file extension
         """
-        if file.endswith(".xlsm") or file.endswith(".xlsx") or file.endswith(".xls"):
+        if (file.endswith(".xlsm") or file.endswith(".xlsx") or file.endswith(".xls")):
             self.reader = XLSReader(file)
         elif file.endswith(".csv"):
             self.reader = CSVReader(file)
@@ -132,8 +133,8 @@ class Reader:
 
     def vertical(self):
         """
-        Default iterator to go through each cell one by one from leftmost column to
-        rightmost row and from top to bottom
+        Default iterator to go through each cell one by one from
+        leftmost column to rightmost row and from top to bottom
         """
         return VTLBRIterator(self)
 

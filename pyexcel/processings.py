@@ -6,6 +6,7 @@ from writers import Writer
 
 __WARNING_TEXT__ = "We do not overwrite files"
 
+
 def update_a_column(infilename, column_dicts, outfilename=None):
     default_out_file = "pyexcel_%s" % infilename
     if outfilename:
@@ -24,6 +25,7 @@ def update_a_column(infilename, column_dicts, outfilename=None):
     w.write_hat_table(data)
     w.close()
 
+
 def merge_files(file_array, outfilename="pyexcel_merged.csv"):
     """
 
@@ -39,7 +41,7 @@ def merge_files(file_array, outfilename="pyexcel_merged.csv"):
     w = Writer(outfilename)
     w.write_hat_table(content)
     w.close()
-    
+
 
 def merge_two_files(file1, file2, outfilename="pyexcel_merged.csv"):
     """
@@ -51,6 +53,7 @@ def merge_two_files(file1, file2, outfilename="pyexcel_merged.csv"):
         raise NotImplementedError(__WARNING_TEXT__)
     files = [file1, file2]
     merge_files(files, outfilename)
+
 
 def merge_readers(reader_array, outfilename="pyexcel_merged.csv"):
     """
@@ -66,6 +69,7 @@ def merge_readers(reader_array, outfilename="pyexcel_merged.csv"):
     w = Writer(outfilename)
     w.write_hat_table(content)
     w.close()
+
 
 def merge_two_readers(reader1, reader2, outfilename="pyexcel_merged.csv"):
     """
