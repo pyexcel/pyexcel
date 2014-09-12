@@ -85,17 +85,20 @@ class Writer:
     def write_hat_table(self, the_dict):
         keys = sorted(the_dict.keys())
         self.writer.write_row(keys)
-        min_length = -1
+        max_length = -1
         for k in keys:
             column_length = len(the_dict[k])
-            if min_length == -1:
-                min_length = column_length
-            elif min_length > column_length:
-                min_length = column_length
-        for i in range(0, min_length):
+            if max_length == -1:
+                max_length = column_length
+            elif max_length < column_length:
+                max_length = column_length
+        for i in range(0, max_length):
             row_data = []
             for k in keys:
-                row_data.append(the_dict[k][i])
+                if i < len(the_dict[k]):
+                    row_data.append(the_dict[k][i])
+                else:
+                    row_data.append('')
             self.writer.write_row(row_data)
 
     def close(self):
