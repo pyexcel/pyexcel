@@ -41,6 +41,8 @@ Source code is hosted in github. You can get it using git client::
 Tutorial
 -------------
 
+Read an excel file
+^^^^^^^^^^^^^^^^^^^
 Suppose you have the following data in any of the supported excel formats:
 
 ======== ======== ========
@@ -56,6 +58,8 @@ You can read it use a SeriesReader::
     >> from pyexcel import SeriesReader
     >> reader = SeriesReader("example_series.ods")
 
+Get data in different ways
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 You can use a utility function to get all in a dictionary::
 
     >> from pyexcel.utils import to_dict
@@ -74,6 +78,26 @@ You might want the data arranged vertically. You can call columns() instead::
     >> from pyexcel.utils import to_array
     >> data = to_array(reader.columns())
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+Filter out some data
+^^^^^^^^^^^^^^^^^^^^^
+
+You may want to filter odd rows and print them in an array of dictionaries::
+
+    >> from pyexcel.filters import OddRowFilter
+    >> reader.filter(OddRowFilter())
+    >> data = to_array(reader)
+    >> print data
+    [{u'Column 1': [2]}, {u'Column 2': [5]}, {u'Column 3': [8]}]
+
+Let's try to further filter out even columns::
+
+    >> from pyexcel.filters import EvenColumnFilter
+    >> reader.filter(EvenColumnFilter)
+    >> data = to_dict(reader)
+    >> print data
+	{u'Column 3': [8], u'Column 1': [2]}
+
 
 .. toctree::
    :maxdepth: 2
