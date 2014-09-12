@@ -59,12 +59,14 @@ for value in spreadsheet:
 And the following code:
 
 ```python
-import pyexcel
+from pyexcel import Reader
+from pyexcel.utils import to_array
+import json
 
 # "example.xls","example.xlsx","example.ods", "example.xlsm"
-spreadsheet = pyexcel.Reader("example.csv") 
-
-print pyexcel.to_json(spreadsheet)
+reader = Reader("example.csv")
+data = to_array(reader.rows())
+print json.dumps(data)
 ```
 
 will print them out as json:
