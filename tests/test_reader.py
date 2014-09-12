@@ -176,3 +176,191 @@ class TestXLSMReader(PyexcelXlsBase):
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
+
+class TestHatReader:
+    def setUp(self):
+        self.testfile = "test.csv"
+        self.content = [
+            ["X", "Y", "Z"],
+            [1,2,3],
+            [1,2,3],
+            [1,2,3],
+            [1,2,3],
+            [1,2,3]
+        ]
+        w = pyexcel.Writer(self.testfile)
+        w.write_table(self.content)
+        w.close()
+
+    def test_content_is_read(self):
+        r = pyexcel.HatReader(self.testfile)
+        actual = pyexcel.utils.to_array(r.rows())
+        assert self.content[1:] == actual
+
+    def test_headers(self):
+        r = pyexcel.HatReader(self.testfile)
+        actual = r.hat()
+        assert self.content[0] == actual
+
+    def test_named_column_at(self):
+        r = pyexcel.HatReader(self.testfile)
+        result = r.named_column_at("X")
+        actual = {"X":[1,1,1,1,1]}
+        assert result == actual
+
+    def tearDown(self):
+        if os.path.exists(self.testfile):
+            os.unlink(self.testfile)
+
+
+class TestFilterHatReader:
+    def setUp(self):
+        self.testfile = "test.csv"
+        self.content = [
+            ["X", "Y", "Z"],
+            [1,2,3],
+            [1,2,3],
+            [1,2,3],
+            [1,2,3],
+            [1,2,3]
+        ]
+        w = pyexcel.Writer(self.testfile)
+        w.write_table(self.content)
+        w.close()
+
+    def test_content_is_read(self):
+        r = pyexcel.FilterHatReader(self.testfile)
+        actual = pyexcel.utils.to_array(r.rows())
+        assert self.content[1:] == actual
+
+    def test_headers(self):
+        r = pyexcel.FilterHatReader(self.testfile)
+        actual = r.hat()
+        assert self.content[0] == actual
+
+    def test_named_column_at(self):
+        r = pyexcel.FilterHatReader(self.testfile)
+        result = r.named_column_at("X")
+        actual = {"X":[1,1,1,1,1]}
+        assert result == actual
+
+    def test_column_filter(self):
+        r = pyexcel.FilterHatReader(self.testfile)
+        r.filter(pyexcel.filters.ColumnFilter([1]))
+        actual = pyexcel.utils.to_dict(r)
+        result = {
+            "X": [1,1,1,1,1],
+            "Z": [3,3,3,3,3]
+        }
+        assert "Y" not in actual
+        assert result == actual
+
+    def tearDown(self):
+        if os.path.exists(self.testfile):
+            os.unlink(self.testfile)
+
+
+class TestRowFilterHatReader:
+    def setUp(self):
+        self.testfile = "test.csv"
+        self.content = [
+            ["X", "Y", "Z"],
+            [1,2,3],
+            [1,2,3],
+            [1,2,3],
+            [1,2,3],
+            [1,2,3]
+        ]
+        w = pyexcel.Writer(self.testfile)
+        w.write_table(self.content)
+        w.close()
+
+    def test_content_is_read(self):
+        r = pyexcel.RowFilterHatReader(self.testfile)
+        actual = pyexcel.utils.to_array(r.rows())
+        assert self.content[1:] == actual
+
+    def test_headers(self):
+        r = pyexcel.RowFilterHatReader(self.testfile)
+        actual = r.hat()
+        print actual
+        assert self.content[0] == actual
+
+    def test_named_column_at(self):
+        r = pyexcel.RowFilterHatReader(self.testfile)
+        result = r.named_column_at("X")
+        actual = {"X":[1,1,1,1,1]}
+        print result
+        assert result == actual
+
+    def test_column_filter(self):
+        r = pyexcel.RowFilterHatReader(self.testfile)
+        r.filter(pyexcel.filters.ColumnFilter([1]))
+        actual = pyexcel.utils.to_dict(r)
+        result = {
+            "X": [1,1,1,1,1],
+            "Z": [3,3,3,3,3]
+        }
+        assert "Y" not in actual
+        assert result == actual
+
+    def tearDown(self):
+        if os.path.exists(self.testfile):
+            os.unlink(self.testfile)
+
+
+class TestRowFilterHatReader2:
+    def setUp(self):
+        self.testfile = "test.csv"
+        self.content = [
+            ["X", "Y", "Z"],
+            [1,1,1],
+            [2,2,2],
+            [3,3,3],
+            [4,4,4],
+            [5,5,5]
+        ]
+        w = pyexcel.Writer(self.testfile)
+        w.write_table(self.content)
+        w.close()
+
+    def test_row_filter(self):
+        r = pyexcel.RowFilterHatReader(self.testfile)
+        r.filter(pyexcel.filters.RowFilter([1]))
+        actual = pyexcel.utils.to_dict(r)
+        result = {
+            "X": [1,3,4,5],
+            "Y": [1,3,4,5],
+            "Z": [1,3,4,5]
+        }
+        print actual
+        assert result == actual
+
+    def test_odd_row_filter(self):
+        r = pyexcel.RowFilterHatReader(self.testfile)
+        r.filter(pyexcel.filters.OddRowFilter())
+        actual = pyexcel.utils.to_dict(r)
+        result = {
+            "X": [2,4],
+            "Y": [2,4],
+            "Z": [2,4]
+        }
+        print actual
+        assert result == actual
+
+    def test_even_row_filter(self):
+        r = pyexcel.RowFilterHatReader(self.testfile)
+        r.filter(pyexcel.filters.EvenRowFilter())
+        actual = pyexcel.utils.to_dict(r)
+        result = {
+            "X": [1,3,5],
+            "Y": [1,3,5],
+            "Z": [1,3,5]
+        }
+        print actual
+        assert result == actual
+
+    def tearDown(self):
+        if os.path.exists(self.testfile):
+            os.unlink(self.testfile)
+

@@ -1,5 +1,5 @@
 import os
-from filters import HatReader
+from readers import HatReader
 from utils import to_dict
 from writers import Writer
 
