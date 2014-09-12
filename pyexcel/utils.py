@@ -8,11 +8,6 @@ def to_array(iterator):
     return array
 
 
-def to_json(iterator):
-    array = to_array(iterator)
-    return json.dumps(array)
-
-
 def to_dict(iterator):
     the_dict = {}
     series = "Series_%d"

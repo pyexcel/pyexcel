@@ -1,4 +1,10 @@
 import pyexcel
+import json
+
+def to_json(iterator):
+    array = pyexcel.utils.to_array(iterator)
+    return json.dumps(array)
+
 
 class PyexcelWriterBase:
     """
@@ -101,10 +107,10 @@ class PyexcelBase:
 
     def test_json(self):
         r = pyexcel.Reader(self.testfile)
-        assert pyexcel.utils.to_json(r.rows()) == '[[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]'
+        assert to_json(r.rows()) == '[[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]'
 
 class PyexcelXlsBase(PyexcelBase):
 
     def test_json(self):
         r = pyexcel.Reader(self.testfile)
-        assert pyexcel.utils.to_json(r.rows()) == '[[1.0, 1.0, 1.0, 1.0], [2.0, 2.0, 2.0, 2.0], [3.0, 3.0, 3.0, 3.0]]'
+        assert to_json(r.rows()) == '[[1.0, 1.0, 1.0, 1.0], [2.0, 2.0, 2.0, 2.0], [3.0, 3.0, 3.0, 3.0]]'
