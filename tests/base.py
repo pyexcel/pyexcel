@@ -1,6 +1,7 @@
 import pyexcel
 import json
 
+
 def to_json(iterator):
     array = pyexcel.utils.to_array(iterator)
     return json.dumps(array)

@@ -1,6 +1,3 @@
-import json
-
-
 def to_array(iterator):
     array = []
     for i in iterator:
