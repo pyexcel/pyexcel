@@ -134,7 +134,7 @@ class TestHatIterators:
         w.close()
 
     def test_hat_column_iterator(self):
-        r = pyexcel.HatReader(self.testfile)
+        r = pyexcel.StaticSeriesReader(self.testfile)
         result = pyexcel.utils.to_dict(r)
         actual = {
             "X":[1,1,1,1,1],

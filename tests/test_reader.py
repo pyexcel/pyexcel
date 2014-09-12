@@ -101,7 +101,7 @@ class TestCSVReader2:
         r = pyexcel.Reader(self.testfile)
         result=['a','b','c','d','e','f','g','h','i','j',1.1,1]
         actual = pyexcel.utils.to_array(r)
-        assert result == actual        
+        assert result == actual
 
     def tearDown(self):
         if os.path.exists(self.testfile):
@@ -177,7 +177,7 @@ class TestXLSMReader(PyexcelXlsBase):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
 
-class TestHatReader:
+class TestStaticSeriesReader:
     def setUp(self):
         self.testfile = "test.csv"
         self.content = [
@@ -193,17 +193,17 @@ class TestHatReader:
         w.close()
 
     def test_content_is_read(self):
-        r = pyexcel.HatReader(self.testfile)
+        r = pyexcel.StaticSeriesReader(self.testfile)
         actual = pyexcel.utils.to_array(r.rows())
         assert self.content[1:] == actual
 
     def test_headers(self):
-        r = pyexcel.HatReader(self.testfile)
+        r = pyexcel.StaticSeriesReader(self.testfile)
         actual = r.hat()
         assert self.content[0] == actual
 
     def test_named_column_at(self):
-        r = pyexcel.HatReader(self.testfile)
+        r = pyexcel.StaticSeriesReader(self.testfile)
         result = r.named_column_at("X")
         actual = {"X":[1,1,1,1,1]}
         assert result == actual
@@ -213,7 +213,7 @@ class TestHatReader:
             os.unlink(self.testfile)
 
 
-class TestFilterHatReader:
+class TestColumnFilterableSeriesReader:
     def setUp(self):
         self.testfile = "test.csv"
         self.content = [
@@ -229,23 +229,23 @@ class TestFilterHatReader:
         w.close()
 
     def test_content_is_read(self):
-        r = pyexcel.FilterHatReader(self.testfile)
+        r = pyexcel.ColumnFilterableSeriesReader(self.testfile)
         actual = pyexcel.utils.to_array(r.rows())
         assert self.content[1:] == actual
 
     def test_headers(self):
-        r = pyexcel.FilterHatReader(self.testfile)
+        r = pyexcel.ColumnFilterableSeriesReader(self.testfile)
         actual = r.hat()
         assert self.content[0] == actual
 
     def test_named_column_at(self):
-        r = pyexcel.FilterHatReader(self.testfile)
+        r = pyexcel.ColumnFilterableSeriesReader(self.testfile)
         result = r.named_column_at("X")
         actual = {"X":[1,1,1,1,1]}
         assert result == actual
 
     def test_column_filter(self):
-        r = pyexcel.FilterHatReader(self.testfile)
+        r = pyexcel.ColumnFilterableSeriesReader(self.testfile)
         r.filter(pyexcel.filters.ColumnFilter([1]))
         actual = pyexcel.utils.to_dict(r)
         result = {
@@ -260,7 +260,7 @@ class TestFilterHatReader:
             os.unlink(self.testfile)
 
 
-class TestRowFilterHatReader:
+class TestSeriesReader:
     def setUp(self):
         self.testfile = "test.csv"
         self.content = [
@@ -276,25 +276,25 @@ class TestRowFilterHatReader:
         w.close()
 
     def test_content_is_read(self):
-        r = pyexcel.RowFilterHatReader(self.testfile)
+        r = pyexcel.SeriesReader(self.testfile)
         actual = pyexcel.utils.to_array(r.rows())
         assert self.content[1:] == actual
 
     def test_headers(self):
-        r = pyexcel.RowFilterHatReader(self.testfile)
+        r = pyexcel.SeriesReader(self.testfile)
         actual = r.hat()
         print actual
         assert self.content[0] == actual
 
     def test_named_column_at(self):
-        r = pyexcel.RowFilterHatReader(self.testfile)
+        r = pyexcel.SeriesReader(self.testfile)
         result = r.named_column_at("X")
         actual = {"X":[1,1,1,1,1]}
         print result
         assert result == actual
 
     def test_column_filter(self):
-        r = pyexcel.RowFilterHatReader(self.testfile)
+        r = pyexcel.SeriesReader(self.testfile)
         r.filter(pyexcel.filters.ColumnFilter([1]))
         actual = pyexcel.utils.to_dict(r)
         result = {
@@ -309,7 +309,7 @@ class TestRowFilterHatReader:
             os.unlink(self.testfile)
 
 
-class TestRowFilterHatReader2:
+class TestSeriesReader2:
     def setUp(self):
         self.testfile = "test.csv"
         self.content = [
@@ -325,7 +325,7 @@ class TestRowFilterHatReader2:
         w.close()
 
     def test_row_filter(self):
-        r = pyexcel.RowFilterHatReader(self.testfile)
+        r = pyexcel.SeriesReader(self.testfile)
         r.filter(pyexcel.filters.RowFilter([1]))
         actual = pyexcel.utils.to_dict(r)
         result = {
@@ -337,7 +337,7 @@ class TestRowFilterHatReader2:
         assert result == actual
 
     def test_odd_row_filter(self):
-        r = pyexcel.RowFilterHatReader(self.testfile)
+        r = pyexcel.SeriesReader(self.testfile)
         r.filter(pyexcel.filters.OddRowFilter())
         actual = pyexcel.utils.to_dict(r)
         result = {
@@ -349,7 +349,7 @@ class TestRowFilterHatReader2:
         assert result == actual
 
     def test_even_row_filter(self):
-        r = pyexcel.RowFilterHatReader(self.testfile)
+        r = pyexcel.SeriesReader(self.testfile)
         r.filter(pyexcel.filters.EvenRowFilter())
         actual = pyexcel.utils.to_dict(r)
         result = {

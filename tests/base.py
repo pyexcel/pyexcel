@@ -51,11 +51,11 @@ class PyexcelHatWriterBase:
         "Z": [11,12,13,14,15],
     }
     
-    def test_hat_table(self):
+    def test_series_table(self):
         w = pyexcel.Writer(self.testfile)
         w.write_hat_table(self.content)
         w.close()
-        r = pyexcel.HatReader(self.testfile)
+        r = pyexcel.StaticSeriesReader(self.testfile)
         actual = pyexcel.utils.to_dict(r)
         assert actual == self.content
     

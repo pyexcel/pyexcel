@@ -237,7 +237,11 @@ class Reader:
             return False
 
 
-class FilterReader(Reader):
+class FilterableReader(Reader):
+    """
+    Reader that can be applied one filter
+    """
+    
     _filter = None
 
     def row_range(self):
@@ -291,13 +295,17 @@ class FilterReader(Reader):
         return self
 
 
-class GenericHatReader(FilterReader):
+class GenericSeriesReader(FilterableReader):
     """
     For data with column headers
 
     x y z
     1 2 3
     4 5 6
+
+    This class has a default filter that filter out
+    row 0 as headers. Extra functions were added
+    to return headers at row 0
     """
     def __init__(self, reader):
         self.reader = reader
@@ -326,16 +334,24 @@ class GenericHatReader(FilterReader):
         return HatColumnIterator(self)
 
 
-class HatReader(GenericHatReader):
+class StaticSeriesReader(GenericSeriesReader):
+    """
+
+    Static Series Reader. No filters can be applied.
+    """
     def __init__(self, file):
         reader = Reader(file)
-        GenericHatReader.__init__(self, reader)
+        GenericSeriesReader.__init__(self, reader)
 
 
-class FilterHatReader(GenericHatReader):
+class ColumnFilterableSeriesReader(GenericSeriesReader):
+    """
+
+    Columns can be filtered but not rows
+    """
     def __init__(self, file):
-        self.reader = FilterReader(file)
-        GenericHatReader.filter(self, RowFilter([0]))
+        self.reader = FilterableReader(file)
+        GenericSeriesReader.filter(self, RowFilter([0]))
         self.headers = None
 
     def filter(self, filter):
@@ -343,9 +359,16 @@ class FilterHatReader(GenericHatReader):
         self._filter.validate_filter(self)
 
 
-class RowFilterHatReader(GenericHatReader):
+class SeriesReader(GenericSeriesReader):
+    """
+
+    rows other than header row can be filtered. row number
+    has been shifted by 1 as header row is protected.
+
+    columns can be filtered.
+    """
     def __init__(self, file):
-        self.reader = FilterHatReader(file)
+        self.reader = ColumnFilterableSeriesReader(file)
 
     def hat(self):
         return self.reader.hat()
@@ -360,4 +383,4 @@ class RowFilterHatReader(GenericHatReader):
         if isinstance(afilter, ColumnIndexFilter):
             self.reader.filter(afilter)
         else:
-            GenericHatReader.filter(self, afilter)
+            GenericSeriesReader.filter(self, afilter)

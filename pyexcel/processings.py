@@ -1,5 +1,5 @@
 import os
-from readers import HatReader
+from readers import StaticSeriesReader
 from utils import to_dict
 from writers import Writer
 
@@ -13,7 +13,7 @@ def update_a_column(infilename, column_dicts, outfilename=None):
         default_out_file = outfilename
     if os.path.exists(default_out_file):
         raise NotImplementedError(__WARNING_TEXT__)
-    r = HatReader(infilename)
+    r = StaticSeriesReader(infilename)
     keys = column_dicts.keys()
     data = to_dict(r)
     for k in keys:
@@ -36,7 +36,7 @@ def merge_files(file_array, outfilename="pyexcel_merged.csv"):
         raise NotImplementedError(__WARNING_TEXT__)
     content = {}
     for f in file_array:
-        r = HatReader(f)
+        r = StaticSeriesReader(f)
         content.update(to_dict(r))
     w = Writer(outfilename)
     w.write_hat_table(content)
