@@ -114,13 +114,14 @@ class TestProcessings:
         r = pyexcel.StaticSeriesReader("pyexcel_merged.csv")
         data = pyexcel.utils.to_dict(r)
         content = {
-            'Y': [7, 9],
-            'X': [2, 4],
-            'Z': [12, 14],
-            'O': [1, 3],
-            'Q': [11, 13],
-            'P': [6, 8]
+            'Y': [7, 9, ''],
+            'X': [2, 4, ''],
+            'Z': [12, 14, ''],
+            'O': [1, 3, 5],
+            'Q': [11, 13, 15],
+            'P': [6, 8, 10]
         }
+        print data
         assert data == content
         
     def test_merge_two_row_filter_hat_readers_3(self):
