@@ -77,6 +77,10 @@ Do you want to flatten the data? you can get the content in one dimensional arra
     >> print data
     [9, 8, 7, 6, 5, 4, 3, 2, 1]
 
+.. note::
+
+    If you do not want to single column headers out from the data body, you may have a look at the ``Reader`` in the next section
+
 
 Filter out some data
 ---------------------
@@ -140,3 +144,45 @@ Suppose you have the following data in any of the supported excel formats:
 5  6  7  8
 9  10 11 12
 == == == ==
+
+Read an excel file
+-------------------
+
+You can read it use a SeriesReader::
+
+    >> from pyexcel import Reader
+    >> reader = Reader("example_series.xls")
+
+Pay with data
+-------------
+
+You can get them in rows or columns::
+
+    >> from pyexcel.utils import to_array
+    >> data = to_array(reader.rows())
+    >> print data
+    [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
+    >> from pyexcel.utils import to_array
+    >> data = to_array(reader.columns())
+    >> print data
+    [[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]
+
+.. note::
+
+   You can explore ``rrows()`` and ``rcolumns()`` too
+
+
+In the same way, you can get the content in one dimensional array::
+
+    >> data = to_array(reader)
+    >> print data
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    >> data = to_array(reader.reverse())
+    >> print data
+    [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+    >> data = to_array(reader.vertical())
+    >> print data
+    [1, 5, 9, 2, 6, 10, 3, 7, 11, 4, 8, 12]
+    >> data = to_array(reader.rvertical())
+    >> print data
+    [12,8,4,11,7,3,10,6,2,9,5,1]
