@@ -7,7 +7,8 @@ from writers import Writer
 __WARNING_TEXT__ = "We do not overwrite files"
 
 
-def update_a_column(infilename, column_dicts, outfilename=None):
+def update_columns(infilename, column_dicts, outfilename=None):
+    """Update one or more columns of a data file with series"""
     default_out_file = "pyexcel_%s" % infilename
     if outfilename:
         default_out_file = outfilename
@@ -27,11 +28,7 @@ def update_a_column(infilename, column_dicts, outfilename=None):
 
 
 def merge_files(file_array, outfilename="pyexcel_merged.csv"):
-    """
-
-    Assuming data file with column headers
-    Constraints: only write the minimum number of rows
-    """
+    """merge many files"""
     if os.path.exists(outfilename):
         raise NotImplementedError(__WARNING_TEXT__)
     content = {}
@@ -44,11 +41,7 @@ def merge_files(file_array, outfilename="pyexcel_merged.csv"):
 
 
 def merge_two_files(file1, file2, outfilename="pyexcel_merged.csv"):
-    """
-
-    Assuming data file with column headers
-    Constraints: only write the minimum number of rows
-    """
+    """merge two files"""
     if os.path.exists(outfilename):
         raise NotImplementedError(__WARNING_TEXT__)
     files = [file1, file2]
@@ -56,11 +49,7 @@ def merge_two_files(file1, file2, outfilename="pyexcel_merged.csv"):
 
 
 def merge_readers(reader_array, outfilename="pyexcel_merged.csv"):
-    """
-
-    Assuming data file with column headers
-    Constraints: only write the minimum number of rows
-    """
+    """merge many readers"""
     if os.path.exists(outfilename):
         raise NotImplementedError(__WARNING_TEXT__)
     content = {}
@@ -72,11 +61,7 @@ def merge_readers(reader_array, outfilename="pyexcel_merged.csv"):
 
 
 def merge_two_readers(reader1, reader2, outfilename="pyexcel_merged.csv"):
-    """
-
-    Assuming data file with column headers
-    Constraints: only write the minimum number of rows
-    """
+    """merge two readers"""
     if os.path.exists(outfilename):
         raise NotImplementedError(__WARNING_TEXT__)
     reader_array = [reader1, reader2]

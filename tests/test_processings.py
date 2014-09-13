@@ -39,9 +39,9 @@ class TestProcessings:
         w.write_dict(self.content3)
         w.close()
 
-    def test_update_a_column(self):
+    def test_update_columns(self):
         custom_column = {"Z": [33,44,55,66,77]}
-        pyexcel.processings.update_a_column(self.testfile, custom_column)
+        pyexcel.processings.update_columns(self.testfile, custom_column)
         r = pyexcel.StaticSeriesReader("pyexcel_%s" % self.testfile)
         data = pyexcel.utils.to_dict(r)
         assert data["Z"] == custom_column["Z"]

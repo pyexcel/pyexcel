@@ -20,11 +20,11 @@ And you want to update ``Column 2`` with these data: [11, 12, 13]
 
 Here is the code::
 
-    from pyexcel.processings import update_a_column
+    from pyexcel.processings import update_columns
 
     
     custom_column = {"Column 2":[11, 12, 13]}
-    update_a_column("example1.csv", custom_column, "output.xls")
+    update_columns("example1.csv", custom_column, "output.xls")
 
 Your oupt.xls will have these data:
 

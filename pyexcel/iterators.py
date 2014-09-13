@@ -1,6 +1,8 @@
 class HTLBRIterator:
     """
     Iterate horizontally from top left to bottom right
+
+    default iterator for Reader class
     """
     def __init__(self, reader):
         self.reader_ref = reader
@@ -13,21 +15,40 @@ class HTLBRIterator:
         return self
 
     def next_cell_position(self):
+        """
+        Determine next cell position
+        """
         return (self.current / self.columns,
                 self.current % self.columns)
 
     def move_cursor(self):
+        """
+        move internal cursor
+        """
         self.current += 1
 
     def get_next_value(self):
+        """
+        Get next value
+        """
         row, column = self.next_cell_position()
         self.move_cursor()
         return self.reader_ref.cell_value(row, column)
 
     def exit_condition(self):
+        """
+        Determine if all data have been iterated
+        """
         return self.current >= self.total
         
     def next(self):
+        """
+        determine next value
+
+        this function is further divided into small functions
+        so that other kind of iterators can easily change
+        its behavior
+        """
         if self.exit_condition():
             raise StopIteration
         else:
@@ -39,6 +60,9 @@ class VTLBRIterator(HTLBRIterator):
     Iterate vertically from top left to bottom right
     """
     def next_cell_position(self):
+        """
+        this function controls the iterator's path
+        """
         return (self.current % self.rows,
                 self.current / self.rows)
 
@@ -196,6 +220,9 @@ class HBLTRIterator(VBLTRIterator):
 
 
 class RowIterator:
+    """
+    Iterate data row by row from top to bottom
+    """
     def __init__(self, reader):
         self.reader_ref = reader
         self.current = 0
@@ -212,6 +239,9 @@ class RowIterator:
             raise StopIteration
 
 class RowReverseIterator:
+    """
+    Iterate data row by row from bottom to top
+    """
     def __init__(self, reader):
         self.reader_ref = reader
         self.current = reader.number_of_rows() - 1
@@ -228,7 +258,7 @@ class RowReverseIterator:
 
 class ColumnIterator:
     """
-    Column Iterator
+    Column Iterator from left to right
     """
     def __init__(self, reader):
         self.reader_ref = reader
@@ -241,6 +271,25 @@ class ColumnIterator:
         if self.current in self.reader_ref.column_range():
             self.current += 1
             return self.reader_ref.column_at(self.current-1)
+        else:
+            raise StopIteration
+
+
+class ColumnReverseIterator:
+    """
+    Column Reverse Iterator from right to left
+    """
+    def __init__(self, reader):
+        self.reader_ref = reader
+        self.current = reader.number_of_columns() - 1
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.current in self.reader_ref.column_range():
+            self.current -= 1
+            return self.reader_ref.column_at(self.current+1)
         else:
             raise StopIteration
 
@@ -261,24 +310,5 @@ class SeriesColumnIterator:
         if self.current in self.reader_ref.column_range():
             self.current += 1
             return self.reader_ref.named_column_at(self.headers[self.current-1])
-        else:
-            raise StopIteration
-
-
-class ColumnReverseIterator:
-    """
-    Column Reverse Iterator
-    """
-    def __init__(self, reader):
-        self.reader_ref = reader
-        self.current = reader.number_of_columns() - 1
-
-    def __iter__(self):
-        return self
-
-    def next(self):
-        if self.current in self.reader_ref.column_range():
-            self.current -= 1
-            return self.reader_ref.column_at(self.current+1)
         else:
             raise StopIteration
