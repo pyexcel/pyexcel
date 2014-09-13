@@ -1,3 +1,14 @@
+"""
+    pyexcel.utils
+    ~~~~~~~~~~~~~~~~~~~
+
+    Utility functions for pyexcel
+
+    :copyright: (c) 2014 by C. W.
+    :license: GPL v3
+"""
+
+
 def to_array(iterator):
     """convert a reader iterator to an array"""
     array = []

@@ -1,3 +1,13 @@
+"""
+    pyexcel.iterators
+    ~~~~~~~~~~~~~~~~~~~
+
+    Iterate through the pyexcel readers
+
+    :copyright: (c) 2014 by C. W.
+    :license: GPL v3
+"""
+
 class HTLBRIterator:
     """
     Iterate horizontally from top left to bottom right

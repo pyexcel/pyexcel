@@ -1,8 +1,11 @@
 """
-Design assumption:
+    pyexcel.readers
+    ~~~~~~~~~~~~~~~~~~~
 
-It is a MxN formed table
+    Uniform interface for reading different excel file formats
 
+    :copyright: (c) 2014 by C. W.
+    :license: GPL v3
 """
 from iterators import (HBRTLIterator,
                        HTLBRIterator,

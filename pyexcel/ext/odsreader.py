@@ -1,3 +1,12 @@
+"""
+    pyexcel.ext.odsreader
+    ~~~~~~~~~~~~~~~~~~~~~~
+
+    Uniform interface for writing different excel file formats
+
+    :copyright: (c) 2011 by Marco Conti
+    :license: Apache License 2.0
+"""
 # Copyright 2011 Marco Conti
 
 # Licensed under the Apache License, Version 2.0 (the "License");

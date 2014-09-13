@@ -1,3 +1,12 @@
+"""
+    pyexcel.processings
+    ~~~~~~~~~~~~~~~~~~~
+
+    Cookbook for pyexcel
+
+    :copyright: (c) 2014 by C. W.
+    :license: GPL v3
+"""
 import os
 from readers import StaticSeriesReader
 from utils import to_dict

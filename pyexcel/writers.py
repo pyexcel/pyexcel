@@ -1,3 +1,12 @@
+"""
+    pyexcel.writers
+    ~~~~~~~~~~~~~~~~~~~
+
+    Uniform interface for writing different excel file formats
+
+    :copyright: (c) 2014 by C. W.
+    :license: GPL v3
+"""
 from utils import to_dict
 from readers import GenericSeriesReader
 

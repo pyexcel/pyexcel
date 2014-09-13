@@ -29,3 +29,10 @@ pyexcel.processings package
     :members:
     :undoc-members:
     :show-inheritance:
+
+pyexcel.ext package
++++++++++++++++++++++++++++
+.. automodule:: pyexcel.ext.odsreader
+    :members:
+    :undoc-members:
+    :show-inheritance:
