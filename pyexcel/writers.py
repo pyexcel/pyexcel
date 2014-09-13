@@ -4,7 +4,8 @@ from readers import GenericSeriesReader
 
 class ODSWriter:
     """
-    Write MxN '*.ods' files
+    open document spreadsheet writer
+    
     """
     def __init__(self, file):
         from odf.opendocument import OpenDocumentSpreadsheet
@@ -14,6 +15,9 @@ class ODSWriter:
         self.file = file
 
     def write_row(self, array):
+        """
+        write a row into the file
+        """
         from odf.table import TableRow, TableCell
         from odf.text import P
         tr = TableRow()
@@ -24,24 +28,41 @@ class ODSWriter:
             tr.addElement(tc)
 
     def close(self):
+        """
+        This call writes file
+        
+        """
         self.doc.spreadsheet.addElement(self.table)
         self.doc.write(self.file)
 
 
 class CSVWriter:
+    """
+    csv file writer
+    
+    """
     def __init__(self, file):
         import csv
         self.f = open(file, "wb")
         self.writer = csv.writer(self.f)
 
     def write_row(self, array):
+        """
+        write a row into the file
+        """
         self.writer.writerow(array)
 
     def close(self):
+        """
+        This call close the file handle
+        """
         self.f.close()
 
 
 class XLSWriter:
+    """
+    xls, xlsx and xlsm writer
+    """
     def __init__(self, file):
         import xlwt
         self.file = file
@@ -50,6 +71,9 @@ class XLSWriter:
         self.current_row = 0
 
     def write_row(self, array):
+        """
+        write a row into the file
+        """
         for i in range(0, len(array)):
             self.ws.write(self.current_row, i, array[i])
         self.current_row += 1
@@ -57,10 +81,19 @@ class XLSWriter:
             self.ws.col(0).width = len(array)
 
     def close(self):
+        """
+        This call actually save the file
+        """
         self.wb.save(self.file)
 
 
 class Writer:
+    """
+    Uniform excel writer
+
+    It provides one interface for writing ods, csv, xls, xlsx and xlsm
+    """
+    
     def __init__(self, file):
         if file.endswith(".xls") or file.endswith(".xlsx") or file.endswith(".xlsm"):
             self.writer = XLSWriter(file)
@@ -72,6 +105,11 @@ class Writer:
             raise NotImplementedError("Cannot open %s" % file)
 
     def write_row(self, array):
+        """
+        Write a row
+
+        write a row into the file in memory
+        """
         self.writer.write_row(array)
 
     def write_array(self, table):
@@ -83,13 +121,12 @@ class Writer:
         for row in table:
             self.writer.write_row(row)
 
-    def write_reader(self, reader):
-        if isinstance(reader, GenericSeriesReader):
-            self.write_dict(to_dict(reader))
-        else:
-            self.write_array(reader.rows())
-
     def write_dict(self, the_dict):
+        """
+        Write a whole dictionary
+
+        series and data will be write into one file
+        """
         keys = sorted(the_dict.keys())
         self.writer.write_row(keys)
         max_length = -1
@@ -108,5 +145,22 @@ class Writer:
                     row_data.append('')
             self.writer.write_row(row_data)
 
+    def write_reader(self, reader):
+        """
+        Write a pyexcel reader
+
+        In this case, you may use FiterableReader or SeriesReader
+        to do filtering first. Then pass it onto this function
+        """
+        if isinstance(reader, GenericSeriesReader):
+            self.write_dict(to_dict(reader))
+        else:
+            self.write_array(reader.rows())
+
     def close(self):
+        """
+        Close the writer
+
+        Please remember to call close function
+        """
         self.writer.close()
