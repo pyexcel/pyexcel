@@ -48,6 +48,19 @@ Tutorial
 
     tutorial
 
+Cook book
+++++++++++
+
+.. toctree::
+
+    cookbook
+
+API documentation
+++++++++++++++++++
+
+.. toctree::
+
+    pyexcel
 
 .. toctree::
    :maxdepth: 2
