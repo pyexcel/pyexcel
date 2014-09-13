@@ -125,6 +125,13 @@ class Reader:
         Default iterator to go through each cell one by one from top row to
         bottom row and from left to right
         """
+        return self.enumerate()
+        
+    def enumerate(self):
+        """
+        Default iterator to go through each cell one by one from top row to
+        bottom row and from left to right
+        """
         return HTLBRIterator(self)
 
     def reverse(self):

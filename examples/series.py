@@ -9,10 +9,27 @@ reader = SeriesReader("example_series.ods")
 data = to_dict(reader)
 print json.dumps(data)
 
+print reader.hat()
+
+data = to_array(reader.enumerate())
+print data
+data = to_array(reader.vertical())
+print data
+data = to_array(reader.rvertical())
+print data
+data = to_array(reader.reverse())
+print data
+
 data = to_array(reader.rows())
 print data
 
+data = to_array(reader.rrows())
+print data
+
 data = to_array(reader.columns())
+print data
+
+data = to_array(reader.rcolumns())
 print data
 
 reader.filter(OddRowFilter())
