@@ -82,6 +82,27 @@ writer.write_array(array)
 writer.close()
 ```
 
+Suppose you have a dictionary as the following:
+
+```
+Column 1, Column 2, Column 3
+1,4,7
+2,5,8
+3,6,9
+```
+
+The following code will write it as an excel file of your choice.
+
+```python
+from pyexcel import Writer
+
+example_dict = {"Column 1": [1, 2, 3], "Column 2": [4, 5, 6], "Column 3": [7, 8, 9], }
+# "output.xls" "output.xlsx" "output.ods" "output.xlsm"
+writer = Writer("output.csv")
+writer.write_dict(example_dict)
+writer.close()
+```
+
 
 ## Dependencies
 
