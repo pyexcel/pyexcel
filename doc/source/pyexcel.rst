@@ -96,7 +96,7 @@ Let's try to further filter out even columns::
     >> reader.filter(EvenColumnFilter)
     >> data = to_dict(reader)
     >> print data
-	{u'Column 3': [8], u'Column 1': [2]}
+    {u'Column 3': [8], u'Column 1': [2]}
 
 
 .. toctree::
