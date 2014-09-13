@@ -33,7 +33,7 @@ class TestReader:
         assert value == None
         value = r.row_at(2)
         assert value == ['i', 'j', 1.1, 1]
-        
+
     def test_column_at(self):
         r = pyexcel.Reader(self.testfile)
         value = r.column_at(100)
@@ -52,7 +52,7 @@ class TestReader:
         r = pyexcel.Reader(self.testfile)
         f = lambda row: row[0]=='a' and row[1] == 'b'
         assert r.contains(f) == True
-        
+
 
     def tearDown(self):
         if os.path.exists(self.testfile):
@@ -356,6 +356,28 @@ class TestSeriesReader2:
             "X": [1,3,5],
             "Y": [1,3,5],
             "Z": [1,3,5]
+        }
+        print actual
+        assert result == actual
+
+    def test_orthogonality(self):
+        r = pyexcel.SeriesReader(self.testfile)
+        r.filter(pyexcel.filters.EvenRowFilter())
+        r.filter(pyexcel.filters.OddColumnFilter())
+        actual = pyexcel.utils.to_dict(r)
+        result = {
+            "Y": [1,3,5]
+        }
+        print actual
+        assert result == actual
+
+    def test_orthogonality2(self):
+        r = pyexcel.SeriesReader(self.testfile)
+        r.filter(pyexcel.filters.OddColumnFilter())
+        r.filter(pyexcel.filters.EvenRowFilter())
+        actual = pyexcel.utils.to_dict(r)
+        result = {
+            "Y": [1,3,5]
         }
         print actual
         assert result == actual

@@ -1,4 +1,4 @@
-from pyexcel import SeriesReader
+from pyexcel import SeriesReader, FilterableReader
 from pyexcel.utils import to_dict, to_array
 from pyexcel.filters import OddRowFilter, EvenColumnFilter
 import json
@@ -15,9 +15,9 @@ data = to_array(reader.columns())
 print data
 
 reader.filter(OddRowFilter())
-data = to_array(reader)
-print data
+print reader.hat()
 
 reader.filter(EvenColumnFilter())
+print reader.hat()
 data = to_dict(reader)
 print data

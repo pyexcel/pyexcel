@@ -319,13 +319,11 @@ class GenericSeriesReader(FilterableReader):
             self.headers.append(self.reader.cell_value(0, i))
 
     def hat(self):
-        if self.headers is None:
-            self._headers()
+        self._headers()
         return self.headers
 
     def named_column_at(self, name):
-        if self.headers is None:
-            self._headers()
+        self._headers()
         index = self.headers.index(name)
         column_array = self.column_at(index)
         return {name: column_array}
