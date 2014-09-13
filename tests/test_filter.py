@@ -171,7 +171,7 @@ class TestComplexFilter:
             [7,'g'],
             [8,'h']
         ]
-        w.write_table(content)
+        w.write_array(content)
         w.close()
         self.testfile2 = "testcsv2.csv"
         w = pyexcel.Writer(self.testfile2)
@@ -181,7 +181,7 @@ class TestComplexFilter:
             [3,'c','c'],
             [8,'h','d']
         ]
-        w.write_table(content)
+        w.write_array(content)
         w.close()
 
     def test_row_value_filter(self):

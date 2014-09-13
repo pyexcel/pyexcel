@@ -130,7 +130,7 @@ class TestHatIterators:
             [1,2,3]
         ]
         w = pyexcel.Writer(self.testfile)
-        w.write_table(self.content)
+        w.write_array(self.content)
         w.close()
 
     def test_hat_column_iterator(self):

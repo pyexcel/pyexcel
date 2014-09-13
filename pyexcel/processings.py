@@ -22,7 +22,7 @@ def update_a_column(infilename, column_dicts, outfilename=None):
         else:
             print "Unkown column name: %s" % k
     w = Writer(default_out_file)
-    w.write_hat_table(data)
+    w.write_dict(data)
     w.close()
 
 
@@ -39,7 +39,7 @@ def merge_files(file_array, outfilename="pyexcel_merged.csv"):
         r = StaticSeriesReader(f)
         content.update(to_dict(r))
     w = Writer(outfilename)
-    w.write_hat_table(content)
+    w.write_dict(content)
     w.close()
 
 
@@ -67,7 +67,7 @@ def merge_readers(reader_array, outfilename="pyexcel_merged.csv"):
     for r in reader_array:
         content.update(to_dict(r))
     w = Writer(outfilename)
-    w.write_hat_table(content)
+    w.write_dict(content)
     w.close()
 
 

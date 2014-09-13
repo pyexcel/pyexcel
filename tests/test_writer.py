@@ -54,7 +54,7 @@ class TestWriteReader:
             "Z": [11,12,13,14,15],
         }
         w = pyexcel.Writer(self.testfile)
-        w.write_hat_table(self.content)
+        w.write_dict(self.content)
         w.close()
         self.testfile2 = "test.xlsm"
 

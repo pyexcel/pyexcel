@@ -18,7 +18,7 @@ class TestProcessings:
             "Z": [11,12,13,14,15],
         }
         w = pyexcel.Writer(self.testfile)
-        w.write_hat_table(self.content)
+        w.write_dict(self.content)
         w.close()
         self.testfile2 = "test.csv"
         self.content2 = {
@@ -27,7 +27,7 @@ class TestProcessings:
             "Q": [11,12,13,14,15],
         }
         w = pyexcel.Writer(self.testfile2)
-        w.write_hat_table(self.content2)
+        w.write_dict(self.content2)
         w.close()
         self.testfile3 = "test.xls"
         self.content3 = {
@@ -36,7 +36,7 @@ class TestProcessings:
             "T": [11,12,13,14,15],
         }
         w = pyexcel.Writer(self.testfile3)
-        w.write_hat_table(self.content3)
+        w.write_dict(self.content3)
         w.close()
 
     def test_update_a_column(self):

@@ -189,7 +189,7 @@ class TestStaticSeriesReader:
             [1,2,3]
         ]
         w = pyexcel.Writer(self.testfile)
-        w.write_table(self.content)
+        w.write_array(self.content)
         w.close()
 
     def test_content_is_read(self):
@@ -225,7 +225,7 @@ class TestColumnFilterableSeriesReader:
             [1,2,3]
         ]
         w = pyexcel.Writer(self.testfile)
-        w.write_table(self.content)
+        w.write_array(self.content)
         w.close()
 
     def test_content_is_read(self):
@@ -272,7 +272,7 @@ class TestSeriesReader:
             [1,2,3]
         ]
         w = pyexcel.Writer(self.testfile)
-        w.write_table(self.content)
+        w.write_array(self.content)
         w.close()
 
     def test_content_is_read(self):
@@ -321,7 +321,7 @@ class TestSeriesReader2:
             [5,5,5]
         ]
         w = pyexcel.Writer(self.testfile)
-        w.write_table(self.content)
+        w.write_array(self.content)
         w.close()
 
     def test_row_filter(self):

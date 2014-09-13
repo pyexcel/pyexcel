@@ -74,7 +74,7 @@ class Writer:
     def write_row(self, array):
         self.writer.write_row(array)
 
-    def write_table(self, table):
+    def write_array(self, table):
         """
         Write a table
 
@@ -85,11 +85,11 @@ class Writer:
 
     def write_reader(self, reader):
         if isinstance(reader, GenericSeriesReader):
-            self.write_hat_table(to_dict(reader))
+            self.write_dict(to_dict(reader))
         else:
-            self.write_table(reader.rows())
+            self.write_array(reader.rows())
 
-    def write_hat_table(self, the_dict):
+    def write_dict(self, the_dict):
         keys = sorted(the_dict.keys())
         self.writer.write_row(keys)
         max_length = -1

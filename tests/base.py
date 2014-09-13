@@ -21,9 +21,9 @@ class PyexcelWriterBase:
         [1,2,3,4,5]
     ]
     
-    def test_write_table(self):
+    def test_write_array(self):
         w = pyexcel.Writer(self.testfile)
-        w.write_table(self.content)
+        w.write_array(self.content)
         w.close()
         r = pyexcel.Reader(self.testfile)
         actual = pyexcel.utils.to_array(r.rows())
@@ -37,7 +37,7 @@ class PyexcelWriterBase:
         can be read back by itself
         """
         w = pyexcel.Writer(self.testfile)
-        w.write_table(self.content)
+        w.write_array(self.content)
         w.close()
         r = pyexcel.Reader(self.testfile)
         w2 = pyexcel.Writer(self.testfile2)
@@ -60,7 +60,7 @@ class PyexcelHatWriterBase:
     
     def test_series_table(self):
         w = pyexcel.Writer(self.testfile)
-        w.write_hat_table(self.content)
+        w.write_dict(self.content)
         w.close()
         r = pyexcel.StaticSeriesReader(self.testfile)
         actual = pyexcel.utils.to_dict(r)
