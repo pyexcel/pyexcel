@@ -7,6 +7,23 @@ It was created due to the lack of uniform programming interface to access data i
 All great work have done by odf, xlrd and other individual developers. This library unites only the data access code.
 
 
+## Installation
+
+You can install it via pip
+
+```
+$ pip install pyexcel
+```
+
+or clone it and install it
+
+```
+$ git clone http://github.com/chfw/pyexcel.git
+$ cd pyexcel
+$ python setup.py install
+```
+
+
 ## Example
 
 ### Reading an excel file
@@ -107,6 +124,9 @@ writer.write_dict(example_dict)
 writer.close()
 ```
 
+## Documentation
+
+It is hosted in [pyhosted](https://pythonhosted.org/pyexcel/)
 
 ## Dependencies
 
