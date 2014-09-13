@@ -12,7 +12,7 @@ from iterators import (HBRTLIterator,
                        RowReverseIterator,
                        ColumnIterator,
                        ColumnReverseIterator,
-                       HatColumnIterator)
+                       SeriesColumnIterator)
 from filters import (RowFilter,
                      ColumnIndexFilter)
 
@@ -325,7 +325,7 @@ class GenericSeriesReader(FilterableReader):
         for i in self.column_range():
             self.headers.append(self.reader.cell_value(0, i))
 
-    def hat(self):
+    def series(self):
         self._headers()
         return self.headers
 
@@ -336,7 +336,7 @@ class GenericSeriesReader(FilterableReader):
         return {name: column_array}
 
     def __iter__(self):
-        return HatColumnIterator(self)
+        return SeriesColumnIterator(self)
 
 
 class StaticSeriesReader(GenericSeriesReader):
@@ -375,11 +375,11 @@ class SeriesReader(GenericSeriesReader):
     def __init__(self, file):
         self.reader = ColumnFilterableSeriesReader(file)
 
-    def hat(self):
-        return self.reader.hat()
+    def series(self):
+        return self.reader.series()
 
     def named_column_at(self, name):
-        headers = self.hat()
+        headers = self.series()
         index = headers.index(name)
         column_array = self.column_at(index)
         return {name: column_array}

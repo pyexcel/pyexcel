@@ -245,14 +245,14 @@ class ColumnIterator:
             raise StopIteration
 
 
-class HatColumnIterator:
+class SeriesColumnIterator:
     """
     Column Iterator
     """
     def __init__(self, reader):
         self.reader_ref = reader
         self.current = 0
-        self.headers = reader.hat()
+        self.headers = reader.series()
 
     def __iter__(self):
         return self

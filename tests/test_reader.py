@@ -199,7 +199,7 @@ class TestStaticSeriesReader:
 
     def test_headers(self):
         r = pyexcel.StaticSeriesReader(self.testfile)
-        actual = r.hat()
+        actual = r.series()
         assert self.content[0] == actual
 
     def test_named_column_at(self):
@@ -235,7 +235,7 @@ class TestColumnFilterableSeriesReader:
 
     def test_headers(self):
         r = pyexcel.ColumnFilterableSeriesReader(self.testfile)
-        actual = r.hat()
+        actual = r.series()
         assert self.content[0] == actual
 
     def test_named_column_at(self):
@@ -282,7 +282,7 @@ class TestSeriesReader:
 
     def test_headers(self):
         r = pyexcel.SeriesReader(self.testfile)
-        actual = r.hat()
+        actual = r.series()
         print actual
         assert self.content[0] == actual
 

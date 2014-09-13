@@ -9,7 +9,7 @@ reader = SeriesReader("example_series.ods")
 data = to_dict(reader)
 print json.dumps(data)
 
-print reader.hat()
+print reader.series()
 
 data = to_array(reader.enumerate())
 print data
@@ -33,10 +33,10 @@ data = to_array(reader.rcolumns())
 print data
 
 reader.filter(OddRowFilter())
-print reader.hat()
+print reader.series()
 
 reader.filter(EvenColumnFilter())
-print reader.hat()
+print reader.series()
 data = to_dict(reader)
 print data
 

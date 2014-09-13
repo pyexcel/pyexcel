@@ -24,7 +24,7 @@ Play with data
 
 You can get headers::
 
-    >> print reader.hat()
+    >> print reader.series()
     [u'Column 1', u'Column 2', u'Column 3']
 
 You can use a utility function to get all in a dictionary::
