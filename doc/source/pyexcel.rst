@@ -15,15 +15,15 @@ Core packages
 Utility packages
 ----------------
 
-pyexcel.processings package
+pyexcel.cookbook package
 +++++++++++++++++++++++++++
 
-.. automodule:: pyexcel.processings
+.. automodule:: pyexcel.cookbook
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyexcel.processings package
+pyexcel.cookbook package
 +++++++++++++++++++++++++++
 .. automodule:: pyexcel.utils
     :members:

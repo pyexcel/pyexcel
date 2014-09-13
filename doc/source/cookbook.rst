@@ -20,7 +20,7 @@ And you want to update ``Column 2`` with these data: [11, 12, 13]
 
 Here is the code::
 
-    from pyexcel.processings import update_columns
+    from pyexcel.cookbook import update_columns
 
     
     custom_column = {"Column 2":[11, 12, 13]}
@@ -63,7 +63,7 @@ Column 4 Column 5
 
 The following code will merge the tow into one file, say "output.xls"::
 
-    from pyexcel.processings import merge_two_files
+    from pyexcel.cookbook import merge_two_files
 
 
     merge_two_files("example1.csv", "example2.ods", "output.xls")
@@ -114,7 +114,7 @@ Column 1 Column 3 Column 5 Column 8 Column 9 Column 10
 
 The following code will do the job::
 
-    from pyexcel.processings import merge_two_readers
+    from pyexcel.cookbook import merge_two_readers
     from pyexcel import SeriesReader
     from pyexcel.filters import EvenColumnFilter, ColumnFilter
 

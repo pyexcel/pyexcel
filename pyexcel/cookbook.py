@@ -1,5 +1,5 @@
 """
-    pyexcel.processings
+    pyexcel.cookbook
     ~~~~~~~~~~~~~~~~~~~
 
     Cookbook for pyexcel
