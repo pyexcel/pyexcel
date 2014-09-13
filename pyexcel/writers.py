@@ -1,3 +1,7 @@
+from utils import to_dict
+from readers import GenericSeriesReader
+
+
 class ODSWriter:
     """
     Write MxN '*.ods' files
@@ -80,7 +84,10 @@ class Writer:
             self.writer.write_row(row)
 
     def write_reader(self, reader):
-        self.write_table(reader.rows())
+        if isinstance(reader, GenericSeriesReader):
+            self.write_hat_table(to_dict(reader))
+        else:
+            self.write_table(reader.rows())
 
     def write_hat_table(self, the_dict):
         keys = sorted(the_dict.keys())

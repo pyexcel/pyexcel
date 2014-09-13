@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-`pyexcel` - A uniform interface to access excel data
-==================================================
+`pyexcel` - Let you focus on data, instead of file formats
+==========================================================
 
 :Author: C.W.
 :Source code: http://github.com/chfw/pyexcel
@@ -15,11 +15,11 @@
 Introduction
 -------------
 
-pyexcel is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm.
+**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. It does not support styling, charts.
 
-It was created due to the lack of uniform programming interface to access data in different formats. A developer needs to use different methods of different libraries to read the same data in different excel formats.
+It was created due to the lack of uniform programming interface to access data in different formats. A developer needs to use different methods of different libraries to read the same data in different excel formats, hence the resulting code is cluttered and unmaintainable.
 
-All great work have done by odf, xlrd and other individual ad-hoc developers. This library unites only the data access code.
+All great work have done by odf, xlrd and other individual developers. This library unites only the data access code.
 
 
 Installation
@@ -67,16 +67,18 @@ You can use a utility function to get all in a dictionary::
     >> print data
     {"Column 2": [4, 5, 6], "Column 3": [7, 8, 9], "Column 1": [1, 2, 3]}
 
-Maybe you want to get only the data without the column headers. You can call rows() instead::
+Maybe you want to get only the data without the column headers. You can call ``rows()`` instead::
 
     >> from pyexcel.utils import to_array
     >> data = to_array(reader.rows())
+    >> print data
     [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
 
-You might want the data arranged vertically. You can call columns() instead::
+You might want the data arranged vertically. You can call ``columns()`` instead::
 	
     >> from pyexcel.utils import to_array
     >> data = to_array(reader.columns())
+    >> print data
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
 Filter out some data
@@ -98,6 +100,37 @@ Let's try to further filter out even columns::
     >> print data
     {u'Column 3': [8], u'Column 1': [2]}
 
+Save the data
+^^^^^^^^^^^^^^
+
+Let's save the previous filtered data::
+
+    >> from pyexcel import Writer
+    >> w = Writer("example_series_filter.xls")
+    >> w.write_reader(reader)
+    >> w.close()
+
+When you open `example_series_filter.xls`, you will find these data:
+
+======== ========
+Column 1 Column 3
+======== ========
+2        8
+======== ========
+
+
+The complete code is::
+
+    from pyexcel import SeriesReader, Writer
+    from pyexcel.filters import OddRowFilter
+    from pyexcel.filters import EvenColumnFilter
+
+    reader = SeriesReader("example_series.ods")
+    reader.filter(OddRowFilter())
+    reader.filter(EvenColumnFilter)
+    writer = Writer("example_series_filter.xls")
+    writer.write_reader(reader)
+    writer.close()
 
 .. toctree::
    :maxdepth: 2

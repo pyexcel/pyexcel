@@ -2,6 +2,7 @@ from pyexcel import SeriesReader, FilterableReader
 from pyexcel.utils import to_dict, to_array
 from pyexcel.filters import OddRowFilter, EvenColumnFilter
 import json
+from pyexcel import Writer
 
 
 reader = SeriesReader("example_series.ods")
@@ -21,3 +22,7 @@ reader.filter(EvenColumnFilter())
 print reader.hat()
 data = to_dict(reader)
 print data
+
+w = Writer("example_series_filter.xls")
+w.write_reader(reader)
+w.close()
