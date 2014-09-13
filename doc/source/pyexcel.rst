@@ -18,7 +18,7 @@ Utility packages
 pyexcel.processings package
 +++++++++++++++++++++++++++
 
-.. automodule:: pyexcel.filters
+.. automodule:: pyexcel.processings
     :members:
     :undoc-members:
     :show-inheritance:

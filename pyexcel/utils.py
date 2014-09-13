@@ -1,4 +1,5 @@
 def to_array(iterator):
+    """convert a reader iterator to an array"""
     array = []
     for i in iterator:
         array.append(i)
@@ -6,6 +7,7 @@ def to_array(iterator):
 
 
 def to_dict(iterator):
+    """convert a reader iterator to a dictionary"""
     the_dict = {}
     series = "Series_%d"
     count = 1
@@ -20,6 +22,7 @@ def to_dict(iterator):
 
 
 def to_one_dimensional_array(iterator):
+    """convert a reader to one dimensional array"""
     array = []
     for i in iterator:
         if type(i) == list:

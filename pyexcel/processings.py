@@ -49,7 +49,10 @@ def merge_two_files(file1, file2, outfilename="pyexcel_merged.csv"):
 
 
 def merge_readers(reader_array, outfilename="pyexcel_merged.csv"):
-    """merge many readers"""
+    """merge many readers
+
+    With FilterableReader and SeriesReader, you can do custom filtering
+    """
     if os.path.exists(outfilename):
         raise NotImplementedError(__WARNING_TEXT__)
     content = {}
