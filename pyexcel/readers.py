@@ -30,6 +30,24 @@ class CSVReader:
         reader = csv.reader(open(file, 'rb'), dialect=csv.excel)
         self.array.extend(reader)
 
+    def number_of_sheets(self):
+        """
+        Number of sheets in the csv file
+        """
+        return 0
+
+    def use_sheet_at_index(self, index):
+        """Switch sheet for reading"""
+        pass
+
+    def use_sheet_named_as(self, name):
+        """Switch sheet for reading"""        
+        pass
+
+    def sheet_names(self):
+        """Get a list of sheet names"""        
+        return ["csv"]
+
     def number_of_rows(self):
         """
         Number of rows in the csv file
@@ -72,6 +90,25 @@ class XLSReader:
         self.workbook = xlrd.open_workbook(file)
         self.worksheet = self.workbook.sheet_by_index(0)
 
+    def number_of_sheets(self):
+        """
+        Number of sheets in the csv file
+        """
+        return self.workbook.nsheets
+
+    def use_sheet_at_index(self, index):
+        """Switch sheet for reading"""
+        if index < self.workbook.nsheets:
+            self.worksheet = self.workbook.sheet_by_index(0)
+
+    def use_sheet_named_as(self, name):
+        """Switch sheet for reading"""        
+        self.worksheet = self.workbook.sheet_by_name(name)
+
+    def sheet_names(self):
+        """Get a list of sheet names"""        
+        return self.workbook.sheet_names()
+
     def number_of_rows(self):
         """
         Number of rows in the xls file
@@ -100,8 +137,25 @@ class ODSReaderImp(CSVReader):
     def __init__(self, file):
         import ext.odsreader as odsreader
         self.ods = odsreader.ODSReader(file)
-        keys = self.ods.SHEETS.keys()
-        self.array = self.ods.getSheet(keys[0])
+        self.use_sheet_at_index(0)
+
+    def number_of_sheets(self):
+        """
+        Number of sheets in the ods file
+        """
+        return len(self.ods.SHEETS.keys())
+
+    def use_sheet_at_index(self, index):
+        """Switch sheet for reading"""
+        self.array = self.ods.getSheetByIndex(index)
+
+    def use_sheet_named_as(self, name):
+        """Switch sheet for reading"""        
+        self.array =  self.ods.getSheet(name)
+
+    def sheet_names(self):
+        """Get a list of sheet names"""        
+        return self.ods.sheetNames()
 
 
 class Reader:
@@ -122,6 +176,7 @@ class Reader:
             self.reader = ODSReaderImp(file)
         else:
             raise NotImplementedError("can not open %s" % file)
+        self.current_sheet = 0
 
     def __iter__(self):
         """
@@ -246,6 +301,31 @@ class Reader:
         else:
             return False
 
+    def number_of_sheets(self):
+        """
+        Number of sheets in the ods file
+        """
+        return self.reader.number_of_sheets()
+
+    def use_sheet_at_index(self, index):
+        """Switch sheet for reading"""
+        self.reader.use_sheet_at_index(index)
+        self.current_sheet = index
+        
+    def use_sheet_named_as(self, name):
+        """Switch sheet for reading"""        
+        self.reader.use_sheet_named_as(name)
+        names = self.sheet_names()
+        index = names.index(name)
+        self.current_sheet = index
+
+    def sheet_names(self):
+        """Get a list of sheet names"""        
+        return self.reader.sheet_names()
+
+    def sheet(self):
+        """Get current sheet index"""
+        return self.current_sheet
 
 class FilterableReader(Reader):
     """

@@ -1,6 +1,6 @@
 import pyexcel
 import json
-
+import os
 
 def to_json(iterator):
     array = pyexcel.utils.to_array(iterator)
@@ -115,3 +115,33 @@ class PyexcelXlsBase(PyexcelBase):
     def test_json(self):
         r = pyexcel.Reader(self.testfile)
         assert to_json(r.rows()) == '[[1.0, 1.0, 1.0, 1.0], [2.0, 2.0, 2.0, 2.0], [3.0, 3.0, 3.0, 3.0]]'
+
+
+class PyexcelMultipleSheetBase:
+
+    def test_sheet_names(self):
+        r = pyexcel.Reader(os.path.join("tests", self.testfile))
+        expected = [ "Sheet1", "Sheet2", "Sheet3"]
+        sheet_names = r.sheet_names()
+        print sheet_names
+        for name in sheet_names:
+            assert name in expected
+
+    def test_number_of_sheets(self):
+        r = pyexcel.Reader(os.path.join("tests", self.testfile))
+        assert r.number_of_sheets() == 3
+
+    def test_reading_through_sheets(self):
+        r = pyexcel.Reader(os.path.join("tests", self.testfile))
+        data = pyexcel.utils.to_array(r.rows())
+        expected = [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]
+        assert data == expected
+        r.use_sheet_at_index(1)
+        data = pyexcel.utils.to_array(r.rows())
+        expected = [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]
+        assert data == expected
+        r.use_sheet_at_index(2)
+        data = pyexcel.utils.to_array(r.rows())
+        expected = [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
+        assert data == expected
+        
