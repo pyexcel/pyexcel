@@ -159,7 +159,7 @@ class ODSReaderImp(CSVReader):
         return self.ods.sheetNames()
 
 
-class Reader:
+class PlainReader:
     """
     Wrapper class to unify csv, xls and xlsx reader
     """
@@ -328,12 +328,12 @@ class Reader:
         """Get current sheet index"""
         return self.current_sheet
 
-class MultipleFilterableReader(Reader):
+class MultipleFilterableReader(PlainReader):
     """
     Reader that can be applied one filter
     """
     def __init__(self, file):
-        Reader.__init__(self, file)
+        PlainReader.__init__(self, file)
         self._filters = []
 
     def row_range(self):
@@ -408,13 +408,17 @@ class FilterableReader(MultipleFilterableReader):
     def filter(self, afilter):
         self.add_filter(afilter)
 
-class SeriesReader(MultipleFilterableReader):
+
+class Reader(MultipleFilterableReader):
     def __init__(self, file):
         MultipleFilterableReader.__init__(self, file)
-        self.signature_filter = RowFilter([0])
         self.column_filters = []
         self.row_filters = []
         self.headers = None
+        self.signature_filter = None
+        
+    def become_series(self):
+        self.signature_filter = RowFilter([0])
         self._validate_filters()
 
     def add_filter(self, afilter):
@@ -432,7 +436,10 @@ class SeriesReader(MultipleFilterableReader):
         self._validate_filters()
 
     def _validate_filters(self):
-        local_filters = self.column_filters + [self.signature_filter] + self.row_filters
+        if self.signature_filter:
+            local_filters = self.column_filters + [self.signature_filter] + self.row_filters
+        else:
+            local_filters = self.column_filters + self.row_filters
         self._filters = []
         for filter in local_filters:
             filter.validate_filter(self)
@@ -449,17 +456,32 @@ class SeriesReader(MultipleFilterableReader):
             self.headers.append(self.reader.cell_value(0, new_column))
 
     def series(self):
-        self._headers()
-        return self.headers
+        if self.signature_filter:
+            self._headers()
+            return self.headers
+        else:
+            return []
 
     def named_column_at(self, name):
-        self._headers()
-        index = self.headers.index(name)
-        column_array = self.column_at(index)
-        return {name: column_array}
+        if self.signature_filter:
+            self._headers()
+            index = self.headers.index(name)
+            column_array = self.column_at(index)
+            return {name: column_array}
+        else:
+            return {}
 
     def __iter__(self):
-        return SeriesColumnIterator(self)
+        if self.signature_filter:
+            return SeriesColumnIterator(self)
+        else:
+            return MultipleFilterableReader.__iter__(self)
+
+
+class SeriesReader(Reader):
+    def __init__(self, file):
+        Reader.__init__(self, file)
+        self.become_series()
     
 
 #class GenericSeriesReader(FilterableReader):
