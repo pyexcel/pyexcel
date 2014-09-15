@@ -107,9 +107,9 @@ class TestProcessings:
         Now start row filtering
         """
         r1 = pyexcel.SeriesReader(self.testfile)
-        r1.add_row_filter(pyexcel.filters.OddRowFilter())
+        r1.add_filter(pyexcel.filters.OddRowFilter())
         r2 = pyexcel.SeriesReader(self.testfile2)
-        r2.add_row_filter(pyexcel.filters.EvenRowFilter())
+        r2.add_filter(pyexcel.filters.EvenRowFilter())
         pyexcel.cookbook.merge_two_readers(r1, r2)
         r = pyexcel.SeriesReader("pyexcel_merged.csv")
         data = pyexcel.utils.to_dict(r)
@@ -129,9 +129,9 @@ class TestProcessings:
         Now start column filtering
         """
         r1 = pyexcel.SeriesReader(self.testfile)
-        r1.add_column_filter(pyexcel.filters.OddColumnFilter())
+        r1.add_filter(pyexcel.filters.OddColumnFilter())
         r2 = pyexcel.SeriesReader(self.testfile2)
-        r2.add_column_filter(pyexcel.filters.EvenColumnFilter())
+        r2.add_filter(pyexcel.filters.EvenColumnFilter())
         pyexcel.cookbook.merge_two_readers(r1, r2)
         r = pyexcel.SeriesReader("pyexcel_merged.csv")
         data = pyexcel.utils.to_dict(r)

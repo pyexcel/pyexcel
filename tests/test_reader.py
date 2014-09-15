@@ -195,7 +195,7 @@ class TestSeriesReader3:
 
     def test_row_filter(self):
         r = pyexcel.SeriesReader(self.testfile)
-        r.add_row_filter(pyexcel.filters.RowFilter([1]))
+        r.add_filter(pyexcel.filters.RowFilter([1]))
         actual = pyexcel.utils.to_dict(r)
         result = {
             "X": [1,3,4,5],
@@ -207,7 +207,7 @@ class TestSeriesReader3:
 
     def test_odd_row_filter(self):
         r = pyexcel.SeriesReader(self.testfile)
-        r.add_row_filter(pyexcel.filters.OddRowFilter())
+        r.add_filter(pyexcel.filters.OddRowFilter())
         actual = pyexcel.utils.to_dict(r)
         result = {
             "X": [2,4],
@@ -219,7 +219,7 @@ class TestSeriesReader3:
 
     def test_even_row_filter(self):
         r = pyexcel.SeriesReader(self.testfile)
-        r.add_row_filter(pyexcel.filters.EvenRowFilter())
+        r.add_filter(pyexcel.filters.EvenRowFilter())
         actual = pyexcel.utils.to_dict(r)
         result = {
             "X": [1,3,5],
@@ -231,8 +231,8 @@ class TestSeriesReader3:
 
     def test_orthogonality(self):
         r = pyexcel.SeriesReader(self.testfile)
-        r.add_row_filter(pyexcel.filters.EvenRowFilter())
-        r.add_column_filter(pyexcel.filters.OddColumnFilter())
+        r.add_filter(pyexcel.filters.EvenRowFilter())
+        r.add_filter(pyexcel.filters.OddColumnFilter())
         actual = pyexcel.utils.to_dict(r)
         result = {
             "Y": [1,3,5]
@@ -242,8 +242,8 @@ class TestSeriesReader3:
 
     def test_orthogonality2(self):
         r = pyexcel.SeriesReader(self.testfile)
-        r.add_column_filter(pyexcel.filters.OddColumnFilter())
-        r.add_row_filter(pyexcel.filters.EvenRowFilter())
+        r.add_filter(pyexcel.filters.OddColumnFilter())
+        r.add_filter(pyexcel.filters.EvenRowFilter())
         actual = pyexcel.utils.to_dict(r)
         result = {
             "Y": [1,3,5]
@@ -292,7 +292,7 @@ class TestSeriesReader4:
 
     def test_column_filter(self):
         r = pyexcel.SeriesReader(self.testfile)
-        r.add_column_filter(pyexcel.filters.ColumnFilter([1]))
+        r.add_filter(pyexcel.filters.ColumnFilter([1]))
         actual = pyexcel.utils.to_dict(r)
         result = {
             "X": [1,1,1,1,1],

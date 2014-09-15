@@ -16,8 +16,9 @@ from iterators import (HBRTLIterator,
                        ColumnIterator,
                        ColumnReverseIterator,
                        SeriesColumnIterator)
-from filters import (RowFilter,
-                     ColumnIndexFilter)
+from filters import (RowIndexFilter,
+                     ColumnIndexFilter,
+                     RowFilter)
 
 
 class CSVReader:
@@ -416,20 +417,18 @@ class SeriesReader(MultipleFilterableReader):
         self.headers = None
         self._validate_filters()
 
-    def add_column_filter(self, acolumn_filter):
-        self.column_filters.append(acolumn_filter)
+    def add_filter(self, afilter):
+        if isinstance(afilter, ColumnIndexFilter):
+            self.column_filters.append(afilter)
+        elif isinstance(afilter, RowIndexFilter):
+            self.row_filters.append(afilter)
         self._validate_filters()
 
-    def remove_column_filter(self, acolumn_filter):
-        self.column_filters.append(acolumn_filter)
-        self._validate_filters()
-
-    def add_row_filter(self, arow_filter):
-        self.row_filters.append(arow_filter)
-        self._validate_filters()
-        
-    def remove_row_filter(self, arow_filter):
-        self.row_filters.remove(arow_filter)
+    def remove_column_filter(self, afilter):
+        if isinstance(afilter, ColumnIndexFilter):
+            self.column_filters.remove(afilter)
+        elif isinstance(afilter, RowIndexFilter):
+            self.row_filters.remove(afilter)
         self._validate_filters()
 
     def _validate_filters(self):
