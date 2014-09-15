@@ -331,8 +331,9 @@ class MultipleFilterableReader(Reader):
     """
     Reader that can be applied one filter
     """
-    
-    _filters = []
+    def __init__(self, file):
+        Reader.__init__(self, file)
+        self._filters = []
 
     def row_range(self):
         """

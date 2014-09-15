@@ -11,7 +11,7 @@ class TestFilter:
         5,6,7,8
         9,10,11,12
         """
-        self.testfile = "testcsv.csv"
+        self.testfile = "test.csv"
         w = pyexcel.Writer(self.testfile)
         for i in [0,4,8]:
             array = [i+1, i+2, i+3, i+4]
@@ -200,6 +200,7 @@ class TestComplexFilter:
         r1.filter(pyexcel.filters.RowInFileFilter(r2))
         result = [1, 'a', 2, 'b', 3, 'c', 8, 'h']
         actual = pyexcel.utils.to_array(r1)
+        print actual
         assert result == actual        
         
     def tearDown(self):
