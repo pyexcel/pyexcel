@@ -63,7 +63,7 @@ class TestWriteReader:
         w = pyexcel.Writer(self.testfile2)
         w.write_reader(r)
         w.close()
-        r2 = pyexcel.StaticSeriesReader(self.testfile2)
+        r2 = pyexcel.SeriesReader(self.testfile2)
         content = pyexcel.utils.to_dict(r2)
         print content
         assert content == self.content
@@ -73,7 +73,7 @@ class TestWriteReader:
         w = pyexcel.Writer(self.testfile2)
         w.write_reader(r)
         w.close()
-        r2 = pyexcel.StaticSeriesReader(self.testfile2)
+        r2 = pyexcel.SeriesReader(self.testfile2)
         content = pyexcel.utils.to_dict(r2)
         print content
         assert content == self.content

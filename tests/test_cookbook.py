@@ -42,13 +42,13 @@ class TestProcessings:
     def test_update_columns(self):
         custom_column = {"Z": [33,44,55,66,77]}
         pyexcel.cookbook.update_columns(self.testfile, custom_column)
-        r = pyexcel.StaticSeriesReader("pyexcel_%s" % self.testfile)
+        r = pyexcel.SeriesReader("pyexcel_%s" % self.testfile)
         data = pyexcel.utils.to_dict(r)
         assert data["Z"] == custom_column["Z"]
 
     def test_merge_two_files(self):
         pyexcel.cookbook.merge_two_files(self.testfile, self.testfile2)
-        r = pyexcel.StaticSeriesReader("pyexcel_merged.csv")
+        r = pyexcel.SeriesReader("pyexcel_merged.csv")
         data = pyexcel.utils.to_dict(r)
         content = {}
         content.update(self.content)
@@ -58,7 +58,7 @@ class TestProcessings:
     def test_merge_files(self):
         file_array = [self.testfile, self.testfile2, self.testfile3]
         pyexcel.cookbook.merge_files(file_array)
-        r = pyexcel.StaticSeriesReader("pyexcel_merged.csv")
+        r = pyexcel.SeriesReader("pyexcel_merged.csv")
         data = pyexcel.utils.to_dict(r)
         content = {}
         content.update(self.content)
@@ -67,10 +67,10 @@ class TestProcessings:
         assert data == content
         
     def test_merge_two_readers(self):
-        r1 = pyexcel.StaticSeriesReader(self.testfile)
-        r2 = pyexcel.StaticSeriesReader(self.testfile2)
+        r1 = pyexcel.SeriesReader(self.testfile)
+        r2 = pyexcel.SeriesReader(self.testfile2)
         pyexcel.cookbook.merge_two_readers(r1, r2)
-        r = pyexcel.StaticSeriesReader("pyexcel_merged.csv")
+        r = pyexcel.SeriesReader("pyexcel_merged.csv")
         data = pyexcel.utils.to_dict(r)
         content = {}
         content.update(self.content)
@@ -78,12 +78,12 @@ class TestProcessings:
         assert data == content
         
     def test_merge_readers(self):
-        r1 = pyexcel.StaticSeriesReader(self.testfile)
-        r2 = pyexcel.StaticSeriesReader(self.testfile2)
-        r3 = pyexcel.StaticSeriesReader(self.testfile3)
+        r1 = pyexcel.SeriesReader(self.testfile)
+        r2 = pyexcel.SeriesReader(self.testfile2)
+        r3 = pyexcel.SeriesReader(self.testfile3)
         file_array = [r1, r2, r3]
         pyexcel.cookbook.merge_readers(file_array)
-        r = pyexcel.StaticSeriesReader("pyexcel_merged.csv")
+        r = pyexcel.SeriesReader("pyexcel_merged.csv")
         data = pyexcel.utils.to_dict(r)
         content = {}
         content.update(self.content)
@@ -95,7 +95,7 @@ class TestProcessings:
         r1 = pyexcel.SeriesReader(self.testfile)
         r2 = pyexcel.SeriesReader(self.testfile2)
         pyexcel.cookbook.merge_two_readers(r1, r2)
-        r = pyexcel.StaticSeriesReader("pyexcel_merged.csv")
+        r = pyexcel.SeriesReader("pyexcel_merged.csv")
         data = pyexcel.utils.to_dict(r)
         content = {}
         content.update(self.content)
@@ -111,7 +111,7 @@ class TestProcessings:
         r2 = pyexcel.SeriesReader(self.testfile2)
         r2.filter(pyexcel.filters.EvenRowFilter())
         pyexcel.cookbook.merge_two_readers(r1, r2)
-        r = pyexcel.StaticSeriesReader("pyexcel_merged.csv")
+        r = pyexcel.SeriesReader("pyexcel_merged.csv")
         data = pyexcel.utils.to_dict(r)
         content = {
             'Y': [7, 9, ''],
@@ -133,7 +133,7 @@ class TestProcessings:
         r2 = pyexcel.SeriesReader(self.testfile2)
         r2.filter(pyexcel.filters.EvenColumnFilter())
         pyexcel.cookbook.merge_two_readers(r1, r2)
-        r = pyexcel.StaticSeriesReader("pyexcel_merged.csv")
+        r = pyexcel.SeriesReader("pyexcel_merged.csv")
         data = pyexcel.utils.to_dict(r)
         content = {
             "Y": [6,7,8,9,10],

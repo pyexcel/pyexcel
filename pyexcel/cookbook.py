@@ -8,7 +8,7 @@
     :license: GPL v3
 """
 import os
-from readers import StaticSeriesReader
+from readers import SeriesReader
 from utils import to_dict
 from writers import Writer
 
@@ -23,7 +23,7 @@ def update_columns(infilename, column_dicts, outfilename=None):
         default_out_file = outfilename
     if os.path.exists(default_out_file):
         raise NotImplementedError(__WARNING_TEXT__)
-    r = StaticSeriesReader(infilename)
+    r = SeriesReader(infilename)
     keys = column_dicts.keys()
     data = to_dict(r)
     for k in keys:
@@ -42,7 +42,7 @@ def merge_files(file_array, outfilename="pyexcel_merged.csv"):
         raise NotImplementedError(__WARNING_TEXT__)
     content = {}
     for f in file_array:
-        r = StaticSeriesReader(f)
+        r = SeriesReader(f)
         content.update(to_dict(r))
     w = Writer(outfilename)
     w.write_dict(content)

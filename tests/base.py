@@ -62,7 +62,7 @@ class PyexcelHatWriterBase:
         w = pyexcel.Writer(self.testfile)
         w.write_dict(self.content)
         w.close()
-        r = pyexcel.StaticSeriesReader(self.testfile)
+        r = pyexcel.SeriesReader(self.testfile)
         actual = pyexcel.utils.to_dict(r)
         assert actual == self.content
     

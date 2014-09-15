@@ -8,7 +8,7 @@
     :license: GPL v3
 """
 from utils import to_dict
-from readers import GenericSeriesReader
+from readers import SeriesReader
 
 
 class ODSWriter:
@@ -161,7 +161,7 @@ class Writer:
         In this case, you may use FiterableReader or SeriesReader
         to do filtering first. Then pass it onto this function
         """
-        if isinstance(reader, GenericSeriesReader):
+        if isinstance(reader, SeriesReader):
             self.write_dict(to_dict(reader))
         else:
             self.write_array(reader.rows())

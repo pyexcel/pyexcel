@@ -327,63 +327,6 @@ class Reader:
         """Get current sheet index"""
         return self.current_sheet
 
-class FilterableReader(Reader):
-    """
-    Reader that can be applied one filter
-    """
-    
-    _filter = None
-
-    def row_range(self):
-        if self._filter:
-            new_rows = self.reader.number_of_rows() - self._filter.rows()
-            return range(0, new_rows)
-        else:
-            return range(0, self.reader.number_of_rows())
-
-    def column_range(self):
-        if self._filter:
-            new_cols = self.reader.number_of_columns() - self._filter.columns()
-            return range(0, new_cols)
-        else:
-            return range(0, self.reader.number_of_columns())
-
-    def number_of_rows(self):
-        """
-        Number of rows in the data file
-        """
-        if self._filter:
-            return self.reader.number_of_rows() - self._filter.rows()
-        else:
-            return self.reader.number_of_rows()
-
-    def number_of_columns(self):
-        """
-        Number of columns in the data file
-        """
-        if self._filter:
-            return self.reader.number_of_columns() - self._filter.columns()
-        else:
-            return self.reader.number_of_columns()
-
-    def cell_value(self, row, column):
-        """
-        Random access to the data cells
-        """
-        if row in self.row_range() and column in self.column_range():
-            if self._filter:
-                new_row, new_column = self._filter.translate(row, column)
-                return self.reader.cell_value(new_row, new_column)
-            else:
-                return self.reader.cell_value(row, column)
-        else:
-            return None
-
-    def filter(self, afilter):
-        afilter.validate_filter(self)
-        self._filter = afilter
-        return self
-
 class MultipleFilterableReader(Reader):
     """
     Reader that can be applied one filter
@@ -455,7 +398,15 @@ class MultipleFilterableReader(Reader):
             filter.validate_filter(self)
 
 
-class SeriesReader2(MultipleFilterableReader):
+class FilterableReader(MultipleFilterableReader):
+    """
+    Reader that can be applied one filter
+    """
+    
+    def filter(self, afilter):
+        self.add_filter(afilter)
+
+class SeriesReader(MultipleFilterableReader):
     def __init__(self, file):
         MultipleFilterableReader.__init__(self, file)
         self.signature_filter = RowFilter([0])
@@ -511,90 +462,90 @@ class SeriesReader2(MultipleFilterableReader):
         return SeriesColumnIterator(self)
     
 
-class GenericSeriesReader(FilterableReader):
-    """
-    For data with column headers
-
-    x y z
-    1 2 3
-    4 5 6
-
-    This class has a default filter that filter out
-    row 0 as headers. Extra functions were added
-    to return headers at row 0
-    """
-    def __init__(self, reader):
-        self.reader = reader
-        # filter out the first row
-        self.filter(RowFilter([0]))
-        self.headers = None
-
-    def _headers(self):
-        self.headers = []
-        for i in self.column_range():
-            self.headers.append(self.reader.cell_value(0, i))
-
-    def series(self):
-        self._headers()
-        return self.headers
-
-    def named_column_at(self, name):
-        self._headers()
-        index = self.headers.index(name)
-        column_array = self.column_at(index)
-        return {name: column_array}
-
-    def __iter__(self):
-        return SeriesColumnIterator(self)
-
-
-class StaticSeriesReader(GenericSeriesReader):
-    """
-
-    Static Series Reader. No filters can be applied.
-    """
-    def __init__(self, file):
-        reader = Reader(file)
-        GenericSeriesReader.__init__(self, reader)
-
-
-class ColumnFilterableSeriesReader(GenericSeriesReader):
-    """
-
-    Columns can be filtered but not rows
-    """
-    def __init__(self, file):
-        self.reader = FilterableReader(file)
-        GenericSeriesReader.filter(self, RowFilter([0]))
-        self.headers = None
-
-    def filter(self, filter):
-        self.reader.filter(filter)
-        self._filter.validate_filter(self)
-
-
-class SeriesReader(GenericSeriesReader):
-    """
-
-    rows other than header row can be filtered. row number
-    has been shifted by 1 as header row is protected.
-
-    columns can be filtered.
-    """
-    def __init__(self, file):
-        self.reader = ColumnFilterableSeriesReader(file)
-
-    def series(self):
-        return self.reader.series()
-
-    def named_column_at(self, name):
-        headers = self.series()
-        index = headers.index(name)
-        column_array = self.column_at(index)
-        return {name: column_array}
-
-    def filter(self, afilter):
-        if isinstance(afilter, ColumnIndexFilter):
-            self.reader.filter(afilter)
-        else:
-            GenericSeriesReader.filter(self, afilter)
+#class GenericSeriesReader(FilterableReader):
+#    """
+#    For data with column headers
+#
+#    x y z
+#    1 2 3
+#    4 5 6
+#
+#    This class has a default filter that filter out
+#    row 0 as headers. Extra functions were added
+#    to return headers at row 0
+#    """
+#    def __init__(self, reader):
+#        self.reader = reader
+#        # filter out the first row
+#        self.filter(RowFilter([0]))
+#        self.headers = None
+#
+#    def _headers(self):
+#        self.headers = []
+#        for i in self.column_range():
+#            self.headers.append(self.reader.cell_value(0, i))
+#
+#    def series(self):
+#        self._headers()
+#        return self.headers
+#
+#    def named_column_at(self, name):
+#        self._headers()
+#        index = self.headers.index(name)
+#        column_array = self.column_at(index)
+#        return {name: column_array}
+#
+#    def __iter__(self):
+#        return SeriesColumnIterator(self)
+#
+#
+#class StaticSeriesReader(GenericSeriesReader):
+#    """
+#
+#    Static Series Reader. No filters can be applied.
+#    """
+#    def __init__(self, file):
+#        reader = Reader(file)
+#        GenericSeriesReader.__init__(self, reader)
+#
+#
+#class ColumnFilterableSeriesReader(GenericSeriesReader):
+#    """
+#
+#    Columns can be filtered but not rows
+#    """
+#    def __init__(self, file):
+#        self.reader = FilterableReader(file)
+#        GenericSeriesReader.filter(self, RowFilter([0]))
+#        self.headers = None
+#
+#    def filter(self, filter):
+#        self.reader.filter(filter)
+#        self._filter.validate_filter(self)
+#
+#
+#class SeriesReader(GenericSeriesReader):
+#    """
+#
+#    rows other than header row can be filtered. row number
+#    has been shifted by 1 as header row is protected.
+#
+#    columns can be filtered.
+#    """
+#    def __init__(self, file):
+#        self.reader = ColumnFilterableSeriesReader(file)
+#
+#    def series(self):
+#        return self.reader.series()
+#
+#    def named_column_at(self, name):
+#        headers = self.series()
+#        index = headers.index(name)
+#        column_array = self.column_at(index)
+#        return {name: column_array}
+#
+#    def filter(self, afilter):
+#        if isinstance(afilter, ColumnIndexFilter):
+#            self.reader.filter(afilter)
+#        else:
+#            GenericSeriesReader.filter(self, afilter)
