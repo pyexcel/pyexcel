@@ -1,3 +1,4 @@
+
 """
     pyexcel
     ~~~~~~~~~~~~~~~~~~~
@@ -13,5 +14,5 @@
 from .readers import Reader
 from .writers import Writer
 from .readers import FilterableReader, StaticSeriesReader
-from .readers import ColumnFilterableSeriesReader, SeriesReader
+from .readers import ColumnFilterableSeriesReader, SeriesReader, SeriesReader2
 import cookbook

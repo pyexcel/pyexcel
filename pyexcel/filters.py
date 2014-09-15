@@ -14,6 +14,15 @@ Design note for filter algorithm
 #1   3 4   6 7  <- filtered index
 #1   2 3   4 5  <- actual index after filtering
 
+Design note for multiple filter algorithm
+#    1 2 3 4 5 6 7 8 9
+f1     x       x
+     1   2 3 4   5 6 7
+f2       x   x     x
+     1     2     3   4
+f3         x
+     1           2   3
+
 """
 
 

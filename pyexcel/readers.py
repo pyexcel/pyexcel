@@ -384,6 +384,132 @@ class FilterableReader(Reader):
         self._filter = afilter
         return self
 
+class MultipleFilterableReader(Reader):
+    """
+    Reader that can be applied one filter
+    """
+    
+    _filters = []
+
+    def row_range(self):
+        """
+        row range
+        """
+        return range(0, self.number_of_rows())
+
+    def column_range(self):
+        """
+        column range
+        """
+        return range(0, self.number_of_columns())
+
+    def number_of_rows(self):
+        """
+        Number of rows in the data file
+        """
+        if len(self._filters) != 0:
+            new_rows = self.reader.number_of_rows()
+            for filter in self._filters:
+                new_rows = new_rows - filter.rows()
+            return new_rows
+        else:
+            return self.reader.number_of_rows()
+
+    def number_of_columns(self):
+        """
+        Number of columns in the data file
+        """
+        if len(self._filters) != 0:
+            new_cols = self.reader.number_of_columns()
+            for filter in self._filters:
+                new_cols = new_cols - filter.columns()
+            return new_cols
+        else:
+            return self.reader.number_of_columns()
+
+    def cell_value(self, row, column):
+        """
+        Random access to the data cells
+        """
+        if row in self.row_range() and column in self.column_range():
+            if len(self._filters) != 0:
+                new_row = row
+                new_column = column
+                number_of_filters = len(self._filters)
+                for i in range(number_of_filters-1, -1, -1):
+                    new_row, new_column = self._filters[i].translate(new_row, new_column)
+                return self.reader.cell_value(new_row, new_column)
+            else:
+                return self.reader.cell_value(row, column)
+        else:
+            return None
+
+    def add_filter(self, afilter):
+        afilter.validate_filter(self)
+        self._filters.append(afilter)
+        return self
+
+    def remove_filter(self, afilter):
+        self._filters.remove(afilter)
+        for fitler in self._filters:
+            filter.validate_filter(self)
+
+
+class SeriesReader2(MultipleFilterableReader):
+    def __init__(self, file):
+        MultipleFilterableReader.__init__(self, file)
+        self.signature_filter = RowFilter([0])
+        self.column_filters = []
+        self.row_filters = []
+        self.headers = None
+        self._validate_filters()
+
+    def add_column_filter(self, acolumn_filter):
+        self.column_filters.append(acolumn_filter)
+        self._validate_filters()
+
+    def remove_column_filter(self, acolumn_filter):
+        self.column_filters.append(acolumn_filter)
+        self._validate_filters()
+
+    def add_row_filter(self, arow_filter):
+        self.row_filters.append(arow_filter)
+        self._validate_filters()
+        
+    def remove_row_filter(self, arow_filter):
+        self.row_filters.remove(arow_filter)
+        self._validate_filters()
+
+    def _validate_filters(self):
+        local_filters = self.column_filters + [self.signature_filter] + self.row_filters
+        self._filters = []
+        for filter in local_filters:
+            filter.validate_filter(self)
+            self._filters.append(filter)
+
+    def _headers(self):
+        self.headers = []
+        for i in self.column_range():
+            new_row = 0
+            new_column = i
+            number_of_column_filters = len(self.column_filters)
+            for x in range(number_of_column_filters-1, -1, -1):
+                new_row, new_column = self.column_filters[x].translate(new_row, new_column)
+            self.headers.append(self.reader.cell_value(0, new_column))
+
+    def series(self):
+        self._headers()
+        return self.headers
+
+    def named_column_at(self, name):
+        self._headers()
+        index = self.headers.index(name)
+        column_array = self.column_at(index)
+        return {name: column_array}
+
+    def __iter__(self):
+        return SeriesColumnIterator(self)
+    
 
 class GenericSeriesReader(FilterableReader):
     """
