@@ -11,17 +11,15 @@ from utils import to_dict
 from readers import SeriesReader
 
 
-class ODSWriter:
-    """
-    open document spreadsheet writer
-    
-    """
-    def __init__(self, file):
-        from odf.opendocument import OpenDocumentSpreadsheet
+class ODSSheetWriter:
+    def __init__(self, book, name):
         from odf.table import Table
-        self.doc = OpenDocumentSpreadsheet()
-        self.table = Table(name="pyexcel_data")
-        self.file = file
+        self.doc = book
+        if name:
+            sheet_name = name
+        else:
+            sheet_name = "pyexcel_sheet1"
+        self.table = Table(name=sheet_name)
 
     def write_row(self, array):
         """
@@ -42,17 +40,46 @@ class ODSWriter:
         
         """
         self.doc.spreadsheet.addElement(self.table)
+
+
+class ODSWriter:
+    """
+    open document spreadsheet writer
+    
+    """
+    def __init__(self, file):
+        from odf.opendocument import OpenDocumentSpreadsheet
+        self.doc = OpenDocumentSpreadsheet()
+        self.file = file
+
+    def create_sheet(self, name):
+        """
+        write a row into the file
+        """
+        return ODSSheetWriter(self.doc, name)
+
+    def close(self):
+        """
+        This call writes file
+        
+        """
         self.doc.write(self.file)
 
 
-class CSVWriter:
+class CSVSheetWriter:
     """
     csv file writer
     
     """
-    def __init__(self, file):
+    def __init__(self, file, name):
         import csv
-        self.f = open(file, "wb")
+        if name:
+            names = file.split(".")
+            file_name = "%s_%s.%s" % (names[0], name, names[1])
+        else:
+            file_name = file
+
+        self.f = open(file_name, "wb")
         self.writer = csv.writer(self.f)
 
     def write_row(self, array):
@@ -67,16 +94,37 @@ class CSVWriter:
         """
         self.f.close()
 
+        
+class CSVWriter:
+    """
+    csv file writer
+    
+    """
+    def __init__(self, file):
+        self.file = file
+        self.count = 0
 
-class XLSWriter:
+    def create_sheet(self, name):
+        return CSVSheetWriter(self.file, name)
+
+    def close(self):
+        """
+        This call close the file handle
+        """
+        pass
+
+
+class XLSSheetWriter:
     """
     xls, xlsx and xlsm writer
     """
-    def __init__(self, file):
-        import xlwt
-        self.file = file
-        self.wb = xlwt.Workbook()
-        self.ws = self.wb.add_sheet("pyexcel_data")
+    def __init__(self, wb, name):
+        self.wb = wb
+        if name:
+            sheet_name = name
+        else:
+            sheet_name = "pyexcel_sheet1"
+        self.ws = self.wb.add_sheet(sheet_name)
         self.current_row = 0
 
     def write_row(self, array):
@@ -93,7 +141,46 @@ class XLSWriter:
         """
         This call actually save the file
         """
+        pass
+
+
+class XLSWriter:
+    """
+    xls, xlsx and xlsm writer
+    """
+    def __init__(self, file):
+        import xlwt
+        self.file = file
+        self.wb = xlwt.Workbook()
+        self.ws = self.wb.add_sheet("pyexcel_data")
+        self.current_row = 0
+
+    def create_sheet(self, name):
+        return XLSSheetWriter(self.wb, name)
+
+    def close(self):
+        """
+        This call actually save the file
+        """
         self.wb.save(self.file)
+
+
+class BookWriter:
+    def __init__(self, file):
+        if file.endswith(".xls") or file.endswith(".xlsx") or file.endswith(".xlsm"):
+            self.writer = XLSWriter(file)
+        elif file.endswith(".csv"):
+            self.writer = CSVWriter(file)
+        elif file.endswith(".ods"):
+            self.writer = ODSWriter(file)
+        else:
+            raise NotImplementedError("Cannot open %s" % file)
+    
+    def create_sheet(self, name):
+        return self.writer.create_sheet(name)
+
+    def close(self):
+        self.writer.close()
 
 
 class Writer:
@@ -104,14 +191,8 @@ class Writer:
     """
     
     def __init__(self, file):
-        if file.endswith(".xls") or file.endswith(".xlsx") or file.endswith(".xlsm"):
-            self.writer = XLSWriter(file)
-        elif file.endswith(".csv"):
-            self.writer = CSVWriter(file)
-        elif file.endswith(".ods"):
-            self.writer = ODSWriter(file)
-        else:
-            raise NotImplementedError("Cannot open %s" % file)
+        self.bookwriter = BookWriter(file)
+        self.writer = self.bookwriter.create_sheet(None)
 
     def write_row(self, array):
         """
@@ -173,3 +254,4 @@ class Writer:
         Please remember to call close function
         """
         self.writer.close()
+        self.bookwriter.close()

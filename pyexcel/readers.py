@@ -494,12 +494,12 @@ class FilterableReader(FilterableSheet):
     """
     def __init__(self, file):
         self.book = BookReader(file)
-        FilterableSheet.__init__(self, self.book[0])
+        FilterableSheet.__init__(self, self.book[0].sheet)
 
 class Reader(Sheet):
     def __init__(self, file):
         self.book = BookReader(file)
-        Sheet.__init__(self, self.book[0])
+        Sheet.__init__(self, self.book[0].sheet, self.book[0].name)
 
 
 class SeriesReader(Reader):
