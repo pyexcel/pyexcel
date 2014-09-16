@@ -168,7 +168,7 @@ class PlainSheet:
         Default iterator to go through each cell one by one from top row to
         bottom row and from left to right
         """
-        return self.enumerate()
+        return self.rows()
         
     def enumerate(self):
         """
@@ -440,10 +440,10 @@ class Sheet(MultipleFilterableSheet):
         else:
             return MultipleFilterableSheet.__iter__(self)
 
-class Book:
+class BookReader:
     def __init__(self, file):
         """
-        Sheet constructor
+        Book constructor
 
         Selecting a specific book according to file extension
         """
@@ -485,12 +485,12 @@ class FilterableReader(FilterableSheet):
     Sheet that can be applied one filter
     """
     def __init__(self, file):
-        self.book = Book(file)
+        self.book = BookReader(file)
         FilterableSheet.__init__(self, self.book[0])
 
 class Reader(Sheet):
     def __init__(self, file):
-        self.book = Book(file)
+        self.book = BookReader(file)
         Sheet.__init__(self, self.book[0])
 
 

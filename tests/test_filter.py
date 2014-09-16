@@ -21,7 +21,7 @@ class TestFilter:
     def test_use_filter_reader_without_filter(self):
         r = pyexcel.FilterableReader(self.testfile)
         result = [1,2,3,4,5,6,7,8,9,10,11,12]
-        actual = pyexcel.utils.to_array(r)
+        actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
 
     def test_column_filter(self):
@@ -30,7 +30,7 @@ class TestFilter:
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
         result = [2,4,6,8,10,12]
-        actual = pyexcel.utils.to_array(r)
+        actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
         # filter out last column and first column
         r = pyexcel.FilterableReader(self.testfile)
@@ -38,14 +38,14 @@ class TestFilter:
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
         result = [2,3,6,7,10,11]
-        actual = pyexcel.utils.to_array(r)
+        actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
         # filter out all
         r = pyexcel.FilterableReader(self.testfile)
         r.filter(pyexcel.filters.ColumnFilter([0,1,2,3]))
         assert r.number_of_columns() == 0
         result = []
-        actual = pyexcel.utils.to_array(r)
+        actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
     
     def test_column_filter_with_invalid_indices(self):
@@ -54,7 +54,7 @@ class TestFilter:
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 4
         result = [1,2,3,4,5,6,7,8,9,10,11,12]
-        actual = pyexcel.utils.to_array(r)
+        actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
         
     def test_column_index_filter(self):
@@ -64,7 +64,7 @@ class TestFilter:
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
         result = [2,4,6,8,10,12]
-        actual = pyexcel.utils.to_array(r)
+        actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
         
     def test_even_column_filter(self):
@@ -73,7 +73,7 @@ class TestFilter:
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
         result = [1,3,5,7,9,11]
-        actual = pyexcel.utils.to_array(r)
+        actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
         
     def test_odd_column_filter(self):
@@ -82,7 +82,7 @@ class TestFilter:
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
         result = [2,4,6,8,10,12]
-        actual = pyexcel.utils.to_array(r)
+        actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
 
     def test_row_filter(self):
@@ -91,7 +91,7 @@ class TestFilter:
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4
         result = [1,2,3,4,9,10,11,12]
-        actual = pyexcel.utils.to_array(r)
+        actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
         # filter out last column and first column
         r = pyexcel.FilterableReader(self.testfile)
@@ -99,14 +99,14 @@ class TestFilter:
         assert r.number_of_rows() == 1
         assert r.number_of_columns() == 4
         result = [5,6,7,8]
-        actual = pyexcel.utils.to_array(r)
+        actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
         # filter out all
         r = pyexcel.FilterableReader(self.testfile)
         r.filter(pyexcel.filters.RowFilter([0,1,2]))
         assert r.number_of_rows() == 0
         result = []
-        actual = pyexcel.utils.to_array(r)
+        actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
         
     def test_row_filter_with_invalid_indices(self):
@@ -115,7 +115,7 @@ class TestFilter:
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 4
         result = [1,2,3,4,5,6,7,8,9,10,11,12]
-        actual = pyexcel.utils.to_array(r)
+        actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
         
     def test_row_index_filter(self):
@@ -125,7 +125,7 @@ class TestFilter:
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4
         result = [1,2,3,4,9,10,11,12]
-        actual = pyexcel.utils.to_array(r)
+        actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
         
     def test_even_row_filter(self):
@@ -134,7 +134,7 @@ class TestFilter:
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4
         result = [1,2,3,4,9,10,11,12]
-        actual = pyexcel.utils.to_array(r)
+        actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
         
     def test_odd_row_filter(self):
@@ -143,7 +143,7 @@ class TestFilter:
         assert r.number_of_rows() == 1
         assert r.number_of_columns() == 4
         result = [5,6,7,8]
-        actual = pyexcel.utils.to_array(r)
+        actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
 
     def tearDown(self):
@@ -190,7 +190,7 @@ class TestComplexFilter:
         filter_func = lambda array: r2.contains((lambda row: array[0] == row[0] and array[1] == row[1]))
         r1.filter(pyexcel.filters.RowValueFilter(filter_func))
         result = [1, 'a', 2, 'b', 3, 'c', 8, 'h']
-        actual = pyexcel.utils.to_array(r1)
+        actual = pyexcel.utils.to_array(r1.enumerate())
         assert result == actual
 
     def test_row_in_file_filter(self):
@@ -199,7 +199,7 @@ class TestComplexFilter:
         r2.filter(pyexcel.filters.ColumnFilter([2]))
         r1.filter(pyexcel.filters.RowInFileFilter(r2))
         result = [1, 'a', 2, 'b', 3, 'c', 8, 'h']
-        actual = pyexcel.utils.to_array(r1)
+        actual = pyexcel.utils.to_array(r1.enumerate())
         print actual
         assert result == actual        
         

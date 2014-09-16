@@ -47,7 +47,7 @@ import json
 
 # "example.xls","example.xlsx","example.ods", "example.xlsm"
 reader = Reader("example.csv")
-data = to_array(reader.rows())
+data = to_array(reader)
 print json.dumps(data)
 ```
 

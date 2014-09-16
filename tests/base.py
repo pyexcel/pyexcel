@@ -120,7 +120,7 @@ class PyexcelXlsBase(PyexcelBase):
 class PyexcelMultipleSheetBase:
 
     def test_sheet_names(self):
-        r = pyexcel.Book(os.path.join("tests", self.testfile))
+        r = pyexcel.BookReader(os.path.join("tests", self.testfile))
         expected = [ "Sheet1", "Sheet2", "Sheet3"]
         sheet_names = r.sheet_names()
         print sheet_names
@@ -128,7 +128,7 @@ class PyexcelMultipleSheetBase:
             assert name in expected
 
     def test_reading_through_sheets(self):
-        b = pyexcel.Book(os.path.join("tests", self.testfile))
+        b = pyexcel.BookReader(os.path.join("tests", self.testfile))
         data = pyexcel.utils.to_array(b["Sheet1"].rows())
         expected = [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]
         assert data == expected
@@ -144,5 +144,3 @@ class PyexcelMultipleSheetBase:
         print data
         expected = [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
         assert data == expected
-        b[0]
-        

@@ -50,7 +50,7 @@ class TestUtils():
             "Series_11": 11,
             "Series_12": 12
         }
-        actual = pyexcel.utils.to_dict(r)
+        actual = pyexcel.utils.to_dict(r.enumerate())
         assert result == actual
 
     def tearDown(self):

@@ -100,7 +100,7 @@ class TestCSVReader2:
     def test_data_types(self):
         r = pyexcel.Reader(self.testfile)
         result=['a','b','c','d','e','f','g','h','i','j',1.1,1]
-        actual = pyexcel.utils.to_array(r)
+        actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
 
     def tearDown(self):
