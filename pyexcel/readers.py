@@ -474,6 +474,11 @@ class Book:
         if index < len(self.sheet_array):
             return self.sheet_array[index]
 
+    def __getitem__(self, key):
+        if type(key) == int:
+            return self.sheet_by_index(key)
+        else:
+            return self.sheet_by_name(key)
         
 class FilterableReader(FilterableSheet):
     """
@@ -481,12 +486,12 @@ class FilterableReader(FilterableSheet):
     """
     def __init__(self, file):
         self.book = Book(file)
-        FilterableSheet.__init__(self, self.book.sheet_by_index(0))
+        FilterableSheet.__init__(self, self.book[0])
 
 class Reader(Sheet):
     def __init__(self, file):
         self.book = Book(file)
-        Sheet.__init__(self, self.book.sheet_by_index(0))
+        Sheet.__init__(self, self.book[0])
 
 
 class SeriesReader(Reader):

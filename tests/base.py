@@ -129,19 +129,20 @@ class PyexcelMultipleSheetBase:
 
     def test_reading_through_sheets(self):
         b = pyexcel.Book(os.path.join("tests", self.testfile))
-        data = pyexcel.utils.to_array(b.sheet_dict["Sheet1"].rows())
+        data = pyexcel.utils.to_array(b["Sheet1"].rows())
         expected = [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]
         assert data == expected
-        data = pyexcel.utils.to_array(b.sheet_dict["Sheet2"].rows())
+        data = pyexcel.utils.to_array(b["Sheet2"].rows())
         expected = [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]
         assert data == expected
-        data = pyexcel.utils.to_array(b.sheet_dict["Sheet3"].rows())
+        data = pyexcel.utils.to_array(b["Sheet3"].rows())
         expected = [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
         assert data == expected
-        sheet3 = b.sheet_dict["Sheet3"]
+        sheet3 = b["Sheet3"]
         sheet3.become_series()
-        data = pyexcel.utils.to_array(b.sheet_dict["Sheet3"].rows())
+        data = pyexcel.utils.to_array(b["Sheet3"].rows())
         print data
         expected = [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
         assert data == expected
+        b[0]
         
