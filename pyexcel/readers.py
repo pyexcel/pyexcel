@@ -456,16 +456,23 @@ class Book:
         else:
             raise NotImplementedError("can not open %s" % file)
         self.current_sheet = 0
+        self.sheet_array = []
+        self.sheet_dict = {}
+        self.sheets = self.book.sheets()
+        for name in self.sheets.keys():
+            sheet = Sheet(self.sheets[name])
+            self.sheet_array.append(sheet)
+            self.sheet_dict[name] = sheet
 
     def sheet_names(self):
-        return self.book.sheet_names()
+        return self.sheet_dict.keys()
 
-    def sheets(self):
-        ret = {}
-        sheets = self.book.sheets()
-        for name in sheets.keys():
-            ret[name] = Sheet(sheets[name])
-        return ret
+    def sheet_by_name(self, name):
+        return self.sheet_dict[name]
+
+    def sheet_by_index(self, index):
+        if index < len(self.sheet_array):
+            return self.sheet_array[index]
 
         
 class FilterableReader(FilterableSheet):
@@ -474,16 +481,12 @@ class FilterableReader(FilterableSheet):
     """
     def __init__(self, file):
         self.book = Book(file)
-        keys = self.book.sheet_names()
-        sheets = self.book.sheets()
-        FilterableSheet.__init__(self, sheets[keys[0]])
+        FilterableSheet.__init__(self, self.book.sheet_by_index(0))
 
 class Reader(Sheet):
     def __init__(self, file):
         self.book = Book(file)
-        keys = self.book.sheet_names()
-        sheets = self.book.sheets()
-        Sheet.__init__(self, sheets[keys[0]])
+        Sheet.__init__(self, self.book.sheet_by_index(0))
 
 
 class SeriesReader(Reader):

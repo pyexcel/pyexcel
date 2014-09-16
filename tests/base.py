@@ -119,29 +119,29 @@ class PyexcelXlsBase(PyexcelBase):
 
 class PyexcelMultipleSheetBase:
 
-    def _test_sheet_names(self):
-        r = pyexcel.Reader(os.path.join("tests", self.testfile))
+    def test_sheet_names(self):
+        r = pyexcel.Book(os.path.join("tests", self.testfile))
         expected = [ "Sheet1", "Sheet2", "Sheet3"]
         sheet_names = r.sheet_names()
         print sheet_names
         for name in sheet_names:
             assert name in expected
 
-    def _test_number_of_sheets(self):
-        r = pyexcel.Reader(os.path.join("tests", self.testfile))
-        assert r.number_of_sheets() == 3
-
-    def _test_reading_through_sheets(self):
-        r = pyexcel.Reader(os.path.join("tests", self.testfile))
-        data = pyexcel.utils.to_array(r.rows())
+    def test_reading_through_sheets(self):
+        b = pyexcel.Book(os.path.join("tests", self.testfile))
+        data = pyexcel.utils.to_array(b.sheet_dict["Sheet1"].rows())
         expected = [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]
         assert data == expected
-        r.use_sheet_at_index(1)
-        data = pyexcel.utils.to_array(r.rows())
+        data = pyexcel.utils.to_array(b.sheet_dict["Sheet2"].rows())
         expected = [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]
         assert data == expected
-        r.use_sheet_at_index(2)
-        data = pyexcel.utils.to_array(r.rows())
+        data = pyexcel.utils.to_array(b.sheet_dict["Sheet3"].rows())
         expected = [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
+        assert data == expected
+        sheet3 = b.sheet_dict["Sheet3"]
+        sheet3.become_series()
+        data = pyexcel.utils.to_array(b.sheet_dict["Sheet3"].rows())
+        print data
+        expected = [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
         assert data == expected
         

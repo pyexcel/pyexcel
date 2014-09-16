@@ -11,7 +11,7 @@
     :license: GPL v3
 """
 
-from .readers import Reader
+from .readers import Reader, Book
 from .writers import Writer
 from .readers import SeriesReader, FilterableReader
 import cookbook
