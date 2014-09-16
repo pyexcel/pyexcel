@@ -144,3 +144,14 @@ class PyexcelMultipleSheetBase:
         print data
         expected = [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
         assert data == expected
+
+    def test_iterate_through_sheets(self):
+        b = pyexcel.BookReader(os.path.join("tests", self.testfile))
+        content = {
+            "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
+            "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
+            "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
+        }
+        for s in b:
+            data = pyexcel.utils.to_array(s)
+            assert content[s.name] == data

@@ -15,7 +15,8 @@ from iterators import (HBRTLIterator,
                        RowReverseIterator,
                        ColumnIterator,
                        ColumnReverseIterator,
-                       SeriesColumnIterator)
+                       SeriesColumnIterator,
+                       SheetIterator)
 from filters import (RowIndexFilter,
                      ColumnIndexFilter,
                      RowFilter)
@@ -369,12 +370,13 @@ class FilterableSheet(MultipleFilterableSheet):
 
 
 class Sheet(MultipleFilterableSheet):
-    def __init__(self, sheet):
+    def __init__(self, sheet, name):
         MultipleFilterableSheet.__init__(self, sheet)
         self.column_filters = []
         self.row_filters = []
         self.headers = None
         self.signature_filter = None
+        self.name = name
         
     def become_series(self):
         self.signature_filter = RowFilter([0])
@@ -460,9 +462,15 @@ class BookReader:
         self.sheet_dict = {}
         self.sheets = self.book.sheets()
         for name in self.sheets.keys():
-            sheet = Sheet(self.sheets[name])
+            sheet = Sheet(self.sheets[name], name)
             self.sheet_array.append(sheet)
             self.sheet_dict[name] = sheet
+
+    def __iter__(self):
+        return SheetIterator(self)
+
+    def number_of_sheets(self):
+        return len(self.sheet_array)
 
     def sheet_names(self):
         return self.sheet_dict.keys()
