@@ -119,8 +119,19 @@ class PyexcelXlsBase(PyexcelBase):
 
 class PyexcelMultipleSheetBase:
 
+    def _write_test_file(self, filename):
+        w = pyexcel.BookWriter(filename)
+        w.write_book_from_dict(self.content)
+        w.close()
+
+    def _clean_up(self):
+        if os.path.exists(self.testfile2):
+            os.unlink(self.testfile2)
+        if os.path.exists(self.testfile):
+            os.unlink(self.testfile)
+
     def test_sheet_names(self):
-        r = pyexcel.BookReader(os.path.join("tests", self.testfile))
+        r = pyexcel.BookReader( self.testfile)
         expected = [ "Sheet1", "Sheet2", "Sheet3"]
         sheet_names = r.sheet_names()
         print sheet_names
@@ -128,7 +139,7 @@ class PyexcelMultipleSheetBase:
             assert name in expected
 
     def test_reading_through_sheets(self):
-        b = pyexcel.BookReader(os.path.join("tests", self.testfile))
+        b = pyexcel.BookReader(self.testfile)
         data = pyexcel.utils.to_array(b["Sheet1"].rows())
         expected = [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]
         assert data == expected
@@ -146,12 +157,21 @@ class PyexcelMultipleSheetBase:
         assert data == expected
 
     def test_iterate_through_sheets(self):
-        b = pyexcel.BookReader(os.path.join("tests", self.testfile))
-        content = {
-            "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
-            "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
-            "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
-        }
+        b = pyexcel.BookReader(self.testfile)
         for s in b:
             data = pyexcel.utils.to_array(s)
-            assert content[s.name] == data
+            assert self.content[s.name] == data
+
+    def test_write_a_book_reader(self):
+        b = pyexcel.BookReader( self.testfile)
+        bw = pyexcel.BookWriter( self.testfile2)
+        for s in b:
+            data = pyexcel.utils.to_array(s)
+            sheet = bw.create_sheet(s.name)
+            sheet.write_array(data)
+            sheet.close()
+        bw.close()
+        x = pyexcel.BookReader(self.testfile2)
+        for s in x:
+            data = pyexcel.utils.to_array(s)
+            assert self.content[s.name] == data

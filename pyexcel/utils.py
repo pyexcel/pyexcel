@@ -8,6 +8,7 @@
     :license: GPL v3
 """
 
+from .readers import Sheet
 
 def to_array(iterator):
     """convert a reader iterator to an array"""
@@ -25,6 +26,8 @@ def to_dict(iterator):
     for c in iterator:
         if type(c) == dict:
             the_dict.update(c)
+        elif isinstance(c, Sheet):
+            the_dict.update({c.name:to_array(c)})
         else:
             key = series % count
             the_dict.update({key: c})

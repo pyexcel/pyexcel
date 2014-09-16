@@ -152,7 +152,6 @@ class XLSWriter:
         import xlwt
         self.file = file
         self.wb = xlwt.Workbook()
-        self.ws = self.wb.add_sheet("pyexcel_data")
         self.current_row = 0
 
     def create_sheet(self, name):
@@ -165,34 +164,9 @@ class XLSWriter:
         self.wb.save(self.file)
 
 
-class BookWriter:
-    def __init__(self, file):
-        if file.endswith(".xls") or file.endswith(".xlsx") or file.endswith(".xlsm"):
-            self.writer = XLSWriter(file)
-        elif file.endswith(".csv"):
-            self.writer = CSVWriter(file)
-        elif file.endswith(".ods"):
-            self.writer = ODSWriter(file)
-        else:
-            raise NotImplementedError("Cannot open %s" % file)
-    
-    def create_sheet(self, name):
-        return self.writer.create_sheet(name)
-
-    def close(self):
-        self.writer.close()
-
-
-class Writer:
-    """
-    Uniform excel writer
-
-    It provides one interface for writing ods, csv, xls, xlsx and xlsm
-    """
-    
-    def __init__(self, file):
-        self.bookwriter = BookWriter(file)
-        self.writer = self.bookwriter.create_sheet(None)
+class SheetWriter:
+    def __init__(self, writer):
+        self.writer = writer
 
     def write_row(self, array):
         """
@@ -254,4 +228,45 @@ class Writer:
         Please remember to call close function
         """
         self.writer.close()
+
+
+class BookWriter:
+    def __init__(self, file):
+        if file.endswith(".xls") or file.endswith(".xlsx") or file.endswith(".xlsm"):
+            self.writer = XLSWriter(file)
+        elif file.endswith(".csv"):
+            self.writer = CSVWriter(file)
+        elif file.endswith(".ods"):
+            self.writer = ODSWriter(file)
+        else:
+            raise NotImplementedError("Cannot open %s" % file)
+    
+    def create_sheet(self, name):
+        return SheetWriter(self.writer.create_sheet(name))
+
+    def write_book_from_dict(self, sheet_dicts):
+        keys = sheet_dicts.keys()
+        for name in keys:
+            sheet = self.create_sheet(name)
+            sheet.write_array(sheet_dicts[name])
+            sheet.close()
+
+    def close(self):
+        self.writer.close()
+
+
+class Writer(SheetWriter):
+    """
+    Uniform excel writer
+
+    It provides one interface for writing ods, csv, xls, xlsx and xlsm
+    """
+    
+    def __init__(self, file):
+        self.bookwriter = BookWriter(file)
+        self.writer = self.bookwriter.create_sheet(None).writer
+
+    def close(self):
+        SheetWriter.close(self)
         self.bookwriter.close()
+                

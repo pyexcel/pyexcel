@@ -56,3 +56,33 @@ class TestUtils():
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
+
+
+class TestUtils2():
+    def setUp(self):
+        """
+        Make a test csv file as:
+
+        1,2,3,4
+        5,6,7,8
+        9,10,11,12
+        """
+        self.testfile = "testcsv.xls"
+        self.content = {
+            "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
+            "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
+            "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
+        }
+        w = pyexcel.BookWriter(self.testfile)
+        w.write_book_from_dict(self.content)
+        w.close()
+
+    def test_book_reader_to_dict(self):
+        r = pyexcel.BookReader(self.testfile)
+        actual = pyexcel.utils.to_dict(r)
+        print actual
+        assert actual == self.content
+
+    def tearDown(self):
+        if os.path.exists(self.testfile):
+            os.unlink(self.testfile)
