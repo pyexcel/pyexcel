@@ -393,7 +393,7 @@ class Sheet(MultipleFilterableSheet):
             self.row_filters.append(afilter)
         self._validate_filters()
 
-    def remove_column_filter(self, afilter):
+    def remove_filter(self, afilter):
         if isinstance(afilter, ColumnIndexFilter):
             self.column_filters.remove(afilter)
         elif isinstance(afilter, RowIndexFilter):
