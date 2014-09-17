@@ -163,8 +163,8 @@ class PyexcelMultipleSheetBase:
             assert self.content[s.name] == data
 
     def test_write_a_book_reader(self):
-        b = pyexcel.BookReader( self.testfile)
-        bw = pyexcel.BookWriter( self.testfile2)
+        b = pyexcel.BookReader(self.testfile)
+        bw = pyexcel.BookWriter(self.testfile2)
         for s in b:
             data = pyexcel.utils.to_array(s)
             sheet = bw.create_sheet(s.name)

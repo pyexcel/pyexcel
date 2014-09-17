@@ -251,6 +251,13 @@ class BookWriter:
             sheet.write_array(sheet_dicts[name])
             sheet.close()
 
+    def write_book_reader(self, bookreader):
+        """
+        Write a book reader
+        """
+        sheet_dicts = to_dict(bookreader)
+        self.write_book_from_dict(sheet_dicts)
+
     def close(self):
         self.writer.close()
 
