@@ -34,6 +34,22 @@ def to_dict(iterator):
             count += 1
     return the_dict
 
+def to_array_of_dict(reader):
+    headers = reader.series()
+    need_revert = False
+    if len(headers) == 0:
+        reader.become_series()
+        headers = reader.series()
+        need_revert = True
+    ret = []
+    for row in reader.rows():
+        the_dict = dict(zip(headers, row))
+        ret.append(the_dict)
+
+    if need_revert:
+        reader.become_sheet()
+    return ret
+
 
 def to_one_dimensional_array(iterator):
     """convert a reader to one dimensional array"""
