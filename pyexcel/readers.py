@@ -378,14 +378,9 @@ class MultipleFilterableSheet(PlainSheet):
 
     def clear_filters(self):
         self._filters = []
-
-
-class FilterableSheet(MultipleFilterableSheet):
-    """
-    Sheet that can be applied one filter
-    """
     
     def filter(self, afilter):
+        """This is short hand for add_filter"""
         self.add_filter(afilter)
 
 
@@ -532,13 +527,6 @@ class BookReader:
         else:
             return self.sheet_by_name(key)
         
-class FilterableReader(FilterableSheet):
-    """
-    Sheet that can be applied one filter
-    """
-    def __init__(self, file):
-        self.book = BookReader(file)
-        FilterableSheet.__init__(self, self.book[0].sheet)
 
 class Reader(Sheet):
     """

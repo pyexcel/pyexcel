@@ -192,6 +192,8 @@ And `Reader` has the same filtering capability as `SeriesReader`
 Work with multi-sheet file
 ==========================
 
+Read the file
+---------------
 Suppose you have the following data in any of the supported excel formats:
 
 = = =
@@ -226,3 +228,13 @@ You can easily read them out::
 Per each sheet, you can do custom filtering::
 
     >> sheet2 = reader[2]
+    >> sheet2.add_filter(pyexcel.filters.EvenRowFilter())
+	>> my_dict = pyexcel.utils.to_dict(reader)
+	>> print my_dict
+
+You will see sheet2 has been applied even row filter
+
+Write the file
+---------------
+
+

@@ -13,5 +13,5 @@
 
 from .readers import Reader, BookReader
 from .writers import Writer, BookWriter
-from .readers import SeriesReader, FilterableReader
+from .readers import SeriesReader
 import cookbook
