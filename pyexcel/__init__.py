@@ -15,3 +15,5 @@ from .readers import Reader, BookReader
 from .writers import Writer, BookWriter
 from .readers import SeriesReader
 import cookbook
+
+__VERSION__ = '0.0.2'

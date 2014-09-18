@@ -135,6 +135,7 @@ class XLSBook:
         return self.workbook.sheet_names()
 
     def sheets(self):
+        """Get sheets in a dictionary"""
         ret = {}
         for name in self.workbook.sheet_names():
             ret[name] = XLSSheet(self.workbook.sheet_by_name(name))
@@ -367,16 +368,19 @@ class MultipleFilterableSheet(PlainSheet):
             return None
 
     def add_filter(self, afilter):
+        """Apply a filter"""
         afilter.validate_filter(self)
         self._filters.append(afilter)
         return self
 
     def remove_filter(self, afilter):
+        """Remove a named filter"""
         self._filters.remove(afilter)
         for fitler in self._filters:
             filter.validate_filter(self)
 
     def clear_filters(self):
+        """Clears all filters"""
         self._filters = []
     
     def filter(self, afilter):
@@ -409,7 +413,7 @@ class Sheet(MultipleFilterableSheet):
 
     def add_filter(self, afilter):
         """
-        Add a custom filter
+        Apply a filter
         """
         if isinstance(afilter, ColumnIndexFilter):
             self.column_filters.append(afilter)
@@ -481,7 +485,13 @@ class Sheet(MultipleFilterableSheet):
         else:
             return MultipleFilterableSheet.__iter__(self)
 
+
 class BookReader:
+    """
+    Read an excel book that has mutliple sheets
+
+    For csv file, there will be just one sheet
+    """
     def __init__(self, file):
         """
         Book constructor
@@ -509,15 +519,19 @@ class BookReader:
         return SheetIterator(self)
 
     def number_of_sheets(self):
+        """Return the number of sheets"""
         return len(self.sheet_array)
 
     def sheet_names(self):
+        """Return all sheet names"""
         return self.sheet_dict.keys()
 
     def sheet_by_name(self, name):
+        """Get the sheet with the specified name"""
         return self.sheet_dict[name]
 
     def sheet_by_index(self, index):
+        """Get the sheet with the specified index"""
         if index < len(self.sheet_array):
             return self.sheet_array[index]
 
@@ -531,11 +545,17 @@ class BookReader:
 class Reader(Sheet):
     """
     A single sheet excel file reader
+
+    Default is the sheet at index 0. Or you specify one using sheet index or sheet
+    name
     """
     
-    def __init__(self, file):
+    def __init__(self, file, sheet=None):
         self.book = BookReader(file)
-        Sheet.__init__(self, self.book[0].sheet, self.book[0].name)
+        if sheet:
+            Sheet.__init__(self, self.book[sheet].sheet, self.book[sheet].name)
+        else:
+            Sheet.__init__(self, self.book[0].sheet, self.book[0].name)
 
 
 class SeriesReader(Reader):
