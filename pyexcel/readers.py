@@ -60,6 +60,11 @@ class CSVSheet:
 
 
 class CSVBook:
+    """
+    CSVBook reader
+
+    It simply return one sheet
+    """
     def __init__(self, file):
         import csv
         self.array = []
@@ -109,6 +114,12 @@ class XLSSheet:
 
 
 class XLSBook:
+    """
+    XLSBook reader
+
+    It reads xls, xlsm, xlsx work book
+    """
+
     def __init__(self, file):
         import xlrd
         self.workbook = xlrd.open_workbook(file)
@@ -131,6 +142,12 @@ class XLSBook:
 
 
 class ODSBook:
+    """
+    ODS Book reader
+
+    It reads ods file
+    """
+
     def __init__(self, file):
         import ext.odsreader as odsreader
         self.ods = odsreader.ODSReader(file)
@@ -359,6 +376,9 @@ class MultipleFilterableSheet(PlainSheet):
         for fitler in self._filters:
             filter.validate_filter(self)
 
+    def clear_filters(self):
+        self._filters = []
+
 
 class FilterableSheet(MultipleFilterableSheet):
     """
@@ -379,21 +399,41 @@ class Sheet(MultipleFilterableSheet):
         self.name = name
         
     def become_series(self):
+        """
+        Evolve this sheet to a SeriesReader
+        """
         self.signature_filter = RowFilter([0])
         self._validate_filters()
 
     def become_sheet(self):
+        """
+        Evolve back to plain sheet reader
+        """
         self.signature_filter = None
         self._validate_filters()
 
     def add_filter(self, afilter):
+        """
+        Add a custom filter
+        """
         if isinstance(afilter, ColumnIndexFilter):
             self.column_filters.append(afilter)
         elif isinstance(afilter, RowIndexFilter):
             self.row_filters.append(afilter)
         self._validate_filters()
 
+    def clear_filters(self):
+        """
+        Clear all filters
+        """
+        self.column_filters = []
+        self.row_filters = []
+        self._validate_filters()
+
     def remove_filter(self, afilter):
+        """
+        Remove a named custom filter
+        """
         if isinstance(afilter, ColumnIndexFilter):
             self.column_filters.remove(afilter)
         elif isinstance(afilter, RowIndexFilter):
@@ -421,6 +461,9 @@ class Sheet(MultipleFilterableSheet):
             self.headers.append(self.sheet.cell_value(0, new_column))
 
     def series(self):
+        """
+        Return column headers
+        """
         if self.signature_filter:
             self._headers()
             return self.headers
@@ -428,6 +471,7 @@ class Sheet(MultipleFilterableSheet):
             return []
 
     def named_column_at(self, name):
+        """Get a column by its name """
         if self.signature_filter:
             self._headers()
             index = self.headers.index(name)
@@ -497,12 +541,20 @@ class FilterableReader(FilterableSheet):
         FilterableSheet.__init__(self, self.book[0].sheet)
 
 class Reader(Sheet):
+    """
+    A single sheet excel file reader
+    """
+    
     def __init__(self, file):
         self.book = BookReader(file)
         Sheet.__init__(self, self.book[0].sheet, self.book[0].name)
 
 
 class SeriesReader(Reader):
+    """
+    A single sheet excel file reader and it has column headers
+    """
+    
     def __init__(self, file):
         Reader.__init__(self, file)
         self.become_series()

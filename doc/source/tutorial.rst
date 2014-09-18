@@ -1,5 +1,5 @@
-Work with data series
-=====================
+Work with data series in a single sheet
+=======================================
 
 Suppose you have the following data in any of the supported excel formats:
 
@@ -134,8 +134,8 @@ The complete code is::
     writer.close()
 
 
-Work with pure data
-===================
+Work with pure data in a single sheet file
+==========================================
 
 Suppose you have the following data in any of the supported excel formats:
 
@@ -186,3 +186,43 @@ In the same way, you can get the content in one dimensional array::
     >> data = to_array(reader.rvertical())
     >> print data
     [12,8,4,11,7,3,10,6,2,9,5,1]
+
+And `Reader` has the same filtering capability as `SeriesReader`
+
+Work with multi-sheet file
+==========================
+
+Suppose you have the following data in any of the supported excel formats:
+
+= = =
+1 2 3
+4,5 6
+7 8 9
+   
+Sheet 1
+
+=====
+X Y Z
+1 2 3
+4 5 6
+   
+
+Sheet 2
+
+= = =
+O P Q
+3 2 1
+4 3 2
+
+Sheet 3
+
+You can easily read them out::
+
+    >> import pyexcel
+    >> reader = pyexcel.BookReader("example.xls")
+    >> my_dict = pyexcel.utils.to_dict(reader)
+    >> print my_dict
+
+Per each sheet, you can do custom filtering::
+
+    >> sheet2 = reader[2]

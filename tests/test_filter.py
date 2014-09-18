@@ -66,6 +66,11 @@ class TestFilter:
         result = [2,4,6,8,10,12]
         actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
+        # test removing the filter, it prints the original one
+        r.clear_filters()
+        result = [1,2,3,4,5,6,7,8,9,10,11,12]
+        actual = pyexcel.utils.to_array(r.enumerate())
+        assert result == actual
         
     def test_even_column_filter(self):
         r = pyexcel.FilterableReader(self.testfile)
@@ -125,6 +130,11 @@ class TestFilter:
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4
         result = [1,2,3,4,9,10,11,12]
+        actual = pyexcel.utils.to_array(r.enumerate())
+        assert result == actual
+        # test removing the filter, it prints the original one
+        r.clear_filters()
+        result = [1,2,3,4,5,6,7,8,9,10,11,12]
         actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
         

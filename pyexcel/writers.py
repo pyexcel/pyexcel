@@ -12,6 +12,10 @@ from readers import SeriesReader
 
 
 class ODSSheetWriter:
+    """
+    ODS sheet writer
+    """
+    
     def __init__(self, book, name):
         from odf.table import Table
         self.doc = book
@@ -98,7 +102,9 @@ class CSVSheetWriter:
 class CSVWriter:
     """
     csv file writer
-    
+
+    if there is multiple sheets for csv file, it simpily writes
+    multiple csv files
     """
     def __init__(self, file):
         self.file = file
@@ -116,7 +122,7 @@ class CSVWriter:
 
 class XLSSheetWriter:
     """
-    xls, xlsx and xlsm writer
+    xls, xlsx and xlsm sheet writer
     """
     def __init__(self, wb, name):
         self.wb = wb
@@ -165,6 +171,8 @@ class XLSWriter:
 
 
 class SheetWriter:
+    """Single sheet writer for the excel book writer"""
+
     def __init__(self, writer):
         self.writer = writer
 
@@ -231,6 +239,12 @@ class SheetWriter:
 
 
 class BookWriter:
+    """
+    A generic book writer
+
+    It provides one interface for writing ods, csv, xls, xlsx and xlsm    
+    """
+
     def __init__(self, file):
         if file.endswith(".xls") or file.endswith(".xlsx") or file.endswith(".xlsm"):
             self.writer = XLSWriter(file)
@@ -245,6 +259,11 @@ class BookWriter:
         return SheetWriter(self.writer.create_sheet(name))
 
     def write_book_from_dict(self, sheet_dicts):
+        """Write a dictionary to a multi-sheet file
+
+        Requirements for the dictionary is: key is the sheet name,
+        its value must be two dimensional array
+        """
         keys = sheet_dicts.keys()
         for name in keys:
             sheet = self.create_sheet(name)
@@ -264,9 +283,10 @@ class BookWriter:
 
 class Writer(SheetWriter):
     """
-    Uniform excel writer
+    A single sheet excel file writer
 
-    It provides one interface for writing ods, csv, xls, xlsx and xlsm
+    It writes only one sheet to an exce file. It is a quick way to handle most
+    of the data files
     """
     
     def __init__(self, file):

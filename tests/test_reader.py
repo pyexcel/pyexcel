@@ -228,6 +228,10 @@ class TestSeriesReader3:
         }
         print actual
         assert result == actual
+        # test removing the filter, it prints the original one
+        r.clear_filters()
+        actual = pyexcel.utils.to_array(r.rows())
+        assert actual == self.content[1:]
 
     def test_orthogonality(self):
         r = pyexcel.SeriesReader(self.testfile)
@@ -239,6 +243,10 @@ class TestSeriesReader3:
         }
         print actual
         assert result == actual
+        # test removing the filter, it prints the original one
+        r.clear_filters()
+        actual = pyexcel.utils.to_array(r.rows())
+        assert actual == self.content[1:]
 
     def test_orthogonality2(self):
         r = pyexcel.SeriesReader(self.testfile)
@@ -248,8 +256,11 @@ class TestSeriesReader3:
         result = {
             "Y": [1,3,5]
         }
-        print actual
         assert result == actual
+        # test removing the filter, it prints the original one
+        r.clear_filters()
+        actual = pyexcel.utils.to_array(r.rows())
+        assert actual == self.content[1:]
 
     def tearDown(self):
         if os.path.exists(self.testfile):
@@ -292,7 +303,8 @@ class TestSeriesReader4:
 
     def test_column_filter(self):
         r = pyexcel.SeriesReader(self.testfile)
-        r.add_filter(pyexcel.filters.ColumnFilter([1]))
+        filter = pyexcel.filters.ColumnFilter([1])
+        r.add_filter(filter)
         actual = pyexcel.utils.to_dict(r)
         result = {
             "X": [1,1,1,1,1],
@@ -300,6 +312,10 @@ class TestSeriesReader4:
         }
         assert "Y" not in actual
         assert result == actual
+        # test removing the filter, it prints the original one
+        r.remove_filter(filter)
+        actual = pyexcel.utils.to_array(r.rows())
+        assert actual == self.content[1:]
 
     def tearDown(self):
         if os.path.exists(self.testfile):
