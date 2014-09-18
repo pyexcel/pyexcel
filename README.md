@@ -123,7 +123,7 @@ writer.write_dict(example_dict)
 writer.close()
 ```
 
-### Reading multiple sheet excel file
+### Read multiple sheet excel file
 
 Suppose you have a book like this:
 
@@ -171,7 +171,7 @@ u'Sheet 1': [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]]
 }
 ```
 
-### Reading multiple sheet excel file
+### Write multiple sheet excel file
 
 Suppose you have previous data as a dictionary and you want to save it as multiple sheet excel file:
 

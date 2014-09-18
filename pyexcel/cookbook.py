@@ -8,9 +8,9 @@
     :license: GPL v3
 """
 import os
-from readers import SeriesReader
+from readers import SeriesReader, Reader
 from utils import to_dict
-from writers import Writer
+from writers import Writer, BookWriter
 
 
 __WARNING_TEXT__ = "We do not overwrite files"
@@ -78,3 +78,15 @@ def merge_two_readers(reader1, reader2, outfilename="pyexcel_merged.csv"):
         raise NotImplementedError(__WARNING_TEXT__)
     reader_array = [reader1, reader2]
     merge_readers(reader_array, outfilename)
+
+
+def merge_csv_to_a_book(filelist, outfilename="merged.xls"):
+    """merge a list of csv files into a excel book"""
+    w = BookWriter(outfilename)
+    for file in filelist:
+        r = Reader(file)
+        head, tail = os.path.split(file)
+        sheet = w.create_sheet(tail)
+        sheet.write_reader(r)
+        sheet.close()
+    w.close()
