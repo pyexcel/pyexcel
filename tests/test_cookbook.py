@@ -2,7 +2,7 @@ import pyexcel
 import os
 
 
-class TestProcessings:
+class TestCookbook:
     def setUp(self):
         """
         Make a test csv file as:
@@ -142,6 +142,17 @@ class TestProcessings:
         }
         print data
         assert data == content
+
+    def test_merge_any_files_to_a_book(self):
+        file_array = [self.testfile, self.testfile2, self.testfile3]
+        pyexcel.cookbook.merge_all_to_a_book(file_array, "merged.xlsx")
+        r = pyexcel.BookReader("merged.xlsx")
+        content = pyexcel.utils.to_dict(r[self.testfile].become_series())
+        assert content == self.content
+        content2 = pyexcel.utils.to_dict(r[self.testfile2].become_series())
+        assert content2 == self.content2
+        content3 = pyexcel.utils.to_dict(r[self.testfile3].become_series())
+        assert content3 == self.content3
         
     def tearDown(self):
         if os.path.exists(self.testfile):
@@ -154,5 +165,8 @@ class TestProcessings:
         if os.path.exists(auto_gen_file):
             os.unlink(auto_gen_file)
         another_gen_file = "pyexcel_merged.csv"
+        if os.path.exists(another_gen_file):
+            os.unlink(another_gen_file)
+        another_gen_file = "merged.xlsx"
         if os.path.exists(another_gen_file):
             os.unlink(another_gen_file)

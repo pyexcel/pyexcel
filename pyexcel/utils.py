@@ -34,7 +34,17 @@ def to_dict(iterator):
             count += 1
     return the_dict
 
-def to_array_of_dict(reader):
+def to_records(reader):
+    """
+    Make an array of dictionaries
+
+    It takes the first row as keys and the rest of
+    the rows as values. Then zips keys and row values
+    per each row. This is particularly helpful for
+    database operations.
+    """
+    if isinstance(reader, Sheet) == False:
+        raise NotImplementedError
     headers = reader.series()
     need_revert = False
     if len(headers) == 0:

@@ -86,3 +86,44 @@ class TestUtils2():
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
+
+class TestToRecord():
+    def setUp(self):
+        """
+        Make a test csv file as:
+
+        1,2,3,4
+        5,6,7,8
+        9,10,11,12
+        """
+        self.testfile = "test.xls"
+        self.content = {
+            "X": [1,2,3],
+            "Y": [4,5,6],
+            "Z": [7,8,9]
+        }
+        w = pyexcel.Writer(self.testfile)
+        w.write_dict(self.content)
+        w.close()
+
+    def test_book_reader_to_records(self):
+        r = pyexcel.Reader(self.testfile)
+        result = [
+            {u'Y': 4.0, u'X': 1.0, u'Z': 7.0},
+            {u'Y': 5.0, u'X': 2.0, u'Z': 8.0},
+            {u'Y': 6.0, u'X': 3.0, u'Z': 9.0}]
+        actual = pyexcel.utils.to_records(r)
+        print actual
+        assert actual == result
+
+    def test_book_reader_to_records_with_wrong_args(self):
+        r = pyexcel.BookReader(self.testfile)
+        try:
+            pyexcel.utils.to_records(r)
+            assert 1==2
+        except NotImplementedError:
+            assert 1==1
+
+    def tearDown(self):
+        if os.path.exists(self.testfile):
+            os.unlink(self.testfile)

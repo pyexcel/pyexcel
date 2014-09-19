@@ -403,6 +403,7 @@ class Sheet(MultipleFilterableSheet):
         """
         self.signature_filter = RowFilter([0])
         self._validate_filters()
+        return self
 
     def become_sheet(self):
         """
@@ -410,6 +411,7 @@ class Sheet(MultipleFilterableSheet):
         """
         self.signature_filter = None
         self._validate_filters()
+        return self
 
     def add_filter(self, afilter):
         """

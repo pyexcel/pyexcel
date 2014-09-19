@@ -8,7 +8,7 @@
     :license: GPL v3
 """
 import os
-from readers import SeriesReader, Reader
+from readers import SeriesReader, Reader, BookReader
 from utils import to_dict
 from writers import Writer, BookWriter
 
@@ -89,4 +89,34 @@ def merge_csv_to_a_book(filelist, outfilename="merged.xls"):
         sheet = w.create_sheet(tail)
         sheet.write_reader(r)
         sheet.close()
+    w.close()
+
+def merge_all_to_a_book(filelist, outfilename="merged.xls"):
+    """merge a list of csv files into a excel book
+
+    Note: empty sheets are ignored
+    """
+    w = BookWriter(outfilename)
+    for file in filelist:
+        r = BookReader(file)
+        head, tail = os.path.split(file)
+        count = 0
+        # find out if the file is a single sheet book
+        # or a multiple sheet book
+        for sheet in r:
+            if sheet.number_of_rows() > 0:
+                count += 1
+
+        for sheet in r:
+            if sheet.number_of_rows() > 0:
+                if count == 1:
+                    # single sheet book, just use the file name
+                    # for the sheet name
+                    sheet_name = tail
+                else:
+                    # otherwise: filename_sheetname
+                    sheet_name = "%s_%s" % (tail, sheet.name)
+                new_sheet = w.create_sheet(sheet_name)
+                new_sheet.write_reader(sheet)
+                new_sheet.close()
     w.close()
