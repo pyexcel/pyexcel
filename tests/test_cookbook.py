@@ -173,6 +173,18 @@ class TestCookbook:
         content6 = pyexcel.utils.to_array(r[sheet3])
         assert content6 == self.content4["Sheet3"]
         
+    def test_merge_csv_files_to_a_book(self):
+        file_array = [self.testfile, self.testfile2,
+                      self.testfile3]
+        pyexcel.cookbook.merge_csv_to_a_book(file_array, "merged.xlsx")
+        r = pyexcel.BookReader("merged.xlsx")
+        content = pyexcel.utils.to_dict(r[self.testfile].become_series())
+        assert content == self.content
+        content2 = pyexcel.utils.to_dict(r[self.testfile2].become_series())
+        assert content2 == self.content2
+        content3 = pyexcel.utils.to_dict(r[self.testfile3].become_series())
+        assert content3 == self.content3
+        
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
