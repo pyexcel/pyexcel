@@ -38,6 +38,15 @@ class TestCookbook:
         w = pyexcel.Writer(self.testfile3)
         w.write_dict(self.content3)
         w.close()
+        self.testfile4 = "multiple_sheets.xls"
+        self.content4 = {
+            "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
+            "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
+            "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
+        }
+        w = pyexcel.BookWriter(self.testfile4)
+        w.write_book_from_dict(self.content4)
+        w.close()
 
     def test_update_columns(self):
         custom_column = {"Z": [33,44,55,66,77]}
@@ -144,7 +153,8 @@ class TestCookbook:
         assert data == content
 
     def test_merge_any_files_to_a_book(self):
-        file_array = [self.testfile, self.testfile2, self.testfile3]
+        file_array = [self.testfile, self.testfile2,
+                      self.testfile3, self.testfile4]
         pyexcel.cookbook.merge_all_to_a_book(file_array, "merged.xlsx")
         r = pyexcel.BookReader("merged.xlsx")
         content = pyexcel.utils.to_dict(r[self.testfile].become_series())
@@ -153,6 +163,15 @@ class TestCookbook:
         assert content2 == self.content2
         content3 = pyexcel.utils.to_dict(r[self.testfile3].become_series())
         assert content3 == self.content3
+        sheet1 = "%s_%s" % (self.testfile4, "Sheet1")
+        content4 = pyexcel.utils.to_array(r[sheet1])
+        assert content4 == self.content4["Sheet1"]
+        sheet2 = "%s_%s" % (self.testfile4, "Sheet2")
+        content5 = pyexcel.utils.to_array(r[sheet2])
+        assert content5 == self.content4["Sheet2"]
+        sheet3 = "%s_%s" % (self.testfile4, "Sheet3")
+        content6 = pyexcel.utils.to_array(r[sheet3])
+        assert content6 == self.content4["Sheet3"]
         
     def tearDown(self):
         if os.path.exists(self.testfile):
@@ -161,6 +180,8 @@ class TestCookbook:
             os.unlink(self.testfile2)
         if os.path.exists(self.testfile3):
             os.unlink(self.testfile3)
+        if os.path.exists(self.testfile4):
+            os.unlink(self.testfile4)
         auto_gen_file = "pyexcel_%s" % self.testfile
         if os.path.exists(auto_gen_file):
             os.unlink(auto_gen_file)
