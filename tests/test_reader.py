@@ -322,6 +322,14 @@ class TestSeriesReader4:
         actual = pyexcel.utils.to_array(r.rows())
         assert actual == self.content[1:]
 
+    def test_get_item_operator(self):
+        """
+        Series Reader will skip first row because it has column header
+        """
+        r = pyexcel.SeriesReader(self.testfile)
+        value = r[0][1]
+        assert value == 2
+
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
