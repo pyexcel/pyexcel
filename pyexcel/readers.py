@@ -188,7 +188,7 @@ class PlainSheet:
         bottom row and from left to right
         """
         return self.rows()
-        
+
     def enumerate(self):
         """
         Default iterator to go through each cell one by one from top row to
@@ -274,6 +274,14 @@ class PlainSheet:
         """
         return range(0, self.sheet.number_of_columns())
 
+    def __getitem__(self, index):
+        """By default, this class recognize from top to bottom
+        from left to right"""
+        if index in self.row_range():
+            return self.row_at(index)
+        else:
+            raise IndexError
+        
     def row_at(self, index):
         """
         Returns an array that collects all data at the specified row

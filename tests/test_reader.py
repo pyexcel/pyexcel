@@ -27,6 +27,11 @@ class TestReader:
         value = r.cell_value(100,100)
         assert value == None
 
+    def test_get_item_operator(self):
+        r = pyexcel.Reader(self.testfile)
+        value = r[0][1]
+        assert value == 'b'
+
     def test_row_at(self):
         r = pyexcel.Reader(self.testfile)
         value = r.row_at(100)
