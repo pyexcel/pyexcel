@@ -91,6 +91,7 @@ def merge_csv_to_a_book(filelist, outfilename="merged.xls"):
         sheet.close()
     w.close()
 
+    
 def merge_all_to_a_book(filelist, outfilename="merged.xls"):
     """merge a list of csv files into a excel book
 
@@ -119,4 +120,30 @@ def merge_all_to_a_book(filelist, outfilename="merged.xls"):
                 new_sheet = w.create_sheet(sheet_name)
                 new_sheet.write_reader(sheet)
                 new_sheet.close()
+    w.close()
+
+
+def split_a_book(file, outfilename=None):
+    """Split a file into separate sheets"""
+    r = BookReader(file)
+    if outfilename:
+        saveas = outfilename
+    else:
+        saveas = file
+    for sheet in r:
+        w = Writer("%s_%s" % (sheet.name, saveas))
+        w.write_reader(sheet)
+        w.close()
+
+
+def extract_a_sheet_from_a_book(file, sheetname, outfilename=None):
+    """Extract a sheet from a excel book"""
+    r = BookReader(file)
+    if outfilename:
+        saveas = outfilename
+    else:
+        saveas = file
+    sheet = r[sheetname]
+    w = Writer("%s_%s" % (sheetname, saveas))
+    w.write_reader(sheet)
     w.close()

@@ -1,6 +1,38 @@
 import pyexcel
 import os
 
+class TestSpliting:
+    def setUp(self):
+        self.testfile4 = "multiple_sheets.xls"
+        self.content4 = {
+            "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
+            "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
+            "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
+        }
+        w = pyexcel.BookWriter(self.testfile4)
+        w.write_book_from_dict(self.content4)
+        w.close()
+
+    def test_split_a_book(self):
+        pyexcel.cookbook.split_a_book(self.testfile4, "extracted.csv")
+        assert os.path.exists("Sheet1_extracted.csv")
+        assert os.path.exists("Sheet2_extracted.csv")
+        assert os.path.exists("Sheet3_extracted.csv")
+
+    def test_extract_a_book(self):
+        pyexcel.cookbook.extract_a_sheet_from_a_book(self.testfile4, "Sheet1", "extracted.csv")
+        assert os.path.exists("Sheet1_extracted.csv")
+
+    def tearDown(self):
+        if os.path.exists(self.testfile4):
+            os.unlink(self.testfile4)
+        if os.path.exists("Sheet1_extracted.csv"):
+            os.unlink("Sheet1_extracted.csv")
+        if os.path.exists("Sheet2_extracted.csv"):
+            os.unlink("Sheet2_extracted.csv")
+        if os.path.exists("Sheet3_extracted.csv"):
+            os.unlink("Sheet3_extracted.csv")
+
 
 class TestCookbook:
     def setUp(self):
@@ -201,5 +233,8 @@ class TestCookbook:
         if os.path.exists(another_gen_file):
             os.unlink(another_gen_file)
         another_gen_file = "merged.xlsx"
+        if os.path.exists(another_gen_file):
+            os.unlink(another_gen_file)
+        another_gen_file = "merged.xls"
         if os.path.exists(another_gen_file):
             os.unlink(another_gen_file)
