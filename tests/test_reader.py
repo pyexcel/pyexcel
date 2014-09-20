@@ -231,7 +231,8 @@ class TestSeriesReader3:
 
     def test_odd_row_filter(self):
         r = pyexcel.SeriesReader(self.testfile)
-        r.add_filter(pyexcel.filters.OddRowFilter())
+        f = pyexcel.filters.OddRowFilter()
+        r.add_filter(f)
         actual = pyexcel.utils.to_dict(r)
         result = {
             "X": [2,4],
@@ -240,6 +241,9 @@ class TestSeriesReader3:
         }
         print actual
         assert result == actual
+        r.remove_filter(f)
+        actual = pyexcel.utils.to_array(r.rows())
+        assert actual == self.content[1:]
 
     def test_even_row_filter(self):
         r = pyexcel.SeriesReader(self.testfile)
