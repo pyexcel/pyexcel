@@ -13,7 +13,7 @@
 
 from .readers import Reader, BookReader
 from .writers import Writer, BookWriter
-from .readers import SeriesReader, PlainReader
+from .readers import SeriesReader, PlainReader, FilterableReader
 import cookbook
 
 __VERSION__ = '0.0.2'

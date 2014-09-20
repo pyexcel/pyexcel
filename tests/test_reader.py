@@ -39,6 +39,11 @@ class TestReader:
         column_range = r.column_range()
         assert column_range == range(0,4)
 
+    def test_named_column_at(self):
+        r = pyexcel.Reader(self.testfile)
+        result = r.named_column_at("A")
+        assert result == {}
+
     def test_get_item_operator(self):
         r = pyexcel.Reader(self.testfile)
         value = r[0][1]
@@ -319,14 +324,12 @@ class TestSeriesReader4:
     def test_headers(self):
         r = pyexcel.SeriesReader(self.testfile)
         actual = r.series()
-        print actual
         assert self.content[0] == actual
 
     def test_named_column_at(self):
         r = pyexcel.SeriesReader(self.testfile)
         result = r.named_column_at("X")
         actual = {"X":[1,1,1,1,1]}
-        print result
         assert result == actual
 
     def test_column_filter(self):

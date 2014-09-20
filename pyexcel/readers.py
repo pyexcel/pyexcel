@@ -527,7 +527,8 @@ class Reader(Sheet):
     A single sheet excel file reader
 
     Default is the sheet at index 0. Or you specify one using sheet index or sheet
-    name
+    name. The short coming of this reader is: column filter is applied first
+    then row filter is applied next
     """
     
     def __init__(self, file, sheet=None):
@@ -559,4 +560,14 @@ class PlainReader(PlainSheet):
         else:
             PlainSheet.__init__(self, self.book[0].sheet)
 
-        
+
+class FilterableReader(MultipleFilterableSheet):
+    """
+    FiltableReader lets you use filters at the sequence of your choice
+    """
+    def __init__(self, file, sheet=None):
+        self.book = BookReader(file)
+        if sheet:
+            MultipleFilterableSheet.__init__(self, self.book[sheet].sheet)
+        else:
+            MultipleFilterableSheet.__init__(self, self.book[0].sheet)
