@@ -573,7 +573,7 @@ class SeriesReader(Reader):
     A single sheet excel file reader and it has column headers
     """
     
-    def __init__(self, file):
-        Reader.__init__(self, file)
+    def __init__(self, file, sheet=None):
+        Reader.__init__(self, file, sheet)
         self.become_series()
 

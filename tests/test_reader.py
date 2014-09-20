@@ -26,6 +26,18 @@ class TestReader:
         r = pyexcel.Reader(self.testfile)
         value = r.cell_value(100,100)
         assert value == None
+        value = r.cell_value(0, 1)
+        assert value == 'b'
+
+    def test_row_range(self):
+        r = pyexcel.Reader(self.testfile)
+        row_range = r.row_range()
+        assert row_range == range(0,3)
+
+    def test_column_range(self):
+        r = pyexcel.Reader(self.testfile)
+        column_range = r.column_range()
+        assert column_range == range(0,4)
 
     def test_get_item_operator(self):
         r = pyexcel.Reader(self.testfile)
@@ -53,11 +65,18 @@ class TestReader:
         except NotImplementedError:
             assert 1==1
 
+    def test_out_of_index(self):
+        r = pyexcel.Reader(self.testfile)
+        try:
+            r[10000]
+            assert 1!=1
+        except IndexError:
+            assert 1==1
+
     def test_contains(self):
         r = pyexcel.Reader(self.testfile)
         f = lambda row: row[0]=='a' and row[1] == 'b'
         assert r.contains(f) == True
-
 
     def tearDown(self):
         if os.path.exists(self.testfile):

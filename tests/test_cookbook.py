@@ -19,9 +19,21 @@ class TestSpliting:
         assert os.path.exists("Sheet2_extracted.csv")
         assert os.path.exists("Sheet3_extracted.csv")
 
+    def test_split_a_book_2(self):
+        """use default output file name"""
+        pyexcel.cookbook.split_a_book(self.testfile4)
+        assert os.path.exists("Sheet1_%s" % self.testfile4)
+        assert os.path.exists("Sheet2_%s" % self.testfile4)
+        assert os.path.exists("Sheet3_%s" % self.testfile4)
+
     def test_extract_a_book(self):
         pyexcel.cookbook.extract_a_sheet_from_a_book(self.testfile4, "Sheet1", "extracted.csv")
         assert os.path.exists("Sheet1_extracted.csv")
+
+    def test_extract_a_book_2(self):
+        """Use default output file name"""
+        pyexcel.cookbook.extract_a_sheet_from_a_book(self.testfile4, "Sheet1")
+        assert os.path.exists("Sheet1_%s" % self.testfile4)
 
     def tearDown(self):
         if os.path.exists(self.testfile4):
@@ -32,6 +44,12 @@ class TestSpliting:
             os.unlink("Sheet2_extracted.csv")
         if os.path.exists("Sheet3_extracted.csv"):
             os.unlink("Sheet3_extracted.csv")
+        if os.path.exists("Sheet1_multiple_sheets.xls"):
+            os.unlink("Sheet1_multiple_sheets.xls")
+        if os.path.exists("Sheet2_multiple_sheets.xls"):
+            os.unlink("Sheet2_multiple_sheets.xls")
+        if os.path.exists("Sheet3_multiple_sheets.xls"):
+            os.unlink("Sheet3_multiple_sheets.xls")
 
 
 class TestCookbook:
@@ -81,9 +99,26 @@ class TestCookbook:
         w.close()
 
     def test_update_columns(self):
+        bad_column = {"A": [31,1,1,1,1]}
         custom_column = {"Z": [33,44,55,66,77]}
+        try:
+            # try non-existent column first
+            pyexcel.cookbook.update_columns(self.testfile, bad_column)
+            assert 1==2
+        except IndexError:
+            assert 1==1
         pyexcel.cookbook.update_columns(self.testfile, custom_column)
         r = pyexcel.SeriesReader("pyexcel_%s" % self.testfile)
+        data = pyexcel.utils.to_dict(r)
+        assert data["Z"] == custom_column["Z"]
+        try:
+            pyexcel.cookbook.update_columns(self.testfile, custom_column)
+            r = pyexcel.SeriesReader("pyexcel_%s" % self.testfile)
+            assert 1==2
+        except NotImplementedError:
+            assert 1==1
+        pyexcel.cookbook.update_columns(self.testfile, custom_column, "test4.ods")
+        r = pyexcel.SeriesReader("test4.ods")
         data = pyexcel.utils.to_dict(r)
         assert data["Z"] == custom_column["Z"]
 
@@ -95,6 +130,11 @@ class TestCookbook:
         content.update(self.content)
         content.update(self.content2)
         assert data == content
+        try:
+            pyexcel.cookbook.merge_two_files(self.testfile, self.testfile2)
+            assert 1==2
+        except NotImplementedError:
+            assert 1==1
         
     def test_merge_files(self):
         file_array = [self.testfile, self.testfile2, self.testfile3]
@@ -106,6 +146,11 @@ class TestCookbook:
         content.update(self.content2)
         content.update(self.content3)
         assert data == content
+        try:
+            pyexcel.cookbook.merge_files(file_array)
+            assert 1==2
+        except NotImplementedError:
+            assert 1==1
         
     def test_merge_two_readers(self):
         r1 = pyexcel.SeriesReader(self.testfile)
@@ -117,6 +162,11 @@ class TestCookbook:
         content.update(self.content)
         content.update(self.content2)
         assert data == content
+        try:
+            pyexcel.cookbook.merge_two_readers(r1, r2)
+            assert 1==2
+        except NotImplementedError:
+            assert 1==1
         
     def test_merge_readers(self):
         r1 = pyexcel.SeriesReader(self.testfile)
@@ -131,6 +181,11 @@ class TestCookbook:
         content.update(self.content2)
         content.update(self.content3)
         assert data == content
+        try:
+            pyexcel.cookbook.merge_readers(file_array)
+            assert 1==2
+        except NotImplementedError:
+            assert 1==1
         
     def test_merge_two_row_filter_hat_readers(self):
         r1 = pyexcel.SeriesReader(self.testfile)
@@ -236,5 +291,8 @@ class TestCookbook:
         if os.path.exists(another_gen_file):
             os.unlink(another_gen_file)
         another_gen_file = "merged.xls"
+        if os.path.exists(another_gen_file):
+            os.unlink(another_gen_file)
+        another_gen_file = "test4.ods"
         if os.path.exists(another_gen_file):
             os.unlink(another_gen_file)

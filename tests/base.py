@@ -175,3 +175,15 @@ class PyexcelMultipleSheetBase:
         for s in x:
             data = pyexcel.utils.to_array(s)
             assert self.content[s.name] == data
+
+    def test_random_access_operator(self):
+        r = pyexcel.BookReader(self.testfile)
+        value = r["Sheet1"][0][1]
+        assert value == 1
+        value = r["Sheet3"][0][1]
+        assert value == 'Y'
+        value = r["Sheet3"].become_series()[0][1]
+        assert value == 4
+        value = r["Sheet3"].become_sheet()[0][1]
+        assert value == 'Y'
+        

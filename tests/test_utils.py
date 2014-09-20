@@ -22,6 +22,8 @@ class TestUtils():
         result = [1,2,3,4,5,6,7,8,9,10,11,12]
         actual = pyexcel.utils.to_one_dimensional_array(r)
         assert result == actual
+        actual2 = pyexcel.utils.to_one_dimensional_array(result)
+        assert actual2 == result
 
     def test_to_dict(self):
         """

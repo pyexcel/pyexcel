@@ -30,7 +30,7 @@ def update_columns(infilename, column_dicts, outfilename=None):
         if k in data:
             data[k] = column_dicts[k]
         else:
-            print "Unkown column name: %s" % k
+            raise IndexError
     w = Writer(default_out_file)
     w.write_dict(data)
     w.close()

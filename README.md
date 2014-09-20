@@ -206,6 +206,12 @@ writer.close()
 
 You shall get a ods file 
 
+### Access individual cell values in the excel file
+
+For single sheet file, you can regard it as two dimensional array if you use `Reader` class. So, you access each cell via this syntax: reader[row][column]
+
+For multiple sheet file, you can regard it as three dimensional array if you use `BookReader`. So, you access each cell via this syntax: reader[sheet_index][row][column] or reader["sheet_name"][row][column]
+
 ## Documentation
 
 It is hosted in [pyhosted](https://pythonhosted.org/pyexcel/)
