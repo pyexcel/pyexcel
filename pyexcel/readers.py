@@ -71,16 +71,6 @@ class CSVBook:
         reader = csv.reader(open(file, 'rb'), dialect=csv.excel)
         self.array.extend(reader)
 
-    def number_of_sheets(self):
-        """
-        Number of sheets in the csv file
-        """
-        return 1
-
-    def sheet_names(self):
-        """Get a list of sheet names"""        
-        return ["csv"]
-
     def sheets(self):
         return {"csv": CSVSheet(self.array)}
 
@@ -124,16 +114,6 @@ class XLSBook:
         import xlrd
         self.workbook = xlrd.open_workbook(file)
 
-    def number_of_sheets(self):
-        """
-        Number of sheets in the csv file
-        """
-        return self.workbook.nsheets
-
-    def sheet_names(self):
-        """Get a list of sheet names"""        
-        return self.workbook.sheet_names()
-
     def sheets(self):
         """Get sheets in a dictionary"""
         ret = {}
@@ -152,16 +132,6 @@ class ODSBook:
     def __init__(self, file):
         import ext.odsreader as odsreader
         self.ods = odsreader.ODSReader(file)
-
-    def number_of_sheets(self):
-        """
-        Number of sheets in the ods file
-        """
-        return len(self.ods.SHEETS.keys())
-
-    def sheet_names(self):
-        """Get a list of sheet names"""        
-        return self.ods.sheetNames()
 
     def sheets(self):
         ret = {}
