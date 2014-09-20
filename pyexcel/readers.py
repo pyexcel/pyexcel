@@ -547,3 +547,16 @@ class SeriesReader(Reader):
         Reader.__init__(self, file, sheet)
         self.become_series()
 
+
+class PlainReader(PlainSheet):
+    """
+    PlainReader exists for speed over Reader and also for testing purposes
+    """
+    def __init__(self, file, sheet=None):
+        self.book = BookReader(file)
+        if sheet:
+            PlainSheet.__init__(self, self.book[sheet].sheet)
+        else:
+            PlainSheet.__init__(self, self.book[0].sheet)
+
+        
