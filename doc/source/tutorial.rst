@@ -153,7 +153,7 @@ You can read it use a SeriesReader::
     >> from pyexcel import Reader
     >> reader = Reader("example_series.xls")
 
-Pay with data
+Play with data
 -------------
 
 You can get them in rows or columns::
