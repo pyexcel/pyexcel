@@ -297,6 +297,13 @@ class TestSeriesReader3:
         result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [1, 2, 3, 4, 5]}, {'Z': [1, 2, 3, 4, 5]}]
         assert actual == result
 
+    def test_series_column_iterator(self):
+        r = pyexcel.SeriesReader(self.testfile)
+        sci = pyexcel.iterators.SeriesColumnIterator(r)
+        actual = pyexcel.utils.to_array(sci)
+        result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [1, 2, 3, 4, 5]}, {'Z': [1, 2, 3, 4, 5]}]
+        assert actual == result
+        
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
