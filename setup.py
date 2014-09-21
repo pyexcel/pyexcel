@@ -2,16 +2,9 @@
     pyexcel
     ~~~~~~~~~~~~~~
 
-    Flask-Restless is a `Flask <http://flask.pocoo.org>`_ extension which
-    facilitates the creation of ReSTful JSON APIs. It is compatible with models
-    which have been defined using `SQLAlchemy <http://sqlalchemy.org>`_ or
-    `FLask-SQLAlchemy <http://packages.python.org/Flask-SQLAlchemy>`_.
+    It was created due to the lack of uniform programming interface to access data in different excel formats. A developer needs to use different methods of different libraries to read the same data in different excel formats, hence the resulting code is cluttered and unmaintainable.
 
-    For more information, check the World Wide Web!
-
-      * `Documentation <http://readthedocs.org/docs/flask-restless>`_
-      * `PyPI listing <http://pypi.python.org/pypi/Flask-Restless>`_
-      * `Source code repository <http://github.com/jfinkels/flask-restless>`_
+    All great work have done by odf, xlrd and other individual developers. This library unites only the data access code.
 """
 
 try:
