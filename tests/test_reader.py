@@ -292,8 +292,10 @@ class TestSeriesReader3:
         assert result == actual
         # test removing the filter, it prints the original one
         r.clear_filters()
-        actual = pyexcel.utils.to_array(r.rows())
-        assert actual == self.content[1:]
+        actual = pyexcel.utils.to_array(r)
+        print actual
+        result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [1, 2, 3, 4, 5]}, {'Z': [1, 2, 3, 4, 5]}]
+        assert actual == result
 
     def tearDown(self):
         if os.path.exists(self.testfile):
