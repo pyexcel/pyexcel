@@ -8,6 +8,7 @@
     :license: GPL v3
 """
 
+from .readers import Sheet
 
 def to_array(iterator):
     """convert a reader iterator to an array"""
@@ -25,11 +26,39 @@ def to_dict(iterator):
     for c in iterator:
         if type(c) == dict:
             the_dict.update(c)
+        elif isinstance(c, Sheet):
+            the_dict.update({c.name:to_array(c)})
         else:
             key = series % count
             the_dict.update({key: c})
             count += 1
     return the_dict
+
+def to_records(reader):
+    """
+    Make an array of dictionaries
+
+    It takes the first row as keys and the rest of
+    the rows as values. Then zips keys and row values
+    per each row. This is particularly helpful for
+    database operations.
+    """
+    if isinstance(reader, Sheet) == False:
+        raise NotImplementedError
+    headers = reader.series()
+    need_revert = False
+    if len(headers) == 0:
+        reader.become_series()
+        headers = reader.series()
+        need_revert = True
+    ret = []
+    for row in reader.rows():
+        the_dict = dict(zip(headers, row))
+        ret.append(the_dict)
+
+    if need_revert:
+        reader.become_sheet()
+    return ret
 
 
 def to_one_dimensional_array(iterator):

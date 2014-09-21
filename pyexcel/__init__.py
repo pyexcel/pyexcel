@@ -1,3 +1,4 @@
+
 """
     pyexcel
     ~~~~~~~~~~~~~~~~~~~
@@ -10,8 +11,9 @@
     :license: GPL v3
 """
 
-from .readers import Reader
-from .writers import Writer
-from .readers import FilterableReader, StaticSeriesReader
-from .readers import ColumnFilterableSeriesReader, SeriesReader
+from .readers import Reader, BookReader
+from .writers import Writer, BookWriter
+from .readers import SeriesReader, PlainReader, FilterableReader
 import cookbook
+
+__VERSION__ = '0.0.2'

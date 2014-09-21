@@ -1,6 +1,6 @@
 import pyexcel
 import json
-
+import os
 
 def to_json(iterator):
     array = pyexcel.utils.to_array(iterator)
@@ -62,7 +62,7 @@ class PyexcelHatWriterBase:
         w = pyexcel.Writer(self.testfile)
         w.write_dict(self.content)
         w.close()
-        r = pyexcel.StaticSeriesReader(self.testfile)
+        r = pyexcel.SeriesReader(self.testfile)
         actual = pyexcel.utils.to_dict(r)
         assert actual == self.content
     
@@ -115,3 +115,79 @@ class PyexcelXlsBase(PyexcelBase):
     def test_json(self):
         r = pyexcel.Reader(self.testfile)
         assert to_json(r.rows()) == '[[1.0, 1.0, 1.0, 1.0], [2.0, 2.0, 2.0, 2.0], [3.0, 3.0, 3.0, 3.0]]'
+
+
+class PyexcelMultipleSheetBase:
+
+    def _write_test_file(self, filename):
+        w = pyexcel.BookWriter(filename)
+        w.write_book_from_dict(self.content)
+        w.close()
+
+    def _clean_up(self):
+        if os.path.exists(self.testfile2):
+            os.unlink(self.testfile2)
+        if os.path.exists(self.testfile):
+            os.unlink(self.testfile)
+
+    def test_sheet_names(self):
+        r = pyexcel.BookReader( self.testfile)
+        expected = [ "Sheet1", "Sheet2", "Sheet3"]
+        sheet_names = r.sheet_names()
+        print sheet_names
+        for name in sheet_names:
+            assert name in expected
+
+    def test_reading_through_sheets(self):
+        b = pyexcel.BookReader(self.testfile)
+        data = pyexcel.utils.to_array(b["Sheet1"].rows())
+        expected = [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]
+        assert data == expected
+        data = pyexcel.utils.to_array(b["Sheet2"].rows())
+        expected = [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]
+        assert data == expected
+        data = pyexcel.utils.to_array(b["Sheet3"].rows())
+        expected = [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
+        assert data == expected
+        sheet3 = b["Sheet3"]
+        sheet3.become_series()
+        data = pyexcel.utils.to_array(b["Sheet3"].rows())
+        print data
+        expected = [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
+        assert data == expected
+
+    def test_iterate_through_sheets(self):
+        b = pyexcel.BookReader(self.testfile)
+        for s in b:
+            data = pyexcel.utils.to_array(s)
+            assert self.content[s.name] == data
+        si = pyexcel.iterators.SheetIterator(b)
+        for s in si:
+            data = pyexcel.utils.to_array(s)
+            assert self.content[s.name] == data
+
+    def test_write_a_book_reader(self):
+        b = pyexcel.BookReader(self.testfile)
+        bw = pyexcel.BookWriter(self.testfile2)
+        for s in b:
+            data = pyexcel.utils.to_array(s)
+            sheet = bw.create_sheet(s.name)
+            sheet.write_array(data)
+            sheet.close()
+        bw.close()
+        x = pyexcel.BookReader(self.testfile2)
+        for s in x:
+            data = pyexcel.utils.to_array(s)
+            assert self.content[s.name] == data
+
+    def test_random_access_operator(self):
+        r = pyexcel.BookReader(self.testfile)
+        value = r["Sheet1"][0][1]
+        assert value == 1
+        value = r["Sheet3"][0][1]
+        assert value == 'Y'
+        value = r["Sheet3"].become_series()[0][1]
+        assert value == 4
+        value = r["Sheet3"].become_sheet()[0][1]
+        assert value == 'Y'
+        

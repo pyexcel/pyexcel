@@ -15,16 +15,11 @@
 Introduction
 -------------
 
-**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. It does not support styling, charts.
+**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. It does not support fonts, colors and charts.
 
-It was created due to the lack of uniform programming interface to access data in different formats. A developer needs to use different methods of different libraries to read the same data in different excel formats, hence the resulting code is cluttered and unmaintainable.
+It was created due to the lack of uniform programming interface to access data in different excel formats. A developer needs to use different methods of different libraries to read the same data in different excel formats, hence the resulting code is cluttered and unmaintainable.
 
 All great work have done by odf, xlrd and other individual developers. This library unites only the data access code.
-
-Constraints
-------------
-
-For ods, xls, xlsx and xlsm, only first sheet(index at 0) is under consideration. The support for multiple spread sheets are considered in next version.
 
 
 Installation
