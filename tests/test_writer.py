@@ -121,6 +121,12 @@ class TestBookWriter:
         data = pyexcel.utils.to_dict(reader2)
         assert data == self.content
 
+    def test_not_supported_file(self):
+        try:
+            pyexcel.BookWriter("bad.format")
+        except NotImplementedError:
+            assert 1==1
+
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
