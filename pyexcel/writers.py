@@ -140,8 +140,6 @@ class XLSSheetWriter:
         for i in range(0, len(array)):
             self.ws.write(self.current_row, i, array[i])
         self.current_row += 1
-        if self.ws.col(0).width < len(array):
-            self.ws.col(0).width = len(array)
 
     def close(self):
         """
