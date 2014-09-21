@@ -155,6 +155,20 @@ class TestFilterWithFilterableReader:
         result = [5,6,7,8]
         actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
+        
+    def test_remove_filter(self):
+        r = pyexcel.FilterableReader(self.testfile)
+        f = pyexcel.filters.OddRowFilter()
+        r.filter(f)
+        assert r.number_of_rows() == 1
+        assert r.number_of_columns() == 4
+        result = [5,6,7,8]
+        actual = pyexcel.utils.to_array(r.enumerate())
+        assert result == actual
+        r.remove_filter(f)
+        result = [1,2,3,4,5,6,7,8,9,10,11,12]
+        actual = pyexcel.utils.to_array(r.enumerate())
+        assert result == actual
 
     def tearDown(self):
         if os.path.exists(self.testfile):

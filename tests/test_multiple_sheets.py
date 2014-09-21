@@ -80,6 +80,11 @@ class TestSingleSheetReaderForMulitpleSheetBook:
         data = pyexcel.utils.to_array(r.rows())
         assert data == self.content["Sheet2"]
         
+    def test_non_default_sheet_as_single_sheet_plain_reader(self):
+        r = pyexcel.FilterableReader(self.testfile, "Sheet2")
+        data = pyexcel.utils.to_array(r.rows())
+        assert data == self.content["Sheet2"]
+        
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)

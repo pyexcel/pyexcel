@@ -17,6 +17,10 @@ class TestIteratorWithPlainReader:
             w.write_row(array)
         w.close()
 
+    def test_random_access(self):
+        r = pyexcel.PlainReader(self.testfile)
+        assert r.cell_value(100, 100) == None
+        
     def test_horizontal_iterator(self):
         r = pyexcel.PlainReader(self.testfile)
         result = [1,2,3,4,5,6,7,8,9,10,11,12]
