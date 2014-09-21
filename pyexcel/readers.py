@@ -352,10 +352,17 @@ class MultipleFilterableSheet(PlainSheet):
         return self
 
     def remove_filter(self, afilter):
-        """Remove a named filter"""
+        """Remove a named filter
+
+        have to remove all filters in order to re-validate the
+        rest of the filters
+        """
         self._filters.remove(afilter)
-        for fitler in self._filters:
-            filter.validate_filter(self)
+        local_filters = self._filters
+        self._filters = []
+        for f in local_filters:
+            f.validate_filter(self)
+            self._filters.append(f)
 
     def clear_filters(self):
         """Clears all filters"""

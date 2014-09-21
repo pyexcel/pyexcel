@@ -155,6 +155,25 @@ class TestFilterWithFilterableReader:
         result = [5,6,7,8]
         actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
+
+    def test_two_filters(self):
+        r = pyexcel.FilterableReader(self.testfile)
+        f1 = pyexcel.filters.OddRowFilter()
+        f2 = pyexcel.filters.OddColumnFilter()
+        r.add_filter(f1)
+        r.add_filter(f2)
+        assert r.number_of_columns() == 2
+        assert r.number_of_rows() == 1
+        result = [6,8]
+        actual = pyexcel.utils.to_array(r.enumerate())
+        assert result == actual
+        r.remove_filter(f1)
+        #assert r.number_of_rows() == 3
+        #assert r.number_of_columns() == 2
+        result = [2,4,6,8,10,12]
+        actual = pyexcel.utils.to_array(r.enumerate())
+        print actual
+        assert result == actual        
         
     def test_remove_filter(self):
         r = pyexcel.FilterableReader(self.testfile)
