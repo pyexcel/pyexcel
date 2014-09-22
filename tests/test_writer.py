@@ -49,9 +49,9 @@ class TestWriteReader:
     def setUp(self):
         self.testfile = "test.ods"
         self.content = {
-            "X": [1,2,3,4,5],
-            "Y": [6,7,8,9,10],
-            "Z": [11,12,13,14,15],
+            "X": [1, 2, 3, 4, 5],
+            "Y": [6, 7, 8, 9, 10],
+            "Z": [11, 12, 13, 14, 15],
         }
         w = pyexcel.Writer(self.testfile)
         w.write_dict(self.content)
@@ -86,22 +86,22 @@ class TestWriteReader:
 class TestBookWriter:
     def setUp(self):
         self.content = {
-            'Sheet 2': 
+            'Sheet 2':
             [
-                ['X', 'Y', 'Z'], 
-                [1.0, 2.0, 3.0], 
+                ['X', 'Y', 'Z'],
+                [1.0, 2.0, 3.0],
                 [4.0, 5.0, 6.0]
-            ], 
-            'Sheet 3': 
+            ],
+            'Sheet 3':
             [
-                ['O', 'P', 'Q'], 
-                [3.0, 2.0, 1.0], 
+                ['O', 'P', 'Q'],
+                [3.0, 2.0, 1.0],
                 [4.0, 3.0, 2.0]
-            ], 
-            'Sheet 1': 
+            ],
+            'Sheet 1':
             [
-                [1.0, 2.0, 3.0], 
-                [4.0, 5.0, 6.0], 
+                [1.0, 2.0, 3.0],
+                [4.0, 5.0, 6.0],
                 [7.0, 8.0, 9.0]
             ]
         }
@@ -137,22 +137,22 @@ class TestBookWriter:
 class TestCSVBookWriter:
     def setUp(self):
         self.content = {
-            'Sheet 2': 
+            'Sheet 2':
             [
-                ['X', 'Y', 'Z'], 
-                [1.0, 2.0, 3.0], 
+                ['X', 'Y', 'Z'],
+                [1.0, 2.0, 3.0],
                 [4.0, 5.0, 6.0]
-            ], 
-            'Sheet 3': 
+            ],
+            'Sheet 3':
             [
-                ['O', 'P', 'Q'], 
-                [3.0, 2.0, 1.0], 
+                ['O', 'P', 'Q'],
+                [3.0, 2.0, 1.0],
                 [4.0, 3.0, 2.0]
-            ], 
-            'Sheet 1': 
+            ],
+            'Sheet 1':
             [
-                [1.0, 2.0, 3.0], 
-                [4.0, 5.0, 6.0], 
+                [1.0, 2.0, 3.0],
+                [4.0, 5.0, 6.0],
                 [7.0, 8.0, 9.0]
             ]
         }

@@ -69,26 +69,26 @@ class TestSingleSheetReaderForMulitpleSheetBook:
         r3 = pyexcel.Reader(self.testfile, "Sheet3")
         data = pyexcel.utils.to_array(r3)
         assert data == self.content["Sheet3"]
-        
+
     def test_non_default_sheet_as_single_sheet_reader_series(self):
         r = pyexcel.SeriesReader(self.testfile, "Sheet3")
         data = pyexcel.utils.to_array(r.rows())
         assert data == self.content["Sheet3"][1:]
-        
+
     def test_non_default_sheet_as_single_sheet_plain_reader(self):
         r = pyexcel.PlainReader(self.testfile, "Sheet2")
         data = pyexcel.utils.to_array(r.rows())
         assert data == self.content["Sheet2"]
-        
+
     def test_non_default_sheet_as_single_sheet_filterable_reader(self):
         r = pyexcel.FilterableReader(self.testfile, "Sheet2")
         data = pyexcel.utils.to_array(r.rows())
         assert data == self.content["Sheet2"]
-        
+
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
-        
+
 
 class TestReader:
     def setUp(self):
@@ -102,7 +102,7 @@ class TestReader:
         self.testfile = "testcsv.csv"
         self.rows = 3
         w = pyexcel.Writer(self.testfile)
-        data=['a','b','c','d','e','f','g','h','i','j',1.1,1]
+        data=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
         w.write_row(data[:4])
         w.write_row(data[4:8])
         w.write_row(data[8:12])
@@ -112,7 +112,7 @@ class TestReader:
         r = pyexcel.BookReader(self.testfile)
         assert r.number_of_sheets() == 1
         assert r.sheet_names() == ["csv"]
-        
+
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)

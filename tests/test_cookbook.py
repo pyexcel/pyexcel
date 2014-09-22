@@ -63,27 +63,27 @@ class TestCookbook:
         """
         self.testfile = "test.ods"
         self.content = {
-            "X": [1,2,3,4,5],
-            "Y": [6,7,8,9,10],
-            "Z": [11,12,13,14,15],
+            "X": [1, 2, 3, 4, 5],
+            "Y": [6, 7, 8, 9, 10],
+            "Z": [11, 12, 13, 14, 15],
         }
         w = pyexcel.Writer(self.testfile)
         w.write_dict(self.content)
         w.close()
         self.testfile2 = "test.csv"
         self.content2 = {
-            "O": [1,2,3,4,5],
-            "P": [6,7,8,9,10],
-            "Q": [11,12,13,14,15],
+            "O": [1, 2, 3, 4, 5],
+            "P": [6, 7, 8, 9, 10],
+            "Q": [11, 12, 13, 14, 15],
         }
         w = pyexcel.Writer(self.testfile2)
         w.write_dict(self.content2)
         w.close()
         self.testfile3 = "test.xls"
         self.content3 = {
-            "R": [1,2,3,4,5],
-            "S": [6,7,8,9,10],
-            "T": [11,12,13,14,15],
+            "R": [1, 2, 3, 4, 5],
+            "S": [6, 7, 8, 9, 10],
+            "T": [11, 12, 13, 14, 15],
         }
         w = pyexcel.Writer(self.testfile3)
         w.write_dict(self.content3)
@@ -99,8 +99,8 @@ class TestCookbook:
         w.close()
 
     def test_update_columns(self):
-        bad_column = {"A": [31,1,1,1,1]}
-        custom_column = {"Z": [33,44,55,66,77]}
+        bad_column = {"A": [31, 1, 1, 1, 1]}
+        custom_column = {"Z": [33, 44, 55, 66, 77]}
         try:
             # try non-existent column first
             pyexcel.cookbook.update_columns(self.testfile, bad_column)
@@ -135,7 +135,7 @@ class TestCookbook:
             assert 1==2
         except NotImplementedError:
             assert 1==1
-        
+
     def test_merge_files(self):
         file_array = [self.testfile, self.testfile2, self.testfile3]
         pyexcel.cookbook.merge_files(file_array)
@@ -151,7 +151,7 @@ class TestCookbook:
             assert 1==2
         except NotImplementedError:
             assert 1==1
-        
+
     def test_merge_two_readers(self):
         r1 = pyexcel.SeriesReader(self.testfile)
         r2 = pyexcel.SeriesReader(self.testfile2)
@@ -167,7 +167,7 @@ class TestCookbook:
             assert 1==2
         except NotImplementedError:
             assert 1==1
-        
+
     def test_merge_readers(self):
         r1 = pyexcel.SeriesReader(self.testfile)
         r2 = pyexcel.SeriesReader(self.testfile2)
@@ -186,7 +186,7 @@ class TestCookbook:
             assert 1==2
         except NotImplementedError:
             assert 1==1
-        
+
     def test_merge_two_row_filter_hat_readers(self):
         r1 = pyexcel.SeriesReader(self.testfile)
         r2 = pyexcel.SeriesReader(self.testfile2)
@@ -197,7 +197,7 @@ class TestCookbook:
         content.update(self.content)
         content.update(self.content2)
         assert data == content
-        
+
     def test_merge_two_row_filter_hat_readers_2(self):
         """
         Now start row filtering
@@ -219,7 +219,7 @@ class TestCookbook:
         }
         print data
         assert data == content
-        
+
     def test_merge_two_row_filter_hat_readers_3(self):
         """
         Now start column filtering
@@ -232,9 +232,9 @@ class TestCookbook:
         r = pyexcel.SeriesReader("pyexcel_merged.csv")
         data = pyexcel.utils.to_dict(r)
         content = {
-            "Y": [6,7,8,9,10],
-            "O": [1,2,3,4,5],
-            "Q": [11,12,13,14,15]
+            "Y": [6, 7, 8, 9, 10],
+            "O": [1, 2, 3, 4, 5],
+            "Q": [11, 12, 13, 14, 15]
         }
         print data
         assert data == content
@@ -259,7 +259,7 @@ class TestCookbook:
         sheet3 = "%s_%s" % (self.testfile4, "Sheet3")
         content6 = pyexcel.utils.to_array(r[sheet3])
         assert content6 == self.content4["Sheet3"]
-        
+
     def test_merge_csv_files_to_a_book(self):
         file_array = [self.testfile, self.testfile2,
                       self.testfile3]
@@ -271,7 +271,7 @@ class TestCookbook:
         assert content2 == self.content2
         content3 = pyexcel.utils.to_dict(r[self.testfile3].become_series())
         assert content3 == self.content3
-        
+
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)

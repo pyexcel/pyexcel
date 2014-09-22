@@ -91,7 +91,7 @@ def merge_csv_to_a_book(filelist, outfilename="merged.xls"):
         sheet.close()
     w.close()
 
-    
+
 def merge_all_to_a_book(filelist, outfilename="merged.xls"):
     """merge a list of csv files into a excel book
 

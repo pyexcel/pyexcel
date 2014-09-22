@@ -21,6 +21,7 @@ from filters import (RowIndexFilter,
                      ColumnIndexFilter,
                      RowFilter)
 
+
 class CSVSheet:
     """
     csv sheet
@@ -43,7 +44,7 @@ class CSVSheet:
         assuming the length of each row is uniform
         """
         return self.ncols
-        
+
     def _ncols(self):
         if len(self.array) > 1:
             length = -1
@@ -282,7 +283,7 @@ class PlainSheet:
             return self.row_at(index)
         else:
             raise IndexError
-        
+
     def row_at(self, index):
         """
         Returns an array that collects all data at the specified row
@@ -369,7 +370,9 @@ class MultipleFilterableSheet(PlainSheet):
                 new_column = column
                 number_of_filters = len(self._filters)
                 for i in range(number_of_filters-1, -1, -1):
-                    new_row, new_column = self._filters[i].translate(new_row, new_column)
+                    new_row, new_column = self._filters[i].translate(
+                        new_row,
+                        new_column)
                 return self.sheet.cell_value(new_row, new_column)
             else:
                 return self.sheet.cell_value(row, column)
@@ -398,7 +401,7 @@ class MultipleFilterableSheet(PlainSheet):
     def clear_filters(self):
         """Clears all filters"""
         self._filters = []
-    
+
     def filter(self, afilter):
         """This is short hand for add_filter"""
         self.add_filter(afilter)
@@ -412,7 +415,7 @@ class Sheet(MultipleFilterableSheet):
         self.headers = None
         self.signature_filter = None
         self.name = name
-        
+
     def become_series(self):
         """
         Evolve this sheet to a SeriesReader
@@ -459,7 +462,9 @@ class Sheet(MultipleFilterableSheet):
 
     def _validate_filters(self):
         if self.signature_filter:
-            local_filters = self.column_filters + [self.signature_filter] + self.row_filters
+            local_filters = (self.column_filters +
+                             [self.signature_filter] +
+                             self.row_filters)
         else:
             local_filters = self.column_filters + self.row_filters
         self._filters = []
@@ -474,7 +479,9 @@ class Sheet(MultipleFilterableSheet):
             new_column = i
             number_of_column_filters = len(self.column_filters)
             for x in range(number_of_column_filters-1, -1, -1):
-                new_row, new_column = self.column_filters[x].translate(new_row, new_column)
+                new_row, new_column = self.column_filters[x].translate(
+                    new_row,
+                    new_column)
             self.headers.append(self.sheet.cell_value(0, new_column))
 
     def series(self):
@@ -558,17 +565,17 @@ class BookReader:
             return self.sheet_by_index(key)
         else:
             return self.sheet_by_name(key)
-        
+
 
 class Reader(Sheet):
     """
     A single sheet excel file reader
 
-    Default is the sheet at index 0. Or you specify one using sheet index or sheet
-    name. The short coming of this reader is: column filter is applied first
-    then row filter is applied next
+    Default is the sheet at index 0. Or you specify one using sheet index
+    or sheet name. The short coming of this reader is: column filter is
+    applied first then row filter is applied next
     """
-    
+
     def __init__(self, file, sheet=None):
         self.book = BookReader(file)
         if sheet:
@@ -581,7 +588,7 @@ class SeriesReader(Reader):
     """
     A single sheet excel file reader and it has column headers
     """
-    
+
     def __init__(self, file, sheet=None):
         Reader.__init__(self, file, sheet)
         self.become_series()

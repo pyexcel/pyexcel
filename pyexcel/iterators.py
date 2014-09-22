@@ -8,6 +8,7 @@
     :license: GPL v3
 """
 
+
 class HTLBRIterator:
     """
     Iterate horizontally from top left to bottom right
@@ -50,7 +51,7 @@ class HTLBRIterator:
         Determine if all data have been iterated
         """
         return self.current >= self.total
-        
+
     def next(self):
         """
         determine next value
@@ -76,11 +77,12 @@ class VTLBRIterator(HTLBRIterator):
         return (self.current % self.rows,
                 self.current / self.rows)
 
+
 class HBRTLIterator(HTLBRIterator):
     """
     Iterate horizontally from bottom right to top left
     """
-    
+
     def __init__(self, reader):
         self.reader_ref = reader
         self.columns = reader.number_of_columns()
@@ -97,7 +99,7 @@ class HBRTLIterator(HTLBRIterator):
         self.move_cursor()
         row, column = self.next_cell_position()
         return self.reader_ref.cell_value(row, column)
-        
+
 
 class VBRTLIterator(HBRTLIterator):
     """
@@ -107,10 +109,11 @@ class VBRTLIterator(HBRTLIterator):
         return (self.current % self.rows,
                 self.current / self.rows)
 
+
 class HTRBLIterator:
     """
     Horizontal Top Right to Bottom Left Iterator
-    
+
     Iterate horizontally from top right to bottom left
     <<S
     <<<
@@ -136,7 +139,7 @@ class HTRBLIterator:
 
     def exit_condition(self):
         return self.column == 0 and self.row == (self.rows - 1)
-        
+
     def next(self):
         if self.exit_condition():
             raise StopIteration
@@ -147,7 +150,7 @@ class HTRBLIterator:
 class VTRBLIterator(HTRBLIterator):
     """
     Vertical Top Right to Bottom Left Iterator
-    
+
     Iterate horizontally from top left to bottom right
     ||S
     |||
@@ -172,7 +175,7 @@ class VTRBLIterator(HTRBLIterator):
 class VBLTRIterator(HTRBLIterator):
     """
     Vertical Bottom Left to Top Right Iterator
-    
+
     Iterate vertically from bottom left to top right
     ^^E
     ^^^
@@ -204,7 +207,7 @@ class VBLTRIterator(HTRBLIterator):
 class HBLTRIterator(VBLTRIterator):
     """
     Horizontal Bottom Left to Top Right Iterator
-    
+
     Iterate horizontally from bottom left to top right
     >>E
     >>> ^
@@ -248,6 +251,7 @@ class RowIterator:
         else:
             raise StopIteration
 
+
 class RowReverseIterator:
     """
     Iterate data row by row from bottom to top
@@ -265,6 +269,7 @@ class RowReverseIterator:
             return self.reader_ref.row_at(self.current+1)
         else:
             raise StopIteration
+
 
 class ColumnIterator:
     """
@@ -318,8 +323,9 @@ class SeriesColumnIterator:
 
     def next(self):
         if self.current in self.reader_ref.column_range():
+            index = self.current
             self.current += 1
-            return self.reader_ref.named_column_at(self.headers[self.current-1])
+            return self.reader_ref.named_column_at(self.headers[index])
         else:
             raise StopIteration
 

@@ -19,7 +19,7 @@ class TestUtils():
 
     def test_to_one_dimension_array(self):
         r = pyexcel.Reader(self.testfile)
-        result = [1,2,3,4,5,6,7,8,9,10,11,12]
+        result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         actual = pyexcel.utils.to_one_dimensional_array(r)
         assert result == actual
         actual2 = pyexcel.utils.to_one_dimensional_array(result)
@@ -32,9 +32,9 @@ class TestUtils():
         """
         r = pyexcel.Reader(self.testfile)
         result = {
-            "Series_1": [1,2,3,4],
-            "Series_2": [5,6,7,8,],
-            "Series_3": [9,10,11,12]
+            "Series_1": [1, 2, 3, 4],
+            "Series_2": [5, 6, 7, 8, ],
+            "Series_3": [9, 10, 11, 12]
         }
         actual = pyexcel.utils.to_dict(r.rows())
         assert result == actual
@@ -100,9 +100,9 @@ class TestToRecord():
         """
         self.testfile = "test.xls"
         self.content = {
-            "X": [1,2,3],
-            "Y": [4,5,6],
-            "Z": [7,8,9]
+            "X": [1, 2, 3],
+            "Y": [4, 5, 6],
+            "Z": [7, 8, 9]
         }
         w = pyexcel.Writer(self.testfile)
         w.write_dict(self.content)

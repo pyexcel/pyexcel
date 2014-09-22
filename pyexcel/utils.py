@@ -10,6 +10,7 @@
 
 from .readers import Sheet
 
+
 def to_array(iterator):
     """convert a reader iterator to an array"""
     array = []
@@ -27,12 +28,13 @@ def to_dict(iterator):
         if type(c) == dict:
             the_dict.update(c)
         elif isinstance(c, Sheet):
-            the_dict.update({c.name:to_array(c)})
+            the_dict.update({c.name: to_array(c)})
         else:
             key = series % count
             the_dict.update({key: c})
             count += 1
     return the_dict
+
 
 def to_records(reader):
     """
@@ -43,7 +45,7 @@ def to_records(reader):
     per each row. This is particularly helpful for
     database operations.
     """
-    if isinstance(reader, Sheet) == False:
+    if isinstance(reader, Sheet) is False:
         raise NotImplementedError
     headers = reader.series()
     need_revert = False

@@ -146,5 +146,3 @@ class RowInFileFilter(RowValueFilter):
     def __init__(self, reader):
         func = lambda row_a: reader.contains((lambda row_b: row_a == row_b))
         RowValueFilter.__init__(self, func)
-
-

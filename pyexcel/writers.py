@@ -15,7 +15,7 @@ class ODSSheetWriter:
     """
     ODS sheet writer
     """
-    
+
     def __init__(self, book, name):
         from odf.table import Table
         self.doc = book
@@ -41,7 +41,7 @@ class ODSSheetWriter:
     def close(self):
         """
         This call writes file
-        
+
         """
         self.doc.spreadsheet.addElement(self.table)
 
@@ -49,7 +49,7 @@ class ODSSheetWriter:
 class ODSWriter:
     """
     open document spreadsheet writer
-    
+
     """
     def __init__(self, file):
         from odf.opendocument import OpenDocumentSpreadsheet
@@ -65,7 +65,7 @@ class ODSWriter:
     def close(self):
         """
         This call writes file
-        
+
         """
         self.doc.write(self.file)
 
@@ -73,7 +73,7 @@ class ODSWriter:
 class CSVSheetWriter:
     """
     csv file writer
-    
+
     """
     def __init__(self, file, name):
         import csv
@@ -98,7 +98,7 @@ class CSVSheetWriter:
         """
         self.f.close()
 
-        
+
 class CSVWriter:
     """
     csv file writer
@@ -261,7 +261,7 @@ class BookWriter:
     """
     A generic book writer
 
-    It provides one interface for writing ods, csv, xls, xlsx and xlsm    
+    It provides one interface for writing ods, csv, xls, xlsx and xlsm
     """
 
     def __init__(self, file):
@@ -273,7 +273,7 @@ class BookWriter:
             self.writer = ODSWriter(file)
         else:
             raise NotImplementedError("Cannot open %s" % file)
-    
+
     def create_sheet(self, name):
         return SheetWriter(self.writer.create_sheet(name))
 
@@ -307,7 +307,7 @@ class Writer(SheetWriter):
     It writes only one sheet to an exce file. It is a quick way to handle most
     of the data files
     """
-    
+
     def __init__(self, file):
         self.bookwriter = BookWriter(file)
         self.writer = self.bookwriter.create_sheet(None).writer
@@ -315,4 +315,3 @@ class Writer(SheetWriter):
     def close(self):
         SheetWriter.close(self)
         self.bookwriter.close()
-                

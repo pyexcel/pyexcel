@@ -16,7 +16,7 @@ class TestReader:
         self.testfile = "testcsv.csv"
         self.rows = 3
         w = pyexcel.Writer(self.testfile)
-        data=['a','b','c','d','e','f','g','h','i','j',1.1,1]
+        data=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
         w.write_row(data[:4])
         w.write_row(data[4:8])
         w.write_row(data[8:12])
@@ -120,7 +120,7 @@ class TestCSVReader2:
         self.testfile = "testcsv.csv"
         self.rows = 3
         w = pyexcel.Writer(self.testfile)
-        data=['a','b','c','d','e','f','g','h','i','j',1.1,1]
+        data=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
         w.write_row(data[:4])
         w.write_row(data[4:8])
         w.write_row(data[8:12])
@@ -128,7 +128,7 @@ class TestCSVReader2:
 
     def test_data_types(self):
         r = pyexcel.Reader(self.testfile)
-        result=['a','b','c','d','e','f','g','h','i','j',1.1,1]
+        result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
         actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
 
@@ -212,11 +212,11 @@ class TestSeriesReader3:
         self.testfile = "test.csv"
         self.content = [
             ["X", "Y", "Z"],
-            [1,1,1],
-            [2,2,2],
-            [3,3,3],
-            [4,4,4],
-            [5,5,5]
+            [1, 1, 1],
+            [2, 2, 2],
+            [3, 3, 3],
+            [4, 4, 4],
+            [5, 5, 5]
         ]
         w = pyexcel.Writer(self.testfile)
         w.write_array(self.content)
@@ -227,9 +227,9 @@ class TestSeriesReader3:
         r.add_filter(pyexcel.filters.RowFilter([1]))
         actual = pyexcel.utils.to_dict(r)
         result = {
-            "X": [1,3,4,5],
-            "Y": [1,3,4,5],
-            "Z": [1,3,4,5]
+            "X": [1, 3, 4, 5],
+            "Y": [1, 3, 4, 5],
+            "Z": [1, 3, 4, 5]
         }
         print actual
         assert result == actual
@@ -240,9 +240,9 @@ class TestSeriesReader3:
         r.add_filter(f)
         actual = pyexcel.utils.to_dict(r)
         result = {
-            "X": [2,4],
-            "Y": [2,4],
-            "Z": [2,4]
+            "X": [2, 4],
+            "Y": [2, 4],
+            "Z": [2, 4]
         }
         print actual
         assert result == actual
@@ -255,9 +255,9 @@ class TestSeriesReader3:
         r.add_filter(pyexcel.filters.EvenRowFilter())
         actual = pyexcel.utils.to_dict(r)
         result = {
-            "X": [1,3,5],
-            "Y": [1,3,5],
-            "Z": [1,3,5]
+            "X": [1, 3, 5],
+            "Y": [1, 3, 5],
+            "Z": [1, 3, 5]
         }
         print actual
         assert result == actual
@@ -272,7 +272,7 @@ class TestSeriesReader3:
         r.add_filter(pyexcel.filters.OddColumnFilter())
         actual = pyexcel.utils.to_dict(r)
         result = {
-            "Y": [1,3,5]
+            "Y": [1, 3, 5]
         }
         print actual
         assert result == actual
@@ -287,7 +287,7 @@ class TestSeriesReader3:
         r.add_filter(pyexcel.filters.EvenRowFilter())
         actual = pyexcel.utils.to_dict(r)
         result = {
-            "Y": [1,3,5]
+            "Y": [1, 3, 5]
         }
         assert result == actual
         # test removing the filter, it prints the original one
@@ -303,7 +303,7 @@ class TestSeriesReader3:
         actual = pyexcel.utils.to_array(sci)
         result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [1, 2, 3, 4, 5]}, {'Z': [1, 2, 3, 4, 5]}]
         assert actual == result
-        
+
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
@@ -314,11 +314,11 @@ class TestSeriesReader4:
         self.testfile = "test.csv"
         self.content = [
             ["X", "Y", "Z"],
-            [1,2,3],
-            [1,2,3],
-            [1,2,3],
-            [1,2,3],
-            [1,2,3]
+            [1, 2, 3],
+            [1, 2, 3],
+            [1, 2, 3],
+            [1, 2, 3],
+            [1, 2, 3]
         ]
         w = pyexcel.Writer(self.testfile)
         w.write_array(self.content)
@@ -338,7 +338,7 @@ class TestSeriesReader4:
     def test_named_column_at(self):
         r = pyexcel.SeriesReader(self.testfile)
         result = r.named_column_at("X")
-        actual = {"X":[1,1,1,1,1]}
+        actual = {"X":[1, 1, 1, 1, 1]}
         assert result == actual
 
     def test_column_filter(self):
@@ -347,8 +347,8 @@ class TestSeriesReader4:
         r.add_filter(filter)
         actual = pyexcel.utils.to_dict(r)
         result = {
-            "X": [1,1,1,1,1],
-            "Z": [3,3,3,3,3]
+            "X": [1, 1, 1, 1, 1],
+            "Z": [3, 3, 3, 3, 3]
         }
         assert "Y" not in actual
         assert result == actual
