@@ -511,6 +511,18 @@ class Sheet(MultipleFilterableSheet):
             return MultipleFilterableSheet.__iter__(self)
 
 
+"""
+A list of registered readers
+"""
+READERS = {
+    "xls": XLSBook,
+    "xlsm": XLSBook,
+    "xlsx": XLSBook,
+    "csv": CSVBook,
+    "ods": ODSBook
+}
+
+            
 class BookReader:
     """
     Read an excel book that has mutliple sheets
@@ -523,12 +535,10 @@ class BookReader:
 
         Selecting a specific book according to file extension
         """
-        if (file.endswith(".xlsm") or file.endswith(".xlsx") or file.endswith(".xls")):
-            self.book = XLSBook(file)
-        elif file.endswith(".csv"):
-            self.book = CSVBook(file)
-        elif file.endswith(".ods"):
-            self.book = ODSBook(file)
+        extension = file.split(".")[-1]
+        if extension in READERS:
+            book_class = READERS[extension]
+            self.book = book_class(file)
         else:
             raise NotImplementedError("can not open %s" % file)
         self.current_sheet = 0
