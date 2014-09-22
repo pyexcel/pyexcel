@@ -27,12 +27,14 @@ class CSVSheet:
     """
     def __init__(self, sheet):
         self.array = sheet
+        self.nrows = len(self.array)
+        self.ncols = self._ncols()
 
     def number_of_rows(self):
         """
         Number of rows in the csv file
         """
-        return len(self.array)
+        return self.nrows
 
     def number_of_columns(self):
         """
@@ -40,8 +42,19 @@ class CSVSheet:
 
         assuming the length of each row is uniform
         """
+        return self.ncols
+        
+    def _ncols(self):
         if len(self.array) > 1:
-            return len(self.array[0])
+            length = -1
+            for subarray in self.array:
+                new_length = len(subarray)
+                if length == -1:
+                    length = new_length
+                elif length < new_length:
+                    length = new_length
+
+            return length
         else:
             return 0
 
