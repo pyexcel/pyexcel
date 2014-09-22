@@ -47,6 +47,7 @@ def merge_files(file_array, outfilename="pyexcel_merged.csv"):
     w = Writer(outfilename)
     w.write_columns(content)
     w.close()
+    return outfilename
 
 
 def merge_two_files(file1, file2, outfilename="pyexcel_merged.csv"):
@@ -154,4 +155,4 @@ class SHEET:
         self.file = file
 
     def __add__(self, other):
-        pass
+        return merge_files([self.file, other.file])
