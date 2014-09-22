@@ -110,6 +110,17 @@ class PyexcelBase:
         r = pyexcel.Reader(self.testfile)
         assert to_json(r.rows()) == '[[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]'
 
+    def test_slice(self):
+        r = pyexcel.Reader(self.testfile)
+        content1 = [[1, 1, 1, 1]]
+        assert content1 == r[0:1]
+        content2 = [[1, 1, 1, 1], [2, 2, 2, 2]]
+        assert content2 == r[0:2]
+        assert content2 == r[:2]
+        content3 = [[2, 2, 2, 2], [3,3,3,3]]
+        assert content3 == r[1:]
+        
+
 class PyexcelXlsBase(PyexcelBase):
 
     def test_json(self):
