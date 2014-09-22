@@ -183,6 +183,9 @@ class SheetWriter:
         self.writer.write_row(array)
 
     def write_array(self, table):
+        self.write_rows(table)
+
+    def write_rows(self, table):
         """
         Write a table
 
@@ -191,14 +194,32 @@ class SheetWriter:
         for row in table:
             self.writer.write_row(row)
 
-    def write_dict(self, the_dict):
+    def write_columns(self, table):
+        max_length = -1
+        for c in table:
+            column_length = len(c)
+            if max_length == -1:
+                max_length = column_length
+            elif max_length < column_length:
+                max_length = column_length
+        for i in range(0, max_length):
+            row_data = []
+            for c in table:
+                if i < len(c):
+                    row_data.append(c[i])
+                else:
+                    row_data.append('')
+            self.writer.write_row(row_data)
+
+    def write_dict(self, the_dict, with_headers=True):
         """
         Write a whole dictionary
 
         series and data will be write into one file
         """
         keys = sorted(the_dict.keys())
-        self.writer.write_row(keys)
+        if with_headers:
+            self.writer.write_row(keys)
         max_length = -1
         for k in keys:
             column_length = len(the_dict[k])

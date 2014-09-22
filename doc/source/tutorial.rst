@@ -354,7 +354,7 @@ and their content is the value of the dictionary at the corresponding key
 Random access to individual cell values in the excel file
 ==========================================================
 
-For single sheet file, you can regard it as two dimensional array if you use `Reader` class. So, you access each cell via this syntax: reader[row][column]. Suppose you have the following data, you can get value 5 by reader[1][1].
+For single sheet file, you can regard it as two dimensional array if you use `Reader` class. So, you access each cell via this syntax: reader[row][column]. Suppose you have the following data, you can get value 5 by reader[1][1]. And you can refer to row 2 and 3 by reader[1:] or reader[1:3]
 
 = = =
 1 2 3

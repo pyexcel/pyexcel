@@ -9,7 +9,7 @@
 """
 import os
 from readers import SeriesReader, Reader, BookReader
-from utils import to_dict
+from utils import to_dict, to_array
 from writers import Writer, BookWriter
 
 
@@ -37,15 +37,15 @@ def update_columns(infilename, column_dicts, outfilename=None):
 
 
 def merge_files(file_array, outfilename="pyexcel_merged.csv"):
-    """merge many files"""
+    """merge many files horizontally column after column"""
     if os.path.exists(outfilename):
         raise NotImplementedError(__WARNING_TEXT__)
-    content = {}
+    content = []
     for f in file_array:
-        r = SeriesReader(f)
-        content.update(to_dict(r))
+        r = Reader(f)
+        content.extend(to_array(r.columns()))
     w = Writer(outfilename)
-    w.write_dict(content)
+    w.write_columns(content)
     w.close()
 
 
