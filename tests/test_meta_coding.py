@@ -74,7 +74,6 @@ class TestCookbook:
 
     def test_merge_two_files(self):
         merged = pyexcel.cookbook.SHEET(self.testfile) + pyexcel.cookbook.SHEET(self.testfile2)
-        import pdb; pdb.set_trace()
         r = pyexcel.SeriesReader(merged)
         data = pyexcel.utils.to_dict(r)
         content = {}
