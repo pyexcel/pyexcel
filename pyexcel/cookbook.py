@@ -147,3 +147,11 @@ def extract_a_sheet_from_a_book(file, sheetname, outfilename=None):
     w = Writer("%s_%s" % (sheetname, saveas))
     w.write_reader(sheet)
     w.close()
+
+
+class SHEET:
+    def __init__(self, file):
+        self.file = file
+
+    def __add__(self, other):
+        pass
