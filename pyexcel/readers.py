@@ -22,6 +22,20 @@ from filters import (RowIndexFilter,
                      RowFilter)
 
 
+class AbstractFormatible:
+    def __init__(self):
+        self._filters = []
+
+    def add_formatter(self, aformatter):
+        self._formatters.append(aformatter)
+
+    def remove_formatter(self, aformatter):
+        self._formatters.remove(aformatter)
+
+    def clear_formatter(self):
+        self._formatters = []
+
+
 class CSVSheet:
     """
     csv sheet
@@ -242,6 +256,7 @@ class PlainSheet:
         Random access to the data cells
         """
         if row in self.row_range() and column in self.column_range():
+            # apply formatting
             return self.sheet.cell_value(row, column)
         else:
             return None
