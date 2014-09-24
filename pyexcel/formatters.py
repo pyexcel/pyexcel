@@ -34,9 +34,7 @@ XLS_FORMAT_CONVERSION = {
 
 
 def string_to_format(value, FORMAT):
-    if FORMAT == DATE_FORMAT:
-        ret = "N/A"
-    elif FORMAT == FLOAT_FORMAT:
+    if FORMAT == FLOAT_FORMAT:
         try:
             ret = float(value)
         except ValueError:
@@ -58,13 +56,9 @@ def string_to_format(value, FORMAT):
     return ret
 
 def float_to_format(value, FORMAT):
-    if FORMAT == DATE_FORMAT:
-        ret = "N/A"
-    elif FORMAT == FLOAT_FORMAT:
-        ret = value
-    elif FORMAT == INT_FORMAT:
+    if FORMAT == INT_FORMAT:
         try:
-            ret = int(ret)
+            ret = int(value)
         except ValueError:
             ret = "N/A"
     elif FORMAT == STRING_FORMAT:
@@ -79,12 +73,8 @@ def float_to_format(value, FORMAT):
 
 
 def int_to_format(value, FORMAT):
-    if FORMAT == DATE_FORMAT:
-        ret = "N/A"
-    elif FORMAT == FLOAT_FORMAT:
+    if FORMAT == FLOAT_FORMAT:
         ret = float(value)
-    elif FORMAT == INT_FORMAT:
-        ret = value
     elif FORMAT == STRING_FORMAT:
         try:
             ret = str(value)
@@ -98,10 +88,6 @@ def int_to_format(value, FORMAT):
 def date_to_format(value, FORMAT):
     if FORMAT == DATE_FORMAT:
         ret = value
-    elif FORMAT == FLOAT_FORMAT:
-        ret = "N/A"
-    elif FORMAT == INT_FORMAT:
-        ret = "N/A"
     elif FORMAT == STRING_FORMAT:
         ret = value.isoformat()
     else:
@@ -110,12 +96,8 @@ def date_to_format(value, FORMAT):
 
 
 def boolean_to_format(value, FORMAT):
-    if FORMAT == DATE_FORMAT:
-        ret = "N/A"
-    elif FORMAT == FLOAT_FORMAT:
+    if FORMAT == FLOAT_FORMAT:
         ret = float(value)
-    elif FORMAT == INT_FORMAT:
-        ret = value
     elif FORMAT == STRING_FORMAT:
         if value == 1:
             ret = "True"
@@ -130,11 +112,11 @@ def empty_to_format(value, FORMAT):
     if FORMAT == DATE_FORMAT:
         ret = None
     elif FORMAT == FLOAT_FORMAT:
-        ret = 0
+        ret = 0.0
     elif FORMAT == INT_FORMAT:
         ret = 0
     elif FORMAT == STRING_FORMAT:
-        ret = []
+        ret = ""
     else:
         ret = value
     return ret

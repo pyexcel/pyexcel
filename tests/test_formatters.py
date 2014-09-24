@@ -1,16 +1,15 @@
 import pyexcel
 import os
-import datetime
 
 
 class TestFormatFunction:
-    def _test_date_format(self):
+    def test_date_format(self):
         d = "11-Jan-14"
         n_d = pyexcel.formatters.to_format(
             pyexcel.formatters.STRING_FORMAT,
             pyexcel.formatters.DATE_FORMAT,
             d)
-        assert isinstance(n_d, datetime.datetime)
+        assert d == n_d
 
     def test_string_format(self):
         value = 11
@@ -45,6 +44,7 @@ class TestColumnFormatter:
             "2": ["1", "2", "3", "4", "5", "6", "7", "8"],
             "3": [1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
             "4": ["1.1", "2.2", "3.3", "4.4", "5.5", "6.6", "7,7", "8.8"],
+            "5": [2, 3, 4, 5, 6, 7, 8, 9],
         }
         self.testfile = "test.csv"
         w = pyexcel.Writer(self.testfile)
@@ -58,6 +58,17 @@ class TestColumnFormatter:
             pyexcel.formatters.STRING_FORMAT))
         c1 = r.column_at(0)[1:]
         c2 = self.data["2"]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+            
+    def test_custom_func(self):
+        r = pyexcel.Reader(self.testfile)
+        f = lambda x, t: int(x) + 1
+        r.add_formatter(pyexcel.formatters.ColumnFormatter(
+            0,
+            f))
+        c1 = r.column_at(0)[1:]
+        c2 = self.data["5"]
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
 
