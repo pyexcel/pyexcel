@@ -7,7 +7,6 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-import datetime
 import xlrd
 import types
 
@@ -52,15 +51,9 @@ def string_to_format(value, FORMAT):
 
 def float_to_format(value, FORMAT):
     if FORMAT == INT_FORMAT:
-        try:
-            ret = int(value)
-        except ValueError:
-            ret = "N/A"
+        ret = int(value)
     elif FORMAT == STRING_FORMAT:
-        try:
-            ret = str(value)
-        except:
-            ret = "N/A"
+        ret = str(value)
     else:
         ret = value
 
@@ -71,10 +64,7 @@ def int_to_format(value, FORMAT):
     if FORMAT == FLOAT_FORMAT:
         ret = float(value)
     elif FORMAT == STRING_FORMAT:
-        try:
-            ret = str(value)
-        except:
-            ret = "N/A"
+        ret = str(value)
     else:
         ret = value
     return ret

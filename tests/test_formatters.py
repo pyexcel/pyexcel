@@ -1,5 +1,6 @@
 import pyexcel
 import os
+import datetime
 
 
 class TestToFormatFunction:
@@ -9,6 +10,11 @@ class TestToFormatFunction:
             pyexcel.formatters.STRING_FORMAT,
             pyexcel.formatters.FLOAT_FORMAT, value)
         assert n_value == 11.11
+        value = "abc"
+        n_value = pyexcel.formatters.to_format(
+            pyexcel.formatters.STRING_FORMAT,
+            pyexcel.formatters.FLOAT_FORMAT, value)
+        assert n_value == "N/A"
 
     def test_string_to_string(self):
         value = "string"
@@ -49,6 +55,14 @@ class TestToFormatFunction:
             pyexcel.formatters.INT_FORMAT, value)
         assert type(n_value) == int
         assert n_value == 1
+        value = "1.1"
+        try:
+            n_value = pyexcel.formatters.to_format(
+                pyexcel.formatters.FLOAT_FORMAT,
+                pyexcel.formatters.INT_FORMAT, value)
+            assert 1==2
+        except:
+            assert 1 == 1
 
     def test_float_2_date_format(self):
         value = 1.1111
@@ -82,6 +96,27 @@ class TestToFormatFunction:
             value)
         assert type(n_value) == int
         assert n_value == value
+
+    def test_date_conversion(self):
+        d = datetime.datetime.now()
+        new_d = pyexcel.formatters.to_format(
+            pyexcel.formatters.DATE_FORMAT,
+            pyexcel.formatters.DATE_FORMAT,
+            d
+        )
+        assert d == new_d
+        new_d = pyexcel.formatters.to_format(
+            pyexcel.formatters.DATE_FORMAT,
+            pyexcel.formatters.STRING_FORMAT,
+            d
+        )
+        assert d.isoformat() == new_d
+        new_d = pyexcel.formatters.to_format(
+            pyexcel.formatters.DATE_FORMAT,
+            pyexcel.formatters.BOOLEAN_FORMAT,
+            d
+        )
+        assert d == new_d
 
     def test_boolean_2_date(self):
         value = True
