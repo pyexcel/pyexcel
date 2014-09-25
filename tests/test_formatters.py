@@ -285,24 +285,6 @@ class TestRowFormatter:
             assert type(c1[i]) == int
             assert c1[i] == c2[i]
 
-    def test_two_formatters(self):
-        r = pyexcel.Reader(self.testfile)
-        r.add_formatter(pyexcel.formatters.RowFormatter(
-            1,
-            pyexcel.formatters.STRING_FORMAT))
-        c1 = r.row_at(1)
-        c2 = ["1", "1", "1.1", "1.1", "2", "2"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
-        r.add_formatter(pyexcel.formatters.RowFormatter(
-            1,
-            pyexcel.formatters.INT_FORMAT))
-        c1 = r.row_at(1)
-        c2 = [1, 1, 1, 1, 2, 2]
-        for i in range(0, len(c1)):
-            assert type(c1[i]) == int
-            assert c1[i] == c2[i]
-
     def test_custom_func(self):
         r = pyexcel.Reader(self.testfile)
         f = lambda x, t: float(x) + 1
@@ -336,6 +318,34 @@ class TestRowFormatter:
         c2 = ["2.0", "2.0", "2.1", "2.1", "3.0", "3.0"]
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
+
+    def test_remove_formatter2(self):
+        r = pyexcel.Reader(self.testfile)
+        f = lambda x, t: float(x) + 1
+        ft = pyexcel.formatters.RowFormatter(
+            1,
+            pyexcel.formatters.FLOAT_FORMAT,
+            f)
+        r.add_formatter(ft)
+        c1 = r.row_at(1)
+        c2 = [2.0, 2.0, 2.1, 2.1, 3.0, 3.0]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+        r.add_formatter(pyexcel.formatters.RowFormatter(
+            1,
+            pyexcel.formatters.STRING_FORMAT))
+        c1 = r.row_at(1)
+        print c1
+        c2 = ["2.0", "2.0", "2.1", "2.1", "3.0", "3.0"]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+        r.remove_formatter(ft)
+        c1 = r.row_at(1)
+        print c1
+        c2 = ["1", "1", "1.1", "1.1", "2", "2"]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+            
 
     def tearDown(self):
         if os.path.exists(self.testfile):
@@ -414,6 +424,113 @@ class TestSheetFormatter:
         c2 = ["3.0", "3.2", "4.0"]
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
+
+    def test_clear_formatters(self):
+        r = pyexcel.Reader(self.testfile)
+        f = lambda x, t: float(x) + 1
+        r.add_formatter(pyexcel.formatters.SheetFormatter(
+            pyexcel.formatters.FLOAT_FORMAT,
+            f))
+        r.add_formatter(pyexcel.formatters.SheetFormatter(
+            pyexcel.formatters.STRING_FORMAT))
+        r.clear_formatters()
+        mydata = pyexcel.utils.to_dict(r.become_series())
+        assert mydata[1] == self.data['1']
+        assert mydata[3] == self.data['3']
+        assert mydata[5] == self.data['5']
+
+    def tearDown(self):
+        if os.path.exists(self.testfile):
+            os.unlink(self.testfile)
+
+
+class TestSheetFormatterInXLS:
+    def setUp(self):
+        self.data = {
+            "1": [1, 2, 3, 4, 5, 6, 7, 8],
+            "3": [1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
+            "5": [2, 3, 4, 5, 6, 7, 8, 9],
+        }
+        self.testfile = "test.xls"
+        w = pyexcel.Writer(self.testfile)
+        w.write_dict(self.data)
+        w.close()
+        
+    def test_general_usage(self):
+        r = pyexcel.SeriesReader(self.testfile)
+        r.add_formatter(pyexcel.formatters.SheetFormatter(
+            pyexcel.formatters.STRING_FORMAT))
+        self.data = [
+            ["1.0", "2.0", "3.0", "4.0", "5.0", "6.0", "7.0", "8.0"],
+            ["1.1", "2.2", "3.3", "4.4", "5.5", "6.6", "7.7", "8.8"],
+            ["2.0", "3.0", "4.0", "5.0", "6.0", "7.0", "8.0", "9.0"]
+        ]
+        c1 = r.column_at(0)
+        for i in range(0, len(c1)):
+            assert c1[i] == self.data[0][i]
+        c1 = r.column_at(1)
+        for i in range(0, len(c1)):
+            assert c1[i] == self.data[1][i]
+            
+    def test_two_formatters(self):
+        r = pyexcel.Reader(self.testfile)
+        r.add_formatter(pyexcel.formatters.SheetFormatter(
+            pyexcel.formatters.STRING_FORMAT))
+        r.add_formatter(pyexcel.formatters.SheetFormatter(
+            pyexcel.formatters.INT_FORMAT))
+        c1 = r.row_at(0)
+        c2 = [1, 3, 5]
+        print c1
+        for i in range(0, len(c1)):
+            assert type(c1[i]) == int
+            assert c1[i] == c2[i]
+
+    def test_custom_func(self):
+        r = pyexcel.Reader(self.testfile)
+        f = lambda x, t: float(x) + 1
+        r.add_formatter(pyexcel.formatters.SheetFormatter(
+            pyexcel.formatters.FLOAT_FORMAT,
+            f))
+        c1 = r.row_at(1)
+        c2 = [2.0, 2.1, 3.0]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+        c1 = r.row_at(2)
+        c2 = [3, 3.2, 4]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+
+    def test_custom_func_with_a_general_converter(self):
+        r = pyexcel.Reader(self.testfile)
+        f = lambda x, t: float(x) + 1
+        r.add_formatter(pyexcel.formatters.SheetFormatter(
+            pyexcel.formatters.FLOAT_FORMAT,
+            f))
+        r.add_formatter(pyexcel.formatters.SheetFormatter(
+            pyexcel.formatters.STRING_FORMAT))
+        c1 = r.row_at(1)
+        c2 = ["2.0", "2.1", "3.0"]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+        c1 = r.row_at(2)
+        c2 = ["3.0", "3.2", "4.0"]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+
+    def test_clear_formatters(self):
+        r = pyexcel.Reader(self.testfile)
+        f = lambda x, t: float(x) + 1
+        r.add_formatter(pyexcel.formatters.SheetFormatter(
+            pyexcel.formatters.FLOAT_FORMAT,
+            f))
+        r.add_formatter(pyexcel.formatters.SheetFormatter(
+            pyexcel.formatters.STRING_FORMAT))
+        r.clear_formatters()
+        mydata = pyexcel.utils.to_dict(r.become_series())
+        print mydata
+        assert mydata['1'] == self.data['1']
+        assert mydata['3'] == self.data['3']
+        assert mydata['5'] == self.data['5']
 
     def tearDown(self):
         if os.path.exists(self.testfile):

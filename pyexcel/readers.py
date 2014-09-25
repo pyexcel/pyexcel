@@ -42,7 +42,7 @@ class FormatibleSheet:
     def remove_formatter(self, aformatter):
         self._formatters.remove(aformatter)
 
-    def clear_formatter(self):
+    def clear_formatters(self):
         self._formatters = []
 
 
@@ -363,8 +363,8 @@ class PlainSheet:
     def remove_formatter(self, aformatter):
         self.sheet.remove_formatter(aformatter)
 
-    def clear_formatter(self):
-        self.sheet.clear_formatter()
+    def clear_formatters(self):
+        self.sheet.clear_formatters()
 
 
 class MultipleFilterableSheet(PlainSheet):
