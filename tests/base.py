@@ -119,7 +119,11 @@ class PyexcelBase:
         assert content2 == r[:2]
         content3 = [[2, 2, 2, 2], [3,3,3,3]]
         assert content3 == r[1:]
-        
+        assert r[2:1] == None
+        content4 = [[1, 1, 1, 1], [2, 2, 2, 2]]
+        assert content4 == r[0:2:1]
+        content5 = [1, 1, 1, 1]
+        assert content5 == r[0:0]
 
 class PyexcelXlsBase(PyexcelBase):
 

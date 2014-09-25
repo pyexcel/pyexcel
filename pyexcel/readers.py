@@ -72,15 +72,9 @@ class CSVSheet(FormatibleSheet):
 
     def _ncols(self):
         if len(self.array) > 1:
-            length = -1
-            for subarray in self.array:
-                new_length = len(subarray)
-                if length == -1:
-                    length = new_length
-                elif length < new_length:
-                    length = new_length
-
-            return length
+            # csv reader will get the longest row
+            # and use that length
+            return len(self.array[0])
         else:
             return 0
 
