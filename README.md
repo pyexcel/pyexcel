@@ -212,6 +212,12 @@ For single sheet file, you can regard it as two dimensional array if you use `Re
 
 For multiple sheet file, you can regard it as three dimensional array if you use `BookReader`. So, you access each cell via this syntax: reader[sheet_index][row][column] or reader["sheet_name"][row][column]
 
+## Test and Test Coverage
+
+```
+nosetests tests --with-coverage --cover-html-dir=coverage --cover-package=pyexcel
+```
+
 ## Documentation
 
 It is hosted in [pyhosted](https://pythonhosted.org/pyexcel/)

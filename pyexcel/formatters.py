@@ -45,11 +45,6 @@ def string_to_format(value, FORMAT):
             ret = int(ret)
         except ValueError:
             ret = "N/A"
-    elif FORMAT == STRING_FORMAT:
-        try:
-            ret = str(value)
-        except:
-            ret = "N/A"
     else:
         ret = value
 
@@ -109,16 +104,12 @@ def boolean_to_format(value, FORMAT):
 
     
 def empty_to_format(value, FORMAT):
-    if FORMAT == DATE_FORMAT:
-        ret = None
-    elif FORMAT == FLOAT_FORMAT:
+    if FORMAT == FLOAT_FORMAT:
         ret = 0.0
     elif FORMAT == INT_FORMAT:
         ret = 0
-    elif FORMAT == STRING_FORMAT:
-        ret = ""
     else:
-        ret = value
+        ret = ""
     return ret
 
 
@@ -133,6 +124,7 @@ CONVERSION_FUNCTIONS = {
 
 
 def to_format(from_type, to_type, value):
+    """Wrapper utility function for format different formats"""
     func = CONVERSION_FUNCTIONS[from_type]
     return func(value, to_type)
 
@@ -143,21 +135,41 @@ class Formatter:
     Formatter starts when the quanlifying functions returns true
     cell's row, column and value are fed to the quanlifying functions
     """
-    def __init__(self, quanlify_func, FORMAT):
+    def __init__(self, quanlify_func, FORMAT, custom_converter=None):
         self.quanlify_func = quanlify_func
         self.desired_format = FORMAT
+        self.converter = custom_converter
 
     def is_my_business(self, row, column, value):
         return self.quanlify_func(row, column, value)
 
     def do_format(self, value, ctype):
-        if type(self.desired_format) == types.FunctionType:
-            return self.desired_format(value, ctype)
+        if self.converter is not None and type(self.converter) == types.FunctionType:
+            return self.converter(value, ctype)
         else:
             return to_format(ctype, self.desired_format, value)
 
 
 class ColumnFormatter(Formatter):
-    def __init__(self, column_index, FORMAT):
+    """Column Formatter"""
+    def __init__(self, column_index, FORMAT, custom_converter=None):
         func = lambda r, c, v: c == column_index
-        Formatter.__init__(self, func, FORMAT)
+        Formatter.__init__(self, func, FORMAT, custom_converter)
+
+
+class RowFormatter(Formatter):
+    def __init__(self, row_index, FORMAT, custom_converter=None):
+        func = lambda r, c, v: r == row_index
+        Formatter.__init__(self, func, FORMAT, custom_converter)
+
+
+class SheetFormatter(Formatter):
+    """
+    Apply the formatter to all cells in the sheet
+    """
+    def __init__(self, FORMAT, custom_converter=None):
+        Formatter.__init__(self, None, FORMAT, custom_converter)
+
+    def is_my_business(self, row, column, value):
+        return True
+            

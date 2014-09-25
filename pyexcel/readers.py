@@ -90,9 +90,11 @@ class CSVSheet(FormatibleSheet):
         """
         value = self.array[row][column]
         if len(self._formatters) > 0:
+            previous_type = STRING_FORMAT
             for f in self._formatters:
                 if f.is_my_business(row, column, value):
-                    value = f.do_format(value, STRING_FORMAT)
+                    value = f.do_format(value, previous_type)
+                    previous_type = f.desired_format
         else:
             try:
                 if "." in value:
@@ -150,9 +152,11 @@ class XLSSheet(FormatibleSheet):
         my_type = XLS_FORMAT_CONVERSION[cell_type]
         value = self.worksheet.cell_value(row, column)
         if len(self._formatters) > 0:
+            previous_type = my_type
             for f in self._formatters:
                 if f.is_my_business(row, column, value):
-                    value = f.do_format(value, my_type)
+                    value = f.do_format(value, previous_type)
+                    previous_type = f.desired_format
         return value
 
 
