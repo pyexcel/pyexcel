@@ -22,7 +22,7 @@ class TestToFormatFunction:
             pyexcel.formatters.STRING_FORMAT,
             pyexcel.formatters.STRING_FORMAT, value)
         assert n_value == value
-        
+
     def test_string_2_int_format(self):
         value = "11"
         n_value = pyexcel.formatters.to_format(
@@ -134,7 +134,7 @@ class TestToFormatFunction:
             pyexcel.formatters.FLOAT_FORMAT,
             value)
         assert n_value == 1
-        
+
     def test_boolean_2_string(self):
         value = True
         n_value = pyexcel.formatters.to_format(
@@ -148,7 +148,7 @@ class TestToFormatFunction:
             pyexcel.formatters.STRING_FORMAT,
             value)
         assert n_value == "False"
-        
+
     def test_empty_to_supported_types(self):
         value = ""
         n_value = pyexcel.formatters.to_format(
@@ -194,7 +194,7 @@ class TestColumnFormatter:
         w = pyexcel.Writer(self.testfile)
         w.write_dict(self.data)
         w.close()
-        
+
     def test_general_usage(self):
         r = pyexcel.Reader(self.testfile)
         r.add_formatter(pyexcel.formatters.ColumnFormatter(
@@ -204,7 +204,7 @@ class TestColumnFormatter:
         c2 = self.data["2"]
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
-            
+
     def test_two_formatters(self):
         r = pyexcel.Reader(self.testfile)
         r.add_formatter(pyexcel.formatters.ColumnFormatter(
@@ -273,7 +273,7 @@ class TestRowFormatter:
         w = pyexcel.Writer(self.testfile)
         w.write_dict(self.data)
         w.close()
-        
+
     def test_general_usage(self):
         r = pyexcel.Reader(self.testfile)
         r.add_formatter(pyexcel.formatters.RowFormatter(
@@ -284,7 +284,7 @@ class TestRowFormatter:
         c2 = ["1", "1", "1.1", "1.1", "2", "2"]
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
-            
+
     def test_remove_formatter(self):
         r = pyexcel.Reader(self.testfile)
         ft = pyexcel.formatters.RowFormatter(
@@ -301,7 +301,7 @@ class TestRowFormatter:
         c2 = [1, 1, 1.1, 1.1, 2, 2]
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
-            
+
     def test_two_formatters(self):
         r = pyexcel.Reader(self.testfile)
         r.add_formatter(pyexcel.formatters.RowFormatter(
@@ -380,7 +380,7 @@ class TestRowFormatter:
         c2 = ["1", "1", "1.1", "1.1", "2", "2"]
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
-            
+
 
     def tearDown(self):
         if os.path.exists(self.testfile):
@@ -398,7 +398,7 @@ class TestSheetFormatter:
         w = pyexcel.Writer(self.testfile)
         w.write_dict(self.data)
         w.close()
-        
+
     def test_general_usage(self):
         r = pyexcel.SeriesReader(self.testfile)
         r.add_formatter(pyexcel.formatters.SheetFormatter(
@@ -414,7 +414,7 @@ class TestSheetFormatter:
         c1 = r.column_at(1)
         for i in range(0, len(c1)):
             assert c1[i] == self.data[1][i]
-            
+
     def test_two_formatters(self):
         r = pyexcel.Reader(self.testfile)
         r.add_formatter(pyexcel.formatters.SheetFormatter(
@@ -490,7 +490,7 @@ class TestSheetFormatterInXLS:
         w = pyexcel.Writer(self.testfile)
         w.write_dict(self.data)
         w.close()
-        
+
     def test_general_usage(self):
         r = pyexcel.SeriesReader(self.testfile)
         r.add_formatter(pyexcel.formatters.SheetFormatter(
@@ -506,7 +506,7 @@ class TestSheetFormatterInXLS:
         c1 = r.column_at(1)
         for i in range(0, len(c1)):
             assert c1[i] == self.data[1][i]
-            
+
     def test_two_formatters(self):
         r = pyexcel.Reader(self.testfile)
         r.add_formatter(pyexcel.formatters.SheetFormatter(
@@ -570,5 +570,3 @@ class TestSheetFormatterInXLS:
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
-
-        

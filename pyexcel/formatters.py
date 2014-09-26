@@ -49,6 +49,7 @@ def string_to_format(value, FORMAT):
 
     return ret
 
+
 def float_to_format(value, FORMAT):
     if FORMAT == INT_FORMAT:
         ret = int(value)
@@ -92,7 +93,7 @@ def boolean_to_format(value, FORMAT):
         ret = value
     return ret
 
-    
+
 def empty_to_format(value, FORMAT):
     if FORMAT == FLOAT_FORMAT:
         ret = 0.0
@@ -162,4 +163,3 @@ class SheetFormatter(Formatter):
 
     def is_my_business(self, row, column, value):
         return True
-            
