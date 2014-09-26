@@ -7,6 +7,8 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
+import xlrd
+import ext.odsreader as odsreader
 from iterators import (HBRTLIterator,
                        HTLBRIterator,
                        VBRTLIterator,
@@ -20,13 +22,36 @@ from iterators import (HBRTLIterator,
 from filters import (RowIndexFilter,
                      ColumnIndexFilter,
                      RowFilter)
+from formatters import (DATE_FORMAT,
+                        FLOAT_FORMAT,
+                        INT_FORMAT,
+                        UNICODE_FORMAT,
+                        STRING_FORMAT,
+                        BOOLEAN_FORMAT,
+                        EMPTY,
+                        XLS_FORMAT_CONVERSION)
 
 
-class CSVSheet:
+class FormatibleSheet:
+    def __init__(self):
+        self._formatters = []
+
+    def add_formatter(self, aformatter):
+        self._formatters.append(aformatter)
+
+    def remove_formatter(self, aformatter):
+        self._formatters.remove(aformatter)
+
+    def clear_formatters(self):
+        self._formatters = []
+
+
+class CSVSheet(FormatibleSheet):
     """
     csv sheet
     """
     def __init__(self, sheet):
+        FormatibleSheet.__init__(self)
         self.array = sheet
         self.nrows = len(self.array)
         self.ncols = self._ncols()
@@ -47,15 +72,9 @@ class CSVSheet:
 
     def _ncols(self):
         if len(self.array) > 1:
-            length = -1
-            for subarray in self.array:
-                new_length = len(subarray)
-                if length == -1:
-                    length = new_length
-                elif length < new_length:
-                    length = new_length
-
-            return length
+            # csv reader will get the longest row
+            # and use that length
+            return len(self.array[0])
         else:
             return 0
 
@@ -64,13 +83,21 @@ class CSVSheet:
         Random access to the csv cells
         """
         value = self.array[row][column]
-        try:
-            if "." in value:
-                return float(value)
-            else:
-                return int(value)
-        except ValueError:
-            return value
+        if len(self._formatters) > 0:
+            previous_type = STRING_FORMAT
+            for f in self._formatters:
+                if f.is_my_business(row, column, value):
+                    value = f.do_format(value, previous_type)
+                    previous_type = f.desired_format
+        else:
+            try:
+                if "." in value:
+                    return float(value)
+                else:
+                    return int(value)
+            except ValueError:
+                pass
+        return value
 
 
 class CSVBook:
@@ -89,13 +116,14 @@ class CSVBook:
         return {"csv": CSVSheet(self.array)}
 
 
-class XLSSheet:
+class XLSSheet(FormatibleSheet):
     """
     xls sheet
 
     Currently only support first sheet in the file
     """
     def __init__(self, sheet):
+        FormatibleSheet.__init__(self)
         self.worksheet = sheet
 
     def number_of_rows(self):
@@ -114,7 +142,16 @@ class XLSSheet:
         """
         Random access to the xls cells
         """
-        return self.worksheet.cell_value(row, column)
+        cell_type = self.worksheet.cell_type(row, column)
+        my_type = XLS_FORMAT_CONVERSION[cell_type]
+        value = self.worksheet.cell_value(row, column)
+        if len(self._formatters) > 0:
+            previous_type = my_type
+            for f in self._formatters:
+                if f.is_my_business(row, column, value):
+                    value = f.do_format(value, previous_type)
+                    previous_type = f.desired_format
+        return value
 
 
 class XLSBook:
@@ -125,7 +162,6 @@ class XLSBook:
     """
 
     def __init__(self, file):
-        import xlrd
         self.workbook = xlrd.open_workbook(file)
 
     def sheets(self):
@@ -144,7 +180,6 @@ class ODSBook:
     """
 
     def __init__(self, file):
-        import ext.odsreader as odsreader
         self.ods = odsreader.ODSReader(file)
 
     def sheets(self):
@@ -242,6 +277,7 @@ class PlainSheet:
         Random access to the data cells
         """
         if row in self.row_range() and column in self.column_range():
+            # apply formatting
             return self.sheet.cell_value(row, column)
         else:
             return None
@@ -314,6 +350,15 @@ class PlainSheet:
                 return True
         else:
             return False
+
+    def add_formatter(self, aformatter):
+        self.sheet.add_formatter(aformatter)
+
+    def remove_formatter(self, aformatter):
+        self.sheet.remove_formatter(aformatter)
+
+    def clear_formatters(self):
+        self.sheet.clear_formatters()
 
 
 class MultipleFilterableSheet(PlainSheet):
