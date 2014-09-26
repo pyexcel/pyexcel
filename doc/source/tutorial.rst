@@ -437,3 +437,55 @@ As you can see, `userid` column is of `float` type. Next, let's convert the colu
     {u'userid': ['10120.0', '10121.0', '10122.0'], u'name': [u'Adam', u'Bella', u'Cedar']}
 
 Now, they are in string format.
+
+You can do this row by row as well using `RowFormatter` or do this to a whote spread sheet using `SheetFormatter`
+
+Cleanse the cells in a spread sheet
+-----------------------------------
+
+Sometimes, the data in a spreadsheet may have unwanted strings in all or some cells. Let's take an example. Suppose we have a spread sheet that contains all strings but it as random spaces before and after the text values. Some field had weird characters, such as "&nbsp;&nbsp;":
+
+================= ============================ ================
+        Version        Comments                Author &nbsp;
+================= ============================ ================
+  v0.0.1          Release versions              &nbsp;Eda
+&nbsp; v0.0.2     Useful updates &nbsp; &nbsp;  &nbsp;Freud
+================= ============================ ================
+
+First, let's read the content and see what do we have::
+
+    >>> from pyexcel import Reader
+    >>> from pyexcel.utils import to_array
+    >>> r=Reader("tutorial_datatype_02.ods")
+    >>> to_array(r)
+    [[u'Version', u'Comments', u'Author &nbsp;'], [u'v0.0.1 ', u'Release versions',
+    u'&nbsp;Eda'], [u'&nbsp; V0.02 ', u'Useful updates &nbsp; &nbsp;', u'&nbsp;Freud
+    ']]
+
+
+Now try to create a custom cleanse function::
+  
+    >>> def cleanse_func(v, t):
+    ...     v = v.replace("&nbsp;", "")
+    ...     v = v.rstrip().strip()
+    ...     return v
+    ...
+
+Then let's create a `SheetFormatter` and apply it::
+
+    >>> from pyexcel.formatters import SheetFormatter
+    >>> from pyexcel.formatters import STRING_FORMAT
+    >>> sf = SheetFormatter(STRING_FORMAT, cleanse_func)
+    >>> r.add_formatter(sf)
+    >>> to_array(r)
+    [[u'Version', u'Comments', u'Author'], [u'v0.0.1', u'Release versions', u'Eda'],
+     [u'V0.02', u'Useful updates', u'Freud']]
+
+So in the end, you get this:
+
+================= ============================ ================
+        Version        Comments                Author
+================= ============================ ================
+v0.0.1            Release versions             Eda
+v0.0.2            Useful updates               Freud
+================= ============================ ================
