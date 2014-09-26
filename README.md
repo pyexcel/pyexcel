@@ -53,6 +53,18 @@ The output is:
 [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 ```
 
+And you can randomly access a cell
+
+```
+print reader[0][0]
+```
+
+you will get
+
+```
+1
+```
+
 Suppose you have a csv, xls, xlsx file as the following:
 
 ```
@@ -79,6 +91,20 @@ The output is:
 ```
 {"Column 2": [4, 5, 6], "Column 3": [7, 8, 9], "Column 1": [1, 2, 3]}
 ```
+
+And you can randomly access a cell in a sheet:
+
+```
+print reader[0][0][0]
+print reader["Column 1"][0][0]
+```
+
+Both statements will print 
+
+```
+1
+```
+
 
 ### Writing a single sheet excel file
 
@@ -206,11 +232,6 @@ writer.close()
 
 You shall get a ods file 
 
-### Access individual cell values in the excel file
-
-For single sheet file, you can regard it as two dimensional array if you use `Reader` class. So, you access each cell via this syntax: reader[row][column]
-
-For multiple sheet file, you can regard it as three dimensional array if you use `BookReader`. So, you access each cell via this syntax: reader[sheet_index][row][column] or reader["sheet_name"][row][column]
 
 ## Test and Test Coverage
 
