@@ -256,6 +256,17 @@ class SheetWriter:
         """
         self.writer.close()
 
+"""
+A list of registered writers
+"""
+WRITERS = {
+    "xls": XLSWriter,
+    "xlsm": XLSWriter,
+    "xlsx": XLSWriter,
+    "csv": CSVWriter,
+    "ods": ODSWriter
+}
+
 
 class BookWriter:
     """
@@ -265,12 +276,10 @@ class BookWriter:
     """
 
     def __init__(self, file):
-        if file.endswith(".xls") or file.endswith(".xlsx") or file.endswith(".xlsm"):
-            self.writer = XLSWriter(file)
-        elif file.endswith(".csv"):
-            self.writer = CSVWriter(file)
-        elif file.endswith(".ods"):
-            self.writer = ODSWriter(file)
+        extension = file.split(".")[-1]
+        if extension in WRITERS:
+            writer_class = WRITERS[extension]
+            self.writer = writer_class(file)
         else:
             raise NotImplementedError("Cannot open %s" % file)
 

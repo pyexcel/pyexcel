@@ -10,6 +10,7 @@ Core packages
    pyexcel.writers
    pyexcel.iterators
    pyexcel.filters
+   pyexcel.formatters
 
 
 Utility packages
