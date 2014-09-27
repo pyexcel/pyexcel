@@ -139,7 +139,7 @@ class TestToFormatFunction:
         bad = "bad"
         new_d = pyexcel.formatters.to_format(
             pyexcel.formatters.DATE_FORMAT,
-            pyexcel.formatters.DATE_FORMAT,
+            pyexcel.formatters.STRING_FORMAT,
             bad
         )
         assert bad == new_d
