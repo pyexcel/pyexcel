@@ -233,10 +233,19 @@ writer.close()
 You shall get a ods file 
 
 
-## Test and Test Coverage
+## Test 
+
+Here is the test command
 
 ```
-nosetests tests --with-coverage --cover-html-dir=coverage --cover-package=pyexcel
+pip install -r tests/requirements.txt
+nosetests tests
+```
+
+Test coverage is shown in [codecov.io](https://codecov.io/github/chfw/pyexcel). You can get instant test coverage report by using the following command:
+
+```
+nosetests tests --with-coverage --cover-package=pyexcel
 ```
 
 # Known Issues
