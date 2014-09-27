@@ -10,7 +10,7 @@
 :Source code: http://github.com/chfw/pyexcel
 :Issues: http://github.com/chfw/pyexcel/issues
 :License: GPL v3
-:Version: 0.0.2
+:Version: 0.0.3
 
 Introduction
 -------------
