@@ -136,6 +136,13 @@ class TestToFormatFunction:
             t
         )
         assert t == new_t
+        bad = "bad"
+        new_d = pyexcel.formatters.to_format(
+            pyexcel.formatters.DATE_FORMAT,
+            pyexcel.formatters.DATE_FORMAT,
+            bad
+        )
+        assert bad == new_d
 
     def test_boolean_2_date(self):
         value = True
@@ -598,12 +605,15 @@ class TestDateFormat:
         25/12/14 11:11:11
         25/12/14 12:11:11
         01/01/15 13:13:13
+        0.0      0.0        
         """
         r = pyexcel.Reader(os.path.join("tests", "fixtures", "date_field.xls"))
         assert isinstance(r[1][0], datetime.date) == True
         assert r[1][0].strftime("%d/%m/%y") == "25/12/14"
         assert isinstance(r[1][1], datetime.time) == True
         assert r[1][1].strftime("%H:%M:%S") == "11:11:11"
+        assert r[4][0].strftime("%d/%m/%y") == "01/01/00"
+        assert r[4][1].strftime("%H:%M:%S") == "00:00:00"
 
     def test_writing_date_format(self):
         excel_filename = "testdateformat.xls"

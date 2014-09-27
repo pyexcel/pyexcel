@@ -129,8 +129,8 @@ def xldate_to_python_date(value):
     date_tuple = xlrd.xldate_as_tuple(value, 0)
     ret = None
     if date_tuple == (0,0,0,0,0,0):
-        ret = None
-    if date_tuple[0:3] == (0,0,0):
+        ret = datetime.datetime(1900,1,1,0,0,0)
+    elif date_tuple[0:3] == (0,0,0):
         ret = datetime.time(date_tuple[3],
                             date_tuple[4],
                             date_tuple[5])
