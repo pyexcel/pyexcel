@@ -9,6 +9,7 @@
 """
 import xlrd
 import types
+import datetime
 
 
 DATE_FORMAT = "d"
@@ -25,7 +26,6 @@ XLS_FORMAT_CONVERSION = {
     xlrd.XL_CELL_EMPTY: EMPTY,
     xlrd.XL_CELL_DATE: DATE_FORMAT,
     xlrd.XL_CELL_NUMBER: FLOAT_FORMAT,
-    xlrd.XL_CELL_DATE: FLOAT_FORMAT,
     xlrd.XL_CELL_BOOLEAN: INT_FORMAT,
     xlrd.XL_CELL_BLANK: EMPTY,
     xlrd.XL_CELL_ERROR: EMPTY
@@ -75,7 +75,12 @@ def date_to_format(value, FORMAT):
     if FORMAT == DATE_FORMAT:
         ret = value
     elif FORMAT == STRING_FORMAT:
-        ret = value.isoformat()
+        if isinstance(value, datetime.date) or isinstance(value, datetime.datetime):
+            ret = value.strftime("%d/%m/%y")
+        elif isinstance(value, datetime.time):
+            ret = value.strftime("%H:%M:%S")
+        else:
+            ret = value
     else:
         ret = value
     return ret
@@ -119,6 +124,21 @@ def to_format(from_type, to_type, value):
     func = CONVERSION_FUNCTIONS[from_type]
     return func(value, to_type)
 
+
+def xldate_to_python_date(value):
+    date_tuple = xlrd.xldate_as_tuple(value, 0)
+    ret = None
+    if date_tuple == (0,0,0,0,0,0):
+        ret = None
+    if date_tuple[0:3] == (0,0,0):
+        ret = datetime.time(date_tuple[3],
+                            date_tuple[4],
+                            date_tuple[5])
+    elif date_tuple[3:6] == (0,0,0):
+        ret = datetime.date(date_tuple[0],
+                            date_tuple[1],
+                            date_tuple[2])
+    return ret
 
 class Formatter:
     """Generic formatter

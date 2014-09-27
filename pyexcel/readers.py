@@ -8,6 +8,7 @@
     :license: GPL v3
 """
 import xlrd
+import datetime
 import ext.odsreader as odsreader
 from iterators import (HBRTLIterator,
                        HTLBRIterator,
@@ -23,13 +24,9 @@ from filters import (RowIndexFilter,
                      ColumnIndexFilter,
                      RowFilter)
 from formatters import (DATE_FORMAT,
-                        FLOAT_FORMAT,
-                        INT_FORMAT,
-                        UNICODE_FORMAT,
                         STRING_FORMAT,
-                        BOOLEAN_FORMAT,
-                        EMPTY,
-                        XLS_FORMAT_CONVERSION)
+                        XLS_FORMAT_CONVERSION,
+                        xldate_to_python_date)
 
 
 class FormatibleSheet:
@@ -145,6 +142,8 @@ class XLSSheet(FormatibleSheet):
         cell_type = self.worksheet.cell_type(row, column)
         my_type = XLS_FORMAT_CONVERSION[cell_type]
         value = self.worksheet.cell_value(row, column)
+        if my_type == DATE_FORMAT:
+            value = xldate_to_python_date(value)
         if len(self._formatters) > 0:
             previous_type = my_type
             for f in self._formatters:

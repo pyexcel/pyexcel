@@ -7,6 +7,11 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
+import xlrd
+import xlwt
+import datetime
+from odf.table import Table
+
 from utils import to_dict
 from readers import SeriesReader
 
@@ -17,7 +22,6 @@ class ODSSheetWriter:
     """
 
     def __init__(self, book, name):
-        from odf.table import Table
         self.doc = book
         if name:
             sheet_name = name
@@ -138,7 +142,23 @@ class XLSSheetWriter:
         write a row into the file
         """
         for i in range(0, len(array)):
-            self.ws.write(self.current_row, i, array[i])
+            value = array[i]
+            style = None
+            tmp_array = []
+            if isinstance(value, datetime.date) or isinstance(value, datetime.datetime):
+                tmp_array = [value.year, value.month, value.day]
+                value = xlrd.xldate.xldate_from_date_tuple(tmp_array, 0)
+                style = xlwt.XFStyle()
+                style.num_format_str = "DD/MM/YY"
+            elif isinstance(value, datetime.time):
+                tmp_array = [value.hour, value.minute, value.second]
+                value = xlrd.xldate.xldate_from_time_tuple(tmp_array)
+                style = xlwt.XFStyle()
+                style.num_format_str = "HH:MM:SS"
+            if style:
+                self.ws.write(self.current_row, i, value, style)
+            else:
+                self.ws.write(self.current_row, i, value)                
         self.current_row += 1
 
     def close(self):
@@ -153,7 +173,6 @@ class XLSWriter:
     xls, xlsx and xlsm writer
     """
     def __init__(self, file):
-        import xlwt
         self.file = file
         self.wb = xlwt.Workbook()
         self.current_row = 0
