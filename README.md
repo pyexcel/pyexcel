@@ -239,6 +239,11 @@ You shall get a ods file
 nosetests tests --with-coverage --cover-html-dir=coverage --cover-package=pyexcel
 ```
 
+# Known Issues
+
+* If a zero was typed in a DATE formatted field in xls, you will get "01/01/1900".
+* If a zero was typed in a TIME formatted field in xls, you will get "00:00:00".
+
 ## Documentation
 
 It is hosted in [pyhosted](https://pythonhosted.org/pyexcel/)

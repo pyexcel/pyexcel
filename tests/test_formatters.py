@@ -612,7 +612,7 @@ class TestDateFormat:
         assert r[1][0].strftime("%d/%m/%y") == "25/12/14"
         assert isinstance(r[1][1], datetime.time) == True
         assert r[1][1].strftime("%H:%M:%S") == "11:11:11"
-        assert r[4][0].strftime("%d/%m/%y") == "01/01/00"
+        assert r[4][0].strftime("%d/%m/%Y") == "01/01/1900"
         assert r[4][1].strftime("%H:%M:%S") == "00:00:00"
 
     def test_writing_date_format(self):
