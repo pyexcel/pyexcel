@@ -1,12 +1,15 @@
 """
     pyexcel.filters
-    ~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~
 
     Filtering functions for pyexcel readers
 
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 
+"""
+
+"""
 Design note for filter algorithm
 
 #1 2 3 4 5 6 7  <- original index
@@ -24,7 +27,6 @@ f3         x
      1           2   3
 
 """
-
 
 class ColumnIndexFilter:
     def __init__(self, func):

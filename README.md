@@ -1,4 +1,4 @@
-# pyexcel [![Build Status](https://api.travis-ci.org/chfw/pyexcel.png)](http://travis-ci.org/chfw/pyexcel) [![codecov.io](https://codecov.io/github/chfw/pyexcel/coverage.png)](https://codecov.io/github/chfw/pyexcel) [![Documentation Status](https://readthedocs.org/projects/pyexcel/badge/?version=latest)](https://readthedocs.org/projects/pyexcel/?badge=latest)
+# pyexcel [![Build Status](https://api.travis-ci.org/chfw/pyexcel.png)](http://travis-ci.org/chfw/pyexcel) [![codecov.io](https://codecov.io/github/chfw/pyexcel/coverage.png)](https://codecov.io/github/chfw/pyexcel) [![Documentation Status](https://readthedocs.org/projects/pyexcel/badge/?version=latest)](https://readthedocs.org/projects/pyexcel/?badge=latest) [![Download Status](https://pypip.in/d/pyexcel/badge.png)](https://pypi.python.org/pypi/pyexcel)
 
 **pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. Its mission is to let you focus on data itself and it deals with different file formats. But this library does not support fonts, colors and charts.
 
@@ -53,6 +53,18 @@ The output is:
 [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 ```
 
+And you can randomly access a cell
+
+```
+print reader[0][0]
+```
+
+you will get
+
+```
+1
+```
+
 Suppose you have a csv, xls, xlsx file as the following:
 
 ```
@@ -79,6 +91,20 @@ The output is:
 ```
 {"Column 2": [4, 5, 6], "Column 3": [7, 8, 9], "Column 1": [1, 2, 3]}
 ```
+
+And you can randomly access a cell in a sheet:
+
+```
+print reader[0][0][0]
+print reader["Column 1"][0][0]
+```
+
+Both statements will print 
+
+```
+1
+```
+
 
 ### Writing a single sheet excel file
 
@@ -206,11 +232,26 @@ writer.close()
 
 You shall get a ods file 
 
-### Access individual cell values in the excel file
 
-For single sheet file, you can regard it as two dimensional array if you use `Reader` class. So, you access each cell via this syntax: reader[row][column]
+## Test 
 
-For multiple sheet file, you can regard it as three dimensional array if you use `BookReader`. So, you access each cell via this syntax: reader[sheet_index][row][column] or reader["sheet_name"][row][column]
+Here is the test command
+
+```
+pip install -r tests/requirements.txt
+nosetests tests
+```
+
+Test coverage is shown in [codecov.io](https://codecov.io/github/chfw/pyexcel). You can get instant test coverage report by using the following command:
+
+```
+nosetests tests --with-coverage --cover-package=pyexcel
+```
+
+## Known Issues
+
+* If a zero was typed in a DATE formatted field in xls, you will get "01/01/1900".
+* If a zero was typed in a TIME formatted field in xls, you will get "00:00:00".
 
 ## Documentation
 

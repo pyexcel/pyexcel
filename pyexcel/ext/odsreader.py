@@ -46,7 +46,6 @@ class ODSReader:
         
         # for each row
         for row in rows:
-            row_comment = ""
             arrCells = []
             cells = row.getElementsByType(TableCell)
             
@@ -71,28 +70,10 @@ class ODSReader:
                         for rr in range(int(repeat)): # repeated?
                             arrCells.append(textContent)
                         
-                    else:
-                        row_comment = row_comment + textContent + " ";
                         
             # if row contained something
             if(len(arrCells)):
                 arrRows.append(arrCells)
                 
-            #else:
-            #   print "Empty or commented row (", row_comment, ")"
-        
         self.SHEETS[name] = arrRows
         self.sheet_names.append(name)
-        
-    # returns a sheet as an array (rows) of arrays (columns)
-    def getSheet(self, name):
-        return self.SHEETS[name]
-
-    def getSheetByIndex(self, index):
-        if index < len(self.sheet_names):
-            name = self.sheet_names[index]
-            return self.SHEETS[name]
-        else:
-            return None
-    def sheetNames(self):
-        return self.sheet_names
