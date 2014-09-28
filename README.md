@@ -248,7 +248,7 @@ Test coverage is shown in [codecov.io](https://codecov.io/github/chfw/pyexcel). 
 nosetests tests --with-coverage --cover-package=pyexcel
 ```
 
-# Known Issues
+## Known Issues
 
 * If a zero was typed in a DATE formatted field in xls, you will get "01/01/1900".
 * If a zero was typed in a TIME formatted field in xls, you will get "00:00:00".
