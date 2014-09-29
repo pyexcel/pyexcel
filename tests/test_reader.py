@@ -339,6 +339,7 @@ class TestSeriesReader4:
         r = pyexcel.SeriesReader(self.testfile)
         result = r.named_column_at("X")
         actual = {"X":[1, 1, 1, 1, 1]}
+        print result
         assert result == actual
 
     def test_column_filter(self):

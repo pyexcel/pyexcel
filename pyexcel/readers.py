@@ -8,7 +8,6 @@
     :license: GPL v3
 """
 import xlrd
-import datetime
 import ext.odsreader as odsreader
 from iterators import (HBRTLIterator,
                        HTLBRIterator,
@@ -29,28 +28,19 @@ from formatters import (DATE_FORMAT,
                         xldate_to_python_date)
 
 
-class FormatibleSheet:
-    def __init__(self):
-        self._formatters = []
-
-    def add_formatter(self, aformatter):
-        self._formatters.append(aformatter)
-
-    def remove_formatter(self, aformatter):
-        self._formatters.remove(aformatter)
-
-    def clear_formatters(self):
-        self._formatters = []
+class Cell:
+    def __init__(self, value_type, value):
+        self.type = value_type
+        self.value = value
 
 
-class CSVSheet(FormatibleSheet):
+class CSVSheet:
     """
     csv sheet
     """
     def __init__(self, sheet):
-        FormatibleSheet.__init__(self)
-        self.array = sheet
-        self.nrows = len(self.array)
+        self.sheet = sheet
+        self.nrows = len(self.sheet)
         self.ncols = self._ncols()
 
     def number_of_rows(self):
@@ -68,10 +58,10 @@ class CSVSheet(FormatibleSheet):
         return self.ncols
 
     def _ncols(self):
-        if len(self.array) > 1:
+        if len(self.sheet) > 1:
             # csv reader will get the longest row
             # and use that length
-            return len(self.array[0])
+            return len(self.sheet[0])
         else:
             return 0
 
@@ -79,22 +69,9 @@ class CSVSheet(FormatibleSheet):
         """
         Random access to the csv cells
         """
-        value = self.array[row][column]
-        if len(self._formatters) > 0:
-            previous_type = STRING_FORMAT
-            for f in self._formatters:
-                if f.is_my_business(row, column, value):
-                    value = f.do_format(value, previous_type)
-                    previous_type = f.desired_format
-        else:
-            try:
-                if "." in value:
-                    return float(value)
-                else:
-                    return int(value)
-            except ValueError:
-                pass
-        return value
+        value = self.sheet[row][column]
+        cell = Cell(STRING_FORMAT, value)
+        return cell
 
 
 class CSVBook:
@@ -113,14 +90,13 @@ class CSVBook:
         return {"csv": CSVSheet(self.array)}
 
 
-class XLSSheet(FormatibleSheet):
+class XLSSheet:
     """
     xls sheet
 
     Currently only support first sheet in the file
     """
     def __init__(self, sheet):
-        FormatibleSheet.__init__(self)
         self.worksheet = sheet
 
     def number_of_rows(self):
@@ -144,13 +120,8 @@ class XLSSheet(FormatibleSheet):
         value = self.worksheet.cell_value(row, column)
         if my_type == DATE_FORMAT:
             value = xldate_to_python_date(value)
-        if len(self._formatters) > 0:
-            previous_type = my_type
-            for f in self._formatters:
-                if f.is_my_business(row, column, value):
-                    value = f.do_format(value, previous_type)
-                    previous_type = f.desired_format
-        return value
+        cell = Cell(my_type, value)
+        return cell
 
 
 class XLSBook:
@@ -186,6 +157,64 @@ class ODSBook:
         for name in self.ods.SHEETS.keys():
             ret[name] = CSVSheet(self.ods.SHEETS[name])
         return ret
+
+
+class RawSheet:
+    """
+    xls sheet
+
+    Currently only support first sheet in the file
+    """
+    def __init__(self, array):
+        self.array = array
+        self._formatters = []
+
+    def add_formatter(self, aformatter):
+        self._formatters.append(aformatter)
+
+    def remove_formatter(self, aformatter):
+        self._formatters.remove(aformatter)
+
+    def clear_formatters(self):
+        self._formatters = []
+
+    def number_of_rows(self):
+        """
+        Number of rows in the xls sheet
+        """
+        return len(self.array)
+
+    def number_of_columns(self):
+        """
+        Number of columns in the xls sheet
+        """
+        if self.number_of_rows() > 0:
+            return len(self.array[0])
+        else:
+            return 0
+
+    def cell_value(self, row, column):
+        """
+        Random access to the xls cells
+        """
+        cell = self.array[row][column]
+        value = cell.value
+        if len(self._formatters) > 0:
+            previous_type = cell.type
+            for f in self._formatters:
+                if f.is_my_business(row, column, value):
+                    value = f.do_format(value, previous_type)
+                    previous_type = f.desired_format
+        else:
+            if cell.type == STRING_FORMAT:
+                try:
+                    if "." in value:
+                        value = float(value)
+                    else:
+                        value = int(value)
+                except ValueError:
+                    pass
+        return value
 
 
 class PlainSheet:
@@ -582,15 +611,21 @@ class BookReader:
         extension = file.split(".")[-1]
         if extension in READERS:
             book_class = READERS[extension]
-            self.book = book_class(file)
+            book = book_class(file)
         else:
             raise NotImplementedError("can not open %s" % file)
-        self.current_sheet = 0
+        sheets = book.sheets()
         self.sheet_array = []
         self.sheet_dict = {}
-        self.sheets = self.book.sheets()
-        for name in self.sheets.keys():
-            sheet = Sheet(self.sheets[name], name)
+        for name in sheets.keys():
+            array = []
+            for r in range(0, sheets[name].number_of_rows()):
+                row = []
+                for c in range(0, sheets[name].number_of_columns()):
+                    row.append(sheets[name].cell_value(r, c))
+                array.append(row)
+            raw_sheet = RawSheet(array)
+            sheet = Sheet(raw_sheet, name)
             self.sheet_array.append(sheet)
             self.sheet_dict[name] = sheet
 

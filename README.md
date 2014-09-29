@@ -257,6 +257,14 @@ nosetests tests --with-coverage --cover-package=pyexcel
 
 It is hosted in [pyhosted](https://pythonhosted.org/pyexcel/)
 
+## To do
+
+* get the data and its types and then dump the reader
+* hence, create array/dict as reader
+* -> read and write the data.
+* hence make flexibility for further fancy manipulations
+* investigate the type specification of ods
+
 ## Dependencies
 
 * odfpy

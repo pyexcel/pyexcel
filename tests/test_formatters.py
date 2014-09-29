@@ -589,9 +589,9 @@ class TestSheetFormatterInXLS:
         r.clear_formatters()
         mydata = pyexcel.utils.to_dict(r.become_series())
         print mydata
-        assert mydata['1'] == self.data['1']
-        assert mydata['3'] == self.data['3']
-        assert mydata['5'] == self.data['5']
+        assert mydata[1] == self.data['1']
+        assert mydata[3] == self.data['3']
+        assert mydata[5] == self.data['5']
 
     def tearDown(self):
         if os.path.exists(self.testfile):
