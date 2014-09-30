@@ -1,6 +1,5 @@
 import csv
-from pyexcel.datastruct import Cell
-from pyexcel.formatters import STRING_FORMAT
+from pyexcel.common import Cell, STRING_FORMAT
 
 
 class CSVBook:
