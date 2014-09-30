@@ -1,7 +1,7 @@
 from pyexcel.common import XLS_FORMAT_CONVERSION, DATE_FORMAT, Cell
 import datetime
 import xlrd
-
+import xlwt
 
 
 def xldate_to_python_date(value):
@@ -81,3 +81,65 @@ class XLBook:
         """Get sheets in a dictionary"""
         return self.mysheets
 
+
+class XLSheetWriter:
+    """
+    xls, xlsx and xlsm sheet writer
+    """
+    def __init__(self, wb, name):
+        self.wb = wb
+        if name:
+            sheet_name = name
+        else:
+            sheet_name = "pyexcel_sheet1"
+        self.ws = self.wb.add_sheet(sheet_name)
+        self.current_row = 0
+
+    def write_row(self, array):
+        """
+        write a row into the file
+        """
+        for i in range(0, len(array)):
+            value = array[i]
+            style = None
+            tmp_array = []
+            if isinstance(value, datetime.date) or isinstance(value, datetime.datetime):
+                tmp_array = [value.year, value.month, value.day]
+                value = xlrd.xldate.xldate_from_date_tuple(tmp_array, 0)
+                style = xlwt.XFStyle()
+                style.num_format_str = "DD/MM/YY"
+            elif isinstance(value, datetime.time):
+                tmp_array = [value.hour, value.minute, value.second]
+                value = xlrd.xldate.xldate_from_time_tuple(tmp_array)
+                style = xlwt.XFStyle()
+                style.num_format_str = "HH:MM:SS"
+            if style:
+                self.ws.write(self.current_row, i, value, style)
+            else:
+                self.ws.write(self.current_row, i, value)                
+        self.current_row += 1
+
+    def close(self):
+        """
+        This call actually save the file
+        """
+        pass
+
+
+class XLWriter:
+    """
+    xls, xlsx and xlsm writer
+    """
+    def __init__(self, file):
+        self.file = file
+        self.wb = xlwt.Workbook()
+        self.current_row = 0
+
+    def create_sheet(self, name):
+        return XLSheetWriter(self.wb, name)
+
+    def close(self):
+        """
+        This call actually save the file
+        """
+        self.wb.save(self.file)

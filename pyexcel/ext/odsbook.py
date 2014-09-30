@@ -156,3 +156,61 @@ class ODSBook:
 
     def sheets(self):
         return self.SHEETS
+
+
+class ODSSheetWriter:
+    """
+    ODS sheet writer
+    """
+
+    def __init__(self, book, name):
+        self.doc = book
+        if name:
+            sheet_name = name
+        else:
+            sheet_name = "pyexcel_sheet1"
+        self.table = Table(name=sheet_name)
+
+    def write_row(self, array):
+        """
+        write a row into the file
+        """
+        from odf.table import TableRow, TableCell
+        from odf.text import P
+        tr = TableRow()
+        self.table.addElement(tr)
+        for x in array:
+            tc = TableCell()
+            tc.addElement(P(text=x))
+            tr.addElement(tc)
+
+    def close(self):
+        """
+        This call writes file
+
+        """
+        self.doc.spreadsheet.addElement(self.table)
+
+
+class ODSWriter:
+    """
+    open document spreadsheet writer
+
+    """
+    def __init__(self, file):
+        from odf.opendocument import OpenDocumentSpreadsheet
+        self.doc = OpenDocumentSpreadsheet()
+        self.file = file
+
+    def create_sheet(self, name):
+        """
+        write a row into the file
+        """
+        return ODSSheetWriter(self.doc, name)
+
+    def close(self):
+        """
+        This call writes file
+
+        """
+        self.doc.write(self.file)

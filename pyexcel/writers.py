@@ -7,184 +7,11 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-import xlrd
-import xlwt
-import datetime
-from odf.table import Table
-
 from utils import to_dict
 from readers import SeriesReader
-
-
-class ODSSheetWriter:
-    """
-    ODS sheet writer
-    """
-
-    def __init__(self, book, name):
-        self.doc = book
-        if name:
-            sheet_name = name
-        else:
-            sheet_name = "pyexcel_sheet1"
-        self.table = Table(name=sheet_name)
-
-    def write_row(self, array):
-        """
-        write a row into the file
-        """
-        from odf.table import TableRow, TableCell
-        from odf.text import P
-        tr = TableRow()
-        self.table.addElement(tr)
-        for x in array:
-            tc = TableCell()
-            tc.addElement(P(text=x))
-            tr.addElement(tc)
-
-    def close(self):
-        """
-        This call writes file
-
-        """
-        self.doc.spreadsheet.addElement(self.table)
-
-
-class ODSWriter:
-    """
-    open document spreadsheet writer
-
-    """
-    def __init__(self, file):
-        from odf.opendocument import OpenDocumentSpreadsheet
-        self.doc = OpenDocumentSpreadsheet()
-        self.file = file
-
-    def create_sheet(self, name):
-        """
-        write a row into the file
-        """
-        return ODSSheetWriter(self.doc, name)
-
-    def close(self):
-        """
-        This call writes file
-
-        """
-        self.doc.write(self.file)
-
-
-class CSVSheetWriter:
-    """
-    csv file writer
-
-    """
-    def __init__(self, file, name):
-        import csv
-        if name:
-            names = file.split(".")
-            file_name = "%s_%s.%s" % (names[0], name, names[1])
-        else:
-            file_name = file
-
-        self.f = open(file_name, "wb")
-        self.writer = csv.writer(self.f)
-
-    def write_row(self, array):
-        """
-        write a row into the file
-        """
-        self.writer.writerow(array)
-
-    def close(self):
-        """
-        This call close the file handle
-        """
-        self.f.close()
-
-
-class CSVWriter:
-    """
-    csv file writer
-
-    if there is multiple sheets for csv file, it simpily writes
-    multiple csv files
-    """
-    def __init__(self, file):
-        self.file = file
-        self.count = 0
-
-    def create_sheet(self, name):
-        return CSVSheetWriter(self.file, name)
-
-    def close(self):
-        """
-        This call close the file handle
-        """
-        pass
-
-
-class XLSSheetWriter:
-    """
-    xls, xlsx and xlsm sheet writer
-    """
-    def __init__(self, wb, name):
-        self.wb = wb
-        if name:
-            sheet_name = name
-        else:
-            sheet_name = "pyexcel_sheet1"
-        self.ws = self.wb.add_sheet(sheet_name)
-        self.current_row = 0
-
-    def write_row(self, array):
-        """
-        write a row into the file
-        """
-        for i in range(0, len(array)):
-            value = array[i]
-            style = None
-            tmp_array = []
-            if isinstance(value, datetime.date) or isinstance(value, datetime.datetime):
-                tmp_array = [value.year, value.month, value.day]
-                value = xlrd.xldate.xldate_from_date_tuple(tmp_array, 0)
-                style = xlwt.XFStyle()
-                style.num_format_str = "DD/MM/YY"
-            elif isinstance(value, datetime.time):
-                tmp_array = [value.hour, value.minute, value.second]
-                value = xlrd.xldate.xldate_from_time_tuple(tmp_array)
-                style = xlwt.XFStyle()
-                style.num_format_str = "HH:MM:SS"
-            if style:
-                self.ws.write(self.current_row, i, value, style)
-            else:
-                self.ws.write(self.current_row, i, value)                
-        self.current_row += 1
-
-    def close(self):
-        """
-        This call actually save the file
-        """
-        pass
-
-
-class XLSWriter:
-    """
-    xls, xlsx and xlsm writer
-    """
-    def __init__(self, file):
-        self.file = file
-        self.wb = xlwt.Workbook()
-        self.current_row = 0
-
-    def create_sheet(self, name):
-        return XLSSheetWriter(self.wb, name)
-
-    def close(self):
-        """
-        This call actually save the file
-        """
-        self.wb.save(self.file)
+from ext.csvbook import CSVWriter
+from ext.odsbook import ODSWriter
+from ext.xlbook import XLWriter
 
 
 class SheetWriter:
@@ -279,9 +106,9 @@ class SheetWriter:
 A list of registered writers
 """
 WRITERS = {
-    "xls": XLSWriter,
-    "xlsm": XLSWriter,
-    "xlsx": XLSWriter,
+    "xls": XLWriter,
+    "xlsm": XLWriter,
+    "xlsx": XLWriter,
     "csv": CSVWriter,
     "ods": ODSWriter
 }
