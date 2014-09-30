@@ -484,14 +484,7 @@ class BookReader:
         self.sheet_array = []
         self.sheet_dict = {}
         for name in sheets.keys():
-            array = []
-            for r in range(0, sheets[name].number_of_rows()):
-                row = []
-                for c in range(0, sheets[name].number_of_columns()):
-                    row.append(sheets[name].cell_value(r, c))
-                array.append(row)
-            raw_sheet = RawSheet(array)
-                
+            raw_sheet = RawSheet(sheets[name])
             sheet = Sheet(raw_sheet, name)
             self.sheet_array.append(sheet)
             self.sheet_dict[name] = sheet

@@ -31,7 +31,6 @@ from pyexcel.common import Cell as pycell
 from pyexcel.common import (STRING_FORMAT,
                             FLOAT_FORMAT, EMPTY,
                             DATE_FORMAT, BOOLEAN_FORMAT)
-from csvbook import CSVSheet
 
 
 def float_value(value):
@@ -84,7 +83,7 @@ VALUE_CONVERTERS = {
 }
     
 
-class ODSReader:
+class ODSBook:
 
     def __init__(self, file):
         """Load the file"""
@@ -155,31 +154,5 @@ class ODSReader:
         self.SHEETS[name] = arrRows
         self.sheet_names.append(name)
 
-
-class ODSSheet(CSVSheet):
-    """
-    ods sheet
-    """
-    def cell_value(self, row, column):
-        """
-        Random access to the csv cells
-        """
-        cell = self.sheet[row][column]
-        return cell
-
-
-class ODSBook:
-    """
-    ODS Book reader
-
-    It reads ods file
-    """
-
-    def __init__(self, file):
-        self.ods = ODSReader(file)
-
     def sheets(self):
-        ret = {}
-        for name in self.ods.SHEETS.keys():
-            ret[name] = ODSSheet(self.ods.SHEETS[name])
-        return ret
+        return self.SHEETS

@@ -54,6 +54,16 @@ class XLSheet:
         return cell
 
 
+def to_array(sheet):
+    array = []
+    for r in range(0, sheet.number_of_rows()):
+        row = []
+        for c in range(0, sheet.number_of_columns()):
+            row.append(sheet.cell_value(r, c))
+        array.append(row)
+    return array
+
+
 class XLBook:
     """
     XLSBook reader
@@ -63,11 +73,11 @@ class XLBook:
 
     def __init__(self, file):
         self.workbook = xlrd.open_workbook(file)
+        self.mysheets = {}
+        for name in self.workbook.sheet_names():
+            self.mysheets[name] = to_array(XLSheet(self.workbook.sheet_by_name(name)))
 
     def sheets(self):
         """Get sheets in a dictionary"""
-        ret = {}
-        for name in self.workbook.sheet_names():
-            ret[name] = XLSheet(self.workbook.sheet_by_name(name))
-        return ret
+        return self.mysheets
 
