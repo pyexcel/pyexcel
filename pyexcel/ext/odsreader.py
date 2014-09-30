@@ -22,24 +22,84 @@
 # limitations under the License.
 
 # Thanks to grt for the fixes
-
+import datetime
 import odf.opendocument
 from odf.table import *
 from odf.text import P
+from odf.namespaces import OFFICENS
+from pyexcel.datastruct import Cell as pycell
+from pyexcel.formatters import (STRING_FORMAT,
+                                FLOAT_FORMAT, EMPTY,
+                                DATE_FORMAT, BOOLEAN_FORMAT)
+
+
+def float_value(value):
+    ret = float(value)
+    return ret
+
+
+def date_value(value):
+    tokens = value.split('-')
+    year = int(tokens[0])
+    month = int(tokens[1])
+    day = int(tokens[2])
+    ret = datetime.date(year, month, day)
+    return ret
+
+
+def time_value(value):
+    try:
+        hour = int(value[2:4])
+        minute = int(value[5:7])
+        second = int(value[8:10])
+        ret = datetime.time(hour, minute, second)
+    except ValueError:
+        print "warning.."
+        ret = None
+    return ret
+
+
+def boolean_value(value):
+    if value == "true":
+        ret = True
+    else:
+        ret = False
+    return ret
+
+
+ODS_FORMAT_CONVERSION = {
+    "float": FLOAT_FORMAT,
+    "date": DATE_FORMAT,
+    "time": DATE_FORMAT,
+    "boolean": BOOLEAN_FORMAT,
+    "percentage": FLOAT_FORMAT,
+    "currency": FLOAT_FORMAT
+}
+
+
+VALUE_CONVERTERS = {
+    "float": float_value,
+    "date": date_value,
+    "time": time_value,
+    "boolean": boolean_value,
+    "percentage": float_value,
+    "currency": float_value
+}
+
+    
 
 class ODSReader:
 
-    # loads the file
     def __init__(self, file):
+        """Load the file"""
         self.doc = odf.opendocument.load(file)
         self.SHEETS = {}
         self.sheet_names = []
         for sheet in self.doc.spreadsheet.getElementsByType(Table):
             self.readSheet(sheet)
     
-
-    # reads a sheet in the sheet dictionary, storing each sheet as an array (rows) of arrays (columns)
     def readSheet(self, sheet):
+        """reads a sheet in the sheet dictionary, storing each sheet as an array (rows) of arrays (columns)"""
         name = sheet.getAttribute("name")
         rows = sheet.getElementsByType(TableRow)
         arrRows = []
@@ -48,31 +108,55 @@ class ODSReader:
         for row in rows:
             arrCells = []
             cells = row.getElementsByType(TableCell)
+            has_value = False
             
             # for each cell
             for cell in cells:
                 # repeated value?
                 repeat = cell.getAttribute("numbercolumnsrepeated")
                 if(not repeat):
-                    repeat = 1
-                    
-                ps = cell.getElementsByType(P)
-                textContent = ""
-                                
-                # for each text node
-                for p in ps:
-                    for n in p.childNodes:
-                        if (n.nodeType == 3):
-                            textContent = textContent + unicode(n.data)
-                    
-                if(textContent):
-                    if(textContent[0] != "#"): # ignore comments cells
-                        for rr in range(int(repeat)): # repeated?
-                            arrCells.append(textContent)
-                        
-                        
+                    has_value = True
+                    cell_type = cell.getAttrNS(OFFICENS, "value-type")
+                    if cell_type == "float" or cell_type == "currency" or cell_type == "percentage":
+                        value_token = "value"
+                    else:
+                        value_token = "%s-value" % cell_type
+                    if cell_type == "string":
+                        ps = cell.getElementsByType(P)
+                        textContent = ""
+                        # for each text node
+                        for p in ps:
+                            for n in p.childNodes:
+                                if (n.nodeType == 3):
+                                    textContent = textContent + unicode(n.data)
+                        arrCells.append(pycell(STRING_FORMAT, textContent))
+                    else:
+                        if cell_type in ODS_FORMAT_CONVERSION:
+                            value = cell.getAttrNS(OFFICENS, value_token)
+                            n_value = VALUE_CONVERTERS[cell_type](value)
+                            n_type = ODS_FORMAT_CONVERSION[cell_type]
+                            arrCells.append(pycell(n_type, n_value))
+                        elif cell_type == None:
+                            ps = cell.getElementsByType(P)
+                            textContent = ""
+                            # for each text node
+                            for p in ps:
+                                for n in p.childNodes:
+                                    if (n.nodeType == 3):
+                                        textContent = textContent + unicode(n.data)
+                            if len(textContent):
+                                arrCells.append(pycell(STRING_FORMAT, textContent))
+                            else:
+                                arrCells.append(pycell(EMPTY, ""))
+                        else:
+                            value = cell.getAttrNS(OFFICENS, value_token)
+                            arrCells.append(pycell(STRING_FORMAT, value))
+                else:
+                    r = int(repeat)
+                    for i in range(0, r):
+                        arrCells.append(pycell(EMPTY, ""))
             # if row contained something
-            if(len(arrCells)):
+            if(len(arrCells) and has_value):
                 arrRows.append(arrCells)
                 
         self.SHEETS[name] = arrRows

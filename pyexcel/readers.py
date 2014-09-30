@@ -26,12 +26,7 @@ from formatters import (DATE_FORMAT,
                         STRING_FORMAT,
                         XLS_FORMAT_CONVERSION,
                         xldate_to_python_date)
-
-
-class Cell:
-    def __init__(self, value_type, value):
-        self.type = value_type
-        self.value = value
+from datastruct import Cell
 
 
 class CSVSheet:
@@ -71,6 +66,18 @@ class CSVSheet:
         """
         value = self.sheet[row][column]
         cell = Cell(STRING_FORMAT, value)
+        return cell
+
+
+class ODSSheet(CSVSheet):
+    """
+    ods sheet
+    """
+    def cell_value(self, row, column):
+        """
+        Random access to the csv cells
+        """
+        cell = self.sheet[row][column]
         return cell
 
 
@@ -155,7 +162,7 @@ class ODSBook:
     def sheets(self):
         ret = {}
         for name in self.ods.SHEETS.keys():
-            ret[name] = CSVSheet(self.ods.SHEETS[name])
+            ret[name] = ODSSheet(self.ods.SHEETS[name])
         return ret
 
 
@@ -625,6 +632,7 @@ class BookReader:
                     row.append(sheets[name].cell_value(r, c))
                 array.append(row)
             raw_sheet = RawSheet(array)
+                
             sheet = Sheet(raw_sheet, name)
             self.sheet_array.append(sheet)
             self.sheet_dict[name] = sheet
