@@ -48,3 +48,10 @@ class TestODSReader:
         assert self.data["Sheet1"][1][6] == 3
         assert self.data["Sheet1"][2][6] == ""
         assert self.data["Sheet1"][4][6] == 11
+        # Scientifed not supported
+        assert self.data["Sheet1"][1][7] == 100000
+        # Fraction
+        print self.data["Sheet1"][1][8]
+        assert self.data["Sheet1"][1][8] == 1.25
+        # Text
+        assert self.data["Sheet1"][1][9] == "abc"

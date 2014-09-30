@@ -48,14 +48,10 @@ def date_value(value):
 
 
 def time_value(value):
-    try:
-        hour = int(value[2:4])
-        minute = int(value[5:7])
-        second = int(value[8:10])
-        ret = datetime.time(hour, minute, second)
-    except ValueError:
-        print "warning.."
-        ret = None
+    hour = int(value[2:4])
+    minute = int(value[5:7])
+    second = int(value[8:10])
+    ret = datetime.time(hour, minute, second)
     return ret
 
 
@@ -136,7 +132,7 @@ class ODSReader:
                             n_value = VALUE_CONVERTERS[cell_type](value)
                             n_type = ODS_FORMAT_CONVERSION[cell_type]
                             arrCells.append(pycell(n_type, n_value))
-                        elif cell_type == None:
+                        else:
                             ps = cell.getElementsByType(P)
                             textContent = ""
                             # for each text node
@@ -148,9 +144,6 @@ class ODSReader:
                                 arrCells.append(pycell(STRING_FORMAT, textContent))
                             else:
                                 arrCells.append(pycell(EMPTY, ""))
-                        else:
-                            value = cell.getAttrNS(OFFICENS, value_token)
-                            arrCells.append(pycell(STRING_FORMAT, value))
                 else:
                     r = int(repeat)
                     for i in range(0, r):
