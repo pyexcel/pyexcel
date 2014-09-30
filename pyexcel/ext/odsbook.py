@@ -175,8 +175,6 @@ class ODSSheetWriter:
         """
         write a row into the file
         """
-        from odf.table import TableRow, TableCell
-        from odf.text import P
         tr = TableRow()
         self.table.addElement(tr)
         for x in array:

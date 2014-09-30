@@ -28,7 +28,6 @@ class CSVSheetWriter:
 
     """
     def __init__(self, file, name):
-        import csv
         if name:
             names = file.split(".")
             file_name = "%s_%s.%s" % (names[0], name, names[1])
