@@ -7,8 +7,9 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-import xlrd
-import ext.odsreader as odsreader
+from ext.odsbook import ODSBook
+from ext.csvbook import CSVBook
+from ext.xlbook import XLBook
 from iterators import (HBRTLIterator,
                        HTLBRIterator,
                        VBRTLIterator,
@@ -22,148 +23,7 @@ from iterators import (HBRTLIterator,
 from filters import (RowIndexFilter,
                      ColumnIndexFilter,
                      RowFilter)
-from formatters import (DATE_FORMAT,
-                        STRING_FORMAT,
-                        XLS_FORMAT_CONVERSION,
-                        xldate_to_python_date)
-from datastruct import Cell
-
-
-class CSVSheet:
-    """
-    csv sheet
-    """
-    def __init__(self, sheet):
-        self.sheet = sheet
-        self.nrows = len(self.sheet)
-        self.ncols = self._ncols()
-
-    def number_of_rows(self):
-        """
-        Number of rows in the csv file
-        """
-        return self.nrows
-
-    def number_of_columns(self):
-        """
-        Number of columns in the csv file
-
-        assuming the length of each row is uniform
-        """
-        return self.ncols
-
-    def _ncols(self):
-        if len(self.sheet) > 1:
-            # csv reader will get the longest row
-            # and use that length
-            return len(self.sheet[0])
-        else:
-            return 0
-
-    def cell_value(self, row, column):
-        """
-        Random access to the csv cells
-        """
-        value = self.sheet[row][column]
-        cell = Cell(STRING_FORMAT, value)
-        return cell
-
-
-class ODSSheet(CSVSheet):
-    """
-    ods sheet
-    """
-    def cell_value(self, row, column):
-        """
-        Random access to the csv cells
-        """
-        cell = self.sheet[row][column]
-        return cell
-
-
-class CSVBook:
-    """
-    CSVBook reader
-
-    It simply return one sheet
-    """
-    def __init__(self, file):
-        import csv
-        self.array = []
-        reader = csv.reader(open(file, 'rb'), dialect=csv.excel)
-        self.array.extend(reader)
-
-    def sheets(self):
-        return {"csv": CSVSheet(self.array)}
-
-
-class XLSSheet:
-    """
-    xls sheet
-
-    Currently only support first sheet in the file
-    """
-    def __init__(self, sheet):
-        self.worksheet = sheet
-
-    def number_of_rows(self):
-        """
-        Number of rows in the xls sheet
-        """
-        return self.worksheet.nrows
-
-    def number_of_columns(self):
-        """
-        Number of columns in the xls sheet
-        """
-        return self.worksheet.ncols
-
-    def cell_value(self, row, column):
-        """
-        Random access to the xls cells
-        """
-        cell_type = self.worksheet.cell_type(row, column)
-        my_type = XLS_FORMAT_CONVERSION[cell_type]
-        value = self.worksheet.cell_value(row, column)
-        if my_type == DATE_FORMAT:
-            value = xldate_to_python_date(value)
-        cell = Cell(my_type, value)
-        return cell
-
-
-class XLSBook:
-    """
-    XLSBook reader
-
-    It reads xls, xlsm, xlsx work book
-    """
-
-    def __init__(self, file):
-        self.workbook = xlrd.open_workbook(file)
-
-    def sheets(self):
-        """Get sheets in a dictionary"""
-        ret = {}
-        for name in self.workbook.sheet_names():
-            ret[name] = XLSSheet(self.workbook.sheet_by_name(name))
-        return ret
-
-
-class ODSBook:
-    """
-    ODS Book reader
-
-    It reads ods file
-    """
-
-    def __init__(self, file):
-        self.ods = odsreader.ODSReader(file)
-
-    def sheets(self):
-        ret = {}
-        for name in self.ods.SHEETS.keys():
-            ret[name] = ODSSheet(self.ods.SHEETS[name])
-        return ret
+from common import STRING_FORMAT
 
 
 class RawSheet:
@@ -595,13 +455,12 @@ class Sheet(MultipleFilterableSheet):
 A list of registered readers
 """
 READERS = {
-    "xls": XLSBook,
-    "xlsm": XLSBook,
-    "xlsx": XLSBook,
+    "xls": XLBook,
+    "xlsm": XLBook,
+    "xlsx": XLBook,
     "csv": CSVBook,
     "ods": ODSBook
 }
-
             
 class BookReader:
     """

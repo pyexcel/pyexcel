@@ -2,7 +2,7 @@
     pyexcel.ext.odsreader
     ~~~~~~~~~~~~~~~~~~~~~~
 
-    Uniform interface for writing different excel file formats
+    ODSReader
 
     :copyright: (c) 2011 by Marco Conti
     :license: Apache License 2.0
@@ -27,10 +27,11 @@ import odf.opendocument
 from odf.table import *
 from odf.text import P
 from odf.namespaces import OFFICENS
-from pyexcel.datastruct import Cell as pycell
-from pyexcel.formatters import (STRING_FORMAT,
-                                FLOAT_FORMAT, EMPTY,
-                                DATE_FORMAT, BOOLEAN_FORMAT)
+from pyexcel.common import Cell as pycell
+from pyexcel.common import (STRING_FORMAT,
+                            FLOAT_FORMAT, EMPTY,
+                            DATE_FORMAT, BOOLEAN_FORMAT)
+from csvbook import CSVSheet
 
 
 def float_value(value):
@@ -81,7 +82,6 @@ VALUE_CONVERTERS = {
     "percentage": float_value,
     "currency": float_value
 }
-
     
 
 class ODSReader:
@@ -154,3 +154,32 @@ class ODSReader:
                 
         self.SHEETS[name] = arrRows
         self.sheet_names.append(name)
+
+
+class ODSSheet(CSVSheet):
+    """
+    ods sheet
+    """
+    def cell_value(self, row, column):
+        """
+        Random access to the csv cells
+        """
+        cell = self.sheet[row][column]
+        return cell
+
+
+class ODSBook:
+    """
+    ODS Book reader
+
+    It reads ods file
+    """
+
+    def __init__(self, file):
+        self.ods = ODSReader(file)
+
+    def sheets(self):
+        ret = {}
+        for name in self.ods.SHEETS.keys():
+            ret[name] = ODSSheet(self.ods.SHEETS[name])
+        return ret

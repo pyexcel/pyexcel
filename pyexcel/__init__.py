@@ -16,5 +16,6 @@ from .writers import Writer, BookWriter
 from .readers import SeriesReader, PlainReader, FilterableReader
 import cookbook
 import formatters
+import common
 
 __VERSION__ = '0.0.3'
