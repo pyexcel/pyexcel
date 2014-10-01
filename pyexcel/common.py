@@ -11,6 +11,7 @@ from iterators import (HBRTLIterator,
 from filters import (RowIndexFilter,
                      ColumnIndexFilter,
                      RowFilter)
+import datetime
 
 
 DATE_FORMAT = "d"
@@ -30,6 +31,17 @@ XLS_FORMAT_CONVERSION = {
     xlrd.XL_CELL_BOOLEAN: INT_FORMAT,
     xlrd.XL_CELL_BLANK: EMPTY,
     xlrd.XL_CELL_ERROR: EMPTY
+}
+
+
+PYTHON_TYPE_CONVERSION = {
+    float: FLOAT_FORMAT,
+    int: INT_FORMAT,
+    datetime.date: DATE_FORMAT,
+    datetime.time: DATE_FORMAT,
+    datetime.datetime: DATE_FORMAT,
+    str: STRING_FORMAT,
+    bool: BOOLEAN_FORMAT
 }
 
 
@@ -73,28 +85,34 @@ class RawSheet:
         else:
             return 0
 
-    def cell_value(self, row, column):
+    def cell_value(self, row, column, new_value=None):
         """
         Random access to the xls cells
         """
-        cell = self.array[row][column]
-        value = cell.value
-        if len(self._formatters) > 0:
-            previous_type = cell.type
-            for f in self._formatters:
-                if f.is_my_business(row, column, value):
-                    value = f.do_format(value, previous_type)
-                    previous_type = f.desired_format
+        if new_value == None:
+            cell = self.array[row][column]
+            value = cell.value
+            if len(self._formatters) > 0:
+                previous_type = cell.type
+                for f in self._formatters:
+                    if f.is_my_business(row, column, value):
+                        value = f.do_format(value, previous_type)
+                        previous_type = f.desired_format
+            else:
+                if cell.type == STRING_FORMAT:
+                    try:
+                        if "." in value:
+                            value = float(value)
+                        else:
+                            value = int(value)
+                    except ValueError:
+                        pass
+            return value
         else:
-            if cell.type == STRING_FORMAT:
-                try:
-                    if "." in value:
-                        value = float(value)
-                    else:
-                        value = int(value)
-                except ValueError:
-                    pass
-        return value
+            cell_type = PYTHON_TYPE_CONVERSION.get(type(new_value),
+                                                   STRING_FORMAT)
+            self.array[row][column] = Cell(cell_type, new_value)
+            return new_value
 
 
 class PlainSheet:
@@ -180,13 +198,13 @@ class PlainSheet:
         """
         return self.sheet.number_of_columns()
 
-    def cell_value(self, row, column):
+    def cell_value(self, row, column, new_value=None):
         """
         Random access to the data cells
         """
         if row in self.row_range() and column in self.column_range():
             # apply formatting
-            return self.sheet.cell_value(row, column)
+            return self.sheet.cell_value(row, column, new_value)
         else:
             return None
 
@@ -313,7 +331,7 @@ class MultipleFilterableSheet(PlainSheet):
         else:
             return self.sheet.number_of_columns()
 
-    def cell_value(self, row, column):
+    def cell_value(self, row, column, new_value=None):
         """
         Random access to the data cells
         """
@@ -326,9 +344,9 @@ class MultipleFilterableSheet(PlainSheet):
                     new_row, new_column = self._filters[i].translate(
                         new_row,
                         new_column)
-                return self.sheet.cell_value(new_row, new_column)
+                return self.sheet.cell_value(new_row, new_column, new_value)
             else:
-                return self.sheet.cell_value(row, column)
+                return self.sheet.cell_value(row, column, new_value)
         else:
             return None
 
