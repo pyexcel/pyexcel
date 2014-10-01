@@ -24,15 +24,13 @@ def update_columns(infilename, column_dicts, outfilename=None):
     if os.path.exists(default_out_file):
         raise NotImplementedError(__WARNING_TEXT__)
     r = SeriesReader(infilename)
-    keys = column_dicts.keys()
-    data = to_dict(r)
-    for k in keys:
-        if k in data:
-            data[k] = column_dicts[k]
-        else:
-            raise IndexError
+    series = r.series()
+    for k in column_dicts.keys():
+        index = series.index(k)
+        for i in r.row_range():
+            r.cell_value(i, index, column_dicts[k][i])
     w = Writer(default_out_file)
-    w.write_dict(data)
+    w.write_reader(r)
     w.close()
 
 
