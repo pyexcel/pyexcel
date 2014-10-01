@@ -21,7 +21,6 @@ class CSVBook:
         return {"csv": self.array}
 
 
-
 class CSVSheetWriter:
     """
     csv file writer

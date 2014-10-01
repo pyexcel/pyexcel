@@ -28,6 +28,7 @@ f3         x
 
 """
 
+
 class ColumnIndexFilter:
     def __init__(self, func):
         self.eval_func = func

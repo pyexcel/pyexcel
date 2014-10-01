@@ -90,7 +90,7 @@ VALUE_TOKEN = {
     "percentage": "value",
     "currency": "value"
 }
-    
+
 
 class ODSBook:
 
@@ -101,9 +101,10 @@ class ODSBook:
         self.sheet_names = []
         for sheet in self.doc.spreadsheet.getElementsByType(Table):
             self.readSheet(sheet)
-    
+
     def readSheet(self, sheet):
-        """reads a sheet in the sheet dictionary, storing each sheet as an array (rows) of arrays (columns)"""
+        """reads a sheet in the sheet dictionary, storing each sheet
+        as an array (rows) of arrays (columns)"""
         name = sheet.getAttribute("name")
         rows = sheet.getElementsByType(TableRow)
         arrRows = []
@@ -112,7 +113,7 @@ class ODSBook:
             arrCells = []
             cells = row.getElementsByType(TableCell)
             has_value = False
-            
+
             # for each cell
             for cell in cells:
                 # repeated value?
@@ -128,7 +129,7 @@ class ODSBook:
             # if row contained something
             if(len(arrCells) and has_value):
                 arrRows.append(arrCells)
-                
+
         self.SHEETS[name] = arrRows
         self.sheet_names.append(name)
 

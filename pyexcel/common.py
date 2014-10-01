@@ -20,9 +20,8 @@ XLS_FORMAT_CONVERSION = {
     xlrd.XL_CELL_ERROR: EMPTY
 }
 
+
 class Cell:
     def __init__(self, value_type, value):
         self.type = value_type
         self.value = value
-
-

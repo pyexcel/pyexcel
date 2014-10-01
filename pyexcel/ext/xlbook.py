@@ -7,13 +7,13 @@ import xlwt
 def xldate_to_python_date(value):
     date_tuple = xlrd.xldate_as_tuple(value, 0)
     ret = None
-    if date_tuple == (0,0,0,0,0,0):
-        ret = datetime.datetime(1900,1,1,0,0,0)
-    elif date_tuple[0:3] == (0,0,0):
+    if date_tuple == (0, 0, 0, 0, 0, 0):
+        ret = datetime.datetime(1900, 1, 1, 0, 0, 0)
+    elif date_tuple[0:3] == (0, 0, 0):
         ret = datetime.time(date_tuple[3],
                             date_tuple[4],
                             date_tuple[5])
-    elif date_tuple[3:6] == (0,0,0):
+    elif date_tuple[3:6] == (0, 0, 0):
         ret = datetime.date(date_tuple[0],
                             date_tuple[1],
                             date_tuple[2])
@@ -75,7 +75,8 @@ class XLBook:
         self.workbook = xlrd.open_workbook(file)
         self.mysheets = {}
         for name in self.workbook.sheet_names():
-            self.mysheets[name] = to_array(XLSheet(self.workbook.sheet_by_name(name)))
+            self.mysheets[name] = to_array(XLSheet(
+                self.workbook.sheet_by_name(name)))
 
     def sheets(self):
         """Get sheets in a dictionary"""
@@ -116,7 +117,7 @@ class XLSheetWriter:
             if style:
                 self.ws.write(self.current_row, i, value, style)
             else:
-                self.ws.write(self.current_row, i, value)                
+                self.ws.write(self.current_row, i, value)
         self.current_row += 1
 
     def close(self):

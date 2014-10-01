@@ -7,7 +7,6 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-import xlrd
 import types
 import datetime
 from common import (
