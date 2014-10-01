@@ -9,12 +9,7 @@ class TestODSReader:
                                                      "ods_formats.ods"))
         self.data = {}
         for s in r.sheet_names:
-            self.data[s] = []
-            for y in r.SHEETS[s]:
-                my_array = []
-                for x in y:
-                    my_array.append(x.value)
-                self.data[s].append(my_array)
+            self.data[s] = pyexcel.utils.to_array(r.SHEETS[s])
 
     def test_formats(self):
         # date formats
