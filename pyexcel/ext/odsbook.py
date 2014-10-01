@@ -1,5 +1,5 @@
 """
-    pyexcel.ext.odsreader
+    pyexcel.ext.odsbook
     ~~~~~~~~~~~~~~~~~~~~~~
 
     ODSReader
@@ -81,6 +81,15 @@ VALUE_CONVERTERS = {
     "percentage": float_value,
     "currency": float_value
 }
+
+VALUE_TOKEN = {
+    "float": "value",
+    "date": "date-value",
+    "time": "time-value",
+    "boolean": "boolean-value",
+    "percentage": "value",
+    "currency": "value"
+}
     
 
 class ODSBook:
@@ -98,7 +107,6 @@ class ODSBook:
         name = sheet.getAttribute("name")
         rows = sheet.getElementsByType(TableRow)
         arrRows = []
-        
         # for each row
         for row in rows:
             arrCells = []
@@ -111,38 +119,8 @@ class ODSBook:
                 repeat = cell.getAttribute("numbercolumnsrepeated")
                 if(not repeat):
                     has_value = True
-                    cell_type = cell.getAttrNS(OFFICENS, "value-type")
-                    if cell_type == "float" or cell_type == "currency" or cell_type == "percentage":
-                        value_token = "value"
-                    else:
-                        value_token = "%s-value" % cell_type
-                    if cell_type == "string":
-                        ps = cell.getElementsByType(P)
-                        textContent = ""
-                        # for each text node
-                        for p in ps:
-                            for n in p.childNodes:
-                                if (n.nodeType == 3):
-                                    textContent = textContent + unicode(n.data)
-                        arrCells.append(pycell(STRING_FORMAT, textContent))
-                    else:
-                        if cell_type in ODS_FORMAT_CONVERSION:
-                            value = cell.getAttrNS(OFFICENS, value_token)
-                            n_value = VALUE_CONVERTERS[cell_type](value)
-                            n_type = ODS_FORMAT_CONVERSION[cell_type]
-                            arrCells.append(pycell(n_type, n_value))
-                        else:
-                            ps = cell.getElementsByType(P)
-                            textContent = ""
-                            # for each text node
-                            for p in ps:
-                                for n in p.childNodes:
-                                    if (n.nodeType == 3):
-                                        textContent = textContent + unicode(n.data)
-                            if len(textContent):
-                                arrCells.append(pycell(STRING_FORMAT, textContent))
-                            else:
-                                arrCells.append(pycell(EMPTY, ""))
+                    ret = self._read_cell(cell)
+                    arrCells.append(ret)
                 else:
                     r = int(repeat)
                     for i in range(0, r):
@@ -153,6 +131,37 @@ class ODSBook:
                 
         self.SHEETS[name] = arrRows
         self.sheet_names.append(name)
+
+    def _read_text_cell(self, cell):
+        textContent = ""
+        ps = cell.getElementsByType(P)
+        # for each text node
+        for p in ps:
+            for n in p.childNodes:
+                if (n.nodeType == 3):
+                    textContent = textContent + unicode(n.data)
+        return textContent
+
+    def _read_cell(self, cell):
+        cell_type = cell.getAttrNS(OFFICENS, "value-type")
+        value_token = VALUE_TOKEN.get(cell_type, "value")
+        ret = None
+        if cell_type == "string":
+            textContent = self._read_text_cell(cell)
+            ret = pycell(STRING_FORMAT, textContent)
+        else:
+            if cell_type in ODS_FORMAT_CONVERSION:
+                value = cell.getAttrNS(OFFICENS, value_token)
+                n_value = VALUE_CONVERTERS[cell_type](value)
+                n_type = ODS_FORMAT_CONVERSION[cell_type]
+                ret = pycell(n_type, n_value)
+            else:
+                textContent = self._read_text_cell(cell)
+                if len(textContent):
+                    ret = pycell(STRING_FORMAT, textContent)
+                else:
+                    ret = pycell(EMPTY, "")
+        return ret
 
     def sheets(self):
         return self.SHEETS
