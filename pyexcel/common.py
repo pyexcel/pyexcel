@@ -7,8 +7,7 @@ from iterators import (HBRTLIterator,
                        RowReverseIterator,
                        ColumnIterator,
                        ColumnReverseIterator,
-                       SeriesColumnIterator,
-                       SheetIterator)
+                       SeriesColumnIterator)
 from filters import (RowIndexFilter,
                      ColumnIndexFilter,
                      RowFilter)
