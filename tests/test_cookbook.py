@@ -113,6 +113,7 @@ class TestCookbook:
         data = pyexcel.utils.to_dict(r)
         assert data["Z"] == custom_column["Z"]
         try:
+            # test if it try not overwrite a file
             pyexcel.cookbook.update_columns(self.testfile, custom_column)
             r = pyexcel.SeriesReader("pyexcel_%s" % self.testfile)
             assert 1==2
@@ -122,6 +123,29 @@ class TestCookbook:
         r = pyexcel.SeriesReader("test4.ods")
         data = pyexcel.utils.to_dict(r)
         assert data["Z"] == custom_column["Z"]
+
+    def test_update_rows(self):
+        bad_column = {100: [31, 1, 1, 1, 1]}
+        custom_column = {1: [2,3,4]}
+        try:
+            # try non-existent column first
+            pyexcel.cookbook.update_rows(self.testfile, bad_column)
+            assert 1==2
+        except ValueError:
+            assert 1==1
+        pyexcel.cookbook.update_rows(self.testfile, custom_column)
+        r = pyexcel.Reader("pyexcel_%s" % self.testfile)
+        assert custom_column[1] == r.row_at(1)
+        try:
+            # try not to overwrite a file
+            pyexcel.cookbook.update_rows(self.testfile, custom_column)
+            r = pyexcel.SeriesReader("pyexcel_%s" % self.testfile)
+            assert 1==2
+        except NotImplementedError:
+            assert 1==1
+        pyexcel.cookbook.update_rows(self.testfile, custom_column, "test4.ods")
+        r = pyexcel.Reader("test4.ods")
+        assert custom_column[1] == r.row_at(1)
 
     def test_merge_two_files(self):
         pyexcel.cookbook.merge_two_files(self.testfile, self.testfile2)

@@ -263,6 +263,22 @@ class PlainSheet:
         else:
             return None
 
+    def set_column_at(self, column_index, data_array, starting=0):
+        if column_index < self.number_of_columns() and starting < self.number_of_rows():
+            to = min(len(data_array)+starting, self.number_of_rows())
+            for i in range(starting, to):
+                self.cell_value(i, column_index, data_array[i])
+        else:
+            raise ValueError
+
+    def set_row_at(self, row_index, data_array, starting=0):
+        if row_index < self.number_of_rows() and starting < self.number_of_columns():
+            to = min(len(data_array)+starting, self.number_of_columns())
+            for i in range(starting, to):
+                self.cell_value(row_index,i, data_array[i])
+        else:
+            raise ValueError
+
     def contains(self, predicate):
         for r in self.rows():
             if predicate(r):

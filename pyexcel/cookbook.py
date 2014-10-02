@@ -17,7 +17,12 @@ __WARNING_TEXT__ = "We do not overwrite files"
 
 
 def update_columns(infilename, column_dicts, outfilename=None):
-    """Update one or more columns of a data file with series"""
+    """Update one or more columns of a data file with series
+
+    The data structure of column_dicts should be:
+    key should be first row of the column
+    the rest of the value should an array
+    """
     default_out_file = "pyexcel_%s" % infilename
     if outfilename:
         default_out_file = outfilename
@@ -27,8 +32,25 @@ def update_columns(infilename, column_dicts, outfilename=None):
     series = r.series()
     for k in column_dicts.keys():
         index = series.index(k)
-        for i in r.row_range():
-            r.cell_value(i, index, column_dicts[k][i])
+        r.set_column_at(index, column_dicts[k])
+    w = Writer(default_out_file)
+    w.write_reader(r)
+    w.close()
+
+def update_rows(infilename, row_dicts, outfilename=None):
+    """Update one or more columns of a data file with series
+
+    datastucture: key should an integer of the row to be updated
+    value should be an array of the data
+    """
+    default_out_file = "pyexcel_%s" % infilename
+    if outfilename:
+        default_out_file = outfilename
+    if os.path.exists(default_out_file):
+        raise NotImplementedError(__WARNING_TEXT__)
+    r = Reader(infilename)
+    for k in row_dicts.keys():
+        r.set_row_at(k, row_dicts[k])
     w = Writer(default_out_file)
     w.write_reader(r)
     w.close()
