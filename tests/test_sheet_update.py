@@ -57,6 +57,10 @@ class TestReader:
         content3 = [True, False, True, False]
         r[0:0] = content3
         assert r[0] == [True, False, True, False]
+        r[0:2:1] = [1, 1, 1, 1]
+        assert r[0] == [1, 1, 1, 1]
+        assert r[1] == [1, 1, 1, 1]
+        assert r[2] == [1, 2, 3, 4]
         try:
             r[2:1] = ['e', 'r', 'r', 'o']
             assert 1==2
