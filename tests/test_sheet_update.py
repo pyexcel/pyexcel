@@ -46,6 +46,56 @@ class TestReader:
         r.clear_filters()
         assert r[2][3] == "k"
 
+    def test_set_item(self):
+        r = pyexcel.Reader(self.testfile)
+        content = ['r', 's', 't', 'o']
+        r[1] = content
+        assert r[1] == ['r', 's', 't', 'o']
+        content2 = [1, 2, 3, 4]
+        r[1:] = content2
+        assert r[2] == [1, 2, 3, 4]
+        content3 = [True, False, True, False]
+        r[0:0] = content3
+        assert r[0] == [True, False, True, False]
+        try:
+            r[2:1] = ['e', 'r', 'r', 'o']
+            assert 1==2
+        except ValueError:
+            assert 1==1
+
+    def test_extend_rows(self):
+        r = pyexcel.PlainReader(self.testfile)
+        content = [['r', 's', 't', 'o'],
+                   [1, 2, 3, 4],
+                   [True],
+                   [1.1, 2.2, 3.3, 4.4, 5.5]]
+        r.extend_rows(content)
+        assert r[3] == ['r', 's', 't', 'o']
+        assert r[4] == [1, 2, 3, 4]
+        assert r[5] == [True, "", "", ""]
+        assert r[6] == [1.1, 2.2, 3.3, 4.4]
+        try:
+            r2 = pyexcel.Reader(self.testfile)
+            content = [['r', 's', 't', 'o'],
+                       [1, 2, 3, 4],
+                       [True],
+                       [1.1, 2.2, 3.3, 4.4, 5.5]]
+            r2.extend_rows(content)
+            assert 1==2
+        except NotImplementedError:
+            assert 1==1
+            
+    def test_delete_rows(self):
+        r = pyexcel.PlainReader(self.testfile)
+        r.delete_rows([0,1])
+        assert r[0] == ['i', 'j', 1.1, 1]
+        try:
+            r2 = pyexcel.Reader(self.testfile)
+            r2.delete_rows([1,2])
+            assert 1==2
+        except NotImplementedError:
+            assert 1==1
+
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)

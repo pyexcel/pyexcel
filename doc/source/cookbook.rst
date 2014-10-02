@@ -4,7 +4,7 @@ Simple usage
 Update one column of a data file
 ---------------------------------
 
-Suppose you want to merge the following two data files:
+Suppose have one data file as the following:
 
 example1.csv
 
@@ -34,6 +34,41 @@ Column 1 Column 2 Column 3
 1        11       7
 2        12       8
 3        13       9
+======== ======== ========
+
+Update one row of a data file
+---------------------------------
+
+Suppose you have the same data file:
+
+example1.csv
+
+======== ======== ========
+Column 1 Column 2 Column 3
+======== ======== ========
+1        4        7
+2        5        8
+3        6        9
+======== ======== ========
+
+And you want to update the second row with these data: [7, 4, 1]
+
+Here is the code::
+
+    from pyexcel.cookbook import update_columns
+
+    
+    custom_row = {1:[11, 12, 13]}
+    update_columns("example1.csv", custom_row, "output.xls")
+
+Your oupt.xls will have these data:
+
+======== ======== ========
+Column 1 Column 2 Column 3
+======== ======== ========
+7        4        1
+2        5        8
+3        6        9
 ======== ======== ========
 
 

@@ -1,4 +1,5 @@
 import xlrd
+import copy
 from iterators import (HBRTLIterator,
                        HTLBRIterator,
                        VBRTLIterator,
@@ -45,6 +46,17 @@ PYTHON_TYPE_CONVERSION = {
 }
 
 
+def f7(seq):
+    """
+    Reference:
+    http://stackoverflow.com/questions/480214/
+    how-do-you-remove-duplicates-from-a-list-in-python-whilst-preserving-order
+    """
+    seen = set()
+    seen_add = seen.add
+    return [ x for x in seq if not (x in seen or seen_add(x))]
+
+
 class RawSheet:
     """
     xls sheet
@@ -79,6 +91,28 @@ class RawSheet:
         else:
             return 0
 
+    def extend_rows(self, rows):
+        """expected the rows to be off the same length"""
+        array_length = self.number_of_columns()
+        for r in rows:
+            length = len(r)
+            agreed_length = min (length, array_length)
+            array = copy.deepcopy(r[:agreed_length])
+            if length < array_length:
+                array = array + [""] * (array_length-length)
+            self.array.append(array)
+
+    def delete_rows(self, row_indices):
+        """delete rows"""
+        if isinstance(row_indices, list) is False:
+            raise ValueError
+        if len(row_indices) > 0:
+            unique_list = f7(row_indices)
+            sorted_list = sorted(unique_list, reverse=True)
+            for i in sorted_list:
+                if i < self.number_of_rows():
+                    del self.array[i]
+        
     def cell_value(self, row, column, new_value=None):
         """
         Random access to the xls cells
@@ -314,6 +348,14 @@ class PlainSheet:
     def clear_formatters(self):
         self.sheet.clear_formatters()
 
+    def extend_rows(self, rows):
+        """expected the rows to be off the same length"""
+        self.sheet.extend_rows(rows)
+
+    def delete_rows(self, row_indices):
+        """delete rows"""
+        self.sheet.delete_rows(row_indices)
+
 
 class MultipleFilterableSheet(PlainSheet):
     """
@@ -404,6 +446,20 @@ class MultipleFilterableSheet(PlainSheet):
     def filter(self, afilter):
         """This is short hand for add_filter"""
         self.add_filter(afilter)
+
+    def extend_rows(self, rows):
+        """expected the rows to be off the same length
+
+        too expensive to do so
+        """
+        raise NotImplementedError
+
+    def delete_rows(self, row_indices):
+        """delete rows
+
+        too expensive to do so
+        """
+        raise NotImplementedError
 
 
 class Sheet(MultipleFilterableSheet):
