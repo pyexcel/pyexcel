@@ -1,4 +1,4 @@
-from pyexcel.common import XLS_FORMAT_CONVERSION, DATE_FORMAT, Cell, RawSheet, Sheet
+from pyexcel.common import XLS_FORMAT_CONVERSION, DATE_FORMAT, RawSheet, Sheet
 import datetime
 import xlrd
 import xlwt
@@ -50,8 +50,7 @@ class XLSheet:
         value = self.worksheet.cell_value(row, column)
         if my_type == DATE_FORMAT:
             value = xldate_to_python_date(value)
-        cell = Cell(my_type, value)
-        return cell
+        return value
 
 
 def to_array(sheet):

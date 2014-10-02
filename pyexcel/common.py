@@ -45,12 +45,6 @@ PYTHON_TYPE_CONVERSION = {
 }
 
 
-class Cell:
-    def __init__(self, value_type, value):
-        self.type = value_type
-        self.value = value
-
-
 class RawSheet:
     """
     xls sheet
@@ -90,16 +84,17 @@ class RawSheet:
         Random access to the xls cells
         """
         if new_value == None:
-            cell = self.array[row][column]
-            value = cell.value
+            value = self.array[row][column]
+            value_type = PYTHON_TYPE_CONVERSION.get(type(value),
+                                              STRING_FORMAT)
             if len(self._formatters) > 0:
-                previous_type = cell.type
+                previous_type = value_type
                 for f in self._formatters:
                     if f.is_my_business(row, column, value):
                         value = f.do_format(value, previous_type)
                         previous_type = f.desired_format
             else:
-                if cell.type == STRING_FORMAT:
+                if value_type == STRING_FORMAT:
                     try:
                         if "." in value:
                             value = float(value)
@@ -109,9 +104,7 @@ class RawSheet:
                         pass
             return value
         else:
-            cell_type = PYTHON_TYPE_CONVERSION.get(type(new_value),
-                                                   STRING_FORMAT)
-            self.array[row][column] = Cell(cell_type, new_value)
+            self.array[row][column] = new_value
             return new_value
 
 

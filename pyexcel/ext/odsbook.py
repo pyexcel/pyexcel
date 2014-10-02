@@ -27,7 +27,6 @@ import odf.opendocument
 from odf.table import *
 from odf.text import P
 from odf.namespaces import OFFICENS
-from pyexcel.common import Cell as pycell
 from pyexcel.common import (STRING_FORMAT,
                             FLOAT_FORMAT, EMPTY,
                             DATE_FORMAT, BOOLEAN_FORMAT, RawSheet, Sheet)
@@ -126,7 +125,7 @@ class ODSBook:
                 else:
                     r = int(repeat)
                     for i in range(0, r):
-                        arrCells.append(pycell(EMPTY, ""))
+                        arrCells.append("")
             # if row contained something
             if(len(arrCells) and has_value):
                 arrRows.append(arrCells)
@@ -150,19 +149,15 @@ class ODSBook:
         ret = None
         if cell_type == "string":
             textContent = self._read_text_cell(cell)
-            ret = pycell(STRING_FORMAT, textContent)
+            ret = textContent
         else:
             if cell_type in ODS_FORMAT_CONVERSION:
                 value = cell.getAttrNS(OFFICENS, value_token)
                 n_value = VALUE_CONVERTERS[cell_type](value)
-                n_type = ODS_FORMAT_CONVERSION[cell_type]
-                ret = pycell(n_type, n_value)
+                ret = n_value
             else:
                 textContent = self._read_text_cell(cell)
-                if len(textContent):
-                    ret = pycell(STRING_FORMAT, textContent)
-                else:
-                    ret = pycell(EMPTY, "")
+                ret = textContent
         return ret
 
     def sheets(self):
