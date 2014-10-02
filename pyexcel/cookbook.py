@@ -37,6 +37,7 @@ def update_columns(infilename, column_dicts, outfilename=None):
     w.write_reader(r)
     w.close()
 
+
 def update_rows(infilename, row_dicts, outfilename=None):
     """Update one or more columns of a data file with series
 

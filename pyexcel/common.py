@@ -213,6 +213,25 @@ class PlainSheet:
         """
         return range(0, self.sheet.number_of_columns())
 
+    def __setitem__(self, aslice, c):
+        if isinstance(aslice, slice):
+            start = max(aslice.start, 0)
+            stop = min(aslice.stop, self.number_of_rows())
+            if start > stop:
+                raise ValueError
+            elif start < stop:
+                if aslice.step:
+                    my_range = range(start, stop, aslice.step)
+                else:
+                    my_range = range(start, stop)
+                for i in my_range:
+                    self.set_row_at(i, c)
+            else:
+                # start == stop
+                self.set_row_at(start, c)
+        else:
+            self.set_row_at(aslice, c)
+
     def __getitem__(self, aslice):
         """By default, this class recognize from top to bottom
         from left to right"""

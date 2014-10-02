@@ -63,6 +63,23 @@ class TestReader:
         value = r.column_at(1)
         assert value == ['b','f','j']
 
+    def test_set_item(self):
+        r = pyexcel.Reader(self.testfile)
+        content = ['r', 's', 't', 'o']
+        r[1] = content
+        assert r[1] == ['r', 's', 't', 'o']
+        content2 = [1, 2, 3, 4]
+        r[1:] = content2
+        assert r[2] == [1, 2, 3, 4]
+        content3 = [True, False, True, False]
+        r[0:0] = content3
+        assert r[0] == [True, False, True, False]
+        try:
+            r[2:1] = ['e', 'r', 'r', 'o']
+            assert 1==2
+        except ValueError:
+            assert 1==1
+
     def test_not_supported_file(self):
         try:
             r = pyexcel.Reader("test.sylk")
