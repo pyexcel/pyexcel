@@ -88,11 +88,24 @@ class TestReader:
             assert 1==2
         except NotImplementedError:
             assert 1==1
+
+    def test_set_column_at(self):
+        r = pyexcel.PlainReader(self.testfile)
+        try:
+            r.set_column_at(1,[11,1], 1000)
+            assert 1==2
+        except ValueError:
+            assert 1==1
             
     def test_delete_rows(self):
         r = pyexcel.PlainReader(self.testfile)
         r.delete_rows([0,1])
         assert r[0] == ['i', 'j', 1.1, 1]
+        try:
+            r.delete_rows("hi")
+            assert 1==2
+        except ValueError:
+            assert 1==1
         try:
             r2 = pyexcel.Reader(self.testfile)
             r2.delete_rows([1,2])
