@@ -1,5 +1,4 @@
 import csv
-from pyexcel.common import STRING_FORMAT, RawSheet, Sheet
 
 
 class CSVBook:
@@ -17,7 +16,7 @@ class CSVBook:
                 myrow.append(element)
             self.array.append(myrow)
         self.mysheets = {
-            "csv": Sheet(RawSheet(self.array), "csv")
+            "csv": self.array
         }
 
     def sheets(self):

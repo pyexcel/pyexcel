@@ -8,31 +8,54 @@
     :license: GPL v3
 """
 
-from .readers import Sheet
+from .readers import Sheet, load_file
+import json
 
 
-def to_array(iterator):
+def jsonify(filename):
+    """
+    Get the excel data in json
+    """
+    book = load_file(filename)
+    return json.dumps(book.sheets)
+
+
+def to_array(o):
     """convert a reader iterator to an array"""
     array = []
-    for i in iterator:
-        array.append(i)
+    if isinstance(o, str):
+        book = load_file(file)
+        sheet_names = book.sheets.keys()
+        if len(sheet_names) == 1:
+            array = book.sheets[sheet_names[0]]
+        else:
+            array.append(sheet_names)
+            for name in sheet_names:
+                array.append(book.sheets[name])
+    else:
+        for i in o:
+            array.append(i)
     return array
 
 
-def to_dict(iterator):
+def to_dict(o):
     """convert a reader iterator to a dictionary"""
     the_dict = {}
-    series = "Series_%d"
-    count = 1
-    for c in iterator:
-        if type(c) == dict:
-            the_dict.update(c)
-        elif isinstance(c, Sheet):
-            the_dict.update({c.name: to_array(c)})
-        else:
-            key = series % count
-            the_dict.update({key: c})
-            count += 1
+    if isinstance(o, str):
+        book = load_file(o)
+        the_dict = book.sheets
+    else:
+        series = "Series_%d"
+        count = 1
+        for c in o:
+            if type(c) == dict:
+                the_dict.update(c)
+            elif isinstance(c, Sheet):
+                the_dict.update({c.name: to_array(c)})
+            else:
+                key = series % count
+                the_dict.update({key: c})
+                count += 1
     return the_dict
 
 

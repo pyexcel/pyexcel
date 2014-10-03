@@ -25,6 +25,15 @@ READERS = {
     "ods": ODSBook
 }
 
+def load_file(file):
+    extension = file.split(".")[-1]
+    if extension in READERS:
+        book_class = READERS[extension]
+        book = book_class(file)
+    else:
+        raise NotImplementedError("can not open %s" % file)
+    return book
+
 
 class BookReader:
     """
@@ -38,14 +47,15 @@ class BookReader:
 
         Selecting a specific book according to file extension
         """
-        extension = file.split(".")[-1]
-        if extension in READERS:
-            book_class = READERS[extension]
-            book = book_class(file)
-        else:
-            raise NotImplementedError("can not open %s" % file)
-        self.sheets = book.sheets()
+        book = load_file(file)
+        self.sheets = {}
+        sheets = book.sheets()
+        for name in sheets.keys():
+            self.sheets[name] = self.get_sheet(sheets[name], name)
         self.name_array = self.sheets.keys()
+
+    def get_sheet(self, array, name):
+        return Sheet(array, name)
 
     def __iter__(self):
         return SheetIterator(self)
@@ -85,11 +95,13 @@ class Reader(Sheet):
     """
 
     def __init__(self, file, sheet=None):
-        self.book = BookReader(file)
+        book = load_file(file)
+        sheets = book.sheets()
         if sheet:
-            Sheet.__init__(self, self.book[sheet].sheet, self.book[sheet].name)
+            Sheet.__init__(self, sheets[sheet], sheet)
         else:
-            Sheet.__init__(self, self.book[0].sheet, self.book[0].name)
+            keys = sheets.keys()
+            Sheet.__init__(self, sheets[keys[0]], keys[0])
 
 
 class SeriesReader(Reader):
@@ -107,11 +119,13 @@ class PlainReader(PlainSheet):
     PlainReader exists for speed over Reader and also for testing purposes
     """
     def __init__(self, file, sheet=None):
-        self.book = BookReader(file)
+        book = load_file(file)
+        sheets = book.sheets()
         if sheet:
-            PlainSheet.__init__(self, self.book[sheet].sheet)
+            PlainSheet.__init__(self, sheets[sheet])
         else:
-            PlainSheet.__init__(self, self.book[0].sheet)
+            keys = sheets.keys()
+            PlainSheet.__init__(self, sheets[keys[0]])
 
 
 class FilterableReader(MultipleFilterableSheet):
@@ -119,8 +133,10 @@ class FilterableReader(MultipleFilterableSheet):
     FiltableReader lets you use filters at the sequence of your choice
     """
     def __init__(self, file, sheet=None):
-        self.book = BookReader(file)
+        book = load_file(file)
+        sheets = book.sheets()
         if sheet:
-            MultipleFilterableSheet.__init__(self, self.book[sheet].sheet)
+            MultipleFilterableSheet.__init__(self, sheets[sheet])
         else:
-            MultipleFilterableSheet.__init__(self, self.book[0].sheet)
+            keys = sheets.keys()
+            MultipleFilterableSheet.__init__(self, sheets[keys[0]])

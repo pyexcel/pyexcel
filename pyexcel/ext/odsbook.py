@@ -29,7 +29,7 @@ from odf.text import P
 from odf.namespaces import OFFICENS
 from pyexcel.common import (STRING_FORMAT,
                             FLOAT_FORMAT, EMPTY,
-                            DATE_FORMAT, BOOLEAN_FORMAT, RawSheet, Sheet)
+                            DATE_FORMAT, BOOLEAN_FORMAT)
 
 
 
@@ -130,7 +130,7 @@ class ODSBook:
             if(len(arrCells) and has_value):
                 arrRows.append(arrCells)
 
-        self.SHEETS[name] = Sheet(RawSheet(arrRows), name)
+        self.SHEETS[name] = arrRows
         self.sheet_names.append(name)
 
     def _read_text_cell(self, cell):

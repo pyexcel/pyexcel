@@ -1,6 +1,6 @@
 import xlrd
 import copy
-from iterators import Iteratable, SeriesColumnIterator
+from iterators import IteratableArray, SeriesColumnIterator
 from filters import (RowIndexFilter,
                      ColumnIndexFilter,
                      RowFilter)
@@ -49,14 +49,14 @@ def f7(seq):
     return [ x for x in seq if not (x in seen or seen_add(x))]
 
 
-class RawSheet:
+class PlainSheet(IteratableArray):
     """
     xls sheet
 
     Currently only support first sheet in the file
     """
     def __init__(self, array):
-        self.array = array
+        IteratableArray.__init__(self, array)
         self._formatters = []
 
     def add_formatter(self, aformatter):
@@ -72,13 +72,19 @@ class RawSheet:
         """
         Number of rows in the xls sheet
         """
+        return self._number_of_rows()
+        
+    def _number_of_rows(self):
         return len(self.array)
 
     def number_of_columns(self):
         """
         Number of columns in the xls sheet
         """
-        if self.number_of_rows() > 0:
+        return self._number_of_columns()
+
+    def _number_of_columns(self):
+        if self._number_of_rows() > 0:
             return len(self.array[0])
         else:
             return 0
@@ -105,7 +111,7 @@ class RawSheet:
                 if i < self.number_of_rows():
                     del self.array[i]
         
-    def cell_value(self, row, column, new_value=None):
+    def _cell_value(self, row, column, new_value=None):
         """
         Random access to the xls cells
         """
@@ -133,38 +139,13 @@ class RawSheet:
             self.array[row][column] = new_value
             return new_value
 
-
-class PlainSheet(Iteratable):
-    """
-    Wrapper class to unify csv, xls and xlsx sheet
-    """
-    def __init__(self, sheet):
-        """
-        Sheet constructor
-
-        Selecting a specific sheet according to file extension
-        """
-        self.sheet = sheet
-
-    def number_of_rows(self):
-        """
-        Number of rows in the data sheet
-        """
-        return self.sheet.number_of_rows()
-
-    def number_of_columns(self):
-        """
-        Number of columns in the data sheet
-        """
-        return self.sheet.number_of_columns()
-
     def cell_value(self, row, column, new_value=None):
         """
         Random access to the data cells
         """
         if row in self.row_range() and column in self.column_range():
             # apply formatting
-            return self.sheet.cell_value(row, column, new_value)
+            return self._cell_value(row, column, new_value)
         else:
             return None
 
@@ -172,13 +153,13 @@ class PlainSheet(Iteratable):
         """
         Utility function to get row range
         """
-        return range(0, self.sheet.number_of_rows())
+        return range(0, self.number_of_rows())
 
     def column_range(self):
         """
         Utility function to get column range
         """
-        return range(0, self.sheet.number_of_columns())
+        return range(0, self.number_of_columns())
 
     def __setitem__(self, aslice, c):
         if isinstance(aslice, slice):
@@ -272,23 +253,6 @@ class PlainSheet(Iteratable):
         else:
             return False
 
-    def add_formatter(self, aformatter):
-        self.sheet.add_formatter(aformatter)
-
-    def remove_formatter(self, aformatter):
-        self.sheet.remove_formatter(aformatter)
-
-    def clear_formatters(self):
-        self.sheet.clear_formatters()
-
-    def extend_rows(self, rows):
-        """expected the rows to be off the same length"""
-        self.sheet.extend_rows(rows)
-
-    def delete_rows(self, row_indices):
-        """delete rows"""
-        self.sheet.delete_rows(row_indices)
-
 
 class MultipleFilterableSheet(PlainSheet):
     """
@@ -314,25 +278,27 @@ class MultipleFilterableSheet(PlainSheet):
         """
         Number of rows in the data sheet
         """
+        number_of_rows = self._number_of_rows()
         if len(self._filters) != 0:
-            new_rows = self.sheet.number_of_rows()
+            new_rows = number_of_rows
             for filter in self._filters:
                 new_rows = new_rows - filter.rows()
             return new_rows
         else:
-            return self.sheet.number_of_rows()
+            return number_of_rows
 
     def number_of_columns(self):
         """
         Number of columns in the data sheet
         """
+        number_of_columns = self._number_of_columns()
         if len(self._filters) != 0:
-            new_cols = self.sheet.number_of_columns()
+            new_cols = number_of_columns
             for filter in self._filters:
                 new_cols = new_cols - filter.columns()
             return new_cols
         else:
-            return self.sheet.number_of_columns()
+            return number_of_columns
 
     def cell_value(self, row, column, new_value=None):
         """
@@ -347,9 +313,9 @@ class MultipleFilterableSheet(PlainSheet):
                     new_row, new_column = self._filters[i].translate(
                         new_row,
                         new_column)
-                return self.sheet.cell_value(new_row, new_column, new_value)
+                return self._cell_value(new_row, new_column, new_value)
             else:
-                return self.sheet.cell_value(row, column, new_value)
+                return self._cell_value(row, column, new_value)
         else:
             return None
 
@@ -470,7 +436,7 @@ class Sheet(MultipleFilterableSheet):
                 new_row, new_column = self.column_filters[x].translate(
                     new_row,
                     new_column)
-            self.headers.append(self.sheet.cell_value(0, new_column))
+            self.headers.append(self._cell_value(0, new_column))
 
     def series(self):
         """

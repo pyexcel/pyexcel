@@ -1,4 +1,4 @@
-from pyexcel.common import XLS_FORMAT_CONVERSION, DATE_FORMAT, RawSheet, Sheet
+from pyexcel.common import XLS_FORMAT_CONVERSION, DATE_FORMAT
 import datetime
 import xlrd
 import xlwt
@@ -76,7 +76,7 @@ class XLBook:
         for name in self.workbook.sheet_names():
             data = to_array(XLSheet(
                 self.workbook.sheet_by_name(name)))
-            self.mysheets[name] = Sheet(RawSheet(data), name)
+            self.mysheets[name] = data
 
     def sheets(self):
         """Get sheets in a dictionary"""

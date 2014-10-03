@@ -8,31 +8,45 @@
     :license: GPL v3
 """
 
-class Iteratable:
+class IteratableArray:
     """
     To be able to use the iterators in this package, implement
     these methods
     """
+    def __init__(self, array):
+        self.array = array
+        
     def number_of_rows(self):
-        return 0
+        return len(self.array)
 
     def number_of_columns(self):
-        return 0
+        if self.number_of_rows() > 0:
+            return len(self.array[0])
+        else:
+            return 0
 
     def row_range(self):
         """
         Utility function to get row range
         """
-        return []
+        return range(0, self.number_of_rows())
 
     def column_range(self):
         """
         Utility function to get column range
         """
-        return []
+        return range(0, self.number_of_columns())
         
-    def cell_value(self, row, column):
-        return None
+    def cell_value(self, row, column, new_value=None):
+        if new_value:
+            if row in self.row_range() and column in self.column_range():
+            # apply formatting
+                return self.array[row][column]
+            else:
+                return None
+        else:
+            self.array[row][column] = new_value
+            return new_value
         
     def __iter__(self):
         """
@@ -94,7 +108,11 @@ class Iteratable:
         return ColumnReverseIterator(self)
 
 
-class HTLBRIterator:
+class PyexcelIterator:
+    pass
+
+
+class HTLBRIterator(PyexcelIterator):
     """
     Iterate horizontally from top left to bottom right
 
@@ -195,7 +213,7 @@ class VBRTLIterator(HBRTLIterator):
                 self.current / self.rows)
 
 
-class HTRBLIterator:
+class HTRBLIterator(PyexcelIterator):
     """
     Horizontal Top Right to Bottom Left Iterator
 
@@ -317,7 +335,7 @@ class HBLTRIterator(VBLTRIterator):
         return self.reader_ref.cell_value(self.row, self.column)
 
 
-class RowIterator:
+class RowIterator(PyexcelIterator):
     """
     Iterate data row by row from top to bottom
     """
@@ -337,7 +355,7 @@ class RowIterator:
             raise StopIteration
 
 
-class RowReverseIterator:
+class RowReverseIterator(PyexcelIterator):
     """
     Iterate data row by row from bottom to top
     """
@@ -356,7 +374,7 @@ class RowReverseIterator:
             raise StopIteration
 
 
-class ColumnIterator:
+class ColumnIterator(PyexcelIterator):
     """
     Column Iterator from left to right
     """
@@ -375,7 +393,7 @@ class ColumnIterator:
             raise StopIteration
 
 
-class ColumnReverseIterator:
+class ColumnReverseIterator(PyexcelIterator):
     """
     Column Reverse Iterator from right to left
     """
@@ -394,7 +412,7 @@ class ColumnReverseIterator:
             raise StopIteration
 
 
-class SeriesColumnIterator:
+class SeriesColumnIterator(PyexcelIterator):
     """
     Column Iterator
     """
@@ -415,7 +433,7 @@ class SeriesColumnIterator:
             raise StopIteration
 
 
-class SheetIterator:
+class SheetIterator(PyexcelIterator):
     """
     Sheet Iterator
     """
