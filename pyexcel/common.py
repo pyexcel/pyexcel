@@ -1,14 +1,6 @@
 import xlrd
 import copy
-from iterators import (HBRTLIterator,
-                       HTLBRIterator,
-                       VBRTLIterator,
-                       VTLBRIterator,
-                       RowIterator,
-                       RowReverseIterator,
-                       ColumnIterator,
-                       ColumnReverseIterator,
-                       SeriesColumnIterator)
+from iterators import Iteratable, SeriesColumnIterator
 from filters import (RowIndexFilter,
                      ColumnIndexFilter,
                      RowFilter)
@@ -142,7 +134,7 @@ class RawSheet:
             return new_value
 
 
-class PlainSheet:
+class PlainSheet(Iteratable):
     """
     Wrapper class to unify csv, xls and xlsx sheet
     """
@@ -153,65 +145,6 @@ class PlainSheet:
         Selecting a specific sheet according to file extension
         """
         self.sheet = sheet
-
-    def __iter__(self):
-        """
-        Default iterator to go through each cell one by one from top row to
-        bottom row and from left to right
-        """
-        return self.rows()
-
-    def enumerate(self):
-        """
-        Default iterator to go through each cell one by one from top row to
-        bottom row and from left to right
-        """
-        return HTLBRIterator(self)
-
-    def reverse(self):
-        """
-        Reverse iterator to go through each cell one by one from
-        bottom row to top row and from right to left
-        """
-        return HBRTLIterator(self)
-
-    def vertical(self):
-        """
-        Default iterator to go through each cell one by one from
-        leftmost column to rightmost row and from top to bottom
-        """
-        return VTLBRIterator(self)
-
-    def rvertical(self):
-        """
-        Default iterator to go through each cell one by one from rightmost
-        column to leftmost row and from bottom to top
-        """
-        return VBRTLIterator(self)
-
-    def rows(self):
-        """
-        Returns a row iterator to go through each row from top to bottom
-        """
-        return RowIterator(self)
-
-    def rrows(self):
-        """
-        Returns a row iterator to go through each row from bottom to top
-        """
-        return RowReverseIterator(self)
-
-    def columns(self):
-        """
-        Returns a column iterator to go through each column from left to right
-        """
-        return ColumnIterator(self)
-
-    def rcolumns(self):
-        """
-        Returns a column iterator to go through each column from right to left
-        """
-        return ColumnReverseIterator(self)
 
     def number_of_rows(self):
         """
