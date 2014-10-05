@@ -11,21 +11,23 @@ from iterators import SheetIterator
 from sheets import PlainSheet, MultipleFilterableSheet, Sheet
 from utils import to_dict
 from io import load_file
+import os
 
-class BookReader:
+
+class Book:
     """
     Read an excel book that has mutliple sheets
 
     For csv file, there will be just one sheet
     """
-    def __init__(self, file):
+    def __init__(self, file=None):
         """
         Book constructor
 
         Selecting a specific book according to file extension
         """
-        if file:
-            self.load_from(file)
+        if file and os.path.exists(file):
+                self.load_from(file)
 
     def load_from(self, file):
         book = load_file(file)
@@ -77,13 +79,24 @@ class BookReader:
         for k in a.keys():
             new_key = "%s_left" % k
             content[new_key] = a[k]
-        b = to_dict(other)
-        for l in b.keys():
-            new_key = "%s_right" % l
-            content[new_key] = b[l]
-        c = BookReader(None)
+        if isinstance(other, Book):
+            b = to_dict(other)
+            for l in b.keys():
+                new_key = "%s_right" % l
+                content[new_key] = b[l]
+        elif isinstance(other, Sheet):
+            new_key = "%s_right" % other.name
+            content[new_key] = other.array
+        c = Book()
         c.load_from_sheets(content)
         return c
+
+
+class BookReader(Book):
+    """
+    For backward compatibility
+    """
+    pass
 
 
 class Reader(Sheet):
