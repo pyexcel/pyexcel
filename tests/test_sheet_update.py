@@ -132,6 +132,23 @@ class TestReader:
         except NotImplementedError:
             assert 1==1
 
+    def test_delete_columns(self):
+        r = pyexcel.PlainReader(self.testfile)
+        r.delete_columns([0,2])
+        print r[0]
+        assert r[0] == ['b', 'd']
+        try:
+            r.delete_columns("hi")
+            assert 1==2
+        except ValueError:
+            assert 1==1
+        try:
+            r2 = pyexcel.Reader(self.testfile)
+            r2.delete_columns([1,2])
+            assert 1==2
+        except NotImplementedError:
+            assert 1==1
+
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)

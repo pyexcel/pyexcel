@@ -112,6 +112,9 @@ class PlainSheet(IteratableArray):
                     del self.array[i]
 
     def extend_columns(self, columns):
+        """
+        columns should be an array
+        """
         current_nrows = self.number_of_rows()
         current_ncols = self.number_of_columns()
         insert_column_nrows = len(columns)
@@ -129,6 +132,19 @@ class PlainSheet(IteratableArray):
                 new_array = [""] * current_ncols
                 new_array += columns[base+i]
                 self.array.append(new_array)
+
+    def delete_columns(self, column_indices):
+        """
+        Delete columns by specified list of indices
+        """
+        if isinstance(column_indices, list) is False:
+            raise ValueError
+        if len(column_indices) > 0:
+            unique_list = f7(column_indices)
+            sorted_list = sorted(unique_list, reverse=True)
+            for i in range(0, len(self.array)):
+                for j in sorted_list:
+                    del self.array[i][j]
         
     def _cell_value(self, row, column, new_value=None):
         """
@@ -394,6 +410,20 @@ class MultipleFilterableSheet(PlainSheet):
         raise NotImplementedError
 
     def delete_rows(self, row_indices):
+        """delete rows
+
+        too expensive to do so
+        """
+        raise NotImplementedError
+
+    def extend_columns(self, rows):
+        """expected the rows to be off the same length
+
+        too expensive to do so
+        """
+        raise NotImplementedError
+
+    def delete_columns(self, row_indices):
         """delete rows
 
         too expensive to do so
