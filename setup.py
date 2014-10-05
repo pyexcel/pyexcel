@@ -17,7 +17,7 @@ except ImportError:
 setup(
     name='pyexcel',
     author="C. W.",
-    version='0.0.3',
+    version='0.0.4',
     author_email="wangc_2011@hotmail.com",
     url="https://github.com/chfw/pyexcel",
     description='A wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm.',

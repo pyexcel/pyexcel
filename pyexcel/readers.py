@@ -11,7 +11,7 @@ from ext.odsbook import ODSBook
 from ext.csvbook import CSVBook
 from ext.xlbook import XLBook
 from iterators import SheetIterator
-from common import PlainSheet, MultipleFilterableSheet, Sheet
+from sheets import PlainSheet, MultipleFilterableSheet, Sheet
 
 
 """

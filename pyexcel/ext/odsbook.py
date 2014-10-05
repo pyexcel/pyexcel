@@ -27,7 +27,7 @@ import odf.opendocument
 from odf.table import *
 from odf.text import P
 from odf.namespaces import OFFICENS
-from pyexcel.common import (STRING_FORMAT,
+from pyexcel.sheets import (STRING_FORMAT,
                             FLOAT_FORMAT, EMPTY,
                             DATE_FORMAT, BOOLEAN_FORMAT)
 
