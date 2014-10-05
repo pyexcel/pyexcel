@@ -159,6 +159,23 @@ class TestAddBooks:
         assert content["Sheet3_left"] == self.content["Sheet3"]
         assert content["Sheet2_left"] == self.content["Sheet2"]
         assert content["Sheet1_left"] == self.content["Sheet1"]
+        
+    def test_add_book1_in_place(self):
+        """
+        test this scenario: book1 +=  book2
+        """
+        b1 = pyexcel.BookReader(self.testfile)
+        b2 = pyexcel.BookReader(self.testfile2)
+        b1 += b2
+        content = pyexcel.utils.to_dict(b1)
+        sheet_names = content.keys()
+        assert len(sheet_names) == 6
+        assert content["Sheet3_right"] == self.content["Sheet3"]
+        assert content["Sheet2_right"] == self.content["Sheet2"]
+        assert content["Sheet1_right"] == self.content["Sheet1"]
+        assert content["Sheet3"] == self.content["Sheet3"]
+        assert content["Sheet2"] == self.content["Sheet2"]
+        assert content["Sheet1"] == self.content["Sheet1"]
 
     def test_add_book2(self):
         """
@@ -175,6 +192,22 @@ class TestAddBooks:
         assert content["Sheet3_left"] == self.content["Sheet3"]
         assert content["Sheet2_left"] == self.content["Sheet2"]
         assert content["Sheet1_left"] == self.content["Sheet1"]
+
+    def test_add_book2_in_place(self):
+        """
+        test this scenario: book3 = book1 + sheet3
+        """
+        b1 = pyexcel.BookReader(self.testfile)
+        b2 = pyexcel.BookReader(self.testfile2)
+        b1 += b2["Sheet3"]
+        content = pyexcel.utils.to_dict(b1)
+        sheet_names = content.keys()
+        assert len(sheet_names) == 4
+        print sheet_names
+        assert content["Sheet3_right"] == self.content["Sheet3"]
+        assert content["Sheet3"] == self.content["Sheet3"]
+        assert content["Sheet2"] == self.content["Sheet2"]
+        assert content["Sheet1"] == self.content["Sheet1"]
 
     def test_add_book3(self):
         """

@@ -31,11 +31,8 @@ class Book:
 
     def load_from(self, file):
         book = load_file(file)
-        self.sheets = {}
         sheets = book.sheets()
-        for name in sheets.keys():
-            self.sheets[name] = self.get_sheet(sheets[name], name)
-        self.name_array = self.sheets.keys()
+        self.load_from_sheets(sheets)
 
     def load_from_sheets(self, sheets):
         self.sheets = {}
@@ -90,6 +87,18 @@ class Book:
         c = Book()
         c.load_from_sheets(content)
         return c
+
+    def __iadd__(self, other):
+        if isinstance(other, Book):
+            names = other.sheet_names()
+            for name in names:
+                new_key = "%s_right" % name
+                self.sheets[new_key] = self.get_sheet(other[name].array, new_key)
+        elif isinstance(other, Sheet):
+            new_key = "%s_right" % other.name
+            self.sheets[new_key] = self.get_sheet(other.array, new_key)
+        self.name_array = self.sheets.keys()
+        return self
 
 
 class BookReader(Book):
