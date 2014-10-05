@@ -116,3 +116,28 @@ class TestReader:
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
+
+class TestAddBooks:
+    def setUp(self):
+        self.testfile = "multiple1.ods"
+        self.testfile2 = "multiple1.xls"
+        self.testfile3 = "multiple2.xlsx"
+        self.content = {
+            "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
+            "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
+            "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
+        }
+        self._write_test_file(self.testfile)
+        self._write_test_file(self.testfile2)
+
+    def test_add_book(self):
+        b1 = pyexcel.BookReader(self.testfile)
+        b2 = pyexcel.BookReader(self.testfile2)
+        b3 = b1 + b2
+        content = pyexcel.utils.to_dict(b3)
+        print content
+
+    def tearDown(self):
+        self._clean_up()
+
+

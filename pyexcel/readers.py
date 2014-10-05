@@ -11,7 +11,12 @@ from ext.odsbook import ODSBook
 from ext.csvbook import CSVBook
 from ext.xlbook import XLBook
 from iterators import SheetIterator
+<<<<<<< HEAD
 from sheets import PlainSheet, MultipleFilterableSheet, Sheet
+=======
+from common import PlainSheet, MultipleFilterableSheet, Sheet
+from utils import to_dict
+>>>>>>> 55375c35bd59dd06f1c3199fbed8aa2ed8bf066b
 
 
 """
@@ -24,6 +29,7 @@ READERS = {
     "csv": CSVBook,
     "ods": ODSBook
 }
+
 
 def load_file(file):
     extension = file.split(".")[-1]
@@ -47,6 +53,10 @@ class BookReader:
 
         Selecting a specific book according to file extension
         """
+        if file:
+            self.load_from(file)
+
+    def load_from(self, file):
         book = load_file(file)
         self.sheets = {}
         sheets = book.sheets()
@@ -54,6 +64,12 @@ class BookReader:
             self.sheets[name] = self.get_sheet(sheets[name], name)
         self.name_array = self.sheets.keys()
 
+    def load_from_sheets(self, sheets):
+        self.sheets = {}
+        for name in sheets.keys():
+            self.sheets[name] = self.get_sheet(sheets[name], name)
+        self.name_array = self.sheets.keys()
+        
     def get_sheet(self, array, name):
         return Sheet(array, name)
 
@@ -83,6 +99,20 @@ class BookReader:
             return self.sheet_by_index(key)
         else:
             return self.sheet_by_name(key)
+
+    def __add__(self, other):
+        content = {}
+        a = to_dict(self)
+        for k in a.keys():
+            new_key = "%s_left" % k
+            content[new_key] = a[k]
+        b = to_dict(self)
+        for l in b.keys():
+            new_key = "%s_right" % l
+            content[new_key] = b[l]
+        c = BookReader(None)
+        c.load_from_sheets(content)
+        return c
 
 
 class Reader(Sheet):

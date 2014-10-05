@@ -265,6 +265,34 @@ It is hosted in [pyhosted](https://pythonhosted.org/pyexcel/)
 * hence make flexibility for further fancy manipulations
 * investigate the type specification of ods
 
+book merge:
+
+book = book + book
+boot += book1
+book = sheet + sheet
+
+sheet + array or sheet, v, h
+
+sheet merge:
+
+sheet = _sheet_(file_name) + _as_column_(sheet, array)
+sheet = _sheet_(file_name) + _as_row_(sheet, array)
+
+file_list = f1.split()
+
+sheet scatter:
+
+(even_rows, odd_rows) = f.scatter())
+
+paginate
+
+modify
+
+toxml
+
+xmlt
+
+
 ## Dependencies
 
 * odfpy
