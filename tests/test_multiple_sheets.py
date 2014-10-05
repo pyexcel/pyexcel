@@ -143,7 +143,7 @@ class TestAddBooks:
         self._write_test_file(self.testfile)
         self._write_test_file(self.testfile2)
 
-    def test_add_book(self):
+    def test_add_book1(self):
         """
         test this scenario: book3 = book1 + book2
         """
@@ -160,9 +160,9 @@ class TestAddBooks:
         assert content["Sheet2_left"] == self.content["Sheet2"]
         assert content["Sheet1_left"] == self.content["Sheet1"]
 
-    def test_add_book(self):
+    def test_add_book2(self):
         """
-        test this scenario: book3 = book1 + sheet2
+        test this scenario: book3 = book1 + sheet3
         """
         b1 = pyexcel.BookReader(self.testfile)
         b2 = pyexcel.BookReader(self.testfile2)
@@ -174,6 +174,36 @@ class TestAddBooks:
         assert content["Sheet3_right"] == self.content["Sheet3"]
         assert content["Sheet3_left"] == self.content["Sheet3"]
         assert content["Sheet2_left"] == self.content["Sheet2"]
+        assert content["Sheet1_left"] == self.content["Sheet1"]
+
+    def test_add_book3(self):
+        """
+        test this scenario: book3 = sheet1 + sheet2
+        """
+        b1 = pyexcel.BookReader(self.testfile)
+        b2 = pyexcel.BookReader(self.testfile2)
+        b3 = b1["Sheet1"] + b2["Sheet3"]
+        content = pyexcel.utils.to_dict(b3)
+        sheet_names = content.keys()
+        assert len(sheet_names) == 2
+        print sheet_names
+        assert content["Sheet3_right"] == self.content["Sheet3"]
+        assert content["Sheet1_left"] == self.content["Sheet1"]
+        
+    def test_add_book4(self):
+        """
+        test this scenario: book3 = sheet1 + sheet2
+        """
+        b1 = pyexcel.BookReader(self.testfile)
+        b2 = pyexcel.BookReader(self.testfile2)
+        b3 = b1["Sheet1"] + b2
+        content = pyexcel.utils.to_dict(b3)
+        sheet_names = content.keys()
+        assert len(sheet_names) == 4
+        print sheet_names
+        assert content["Sheet3_right"] == self.content["Sheet3"]
+        assert content["Sheet2_right"] == self.content["Sheet2"]
+        assert content["Sheet1_right"] == self.content["Sheet1"]
         assert content["Sheet1_left"] == self.content["Sheet1"]
 
     def tearDown(self):

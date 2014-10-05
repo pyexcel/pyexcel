@@ -256,6 +256,24 @@ class PlainSheet(IteratableArray):
         else:
             return False
 
+    def __add__(self, other):
+        from readers import Book
+        from utils import to_array, to_dict
+        content = {}
+        new_key = "%s_left" % self.name
+        content[new_key] = to_array(self)
+        if isinstance(other, Book):
+            b = to_dict(other)
+            for l in b.keys():
+                new_key = "%s_right" % l
+                content[new_key] = b[l]
+        elif isinstance(other, Sheet):
+            new_key = "%s_right" % other.name
+            content[new_key] = other.array
+        c = Book()
+        c.load_from_sheets(content)
+        return c
+
 
 class MultipleFilterableSheet(PlainSheet):
     """
