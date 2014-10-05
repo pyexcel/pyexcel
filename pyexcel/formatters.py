@@ -62,7 +62,9 @@ def date_to_format(value, FORMAT):
     if FORMAT == DATE_FORMAT:
         ret = value
     elif FORMAT == STRING_FORMAT:
-        if isinstance(value, datetime.date) or isinstance(value, datetime.datetime):
+        if isinstance(value, datetime.date):
+            ret = value.strftime("%d/%m/%y")
+        elif isinstance(value, datetime.datetime):
             ret = value.strftime("%d/%m/%y")
         elif isinstance(value, datetime.time):
             ret = value.strftime("%H:%M:%S")
@@ -127,7 +129,7 @@ class Formatter:
         return self.quanlify_func(row, column, value)
 
     def do_format(self, value, ctype):
-        if self.converter is not None and type(self.converter) == types.FunctionType:
+        if self.converter is not None and isinstance(self.converter, types.FunctionType):
             return self.converter(value, ctype)
         else:
             return to_format(ctype, self.desired_format, value)

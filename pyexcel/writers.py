@@ -101,7 +101,6 @@ class SheetWriter:
         self.writer.close()
 
 
-
 class BookWriter:
     """
     A generic book writer

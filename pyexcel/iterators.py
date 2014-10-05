@@ -2,11 +2,12 @@
     pyexcel.iterators
     ~~~~~~~~~~~~~~~~~~~
 
-    Iterate through the pyexcel readers
+    Iterate through the two dimensional arrays
 
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
+
 
 class IteratableArray:
     """
@@ -15,7 +16,7 @@ class IteratableArray:
     """
     def __init__(self, array):
         self.array = array
-        
+
     def number_of_rows(self):
         return len(self.array)
 
@@ -36,18 +37,18 @@ class IteratableArray:
         Utility function to get column range
         """
         return range(0, self.number_of_columns())
-        
+
     def cell_value(self, row, column, new_value=None):
         if new_value:
             if row in self.row_range() and column in self.column_range():
-            # apply formatting
+                # apply formatting
                 return self.array[row][column]
             else:
                 return None
         else:
             self.array[row][column] = new_value
             return new_value
-        
+
     def __iter__(self):
         """
         Default iterator to go through each cell one by one from top row to
@@ -450,5 +451,3 @@ class SheetIterator(PyexcelIterator):
             return self.book_reader_ref[self.current-1]
         else:
             raise StopIteration
-
-

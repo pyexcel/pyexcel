@@ -5,6 +5,9 @@ import xlwt
 
 
 def xldate_to_python_date(value):
+    """
+    convert xl date to python date
+    """
     date_tuple = xlrd.xldate_as_tuple(value, 0)
     ret = None
     if date_tuple == (0, 0, 0, 0, 0, 0):

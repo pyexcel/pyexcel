@@ -1,3 +1,13 @@
+"""
+    pyexcel.sheets
+    ~~~~~~~~~~~~~~~~~~~
+
+    Representation of data sheets
+
+    :copyright: (c) 2014 by C. W.
+    :license: GPL v3
+"""
+
 import xlrd
 import copy
 from iterators import IteratableArray, SeriesColumnIterator
@@ -46,7 +56,7 @@ def f7(seq):
     """
     seen = set()
     seen_add = seen.add
-    return [ x for x in seq if not (x in seen or seen_add(x))]
+    return [x for x in seq if not (x in seen or seen_add(x))]
 
 
 class PlainSheet(IteratableArray):
@@ -73,7 +83,7 @@ class PlainSheet(IteratableArray):
         Number of rows in the xls sheet
         """
         return self._number_of_rows()
-        
+
     def _number_of_rows(self):
         return len(self.array)
 
@@ -94,7 +104,7 @@ class PlainSheet(IteratableArray):
         array_length = self.number_of_columns()
         for r in rows:
             length = len(r)
-            agreed_length = min (length, array_length)
+            agreed_length = min(length, array_length)
             array = copy.deepcopy(r[:agreed_length])
             if length < array_length:
                 array = array + [""] * (array_length-length)
@@ -145,18 +155,18 @@ class PlainSheet(IteratableArray):
             for i in range(0, len(self.array)):
                 for j in sorted_list:
                     del self.array[i][j]
-        
+
     def _cell_value(self, row, column, new_value=None):
         """
         Random access to the xls cells
         """
-        if new_value == None:
+        if new_value is None:
             try:
                 value = self.array[row][column]
             except IndexError:
                 value = ""
             value_type = PYTHON_TYPE_CONVERSION.get(type(value),
-                                              STRING_FORMAT)
+                                                    STRING_FORMAT)
             if len(self._formatters) > 0:
                 previous_type = value_type
                 for f in self._formatters:
@@ -269,7 +279,9 @@ class PlainSheet(IteratableArray):
             return None
 
     def set_column_at(self, column_index, data_array, starting=0):
-        if column_index < self.number_of_columns() and starting < self.number_of_rows():
+        nrows = self.number_of_rows()
+        ncolumns = self.number_of_columns()
+        if column_index < ncolumns and starting < nrows:
             to = min(len(data_array)+starting, self.number_of_rows())
             for i in range(starting, to):
                 self.cell_value(i, column_index, data_array[i])
@@ -277,10 +289,12 @@ class PlainSheet(IteratableArray):
             raise ValueError
 
     def set_row_at(self, row_index, data_array, starting=0):
-        if row_index < self.number_of_rows() and starting < self.number_of_columns():
+        nrows = self.number_of_rows()
+        ncolumns = self.number_of_columns()
+        if row_index < nrows and starting < ncolumns:
             to = min(len(data_array)+starting, self.number_of_columns())
             for i in range(starting, to):
-                self.cell_value(row_index,i, data_array[i])
+                self.cell_value(row_index, i, data_array[i])
         else:
             raise ValueError
 

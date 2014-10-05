@@ -2,7 +2,7 @@
     pyexcel.readers
     ~~~~~~~~~~~~~~~~~~~
 
-    Uniform interface for reading different excel file formats
+    Uniform interface for describing a excel book
 
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
@@ -39,7 +39,7 @@ class Book:
         for name in sheets.keys():
             self.sheets[name] = self.get_sheet(sheets[name], name)
         self.name_array = self.sheets.keys()
-        
+
     def get_sheet(self, array, name):
         return Sheet(array, name)
 
@@ -93,7 +93,8 @@ class Book:
             names = other.sheet_names()
             for name in names:
                 new_key = "%s_right" % name
-                self.sheets[new_key] = self.get_sheet(other[name].array, new_key)
+                self.sheets[new_key] = self.get_sheet(other[name].array,
+                                                      new_key)
         elif isinstance(other, Sheet):
             new_key = "%s_right" % other.name
             self.sheets[new_key] = self.get_sheet(other.array, new_key)

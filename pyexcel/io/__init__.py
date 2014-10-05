@@ -1,3 +1,13 @@
+
+"""
+    pyexcel.io
+    ~~~~~~~~~~~~~~~~~~~
+
+    Uniform interface for reading/writing different excel file formats
+
+    :copyright: (c) 2014 by C. W.
+    :license: GPL v3
+"""
 from odsbook import ODSBook, ODSWriter
 from csvbook import CSVBook, CSVWriter
 from xlbook import XLBook, XLWriter
@@ -28,6 +38,9 @@ WRITERS = {
 
 
 def load_file(file):
+    """
+    Load data from any supported excel formats
+    """
     extension = file.split(".")[-1]
     if extension in READERS:
         book_class = READERS[extension]
@@ -38,6 +51,9 @@ def load_file(file):
 
 
 def get_writer(file):
+    """
+    Create a writer from any supported excel formats
+    """
     extension = file.split(".")[-1]
     if extension in WRITERS:
         writer_class = WRITERS[extension]
@@ -45,4 +61,3 @@ def get_writer(file):
         return writer
     else:
         raise NotImplementedError("Cannot open %s" % file)
-        

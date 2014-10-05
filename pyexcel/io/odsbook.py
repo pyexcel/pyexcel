@@ -1,12 +1,3 @@
-"""
-    pyexcel.ext.odsbook
-    ~~~~~~~~~~~~~~~~~~~~~~
-
-    ODSReader
-
-    :copyright: (c) 2011 by Marco Conti
-    :license: Apache License 2.0
-"""
 # Copyright 2011 Marco Conti
 
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,7 +21,6 @@ from odf.namespaces import OFFICENS
 from pyexcel.sheets import (STRING_FORMAT,
                             FLOAT_FORMAT, EMPTY,
                             DATE_FORMAT, BOOLEAN_FORMAT)
-
 
 
 def float_value(value):
@@ -81,6 +71,7 @@ VALUE_CONVERTERS = {
     "percentage": float_value,
     "currency": float_value
 }
+
 
 VALUE_TOKEN = {
     "float": "value",
