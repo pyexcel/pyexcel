@@ -88,6 +88,25 @@ class TestReader:
             assert 1==2
         except NotImplementedError:
             assert 1==1
+            
+    def test_extend_columns(self):
+        r = pyexcel.PlainReader(self.testfile)
+        columns = [['c1', 'c2', 'c3'],
+                   ['x1', 'x2', 'x4']]
+        r.extend_columns(columns)
+        assert r[0] == ['a', 'b', 'c', 'd', 'c1', 'c2', 'c3']
+        assert r[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
+        assert r[2] == ['i', 'j', 1.1, 1, '', '', '']
+        r2 = pyexcel.PlainReader(self.testfile)
+        columns2 = [['c1', 'c2', 'c3'],
+                   ['x1', 'x2', 'x4'],
+                   ['y1', 'y2'],
+                   ['z1']]
+        r2.extend_columns(columns2)
+        assert r2[0] == ['a', 'b', 'c', 'd', 'c1', 'c2', 'c3']
+        assert r2[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
+        assert r2[2] == ['i', 'j', 1.1, 1, 'y1', 'y2', '']
+        assert r2[3] == ['', '', '', '', 'z1', '', '']
 
     def test_set_column_at(self):
         r = pyexcel.PlainReader(self.testfile)

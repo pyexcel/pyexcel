@@ -110,6 +110,25 @@ class PlainSheet(IteratableArray):
             for i in sorted_list:
                 if i < self.number_of_rows():
                     del self.array[i]
+
+    def extend_columns(self, columns):
+        current_nrows = self.number_of_rows()
+        current_ncols = self.number_of_columns()
+        insert_column_nrows = len(columns)
+        array_length = min(current_nrows, insert_column_nrows)
+        for i in range(0, array_length):
+            length = len(self.array[i])
+            if length < current_ncols:
+                self.array[i] += [""] * (current_ncols - length)
+            array = copy.deepcopy(columns[i])
+            self.array[i] += array
+        if current_nrows < insert_column_nrows:
+            delta = insert_column_nrows - current_nrows
+            base = current_nrows
+            for i in range(0, delta):
+                new_array = [""] * current_ncols
+                new_array += columns[base+i]
+                self.array.append(new_array)
         
     def _cell_value(self, row, column, new_value=None):
         """
