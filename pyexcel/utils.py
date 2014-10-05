@@ -8,7 +8,8 @@
     :license: GPL v3
 """
 
-from .readers import Sheet, load_file
+from .common import Sheet
+from .readers import load_file
 import json
 
 
