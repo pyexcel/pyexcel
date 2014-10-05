@@ -116,7 +116,10 @@ class PlainSheet(IteratableArray):
         Random access to the xls cells
         """
         if new_value == None:
-            value = self.array[row][column]
+            try:
+                value = self.array[row][column]
+            except IndexError:
+                value = ""
             value_type = PYTHON_TYPE_CONVERSION.get(type(value),
                                               STRING_FORMAT)
             if len(self._formatters) > 0:

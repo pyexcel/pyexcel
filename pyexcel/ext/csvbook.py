@@ -10,11 +10,18 @@ class CSVBook:
     def __init__(self, file):
         self.array = []
         reader = csv.reader(open(file, 'rb'), dialect=csv.excel)
+        longest_row_length = -1
         for row in reader:
             myrow = []
             for element in row:
                 myrow.append(element)
+            if longest_row_length == -1:
+                longest_row_length = len(myrow)
+            elif longest_row_length < len(myrow):
+                longest_row_length = len(myrow)
             self.array.append(myrow)
+        if len(self.array[0]) < longest_row_length:
+            self.array[0] = self.array[0] + [""] * (longest_row_length - len(self.array[0]))
         self.mysheets = {
             "csv": self.array
         }
