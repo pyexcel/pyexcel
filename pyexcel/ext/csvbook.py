@@ -20,8 +20,9 @@ class CSVBook:
             elif longest_row_length < len(myrow):
                 longest_row_length = len(myrow)
             self.array.append(myrow)
-        if len(self.array[0]) < longest_row_length:
-            self.array[0] = self.array[0] + [""] * (longest_row_length - len(self.array[0]))
+        if len(self.array) > 0:
+            if len(self.array[0]) < longest_row_length:
+                self.array[0] = self.array[0] + [""] * (longest_row_length - len(self.array[0]))
         self.mysheets = {
             "csv": self.array
         }
