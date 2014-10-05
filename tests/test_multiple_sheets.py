@@ -118,6 +118,19 @@ class TestReader:
             os.unlink(self.testfile)
 
 class TestAddBooks:
+    def _write_test_file(self, file):
+        """
+        Make a test file as:
+
+        1,1,1,1
+        2,2,2,2
+        3,3,3,3
+        """
+        self.rows = 3
+        w = pyexcel.BookWriter(file)
+        w.write_book_from_dict(self.content)
+        w.close()
+
     def setUp(self):
         self.testfile = "multiple1.ods"
         self.testfile2 = "multiple1.xls"
@@ -135,9 +148,18 @@ class TestAddBooks:
         b2 = pyexcel.BookReader(self.testfile2)
         b3 = b1 + b2
         content = pyexcel.utils.to_dict(b3)
-        print content
+        sheet_names = content.keys()
+        assert len(sheet_names) == 6
+        assert content["Sheet3_right"] == self.content["Sheet3"]
+        assert content["Sheet2_right"] == self.content["Sheet2"]
+        assert content["Sheet1_right"] == self.content["Sheet1"]
+        assert content["Sheet3_left"] == self.content["Sheet3"]
+        assert content["Sheet2_left"] == self.content["Sheet2"]
+        assert content["Sheet1_left"] == self.content["Sheet1"]
 
     def tearDown(self):
-        self._clean_up()
-
+        if os.path.exists(self.testfile):
+            os.unlink(self.testfile)
+        if os.path.exists(self.testfile2):
+            os.unlink(self.testfile2)
 

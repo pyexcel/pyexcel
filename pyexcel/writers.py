@@ -9,9 +9,7 @@
 """
 from utils import to_dict
 from readers import SeriesReader
-from ext.csvbook import CSVWriter
-from ext.odsbook import ODSWriter
-from ext.xlbook import XLWriter
+from io import get_writer
 
 
 class SheetWriter:
@@ -102,16 +100,6 @@ class SheetWriter:
         """
         self.writer.close()
 
-"""
-A list of registered writers
-"""
-WRITERS = {
-    "xls": XLWriter,
-    "xlsm": XLWriter,
-    "xlsx": XLWriter,
-    "csv": CSVWriter,
-    "ods": ODSWriter
-}
 
 
 class BookWriter:
@@ -122,12 +110,7 @@ class BookWriter:
     """
 
     def __init__(self, file):
-        extension = file.split(".")[-1]
-        if extension in WRITERS:
-            writer_class = WRITERS[extension]
-            self.writer = writer_class(file)
-        else:
-            raise NotImplementedError("Cannot open %s" % file)
+        self.writer = get_writer(file)
 
     def create_sheet(self, name):
         return SheetWriter(self.writer.create_sheet(name))

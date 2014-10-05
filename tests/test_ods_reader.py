@@ -4,9 +4,9 @@ import os
 
 class TestODSReader:
     def setUp(self):
-        r = pyexcel.ext.odsbook.ODSBook(os.path.join("tests",
-                                                     "fixtures",
-                                                     "ods_formats.ods"))
+        r = pyexcel.io.odsbook.ODSBook(os.path.join("tests",
+                                                    "fixtures",
+                                                    "ods_formats.ods"))
         self.data = {}
         for s in r.sheet_names:
             self.data[s] = pyexcel.utils.to_array(r.SHEETS[s])

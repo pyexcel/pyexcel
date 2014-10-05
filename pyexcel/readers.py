@@ -7,39 +7,10 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-from ext.odsbook import ODSBook
-from ext.csvbook import CSVBook
-from ext.xlbook import XLBook
 from iterators import SheetIterator
-<<<<<<< HEAD
 from sheets import PlainSheet, MultipleFilterableSheet, Sheet
-=======
-from common import PlainSheet, MultipleFilterableSheet, Sheet
 from utils import to_dict
->>>>>>> 55375c35bd59dd06f1c3199fbed8aa2ed8bf066b
-
-
-"""
-A list of registered readers
-"""
-READERS = {
-    "xls": XLBook,
-    "xlsm": XLBook,
-    "xlsx": XLBook,
-    "csv": CSVBook,
-    "ods": ODSBook
-}
-
-
-def load_file(file):
-    extension = file.split(".")[-1]
-    if extension in READERS:
-        book_class = READERS[extension]
-        book = book_class(file)
-    else:
-        raise NotImplementedError("can not open %s" % file)
-    return book
-
+from io import load_file
 
 class BookReader:
     """
@@ -106,7 +77,7 @@ class BookReader:
         for k in a.keys():
             new_key = "%s_left" % k
             content[new_key] = a[k]
-        b = to_dict(self)
+        b = to_dict(other)
         for l in b.keys():
             new_key = "%s_right" % l
             content[new_key] = b[l]
