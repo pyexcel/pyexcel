@@ -39,7 +39,7 @@ class IteratableArray:
         return range(0, self.number_of_columns())
 
     def cell_value(self, row, column, new_value=None):
-        if new_value:
+        if new_value is None:
             if row in self.row_range() and column in self.column_range():
                 # apply formatting
                 return self.array[row][column]
@@ -107,6 +107,30 @@ class IteratableArray:
         Returns a column iterator to go through each column from right to left
         """
         return ColumnReverseIterator(self)
+
+    def row_at(self, index):
+        """
+        Returns an array that collects all data at the specified row
+        """
+        if index in self.row_range():
+            cell_array = []
+            for i in self.column_range():
+                cell_array.append(self.cell_value(index, i))
+            return cell_array
+        else:
+            return None
+
+    def column_at(self, index):
+        """
+        Returns an array that collects all data at the specified column
+        """
+        if index in self.column_range():
+            cell_array = []
+            for i in self.row_range():
+                cell_array.append(self.cell_value(i, index))
+            return cell_array
+        else:
+            return None
 
 
 class PyexcelIterator:
