@@ -197,18 +197,6 @@ class PlainSheet(IteratableArray):
         else:
             return None
 
-    def row_range(self):
-        """
-        Utility function to get row range
-        """
-        return range(0, self.number_of_rows())
-
-    def column_range(self):
-        """
-        Utility function to get column range
-        """
-        return range(0, self.number_of_columns())
-
     def __setitem__(self, aslice, c):
         if isinstance(aslice, slice):
             start = max(aslice.start, 0)
@@ -253,30 +241,6 @@ class PlainSheet(IteratableArray):
             return self.row_at(index)
         else:
             raise IndexError
-
-    def row_at(self, index):
-        """
-        Returns an array that collects all data at the specified row
-        """
-        if index in self.row_range():
-            cell_array = []
-            for i in self.column_range():
-                cell_array.append(self.cell_value(index, i))
-            return cell_array
-        else:
-            return None
-
-    def column_at(self, index):
-        """
-        Returns an array that collects all data at the specified column
-        """
-        if index in self.column_range():
-            cell_array = []
-            for i in self.row_range():
-                cell_array.append(self.cell_value(i, index))
-            return cell_array
-        else:
-            return None
 
     def set_column_at(self, column_index, data_array, starting=0):
         nrows = self.number_of_rows()
