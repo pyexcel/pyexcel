@@ -153,12 +153,13 @@ class TestAddBooks:
         content = pyexcel.utils.to_dict(b3)
         sheet_names = content.keys()
         assert len(sheet_names) == 6
-        assert content["Sheet3_right"] == self.content["Sheet3"]
-        assert content["Sheet2_right"] == self.content["Sheet2"]
-        assert content["Sheet1_right"] == self.content["Sheet1"]
-        assert content["Sheet3_left"] == self.content["Sheet3"]
-        assert content["Sheet2_left"] == self.content["Sheet2"]
-        assert content["Sheet1_left"] == self.content["Sheet1"]
+        for name in sheet_names:
+            if "Sheet3" in name:
+                assert content[name] == self.content["Sheet3"]
+            elif "Sheet2" in name:
+                assert content[name] == self.content["Sheet2"]
+            elif "Sheet1" in name:
+                assert content[name] == self.content["Sheet1"]
         
     def test_add_book1_in_place(self):
         """
@@ -170,12 +171,13 @@ class TestAddBooks:
         content = pyexcel.utils.to_dict(b1)
         sheet_names = content.keys()
         assert len(sheet_names) == 6
-        assert content["Sheet3_right"] == self.content["Sheet3"]
-        assert content["Sheet2_right"] == self.content["Sheet2"]
-        assert content["Sheet1_right"] == self.content["Sheet1"]
-        assert content["Sheet3"] == self.content["Sheet3"]
-        assert content["Sheet2"] == self.content["Sheet2"]
-        assert content["Sheet1"] == self.content["Sheet1"]
+        for name in sheet_names:
+            if "Sheet3" in name:
+                assert content[name] == self.content["Sheet3"]
+            elif "Sheet2" in name:
+                assert content[name] == self.content["Sheet2"]
+            elif "Sheet1" in name:
+                assert content[name] == self.content["Sheet1"]
 
     def test_add_book2(self):
         """
@@ -188,10 +190,13 @@ class TestAddBooks:
         sheet_names = content.keys()
         assert len(sheet_names) == 4
         print sheet_names
-        assert content["Sheet3_right"] == self.content["Sheet3"]
-        assert content["Sheet3_left"] == self.content["Sheet3"]
-        assert content["Sheet2_left"] == self.content["Sheet2"]
-        assert content["Sheet1_left"] == self.content["Sheet1"]
+        for name in sheet_names:
+            if "Sheet3" in name:
+                assert content[name] == self.content["Sheet3"]
+            elif "Sheet2" in name:
+                assert content[name] == self.content["Sheet2"]
+            elif "Sheet1" in name:
+                assert content[name] == self.content["Sheet1"]
 
     def test_add_book2_in_place(self):
         """
@@ -204,10 +209,13 @@ class TestAddBooks:
         sheet_names = content.keys()
         assert len(sheet_names) == 4
         print sheet_names
-        assert content["Sheet3_right"] == self.content["Sheet3"]
-        assert content["Sheet3"] == self.content["Sheet3"]
-        assert content["Sheet2"] == self.content["Sheet2"]
-        assert content["Sheet1"] == self.content["Sheet1"]
+        for name in sheet_names:
+            if "Sheet3" in name:
+                assert content[name] == self.content["Sheet3"]
+            elif "Sheet2" in name:
+                assert content[name] == self.content["Sheet2"]
+            elif "Sheet1" in name:
+                assert content[name] == self.content["Sheet1"]
 
     def test_add_book3(self):
         """
@@ -220,8 +228,8 @@ class TestAddBooks:
         sheet_names = content.keys()
         assert len(sheet_names) == 2
         print sheet_names
-        assert content["Sheet3_right"] == self.content["Sheet3"]
-        assert content["Sheet1_left"] == self.content["Sheet1"]
+        assert content["Sheet3"] == self.content["Sheet3"]
+        assert content["Sheet1"] == self.content["Sheet1"]
         
     def test_add_book4(self):
         """
@@ -234,10 +242,13 @@ class TestAddBooks:
         sheet_names = content.keys()
         assert len(sheet_names) == 4
         print sheet_names
-        assert content["Sheet3_right"] == self.content["Sheet3"]
-        assert content["Sheet2_right"] == self.content["Sheet2"]
-        assert content["Sheet1_right"] == self.content["Sheet1"]
-        assert content["Sheet1_left"] == self.content["Sheet1"]
+        for name in sheet_names:
+            if "Sheet3" in name:
+                assert content[name] == self.content["Sheet3"]
+            elif "Sheet2" in name:
+                assert content[name] == self.content["Sheet2"]
+            elif "Sheet1" in name:
+                assert content[name] == self.content["Sheet1"]
 
     def tearDown(self):
         if os.path.exists(self.testfile):

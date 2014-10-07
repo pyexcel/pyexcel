@@ -275,14 +275,11 @@ class TestCookbook:
         assert content2 == self.content2
         content3 = pyexcel.utils.to_dict(r[self.testfile3].become_series())
         assert content3 == self.content3
-        sheet1 = "%s_%s" % (self.testfile4, "Sheet1")
-        content4 = pyexcel.utils.to_array(r[sheet1])
+        content4 = pyexcel.utils.to_array(r["Sheet1"])
         assert content4 == self.content4["Sheet1"]
-        sheet2 = "%s_%s" % (self.testfile4, "Sheet2")
-        content5 = pyexcel.utils.to_array(r[sheet2])
+        content5 = pyexcel.utils.to_array(r["Sheet2"])
         assert content5 == self.content4["Sheet2"]
-        sheet3 = "%s_%s" % (self.testfile4, "Sheet3")
-        content6 = pyexcel.utils.to_array(r[sheet3])
+        content6 = pyexcel.utils.to_array(r["Sheet3"])
         assert content6 == self.content4["Sheet3"]
 
     def test_merge_csv_files_to_a_book(self):

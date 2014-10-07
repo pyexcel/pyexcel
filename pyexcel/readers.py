@@ -12,6 +12,7 @@ from sheets import PlainSheet, MultipleFilterableSheet, Sheet
 from utils import to_dict
 from io import load_file
 import os
+import uuid
 
 
 class Book:
@@ -26,10 +27,17 @@ class Book:
 
         Selecting a specific book according to file extension
         """
+        self.path = ""
+        self.filename = "memory"
+        self.name_array = []
+        self.sheets = {}
         if file and os.path.exists(file):
-                self.load_from(file)
-
+            self.load_from(file)
+            
     def load_from(self, file):
+        path, filename = os.path.split(file)
+        self.path = path
+        self.filename = filename
         book = load_file(file)
         sheets = book.sheets()
         self.load_from_sheets(sheets)
@@ -74,16 +82,28 @@ class Book:
         content = {}
         a = to_dict(self)
         for k in a.keys():
-            new_key = "%s_left" % k
+            new_key = k
+            if len(a.keys()) == 1:
+                new_key = "%s_%s" % (self.filename, k)
             content[new_key] = a[k]
         if isinstance(other, Book):
             b = to_dict(other)
             for l in b.keys():
-                new_key = "%s_right" % l
+                new_key = l
+                if len(b.keys()) == 1:
+                    new_key = other.filename
+                if new_key in content:
+                    uid = uuid.uuid4().hex
+                    new_key = "%s_%s" % (l, uid)
                 content[new_key] = b[l]
         elif isinstance(other, Sheet):
-            new_key = "%s_right" % other.name
+            new_key = other.name
+            if new_key in content:
+                uid = uuid.uuid4().hex
+                new_key = "%s_%s" % (other.name, uid)
             content[new_key] = other.array
+        else:
+            raise TypeError
         c = Book()
         c.load_from_sheets(content)
         return c
@@ -92,12 +112,22 @@ class Book:
         if isinstance(other, Book):
             names = other.sheet_names()
             for name in names:
-                new_key = "%s_right" % name
+                new_key = name
+                if len(names) == 1:
+                    new_key = other.filename
+                if new_key in self.name_array:
+                    uid = uuid.uuid4().hex
+                    new_key = "%s_%s" % (name, uid)
                 self.sheets[new_key] = self.get_sheet(other[name].array,
                                                       new_key)
         elif isinstance(other, Sheet):
-            new_key = "%s_right" % other.name
+            new_key = other.name
+            if new_key in self.name_array:
+                uid = uuid.uuid4().hex
+                new_key = "%s_%s" % (other.name, uid)
             self.sheets[new_key] = self.get_sheet(other.array, new_key)
+        else:
+            raise TypeError
         self.name_array = self.sheets.keys()
         return self
 

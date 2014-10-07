@@ -10,6 +10,7 @@
 
 import xlrd
 import copy
+import uuid
 from iterators import IteratableArray, SeriesColumnIterator
 from filters import (RowIndexFilter,
                      ColumnIndexFilter,
@@ -271,17 +272,24 @@ class PlainSheet(IteratableArray):
 
     def __add__(self, other):
         from readers import Book
-        from utils import to_array, to_dict
+        from utils import to_dict
         content = {}
-        new_key = "%s_left" % self.name
-        content[new_key] = to_array(self)
+        content[self.name] = self.array
         if isinstance(other, Book):
             b = to_dict(other)
             for l in b.keys():
-                new_key = "%s_right" % l
+                new_key = l
+                if len(b.keys()) == 1:
+                    new_key = other.filename
+                if new_key in content:
+                    uid = uuid.uuid4().hex
+                    new_key = "%s_%s" % (l, uid)
                 content[new_key] = b[l]
         elif isinstance(other, Sheet):
-            new_key = "%s_right" % other.name
+            new_key = other.name
+            if new_key in content:
+                uid = uuid.uuid4().hex
+                new_key = "%s_%s" % (other.name, uid)
             content[new_key] = other.array
         c = Book()
         c.load_from_sheets(content)

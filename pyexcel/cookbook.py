@@ -8,12 +8,13 @@
     :license: GPL v3
 """
 import os
-from readers import SeriesReader, Reader, BookReader
+from readers import SeriesReader, Reader, Book
 from utils import to_dict, to_array
 from writers import Writer, BookWriter
 
 
 __WARNING_TEXT__ = "We do not overwrite files"
+
 
 
 def update_columns(infilename, column_dicts, outfilename=None):
@@ -119,35 +120,17 @@ def merge_all_to_a_book(filelist, outfilename="merged.xls"):
 
     Note: empty sheets are ignored
     """
-    w = BookWriter(outfilename)
+    merged = Book()
     for file in filelist:
-        r = BookReader(file)
-        head, tail = os.path.split(file)
-        count = 0
-        # find out if the file is a single sheet book
-        # or a multiple sheet book
-        for sheet in r:
-            if sheet.number_of_rows() > 0:
-                count += 1
-
-        for sheet in r:
-            if sheet.number_of_rows() > 0:
-                if count == 1:
-                    # single sheet book, just use the file name
-                    # for the sheet name
-                    sheet_name = tail
-                else:
-                    # otherwise: filename_sheetname
-                    sheet_name = "%s_%s" % (tail, sheet.name)
-                new_sheet = w.create_sheet(sheet_name)
-                new_sheet.write_reader(sheet)
-                new_sheet.close()
+        merged += Book(file)
+    w = BookWriter(outfilename)
+    w.write_book_reader(merged)    
     w.close()
 
 
 def split_a_book(file, outfilename=None):
     """Split a file into separate sheets"""
-    r = BookReader(file)
+    r = Book(file)
     if outfilename:
         saveas = outfilename
     else:
@@ -160,7 +143,7 @@ def split_a_book(file, outfilename=None):
 
 def extract_a_sheet_from_a_book(file, sheetname, outfilename=None):
     """Extract a sheet from a excel book"""
-    r = BookReader(file)
+    r = Book(file)
     if outfilename:
         saveas = outfilename
     else:

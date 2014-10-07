@@ -11,6 +11,7 @@ Core packages
    pyexcel.iterators
    pyexcel.filters
    pyexcel.formatters
+   pyexcel.sheets
 
 
 Utility packages
@@ -33,7 +34,7 @@ pyexcel.cookbook package
 
 pyexcel.ext package
 +++++++++++++++++++++++++++
-.. automodule:: pyexcel.ext.odsreader
+.. automodule:: pyexcel.io
     :members:
     :undoc-members:
     :show-inheritance:

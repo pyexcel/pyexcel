@@ -1,6 +1,7 @@
 import pyexcel
 import os
 
+
 class TestUtils():
     def setUp(self):
         """
@@ -13,8 +14,8 @@ class TestUtils():
         self.testfile = "testcsv.csv"
         w = pyexcel.Writer(self.testfile)
         for i in [0,4,8]:
-            array = [i+1, i+2, i+3, i+4]
-            w.write_row(array)
+           array = [i+1, i+2, i+3, i+4]
+           w.write_row(array)
         w.close()
 
     def test_to_one_dimension_array(self):
@@ -25,6 +26,16 @@ class TestUtils():
         actual2 = pyexcel.utils.to_one_dimensional_array(result)
         assert actual2 == result
 
+    def test_to_array(self):
+        r = pyexcel.Reader(self.testfile)
+        result = [
+            [1, 2, 3, 4],
+            [5, 6, 7, 8, ],
+            [9, 10, 11, 12]
+        ]
+        actual = pyexcel.utils.to_array(r)
+        assert result == actual
+        
     def test_to_dict(self):
         """
         Note: data file with column headers are tested
