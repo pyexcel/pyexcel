@@ -72,11 +72,35 @@ class Book:
             sheet_name = self.name_array[index]
             return self.sheets[sheet_name]
 
+    def remove_sheet(self, sheet):
+        if isinstance(sheet, int):
+            if sheet < len(self.name_array):
+                sheet_name = self.name_array[sheet]
+                del self.sheets[sheet_name]
+                self.name_array = self.sheets.keys()
+            else:
+                raise IndexError
+        elif isinstance(sheet, str):
+            if sheet in self.name_array:
+                del self.sheets[sheet]
+                self.name_array = self.sheets.keys()
+            else:
+                raise KeyError
+        else:
+            raise TypeError
+
     def __getitem__(self, key):
         if type(key) == int:
             return self.sheet_by_index(key)
         else:
             return self.sheet_by_name(key)
+
+    def __delitem__(self, other):
+        self.remove_sheet(other)
+        return self
+
+    def __setitem__(self, key):
+        pass
 
     def __add__(self, other):
         content = {}

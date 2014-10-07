@@ -67,6 +67,25 @@ class TestReader:
         except ValueError:
             assert 1==1
 
+    def test_delete_item(self):
+        r = pyexcel.readers.PlainReader(self.testfile)
+        content = ['i', 'j', 1.1, 1]
+        assert r[2] == content
+        del r[0]
+        assert r[1] == content
+        r2 = pyexcel.readers.PlainReader(self.testfile)
+        del r2[1:]
+        assert r2.number_of_rows() == 1
+        r3 = pyexcel.readers.PlainReader(self.testfile)
+        del r3[0:0]
+        assert r3[1] == content
+        assert r3.number_of_rows() == 2
+        try:
+            del r[2:1]
+            assert 1==2
+        except ValueError:
+            assert 1==1
+
     def test_extend_rows(self):
         r = pyexcel.PlainReader(self.testfile)
         content = [['r', 's', 't', 'o'],

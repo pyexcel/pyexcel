@@ -49,6 +49,12 @@ PYTHON_TYPE_CONVERSION = {
 }
 
 
+"""define vertical deletion"""
+class Vertical(object):
+    def __init__(self, indices):
+        self.indices = indices
+
+
 def f7(seq):
     """
     Reference:
@@ -197,6 +203,24 @@ class PlainSheet(IteratableArray):
             return self._cell_value(row, column, new_value)
         else:
             return None
+
+    def __delitem__(self, aslice):
+        if isinstance(aslice, slice):
+            start = max(aslice.start, 0)
+            stop = min(aslice.stop, self.number_of_rows())
+            if start > stop:
+                raise ValueError
+            elif start < stop:
+                if aslice.step:
+                    my_range = range(start, stop, aslice.step)
+                else:
+                    my_range = range(start, stop)
+                self.delete_rows(my_range)
+            else:
+                # start == stop
+                self.delete_rows([start])
+        else:
+            self.delete_rows([aslice])
 
     def __setitem__(self, aslice, c):
         if isinstance(aslice, slice):

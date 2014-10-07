@@ -143,6 +143,34 @@ class TestAddBooks:
         self._write_test_file(self.testfile)
         self._write_test_file(self.testfile2)
 
+    def test_delete_sheets(self):
+        b1 = pyexcel.readers.Book(self.testfile)
+        assert len(b1.sheet_names()) == 3
+        del b1["Sheet1"]
+        assert len(b1.sheet_names()) == 2
+        try:
+            del b1["Sheet1"]
+            assert 1==2
+        except KeyError:
+            assert 1==1
+        del b1[1]
+        assert len(b1.sheet_names()) == 1
+        try:
+            del b1[1]
+            assert 1==2
+        except IndexError:
+            assert 1==1
+            
+    def test_delete_sheets2(self):
+        """repetitively delete first sheet"""
+        b1 = pyexcel.readers.Book(self.testfile)
+        del b1[0]
+        assert len(b1.sheet_names()) == 2
+        del b1[0]
+        assert len(b1.sheet_names()) == 1
+        del b1[0]
+        assert len(b1.sheet_names()) == 0
+        
     def test_add_book1(self):
         """
         test this scenario: book3 = book1 + book2
