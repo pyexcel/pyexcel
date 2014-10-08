@@ -258,7 +258,7 @@ class TestAddBooks:
         
     def test_add_book4(self):
         """
-        test this scenario: book3 = sheet1 + sheet2
+        test this scenario: book3 = sheet1 + book
         """
         b1 = pyexcel.BookReader(self.testfile)
         b2 = pyexcel.BookReader(self.testfile2)
@@ -273,6 +273,22 @@ class TestAddBooks:
                 assert content[name] == self.content["Sheet2"]
             elif "Sheet1" in name:
                 assert content[name] == self.content["Sheet1"]
+
+    def test_add_book_error(self):
+        """
+        test this scenario: book3 = sheet1 + book
+        """
+        b1 = pyexcel.BookReader(self.testfile)
+        try:
+            b1 + 12
+            assert 1==2
+        except TypeError:
+            assert 1==1
+        try:
+            b1 += 12
+            assert 1==2
+        except TypeError:
+            assert 1==1
 
     def tearDown(self):
         if os.path.exists(self.testfile):

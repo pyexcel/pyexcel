@@ -208,6 +208,10 @@ class PyexcelIteratorBase:
     def test_random_access(self):
         assert self.iteratable.cell_value(100, 100) == None
 
+    def test_set_value(self):
+        self.iteratable.cell_value(0, 0, 1)
+        assert self.iteratable.cell_value(0, 0) == 1
+
     def test_horizontal_iterator(self):
         result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         actual = pyexcel.utils.to_array(self.iteratable.enumerate())

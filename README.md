@@ -248,6 +248,8 @@ Test coverage is shown in [codecov.io](https://codecov.io/github/chfw/pyexcel). 
 nosetests tests --with-coverage --cover-package=pyexcel
 ```
 
+Optionally, you can add `--cover-html --cover-html-dir=your_file_directory`
+
 ## Known Issues
 
 * If a zero was typed in a DATE formatted field in xls, you will get "01/01/1900".

@@ -7,9 +7,7 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-
 import xlrd
-import copy
 import uuid
 from .iterators import IteratableArray, SeriesColumnIterator
 from .filters import (RowIndexFilter,
@@ -49,21 +47,10 @@ PYTHON_TYPE_CONVERSION = {
 }
 
 
-"""define vertical deletion"""
-class Vertical(object):
-    def __init__(self, indices):
-        self.indices = indices
-
-
-def f7(seq):
-    """
-    Reference:
-    http://stackoverflow.com/questions/480214/
-    how-do-you-remove-duplicates-from-a-list-in-python-whilst-preserving-order
-    """
-    seen = set()
-    seen_add = seen.add
-    return [x for x in seq if not (x in seen or seen_add(x))]
+class AS_COLUMNS(object):
+    """Indicate direction is by columns"""
+    def __init__(self, payload):
+        self.payload = payload
 
 
 class PlainSheet(IteratableArray):
@@ -84,84 +71,6 @@ class PlainSheet(IteratableArray):
 
     def clear_formatters(self):
         self._formatters = []
-
-    def number_of_rows(self):
-        """
-        Number of rows in the xls sheet
-        """
-        return self._number_of_rows()
-
-    def _number_of_rows(self):
-        return len(self.array)
-
-    def number_of_columns(self):
-        """
-        Number of columns in the xls sheet
-        """
-        return self._number_of_columns()
-
-    def _number_of_columns(self):
-        if self._number_of_rows() > 0:
-            return len(self.array[0])
-        else:
-            return 0
-
-    def extend_rows(self, rows):
-        """expected the rows to be off the same length"""
-        array_length = self.number_of_columns()
-        for r in rows:
-            length = len(r)
-            agreed_length = min(length, array_length)
-            array = copy.deepcopy(r[:agreed_length])
-            if length < array_length:
-                array = array + [""] * (array_length-length)
-            self.array.append(array)
-
-    def delete_rows(self, row_indices):
-        """delete rows"""
-        if isinstance(row_indices, list) is False:
-            raise ValueError
-        if len(row_indices) > 0:
-            unique_list = f7(row_indices)
-            sorted_list = sorted(unique_list, reverse=True)
-            for i in sorted_list:
-                if i < self.number_of_rows():
-                    del self.array[i]
-
-    def extend_columns(self, columns):
-        """
-        columns should be an array
-        """
-        current_nrows = self.number_of_rows()
-        current_ncols = self.number_of_columns()
-        insert_column_nrows = len(columns)
-        array_length = min(current_nrows, insert_column_nrows)
-        for i in range(0, array_length):
-            length = len(self.array[i])
-            if length < current_ncols:
-                self.array[i] += [""] * (current_ncols - length)
-            array = copy.deepcopy(columns[i])
-            self.array[i] += array
-        if current_nrows < insert_column_nrows:
-            delta = insert_column_nrows - current_nrows
-            base = current_nrows
-            for i in range(0, delta):
-                new_array = [""] * current_ncols
-                new_array += columns[base+i]
-                self.array.append(new_array)
-
-    def delete_columns(self, column_indices):
-        """
-        Delete columns by specified list of indices
-        """
-        if isinstance(column_indices, list) is False:
-            raise ValueError
-        if len(column_indices) > 0:
-            unique_list = f7(column_indices)
-            sorted_list = sorted(unique_list, reverse=True)
-            for i in range(0, len(self.array)):
-                for j in sorted_list:
-                    del self.array[i][j]
 
     def _cell_value(self, row, column, new_value=None):
         """
@@ -204,96 +113,6 @@ class PlainSheet(IteratableArray):
         else:
             return None
 
-    def __delitem__(self, aslice):
-        if isinstance(aslice, slice):
-            start = max(aslice.start, 0)
-            stop = min(aslice.stop, self.number_of_rows())
-            if start > stop:
-                raise ValueError
-            elif start < stop:
-                if aslice.step:
-                    my_range = range(start, stop, aslice.step)
-                else:
-                    my_range = range(start, stop)
-                self.delete_rows(my_range)
-            else:
-                # start == stop
-                self.delete_rows([start])
-        else:
-            self.delete_rows([aslice])
-
-    def __setitem__(self, aslice, c):
-        if isinstance(aslice, slice):
-            start = max(aslice.start, 0)
-            stop = min(aslice.stop, self.number_of_rows())
-            if start > stop:
-                raise ValueError
-            elif start < stop:
-                if aslice.step:
-                    my_range = range(start, stop, aslice.step)
-                else:
-                    my_range = range(start, stop)
-                for i in my_range:
-                    self.set_row_at(i, c)
-            else:
-                # start == stop
-                self.set_row_at(start, c)
-        else:
-            self.set_row_at(aslice, c)
-
-    def __getitem__(self, aslice):
-        """By default, this class recognize from top to bottom
-        from left to right"""
-        index = aslice
-        if isinstance(aslice, slice):
-            start = max(aslice.start, 0)
-            stop = min(aslice.stop, self.number_of_rows())
-            if start > stop:
-                return None
-            elif start < stop:
-                if aslice.step:
-                    my_range = range(start, stop, aslice.step)
-                else:
-                    my_range = range(start, stop)
-                results = []
-                for i in my_range:
-                    results.append(self.row_at(i))
-                return results
-            else:
-                # drop this to index handler
-                index = start
-        if index in self.row_range():
-            return self.row_at(index)
-        else:
-            raise IndexError
-
-    def set_column_at(self, column_index, data_array, starting=0):
-        nrows = self.number_of_rows()
-        ncolumns = self.number_of_columns()
-        if column_index < ncolumns and starting < nrows:
-            to = min(len(data_array)+starting, self.number_of_rows())
-            for i in range(starting, to):
-                self.cell_value(i, column_index, data_array[i])
-        else:
-            raise ValueError
-
-    def set_row_at(self, row_index, data_array, starting=0):
-        nrows = self.number_of_rows()
-        ncolumns = self.number_of_columns()
-        if row_index < nrows and starting < ncolumns:
-            to = min(len(data_array)+starting, self.number_of_columns())
-            for i in range(starting, to):
-                self.cell_value(row_index, i, data_array[i])
-        else:
-            raise ValueError
-
-    def contains(self, predicate):
-        for r in self.rows():
-            if predicate(r):
-                return True
-        else:
-            return False
-
     def __add__(self, other):
         from readers import Book
         from utils import to_dict
@@ -315,9 +134,28 @@ class PlainSheet(IteratableArray):
                 uid = uuid.uuid4().hex
                 new_key = "%s_%s" % (other.name, uid)
             content[new_key] = other.array
+        else:
+            raise ValueError
         c = Book()
         c.load_from_sheets(content)
         return c
+
+    def __iadd__(self, other):
+        if isinstance(other, list):
+            self.extend_rows(other)
+        elif isinstance(other, Sheet):
+            self.extend_rows(other.array)
+        elif isinstance(other, AS_COLUMNS):
+            new_other = other.payload
+            if isinstance(new_other, list):
+                self.extend_columns(new_other)
+            elif isinstance(new_other, Sheet):
+                self.extend_columns(new_other.array)
+            else:
+                raise ValueError
+        else:
+            raise ValueError
+        return self
 
 
 class MultipleFilterableSheet(PlainSheet):
@@ -328,17 +166,14 @@ class MultipleFilterableSheet(PlainSheet):
         PlainSheet.__init__(self, sheet)
         self._filters = []
 
-    def row_range(self):
-        """
-        row range
-        """
-        return range(0, self.number_of_rows())
+    def _number_of_rows(self):
+        return len(self.array)
 
-    def column_range(self):
-        """
-        column range
-        """
-        return range(0, self.number_of_columns())
+    def _number_of_columns(self):
+        if self._number_of_rows() > 0:
+            return len(self.array[0])
+        else:
+            return 0
 
     def number_of_rows(self):
         """
