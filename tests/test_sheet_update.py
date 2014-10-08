@@ -144,7 +144,19 @@ class TestReader:
         assert r2[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
         assert r2[2] == ['i', 'j', 1.1, 1, 'y1', 'y2', '']
         assert r2[3] == ['', '', '', '', 'z1', '', '']
+        try:
+            r2 = pyexcel.Reader(self.testfile)
+            r2.extend_columns(columns2)
+            assert 1==2
+        except NotImplementedError:
+            assert 1==1
+
+    def test_add_as_columns(self):
         # test += operator
+        columns2 = [['c1', 'c2', 'c3'],
+                   ['x1', 'x2', 'x4'],
+                   ['y1', 'y2'],
+                   ['z1']]
         r3 = pyexcel.PlainReader(self.testfile)
         r3 += pyexcel.sheets.AS_COLUMNS(columns2)
         assert r3[0] == ['a', 'b', 'c', 'd', 'c1', 'c2', 'c3']

@@ -85,27 +85,6 @@ class PlainSheet(IteratableArray):
     def clear_formatters(self):
         self._formatters = []
 
-    def number_of_rows(self):
-        """
-        Number of rows in the xls sheet
-        """
-        return self._number_of_rows()
-
-    def _number_of_rows(self):
-        return len(self.array)
-
-    def number_of_columns(self):
-        """
-        Number of columns in the xls sheet
-        """
-        return self._number_of_columns()
-
-    def _number_of_columns(self):
-        if self._number_of_rows() > 0:
-            return len(self.array[0])
-        else:
-            return 0
-
     def extend_rows(self, rows):
         """expected the rows to be off the same length"""
         array_length = self.number_of_columns()
@@ -360,6 +339,15 @@ class MultipleFilterableSheet(PlainSheet):
         column range
         """
         return range(0, self.number_of_columns())
+
+    def _number_of_rows(self):
+        return len(self.array)
+
+    def _number_of_columns(self):
+        if self._number_of_rows() > 0:
+            return len(self.array[0])
+        else:
+            return 0
 
     def number_of_rows(self):
         """
