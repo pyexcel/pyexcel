@@ -49,10 +49,10 @@ PYTHON_TYPE_CONVERSION = {
 }
 
 
-"""define vertical deletion"""
-class Vertical(object):
-    def __init__(self, indices):
-        self.indices = indices
+class AS_COLUMNS(object):
+    """Indicate direction is by columns"""
+    def __init__(self, payload):
+        self.payload = payload
 
 
 def f7(seq):
@@ -131,6 +131,9 @@ class PlainSheet(IteratableArray):
     def extend_columns(self, columns):
         """
         columns should be an array
+
+        s s s     t t
+        s s s  +  t t
         """
         current_nrows = self.number_of_rows()
         current_ncols = self.number_of_columns()
@@ -326,6 +329,14 @@ class PlainSheet(IteratableArray):
             self.extend_rows(other)
         elif isinstance(other, Sheet):
             self.extend_rows(other.array)
+        elif isinstance(other, AS_COLUMNS):
+            new_other = other.payload
+            if isinstance(new_other, list):
+                self.extend_columns(new_other)
+            elif isinstance(new_other, Sheet):
+                self.extend_columns(new_other.array)
+            else:
+                raise ValueError
         else:
             raise ValueError
         return self

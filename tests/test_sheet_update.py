@@ -144,6 +144,20 @@ class TestReader:
         assert r2[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
         assert r2[2] == ['i', 'j', 1.1, 1, 'y1', 'y2', '']
         assert r2[3] == ['', '', '', '', 'z1', '', '']
+        # test += operator
+        r3 = pyexcel.PlainReader(self.testfile)
+        r3 += pyexcel.sheets.AS_COLUMNS(columns2)
+        assert r3[0] == ['a', 'b', 'c', 'd', 'c1', 'c2', 'c3']
+        assert r3[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
+        assert r3[2] == ['i', 'j', 1.1, 1, 'y1', 'y2', '']
+        assert r3[3] == ['', '', '', '', 'z1', '', '']
+        r4 = pyexcel.PlainReader(self.testfile)
+        sheet = pyexcel.sheets.Sheet(columns2, "test")
+        r4 += pyexcel.sheets.AS_COLUMNS(sheet)
+        assert r4[0] == ['a', 'b', 'c', 'd', 'c1', 'c2', 'c3']
+        assert r4[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
+        assert r4[2] == ['i', 'j', 1.1, 1, 'y1', 'y2', '']
+        assert r4[3] == ['', '', '', '', 'z1', '', '']
 
     def test_set_column_at(self):
         r = pyexcel.PlainReader(self.testfile)
