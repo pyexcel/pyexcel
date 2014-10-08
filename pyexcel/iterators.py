@@ -204,7 +204,6 @@ class IteratableArray:
                 for j in sorted_list:
                     del self.array[i][j]
 
-
     def __delitem__(self, aslice):
         if isinstance(aslice, slice):
             start = max(aslice.start, 0)

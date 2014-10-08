@@ -7,7 +7,6 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-
 import xlrd
 import uuid
 from iterators import IteratableArray, SeriesColumnIterator
@@ -157,6 +156,7 @@ class PlainSheet(IteratableArray):
         else:
             raise ValueError
         return self
+
 
 class MultipleFilterableSheet(PlainSheet):
     """

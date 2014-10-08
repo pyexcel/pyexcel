@@ -33,7 +33,7 @@ class Book:
         self.sheets = {}
         if file and os.path.exists(file):
             self.load_from(file)
-            
+
     def load_from(self, file):
         path, filename = os.path.split(file)
         self.path = path

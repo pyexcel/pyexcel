@@ -16,7 +16,6 @@ from writers import Writer, BookWriter
 __WARNING_TEXT__ = "We do not overwrite files"
 
 
-
 def update_columns(infilename, column_dicts, outfilename=None):
     """Update one or more columns of a data file with series
 
@@ -124,7 +123,7 @@ def merge_all_to_a_book(filelist, outfilename="merged.xls"):
     for file in filelist:
         merged += Book(file)
     w = BookWriter(outfilename)
-    w.write_book_reader(merged)    
+    w.write_book_reader(merged)
     w.close()
 
 
