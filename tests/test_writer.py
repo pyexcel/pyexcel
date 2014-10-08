@@ -65,7 +65,6 @@ class TestWriteReader:
         w.close()
         r2 = pyexcel.SeriesReader(self.testfile2)
         content = pyexcel.utils.to_dict(r2)
-        print content
         assert content == self.content
 
     def test_write_series_reader(self):
@@ -75,7 +74,6 @@ class TestWriteReader:
         w.close()
         r2 = pyexcel.SeriesReader(self.testfile2)
         content = pyexcel.utils.to_dict(r2)
-        print content
         assert content == self.content
 
     def tearDown(self):

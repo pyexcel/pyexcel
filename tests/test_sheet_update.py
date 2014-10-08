@@ -186,7 +186,6 @@ class TestReader:
     def test_delete_columns(self):
         r = pyexcel.PlainReader(self.testfile)
         r.delete_columns([0,2])
-        print r[0]
         assert r[0] == ['b', 'd']
         try:
             r.delete_columns("hi")

@@ -93,7 +93,6 @@ class TestUtils2():
     def test_book_reader_to_dict(self):
         r = pyexcel.BookReader(self.testfile)
         actual = pyexcel.utils.to_dict(r)
-        print actual
         assert actual == self.content
 
     def tearDown(self):
@@ -126,7 +125,6 @@ class TestToRecord():
             {u'Y': 5.0, u'X': 2.0, u'Z': 8.0},
             {u'Y': 6.0, u'X': 3.0, u'Z': 9.0}]
         actual = pyexcel.utils.to_records(r)
-        print actual
         assert actual == result
 
     def test_book_reader_to_records_with_wrong_args(self):

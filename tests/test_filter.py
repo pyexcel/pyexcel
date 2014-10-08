@@ -172,7 +172,6 @@ class TestFilterWithFilterableReader:
         #assert r.number_of_columns() == 2
         result = [2, 4, 6, 8, 10, 12]
         actual = pyexcel.utils.to_array(r.enumerate())
-        print actual
         assert result == actual
 
     def test_remove_filter(self):
@@ -401,7 +400,6 @@ class TestComplexFilter:
         r1.filter(pyexcel.filters.RowInFileFilter(r2))
         result = [1, 'a', 2, 'b', 3, 'c', 8, 'h']
         actual = pyexcel.utils.to_array(r1.enumerate())
-        print actual
         assert result == actual
 
     def tearDown(self):

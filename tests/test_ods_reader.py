@@ -46,7 +46,6 @@ class TestODSReader:
         # Scientifed not supported
         assert self.data["Sheet1"][1][7] == 100000
         # Fraction
-        print self.data["Sheet1"][1][8]
         assert self.data["Sheet1"][1][8] == 1.25
         # Text
         assert self.data["Sheet1"][1][9] == "abc"

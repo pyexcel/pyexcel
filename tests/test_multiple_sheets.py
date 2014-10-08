@@ -217,7 +217,6 @@ class TestAddBooks:
         content = pyexcel.utils.to_dict(b3)
         sheet_names = content.keys()
         assert len(sheet_names) == 4
-        print sheet_names
         for name in sheet_names:
             if "Sheet3" in name:
                 assert content[name] == self.content["Sheet3"]
@@ -236,7 +235,6 @@ class TestAddBooks:
         content = pyexcel.utils.to_dict(b1)
         sheet_names = content.keys()
         assert len(sheet_names) == 4
-        print sheet_names
         for name in sheet_names:
             if "Sheet3" in name:
                 assert content[name] == self.content["Sheet3"]
@@ -255,7 +253,6 @@ class TestAddBooks:
         content = pyexcel.utils.to_dict(b3)
         sheet_names = content.keys()
         assert len(sheet_names) == 2
-        print sheet_names
         assert content["Sheet3"] == self.content["Sheet3"]
         assert content["Sheet1"] == self.content["Sheet1"]
         
@@ -269,7 +266,6 @@ class TestAddBooks:
         content = pyexcel.utils.to_dict(b3)
         sheet_names = content.keys()
         assert len(sheet_names) == 4
-        print sheet_names
         for name in sheet_names:
             if "Sheet3" in name:
                 assert content[name] == self.content["Sheet3"]

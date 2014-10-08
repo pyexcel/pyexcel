@@ -13,7 +13,6 @@ class TestCSV:
         'b'       <- give '' for missing cells
         """
         r = pyexcel.Reader(os.path.join("tests", "fixtures", "bug_01.csv"))
-        print pyexcel.utils.to_array(r)
         assert len(r[0]) == 4
         # test "" is append for empty cells
         assert r[0][1] == ""
