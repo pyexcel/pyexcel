@@ -1,7 +1,8 @@
+import six
 from pyexcel.sheets import XLS_FORMAT_CONVERSION, DATE_FORMAT
 import datetime
 import xlrd
-import xlwt
+from xlwt import Workbook, XFStyle
 
 
 def xldate_to_python_date(value):
@@ -110,12 +111,12 @@ class XLSheetWriter:
             if isinstance(value, datetime.date) or isinstance(value, datetime.datetime):
                 tmp_array = [value.year, value.month, value.day]
                 value = xlrd.xldate.xldate_from_date_tuple(tmp_array, 0)
-                style = xlwt.XFStyle()
+                style = XFStyle()
                 style.num_format_str = "DD/MM/YY"
             elif isinstance(value, datetime.time):
                 tmp_array = [value.hour, value.minute, value.second]
                 value = xlrd.xldate.xldate_from_time_tuple(tmp_array)
-                style = xlwt.XFStyle()
+                style = XFStyle()
                 style.num_format_str = "HH:MM:SS"
             if style:
                 self.ws.write(self.current_row, i, value, style)
@@ -136,7 +137,7 @@ class XLWriter:
     """
     def __init__(self, file):
         self.file = file
-        self.wb = xlwt.Workbook()
+        self.wb = Workbook()
         self.current_row = 0
 
     def create_sheet(self, name):

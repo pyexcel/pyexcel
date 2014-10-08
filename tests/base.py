@@ -94,7 +94,6 @@ class PyexcelBase:
             row = i + 1
             assert row == r.cell_value(i,1)
         for i in r.row_range():
-            print r.cell_value(i,1)
             assert i+1 == r.cell_value(i,1)
         assert 3 == r.cell_value(2, 3)
             
@@ -149,7 +148,6 @@ class PyexcelMultipleSheetBase:
         r = pyexcel.BookReader( self.testfile)
         expected = [ "Sheet1", "Sheet2", "Sheet3"]
         sheet_names = r.sheet_names()
-        print sheet_names
         for name in sheet_names:
             assert name in expected
 
@@ -167,7 +165,6 @@ class PyexcelMultipleSheetBase:
         sheet3 = b["Sheet3"]
         sheet3.become_series()
         data = pyexcel.utils.to_array(b["Sheet3"].rows())
-        print data
         expected = [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
         assert data == expected
 
@@ -289,6 +286,5 @@ class PyexcelIteratorBase:
     def test_vertical_top_right_2_bottom_left_iterator(self):
         result = [4, 8, 12, 3, 7, 11, 2, 6, 10, 1, 5, 9]
         actual = pyexcel.utils.to_array(pyexcel.iterators.VTRBLIterator(self.iteratable))
-        print actual
         assert result == actual
     

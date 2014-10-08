@@ -27,7 +27,7 @@ class TestXLSnXLSXWriter(PyexcelWriterBase):
 
 class TestODSnCSVWriter(PyexcelWriterBase):
     def setUp(self):
-        self.testfile="test.ods"
+        self.testfile="test.xls"
         self.testfile2="test.csv"
 
     def tearDown(self):
@@ -38,7 +38,7 @@ class TestODSnCSVWriter(PyexcelWriterBase):
 
 class TestODSHatWriter(PyexcelHatWriterBase):
     def setUp(self):
-        self.testfile="test.ods"
+        self.testfile="test.xls"
 
     def tearDown(self):
         if os.path.exists(self.testfile):
@@ -47,7 +47,7 @@ class TestODSHatWriter(PyexcelHatWriterBase):
 
 class TestWriteReader:
     def setUp(self):
-        self.testfile = "test.ods"
+        self.testfile = "test.xls"
         self.content = {
             "X": [1, 2, 3, 4, 5],
             "Y": [6, 7, 8, 9, 10],
@@ -65,7 +65,6 @@ class TestWriteReader:
         w.close()
         r2 = pyexcel.SeriesReader(self.testfile2)
         content = pyexcel.utils.to_dict(r2)
-        print content
         assert content == self.content
 
     def test_write_series_reader(self):
@@ -75,7 +74,6 @@ class TestWriteReader:
         w.close()
         r2 = pyexcel.SeriesReader(self.testfile2)
         content = pyexcel.utils.to_dict(r2)
-        print content
         assert content == self.content
 
     def tearDown(self):
@@ -108,7 +106,7 @@ class TestBookWriter:
             ]
         }
         self.testfile = "test.xls"
-        self.testfile2 = "test.ods"
+        self.testfile2 = "test.xls"
         w = pyexcel.BookWriter(self.testfile)
         w.write_book_from_dict(self.content)
         w.close()

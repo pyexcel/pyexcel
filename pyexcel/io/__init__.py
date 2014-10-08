@@ -8,9 +8,10 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-from odsbook import ODSBook, ODSWriter
-from csvbook import CSVBook, CSVWriter
-from xlbook import XLBook, XLWriter
+import six
+
+from .csvbook import CSVBook, CSVWriter
+from .xlbook import XLBook, XLWriter
 
 
 """
@@ -20,8 +21,7 @@ READERS = {
     "xls": XLBook,
     "xlsm": XLBook,
     "xlsx": XLBook,
-    "csv": CSVBook,
-    "ods": ODSBook
+    "csv": CSVBook
 }
 
 
@@ -32,9 +32,13 @@ WRITERS = {
     "xls": XLWriter,
     "xlsm": XLWriter,
     "xlsx": XLWriter,
-    "csv": CSVWriter,
-    "ods": ODSWriter
+    "csv": CSVWriter
 }
+
+if six.PY2:
+    from .odsbook import ODSBook, ODSWriter
+    READERS["ods"] = ODSBook
+    WRITERS["ods"] = ODSWriter
 
 
 def load_file(file):

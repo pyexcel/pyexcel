@@ -242,7 +242,6 @@ class TestCookbook:
             'Q': [11, 13, 15],
             'P': [6, 8, 10]
         }
-        print data
         assert data == content
 
     def test_merge_two_row_filter_hat_readers_3(self):
@@ -261,7 +260,6 @@ class TestCookbook:
             "O": [1, 2, 3, 4, 5],
             "Q": [11, 12, 13, 14, 15]
         }
-        print data
         assert data == content
 
     def test_merge_any_files_to_a_book(self):

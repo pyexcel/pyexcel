@@ -11,8 +11,8 @@
 import xlrd
 import copy
 import uuid
-from iterators import IteratableArray, SeriesColumnIterator
-from filters import (RowIndexFilter,
+from .iterators import IteratableArray, SeriesColumnIterator
+from .filters import (RowIndexFilter,
                      ColumnIndexFilter,
                      RowFilter)
 import datetime

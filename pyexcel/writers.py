@@ -7,9 +7,9 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-from utils import to_dict
-from readers import SeriesReader
-from io import get_writer
+from .utils import to_dict
+from .readers import SeriesReader
+from .io import get_writer
 
 
 class SheetWriter:
