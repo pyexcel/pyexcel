@@ -315,10 +315,20 @@ class PlainSheet(IteratableArray):
                 uid = uuid.uuid4().hex
                 new_key = "%s_%s" % (other.name, uid)
             content[new_key] = other.array
+        else:
+            raise ValueError
         c = Book()
         c.load_from_sheets(content)
         return c
 
+    def __iadd__(self, other):
+        if isinstance(other, list):
+            self.extend_rows(other)
+        elif isinstance(other, Sheet):
+            self.extend_rows(other.array)
+        else:
+            raise ValueError
+        return self
 
 class MultipleFilterableSheet(PlainSheet):
     """
