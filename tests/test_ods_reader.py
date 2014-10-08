@@ -11,7 +11,7 @@ class TestODSReader:
         for s in r.sheet_names:
             self.data[s] = pyexcel.utils.to_array(r.SHEETS[s])
 
-    def test_formats(self):
+    def _test_formats(self):
         # date formats
         date_format = "%d/%m/%Y"
         assert self.data["Sheet1"][0][0] == "Date"

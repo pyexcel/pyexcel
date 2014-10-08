@@ -178,7 +178,7 @@ class Reader(Sheet):
         if sheet:
             Sheet.__init__(self, sheets[sheet], sheet)
         else:
-            keys = list(sheets.keys())
+            keys = sorted(list(sheets.keys()))
             Sheet.__init__(self, sheets[keys[0]], keys[0])
 
 
@@ -212,7 +212,7 @@ class FilterableReader(MultipleFilterableSheet):
     """
     def __init__(self, file, sheet=None):
         book = load_file(file)
-        sheets = list(book.sheets())
+        sheets = book.sheets()
         if sheet:
             MultipleFilterableSheet.__init__(self, sheets[sheet])
         else:

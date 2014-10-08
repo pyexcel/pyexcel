@@ -114,8 +114,8 @@ class PlainSheet(IteratableArray):
             return None
 
     def __add__(self, other):
-        from readers import Book
-        from utils import to_dict
+        from .readers import Book
+        from .utils import to_dict
         content = {}
         content[self.name] = self.array
         if isinstance(other, Book):
