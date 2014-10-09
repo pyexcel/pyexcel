@@ -43,11 +43,7 @@ def time_value(value):
 
 
 def boolean_value(value):
-    if value == "true":
-        ret = True
-    else:
-        ret = False
-    return ret
+    return value
 
 
 ODS_FORMAT_CONVERSION = {
@@ -95,7 +91,6 @@ class ODSBook:
         as an array (rows) of arrays (columns)"""
         table = []
         for row in range(sheet.nrows()):
-            import pdb; pdb.set_trace()
             rows = []
             for column, cell in enumerate(sheet.row(row)):
                 ret = self._read_cell(cell)
@@ -110,6 +105,7 @@ class ODSBook:
         cell_type = cell.value_type
         ret = None
         if cell_type in ODS_FORMAT_CONVERSION:
+            print(cell_type, cell.value)
             value = cell.value
             n_value = VALUE_CONVERTERS[cell_type](value)
             ret = n_value
