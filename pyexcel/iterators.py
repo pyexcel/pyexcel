@@ -21,7 +21,7 @@ def f7(seq):
     return [x for x in seq if not (x in seen or seen_add(x))]
 
 
-class IteratableArray:
+class Matrix:
     """
     To be able to use the iterators in this package, implement
     these methods

@@ -9,7 +9,7 @@
 """
 import xlrd
 import uuid
-from iterators import IteratableArray, SeriesColumnIterator
+from iterators import Matrix, SeriesColumnIterator
 from filters import (RowIndexFilter,
                      ColumnIndexFilter,
                      RowFilter)
@@ -53,14 +53,14 @@ class AS_COLUMNS(object):
         self.payload = payload
 
 
-class PlainSheet(IteratableArray):
+class PlainSheet(Matrix):
     """
     xls sheet
 
     Currently only support first sheet in the file
     """
     def __init__(self, array):
-        IteratableArray.__init__(self, array)
+        Matrix.__init__(self, array)
         self._formatters = []
 
     def add_formatter(self, aformatter):
@@ -247,33 +247,44 @@ class MultipleFilterableSheet(PlainSheet):
         """This is short hand for add_filter"""
         self.add_filter(afilter)
 
+    def validate_filters(self):
+        local_filters = self._filters
+        self._filters = []
+        for filter in local_filters:
+            filter.validate_filter(self)
+            self._filters.append(filter)
+
     def extend_rows(self, rows):
         """expected the rows to be off the same length
 
         too expensive to do so
         """
-        raise NotImplementedError
+        Matrix.extend_rows(self, rows)
+        self.validate_filters()
 
     def delete_rows(self, row_indices):
         """delete rows
 
         too expensive to do so
         """
-        raise NotImplementedError
+        Matrix.delete_rows(self, row_indices)
+        self.validate_filters()
 
-    def extend_columns(self, rows):
+    def extend_columns(self, columns):
         """expected the rows to be off the same length
 
         too expensive to do so
         """
-        raise NotImplementedError
+        Matrix.extend_columns(self, columns)
+        self.validate_filters()
 
-    def delete_columns(self, row_indices):
+    def delete_columns(self, column_indices):
         """delete rows
 
         too expensive to do so
         """
-        raise NotImplementedError
+        Matrix.delete_columns(self, column_indices)
+        self.validate_filters()
 
 
 class Sheet(MultipleFilterableSheet):
@@ -290,7 +301,7 @@ class Sheet(MultipleFilterableSheet):
         Evolve this sheet to a SeriesReader
         """
         self.signature_filter = RowFilter([0])
-        self._validate_filters()
+        self.validate_filters()
         return self
 
     def become_sheet(self):
@@ -298,7 +309,7 @@ class Sheet(MultipleFilterableSheet):
         Evolve back to plain sheet reader
         """
         self.signature_filter = None
-        self._validate_filters()
+        self.validate_filters()
         return self
 
     def add_filter(self, afilter):
@@ -309,7 +320,7 @@ class Sheet(MultipleFilterableSheet):
             self.column_filters.append(afilter)
         elif isinstance(afilter, RowIndexFilter):
             self.row_filters.append(afilter)
-        self._validate_filters()
+        self.validate_filters()
 
     def clear_filters(self):
         """
@@ -317,7 +328,7 @@ class Sheet(MultipleFilterableSheet):
         """
         self.column_filters = []
         self.row_filters = []
-        self._validate_filters()
+        self.validate_filters()
 
     def remove_filter(self, afilter):
         """
@@ -327,9 +338,9 @@ class Sheet(MultipleFilterableSheet):
             self.column_filters.remove(afilter)
         elif isinstance(afilter, RowIndexFilter):
             self.row_filters.remove(afilter)
-        self._validate_filters()
+        self.validate_filters()
 
-    def _validate_filters(self):
+    def validate_filters(self):
         if self.signature_filter:
             local_filters = (self.column_filters +
                              [self.signature_filter] +

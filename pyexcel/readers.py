@@ -172,7 +172,13 @@ class Reader(Sheet):
     applied first then row filter is applied next
     """
 
-    def __init__(self, file, sheet=None):
+    def __init__(self, file=None, sheet=None):
+        if file:
+            self.load_file(file, sheet)
+        else:
+            Sheet.__init__(self, [], "memory")
+
+    def load_file(self, file, sheet):
         book = load_file(file)
         sheets = book.sheets()
         if sheet:

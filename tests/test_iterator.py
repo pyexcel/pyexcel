@@ -16,7 +16,7 @@ class TestIteratableArray(PyexcelIteratorBase):
         for i in [0, 4, 8]:
             array = [i+1, i+2, i+3, i+4]
             self.array.append(array)
-        self.iteratable = pyexcel.iterators.IteratableArray(self.array)
+        self.iteratable = pyexcel.iterators.Matrix(self.array)
 
 
 class TestIteratorWithPlainReader(PyexcelIteratorBase):
