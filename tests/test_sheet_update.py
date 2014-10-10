@@ -1,7 +1,7 @@
 import pyexcel
 import os
 import datetime
-from base import create_sample_file1, PyexcelSheetRWBase
+from base import create_sample_file1, create_sample_file2, PyexcelSheetRWBase
 
 
 class TestReader:
@@ -107,12 +107,7 @@ class TestPlainReader(PyexcelSheetRWBase):
         self.testclass = pyexcel.PlainReader
         self.testfile = "testcsv.csv"
         self.rows = 3
-        w = pyexcel.Writer(self.testfile)
-        data = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
-        w.write_row(data[:4])
-        w.write_row(data[4:8])
-        w.write_row(data[8:12])
-        w.close()
+        create_sample_file1(self.testfile)
 
     def tearDown(self):
         if os.path.exists(self.testfile):
@@ -130,13 +125,7 @@ class TestReader2(PyexcelSheetRWBase):
         """
         self.testclass = pyexcel.Reader
         self.testfile = "testcsv.csv"
-        self.rows = 3
-        w = pyexcel.Writer(self.testfile)
-        data = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
-        w.write_row(data[:4])
-        w.write_row(data[4:8])
-        w.write_row(data[8:12])
-        w.close()
+        create_sample_file1(self.testfile)
 
     def tearDown(self):
         if os.path.exists(self.testfile):
@@ -153,11 +142,7 @@ class TestReaderWithFilter:
         9, 10,11,12
         """
         self.testfile = "test.csv"
-        w = pyexcel.Writer(self.testfile)
-        for i in [0, 4, 8]:
-            array = [i+1, i+2, i+3, i+4]
-            w.write_row(array)
-        w.close()
+        create_sample_file2(self.testfile)
 
     def test_add_rows_even_row_filter(self):
         r = pyexcel.Reader(self.testfile)

@@ -25,8 +25,8 @@ setup(
         'six',
         'lxml',
         'xlrd',
-        'ezodf',
-        'xlwt'
+        'xlwt-future',
+        'ezodf'
     ],
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     include_package_data=True,
