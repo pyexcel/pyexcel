@@ -248,6 +248,8 @@ Test coverage is shown in [codecov.io](https://codecov.io/github/chfw/pyexcel). 
 nosetests tests --with-coverage --cover-package=pyexcel
 ```
 
+Optionally, you can add `--cover-html --cover-html-dir=your_file_directory`
+
 ## Known Issues
 
 * If a zero was typed in a DATE formatted field in xls, you will get "01/01/1900".
@@ -256,6 +258,42 @@ nosetests tests --with-coverage --cover-package=pyexcel
 ## Documentation
 
 It is hosted in [pyhosted](https://pythonhosted.org/pyexcel/)
+
+## To do
+
+* get the data and its types and then dump the reader
+* hence, create array/dict as reader
+* -> read and write the data.
+* hence make flexibility for further fancy manipulations
+* investigate the type specification of ods
+
+book merge:
+
+book = book + book
+boot += book1
+book = sheet + sheet
+
+sheet + array or sheet, v, h
+
+sheet merge:
+
+sheet = _sheet_(file_name) + _as_column_(sheet, array)
+sheet = _sheet_(file_name) + _as_row_(sheet, array)
+
+file_list = f1.split()
+
+sheet scatter:
+
+(even_rows, odd_rows) = f.scatter())
+
+paginate
+
+modify
+
+toxml
+
+xmlt
+
 
 ## Dependencies
 

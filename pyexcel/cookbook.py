@@ -8,31 +8,52 @@
     :license: GPL v3
 """
 import os
-from readers import SeriesReader, Reader, BookReader
-from utils import to_dict, to_array
-from writers import Writer, BookWriter
+from .readers import SeriesReader, Reader, Book
+from .utils import to_dict, to_array
+from .writers import Writer, BookWriter
 
 
 __WARNING_TEXT__ = "We do not overwrite files"
 
 
 def update_columns(infilename, column_dicts, outfilename=None):
-    """Update one or more columns of a data file with series"""
+    """Update one or more columns of a data file with series
+
+    The data structure of column_dicts should be:
+    key should be first row of the column
+    the rest of the value should an array
+    """
     default_out_file = "pyexcel_%s" % infilename
     if outfilename:
         default_out_file = outfilename
     if os.path.exists(default_out_file):
         raise NotImplementedError(__WARNING_TEXT__)
     r = SeriesReader(infilename)
-    keys = column_dicts.keys()
-    data = to_dict(r)
-    for k in keys:
-        if k in data:
-            data[k] = column_dicts[k]
-        else:
-            raise IndexError
+    series = r.series()
+    for k in column_dicts.keys():
+        index = series.index(k)
+        r.set_column_at(index, column_dicts[k])
     w = Writer(default_out_file)
-    w.write_dict(data)
+    w.write_reader(r)
+    w.close()
+
+
+def update_rows(infilename, row_dicts, outfilename=None):
+    """Update one or more columns of a data file with series
+
+    datastucture: key should an integer of the row to be updated
+    value should be an array of the data
+    """
+    default_out_file = "pyexcel_%s" % infilename
+    if outfilename:
+        default_out_file = outfilename
+    if os.path.exists(default_out_file):
+        raise NotImplementedError(__WARNING_TEXT__)
+    r = Reader(infilename)
+    for k in row_dicts.keys():
+        r.set_row_at(k, row_dicts[k])
+    w = Writer(default_out_file)
+    w.write_reader(r)
     w.close()
 
 
@@ -47,6 +68,7 @@ def merge_files(file_array, outfilename="pyexcel_merged.csv"):
     w = Writer(outfilename)
     w.write_columns(content)
     w.close()
+    return outfilename
 
 
 def merge_two_files(file1, file2, outfilename="pyexcel_merged.csv"):
@@ -97,35 +119,17 @@ def merge_all_to_a_book(filelist, outfilename="merged.xls"):
 
     Note: empty sheets are ignored
     """
-    w = BookWriter(outfilename)
+    merged = Book()
     for file in filelist:
-        r = BookReader(file)
-        head, tail = os.path.split(file)
-        count = 0
-        # find out if the file is a single sheet book
-        # or a multiple sheet book
-        for sheet in r:
-            if sheet.number_of_rows() > 0:
-                count += 1
-
-        for sheet in r:
-            if sheet.number_of_rows() > 0:
-                if count == 1:
-                    # single sheet book, just use the file name
-                    # for the sheet name
-                    sheet_name = tail
-                else:
-                    # otherwise: filename_sheetname
-                    sheet_name = "%s_%s" % (tail, sheet.name)
-                new_sheet = w.create_sheet(sheet_name)
-                new_sheet.write_reader(sheet)
-                new_sheet.close()
+        merged += Book(file)
+    w = BookWriter(outfilename)
+    w.write_book_reader(merged)
     w.close()
 
 
 def split_a_book(file, outfilename=None):
     """Split a file into separate sheets"""
-    r = BookReader(file)
+    r = Book(file)
     if outfilename:
         saveas = outfilename
     else:
@@ -138,7 +142,7 @@ def split_a_book(file, outfilename=None):
 
 def extract_a_sheet_from_a_book(file, sheetname, outfilename=None):
     """Extract a sheet from a excel book"""
-    r = BookReader(file)
+    r = Book(file)
     if outfilename:
         saveas = outfilename
     else:

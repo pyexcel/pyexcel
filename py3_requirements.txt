@@ -1,5 +1,5 @@
-six
-lxml
 xlrd
 xlwt-future
+six
 ezodf
+lxml

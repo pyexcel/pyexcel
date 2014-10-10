@@ -7,29 +7,16 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-import xlrd
 import types
 import datetime
-
-
-DATE_FORMAT = "d"
-FLOAT_FORMAT = "f"
-INT_FORMAT = "i"
-UNICODE_FORMAT = "u"
-STRING_FORMAT = "s"
-BOOLEAN_FORMAT = "b"
-EMPTY = "e"
-
-
-XLS_FORMAT_CONVERSION = {
-    xlrd.XL_CELL_TEXT: STRING_FORMAT,
-    xlrd.XL_CELL_EMPTY: EMPTY,
-    xlrd.XL_CELL_DATE: DATE_FORMAT,
-    xlrd.XL_CELL_NUMBER: FLOAT_FORMAT,
-    xlrd.XL_CELL_BOOLEAN: INT_FORMAT,
-    xlrd.XL_CELL_BLANK: EMPTY,
-    xlrd.XL_CELL_ERROR: EMPTY
-}
+from .sheets import (
+    DATE_FORMAT,
+    FLOAT_FORMAT,
+    INT_FORMAT,
+    STRING_FORMAT,
+    BOOLEAN_FORMAT,
+    EMPTY
+)
 
 
 def string_to_format(value, FORMAT):
@@ -75,7 +62,9 @@ def date_to_format(value, FORMAT):
     if FORMAT == DATE_FORMAT:
         ret = value
     elif FORMAT == STRING_FORMAT:
-        if isinstance(value, datetime.date) or isinstance(value, datetime.datetime):
+        if isinstance(value, datetime.date):
+            ret = value.strftime("%d/%m/%y")
+        elif isinstance(value, datetime.datetime):
             ret = value.strftime("%d/%m/%y")
         elif isinstance(value, datetime.time):
             ret = value.strftime("%H:%M:%S")
@@ -125,21 +114,6 @@ def to_format(from_type, to_type, value):
     return func(value, to_type)
 
 
-def xldate_to_python_date(value):
-    date_tuple = xlrd.xldate_as_tuple(value, 0)
-    ret = None
-    if date_tuple == (0,0,0,0,0,0):
-        ret = datetime.datetime(1900,1,1,0,0,0)
-    elif date_tuple[0:3] == (0,0,0):
-        ret = datetime.time(date_tuple[3],
-                            date_tuple[4],
-                            date_tuple[5])
-    elif date_tuple[3:6] == (0,0,0):
-        ret = datetime.date(date_tuple[0],
-                            date_tuple[1],
-                            date_tuple[2])
-    return ret
-
 class Formatter:
     """Generic formatter
 
@@ -155,7 +129,7 @@ class Formatter:
         return self.quanlify_func(row, column, value)
 
     def do_format(self, value, ctype):
-        if self.converter is not None and type(self.converter) == types.FunctionType:
+        if self.converter is not None and isinstance(self.converter, types.FunctionType):
             return self.converter(value, ctype)
         else:
             return to_format(ctype, self.desired_format, value)

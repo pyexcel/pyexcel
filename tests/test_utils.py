@@ -1,5 +1,7 @@
 import pyexcel
 import os
+from base import create_sample_file2
+
 
 class TestUtils():
     def setUp(self):
@@ -11,11 +13,7 @@ class TestUtils():
         9,10,11,12
         """
         self.testfile = "testcsv.csv"
-        w = pyexcel.Writer(self.testfile)
-        for i in [0,4,8]:
-            array = [i+1, i+2, i+3, i+4]
-            w.write_row(array)
-        w.close()
+        create_sample_file2(self.testfile)
 
     def test_to_one_dimension_array(self):
         r = pyexcel.Reader(self.testfile)
@@ -25,6 +23,16 @@ class TestUtils():
         actual2 = pyexcel.utils.to_one_dimensional_array(result)
         assert actual2 == result
 
+    def test_to_array(self):
+        r = pyexcel.Reader(self.testfile)
+        result = [
+            [1, 2, 3, 4],
+            [5, 6, 7, 8, ],
+            [9, 10, 11, 12]
+        ]
+        actual = pyexcel.utils.to_array(r)
+        assert result == actual
+        
     def test_to_dict(self):
         """
         Note: data file with column headers are tested
@@ -82,7 +90,6 @@ class TestUtils2():
     def test_book_reader_to_dict(self):
         r = pyexcel.BookReader(self.testfile)
         actual = pyexcel.utils.to_dict(r)
-        print actual
         assert actual == self.content
 
     def tearDown(self):
@@ -115,7 +122,6 @@ class TestToRecord():
             {u'Y': 5.0, u'X': 2.0, u'Z': 8.0},
             {u'Y': 6.0, u'X': 3.0, u'Z': 9.0}]
         actual = pyexcel.utils.to_records(r)
-        print actual
         assert actual == result
 
     def test_book_reader_to_records_with_wrong_args(self):

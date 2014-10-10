@@ -1,6 +1,7 @@
 import pyexcel
 import os
 
+
 class TestSpliting:
     def setUp(self):
         self.testfile4 = "multiple_sheets.xls"
@@ -105,13 +106,14 @@ class TestCookbook:
             # try non-existent column first
             pyexcel.cookbook.update_columns(self.testfile, bad_column)
             assert 1==2
-        except IndexError:
+        except ValueError:
             assert 1==1
         pyexcel.cookbook.update_columns(self.testfile, custom_column)
         r = pyexcel.SeriesReader("pyexcel_%s" % self.testfile)
         data = pyexcel.utils.to_dict(r)
         assert data["Z"] == custom_column["Z"]
         try:
+            # test if it try not overwrite a file
             pyexcel.cookbook.update_columns(self.testfile, custom_column)
             r = pyexcel.SeriesReader("pyexcel_%s" % self.testfile)
             assert 1==2
@@ -121,6 +123,29 @@ class TestCookbook:
         r = pyexcel.SeriesReader("test4.ods")
         data = pyexcel.utils.to_dict(r)
         assert data["Z"] == custom_column["Z"]
+
+    def test_update_rows(self):
+        bad_column = {100: [31, 1, 1, 1, 1]}
+        custom_column = {1: [2,3,4]}
+        try:
+            # try non-existent column first
+            pyexcel.cookbook.update_rows(self.testfile, bad_column)
+            assert 1==2
+        except ValueError:
+            assert 1==1
+        pyexcel.cookbook.update_rows(self.testfile, custom_column)
+        r = pyexcel.Reader("pyexcel_%s" % self.testfile)
+        assert custom_column[1] == r.row_at(1)
+        try:
+            # try not to overwrite a file
+            pyexcel.cookbook.update_rows(self.testfile, custom_column)
+            r = pyexcel.SeriesReader("pyexcel_%s" % self.testfile)
+            assert 1==2
+        except NotImplementedError:
+            assert 1==1
+        pyexcel.cookbook.update_rows(self.testfile, custom_column, "test4.ods")
+        r = pyexcel.Reader("test4.ods")
+        assert custom_column[1] == r.row_at(1)
 
     def test_merge_two_files(self):
         pyexcel.cookbook.merge_two_files(self.testfile, self.testfile2)
@@ -217,7 +242,6 @@ class TestCookbook:
             'Q': [11, 13, 15],
             'P': [6, 8, 10]
         }
-        print data
         assert data == content
 
     def test_merge_two_row_filter_hat_readers_3(self):
@@ -236,7 +260,6 @@ class TestCookbook:
             "O": [1, 2, 3, 4, 5],
             "Q": [11, 12, 13, 14, 15]
         }
-        print data
         assert data == content
 
     def test_merge_any_files_to_a_book(self):
@@ -250,14 +273,11 @@ class TestCookbook:
         assert content2 == self.content2
         content3 = pyexcel.utils.to_dict(r[self.testfile3].become_series())
         assert content3 == self.content3
-        sheet1 = "%s_%s" % (self.testfile4, "Sheet1")
-        content4 = pyexcel.utils.to_array(r[sheet1])
+        content4 = pyexcel.utils.to_array(r["Sheet1"])
         assert content4 == self.content4["Sheet1"]
-        sheet2 = "%s_%s" % (self.testfile4, "Sheet2")
-        content5 = pyexcel.utils.to_array(r[sheet2])
+        content5 = pyexcel.utils.to_array(r["Sheet2"])
         assert content5 == self.content4["Sheet2"]
-        sheet3 = "%s_%s" % (self.testfile4, "Sheet3")
-        content6 = pyexcel.utils.to_array(r[sheet3])
+        content6 = pyexcel.utils.to_array(r["Sheet3"])
         assert content6 == self.content4["Sheet3"]
 
     def test_merge_csv_files_to_a_book(self):

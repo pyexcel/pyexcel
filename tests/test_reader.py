@@ -1,7 +1,7 @@
 import pyexcel
 from base import PyexcelBase
-from base import PyexcelXlsBase
 import os
+from base import create_sample_file1
 
 
 class TestReader:
@@ -15,12 +15,7 @@ class TestReader:
         """
         self.testfile = "testcsv.csv"
         self.rows = 3
-        w = pyexcel.Writer(self.testfile)
-        data=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
-        w.write_row(data[:4])
-        w.write_row(data[4:8])
-        w.write_row(data[8:12])
-        w.close()
+        create_sample_file1(self.testfile)
 
     def test_cell_value(self):
         r = pyexcel.Reader(self.testfile)
@@ -119,12 +114,7 @@ class TestCSVReader2:
         """
         self.testfile = "testcsv.csv"
         self.rows = 3
-        w = pyexcel.Writer(self.testfile)
-        data=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
-        w.write_row(data[:4])
-        w.write_row(data[4:8])
-        w.write_row(data[8:12])
-        w.close()
+        create_sample_file1(self.testfile)
 
     def test_data_types(self):
         r = pyexcel.Reader(self.testfile)
@@ -156,7 +146,7 @@ class TestODSReader(PyexcelBase):
             os.unlink(self.testfile)
 
 
-class TestXLSReader(PyexcelXlsBase):
+class TestXLSReader(PyexcelBase):
     def setUp(self):
         """
         Make a test csv file as:
@@ -173,7 +163,7 @@ class TestXLSReader(PyexcelXlsBase):
             os.unlink(self.testfile)
 
 
-class TestXLSXReader(PyexcelXlsBase):
+class TestXLSXReader(PyexcelBase):
     def setUp(self):
         """
         Make a test csv file as:
@@ -190,7 +180,7 @@ class TestXLSXReader(PyexcelXlsBase):
             os.unlink(self.testfile)
 
 
-class TestXLSMReader(PyexcelXlsBase):
+class TestXLSMReader(PyexcelBase):
     def setUp(self):
         """
         Make a test csv file as:
@@ -231,7 +221,6 @@ class TestSeriesReader3:
             "Y": [1, 3, 4, 5],
             "Z": [1, 3, 4, 5]
         }
-        print actual
         assert result == actual
 
     def test_odd_row_filter(self):
@@ -244,7 +233,6 @@ class TestSeriesReader3:
             "Y": [2, 4],
             "Z": [2, 4]
         }
-        print actual
         assert result == actual
         r.remove_filter(f)
         actual = pyexcel.utils.to_array(r.rows())
@@ -259,7 +247,6 @@ class TestSeriesReader3:
             "Y": [1, 3, 5],
             "Z": [1, 3, 5]
         }
-        print actual
         assert result == actual
         # test removing the filter, it prints the original one
         r.clear_filters()
@@ -274,7 +261,6 @@ class TestSeriesReader3:
         result = {
             "Y": [1, 3, 5]
         }
-        print actual
         assert result == actual
         # test removing the filter, it prints the original one
         r.clear_filters()
@@ -293,7 +279,6 @@ class TestSeriesReader3:
         # test removing the filter, it prints the original one
         r.clear_filters()
         actual = pyexcel.utils.to_array(r)
-        print actual
         result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [1, 2, 3, 4, 5]}, {'Z': [1, 2, 3, 4, 5]}]
         assert actual == result
 
@@ -327,7 +312,6 @@ class TestSeriesReader4:
     def test_content_is_read(self):
         r = pyexcel.SeriesReader(self.testfile)
         actual = pyexcel.utils.to_array(r.rows())
-        print actual
         assert self.content[1:] == actual
 
     def test_headers(self):

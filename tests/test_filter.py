@@ -1,5 +1,6 @@
 import os
 import pyexcel
+from base import create_sample_file2
 
 
 class TestFilterWithFilterableReader:
@@ -12,11 +13,7 @@ class TestFilterWithFilterableReader:
         9,10,11,12
         """
         self.testfile = "test.csv"
-        w = pyexcel.Writer(self.testfile)
-        for i in [0, 4, 8]:
-            array = [i+1, i+2, i+3, i+4]
-            w.write_row(array)
-        w.close()
+        create_sample_file2(self.testfile)
 
     def test_use_filter_reader_without_filter(self):
         r = pyexcel.FilterableReader(self.testfile)
@@ -172,7 +169,6 @@ class TestFilterWithFilterableReader:
         #assert r.number_of_columns() == 2
         result = [2, 4, 6, 8, 10, 12]
         actual = pyexcel.utils.to_array(r.enumerate())
-        print actual
         assert result == actual
 
     def test_remove_filter(self):
@@ -203,11 +199,7 @@ class TestFilter:
         9,10,11,12
         """
         self.testfile = "test.csv"
-        w = pyexcel.Writer(self.testfile)
-        for i in [0, 4, 8]:
-            array = [i+1, i+2, i+3, i+4]
-            w.write_row(array)
-        w.close()
+        create_sample_file2(self.testfile)
 
     def test_use_filter_reader_without_filter(self):
         r = pyexcel.Reader(self.testfile)
@@ -351,6 +343,7 @@ class TestFilter:
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
 
+
 class TestComplexFilter:
     def setUp(self):
         """
@@ -401,7 +394,6 @@ class TestComplexFilter:
         r1.filter(pyexcel.filters.RowInFileFilter(r2))
         result = [1, 'a', 2, 'b', 3, 'c', 8, 'h']
         actual = pyexcel.utils.to_array(r1.enumerate())
-        print actual
         assert result == actual
 
     def tearDown(self):
