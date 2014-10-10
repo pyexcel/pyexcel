@@ -1,7 +1,7 @@
 import pyexcel
 from base import PyexcelBase
-from base import PyexcelXlsBase
 import os
+from base import create_sample_file1
 
 
 class TestReader:
@@ -15,12 +15,7 @@ class TestReader:
         """
         self.testfile = "testcsv.csv"
         self.rows = 3
-        w = pyexcel.Writer(self.testfile)
-        data=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
-        w.write_row(data[:4])
-        w.write_row(data[4:8])
-        w.write_row(data[8:12])
-        w.close()
+        create_sample_file1(self.testfile)
 
     def test_cell_value(self):
         r = pyexcel.Reader(self.testfile)
@@ -119,12 +114,7 @@ class TestCSVReader2:
         """
         self.testfile = "testcsv.csv"
         self.rows = 3
-        w = pyexcel.Writer(self.testfile)
-        data=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
-        w.write_row(data[:4])
-        w.write_row(data[4:8])
-        w.write_row(data[8:12])
-        w.close()
+        create_sample_file1(self.testfile)
 
     def test_data_types(self):
         r = pyexcel.Reader(self.testfile)
@@ -156,7 +146,7 @@ class TestODSReader(PyexcelBase):
             os.unlink(self.testfile)
 
 
-class TestXLSReader(PyexcelXlsBase):
+class TestXLSReader(PyexcelBase):
     def setUp(self):
         """
         Make a test csv file as:
@@ -173,7 +163,7 @@ class TestXLSReader(PyexcelXlsBase):
             os.unlink(self.testfile)
 
 
-class TestXLSXReader(PyexcelXlsBase):
+class TestXLSXReader(PyexcelBase):
     def setUp(self):
         """
         Make a test csv file as:
@@ -190,7 +180,7 @@ class TestXLSXReader(PyexcelXlsBase):
             os.unlink(self.testfile)
 
 
-class TestXLSMReader(PyexcelXlsBase):
+class TestXLSMReader(PyexcelBase):
     def setUp(self):
         """
         Make a test csv file as:

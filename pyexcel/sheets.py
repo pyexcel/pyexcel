@@ -9,8 +9,8 @@
 """
 import xlrd
 import uuid
-from iterators import Matrix, SeriesColumnIterator
-from filters import (RowIndexFilter,
+from .iterators import Matrix, SeriesColumnIterator
+from .filters import (RowIndexFilter,
                      ColumnIndexFilter,
                      RowFilter)
 import datetime
@@ -92,10 +92,7 @@ class PlainSheet(Matrix):
             else:
                 if value_type == STRING_FORMAT:
                     try:
-                        if "." in value:
-                            value = float(value)
-                        else:
-                            value = int(value)
+                        value = float(value)
                     except ValueError:
                         pass
             return value
@@ -114,8 +111,8 @@ class PlainSheet(Matrix):
             return None
 
     def __add__(self, other):
-        from readers import Book
-        from utils import to_dict
+        from .readers import Book
+        from .utils import to_dict
         content = {}
         content[self.name] = self.array
         if isinstance(other, Book):

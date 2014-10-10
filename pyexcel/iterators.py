@@ -7,6 +7,7 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
+import six
 import copy
 
 
@@ -211,8 +212,14 @@ class Matrix:
 
     def __delitem__(self, aslice):
         if isinstance(aslice, slice):
-            start = max(aslice.start, 0)
-            stop = min(aslice.stop, self.number_of_rows())
+            if aslice.start is None:
+                start = 0
+            else:
+                start = max(aslice.start, 0)
+            if aslice.stop is None:
+                stop = self.number_of_rows()
+            else:
+                stop = min(aslice.stop, self.number_of_rows())
             if start > stop:
                 raise ValueError
             elif start < stop:
@@ -220,6 +227,9 @@ class Matrix:
                     my_range = range(start, stop, aslice.step)
                 else:
                     my_range = range(start, stop)
+                if six.PY3:
+                    # for py3, my_range is a range object
+                    my_range = list(my_range)
                 self.delete_rows(my_range)
             else:
                 # start == stop
@@ -229,8 +239,14 @@ class Matrix:
 
     def __setitem__(self, aslice, c):
         if isinstance(aslice, slice):
-            start = max(aslice.start, 0)
-            stop = min(aslice.stop, self.number_of_rows())
+            if aslice.start is None:
+                start = 0
+            else:
+                start = max(aslice.start, 0)
+            if aslice.stop is None:
+                stop = self.number_of_rows()
+            else:
+                stop = min(aslice.stop, self.number_of_rows())
             if start > stop:
                 raise ValueError
             elif start < stop:
@@ -251,8 +267,14 @@ class Matrix:
         from left to right"""
         index = aslice
         if isinstance(aslice, slice):
-            start = max(aslice.start, 0)
-            stop = min(aslice.stop, self.number_of_rows())
+            if aslice.start is None:
+                start = 0
+            else:
+                start = max(aslice.start, 0)
+            if aslice.stop is None:
+                stop = self.number_of_rows()
+            else:
+                stop = min(aslice.stop, self.number_of_rows())
             if start > stop:
                 return None
             elif start < stop:
@@ -299,8 +321,14 @@ class Matrix:
         else:
             return False
 
+    def transpose(self):
+        from .utils import transpose
+        self.array = transpose(self.array)
+
 
 class PyexcelIterator:
+    def __next__(self):
+        return self.next()
     pass
 
 
@@ -324,8 +352,8 @@ class HTLBRIterator(PyexcelIterator):
         """
         Determine next cell position
         """
-        return (self.current / self.columns,
-                self.current % self.columns)
+        return (int(self.current / self.columns),
+                int(self.current % self.columns))
 
     def move_cursor(self):
         """
@@ -369,8 +397,8 @@ class VTLBRIterator(HTLBRIterator):
         """
         this function controls the iterator's path
         """
-        return (self.current % self.rows,
-                self.current / self.rows)
+        return (int(self.current % self.rows),
+                int(self.current / self.rows))
 
 
 class HBRTLIterator(HTLBRIterator):
@@ -401,8 +429,8 @@ class VBRTLIterator(HBRTLIterator):
     Iterate vertically from bottom right to top left
     """
     def next_cell_position(self):
-        return (self.current % self.rows,
-                self.current / self.rows)
+        return (int(self.current % self.rows),
+                int(self.current / self.rows))
 
 
 class HTRBLIterator(PyexcelIterator):

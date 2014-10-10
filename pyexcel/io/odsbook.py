@@ -14,10 +14,7 @@
 
 # Thanks to grt for the fixes
 import datetime
-import odf.opendocument
-from odf.table import *
-from odf.text import P
-from odf.namespaces import OFFICENS
+import ezodf
 from pyexcel.sheets import (STRING_FORMAT,
                             FLOAT_FORMAT, EMPTY,
                             DATE_FORMAT, BOOLEAN_FORMAT)
@@ -46,11 +43,7 @@ def time_value(value):
 
 
 def boolean_value(value):
-    if value == "true":
-        ret = True
-    else:
-        ret = False
-    return ret
+    return value
 
 
 ODS_FORMAT_CONVERSION = {
@@ -87,68 +80,39 @@ class ODSBook:
 
     def __init__(self, file):
         """Load the file"""
-        self.doc = odf.opendocument.load(file)
+        self.doc = ezodf.opendoc(file)
         self.SHEETS = {}
         self.sheet_names = []
-        for sheet in self.doc.spreadsheet.getElementsByType(Table):
+        for sheet in self.doc.sheets:
             self.readSheet(sheet)
 
     def readSheet(self, sheet):
         """reads a sheet in the sheet dictionary, storing each sheet
         as an array (rows) of arrays (columns)"""
-        name = sheet.getAttribute("name")
-        rows = sheet.getElementsByType(TableRow)
-        arrRows = []
-        # for each row
-        for row in rows:
-            arrCells = []
-            cells = row.getElementsByType(TableCell)
-            has_value = False
-
-            # for each cell
-            for cell in cells:
-                # repeated value?
-                repeat = cell.getAttribute("numbercolumnsrepeated")
-                if(not repeat):
-                    has_value = True
-                    ret = self._read_cell(cell)
-                    arrCells.append(ret)
-                else:
-                    r = int(repeat)
-                    for i in range(0, r):
-                        arrCells.append("")
+        table = []
+        for row in range(sheet.nrows()):
+            rows = []
+            for column, cell in enumerate(sheet.row(row)):
+                ret = self._read_cell(cell)
+                rows.append(ret)
             # if row contained something
-            if(len(arrCells) and has_value):
-                arrRows.append(arrCells)
+            table.append(rows)
 
-        self.SHEETS[name] = arrRows
-        self.sheet_names.append(name)
-
-    def _read_text_cell(self, cell):
-        textContent = ""
-        ps = cell.getElementsByType(P)
-        # for each text node
-        for p in ps:
-            for n in p.childNodes:
-                if (n.nodeType == 3):
-                    textContent = textContent + unicode(n.data)
-        return textContent
+        self.SHEETS[sheet.name] = table
+        self.sheet_names.append(sheet.name)
 
     def _read_cell(self, cell):
-        cell_type = cell.getAttrNS(OFFICENS, "value-type")
-        value_token = VALUE_TOKEN.get(cell_type, "value")
+        cell_type = cell.value_type
         ret = None
-        if cell_type == "string":
-            textContent = self._read_text_cell(cell)
-            ret = textContent
+        if cell_type in ODS_FORMAT_CONVERSION:
+            value = cell.value
+            n_value = VALUE_CONVERTERS[cell_type](value)
+            ret = n_value
         else:
-            if cell_type in ODS_FORMAT_CONVERSION:
-                value = cell.getAttrNS(OFFICENS, value_token)
-                n_value = VALUE_CONVERTERS[cell_type](value)
-                ret = n_value
+            if cell.value is None:
+                ret = ""
             else:
-                textContent = self._read_text_cell(cell)
-                ret = textContent
+                ret = cell.value
         return ret
 
     def sheets(self):
@@ -166,25 +130,29 @@ class ODSSheetWriter:
             sheet_name = name
         else:
             sheet_name = "pyexcel_sheet1"
-        self.table = Table(name=sheet_name)
+        self.sheet = ezodf.Sheet(sheet_name)
+        self.current_row = 0
+
+    def set_size(self, size):
+        print(size)
+        self.sheet.reset(size=size)
 
     def write_row(self, array):
         """
         write a row into the file
         """
-        tr = TableRow()
-        self.table.addElement(tr)
-        for x in array:
-            tc = TableCell()
-            tc.addElement(P(text=x))
-            tr.addElement(tc)
+        count = 0
+        for cell in array:
+            self.sheet[self.current_row, count].set_value(cell)
+            count += 1
+        self.current_row += 1
 
     def close(self):
         """
         This call writes file
 
         """
-        self.doc.spreadsheet.addElement(self.table)
+        self.doc.sheets += self.sheet
 
 
 class ODSWriter:
@@ -193,9 +161,7 @@ class ODSWriter:
 
     """
     def __init__(self, file):
-        from odf.opendocument import OpenDocumentSpreadsheet
-        self.doc = OpenDocumentSpreadsheet()
-        self.file = file
+        self.doc = ezodf.newdoc(doctype="ods", filename=file)
 
     def create_sheet(self, name):
         """
@@ -208,4 +174,4 @@ class ODSWriter:
         This call writes file
 
         """
-        self.doc.write(self.file)
+        self.doc.save()

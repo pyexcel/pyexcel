@@ -1,6 +1,6 @@
 import os
 import pyexcel
-from base import PyexcelIteratorBase
+from base import PyexcelIteratorBase, create_sample_file2
 
 
 class TestIteratableArray(PyexcelIteratorBase):
@@ -29,11 +29,7 @@ class TestIteratorWithPlainReader(PyexcelIteratorBase):
         9,10,11,12
         """
         self.testfile = "testcsv.csv"
-        w = pyexcel.Writer(self.testfile)
-        for i in [0, 4, 8]:
-            array = [i+1, i+2, i+3, i+4]
-            w.write_row(array)
-        w.close()
+        create_sample_file2(self.testfile)
         self.iteratable = pyexcel.PlainReader(self.testfile)
 
     def tearDown(self):
@@ -51,11 +47,7 @@ class TestIterator(PyexcelIteratorBase):
         9,10,11,12
         """
         self.testfile = "testcsv.csv"
-        w = pyexcel.Writer(self.testfile)
-        for i in [0, 4, 8]:
-            array = [i+1, i+2, i+3, i+4]
-            w.write_row(array)
-        w.close()
+        create_sample_file2(self.testfile)
         self.iteratable = pyexcel.Reader(self.testfile)
         
     def tearDown(self):

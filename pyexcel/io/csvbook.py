@@ -1,3 +1,4 @@
+import six
 import csv
 
 
@@ -9,7 +10,10 @@ class CSVBook:
     """
     def __init__(self, file):
         self.array = []
-        reader = csv.reader(open(file, 'rb'), dialect=csv.excel)
+        if six.PY2:
+            reader = csv.reader(open(file, 'rb'), dialect=csv.excel)
+        elif six.PY3:
+            reader = csv.reader(open(file, 'rt'), dialect=csv.excel)            
         longest_row_length = -1
         for row in reader:
             myrow = []
@@ -43,7 +47,10 @@ class CSVSheetWriter:
         else:
             file_name = file
 
-        self.f = open(file_name, "wb")
+        if six.PY2:
+            self.f = open(file_name, "wb")
+        elif six.PY3:
+            self.f = open(file_name, "w", newline="")
         self.writer = csv.writer(self.f)
 
     def write_row(self, array):

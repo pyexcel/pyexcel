@@ -7,9 +7,10 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-from utils import to_dict
-from readers import SeriesReader
-from io import get_writer
+from .utils import to_dict, dict_to_array, transpose
+from .iterators import Matrix
+from .io import get_writer
+from .io.odsbook import ODSSheetWriter
 
 
 class SheetWriter:
@@ -17,14 +18,6 @@ class SheetWriter:
 
     def __init__(self, writer):
         self.writer = writer
-
-    def write_row(self, array):
-        """
-        Write a row
-
-        write a row into the file in memory
-        """
-        self.writer.write_row(array)
 
     def write_array(self, table):
         self.write_rows(table)
@@ -35,62 +28,28 @@ class SheetWriter:
 
         table can be two dimensional array or a row iterator
         """
+        if len(table) < 1:
+            return
+        if isinstance(self.writer, ODSSheetWriter):
+            columns = len(table)
+            rows = len(table[0])
+            self.writer.set_size((columns, rows))
         for row in table:
             self.writer.write_row(row)
 
-    def write_columns(self, table):
-        max_length = -1
-        for c in table:
-            column_length = len(c)
-            if max_length == -1:
-                max_length = column_length
-            elif max_length < column_length:
-                max_length = column_length
-        for i in range(0, max_length):
-            row_data = []
-            for c in table:
-                if i < len(c):
-                    row_data.append(c[i])
-                else:
-                    row_data.append('')
-            self.writer.write_row(row_data)
-
-    def write_dict(self, the_dict, with_headers=True):
-        """
-        Write a whole dictionary
-
-        series and data will be write into one file
-        """
-        keys = sorted(the_dict.keys())
-        if with_headers:
-            self.writer.write_row(keys)
-        max_length = -1
-        for k in keys:
-            column_length = len(the_dict[k])
-            if max_length == -1:
-                max_length = column_length
-            elif max_length < column_length:
-                max_length = column_length
-        for i in range(0, max_length):
-            row_data = []
-            for k in keys:
-                if i < len(the_dict[k]):
-                    row_data.append(the_dict[k][i])
-                else:
-                    row_data.append('')
-            self.writer.write_row(row_data)
+    def write_dict(self, the_dict):
+        array = dict_to_array(the_dict)
+        self.write_rows(array)
 
     def write_reader(self, reader):
-        """
-        Write a pyexcel reader
-
-        In this case, you may use FiterableReader or SeriesReader
-        to do filtering first. Then pass it onto this function
-        """
-        if isinstance(reader, SeriesReader):
-            self.write_dict(to_dict(reader))
+        if isinstance(reader, Matrix):
+            self.write_rows(reader.array)
         else:
-            self.write_array(reader.rows())
+            raise TypeError
+
+    def write_columns(self, in_array):
+        out_array = transpose(in_array)
+        self.write_rows(out_array)
 
     def close(self):
         """
@@ -141,7 +100,7 @@ class Writer(SheetWriter):
     """
     A single sheet excel file writer
 
-    It writes only one sheet to an exce file. It is a quick way to handle most
+    It writes only one sheet to an excel file. It is a quick way to handle most
     of the data files
     """
 

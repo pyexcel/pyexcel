@@ -7,10 +7,10 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-from iterators import SheetIterator
-from sheets import PlainSheet, MultipleFilterableSheet, Sheet
-from utils import to_dict
-from io import load_file
+from .iterators import SheetIterator
+from .sheets import PlainSheet, MultipleFilterableSheet, Sheet
+from .utils import to_dict
+from .io import load_file
 import os
 import uuid
 
@@ -46,7 +46,7 @@ class Book:
         self.sheets = {}
         for name in sheets.keys():
             self.sheets[name] = self.get_sheet(sheets[name], name)
-        self.name_array = self.sheets.keys()
+        self.name_array = list(self.sheets.keys())
 
     def get_sheet(self, array, name):
         return Sheet(array, name)
@@ -77,13 +77,13 @@ class Book:
             if sheet < len(self.name_array):
                 sheet_name = self.name_array[sheet]
                 del self.sheets[sheet_name]
-                self.name_array = self.sheets.keys()
+                self.name_array = list(self.sheets.keys())
             else:
                 raise IndexError
         elif isinstance(sheet, str):
             if sheet in self.name_array:
                 del self.sheets[sheet]
-                self.name_array = self.sheets.keys()
+                self.name_array = list(self.sheets.keys())
             else:
                 raise KeyError
         else:
@@ -152,7 +152,7 @@ class Book:
             self.sheets[new_key] = self.get_sheet(other.array, new_key)
         else:
             raise TypeError
-        self.name_array = self.sheets.keys()
+        self.name_array = list(self.sheets.keys())
         return self
 
 
@@ -184,7 +184,7 @@ class Reader(Sheet):
         if sheet:
             Sheet.__init__(self, sheets[sheet], sheet)
         else:
-            keys = sheets.keys()
+            keys = sorted(list(sheets.keys()))
             Sheet.__init__(self, sheets[keys[0]], keys[0])
 
 
@@ -208,7 +208,7 @@ class PlainReader(PlainSheet):
         if sheet:
             PlainSheet.__init__(self, sheets[sheet])
         else:
-            keys = sheets.keys()
+            keys = list(sheets.keys())
             PlainSheet.__init__(self, sheets[keys[0]])
 
 
@@ -222,5 +222,5 @@ class FilterableReader(MultipleFilterableSheet):
         if sheet:
             MultipleFilterableSheet.__init__(self, sheets[sheet])
         else:
-            keys = sheets.keys()
+            keys = list(sheets.keys())
             MultipleFilterableSheet.__init__(self, sheets[keys[0]])

@@ -1,3 +1,5 @@
+six
+lxml
 xlrd
-odfpy
+ezodf
 xlwt

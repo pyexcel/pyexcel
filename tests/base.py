@@ -9,6 +9,32 @@ def to_json(iterator):
     return json.dumps(array)
 
 
+def create_sample_file1(file):
+    w = pyexcel.Writer(file)
+    data=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
+    table = []
+    table.append(data[:4])
+    table.append(data[4:8])
+    table.append(data[8:12])
+    w.write_array(table)
+    w.close()
+
+
+def create_sample_file2(file):
+    """
+    1,2,3,4
+    5,6,7,8
+    9,10,11,12
+    """    
+    w = pyexcel.Writer(file)
+    table = []
+    for i in [0, 4, 8]:
+        array = [i+1, i+2, i+3, i+4]
+        table.append(array)
+    w.write_array(table)
+    w.close()
+    
+
 class PyexcelWriterBase:
     """
     Abstract functional test for writers
@@ -22,11 +48,14 @@ class PyexcelWriterBase:
         [1,2,3,4,5],
         [1,2,3,4,5]
     ]
-    
-    def test_write_array(self):
-        w = pyexcel.Writer(self.testfile)
+
+    def _create_a_file(self, file):
+        w = pyexcel.Writer(file)
         w.write_array(self.content)
         w.close()
+    
+    def test_write_array(self):
+        self._create_a_file(self.testfile)
         r = pyexcel.Reader(self.testfile)
         actual = pyexcel.utils.to_array(r.rows())
         assert actual == self.content
@@ -38,9 +67,7 @@ class PyexcelWriterBase:
         this test case shows the file written by pyexcel
         can be read back by itself
         """
-        w = pyexcel.Writer(self.testfile)
-        w.write_array(self.content)
-        w.close()
+        self._create_a_file(self.testfile)
         r = pyexcel.Reader(self.testfile)
         w2 = pyexcel.Writer(self.testfile2)
         w2.write_reader(r)
@@ -80,10 +107,12 @@ class PyexcelBase:
         """
         self.rows = 3
         w = pyexcel.Writer(file)
+        table = []
         for i in range(0,self.rows):
             row = i + 1
             array = [row, row, row, row]
-            w.write_row(array)
+            table.append(array)
+        w.write_rows(table)
         w.close()
         
     def test_number_of_rows(self):
@@ -107,10 +136,6 @@ class PyexcelBase:
         r = pyexcel.Reader(self.testfile)
         assert 4 == r.number_of_columns()
 
-    def test_json(self):
-        r = pyexcel.Reader(self.testfile)
-        assert to_json(r.rows()) == '[[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]'
-
     def test_slice(self):
         r = pyexcel.Reader(self.testfile)
         content1 = [[1, 1, 1, 1]]
@@ -125,8 +150,6 @@ class PyexcelBase:
         assert content4 == r[0:2:1]
         content5 = [1, 1, 1, 1]
         assert content5 == r[0:0]
-
-class PyexcelXlsBase(PyexcelBase):
 
     def test_json(self):
         r = pyexcel.Reader(self.testfile)

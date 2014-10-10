@@ -8,9 +8,9 @@
     :license: GPL v3
 """
 import os
-from readers import SeriesReader, Reader, Book
-from utils import to_dict, to_array
-from writers import Writer, BookWriter
+from .readers import SeriesReader, Reader, Book
+from .utils import to_dict, to_array
+from .writers import Writer, BookWriter
 
 
 __WARNING_TEXT__ = "We do not overwrite files"

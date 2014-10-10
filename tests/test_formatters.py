@@ -607,11 +607,11 @@ class TestDateFormat:
 
     def test_writing_date_format(self):
         excel_filename = "testdateformat.xls"
-        data = [datetime.date(2014,12,25),
+        data = [[datetime.date(2014,12,25),
                 datetime.time(11,11,11),
-                datetime.datetime(2014,12,25,11,11,11)]
+                datetime.datetime(2014,12,25,11,11,11)]]
         w = pyexcel.Writer(excel_filename)
-        w.write_row(data)
+        w.write_rows(data)
         w.close()
         r = pyexcel.Reader(excel_filename)
         assert isinstance(r[0][0], datetime.date) == True

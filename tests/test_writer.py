@@ -58,6 +58,12 @@ class TestWriteReader:
         w.close()
         self.testfile2 = "test.xlsm"
 
+    def test_content_is_read(self):
+        r = pyexcel.SeriesReader(self.testfile)
+        content = pyexcel.utils.to_dict(r)
+        print(content)
+        assert content == self.content
+
     def test_write_simple_reader(self):
         r = pyexcel.Reader(self.testfile)
         w = pyexcel.Writer(self.testfile2)
@@ -74,6 +80,7 @@ class TestWriteReader:
         w.close()
         r2 = pyexcel.SeriesReader(self.testfile2)
         content = pyexcel.utils.to_dict(r2)
+        print(content)
         assert content == self.content
 
     def tearDown(self):

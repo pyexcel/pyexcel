@@ -1,6 +1,7 @@
 from base import PyexcelMultipleSheetBase
 import pyexcel
 import os
+from base import create_sample_file1
 
 
 class TestOdsNxlsMultipleSheets(PyexcelMultipleSheetBase):
@@ -101,12 +102,7 @@ class TestReader:
         """
         self.testfile = "testcsv.csv"
         self.rows = 3
-        w = pyexcel.Writer(self.testfile)
-        data=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
-        w.write_row(data[:4])
-        w.write_row(data[4:8])
-        w.write_row(data[8:12])
-        w.close()
+        create_sample_file1(self.testfile)
 
     def test_csv_book_reader(self):
         r = pyexcel.BookReader(self.testfile)

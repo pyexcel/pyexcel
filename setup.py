@@ -22,8 +22,10 @@ setup(
     url="https://github.com/chfw/pyexcel",
     description='A wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm.',
     install_requires=[
+        'six',
+        'lxml',
         'xlrd',
-        'odfpy',
+        'ezodf',
         'xlwt'
     ],
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
