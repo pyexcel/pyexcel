@@ -4,14 +4,11 @@ notifications:
 env:
   global:
 python:
-  - 2.6
   - 2.7
   - 3.4
 install:
-  - python setup.py install
-  - sudo apt-get install -y python-lxml
-  - pip install -r requirements.txt
-  - pip install -r tests/requirements.txt
+  - pip install -r requirements.txt --use-miorrs
+  - pip install -r tests/requirements.txt --use-mirrors
 script:
   nosetests --rednose --with-cov
 after_success:

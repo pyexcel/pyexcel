@@ -2,4 +2,4 @@ six
 lxml
 xlrd
 xlwt-future
-ezodf
+ezodf2

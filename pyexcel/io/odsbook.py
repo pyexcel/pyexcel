@@ -14,7 +14,7 @@
 
 # Thanks to grt for the fixes
 import datetime
-import ezodf
+import ezodf2 as ezodf
 from pyexcel.sheets import (STRING_FORMAT,
                             FLOAT_FORMAT, EMPTY,
                             DATE_FORMAT, BOOLEAN_FORMAT)
