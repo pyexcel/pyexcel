@@ -1,5 +1,0 @@
-xlrd
-xlwt-future
-six
-ezodf
-lxml
