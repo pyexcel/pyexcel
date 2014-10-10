@@ -1,4 +1,5 @@
 six
+Cython
 lxml==3.3.5
 xlrd
 xlwt-future
