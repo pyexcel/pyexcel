@@ -1,6 +1,5 @@
 six
-Cython
-lxml==3.3.5
+lxml
 xlrd
 xlwt-future
 ezodf
