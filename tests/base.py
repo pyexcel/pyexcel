@@ -303,23 +303,23 @@ class PyexcelSheetRWBase:
                    [True],
                    [1.1, 2.2, 3.3, 4.4, 5.5]]
         r.extend_rows(content)
-        assert r[3] == ['r', 's', 't', 'o']
-        assert r[4] == [1, 2, 3, 4]
-        assert r[5] == [True, "", "", ""]
-        assert r[6] == [1.1, 2.2, 3.3, 4.4]
+        assert r[3] == ['r', 's', 't', 'o', '']
+        assert r[4] == [1, 2, 3, 4, '']
+        assert r[5] == [True, "", "", "", '']
+        assert r[6] == [1.1, 2.2, 3.3, 4.4, 5.5]
         r2 = self.testclass(self.testfile)
         r2 += content
-        assert r2[3] == ['r', 's', 't', 'o']
-        assert r2[4] == [1, 2, 3, 4]
-        assert r2[5] == [True, "", "", ""]
-        assert r2[6] == [1.1, 2.2, 3.3, 4.4]        
+        assert r2[3] == ['r', 's', 't', 'o', '']
+        assert r2[4] == [1, 2, 3, 4, '']
+        assert r2[5] == [True, "", "", "", '']
+        assert r2[6] == [1.1, 2.2, 3.3, 4.4, 5.5]        
         r3 = self.testclass(self.testfile)
         sheet = pyexcel.sheets.Sheet(content, "test")
         r3 += sheet
-        assert r3[3] == ['r', 's', 't', 'o']
-        assert r3[4] == [1, 2, 3, 4]
-        assert r3[5] == [True, "", "", ""]
-        assert r3[6] == [1.1, 2.2, 3.3, 4.4]
+        assert r3[3] == ['r', 's', 't', 'o', '']
+        assert r3[4] == [1, 2, 3, 4, '']
+        assert r3[5] == [True, "", "", "", '']
+        assert r3[6] == [1.1, 2.2, 3.3, 4.4, 5.5]
         try:
             r3 += 12
             assert 1==2

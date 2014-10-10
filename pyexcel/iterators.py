@@ -147,13 +147,18 @@ class Matrix:
     def extend_rows(self, rows):
         """expected the rows to be off the same length"""
         array_length = self.number_of_columns()
+        max_length = array_length
         for r in rows:
             length = len(r)
-            agreed_length = min(length, array_length)
+            agreed_length = max(length, array_length)
+            if max_length < agreed_length:
+                max_length = agreed_length
             array = copy.deepcopy(r[:agreed_length])
             if length < array_length:
                 array = array + [""] * (array_length-length)
             self.array.append(array)
+        if array_length < max_length:
+            self.array[0] += [""] * (max_length - array_length)
 
     def delete_rows(self, row_indices):
         """delete rows"""

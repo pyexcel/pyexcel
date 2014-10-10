@@ -350,6 +350,7 @@ class TestFilter:
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
 
+
 class TestComplexFilter:
     def setUp(self):
         """
