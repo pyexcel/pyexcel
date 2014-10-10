@@ -523,7 +523,7 @@ merge sheets into a single sheet
 Suppose you want to merge many csv files row by row into a new sheet.
 
     >>> import pyexcel
-    >>> merged = None
+    >>> merged = pyexcel.Reader()
     >>> for file in glob("*.csv"):
     >>>     merged += pyexcel.Reader(file)
     >>> writer = pyexcel.Writer("merged.csv")
