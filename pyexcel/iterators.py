@@ -316,6 +316,10 @@ class IteratableArray:
         else:
             return False
 
+    def transpose(self):
+        from .utils import transpose
+        self.array = transpose(self.array)
+
 
 class PyexcelIterator:
     def __next__(self):

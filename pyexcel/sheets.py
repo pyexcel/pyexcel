@@ -92,10 +92,7 @@ class PlainSheet(IteratableArray):
             else:
                 if value_type == STRING_FORMAT:
                     try:
-                        if "." in value:
-                            value = float(value)
-                        else:
-                            value = int(value)
+                        value = float(value)
                     except ValueError:
                         pass
             return value

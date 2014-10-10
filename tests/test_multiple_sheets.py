@@ -1,36 +1,37 @@
 from base import PyexcelMultipleSheetBase
 import pyexcel
 import os
+from base import create_sample_file1
 
 
-#class TestOdsNxlsMultipleSheets(PyexcelMultipleSheetBase):
-#    def setUp(self):
-#        self.testfile = "multiple1.ods"
-#        self.testfile2 = "multiple1.xls"
-#        self.content = {
-#            "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
-#            "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
-#            "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
-#        }
-#        self._write_test_file(self.testfile)
-#
-#    def tearDown(self):
-#        self._clean_up()
-#
-#
-#class TestXlsNOdsMultipleSheets(PyexcelMultipleSheetBase):
-#    def setUp(self):
-#        self.testfile = "multiple1.xls"
-#        self.testfile2 = "multiple1.ods"
-#        self.content = {
-#            "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
-#            "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
-#            "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
-#        }
-#        self._write_test_file(self.testfile)
-#
-#    def tearDown(self):
-#        self._clean_up()
+class TestOdsNxlsMultipleSheets(PyexcelMultipleSheetBase):
+    def setUp(self):
+        self.testfile = "multiple1.ods"
+        self.testfile2 = "multiple1.xls"
+        self.content = {
+            "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
+            "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
+            "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
+        }
+        self._write_test_file(self.testfile)
+
+    def tearDown(self):
+        self._clean_up()
+
+
+class TestXlsNOdsMultipleSheets(PyexcelMultipleSheetBase):
+    def setUp(self):
+        self.testfile = "multiple1.xls"
+        self.testfile2 = "multiple1.ods"
+        self.content = {
+            "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
+            "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
+            "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
+        }
+        self._write_test_file(self.testfile)
+
+    def tearDown(self):
+        self._clean_up()
 
 
 class TestXlsNXlsmMultipleSheets(PyexcelMultipleSheetBase):
@@ -101,12 +102,7 @@ class TestReader:
         """
         self.testfile = "testcsv.csv"
         self.rows = 3
-        w = pyexcel.Writer(self.testfile)
-        data=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
-        w.write_row(data[:4])
-        w.write_row(data[4:8])
-        w.write_row(data[8:12])
-        w.close()
+        create_sample_file1(self.testfile)
 
     def test_csv_book_reader(self):
         r = pyexcel.BookReader(self.testfile)
@@ -132,9 +128,7 @@ class TestAddBooks:
         w.close()
 
     def setUp(self):
-
-        #self.testfile = "multiple1.ods"
-        self.testfile = "multiple1.xlsm"
+        self.testfile = "multiple1.ods"
         self.testfile2 = "multiple1.xls"
         self.testfile3 = "multiple2.xlsx"
         self.content = {

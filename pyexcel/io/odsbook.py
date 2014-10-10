@@ -105,7 +105,6 @@ class ODSBook:
         cell_type = cell.value_type
         ret = None
         if cell_type in ODS_FORMAT_CONVERSION:
-            print(cell_type, cell.value)
             value = cell.value
             n_value = VALUE_CONVERTERS[cell_type](value)
             ret = n_value
@@ -132,12 +131,21 @@ class ODSSheetWriter:
         else:
             sheet_name = "pyexcel_sheet1"
         self.sheet = ezodf.Sheet(sheet_name)
+        self.current_row = 0
+
+    def set_size(self, size):
+        print(size)
+        self.sheet.reset(size=size)
 
     def write_row(self, array):
         """
         write a row into the file
         """
-        pass
+        count = 0
+        for cell in array:
+            self.sheet[self.current_row, count].set_value(cell)
+            count += 1
+        self.current_row += 1
 
     def close(self):
         """
@@ -166,4 +174,4 @@ class ODSWriter:
         This call writes file
 
         """
-        self.doc.write(self.file)
+        self.doc.save()

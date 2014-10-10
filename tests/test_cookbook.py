@@ -62,8 +62,7 @@ class TestCookbook:
         2,2,2,2
         3,3,3,3
         """
-        #test.ods
-        self.testfile = "test.xlsm"
+        self.testfile = "test.ods"
         self.content = {
             "X": [1, 2, 3, 4, 5],
             "Y": [6, 7, 8, 9, 10],
@@ -120,9 +119,8 @@ class TestCookbook:
             assert 1==2
         except NotImplementedError:
             assert 1==1
-        #test4.ods
-        pyexcel.cookbook.update_columns(self.testfile, custom_column, "test4.xls")
-        r = pyexcel.SeriesReader("test4.xls")
+        pyexcel.cookbook.update_columns(self.testfile, custom_column, "test4.ods")
+        r = pyexcel.SeriesReader("test4.ods")
         data = pyexcel.utils.to_dict(r)
         assert data["Z"] == custom_column["Z"]
 
@@ -145,9 +143,8 @@ class TestCookbook:
             assert 1==2
         except NotImplementedError:
             assert 1==1
-        # test4.ods
-        pyexcel.cookbook.update_rows(self.testfile, custom_column, "test4.xls")
-        r = pyexcel.Reader("test4.xls")
+        pyexcel.cookbook.update_rows(self.testfile, custom_column, "test4.ods")
+        r = pyexcel.Reader("test4.ods")
         assert custom_column[1] == r.row_at(1)
 
     def test_merge_two_files(self):
@@ -316,7 +313,6 @@ class TestCookbook:
         another_gen_file = "merged.xls"
         if os.path.exists(another_gen_file):
             os.unlink(another_gen_file)
-        # used to be test4.ods
-        another_gen_file = "test4.xls"
+        another_gen_file = "test4.ods"
         if os.path.exists(another_gen_file):
             os.unlink(another_gen_file)
