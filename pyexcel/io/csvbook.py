@@ -53,6 +53,9 @@ class CSVSheetWriter:
             self.f = open(file_name, "w", newline="")
         self.writer = csv.writer(self.f)
 
+    def set_size(self, size):
+        pass
+
     def write_row(self, array):
         """
         write a row into the file

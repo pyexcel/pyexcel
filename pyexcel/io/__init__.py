@@ -8,7 +8,6 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-from .odsbook import ODSBook, ODSWriter
 from .csvbook import CSVBook, CSVWriter
 from .xlbook import XLBook, XLWriter
 
@@ -21,7 +20,6 @@ READERS = {
     "xlsm": XLBook,
     "xlsx": XLBook,
     "csv": CSVBook,
-    "ods": ODSBook
 }
 
 
@@ -33,7 +31,6 @@ WRITERS = {
     "xlsm": XLWriter,
     "xlsx": XLWriter,
     "csv": CSVWriter,
-    "ods": ODSWriter
 }
 
 

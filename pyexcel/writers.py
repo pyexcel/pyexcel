@@ -10,7 +10,6 @@
 from .utils import to_dict, dict_to_array, transpose
 from .iterators import Matrix
 from .io import get_writer
-from .io.odsbook import ODSSheetWriter
 
 
 class SheetWriter:
@@ -30,10 +29,9 @@ class SheetWriter:
         """
         if len(table) < 1:
             return
-        if isinstance(self.writer, ODSSheetWriter):
-            columns = len(table)
-            rows = len(table[0])
-            self.writer.set_size((columns, rows))
+        columns = len(table)
+        rows = len(table[0])
+        self.writer.set_size((columns, rows))
         for row in table:
             self.writer.write_row(row)
 

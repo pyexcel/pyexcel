@@ -100,6 +100,9 @@ class XLSheetWriter:
         self.ws = self.wb.add_sheet(sheet_name)
         self.current_row = 0
 
+    def set_size(self, size):
+        pass
+
     def write_row(self, array):
         """
         write a row into the file

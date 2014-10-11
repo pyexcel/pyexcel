@@ -23,10 +23,8 @@ setup(
     description='A wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm.',
     install_requires=[
         'six',
-        'lxml',
         'xlrd',
-        'xlwt-future',
-        'ezodf'
+        'xlwt-future'
     ],
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     include_package_data=True,

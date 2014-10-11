@@ -294,13 +294,3 @@ toxml
 
 xmlt
 
-
-## Dependencies
-
-* odfpy
-* xlrd
-* xlwt
-
-## Credits
-
-ODSReader is written by [Marco Conti](https://github.com/marcoconti83/read-ods-with-odfpy)
