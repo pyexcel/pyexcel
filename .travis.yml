@@ -10,8 +10,8 @@ python:
   - 3.4
   - pypi
 install:
-  - pip install -r requirements.txt --use-mirrors
-  - pip install -r tests/requirements.txt --use-mirrors
+  - pip install -r requirements.txt
+  - pip install -r tests/requirements.txt
 script:
   nosetests --rednose --with-cov
 after_success:

@@ -1,5 +1,3 @@
 six
-lxml
 xlrd
 xlwt-future
-ezodf2
