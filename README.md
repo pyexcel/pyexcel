@@ -1,6 +1,6 @@
 # pyexcel [![Build Status](https://api.travis-ci.org/chfw/pyexcel.png)](http://travis-ci.org/chfw/pyexcel) [![codecov.io](https://codecov.io/github/chfw/pyexcel/coverage.png)](https://codecov.io/github/chfw/pyexcel) [![Documentation Status](https://readthedocs.org/projects/pyexcel/badge/?version=latest)](https://readthedocs.org/projects/pyexcel/?badge=latest) [![Download Status](https://pypip.in/d/pyexcel/badge.png)](https://pypi.python.org/pypi/pyexcel)
 
-**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. Its mission is to let you focus on data itself and it deals with different file formats. But this library does not support fonts, colors and charts.
+**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. Its mission is to let you focus on data itself and it deals with different file formats. But this library does not support fonts, colors and charts. ODS format support is provided by pyexcel-ods and pyexcel-ods3.
 
 It was created due to the lack of uniform programming interface to access data in different formats. A developer needs to use different methods of different libraries to read the same data in different excel formats, hence the resulting code is cluttered and unmaintainable.
 
