@@ -7,9 +7,32 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-from .utils import to_dict, dict_to_array, transpose
-from .iterators import Matrix
+from .utils import to_dict
+from .iterators import Matrix, transpose
 from .io import get_writer
+
+
+def dict_to_array(the_dict, with_keys=True):
+    content = []
+    keys = sorted(the_dict.keys())
+    if with_keys:
+        content.append(keys)
+    max_length = -1
+    for k in keys:
+        column_length = len(the_dict[k])
+        if max_length == -1:
+            max_length = column_length
+        elif max_length < column_length:
+            max_length = column_length
+    for i in range(0, max_length):
+        row_data = []
+        for k in keys:
+            if i < len(the_dict[k]):
+                row_data.append(the_dict[k][i])
+            else:
+                row_data.append('')
+        content.append(row_data)
+    return content
 
 
 class SheetWriter:

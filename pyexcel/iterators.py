@@ -22,13 +22,50 @@ def f7(seq):
     return [x for x in seq if not (x in seen or seen_add(x))]
 
 
+def longest_row_number(array):
+    max_length = -1
+    for row in array:
+        row_length = len(row)
+        if max_length == -1:
+            max_length = row_length
+        elif max_length < row_length:
+            max_length = row_length
+    return max_length
+
+
+def uniform(array):
+    """
+    Fill-in empty strings to empty cells to make it MxN
+    """
+    width = longest_row_number(array)
+    for row in array:
+        row_length = len(row)
+        if row_length < width:
+            row += [""] * (width - row_length)
+    return array
+
+
+def transpose(in_array):
+    max_length = longest_row_number(in_array)
+    new_array = []
+    for i in range(0, max_length):
+        row_data = []
+        for c in in_array:
+            if i < len(c):
+                row_data.append(c[i])
+            else:
+                row_data.append('')
+        new_array.append(row_data)
+    return new_array
+
+
 class Matrix:
     """
     To be able to use the iterators in this package, implement
     these methods
     """
     def __init__(self, array):
-        self.array = array
+        self.array = uniform(array)
 
     def number_of_rows(self):
         return len(self.array)
@@ -162,8 +199,7 @@ class Matrix:
         # if number_of_rows > 0, means self has content
         # if self does not have content, does not make sense to
         # to increase width
-        if array_length < max_length and number_of_rows > 0:
-            self.array[0] += [""] * (max_length - array_length)
+        self.array = uniform(self.array)
 
     def delete_rows(self, row_indices):
         """delete rows"""
@@ -200,6 +236,7 @@ class Matrix:
                 new_array = [""] * current_ncols
                 new_array += columns[base+i]
                 self.array.append(new_array)
+        self.array = uniform(self.array)
 
     def delete_columns(self, column_indices):
         """
@@ -326,7 +363,6 @@ class Matrix:
             return False
 
     def transpose(self):
-        from .utils import transpose
         self.array = transpose(self.array)
 
 

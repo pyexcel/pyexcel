@@ -1,5 +1,5 @@
-Simple usage
-=============
+Examples
+=========
 
 Update one column of a data file
 ---------------------------------
@@ -26,7 +26,7 @@ Here is the code::
     custom_column = {"Column 2":[11, 12, 13]}
     update_columns("example1.csv", custom_column, "output.xls")
 
-Your oupt.xls will have these data:
+Your output.xls will have these data:
 
 ======== ======== ========
 Column 1 Column 2 Column 3

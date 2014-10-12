@@ -73,6 +73,15 @@ class TestWriteReader:
         print(content)
         assert content == self.content
 
+    def test_write_simple_reader(self):
+        try:
+            w = pyexcel.Writer(self.testfile2)
+            w.write_reader("abc")
+            w.close()
+            assert 1==2
+        except TypeError:
+            assert 1==1
+
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)

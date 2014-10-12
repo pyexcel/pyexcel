@@ -3,6 +3,49 @@ import pyexcel
 from base import PyexcelIteratorBase, create_sample_file2
 
 
+class TestMatrix:
+
+    def test1(self):
+        """Test empty array as input to Matrix"""
+        m = pyexcel.iterators.Matrix([])
+        assert m.number_of_columns() == 0
+        assert m.number_of_rows() == 0
+
+    def test_extend_columns(self):
+        """Test extend columns"""
+        data = [
+            [1, 2, 3, 4, 5, 6],
+            [1, 2, 3, 4],
+            [1]
+        ]
+        m = pyexcel.iterators.Matrix(data)
+        data2 = [[1, 2], [1, 2]]
+        m.extend_columns(data2)
+        result = [
+            [1, 2, 3, 4, 5, 6, 1, 2],
+            [1, 2, 3, 4, '', '', 1, 2],
+            [1, '', '', '', '', '', '', '']
+        ]
+        actual = pyexcel.utils.to_array(m)
+        assert result == actual
+        
+    def test_transpose(self):
+        """Test delete item"""
+        data = [
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        result = [
+            [1, 4],
+            [2, 5],
+            [3, 6]
+        ]
+        m = pyexcel.iterators.Matrix(data)
+        m.transpose()
+        actual = pyexcel.utils.to_array(m)
+        assert result == actual
+
+
 class TestIteratableArray(PyexcelIteratorBase):
     def setUp(self):
         """
@@ -35,7 +78,7 @@ class TestIteratorWithPlainReader(PyexcelIteratorBase):
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
-        
+
 
 class TestIterator(PyexcelIteratorBase):
     def setUp(self):
@@ -49,7 +92,7 @@ class TestIterator(PyexcelIteratorBase):
         self.testfile = "testcsv.csv"
         create_sample_file2(self.testfile)
         self.iteratable = pyexcel.Reader(self.testfile)
-        
+
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)

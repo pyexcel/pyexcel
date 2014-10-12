@@ -1,47 +1,5 @@
 from .sheets import Sheet
 
-def dict_to_array(the_dict, with_keys=True):
-    content = []
-    keys = sorted(the_dict.keys())
-    if with_keys:
-        content.append(keys)
-    max_length = -1
-    for k in keys:
-        column_length = len(the_dict[k])
-        if max_length == -1:
-            max_length = column_length
-        elif max_length < column_length:
-            max_length = column_length
-    for i in range(0, max_length):
-        row_data = []
-        for k in keys:
-            if i < len(the_dict[k]):
-                row_data.append(the_dict[k][i])
-            else:
-                row_data.append('')
-        content.append(row_data)
-    return content
-
-
-def transpose(in_array):
-    max_length = -1
-    new_array = []
-    for c in in_array:
-        column_length = len(c)
-        if max_length == -1:
-            max_length = column_length
-        elif max_length < column_length:
-            max_length = column_length
-    for i in range(0, max_length):
-        row_data = []
-        for c in in_array:
-            if i < len(c):
-                row_data.append(c[i])
-            else:
-                row_data.append('')
-        new_array.append(row_data)
-    return new_array
-
 
 def to_array(o):
     """convert a reader iterator to an array"""
