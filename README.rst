@@ -75,7 +75,11 @@ Here is the test command::
 
 Test coverage is shown in [codecov.io](https://codecov.io/github/chfw/pyexcel). You can get instant test coverage report by using the following command::
 
-    nosetests tests --with-coverage --cover-package=pyexcel
+    make test
+
+Or on Windows please use:
+
+    test.bat
 
 
 Optionally, you can add `--cover-html --cover-html-dir=your_file_directory`
