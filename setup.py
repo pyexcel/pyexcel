@@ -1,18 +1,12 @@
-"""
-    pyexcel
-    ~~~~~~~~~~~~~~
-
-    It was created due to the lack of uniform programming interface to access data in different excel formats. A developer needs to use different methods of different libraries to read the same data in different excel formats, hence the resulting code is cluttered and unmaintainable.
-
-    All great work have done by odf, xlrd and other individual developers. This library unites only the data access code.
-"""
-
 try:
     from setuptools import setup, find_packages
 except ImportError:
     from ez_setup import use_setuptools
     use_setuptools()
     from setuptools import setup, find_packages
+
+reademe = open("README.rst", 'r')
+README_txt = readme.read()
 
 setup(
     name='pyexcel',
@@ -28,7 +22,7 @@ setup(
     ],
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     include_package_data=True,
-    long_description=__doc__,
+    long_description=README_txt,
     zip_safe=False,
     tests_require=['nose'],
     classifiers=[

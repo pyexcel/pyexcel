@@ -35,8 +35,21 @@ or clone it and install it::
     $ python setup.py install
 
 
+Open Document Spreadsheet(*.ods) Support
+-----------------------------------------
+
+In order to add ods support, please choose one of two packages: pyexcel-ods or pyexcel-ods3. In order to use them together with `pyexcel`, you need an extra import line in your code to activate it::
+
+    from pyexcel.ext import ods
+
+or::
+
+    from pyexcel.ext import ods3
+
+No futher code is needed. `pyexcel` will automatically support *ods* after this import.
+
 Test 
-====
+=====
 
 Here is the test command::
 
@@ -62,3 +75,7 @@ Documentation
 
 It is hosted in [pyhosted](https://pythonhosted.org/pyexcel/)
 
+Acknowledgement
+===============
+
+Extension management code was copied from `flask<https://github.com/mitsuhiko/flask>`. 
