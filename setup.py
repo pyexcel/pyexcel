@@ -5,7 +5,7 @@ except ImportError:
     use_setuptools()
     from setuptools import setup, find_packages
 
-reademe = open("README.rst", 'r')
+readme = open("README.rst", 'r')
 README_txt = readme.read()
 
 setup(

@@ -12,7 +12,9 @@ python:
 install:
   - pip install -r requirements.txt
   - pip install -r tests/requirements.txt
-  - python tests/test_plugin/setup.py install
+  - cd tests/test_plugin
+  - python setup.py install
+  - cd -
 script:
   nosetests --rednose --with-cov
 after_success:
