@@ -3,7 +3,7 @@ pyexcel
 ========
 
 .. image:: https://api.travis-ci.org/chfw/pyexcel.png
-    :target: http://travis-ci.org/chfw/pyexcel
+    :target: http://travis-ci.org/chfw/pyexcel/builds/37775341
 
 .. image:: https://codecov.io/github/chfw/pyexcel/coverage.png
     :target: https://codecov.io/github/chfw/pyexcel
@@ -41,7 +41,7 @@ or clone it and install it::
     $ python setup.py install
 
 
-Open Document Spreadsheet(*.ods) Support
+Open Document Spreadsheet(ods) Support
 -----------------------------------------
 
 In order to add ods support, please choose one of two packages: `pyexcel-ods <https://github.com/chfw/pyexcel-ods>`_ or `pyexcel-ods3 <https://github.com/chfw/pyexcel-ods3>`_ ::
