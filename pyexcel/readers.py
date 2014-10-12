@@ -99,9 +99,6 @@ class Book:
         self.remove_sheet(other)
         return self
 
-    def __setitem__(self, key):
-        pass
-
     def __add__(self, other):
         content = {}
         a = to_dict(self)

@@ -225,8 +225,6 @@ class Matrix:
         array_length = min(current_nrows, insert_column_nrows)
         for i in range(0, array_length):
             length = len(self.array[i])
-            if length < current_ncols:
-                self.array[i] += [""] * (current_ncols - length)
             array = copy.deepcopy(columns[i])
             self.array[i] += array
         if current_nrows < insert_column_nrows:

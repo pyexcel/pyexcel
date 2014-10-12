@@ -84,7 +84,7 @@ class TestReader:
             os.unlink(self.testfile)
 
 class TestAddBooks:
-    def _write_test_file(self, file):
+    def _write_test_file(self, file, content):
         """
         Make a test file as:
 
@@ -92,9 +92,8 @@ class TestAddBooks:
         2,2,2,2
         3,3,3,3
         """
-        self.rows = 3
         w = pyexcel.BookWriter(file)
-        w.write_book_from_dict(self.content)
+        w.write_book_from_dict(content)
         w.close()
 
     def setUp(self):
@@ -106,8 +105,13 @@ class TestAddBooks:
             "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
             "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
         }
-        self._write_test_file(self.testfile)
-        self._write_test_file(self.testfile2)
+        self._write_test_file(self.testfile, self.content)
+        self._write_test_file(self.testfile2, self.content)
+        self.test_single_sheet_file = "single.xls"
+        self.content1 = {
+            "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
+        }
+        self._write_test_file(self.test_single_sheet_file, self.content1)
 
     def test_delete_sheets(self):
         b1 = pyexcel.readers.Book(self.testfile)
@@ -125,6 +129,11 @@ class TestAddBooks:
             del b1[1]
             assert 1==2
         except IndexError:
+            assert 1==1
+        try:
+            del b1[1.1]
+            assert 1==2
+        except TypeError:
             assert 1==1
             
     def test_delete_sheets2(self):
@@ -240,6 +249,62 @@ class TestAddBooks:
             elif "Sheet1" in name:
                 assert content[name] == self.content["Sheet1"]
 
+    def test_add_book5(self):
+        """
+        test this scenario: book3 = single_sheet_book + book
+        """
+        b1 = pyexcel.BookReader(self.test_single_sheet_file)
+        b2 = pyexcel.BookReader(self.testfile2)
+        b3 = b1 + b2
+        content = pyexcel.utils.to_dict(b3)
+        sheet_names = content.keys()
+        assert len(sheet_names) == 4
+        for name in sheet_names:
+            if "Sheet3" in name:
+                assert content[name] == self.content["Sheet3"]
+            elif "Sheet2" in name:
+                assert content[name] == self.content["Sheet2"]
+            elif "Sheet1" in name:
+                assert content[name] == self.content["Sheet1"]
+            elif "single.xls" in name:
+                assert content[name] == self.content1["Sheet1"]
+
+    def test_add_book6(self):
+        """
+        test this scenario: book3 = book + single_sheet_book
+        """
+        b1 = pyexcel.BookReader(self.test_single_sheet_file)
+        b2 = pyexcel.BookReader(self.testfile2)
+        b3 = b2 + b1
+        content = pyexcel.utils.to_dict(b3)
+        sheet_names = content.keys()
+        assert len(sheet_names) == 4
+        for name in sheet_names:
+            if "Sheet3" in name:
+                assert content[name] == self.content["Sheet3"]
+            elif "Sheet2" in name:
+                assert content[name] == self.content["Sheet2"]
+            elif "Sheet1" in name:
+                assert content[name] == self.content["Sheet1"]
+            elif "single.xls" in name:
+                assert content[name] == self.content1["Sheet1"]
+
+    def test_add_book7(self):
+        """
+        test this scenario: book3 = sheet1 + single_sheet_book
+        """
+        b1 = pyexcel.BookReader(self.testfile)
+        b2 = pyexcel.BookReader(self.test_single_sheet_file)
+        b3 = b1["Sheet1"] + b2
+        content = pyexcel.utils.to_dict(b3)
+        sheet_names = content.keys()
+        assert len(sheet_names) == 2
+        for name in sheet_names:
+            if "Sheet1" in name:
+                assert content[name] == self.content["Sheet1"]
+            elif "single.xls" in name:
+                assert content[name] == self.content1["Sheet1"]
+
     def test_add_book_error(self):
         """
         test this scenario: book3 = sheet1 + book
@@ -261,6 +326,10 @@ class TestAddBooks:
             os.unlink(self.testfile)
         if os.path.exists(self.testfile2):
             os.unlink(self.testfile2)
+        if os.path.exists(self.testfile3):
+            os.unlink(self.testfile3)
+        if os.path.exists(self.test_single_sheet_file):
+            os.unlink(self.test_single_sheet_file)
 
 
 class TestMergeCSVsIntoOne:
