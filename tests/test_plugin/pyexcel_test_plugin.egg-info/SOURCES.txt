@@ -1,0 +1,7 @@
+setup.py
+pyexcel_test/__init__.py
+pyexcel_test_plugin.egg-info/PKG-INFO
+pyexcel_test_plugin.egg-info/SOURCES.txt
+pyexcel_test_plugin.egg-info/dependency_links.txt
+pyexcel_test_plugin.egg-info/not-zip-safe
+pyexcel_test_plugin.egg-info/top_level.txt

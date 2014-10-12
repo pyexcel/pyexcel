@@ -1,0 +1,24 @@
+Metadata-Version: 1.1
+Name: pyexcel-test-plugin
+Version: 0.0.1
+Summary: UNKNOWN
+Home-page: UNKNOWN
+Author: C. W.
+Author-email: wangc_2011@hotmail.com
+License: UNKNOWN
+Description: 
+            pyexcel-test_plugin
+            ~~~~~~~~~~~~~~
+        
+            It is a tes plugin
+        
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Topic :: Office/Business
+Classifier: Topic :: Utilities
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Programming Language :: Python
+Classifier: License :: OSI Approved :: GNU General Public License v3
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
