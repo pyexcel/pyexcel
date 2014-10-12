@@ -14,6 +14,12 @@ pyexcel
 .. image:: https://pypip.in/d/pyexcel/badge.png
     :target: https://pypi.python.org/pypi/pyexcel
 
+.. image:: https://pypip.in/py_versions/pyexcel/badge.png
+    :target: https://pypi.python.org/pypi/pyexcel
+
+.. image:: https://pypip.in/implementation/pyexcel/badge.png
+    :target: https://pypi.python.org/pypi/pyexcel
+
 **pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. Its mission is to let you focus on data itself and it deals with different file formats. ODS format support is provided by `pyexcel-ods <https://github.com/chfw/pyexcel-ods>`_ or `pyexcel-ods3 <https://github.com/chfw/pyexcel-ods3>`_. Fonts, colors and charts are not supported.
 
 It was created due to the lack of uniform programming interface to access data in different formats. A developer needs to use different methods of different libraries to read the same data in different excel formats, hence the resulting code is cluttered and unmaintainable.
@@ -77,12 +83,12 @@ Test coverage is shown in `codecov.io <https://codecov.io/github/chfw/pyexcel>`_
 
     make test
 
-Or on Windows please use:
+Or on Windows please use::
 
     test.bat
 
 
-Optionally, you can add `--cover-html --cover-html-dir=your_file_directory`
+Optionally, you can add `--cover-html --cover-html-dir=your_file_directory` to `test.sh` or `test.bat`
 
 Known Issues
 =============
