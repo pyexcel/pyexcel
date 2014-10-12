@@ -14,7 +14,7 @@ pyexcel
 .. image:: https://pypip.in/d/pyexcel/badge.png
     :target: https://pypi.python.org/pypi/pyexcel
 
-**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. Its mission is to let you focus on data itself and it deals with different file formats. ODS format support is provided by `pyexcel-ods<https://github.com/chfw/pyexcel-ods>`_ or `pyexcel-ods3<https://github.com/chfw/pyexcel-ods3>`_. Fonts, colors and charts are not supported.
+**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. Its mission is to let you focus on data itself and it deals with different file formats. ODS format support is provided by `pyexcel-ods <https://github.com/chfw/pyexcel-ods>`_ or `pyexcel-ods3 <https://github.com/chfw/pyexcel-ods3>`_. Fonts, colors and charts are not supported.
 
 It was created due to the lack of uniform programming interface to access data in different formats. A developer needs to use different methods of different libraries to read the same data in different excel formats, hence the resulting code is cluttered and unmaintainable.
 
@@ -38,7 +38,7 @@ or clone it and install it::
 Open Document Spreadsheet(*.ods) Support
 -----------------------------------------
 
-In order to add ods support, please choose one of two packages: `pyexcel-ods<https://github.com/chfw/pyexcel-ods>`_ or `pyexcel-ods3<https://github.com/chfw/pyexcel-ods3>`_ ::
+In order to add ods support, please choose one of two packages: `pyexcel-ods <https://github.com/chfw/pyexcel-ods>`_ or `pyexcel-ods3 <https://github.com/chfw/pyexcel-ods3>`_ ::
 
     $ pip install pyexcel-ods
 
@@ -73,7 +73,7 @@ Here is the test command::
     nosetests tests
 
 
-Test coverage is shown in [codecov.io](https://codecov.io/github/chfw/pyexcel). You can get instant test coverage report by using the following command::
+Test coverage is shown in `codecov.io <https://codecov.io/github/chfw/pyexcel>`_ . You can get instant test coverage report by using the following command::
 
     make test
 
@@ -93,9 +93,9 @@ Known Issues
 Documentation
 =============
 
-It is hosted in [pyhosted](https://pythonhosted.org/pyexcel/)
+It is hosted in `pyhosted <https://pythonhosted.org/pyexcel/>`_
 
 Acknowledgement
 ===============
 
-Extension management code was copied from `flask<https://github.com/mitsuhiko/flask>`_. 
+Extension management code was copied from `flask <https://github.com/mitsuhiko/flask>`_. 
