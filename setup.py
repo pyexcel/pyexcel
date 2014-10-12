@@ -5,8 +5,8 @@ except ImportError:
     use_setuptools()
     from setuptools import setup, find_packages
 
-readme = open("README.rst", 'r')
-README_txt = readme.read()
+with open("README.rst", 'r') as readme:
+    README_txt = readme.read()
 
 setup(
     name='pyexcel',
