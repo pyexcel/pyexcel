@@ -147,6 +147,7 @@ class Matrix:
 
     def extend_rows(self, rows):
         """expected the rows to be off the same length"""
+        number_of_rows = self.number_of_rows()
         array_length = self.number_of_columns()
         max_length = array_length
         for r in rows:
@@ -158,7 +159,10 @@ class Matrix:
             if length < array_length:
                 array = array + [""] * (array_length-length)
             self.array.append(array)
-        if array_length < max_length:
+        # if number_of_rows > 0, means self has content
+        # if self does not have content, does not make sense to
+        # to increase width
+        if array_length < max_length and number_of_rows > 0:
             self.array[0] += [""] * (max_length - array_length)
 
     def delete_rows(self, row_indices):

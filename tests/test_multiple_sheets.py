@@ -262,3 +262,62 @@ class TestAddBooks:
         if os.path.exists(self.testfile2):
             os.unlink(self.testfile2)
 
+
+class TestMergeCSVsIntoOne:
+    """
+    This test case tests this code works
+    >>> import pyexcel
+    >>> import glob
+    >>> merged = pyexcel.Reader()
+    >>> for file in glob.glob("*.csv"):
+    >>>     merged += pyexcel.Reader(file)
+    >>> writer = pyexcel.Writer("merged.csv")
+    >>> writer.write_reader(merged)
+    >>> writer.close()
+    """
+
+    def test_merging(self):
+        # set up
+        data = [[1,2,3],[4,5,6],[7,8,9]]
+        import pyexcel
+        w=pyexcel.Writer("1.csv")
+        w.write_rows(data)
+        w.close()
+        data2 = [['a','b','c'],['d','e','f'],['g','h','i']]
+        w=pyexcel.Writer("2.csv")
+        w.write_rows(data2)
+        w.close()
+        data3=[[1.1, 2.2, 3.3],[4.4, 5.5, 6.6],[7.7, 8.8, 9.9]]
+        w=pyexcel.Writer("3.csv")
+        w.write_rows(data3)
+        w.close()
+        # execute
+        merged = pyexcel.Reader()
+        for file in ["1.csv", "2.csv", "3.csv"]:
+            r = pyexcel.Reader(file)
+            merged += r
+        writer = pyexcel.Writer("merged.csv")
+        writer.write_reader(merged)
+        writer.close()
+        r=pyexcel.Reader("merged.csv")
+        actual = pyexcel.utils.to_array(r)
+        result = [
+            [1.0, 2.0, 3.0],
+            [4.0, 5.0, 6.0],
+            [7.0, 8.0, 9.0],
+            ['a', 'b', 'c'],
+            ['d', 'e', 'f'],
+            ['g', 'h', 'i'],
+            [1.1, 2.2, 3.3],
+            [4.4, 5.5, 6.6],
+            [7.7, 8.8, 9.9]
+        ]
+        assert result == actual
+        # verify
+        os.unlink("1.csv")
+        os.unlink("2.csv")
+        os.unlink("3.csv")
+        os.unlink("merged.csv")
+        
+
+

@@ -1,5 +1,260 @@
-Data access
-===========
+Simple usage
+=============
+
+Random access to individual cell values in the excel file
+---------------------------------------------------------
+
+For single sheet file, you can regard it as two dimensional array if you use `Reader` class. So, you access each cell via this syntax: reader[row][column]. Suppose you have the following data, you can get value 5 by reader[1][1]. And you can refer to row 2 and 3 by reader[1:] or reader[1:3]
+
+= = =
+1 2 3
+4 5 6
+7 8 9
+= = =
+
+Here is the example code showing how you can randomly access a cell::
+
+    >>> import pyexcel
+    >>> reader = pyexcel.Reader("example.csv""")
+    >>> print reader[1][1]
+    5
+
+If you have `SeriesReader`, you can get value 5 by seriesreader[1][1] too because the first row is regarded as column header.
+
+= = =
+X Y Z
+1 2 3
+4 5 6
+7 8 9
+= = =
+
+Here is the example code showing how you can randomly access a cell::
+
+    >>> import pyexcel
+    >>> reader = pyexcel.SeriesReader("example.csv""")
+    >>> print reader[1][1]
+    5
+
+For multiple sheet file, you can regard it as three dimensional array if you use `Book`. So, you access each cell via this syntax: reader[sheet_index][row][column] or reader["sheet_name"][row][column]. Suppose you have the following sheets. You can get 'P' from sheet 3 by using: bookreader["Sheet 3"][0][1] or bookreader[2][0][1]
+
+
+Sheet 1:
+
+= = =
+1 2 3
+4 5 6
+7 8 9
+= = =
+
+Sheet 2:
+
+= = =
+X Y Z
+1 2 3
+4 5 6
+= = =
+
+Sheet 3:
+
+= = =
+O P Q
+3 2 1
+4 3 2
+= = =
+
+And you can randomly access a cell in a sheet::
+
+    >>> import pyexcel
+    >>> reader = pyexcel.Book("example.xls")
+    >>> print(reader[0][0][0])
+    1
+    >>> print(reader["Sheet 1"][0][0])
+    1
+
+.. TIP::
+  With pyexcel, you can regard single sheet reader as an two dimensional array and multi-sheet excel book reader as a dictionary of two dimensional arrays.
+
+Reading a single sheet excel file
+---------------------------------
+Suppose you have a csv, xls, xlsx file as the following:
+
+= = =
+1 2 3
+4 5 6
+7 8 9
+= = =
+
+The following code will give you the data in json::
+
+    from pyexcel import Reader
+    from pyexcel.utils import to_array
+    import json
+    
+    # "example.xls","example.xlsx","example.xlsm"
+    reader = Reader("example.csv")
+    data = to_array(reader)
+    print json.dumps(data)
+
+
+The output is::
+
+    [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+Suppose you have a csv, xls, xlsx file as the following:
+
+======== ========= ========
+Column 1 Column 2  Column 3
+======== ========= ========
+1        4         7
+2        5         8
+3        6         9
+======== ========= ========
+
+The following code will give you data series in a dictionary:
+
+.. code-block:: python
+
+    from pyexcel import SeriesReader
+    from pyexcel.utils import to_dict
+    
+    # "example.xls","example.xlsx","example.xlsm"
+    reader = SeriesReader("example.csv")
+    data = to_dict(reader)
+    print data
+
+
+The output is::
+
+    {"Column 2": [4, 5, 6], "Column 3": [7, 8, 9], "Column 1": [1, 2, 3]}
+
+
+Writing a single sheet excel file
+---------------------------------
+
+Suppose you have an array as the following:
+
+= = =
+1 2 3
+4 5 6
+7 8 9
+= = =
+
+The following code will write it as an excel file of your choice::
+
+
+    from pyexcel import Writer
+    
+    array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    # "output.xls" "output.xlsx" "output.ods" "output.xlsm"
+    writer = Writer("output.csv")
+    writer.write_array(array)
+    writer.close()
+
+
+Suppose you have a dictionary as the following:
+
+======== ========= ========
+Column 1 Column 2  Column 3
+======== ========= ========
+1        4         7
+2        5         8
+3        6         9
+======== ========= ========
+
+The following code will write it as an excel file of your choice::
+
+    from pyexcel import Writer
+    
+    example_dict = {"Column 1": [1, 2, 3], "Column 2": [4, 5, 6], "Column 3": [7, 8, 9]}
+    # "output.xls" "output.xlsx" "output.ods" "output.xlsm"
+    writer = Writer("output.csv")
+    writer.write_dict(example_dict)
+    writer.close()
+
+
+Read multiple sheet excel file
+------------------------------
+
+Suppose you have a book like this:
+
+= = =
+1 2 3
+4 5 6
+7 8 9
+= = =
+
+Sheet 1
+
+= = =
+X Y Z
+1 2 3
+4 5 6
+= = =
+
+Sheet 2
+
+= = =
+O P Q
+3 2 1
+4 3 2
+= = =
+
+Sheet 3
+
+You can get a dictionary out of it by the following code::
+
+    import pyexcel
+    
+    
+    reader = pyexcel.Reader("example.xls")
+    my_dict = pyexcel.utils.to_dict(reader)
+    print(my_dict)
+
+the output is::
+
+    {
+    u'Sheet 2': [[u'X', u'Y', u'Z'], [1.0, 2.0, 3.0], [4.0, 5.0, 6.0]], 
+    u'Sheet 3': [[u'O', u'P', u'Q'], [3.0, 2.0, 1.0], [4.0, 3.0, 2.0]], 
+    u'Sheet 1': [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]]
+    }
+
+
+Write multiple sheet excel file
+-------------------------------
+
+Suppose you have previous data as a dictionary and you want to save it as multiple sheet excel file::
+
+    import pyexcel
+    
+    
+    content = {
+        'Sheet 2': 
+            [
+                ['X', 'Y', 'Z'], 
+                [1.0, 2.0, 3.0], 
+                [4.0, 5.0, 6.0]
+            ], 
+        'Sheet 3': 
+            [
+                ['O', 'P', 'Q'], 
+                [3.0, 2.0, 1.0], 
+                [4.0, 3.0, 2.0]
+            ], 
+        'Sheet 1': 
+            [
+                [1.0, 2.0, 3.0], 
+                [4.0, 5.0, 6.0], 
+                [7.0, 8.0, 9.0]
+            ]
+    }
+    writer = pyexcel.BookWriter("myfile.xls")
+    writer.write_book_from_dict(content)
+    writer.close()
+
+You shall get a xls file 
+
+Advanced usage
+==============
 
 Work with data series in a single sheet
 ---------------------------------------
@@ -225,9 +480,9 @@ O P Q
 
 You can easily read them out::
 
-    >> from pyexcel import BookReader
+    >> from pyexcel import Reader
     >> from pyexcel.utils import to_dict
-    >> reader = BookReader("example.xls")
+    >> reader = Reader("example.xls")
     >> my_dict = to_dict(reader)
     >> print my_dict
 
@@ -235,8 +490,8 @@ Per each sheet, you can do custom filtering::
 
     >> sheet2 = reader[2]
     >> sheet2.add_filter(pyexcel.filters.EvenRowFilter())
-	>> my_dict = to_dict(reader)
-	>> print my_dict
+    >> my_dict = to_dict(reader)
+    >> print my_dict
 
 You will see sheet2 has been applied even row filter::
 
@@ -268,44 +523,16 @@ You may just process Sheet 2 specificially::
 Write to a work book
 ********************
 
-Now continue from previous section, you can reverse what it is done in previous section. Write the same dictionary back into a file::
-
-    import pyexcel
-    
-    
-    content = {
-        'Sheet 2': 
-            [
-                ['X', 'Y', 'Z'], 
-                [1.0, 2.0, 3.0], 
-                [4.0, 5.0, 6.0]
-            ], 
-        'Sheet 3': 
-            [
-                ['O', 'P', 'Q'], 
-                [3.0, 2.0, 1.0], 
-                [4.0, 3.0, 2.0]
-            ], 
-        'Sheet 1': 
-            [
-                [1.0, 2.0, 3.0], 
-                [4.0, 5.0, 6.0], 
-                [7.0, 8.0, 9.0]
-            ]
-    }
-    writer = pyexcel.BookWriter("myfile.ods")
-    writer.write_book_from_dict(content)
-    writer.close()
-
+You can write a dictionary back to any file formats as you read the `Simple Usage` section. Keys will become the sheet names and values become the data content.
 
 How do I read a book, pocess it and save to a new book
 ******************************************************
 
 Yes, you can do that. The code looks like this::
 
-   from pyexcel import BookReader, BookWriter
+   from pyexcel import Book, BookWriter
 
-   reader = BookReader("yourfile.xls")
+   reader = Book("yourfile.xls")
    writer = BookWriter("output.xls")
    for sheet in reader:
        new_sheet = writer.create_sheet(sheet.name)
@@ -354,56 +581,8 @@ You will end up with three csv files::
 and their content is the value of the dictionary at the corresponding key
 
 
-Random access to individual cell values in the excel file
----------------------------------------------------------
-
-For single sheet file, you can regard it as two dimensional array if you use `Reader` class. So, you access each cell via this syntax: reader[row][column]. Suppose you have the following data, you can get value 5 by reader[1][1]. And you can refer to row 2 and 3 by reader[1:] or reader[1:3]
-
-= = =
-1 2 3
-4 5 6
-7 8 9
-= = =
-
-If you have `SeriesReader`, you can get value 5 by seriesreader[1][1] too because the first row is regarded as column header.
-
-= = =
-X Y Z
-1 2 3
-4 5 6
-7 8 9
-= = =
-
-
-For multiple sheet file, you can regard it as three dimensional array if you use `BookReader`. So, you access each cell via this syntax: reader[sheet_index][row][column] or reader["sheet_name"][row][column]. Suppose you have the following sheets. You can get 'P' from sheet 3 by using: bookreader["Sheet 3"][0][1] or bookreader[2][0][1]
-
-
-Sheet 1:
-
-= = =
-1 2 3
-4 5 6
-7 8 9
-= = =
-
-Sheet 2:
-
-= = =
-X Y Z
-1 2 3
-4 5 6
-= = =
-
-Sheet 3:
-
-= = =
-O P Q
-3 2 1
-4 3 2
-= = =
-
-Data types
-===========
+Formatting cells
+================
 
 Previous section has assumed the data is in the format that you want. In reality, you have to manipulate the data types a bit to suit your needs. Hence, `formatters` comes into the scene. The formatters take effect when the data is read on the fly. They do not affect the persistence of the data in the excel files.
 
@@ -498,20 +677,20 @@ Merge excel books
 
 Suppose you have two excel books and each had three sheets. You can merge them and get a new book::
 
-    >>> import pyexcel.BookReader
-    >>> merged_book = BookReader("book1.xls") + BookReader("book2.ods")
+    >>> import pyexcel.Book
+    >>> merged_book = Book("book1.xls") + Book("book2.ods")
 
 You also can merge indivdual sheets::
 
-    >>> merged_book = BookReader("book1.xls")["Sheet1"] + BookReader("book2.ods")["Sheet2"]
+    >>> merged_book = Book("book1.xls")["Sheet1"] + Book("book2.ods")["Sheet2"]
 
 or::
 
-    >>> merged_book = BookReader("book1.xls")["Sheet1"] + BookReader("book2.ods")
+    >>> merged_book = Book("book1.xls")["Sheet1"] + Book("book2.ods")
 
 or::
 
-    >>> merged_book = BookReader("book1.xls") + BookReader("book2.ods")["Sheet2"]
+    >>> merged_book = Book("book1.xls") + Book("book2.ods")["Sheet2"]
 
 
 Manipulate individual sheets
@@ -523,8 +702,9 @@ merge sheets into a single sheet
 Suppose you want to merge many csv files row by row into a new sheet.
 
     >>> import pyexcel
+    >>> import glob
     >>> merged = pyexcel.Reader()
-    >>> for file in glob("*.csv"):
+    >>> for file in glob.glob("*.csv"):
     >>>     merged += pyexcel.Reader(file)
     >>> writer = pyexcel.Writer("merged.csv")
     >>> writer.write_reader(merged)
