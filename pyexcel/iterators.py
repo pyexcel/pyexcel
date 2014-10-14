@@ -23,14 +23,11 @@ def f7(seq):
 
 
 def longest_row_number(array):
-    max_length = -1
-    for row in array:
-        row_length = len(row)
-        if max_length == -1:
-            max_length = row_length
-        elif max_length < row_length:
-            max_length = row_length
-    return max_length
+    if len(array) > 0:
+        # map runs len() against each member of the array
+        return max(map(len, array))
+    else:
+        return 0
 
 
 def uniform(array):
@@ -38,11 +35,14 @@ def uniform(array):
     Fill-in empty strings to empty cells to make it MxN
     """
     width = longest_row_number(array)
-    for row in array:
-        row_length = len(row)
-        if row_length < width:
-            row += [""] * (width - row_length)
-    return array
+    if width == 0:
+        return array
+    else:
+        for row in array:
+            row_length = len(row)
+            if row_length < width:
+                row += [""] * (width - row_length)
+        return array
 
 
 def transpose(in_array):
@@ -80,13 +80,13 @@ class Matrix:
         """
         Utility function to get row range
         """
-        return range(0, self.number_of_rows())
+        return xrange(0, self.number_of_rows())
 
     def column_range(self):
         """
         Utility function to get column range
         """
-        return range(0, self.number_of_columns())
+        return xrange(0, self.number_of_columns())
 
     def cell_value(self, row, column, new_value=None):
         if new_value is None:
@@ -184,7 +184,6 @@ class Matrix:
 
     def extend_rows(self, rows):
         """expected the rows to be off the same length"""
-        number_of_rows = self.number_of_rows()
         array_length = self.number_of_columns()
         max_length = array_length
         for r in rows:
@@ -224,7 +223,6 @@ class Matrix:
         insert_column_nrows = len(columns)
         array_length = min(current_nrows, insert_column_nrows)
         for i in range(0, array_length):
-            length = len(self.array[i])
             array = copy.deepcopy(columns[i])
             self.array[i] += array
         if current_nrows < insert_column_nrows:
@@ -249,55 +247,41 @@ class Matrix:
                 for j in sorted_list:
                     del self.array[i][j]
 
+    def _analyse_slice(self, aslice):
+        if aslice.start is None:
+            start = 0
+        else:
+            start = max(aslice.start, 0)
+        if aslice.stop is None:
+            stop = self.number_of_rows()
+        else:
+            stop = min(aslice.stop, self.number_of_rows())
+        if start > stop:
+            raise ValueError
+        elif start < stop:
+            if aslice.step:
+                my_range = range(start, stop, aslice.step)
+            else:
+                my_range = range(start, stop)
+            if six.PY3:
+                # for py3, my_range is a range object
+                my_range = list(my_range)
+        else:
+            my_range = [start]
+        return my_range
+
     def __delitem__(self, aslice):
         if isinstance(aslice, slice):
-            if aslice.start is None:
-                start = 0
-            else:
-                start = max(aslice.start, 0)
-            if aslice.stop is None:
-                stop = self.number_of_rows()
-            else:
-                stop = min(aslice.stop, self.number_of_rows())
-            if start > stop:
-                raise ValueError
-            elif start < stop:
-                if aslice.step:
-                    my_range = range(start, stop, aslice.step)
-                else:
-                    my_range = range(start, stop)
-                if six.PY3:
-                    # for py3, my_range is a range object
-                    my_range = list(my_range)
-                self.delete_rows(my_range)
-            else:
-                # start == stop
-                self.delete_rows([start])
+            my_range = self._analyse_slice(aslice)
+            self.delete_rows(my_range)
         else:
             self.delete_rows([aslice])
 
     def __setitem__(self, aslice, c):
         if isinstance(aslice, slice):
-            if aslice.start is None:
-                start = 0
-            else:
-                start = max(aslice.start, 0)
-            if aslice.stop is None:
-                stop = self.number_of_rows()
-            else:
-                stop = min(aslice.stop, self.number_of_rows())
-            if start > stop:
-                raise ValueError
-            elif start < stop:
-                if aslice.step:
-                    my_range = range(start, stop, aslice.step)
-                else:
-                    my_range = range(start, stop)
-                for i in my_range:
-                    self.set_row_at(i, c)
-            else:
-                # start == stop
-                self.set_row_at(start, c)
+            my_range = self._analyse_slice(aslice)
+            for i in my_range:
+                self.set_row_at(i, c)
         else:
             self.set_row_at(aslice, c)
 
@@ -306,28 +290,11 @@ class Matrix:
         from left to right"""
         index = aslice
         if isinstance(aslice, slice):
-            if aslice.start is None:
-                start = 0
-            else:
-                start = max(aslice.start, 0)
-            if aslice.stop is None:
-                stop = self.number_of_rows()
-            else:
-                stop = min(aslice.stop, self.number_of_rows())
-            if start > stop:
-                return None
-            elif start < stop:
-                if aslice.step:
-                    my_range = range(start, stop, aslice.step)
-                else:
-                    my_range = range(start, stop)
-                results = []
-                for i in my_range:
-                    results.append(self.row_at(i))
-                return results
-            else:
-                # drop this to index handler
-                index = start
+            my_range = self._analyse_slice(aslice)
+            results = []
+            for i in my_range:
+                results.append(self.row_at(i))
+            return results
         if index in self.row_range():
             return self.row_at(index)
         else:

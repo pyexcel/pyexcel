@@ -40,11 +40,7 @@ class ColumnIndexFilter:
         return len(self.indices)
 
     def validate_filter(self, reader):
-        new_indices = []
-        for i in reader.column_range():
-            if self.eval_func(i):
-                new_indices.append(i)
-        self.indices = new_indices
+        self.indices = filter(self.eval_func, reader.column_range())
 
     def translate(self, row, column):
         new_column = column
@@ -78,11 +74,7 @@ class RowIndexFilter:
         self.indices = None
 
     def validate_filter(self, reader):
-        new_indices = []
-        for i in reader.row_range():
-            if self.eval_func(i):
-                new_indices.append(i)
-        self.indices = new_indices
+        self.indices = filter(self.eval_func, reader.row_range())
 
     def rows(self):
         if self.indices:
@@ -135,13 +127,13 @@ class EvenRowFilter(RowIndexFilter):
 class RowValueFilter(RowIndexFilter):
 
     def validate_filter(self, reader):
-        new_indices = []
-        index = 0
-        for r in reader.rows():
-            if not self.eval_func(r):
-                new_indices.append(index)
-            index += 1
-        self.indices = new_indices
+        #new_indices = []
+        #index = 0
+        #for r in reader.rows():
+        #    if not self.eval_func(r):
+        #        new_indices.append(index)
+        #    index += 1
+        self.indices = [row[0] for row in enumerate(reader.rows()) if not self.eval_func(row[1])]
 
 
 class RowInFileFilter(RowValueFilter):

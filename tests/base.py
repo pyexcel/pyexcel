@@ -145,11 +145,15 @@ class PyexcelBase:
         assert content2 == r[:2]
         content3 = [[2, 2, 2, 2], [3,3,3,3]]
         assert content3 == r[1:]
-        assert r[2:1] == None
+        try:
+            r[2:1]
+            assert 1==2
+        except ValueError:
+            assert 1==1
         content4 = [[1, 1, 1, 1], [2, 2, 2, 2]]
         assert content4 == r[0:2:1]
         content5 = [1, 1, 1, 1]
-        assert content5 == r[0:0]
+        assert [content5] == r[0:0]
 
     def test_json(self):
         r = pyexcel.Reader(self.testfile)

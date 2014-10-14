@@ -27,12 +27,12 @@ class TestReader:
     def test_row_range(self):
         r = pyexcel.Reader(self.testfile)
         row_range = r.row_range()
-        assert row_range == range(0,3)
+        assert len(row_range) == 3
 
     def test_column_range(self):
         r = pyexcel.Reader(self.testfile)
         column_range = r.column_range()
-        assert column_range == range(0,4)
+        assert len(column_range) == 4
 
     def test_named_column_at(self):
         r = pyexcel.Reader(self.testfile)
