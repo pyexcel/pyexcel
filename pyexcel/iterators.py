@@ -80,13 +80,19 @@ class Matrix:
         """
         Utility function to get row range
         """
-        return xrange(0, self.number_of_rows())
+        if six.PY2:
+            return xrange(0, self.number_of_rows())
+        else:
+            return range(0, self.number_of_rows())
 
     def column_range(self):
         """
         Utility function to get column range
         """
-        return xrange(0, self.number_of_columns())
+        if six.PY2:
+            return xrange(0, self.number_of_columns())
+        else:
+            return range(0, self.number_of_columns())
 
     def cell_value(self, row, column, new_value=None):
         if new_value is None:

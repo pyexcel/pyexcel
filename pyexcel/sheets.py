@@ -153,8 +153,8 @@ class MultipleFilterableSheet(PlainSheet):
         number_of_rows = self._number_of_rows()
         if len(self._filters) != 0:
             new_rows = number_of_rows
-            for filter in self._filters:
-                new_rows = new_rows - filter.rows()
+            for f in self._filters:
+                new_rows = new_rows - f.rows()
             return new_rows
         else:
             return number_of_rows
@@ -166,8 +166,8 @@ class MultipleFilterableSheet(PlainSheet):
         number_of_columns = self._number_of_columns()
         if len(self._filters) != 0:
             new_cols = number_of_columns
-            for filter in self._filters:
-                new_cols = new_cols - filter.columns()
+            for f in self._filters:
+                new_cols = new_cols - f.columns()
             return new_cols
         else:
             return number_of_columns

@@ -27,6 +27,7 @@ f3         x
      1           2   3
 
 """
+import six
 
 
 class ColumnIndexFilter:
@@ -41,6 +42,8 @@ class ColumnIndexFilter:
 
     def validate_filter(self, reader):
         self.indices = filter(self.eval_func, reader.column_range())
+        if six.PY3:
+            self.indices = list(self.indices)
 
     def translate(self, row, column):
         new_column = column
@@ -75,6 +78,8 @@ class RowIndexFilter:
 
     def validate_filter(self, reader):
         self.indices = filter(self.eval_func, reader.row_range())
+        if six.PY3:
+            self.indices = list(self.indices)
 
     def rows(self):
         if self.indices:
