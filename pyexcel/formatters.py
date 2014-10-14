@@ -7,6 +7,7 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
+import six
 import types
 import datetime
 
@@ -97,8 +98,10 @@ CONVERSION_FUNCTIONS = {
     datetime.datetime: date_to_format,
     bool: boolean_to_format,
     None: empty_to_format,
-    unicode: string_to_format
 }
+
+if six.PY2:
+    CONVERSION_FUNCTIONS[unicode] = string_to_format
 
 
 def to_format(from_type, to_type, value):

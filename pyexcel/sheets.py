@@ -7,34 +7,20 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-import xlrd
+import six
 import uuid
 from .iterators import Matrix, SeriesColumnIterator
 from .filters import (RowIndexFilter,
                      ColumnIndexFilter,
                      RowFilter)
-import datetime
 
-
-DATE_FORMAT = "d"
-FLOAT_FORMAT = "f"
-INT_FORMAT = "i"
-UNICODE_FORMAT = "u"
-STRING_FORMAT = "s"
-BOOLEAN_FORMAT = "b"
-EMPTY = "e"
-
-
-#PYTHON_TYPE_CONVERSION = {
-#    float: FLOAT_FORMAT,
-#    int: INT_FORMAT,
-#    datetime.date: DATE_FORMAT,
-#    datetime.time: DATE_FORMAT,
-#    datetime.datetime: DATE_FORMAT,
-#    str: STRING_FORMAT,
-#    bool: BOOLEAN_FORMAT
-#}
-
+def is_string(atype):
+    if atype == str:
+            return True
+    elif six.PY2:
+        if atype == unicode:
+            return True
+    return False
 
 class AS_COLUMNS(object):
     """Indicate direction is by columns"""
@@ -78,7 +64,7 @@ class PlainSheet(Matrix):
                         value = f.do_format(value, previous_type)
                         previous_type = f.desired_format
             else:
-                if value_type == str or value_type == unicode:
+                if is_string(value_type):
                     try:
                         value = float(value)
                     except ValueError:

@@ -3,7 +3,7 @@ pyexcel
 ========
 
 .. image:: https://api.travis-ci.org/chfw/pyexcel.png
-    :target: http://travis-ci.org/chfw/pyexcel/builds/37775341
+    :target: http://travis-ci.org/chfw/pyexcel
 
 .. image:: https://codecov.io/github/chfw/pyexcel/coverage.png
     :target: https://codecov.io/github/chfw/pyexcel
