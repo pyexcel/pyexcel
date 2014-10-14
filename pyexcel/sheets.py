@@ -25,26 +25,15 @@ BOOLEAN_FORMAT = "b"
 EMPTY = "e"
 
 
-XLS_FORMAT_CONVERSION = {
-    xlrd.XL_CELL_TEXT: STRING_FORMAT,
-    xlrd.XL_CELL_EMPTY: EMPTY,
-    xlrd.XL_CELL_DATE: DATE_FORMAT,
-    xlrd.XL_CELL_NUMBER: FLOAT_FORMAT,
-    xlrd.XL_CELL_BOOLEAN: INT_FORMAT,
-    xlrd.XL_CELL_BLANK: EMPTY,
-    xlrd.XL_CELL_ERROR: EMPTY
-}
-
-
-PYTHON_TYPE_CONVERSION = {
-    float: FLOAT_FORMAT,
-    int: INT_FORMAT,
-    datetime.date: DATE_FORMAT,
-    datetime.time: DATE_FORMAT,
-    datetime.datetime: DATE_FORMAT,
-    str: STRING_FORMAT,
-    bool: BOOLEAN_FORMAT
-}
+#PYTHON_TYPE_CONVERSION = {
+#    float: FLOAT_FORMAT,
+#    int: INT_FORMAT,
+#    datetime.date: DATE_FORMAT,
+#    datetime.time: DATE_FORMAT,
+#    datetime.datetime: DATE_FORMAT,
+#    str: STRING_FORMAT,
+#    bool: BOOLEAN_FORMAT
+#}
 
 
 class AS_COLUMNS(object):
@@ -81,8 +70,7 @@ class PlainSheet(Matrix):
                 value = self.array[row][column]
             except IndexError:
                 value = ""
-            value_type = PYTHON_TYPE_CONVERSION.get(type(value),
-                                                    STRING_FORMAT)
+            value_type = type(value)
             if len(self._formatters) > 0:
                 previous_type = value_type
                 for f in self._formatters:
@@ -90,7 +78,7 @@ class PlainSheet(Matrix):
                         value = f.do_format(value, previous_type)
                         previous_type = f.desired_format
             else:
-                if value_type == STRING_FORMAT:
+                if value_type == str or value_type == unicode:
                     try:
                         value = float(value)
                     except ValueError:

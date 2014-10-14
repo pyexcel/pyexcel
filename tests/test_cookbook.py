@@ -288,6 +288,7 @@ class TestCookbook:
         content = pyexcel.utils.to_dict(r[self.testfile].become_series())
         assert content == self.content
         content2 = pyexcel.utils.to_dict(r[self.testfile2].become_series())
+        print content2
         assert content2 == self.content2
         content3 = pyexcel.utils.to_dict(r[self.testfile3].become_series())
         assert content3 == self.content3

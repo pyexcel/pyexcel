@@ -9,23 +9,15 @@
 """
 import types
 import datetime
-from .sheets import (
-    DATE_FORMAT,
-    FLOAT_FORMAT,
-    INT_FORMAT,
-    STRING_FORMAT,
-    BOOLEAN_FORMAT,
-    EMPTY
-)
 
 
 def string_to_format(value, FORMAT):
-    if FORMAT == FLOAT_FORMAT:
+    if FORMAT == float:
         try:
             ret = float(value)
         except ValueError:
             ret = "N/A"
-    elif FORMAT == INT_FORMAT:
+    elif FORMAT == int:
         try:
             ret = float(value)
             ret = int(ret)
@@ -38,9 +30,9 @@ def string_to_format(value, FORMAT):
 
 
 def float_to_format(value, FORMAT):
-    if FORMAT == INT_FORMAT:
+    if FORMAT == int:
         ret = int(value)
-    elif FORMAT == STRING_FORMAT:
+    elif FORMAT == str:
         ret = str(value)
     else:
         ret = value
@@ -49,9 +41,9 @@ def float_to_format(value, FORMAT):
 
 
 def int_to_format(value, FORMAT):
-    if FORMAT == FLOAT_FORMAT:
+    if FORMAT == float:
         ret = float(value)
-    elif FORMAT == STRING_FORMAT:
+    elif FORMAT == str:
         ret = str(value)
     else:
         ret = value
@@ -59,9 +51,9 @@ def int_to_format(value, FORMAT):
 
 
 def date_to_format(value, FORMAT):
-    if FORMAT == DATE_FORMAT:
+    if FORMAT == datetime.datetime:
         ret = value
-    elif FORMAT == STRING_FORMAT:
+    elif FORMAT == str:
         if isinstance(value, datetime.date):
             ret = value.strftime("%d/%m/%y")
         elif isinstance(value, datetime.datetime):
@@ -76,9 +68,9 @@ def date_to_format(value, FORMAT):
 
 
 def boolean_to_format(value, FORMAT):
-    if FORMAT == FLOAT_FORMAT:
+    if FORMAT == float:
         ret = float(value)
-    elif FORMAT == STRING_FORMAT:
+    elif FORMAT == str:
         if value == 1:
             ret = "True"
         else:
@@ -89,9 +81,9 @@ def boolean_to_format(value, FORMAT):
 
 
 def empty_to_format(value, FORMAT):
-    if FORMAT == FLOAT_FORMAT:
+    if FORMAT == float:
         ret = 0.0
-    elif FORMAT == INT_FORMAT:
+    elif FORMAT == int:
         ret = 0
     else:
         ret = ""
@@ -99,12 +91,13 @@ def empty_to_format(value, FORMAT):
 
 
 CONVERSION_FUNCTIONS = {
-    STRING_FORMAT: string_to_format,
-    FLOAT_FORMAT: float_to_format,
-    INT_FORMAT: int_to_format,
-    DATE_FORMAT: date_to_format,
-    BOOLEAN_FORMAT: boolean_to_format,
-    EMPTY: empty_to_format
+    str: string_to_format,
+    float: float_to_format,
+    int: int_to_format,
+    datetime.datetime: date_to_format,
+    bool: boolean_to_format,
+    None: empty_to_format,
+    unicode: string_to_format
 }
 
 

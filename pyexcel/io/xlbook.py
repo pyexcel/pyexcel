@@ -1,8 +1,17 @@
-import six
-from pyexcel.sheets import XLS_FORMAT_CONVERSION, DATE_FORMAT
 import datetime
 import xlrd
 from xlwt import Workbook, XFStyle
+
+
+XLS_FORMAT_CONVERSION = {
+    xlrd.XL_CELL_TEXT: str,
+    xlrd.XL_CELL_EMPTY: None,
+    xlrd.XL_CELL_DATE: datetime.datetime,
+    xlrd.XL_CELL_NUMBER: float,
+    xlrd.XL_CELL_BOOLEAN: int,
+    xlrd.XL_CELL_BLANK: None,
+    xlrd.XL_CELL_ERROR: None
+}
 
 
 def xldate_to_python_date(value):
@@ -52,7 +61,7 @@ class XLSheet:
         cell_type = self.worksheet.cell_type(row, column)
         my_type = XLS_FORMAT_CONVERSION[cell_type]
         value = self.worksheet.cell_value(row, column)
-        if my_type == DATE_FORMAT:
+        if my_type == datetime.datetime:
             value = xldate_to_python_date(value)
         return value
 
