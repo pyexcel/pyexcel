@@ -52,9 +52,9 @@ class SheetWriter:
         """
         if len(table) < 1:
             return
-        columns = len(table)
-        rows = len(table[0])
-        self.writer.set_size((columns, rows))
+        rows = len(table)
+        columns = len(table[0])
+        self.writer.set_size((rows, columns))
         for row in table:
             self.writer.write_row(row)
 
