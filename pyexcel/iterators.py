@@ -310,21 +310,22 @@ class Matrix:
         nrows = self.number_of_rows()
         ncolumns = self.number_of_columns()
         if column_index < ncolumns and starting < nrows:
-            to = min(len(data_array)+starting, self.number_of_rows())
+            to = min(len(data_array)+starting, nrows)
             for i in range(starting, to):
-                self.cell_value(i, column_index, data_array[i])
+                self.cell_value(i, column_index, data_array[i-starting])
         else:
-            raise ValueError
+            raise IndexError
 
     def set_row_at(self, row_index, data_array, starting=0):
         nrows = self.number_of_rows()
         ncolumns = self.number_of_columns()
+        import pdb; pdb.set_trace()
         if row_index < nrows and starting < ncolumns:
-            to = min(len(data_array)+starting, self.number_of_columns())
+            to = min(len(data_array)+starting, ncolumns)
             for i in range(starting, to):
-                self.cell_value(row_index, i, data_array[i])
+                self.cell_value(row_index, i, data_array[i-starting])
         else:
-            raise ValueError
+            raise IndexError
 
     def contains(self, predicate):
         for r in self.rows():

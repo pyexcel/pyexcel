@@ -47,8 +47,16 @@ class TestReader:
         try:
             r.set_column_at(1, [11, 1], 1000)
             assert 1 == 2
-        except ValueError:
+        except IndexError:
             assert 1 == 1
+
+    def test_set_named_column_at(self):
+        r = pyexcel.SeriesReader(self.testfile)
+        r.set_named_column_at('b', [11, 1])
+        assert r.column_at(1) == [11, 1]
+        r2 = pyexcel.Reader(self.testfile)
+        r2.set_named_column_at('b', [11, 1])
+        assert r2.column_at(1) == ['b', 11, 1]
 
     def test_set_item(self):
         r = pyexcel.Reader(self.testfile)

@@ -351,9 +351,22 @@ class Sheet(MultipleFilterableSheet):
             self._headers()
             index = self.headers.index(name)
             column_array = self.column_at(index)
-            return {name: column_array}
         else:
-            return {}
+            headers = self.row_at(0)
+            index = headers.index(name)
+            column_array = self.column_at(index)[1:]
+        return {name: column_array}
+
+    def set_named_column_at(self, name, column_array):
+        if self.signature_filter:
+            self._headers()
+            index = self.headers.index(name)
+            self.set_column_at(index, column_array)
+        else:
+            headers = self.row_at(0)
+            index = headers.index(name)
+            self.set_column_at(index, column_array, 1)
+
 
     def __iter__(self):
         if self.signature_filter:
