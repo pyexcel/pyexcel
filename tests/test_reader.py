@@ -164,6 +164,11 @@ class TestCSVReaderDialect:
             expected += l
         assert expected == content
 
+    def test_read_delimiter(self):
+        r = pyexcel.Reader(self.testfile, delimiter=":")
+        content = pyexcel.utils.to_array(r)
+        assert content == [[1, 2, 3, 4], [5, 6,7, 8], [9, 10, 11, 12]]
+        
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
