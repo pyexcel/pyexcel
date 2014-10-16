@@ -358,6 +358,12 @@ class Sheet(MultipleFilterableSheet):
         return {name: column_array}
 
     def set_named_column_at(self, name, column_array):
+        """
+        Take the first row as column names
+
+        Given name to identify the column index, set the column to
+        the given array except the column name.
+        """
         if self.signature_filter:
             self._headers()
             index = self.headers.index(name)
@@ -366,7 +372,6 @@ class Sheet(MultipleFilterableSheet):
             headers = self.row_at(0)
             index = headers.index(name)
             self.set_column_at(index, column_array, 1)
-
 
     def __iter__(self):
         if self.signature_filter:

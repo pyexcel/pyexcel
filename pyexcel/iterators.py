@@ -319,7 +319,6 @@ class Matrix:
     def set_row_at(self, row_index, data_array, starting=0):
         nrows = self.number_of_rows()
         ncolumns = self.number_of_columns()
-        import pdb; pdb.set_trace()
         if row_index < nrows and starting < ncolumns:
             to = min(len(data_array)+starting, ncolumns)
             for i in range(starting, to):

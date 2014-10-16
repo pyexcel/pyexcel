@@ -34,27 +34,27 @@ WRITERS = {
 }
 
 
-def load_file(file):
+def load_file(file, **keywords):
     """
     Load data from any supported excel formats
     """
     extension = file.split(".")[-1]
     if extension in READERS:
         book_class = READERS[extension]
-        book = book_class(file)
+        book = book_class(file, **keywords)
     else:
         raise NotImplementedError("can not open %s" % file)
     return book
 
 
-def get_writer(file):
+def get_writer(file, **keywords):
     """
     Create a writer from any supported excel formats
     """
     extension = file.split(".")[-1]
     if extension in WRITERS:
         writer_class = WRITERS[extension]
-        writer = writer_class(file)
+        writer = writer_class(file, **keywords)
         return writer
     else:
         raise NotImplementedError("Cannot open %s" % file)

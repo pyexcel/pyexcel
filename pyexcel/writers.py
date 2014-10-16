@@ -88,8 +88,8 @@ class BookWriter:
     It provides one interface for writing ods, csv, xls, xlsx and xlsm
     """
 
-    def __init__(self, file):
-        self.writer = get_writer(file)
+    def __init__(self, file, **keywords):
+        self.writer = get_writer(file, **keywords)
 
     def create_sheet(self, name):
         return SheetWriter(self.writer.create_sheet(name))
@@ -125,8 +125,8 @@ class Writer(SheetWriter):
     of the data files
     """
 
-    def __init__(self, file):
-        self.bookwriter = BookWriter(file)
+    def __init__(self, file, **keywords):
+        self.bookwriter = BookWriter(file, **keywords)
         self.writer = self.bookwriter.create_sheet(None).writer
 
     def close(self):

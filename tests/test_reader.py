@@ -36,8 +36,11 @@ class TestReader:
 
     def test_named_column_at(self):
         r = pyexcel.Reader(self.testfile)
-        result = r.named_column_at("A")
-        assert result == {}
+        try:
+            r.named_column_at("A")
+            assert 1==2
+        except ValueError:
+            assert 1==1
 
     def test_get_item_operator(self):
         r = pyexcel.Reader(self.testfile)
@@ -60,7 +63,7 @@ class TestReader:
 
     def test_not_supported_file(self):
         try:
-            r = pyexcel.Reader("test.sylk")
+            pyexcel.Reader("test.sylk")
             assert 0==1
         except NotImplementedError:
             assert 1==1
@@ -121,6 +124,45 @@ class TestCSVReader2:
         result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
         actual = pyexcel.utils.to_array(r.enumerate())
         assert result == actual
+
+    def tearDown(self):
+        if os.path.exists(self.testfile):
+            os.unlink(self.testfile)
+
+class TestCSVReaderDialect:
+    def create_sample_file(self, file):
+        """
+        1,2,3,4
+        5,6,7,8
+        9,10,11,12
+        """    
+        w = pyexcel.Writer(file, delimiter=":")
+        table = []
+        for i in [0, 4, 8]:
+            array = [i+1, i+2, i+3, i+4]
+            table.append(array)
+        w.write_array(table)
+        w.close()
+        
+    def setUp(self):
+        """
+        Make a test csv file as:
+
+        a,b,c,d
+        e,f,g,h
+        i,j,k,l
+        """
+        self.testfile = "testcsv.csv"
+        self.create_sample_file(self.testfile)
+    
+    def test_delimiter(self):
+        f = open(self.testfile)
+        content = '1:2:3:45:6:7:89:10:11:12'
+        expected = ''
+        for l in f:
+            l = l.rstrip()
+            expected += l
+        assert expected == content
 
     def tearDown(self):
         if os.path.exists(self.testfile):

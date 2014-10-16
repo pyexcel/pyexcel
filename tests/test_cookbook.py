@@ -131,7 +131,7 @@ class TestCookbook:
             # try non-existent column first
             pyexcel.cookbook.update_rows(self.testfile, bad_column)
             assert 1==2
-        except ValueError:
+        except IndexError:
             assert 1==1
         pyexcel.cookbook.update_rows(self.testfile, custom_column)
         r = pyexcel.Reader("pyexcel_%s" % self.testfile)

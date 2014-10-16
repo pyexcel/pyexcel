@@ -21,7 +21,7 @@ class Book:
 
     For csv file, there will be just one sheet
     """
-    def __init__(self, file=None):
+    def __init__(self, file=None, **keywards):
         """
         Book constructor
 
@@ -32,13 +32,13 @@ class Book:
         self.name_array = []
         self.sheets = {}
         if file and os.path.exists(file):
-            self.load_from(file)
+            self.load_from(file, **keywards)
 
-    def load_from(self, file):
+    def load_from(self, file, **keywards):
         path, filename = os.path.split(file)
         self.path = path
         self.filename = filename
-        book = load_file(file)
+        book = load_file(file, **keywards)
         sheets = book.sheets()
         self.load_from_sheets(sheets)
 
@@ -169,14 +169,14 @@ class Reader(Sheet):
     applied first then row filter is applied next
     """
 
-    def __init__(self, file=None, sheet=None):
+    def __init__(self, file=None, sheet=None, **keywords):
         if file:
-            self.load_file(file, sheet)
+            self.load_file(file, sheet, **keywords)
         else:
             Sheet.__init__(self, [], "memory")
 
-    def load_file(self, file, sheet):
-        book = load_file(file)
+    def load_file(self, file, sheet, **keywords):
+        book = load_file(file, **keywords)
         sheets = book.sheets()
         if sheet:
             Sheet.__init__(self, sheets[sheet], sheet)
@@ -199,8 +199,8 @@ class PlainReader(PlainSheet):
     """
     PlainReader exists for speed over Reader and also for testing purposes
     """
-    def __init__(self, file, sheet=None):
-        book = load_file(file)
+    def __init__(self, file, sheet=None, **keywords):
+        book = load_file(file, **keywords)
         sheets = book.sheets()
         if sheet:
             PlainSheet.__init__(self, sheets[sheet])
@@ -213,8 +213,8 @@ class FilterableReader(MultipleFilterableSheet):
     """
     FiltableReader lets you use filters at the sequence of your choice
     """
-    def __init__(self, file, sheet=None):
-        book = load_file(file)
+    def __init__(self, file, sheet=None, **keywords):
+        book = load_file(file, **keywords)
         sheets = book.sheets()
         if sheet:
             MultipleFilterableSheet.__init__(self, sheets[sheet])

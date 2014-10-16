@@ -8,12 +8,16 @@ class CSVBook:
 
     It simply return one sheet
     """
-    def __init__(self, file):
+    def __init__(self, file, delimiter=',', quotechar='"'):
         self.array = []
         if six.PY2:
-            reader = csv.reader(open(file, 'rb'), dialect=csv.excel)
+            f = open(file, 'rb')
         elif six.PY3:
-            reader = csv.reader(open(file, 'rt'), dialect=csv.excel)            
+            f = open(file, 'rt')
+        reader = csv.reader(f, dialect=csv.excel,
+                            delimiter=delimiter,
+                            quotechar=quotechar
+                            )
         longest_row_length = -1
         for row in reader:
             myrow = []
@@ -40,7 +44,7 @@ class CSVSheetWriter:
     csv file writer
 
     """
-    def __init__(self, file, name):
+    def __init__(self, file, name, **keywords):
         if name:
             names = file.split(".")
             file_name = "%s_%s.%s" % (names[0], name, names[1])
@@ -51,7 +55,7 @@ class CSVSheetWriter:
             self.f = open(file_name, "wb")
         elif six.PY3:
             self.f = open(file_name, "w", newline="")
-        self.writer = csv.writer(self.f)
+        self.writer = csv.writer(self.f, **keywords)
 
     def set_size(self, size):
         pass
@@ -76,12 +80,13 @@ class CSVWriter:
     if there is multiple sheets for csv file, it simpily writes
     multiple csv files
     """
-    def __init__(self, file):
+    def __init__(self, file, **keywords):
         self.file = file
         self.count = 0
+        self.keywords = keywords
 
     def create_sheet(self, name):
-        return CSVSheetWriter(self.file, name)
+        return CSVSheetWriter(self.file, name, **self.keywords)
 
     def close(self):
         """
