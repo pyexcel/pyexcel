@@ -76,19 +76,14 @@ Test
 Here is the test command::
 
     pip install -r tests/requirements.txt
-    nosetests tests
-
-
-Test coverage is shown in `codecov.io <https://codecov.io/github/chfw/pyexcel>`_ . You can get instant test coverage report by using the following command::
-
     make test
 
-Or on Windows please use::
+
+On Windows, please use::
 
     test.bat
 
-
-Optionally, you can add `--cover-html --cover-html-dir=your_file_directory` to `test.sh` or `test.bat`
+Test coverage is shown in `codecov.io <https://codecov.io/github/chfw/pyexcel>`_ . For more local test coverage, you can add `--cover-html --cover-html-dir=your_file_directory` to `test.sh` or `test.bat`
 
 Known Issues
 =============
