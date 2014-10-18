@@ -349,6 +349,11 @@ class TestAddBooks:
             assert 1==2
         except TypeError:
             assert 1==1
+        try:
+            b1["Sheet1"] += pyexcel.sheets.AS_COLUMNS(12)
+            assert 1==2
+        except TypeError:
+            assert 1==1
 
     def tearDown(self):
         if os.path.exists(self.testfile):

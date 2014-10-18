@@ -41,6 +41,8 @@ class TestReader:
             assert 1==2
         except ValueError:
             assert 1==1
+        data = r.named_column_at('a')
+        assert {'a': ['e', 'i']} == data
 
     def test_get_item_operator(self):
         r = pyexcel.Reader(self.testfile)
