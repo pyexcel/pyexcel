@@ -289,7 +289,7 @@ class TestAddBooks:
             elif "single.xls" in name:
                 assert content[name] == self.content1["Sheet1"]
 
-    def test_add_book7(self):
+    def test_add_sheet(self):
         """
         test this scenario: book3 = sheet1 + single_sheet_book
         """
@@ -305,9 +305,22 @@ class TestAddBooks:
             elif "single.xls" in name:
                 assert content[name] == self.content1["Sheet1"]
 
+    def test_add_sheet2(self):
+        """
+        test this scenario: book3 = sheet1 + single_sheet_book
+        """
+        b1 = pyexcel.BookReader(self.testfile)
+        b3 = b1["Sheet1"] + b1["Sheet1"]
+        content = pyexcel.utils.to_dict(b3)
+        sheet_names = content.keys()
+        assert len(sheet_names) == 2
+        for name in sheet_names:
+            if "Sheet1" in name:
+                assert content[name] == self.content["Sheet1"]
+
     def test_add_book_error(self):
         """
-        test this scenario: book3 = sheet1 + book
+        test this scenario: book3 = book + integer
         """
         b1 = pyexcel.BookReader(self.testfile)
         try:
@@ -317,6 +330,22 @@ class TestAddBooks:
             assert 1==1
         try:
             b1 += 12
+            assert 1==2
+        except TypeError:
+            assert 1==1
+
+    def test_add_sheet_error(self):
+        """
+        test this scenario: book3 = sheet1 + integer
+        """
+        b1 = pyexcel.BookReader(self.testfile)
+        try:
+            b1["Sheet1"] + 12
+            assert 1==2
+        except TypeError:
+            assert 1==1
+        try:
+            b1["Sheet1"] += 12
             assert 1==2
         except TypeError:
             assert 1==1

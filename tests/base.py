@@ -350,7 +350,7 @@ class PyexcelSheetRWBase:
         try:
             r3 += 12
             assert 1==2
-        except ValueError:
+        except TypeError:
             assert 1==1
             
     def test_extend_columns(self):

@@ -167,6 +167,21 @@ class TestReaderWithFilter:
         r.extend_rows(content)
         assert r[3] == content[3]
 
+    def test_add_rows_even_row_filter2(self):
+        r = pyexcel.readers.FilterableReader(self.testfile)
+        r.filter(pyexcel.filters.EvenRowFilter())
+        assert r.number_of_rows() == 2
+        assert r.number_of_columns() == 4
+        result = [1, 2, 3, 4, 9, 10, 11, 12]
+        actual = pyexcel.utils.to_array(r.enumerate())
+        assert result == actual
+        content = [['r', 's', 't', 'o'],  # 4
+                   [1, 2, 3, 4],  # 5
+                   [True],  # 6
+                   [1.1, 2.2, 3.3, 4.4, 5.5]]  # 7
+        r.extend_rows(content)
+        assert r[3] == content[3]
+
     def test_delete_rows_even_row_filter(self):
         r = pyexcel.Reader(self.testfile)
         r.filter(pyexcel.filters.EvenRowFilter())

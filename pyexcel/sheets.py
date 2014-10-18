@@ -106,7 +106,7 @@ class PlainSheet(Matrix):
                 new_key = "%s_%s" % (other.name, uid)
             content[new_key] = other.array
         else:
-            raise ValueError
+            raise TypeError
         c = Book()
         c.load_from_sheets(content)
         return c
@@ -123,9 +123,9 @@ class PlainSheet(Matrix):
             elif isinstance(new_other, Sheet):
                 self.extend_columns(new_other.array)
             else:
-                raise ValueError
+                raise TypeError
         else:
-            raise ValueError
+            raise TypeError
         return self
 
 

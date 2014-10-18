@@ -337,9 +337,7 @@ class Matrix:
         self.array = transpose(self.array)
 
 
-class PyexcelIterator:
-    def __next__(self):
-        return self.next()
+class PyexcelIterator(six.Iterator):
     pass
 
 

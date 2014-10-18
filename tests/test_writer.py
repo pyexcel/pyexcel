@@ -73,11 +73,10 @@ class TestWriteReader:
         print(content)
         assert content == self.content
 
-    def test_write_simple_reader(self):
+    def test_write_simple_reader_error(self):
         try:
             w = pyexcel.Writer(self.testfile2)
-            w.write_reader("abc")
-            w.close()
+            w.write_reader("abc")  # boom
             assert 1==2
         except TypeError:
             assert 1==1
