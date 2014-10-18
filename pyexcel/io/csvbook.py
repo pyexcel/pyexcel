@@ -8,16 +8,13 @@ class CSVBook:
 
     It simply return one sheet
     """
-    def __init__(self, file, delimiter=',', quotechar='"'):
+    def __init__(self, file, **keywords):
         self.array = []
         if six.PY2:
             f = open(file, 'rb')
         elif six.PY3:
             f = open(file, 'rt')
-        reader = csv.reader(f, dialect=csv.excel,
-                            delimiter=delimiter,
-                            quotechar=quotechar
-                            )
+        reader = csv.reader(f, dialect=csv.excel, **keywords)
         longest_row_length = -1
         for row in reader:
             myrow = []
