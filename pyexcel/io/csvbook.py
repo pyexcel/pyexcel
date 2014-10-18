@@ -26,16 +26,19 @@ class CSVBook:
     def __init__(self, file, encoding="utf-8", **keywords):
         self.array = []
         if six.PY2:
-            f = open(file, 'rb')
+            f1 = open(file, 'rb')
+            f = UTF8Recorder(f1, encoding)
         elif six.PY3:
-            f = open(file, 'rt')
-        utf_reader = UTF8Recorder(f, encoding)
-        reader = csv.reader(utf_reader, dialect=csv.excel, **keywords)
+            f = open(file, 'r')
+        reader = csv.reader(f, dialect=csv.excel, **keywords)
         longest_row_length = -1
         for row in reader:
             myrow = []
             for element in row:
-                myrow.append(element.decode('utf-8'))
+                if six.PY2:
+                    myrow.append(element.decode(encoding))
+                else:
+                    myrow.append(element)
             if longest_row_length == -1:
                 longest_row_length = len(myrow)
             elif longest_row_length < len(myrow):
@@ -63,7 +66,6 @@ class CSVSheetWriter:
             file_name = "%s_%s.%s" % (names[0], name, names[1])
         else:
             file_name = file
-
         if six.PY2:
             self.f = open(file_name, "wb")
         elif six.PY3:
@@ -78,7 +80,10 @@ class CSVSheetWriter:
         """
         write a row into the file
         """
-        self.writer.writerow([six.text_type(s if s != None else '').encode(self.encoding) for s in array])
+        if six.PY2:
+            self.writer.writerow([six.text_type(s if s != None else '').encode(self.encoding) for s in array])
+        else:
+            self.writer.writerow(array)
 
     def close(self):
         """
