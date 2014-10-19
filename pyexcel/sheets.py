@@ -65,15 +65,15 @@ class PlainSheet(Matrix):
                 value = self.array[row][column]
             except IndexError:
                 value = ""
-            value_type = type(value)
             if len(self._formatters) > 0:
-                previous_type = value_type
                 for f in self._formatters:
                     if f.is_my_business(row, column, value):
-                        value = f.do_format(value, previous_type)
-                        previous_type = f.desired_format
+                        if value == "":
+                            value = f.do_format(None)
+                        else:
+                            value = f.do_format(value)
             else:
-                if is_string(value_type):
+                if is_string(type(value)):
                     try:
                         value = float(value)
                     except ValueError:

@@ -7,58 +7,49 @@ class TestToFormatFunction:
     def test_string_2_float(self):
         value = "11.11"
         n_value = pyexcel.formatters.to_format(
-            str,
             float, value)
         assert n_value == 11.11
         value = "abc"
         n_value = pyexcel.formatters.to_format(
-            str,
             float, value)
         assert n_value == "N/A"
 
     def test_string_to_string(self):
         value = "string"
         n_value = pyexcel.formatters.to_format(
-            str,
             str, value)
         assert n_value == value
 
     def test_string_2_int_format(self):
         value = "11"
         n_value = pyexcel.formatters.to_format(
-            str,
             int, value)
         assert n_value == 11
         value = "11.11111"
         n_value = pyexcel.formatters.to_format(
-            str,
             int,
             value)
         assert n_value == 11
         value = "abc"
         n_value = pyexcel.formatters.to_format(
-            str,
             int, value)
         assert n_value == "N/A"
 
     def test_float_2_string_format(self):
         value = 1.0
         n_value = pyexcel.formatters.to_format(
-            float,
             str, value)
         assert n_value == "1.0"
 
     def test_float_2_int_format(self):
         value = 1.1111
         n_value = pyexcel.formatters.to_format(
-            float,
             int, value)
         assert type(n_value) == int
         assert n_value == 1
         value = "1.1"
         try:
             n_value = pyexcel.formatters.to_format(
-                float,
                 int, value)
             assert 1==2
         except:
@@ -67,7 +58,6 @@ class TestToFormatFunction:
     def test_float_2_date_format(self):
         value = 1.1111
         n_value = pyexcel.formatters.to_format(
-            float,
             datetime.datetime, value)
         assert type(n_value) == float
         assert n_value == value
@@ -75,14 +65,12 @@ class TestToFormatFunction:
     def test_int_2_string_format(self):
         value = 11
         n_value = pyexcel.formatters.to_format(
-            int,
             str, value)
         assert n_value == "11"
 
     def test_int_2_float_format(self):
         value = 11
         n_value = pyexcel.formatters.to_format(
-            int,
             float,
             value)
         assert type(n_value) == float
@@ -91,7 +79,6 @@ class TestToFormatFunction:
     def test_int_2_date(self):
         value = 11
         n_value = pyexcel.formatters.to_format(
-            int,
             datetime.datetime,
             value)
         assert type(n_value) == int
@@ -101,18 +88,15 @@ class TestToFormatFunction:
         d = datetime.datetime.now()
         new_d = pyexcel.formatters.to_format(
             datetime.datetime,
-            datetime.datetime,
             d
         )
         assert d == new_d
         new_d = pyexcel.formatters.to_format(
-            datetime.datetime,
             str,
             d
         )
         assert d.strftime("%d/%m/%y") == new_d
         new_d = pyexcel.formatters.to_format(
-            datetime.datetime,
             bool,
             d
         )
@@ -120,25 +104,21 @@ class TestToFormatFunction:
         t = datetime.time(11,11,11)
         new_t = pyexcel.formatters.to_format(
             datetime.datetime,
-            datetime.datetime,
             t
         )
         assert t == new_t
         new_t = pyexcel.formatters.to_format(
-            datetime.datetime,
             str,
             t
         )
         assert t.strftime("%H:%M:%S") == new_t
         new_t = pyexcel.formatters.to_format(
-            datetime.datetime,
             bool,
             t
         )
         assert t == new_t
         bad = "bad"
         new_d = pyexcel.formatters.to_format(
-            datetime.datetime,
             str,
             bad
         )
@@ -147,7 +127,6 @@ class TestToFormatFunction:
     def test_boolean_2_date(self):
         value = True
         n_value = pyexcel.formatters.to_format(
-            bool,
             datetime.datetime,
             value)
         assert type(n_value) == bool
@@ -156,7 +135,6 @@ class TestToFormatFunction:
     def test_boolean_2_float(self):
         value = True
         n_value = pyexcel.formatters.to_format(
-            bool,
             float,
             value)
         assert n_value == 1
@@ -164,35 +142,30 @@ class TestToFormatFunction:
     def test_boolean_2_string(self):
         value = True
         n_value = pyexcel.formatters.to_format(
-            bool,
             str,
             value)
-        assert n_value == "True"
+        assert n_value == "true"
         value = False
         n_value = pyexcel.formatters.to_format(
-            bool,
             str,
             value)
-        assert n_value == "False"
+        assert n_value == "false"
 
     def test_empty_to_supported_types(self):
         value = ""
         n_value = pyexcel.formatters.to_format(
-            None,
             float,
             value)
         assert type(n_value) == float
         assert n_value == 0
         value = ""
         n_value = pyexcel.formatters.to_format(
-            None,
             int,
             value)
         assert type(n_value) == int
         assert n_value == 0
         value = ""
         n_value = pyexcel.formatters.to_format(
-            None,
             datetime.datetime,
             value)
         assert n_value == ""
@@ -200,7 +173,6 @@ class TestToFormatFunction:
     def test_date_format(self):
         d = "11-Jan-14"
         n_d = pyexcel.formatters.to_format(
-            str,
             datetime.datetime,
             d)
         assert d == n_d
@@ -251,7 +223,7 @@ class TestColumnFormatter:
 
     def test_custom_func(self):
         r = pyexcel.Reader(self.testfile)
-        f = lambda x, t: int(x) + 1
+        f = lambda x: int(x) + 1
         r.add_formatter(pyexcel.formatters.ColumnFormatter(
             0,
             int,
@@ -263,7 +235,7 @@ class TestColumnFormatter:
 
     def test_custom_func_with_a_general_converter(self):
         r = pyexcel.Reader(self.testfile)
-        f = lambda x, t: int(x) + 1
+        f = lambda x: int(x) + 1
         r.add_formatter(pyexcel.formatters.ColumnFormatter(
             0,
             int,
@@ -346,7 +318,7 @@ class TestRowFormatter:
 
     def test_custom_func(self):
         r = pyexcel.Reader(self.testfile)
-        f = lambda x, t: float(x) + 1
+        f = lambda x: float(x) + 1
         r.add_formatter(pyexcel.formatters.RowFormatter(
             1,
             float,
@@ -358,7 +330,7 @@ class TestRowFormatter:
 
     def test_custom_func_with_a_general_converter(self):
         r = pyexcel.Reader(self.testfile)
-        f = lambda x, t: float(x) + 1
+        f = lambda x: float(x) + 1
         r.add_formatter(pyexcel.formatters.RowFormatter(
             1,
             float,
@@ -377,7 +349,7 @@ class TestRowFormatter:
 
     def test_remove_formatter2(self):
         r = pyexcel.Reader(self.testfile)
-        f = lambda x, t: float(x) + 1
+        f = lambda x: float(x) + 1
         ft = pyexcel.formatters.RowFormatter(
             1,
             float,
@@ -448,7 +420,7 @@ class TestSheetFormatter:
 
     def test_custom_func(self):
         r = pyexcel.Reader(self.testfile)
-        f = lambda x, t: float(x) + 1
+        f = lambda x: float(x) + 1
         r.add_formatter(pyexcel.formatters.SheetFormatter(
             float,
             f))
@@ -463,7 +435,7 @@ class TestSheetFormatter:
 
     def test_custom_func_with_a_general_converter(self):
         r = pyexcel.Reader(self.testfile)
-        f = lambda x, t: float(x) + 1
+        f = lambda x: float(x) + 1
         r.add_formatter(pyexcel.formatters.SheetFormatter(
             float,
             f))
@@ -480,7 +452,7 @@ class TestSheetFormatter:
 
     def test_clear_formatters(self):
         r = pyexcel.Reader(self.testfile)
-        f = lambda x, t: float(x) + 1
+        f = lambda x: float(x) + 1
         r.add_formatter(pyexcel.formatters.SheetFormatter(
             float,
             f))
@@ -539,7 +511,7 @@ class TestSheetFormatterInXLS:
 
     def test_custom_func(self):
         r = pyexcel.Reader(self.testfile)
-        f = lambda x, t: float(x) + 1
+        f = lambda x: float(x) + 1
         r.add_formatter(pyexcel.formatters.SheetFormatter(
             float,
             f))
@@ -554,7 +526,7 @@ class TestSheetFormatterInXLS:
 
     def test_custom_func_with_a_general_converter(self):
         r = pyexcel.Reader(self.testfile)
-        f = lambda x, t: float(x) + 1
+        f = lambda x: float(x) + 1
         r.add_formatter(pyexcel.formatters.SheetFormatter(
             float,
             f))
@@ -571,7 +543,7 @@ class TestSheetFormatterInXLS:
 
     def test_clear_formatters(self):
         r = pyexcel.Reader(self.testfile)
-        f = lambda x, t: float(x) + 1
+        f = lambda x: float(x) + 1
         r.add_formatter(pyexcel.formatters.SheetFormatter(
             float,
             f))

@@ -78,9 +78,9 @@ def boolean_to_format(value, FORMAT):
         ret = float(value)
     elif FORMAT == str:
         if value == 1:
-            ret = "True"
+            ret = "true"
         else:
-            ret = "False"
+            ret = "false"
     else:
         ret = value
     return ret
@@ -102,6 +102,8 @@ CONVERSION_FUNCTIONS = {
     float: float_to_format,
     int: int_to_format,
     datetime.datetime: date_to_format,
+    datetime.time: date_to_format,
+    datetime.date: date_to_format,
     bool: boolean_to_format,
     None: empty_to_format,
 }
@@ -110,13 +112,20 @@ if six.PY2:
     CONVERSION_FUNCTIONS[unicode] = string_to_format
 
 
-def to_format(from_type, to_type, value):
+def to_format(to_type, value):
     """Wrapper utility function for format different formats
 
     :param type from_type: a python type
     :param type to_type: a python type
     :param value value: a python value
     """
+    if value is not None:
+        if value == "":
+            from_type = None
+        else:
+            from_type = type(value)
+    else:
+        from_type = None
     func = CONVERSION_FUNCTIONS[from_type]
     return func(value, to_type)
 
@@ -144,11 +153,11 @@ class Formatter:
         """
         return self.quanlify_func(row, column, value)
 
-    def do_format(self, value, ctype):
+    def do_format(self, value):
         if self.converter is not None and isinstance(self.converter, types.FunctionType):
-            return self.converter(value, ctype)
+            return self.converter(value)
         else:
-            return to_format(ctype, self.desired_format, value)
+            return to_format(self.desired_format, value)
 
 
 class ColumnFormatter(Formatter):
