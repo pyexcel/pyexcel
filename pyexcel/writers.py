@@ -13,6 +13,29 @@ from .io import get_writer
 
 
 def dict_to_array(the_dict, with_keys=True):
+    """Convert a dictionary of columns to an array
+
+    The example dict is::
+
+        {
+            "Column 1": [1, 2, 3],
+            "Column 2": [5, 6, 7, 8],
+            "Column 3": [9, 10, 11, 12, 13],
+        }
+    
+    The output will be::
+
+        [
+            ["Column 1", "Column 2", "Column 3"],
+            [1, 5, 9],
+            [2, 6, 10],
+            [3, 7, 11],
+            ['', 8, 12],
+            ['', '', 13]
+        ]
+    :param dict the_dict: the dictionary to be converted.
+    :param bool with_keys: to write the keys as the first row or not
+    """
     content = []
     keys = sorted(the_dict.keys())
     if with_keys:
@@ -39,9 +62,17 @@ class SheetWriter:
     """Single sheet writer for the excel book writer"""
 
     def __init__(self, writer):
+        """Constructor
+
+        :param CustomWriter writer: format specific writer
+        """
         self.writer = writer
 
     def write_array(self, table):
+        """Write a two dimensional array
+
+        :param list table: two dimensional array
+        """
         self.write_rows(table)
 
     def write_rows(self, table):
@@ -49,6 +80,7 @@ class SheetWriter:
         Write a table
 
         table can be two dimensional array or a row iterator
+        :param list table: two dimensional array        
         """
         if len(table) < 1:
             return
@@ -59,16 +91,30 @@ class SheetWriter:
             self.writer.write_row(row)
 
     def write_dict(self, the_dict):
+        """Write a dictionary
+        
+        :param dict the_dict: the dictionary to be writeen
+        """
         array = dict_to_array(the_dict)
         self.write_rows(array)
 
     def write_reader(self, reader):
+        """Write a reader/sheet
+
+        :param Matrix reader: a Matrix instance
+        """
         if isinstance(reader, Matrix):
             self.write_rows(reader.array)
         else:
             raise TypeError
 
     def write_columns(self, in_array):
+        """Write columns in reference to rows
+
+        It was seen always to write rows horizontally. This
+        method write data vertically.
+        :param list in_array: a two dimensional array
+        """
         out_array = transpose(in_array)
         self.write_rows(out_array)
 
@@ -83,15 +129,26 @@ class SheetWriter:
 
 class BookWriter:
     """
-    A generic book writer
+    A generic book writer. 
 
-    It provides one interface for writing ods, csv, xls, xlsx and xlsm
+    It provides one interface for writing any supported file formats. A book refers
+    to the excel file that has many sheets. csv file format does not support such
+    a concept, hence this writer will write a csv book in theory to scattered csv
+    files which share similiar file names.
     """
 
     def __init__(self, file, **keywords):
+        """Constructor
+        :param str file: file name
+        :param dict keywords: extra parameters for format specific writer
+        """
         self.writer = get_writer(file, **keywords)
 
     def create_sheet(self, name):
+        """Create a new sheet
+
+        :param str name: the new sheet name
+        """
         return SheetWriter(self.writer.create_sheet(name))
 
     def write_book_from_dict(self, sheet_dicts):
@@ -99,6 +156,12 @@ class BookWriter:
 
         Requirements for the dictionary is: key is the sheet name,
         its value must be two dimensional array
+        :param dict sheet_dicts: a dictionary of two dimensional array, for example::
+
+            {
+                "Sheet1": [[1, 2, 3], [4, 5, 6]],
+                "Sheet2": [[7, 8, 9], [10, 11, 12]]
+            }
         """
         keys = sheet_dicts.keys()
         for name in keys:
@@ -109,11 +172,16 @@ class BookWriter:
     def write_book_reader(self, bookreader):
         """
         Write a book reader
+
+        Easy implementiation. Dump a book into a dictionary of two dimensional
+        arrays. Then write book from this dictionary
+        :param Book bookreader: a book object to be written
         """
         sheet_dicts = to_dict(bookreader)
         self.write_book_from_dict(sheet_dicts)
 
     def close(self):
+        """close the writer"""
         self.writer.close()
 
 
@@ -126,9 +194,16 @@ class Writer(SheetWriter):
     """
 
     def __init__(self, file, **keywords):
+        """Constructor for single sheet writer
+
+        This class creates only one sheet writer and stick with it
+        """
         self.bookwriter = BookWriter(file, **keywords)
         self.writer = self.bookwriter.create_sheet(None).writer
 
     def close(self):
+        """
+        Close the writer
+        """
         SheetWriter.close(self)
         self.bookwriter.close()
