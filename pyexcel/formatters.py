@@ -13,6 +13,7 @@ import datetime
 
 
 def string_to_format(value, FORMAT):
+    """Convert string to specified format"""
     if FORMAT == float:
         try:
             ret = float(value)
@@ -31,6 +32,7 @@ def string_to_format(value, FORMAT):
 
 
 def float_to_format(value, FORMAT):
+    """Convert float to specified format"""
     if FORMAT == int:
         ret = int(value)
     elif FORMAT == str:
@@ -42,6 +44,7 @@ def float_to_format(value, FORMAT):
 
 
 def int_to_format(value, FORMAT):
+    """Convert int to specified format"""
     if FORMAT == float:
         ret = float(value)
     elif FORMAT == str:
@@ -52,6 +55,7 @@ def int_to_format(value, FORMAT):
 
 
 def date_to_format(value, FORMAT):
+    """Convert date to specified format"""
     if FORMAT == datetime.datetime:
         ret = value
     elif FORMAT == str:
@@ -69,6 +73,7 @@ def date_to_format(value, FORMAT):
 
 
 def boolean_to_format(value, FORMAT):
+    """Convert bool to specified format"""
     if FORMAT == float:
         ret = float(value)
     elif FORMAT == str:
@@ -82,6 +87,7 @@ def boolean_to_format(value, FORMAT):
 
 
 def empty_to_format(value, FORMAT):
+    """Convert empty value to specified format"""
     if FORMAT == float:
         ret = 0.0
     elif FORMAT == int:
@@ -105,7 +111,12 @@ if six.PY2:
 
 
 def to_format(from_type, to_type, value):
-    """Wrapper utility function for format different formats"""
+    """Wrapper utility function for format different formats
+
+    :param type from_type: a python type
+    :param type to_type: a python type
+    :param value value: a python value
+    """
     func = CONVERSION_FUNCTIONS[from_type]
     return func(value, to_type)
 
@@ -122,6 +133,15 @@ class Formatter:
         self.converter = custom_converter
 
     def is_my_business(self, row, column, value):
+        """Check should this formatter be active for cell at (row, column) with value
+
+        :param int row: the row index of current cell
+        :param int column: the column index of current cell
+        :param any value: the value of current cell
+        :returns: True or False
+            * True if the cell qualitifies
+            * False if the cell does not
+        """
         return self.quanlify_func(row, column, value)
 
     def do_format(self, value, ctype):
@@ -139,6 +159,7 @@ class ColumnFormatter(Formatter):
 
 
 class RowFormatter(Formatter):
+    """Row Formatter"""    
     def __init__(self, row_index, FORMAT, custom_converter=None):
         func = lambda r, c, v: r == row_index
         Formatter.__init__(self, func, FORMAT, custom_converter)

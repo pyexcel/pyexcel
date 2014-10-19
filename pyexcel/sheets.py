@@ -15,6 +15,7 @@ from .filters import (RowIndexFilter,
                      RowFilter)
 
 def is_string(atype):
+    """find out if a type is str or not"""
     if atype == str:
             return True
     elif six.PY2:
@@ -30,21 +31,29 @@ class AS_COLUMNS(object):
 
 class PlainSheet(Matrix):
     """
-    xls sheet
-
-    Currently only support first sheet in the file
+    A represetation of Matrix that accept custom formatters
     """
     def __init__(self, array):
+        """Constructor"""
         Matrix.__init__(self, array)
         self._formatters = []
 
     def add_formatter(self, aformatter):
+        """Add a formatter
+
+        :param Formatter aformatter: a custom formatter
+        """
         self._formatters.append(aformatter)
 
     def remove_formatter(self, aformatter):
+        """Remove a formatter
+
+        :param Formatter aformatter: a custom formatter
+        """
         self._formatters.remove(aformatter)
 
     def clear_formatters(self):
+        """Clear all formatters"""
         self._formatters = []
 
     def _cell_value(self, row, column, new_value=None):
@@ -85,6 +94,10 @@ class PlainSheet(Matrix):
             return None
 
     def __add__(self, other):
+        """Overload the + sign
+
+        :returns: a new book
+        """
         from .readers import Book
         from .utils import to_dict
         content = {}
@@ -112,6 +125,10 @@ class PlainSheet(Matrix):
         return c
 
     def __iadd__(self, other):
+        """Overload += sign
+
+        :return: self
+        """
         if isinstance(other, list):
             self.extend_rows(other)
         elif isinstance(other, Sheet):
@@ -131,7 +148,8 @@ class PlainSheet(Matrix):
 
 class MultipleFilterableSheet(PlainSheet):
     """
-    Sheet that can be applied one filter
+    A represetation of Matrix that can be filtered
+    by as many filters as it is applied
     """
     def __init__(self, sheet):
         PlainSheet.__init__(self, sheet)
@@ -192,7 +210,10 @@ class MultipleFilterableSheet(PlainSheet):
             return None
 
     def add_filter(self, afilter):
-        """Apply a filter"""
+        """Apply a filter
+
+        :param Filter afilter: a custom filter
+        """
         afilter.validate_filter(self)
         self._filters.append(afilter)
         return self
@@ -219,6 +240,10 @@ class MultipleFilterableSheet(PlainSheet):
         self.add_filter(afilter)
 
     def validate_filters(self):
+        """Re-apply filters
+
+        It is called when some data is updated
+        """
         local_filters = self._filters
         self._filters = []
         for filter in local_filters:
@@ -228,7 +253,7 @@ class MultipleFilterableSheet(PlainSheet):
     def extend_rows(self, rows):
         """expected the rows to be off the same length
 
-        too expensive to do so
+        :param list rows: a list of arrays
         """
         Matrix.extend_rows(self, rows)
         self.validate_filters()
@@ -236,15 +261,15 @@ class MultipleFilterableSheet(PlainSheet):
     def delete_rows(self, row_indices):
         """delete rows
 
-        too expensive to do so
+        :param list row_indices: a list of row indices to be removed
         """
         Matrix.delete_rows(self, row_indices)
         self.validate_filters()
 
     def extend_columns(self, columns):
-        """expected the rows to be off the same length
+        """expected the rows to be of the same length
 
-        too expensive to do so
+        :param list columns: a list of arrays
         """
         Matrix.extend_columns(self, columns)
         self.validate_filters()
@@ -252,13 +277,20 @@ class MultipleFilterableSheet(PlainSheet):
     def delete_columns(self, column_indices):
         """delete rows
 
-        too expensive to do so
+        :param list row_indices: a list of column indices to be removed
         """
         Matrix.delete_columns(self, column_indices)
         self.validate_filters()
 
 
 class Sheet(MultipleFilterableSheet):
+    """
+    A represetation of Matrix that can be formatted, filtered and
+    support dictionary.
+
+    This class is used in collaboration with Book to represent
+    multi-sheet book.
+    """
     def __init__(self, sheet, name):
         MultipleFilterableSheet.__init__(self, sheet)
         self.column_filters = []
@@ -312,6 +344,10 @@ class Sheet(MultipleFilterableSheet):
         self.validate_filters()
 
     def validate_filters(self):
+        """Re-apply filters
+
+        It is called when some data is updated
+        """
         if self.signature_filter:
             local_filters = (self.column_filters +
                              [self.signature_filter] +
@@ -337,7 +373,9 @@ class Sheet(MultipleFilterableSheet):
 
     def series(self):
         """
-        Return column headers
+        Returns the first row as headers
+        
+        :returns: column headers
         """
         if self.signature_filter:
             self._headers()
@@ -374,6 +412,7 @@ class Sheet(MultipleFilterableSheet):
             self.set_column_at(index, column_array, 1)
 
     def __iter__(self):
+        """Overload the iterator signature"""
         if self.signature_filter:
             return SeriesColumnIterator(self)
         else:

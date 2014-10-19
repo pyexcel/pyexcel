@@ -28,6 +28,7 @@ import six
 
 
 class IndexFilter:
+    """A generic index filter"""
     def __init__(self, func):
         """Constructor
         :param Function func: a evaluation function

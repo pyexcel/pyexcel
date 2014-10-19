@@ -1,3 +1,12 @@
+"""
+    pyexcel.utils
+    ~~~~~~~~~~~~~~~~~~~
+
+    Utility functions for pyexcel
+
+    :copyright: (c) 2014 by C. W.
+    :license: GPL v3
+"""
 from .sheets import Sheet
 
 
