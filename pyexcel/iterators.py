@@ -13,6 +13,8 @@ import copy
 
 def f7(seq):
     """
+    Return a unique list of the incoming list
+    
     Reference:
     http://stackoverflow.com/questions/480214/
     how-do-you-remove-duplicates-from-a-list-in-python-whilst-preserving-order
@@ -23,6 +25,11 @@ def f7(seq):
 
 
 def longest_row_number(array):
+    """
+    Find the length of the longest row in the array
+
+    :param list in_array: a list of arrays    
+    """
     if len(array) > 0:
         # map runs len() against each member of the array
         return max(map(len, array))
@@ -33,6 +40,8 @@ def longest_row_number(array):
 def uniform(array):
     """
     Fill-in empty strings to empty cells to make it MxN
+
+    :param list in_array: a list of arrays
     """
     width = longest_row_number(array)
     if width == 0:
@@ -46,6 +55,11 @@ def uniform(array):
 
 
 def transpose(in_array):
+    """
+    Rotate the array by 90 degrees
+
+    :param list in_array: a list of arrays
+    """
     max_length = longest_row_number(in_array)
     new_array = []
     for i in range(0, max_length):
@@ -61,16 +75,23 @@ def transpose(in_array):
 
 class Matrix:
     """
-    To be able to use the iterators in this package, implement
-    these methods
+    The internal representation of a sheet data. Each element
+    can be of any python types
     """
+    
     def __init__(self, array):
+        """Constructor
+
+        :param list array: a list of arrays
+        """
         self.array = uniform(array)
 
     def number_of_rows(self):
+        """The number of rows"""
         return len(self.array)
 
     def number_of_columns(self):
+        """The number of columns"""
         if self.number_of_rows() > 0:
             return len(self.array[0])
         else:
@@ -95,6 +116,12 @@ class Matrix:
             return range(0, self.number_of_columns())
 
     def cell_value(self, row, column, new_value=None):
+        """Random access to table cells
+
+        :param int row: row index which starts from 0
+        :param int column: column index which starts from 0
+        :param any new_value: new value if this is to set the value
+        """
         if new_value is None:
             if row in self.row_range() and column in self.column_range():
                 # apply formatting
@@ -207,7 +234,7 @@ class Matrix:
         self.array = uniform(self.array)
 
     def delete_rows(self, row_indices):
-        """delete rows"""
+        """delete rows by specified row indices"""
         if isinstance(row_indices, list) is False:
             raise ValueError
         if len(row_indices) > 0:
@@ -221,8 +248,15 @@ class Matrix:
         """
         columns should be an array
 
-        s s s     t t
-        s s s  +  t t
+        This is how it works:
+
+        Given::
+        
+            s s s     t t
+
+        Get::
+        
+            s s s  +  t t
         """
         current_nrows = self.number_of_rows()
         current_ncols = self.number_of_columns()
@@ -277,6 +311,7 @@ class Matrix:
         return my_range
 
     def __delitem__(self, aslice):
+        """Override the operator to delete items"""
         if isinstance(aslice, slice):
             my_range = self._analyse_slice(aslice)
             self.delete_rows(my_range)
@@ -284,6 +319,7 @@ class Matrix:
             self.delete_rows([aslice])
 
     def __setitem__(self, aslice, c):
+        """Override the operator to set items"""
         if isinstance(aslice, slice):
             my_range = self._analyse_slice(aslice)
             for i in my_range:
@@ -307,6 +343,23 @@ class Matrix:
             raise IndexError
 
     def set_column_at(self, column_index, data_array, starting=0):
+        """Update columns
+
+        It works like this if the call is: set_column_at(2, [...], 1)::
+
+                +--> column_index = 2
+                |
+            A B C
+            1 3 5 <- starting = 1
+            2 4 6
+
+        This function will not set element outside the current table range
+        
+        :param int column_index: which column to be modified
+        :param list data_array: one dimensional array
+        :param int staring: from which index, the update happens
+        :raises IndexError: if column_index exceeds column range or starting exceeds row range
+        """
         nrows = self.number_of_rows()
         ncolumns = self.number_of_columns()
         if column_index < ncolumns and starting < nrows:
@@ -317,6 +370,22 @@ class Matrix:
             raise IndexError
 
     def set_row_at(self, row_index, data_array, starting=0):
+        """Update rows
+
+        It works like this if the call is: set_row_at(2, [...], 1)::
+
+            A B C
+            1 3 5 
+            2 4 6 <- row_index = 2
+              ^starting = 1
+        
+        This function will not set element outside the current table range
+        
+        :param int row_index: which row to be modified
+        :param list data_array: one dimensional array
+        :param int starting: from which index, the update happens
+        :raises IndexError: if row_index exceeds row range or starting exceeds column range
+        """
         nrows = self.number_of_rows()
         ncolumns = self.number_of_columns()
         if row_index < nrows and starting < ncolumns:
@@ -327,6 +396,7 @@ class Matrix:
             raise IndexError
 
     def contains(self, predicate):
+        """Has something in the table"""
         for r in self.rows():
             if predicate(r):
                 return True
@@ -334,6 +404,10 @@ class Matrix:
             return False
 
     def transpose(self):
+        """Roate the data table by 90 degrees
+
+        Reference :func:`transpose`
+        """
         self.array = transpose(self.array)
 
 
@@ -448,10 +522,11 @@ class HTRBLIterator(PyexcelIterator):
     """
     Horizontal Top Right to Bottom Left Iterator
 
-    Iterate horizontally from top right to bottom left
-    <<S
-    <<<
-    E<<
+    Iterate horizontally from top right to bottom left::
+    
+        <<S
+        <<<
+        E<<
     """
     def __init__(self, reader):
         self.reader_ref = reader
@@ -485,10 +560,11 @@ class VTRBLIterator(HTRBLIterator):
     """
     Vertical Top Right to Bottom Left Iterator
 
-    Iterate horizontally from top left to bottom right
-    ||S
-    |||
-    E||
+    Iterate horizontally from top left to bottom right::
+    
+        ||S
+        |||
+        E||
     """
     def __init__(self, reader):
         self.reader_ref = reader
@@ -510,11 +586,12 @@ class VBLTRIterator(HTRBLIterator):
     """
     Vertical Bottom Left to Top Right Iterator
 
-    Iterate vertically from bottom left to top right
-    ^^E
-    ^^^
-    S^^
-    ->
+    Iterate vertically from bottom left to top right::
+    
+        ^^E
+        ^^^
+        S^^
+        ->
     """
     def __init__(self, reader):
         self.reader_ref = reader
@@ -542,10 +619,11 @@ class HBLTRIterator(VBLTRIterator):
     """
     Horizontal Bottom Left to Top Right Iterator
 
-    Iterate horizontally from bottom left to top right
-    >>E
-    >>> ^
-    S>> |
+    Iterate horizontally from bottom left to top right::
+    
+        >>E
+        >>> ^
+        S>> |
     """
     def __init__(self, reader):
         self.reader_ref = reader
