@@ -345,13 +345,13 @@ class Matrix:
     def set_column_at(self, column_index, data_array, starting=0):
         """Update columns
 
-        It works like this if the call is: set_column_at(2, [...], 1)::
+        It works like this if the call is: set_column_at(2, ['N','N', 'N'], 1)::
 
                 +--> column_index = 2
                 |
             A B C
-            1 3 5 <- starting = 1
-            2 4 6
+            1 3 N <- starting = 1
+            2 4 N
 
         This function will not set element outside the current table range
         
@@ -372,11 +372,11 @@ class Matrix:
     def set_row_at(self, row_index, data_array, starting=0):
         """Update rows
 
-        It works like this if the call is: set_row_at(2, [...], 1)::
+        It works like this if the call is: set_row_at(2, ['N', 'N', 'N'], 1)::
 
             A B C
             1 3 5 
-            2 4 6 <- row_index = 2
+            2 N N <- row_index = 2
               ^starting = 1
         
         This function will not set element outside the current table range
