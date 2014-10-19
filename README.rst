@@ -63,12 +63,14 @@ or::
 
 No futher code is needed. `pyexcel` will automatically support *ods* after this import.
 
-============ ========== ========== ========== ========== ==========
-package      python 2.6 python 2.7 python 3.2 python 3.3 python 3.4
-============ ========== ========== ========== ========== ==========
-pyexcel-ods  yes	    yes	   	   	   
-pyexcel-ods3 		    yes                   yes        yes		   		      		   	 		   
-============ ========== ========== ========== ========== ==========
+Here is the comparsion of two packages:
+
+============ ========== ========== ========== ========== ==============
+package      python 2.6 python 2.7 python 3.3 python 3.4 lxml dependent
+============ ========== ========== ========== ========== ==============
+pyexcel-ods  yes	    yes	   	   						 no   		  
+pyexcel-ods3 		    yes        yes        yes		 yes		      		   	 		   
+============ ========== ========== ========== ========== ============== 
 
 Test 
 =====
