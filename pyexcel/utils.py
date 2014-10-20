@@ -8,6 +8,7 @@
     :license: GPL v3
 """
 from .sheets import Sheet
+from collections import OrderedDict
 
 
 def to_array(o):
@@ -20,7 +21,7 @@ def to_array(o):
 
 def to_dict(o):
     """convert a reader iterator to a dictionary"""
-    the_dict = {}
+    the_dict = OrderedDict()
     series = "Series_%d"
     count = 1
     for c in o:
