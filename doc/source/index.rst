@@ -76,7 +76,10 @@ Tutorial
 
 .. toctree::
 
-    tutorial
+    tutorial01
+    tutorial02
+    tutorial03
+    tutorial04
 
 Cook book
 ++++++++++

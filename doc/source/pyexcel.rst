@@ -23,14 +23,14 @@ pyexcel.cookbook package
 .. automodule:: pyexcel.cookbook
     :members:
     :undoc-members:
-    :show-inheritance:
 
-pyexcel.cookbook package
+
+pyexcel.utils package
 +++++++++++++++++++++++++++
 .. automodule:: pyexcel.utils
     :members:
     :undoc-members:
-    :show-inheritance:
+
 
 pyexcel.ext package
 +++++++++++++++++++++++++++

@@ -22,6 +22,9 @@ def update_columns(infilename, column_dicts, outfilename=None):
     The data structure of column_dicts should be:
     key should be first row of the column
     the rest of the value should an array
+    :param str infilename: an accessible file name
+    :param dict column_dicts: dictionaries of columns
+    :param str outfilename: save the sheet as
     """
     default_out_file = "pyexcel_%s" % infilename
     if outfilename:
@@ -43,6 +46,9 @@ def update_rows(infilename, row_dicts, outfilename=None):
 
     datastucture: key should an integer of the row to be updated
     value should be an array of the data
+    :param str infilename: an accessible file name
+    :param dict row_dicts: dictionaries of rows
+    :param str outfilename: save the sheet as
     """
     default_out_file = "pyexcel_%s" % infilename
     if outfilename:
@@ -58,7 +64,9 @@ def update_rows(infilename, row_dicts, outfilename=None):
 
 
 def merge_files(file_array, outfilename="pyexcel_merged.csv"):
-    """merge many files horizontally column after column"""
+    """merge many files horizontally column after column
+    :param str outfilename: save the sheet as
+    """
     if os.path.exists(outfilename):
         raise NotImplementedError(__WARNING_TEXT__)
     content = []
@@ -72,7 +80,12 @@ def merge_files(file_array, outfilename="pyexcel_merged.csv"):
 
 
 def merge_two_files(file1, file2, outfilename="pyexcel_merged.csv"):
-    """merge two files"""
+    """merge two files
+    
+    :param str file1: an accessible file name
+    :param str file2: an accessible file name
+    :param str outfilename: save the sheet as
+    """
     if os.path.exists(outfilename):
         raise NotImplementedError(__WARNING_TEXT__)
     files = [file1, file2]
@@ -83,6 +96,7 @@ def merge_readers(reader_array, outfilename="pyexcel_merged.csv"):
     """merge many readers
 
     With FilterableReader and SeriesReader, you can do custom filtering
+    :param str outfilename: save the sheet as
     """
     if os.path.exists(outfilename):
         raise NotImplementedError(__WARNING_TEXT__)
@@ -95,7 +109,9 @@ def merge_readers(reader_array, outfilename="pyexcel_merged.csv"):
 
 
 def merge_two_readers(reader1, reader2, outfilename="pyexcel_merged.csv"):
-    """merge two readers"""
+    """merge two readers
+    :param str outfilename: save the sheet as
+    """
     if os.path.exists(outfilename):
         raise NotImplementedError(__WARNING_TEXT__)
     reader_array = [reader1, reader2]
@@ -103,7 +119,11 @@ def merge_two_readers(reader1, reader2, outfilename="pyexcel_merged.csv"):
 
 
 def merge_csv_to_a_book(filelist, outfilename="merged.xls"):
-    """merge a list of csv files into a excel book"""
+    """merge a list of csv files into a excel book
+
+    :param list filelist: a list of accessible file path
+    :param str outfilename: save the sheet as
+    """
     w = BookWriter(outfilename)
     for file in filelist:
         r = Reader(file)
@@ -117,7 +137,8 @@ def merge_csv_to_a_book(filelist, outfilename="merged.xls"):
 def merge_all_to_a_book(filelist, outfilename="merged.xls"):
     """merge a list of csv files into a excel book
 
-    Note: empty sheets are ignored
+    :param list filelist: a list of accessible file path
+    :param str outfilename: save the sheet as
     """
     merged = Book()
     for file in filelist:
@@ -128,7 +149,11 @@ def merge_all_to_a_book(filelist, outfilename="merged.xls"):
 
 
 def split_a_book(file, outfilename=None):
-    """Split a file into separate sheets"""
+    """Split a file into separate sheets
+    
+    :param str file: an accessible file name
+    :param str outfilename: save the sheets with file suffix
+    """
     r = Book(file)
     if outfilename:
         saveas = outfilename
@@ -141,7 +166,12 @@ def split_a_book(file, outfilename=None):
 
 
 def extract_a_sheet_from_a_book(file, sheetname, outfilename=None):
-    """Extract a sheet from a excel book"""
+    """Extract a sheet from a excel book
+
+    :param str file: an accessible file
+    :param str sheetname: a valid sheet name
+    :param str outfilename: save the sheet as
+    """
     r = Book(file)
     if outfilename:
         saveas = outfilename
