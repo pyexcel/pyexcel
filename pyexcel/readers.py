@@ -11,7 +11,11 @@ from .iterators import SheetIterator
 from .sheets import PlainSheet, MultipleFilterableSheet, Sheet
 from .utils import to_dict
 from .io import load_file
-from collections import OrderedDict
+import sys
+if sys.version_info[0] == 2 and sys.version_info[1] < 7:
+    from ordereddict import OrderedDict
+else:
+    from collections import OrderedDict
 import os
 import uuid
 

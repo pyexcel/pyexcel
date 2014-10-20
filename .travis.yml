@@ -10,7 +10,7 @@ python:
   - 3.4
   - pypy
 install:
-  - pip install -r requirements.txt
+  - python setup.py install
   - pip install -r tests/requirements.txt
 script:
   make test

@@ -4,9 +4,19 @@ except ImportError:
     from ez_setup import use_setuptools
     use_setuptools()
     from setuptools import setup, find_packages
+import sys
 
 with open("README.rst", 'r') as readme:
     README_txt = readme.read()
+
+dependencies = [
+        'six',
+        'xlrd',
+        'xlwt-future'
+    ]
+
+if sys.version_info[0] == 2 and sys.version_info[1] < 7:
+    dependencies.append('ordereddict')
 
 setup(
     name='pyexcel',
@@ -15,11 +25,7 @@ setup(
     author_email="wangc_2011@hotmail.com",
     url="https://github.com/chfw/pyexcel",
     description='A wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm.',
-    install_requires=[
-        'six',
-        'xlrd',
-        'xlwt-future'
-    ],
+    install_requires=dependencies,
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     include_package_data=True,
     long_description=README_txt,

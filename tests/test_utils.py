@@ -45,8 +45,6 @@ class TestUtils():
         result.update({"Series_2": [5, 6, 7, 8, ]})
         result.update({"Series_3": [9, 10, 11, 12]})
         actual = pyexcel.utils.to_dict(r.rows())
-        print actual.keys()
-        print result.keys()
         assert actual.keys() == result.keys()
         assert result == actual
         result = {

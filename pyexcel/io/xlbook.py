@@ -1,7 +1,11 @@
+import sys
 import datetime
 import xlrd
 from xlwt import Workbook, XFStyle
-from collections import OrderedDict
+if sys.version_info[0] == 2 and sys.version_info[1] < 7:
+    from ordereddict import OrderedDict
+else:
+    from collections import OrderedDict
 
 
 XLS_FORMAT_CONVERSION = {
