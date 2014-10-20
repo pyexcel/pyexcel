@@ -72,7 +72,7 @@ And you can randomly access a cell in a sheet::
     1
 
 .. TIP::
-  With pyexcel, you can regard single sheet reader as an two dimensional array and multi-sheet excel book reader as a dictionary of two dimensional arrays.
+  With pyexcel, you can regard single sheet reader as an two dimensional array and multi-sheet excel book reader as a ordered dictionary of two dimensional arrays.
 
 Reading a single sheet excel file
 ---------------------------------
@@ -127,7 +127,7 @@ The following code will give you data series in a dictionary:
 
 The output is::
 
-    {"Column 2": [4, 5, 6], "Column 3": [7, 8, 9], "Column 1": [1, 2, 3]}
+    {"Column 1": [1, 2, 3], "Column 2": [4, 5, 6], "Column 3": [7, 8, 9]}
 
 Can I get an array of dictionaries per each row?
 *************************************************
@@ -141,7 +141,7 @@ X Y Z
 7 8 9
 = = =
 
-The following code will produce what you want:
+The following code will produce what you want::
 
     from pyexcel import SeriesReader
     from pyexcel.utils import to_records
@@ -243,9 +243,9 @@ You can get a dictionary out of it by the following code::
 the output is::
 
     {
+    u'Sheet 1': [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]],
     u'Sheet 2': [[u'X', u'Y', u'Z'], [1.0, 2.0, 3.0], [4.0, 5.0, 6.0]], 
-    u'Sheet 3': [[u'O', u'P', u'Q'], [3.0, 2.0, 1.0], [4.0, 3.0, 2.0]], 
-    u'Sheet 1': [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]]
+    u'Sheet 3': [[u'O', u'P', u'Q'], [3.0, 2.0, 1.0], [4.0, 3.0, 2.0]]
     }
 
 
@@ -258,6 +258,12 @@ Suppose you have previous data as a dictionary and you want to save it as multip
     
     
     content = {
+        'Sheet 1': 
+            [
+                [1.0, 2.0, 3.0], 
+                [4.0, 5.0, 6.0], 
+                [7.0, 8.0, 9.0]
+            ],
         'Sheet 2': 
             [
                 ['X', 'Y', 'Z'], 
@@ -269,13 +275,7 @@ Suppose you have previous data as a dictionary and you want to save it as multip
                 ['O', 'P', 'Q'], 
                 [3.0, 2.0, 1.0], 
                 [4.0, 3.0, 2.0]
-            ], 
-        'Sheet 1': 
-            [
-                [1.0, 2.0, 3.0], 
-                [4.0, 5.0, 6.0], 
-                [7.0, 8.0, 9.0]
-            ]
+            ] 
     }
     writer = pyexcel.BookWriter("myfile.xls")
     writer.write_book_from_dict(content)

@@ -1,5 +1,5 @@
-Advanced usage
-==============
+Filterting cells
+================
 
 Work with data series in a single sheet
 ---------------------------------------
@@ -35,7 +35,7 @@ You can use a utility function to get all in a dictionary::
     >> from pyexcel.utils import to_dict
     >> data = to_dict(reader)
     >> print data
-    {"Column 2": [4, 5, 6], "Column 3": [7, 8, 9], "Column 1": [1, 2, 3]}
+    { "Column 1": [1, 2, 3], "Column 2": [4, 5, 6], "Column 3": [7, 8, 9]}
 
 Maybe you want to get only the data without the column headers. You can call ``rows()`` instead::
 
@@ -197,41 +197,8 @@ Work with multi-sheet file
 
 Read from the workbook
 **********************
-Suppose you have the following data in any of the supported excel formats.
 
-Sheet 1:
-
-= = =
-1 2 3
-4 5 6
-7 8 9
-= = =
-
-Sheet 2:
-
-= = =
-X Y Z
-1 2 3
-4 5 6
-= = =
-
-Sheet 3:
-
-= = =
-O P Q
-3 2 1
-4 3 2
-= = =
-
-You can easily read them out::
-
-    >> from pyexcel import Reader
-    >> from pyexcel.utils import to_dict
-    >> reader = Reader("example.xls")
-    >> my_dict = to_dict(reader)
-    >> print my_dict
-
-Per each sheet, you can do custom filtering::
+Previous section explained already how to read from a work book. This section stresses that per each sheet, you can do custom filtering::
 
     >> sheet2 = reader[2]
     >> sheet2.add_filter(pyexcel.filters.EvenRowFilter())
@@ -241,9 +208,9 @@ Per each sheet, you can do custom filtering::
 You will see sheet2 has been applied even row filter::
 
     {
-    u'Sheet 2': [[u'X', u'Y', u'Z'], [1.0, 2.0, 3.0], [4.0, 5.0, 6.0]], 
-    u'Sheet 3': [[u'O', u'P', u'Q'], [3.0, 2.0, 1.0], [4.0, 3.0, 2.0]], 
-    u'Sheet 1': [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]]
+    u'Sheet 1': [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]],
+    u'Sheet 2': [[u'X', u'Y', u'Z'], [4.0, 5.0, 6.0]], 
+    u'Sheet 3': [[u'O', u'P', u'Q'], [3.0, 2.0, 1.0], [4.0, 3.0, 2.0]]
     }
 
 Iterate through each sheet
@@ -290,12 +257,18 @@ Yes, you can do that. The code looks like this::
 What would happen if I save a multi sheet book into "csv" file
 **************************************************************
 
-Suppose you have these code::
+Well, you will get one csv file per each sheet. Suppose you have these code::
 
     import pyexcel
     
     
     content = {
+        'Sheet 1': 
+            [
+                [1.0, 2.0, 3.0], 
+                [4.0, 5.0, 6.0], 
+                [7.0, 8.0, 9.0]
+            ],
         'Sheet 2': 
             [
                 ['X', 'Y', 'Z'], 
@@ -307,13 +280,7 @@ Suppose you have these code::
                 ['O', 'P', 'Q'], 
                 [3.0, 2.0, 1.0], 
                 [4.0, 3.0, 2.0]
-            ], 
-        'Sheet 1': 
-            [
-                [1.0, 2.0, 3.0], 
-                [4.0, 5.0, 6.0], 
-                [7.0, 8.0, 9.0]
-            ]
+            ] 
     }
     writer = pyexcel.BookWriter("myfile.csv")
     writer.write_book_from_dict(content)
