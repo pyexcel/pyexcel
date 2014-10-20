@@ -11,6 +11,7 @@ from .iterators import SheetIterator
 from .sheets import PlainSheet, MultipleFilterableSheet, Sheet
 from .utils import to_dict
 from .io import load_file
+from collections import OrderedDict
 import os
 import uuid
 
@@ -43,7 +44,7 @@ class Book:
         self.load_from_sheets(sheets)
 
     def load_from_sheets(self, sheets):
-        self.sheets = {}
+        self.sheets = OrderedDict()
         for name in sheets.keys():
             self.sheets[name] = self.get_sheet(sheets[name], name)
         self.name_array = list(self.sheets.keys())

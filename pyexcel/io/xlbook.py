@@ -1,6 +1,7 @@
 import datetime
 import xlrd
 from xlwt import Workbook, XFStyle
+from collections import OrderedDict
 
 
 XLS_FORMAT_CONVERSION = {
@@ -85,7 +86,7 @@ class XLBook:
 
     def __init__(self, file):
         self.workbook = xlrd.open_workbook(file)
-        self.mysheets = {}
+        self.mysheets = OrderedDict()
         for name in self.workbook.sheet_names():
             data = to_array(XLSheet(
                 self.workbook.sheet_by_name(name)))

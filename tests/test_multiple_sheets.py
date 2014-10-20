@@ -2,17 +2,17 @@ from base import PyexcelMultipleSheetBase
 import pyexcel
 import os
 from base import create_sample_file1
+from collections import OrderedDict
 
 
 class TestXlsNXlsmMultipleSheets(PyexcelMultipleSheetBase):
     def setUp(self):
         self.testfile = "multiple1.xls"
         self.testfile2 = "multiple1.xlsm"
-        self.content = {
-            "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
-            "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
-            "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
-        }
+        self.content = OrderedDict()
+        self.content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
+        self.content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
+        self.content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
         self._write_test_file(self.testfile)
 
     def tearDown(self):
@@ -21,11 +21,10 @@ class TestXlsNXlsmMultipleSheets(PyexcelMultipleSheetBase):
 class TestSingleSheetReaderForMulitpleSheetBook:
     def setUp(self):
         self.testfile = "multiple1.xls"
-        self.content = {
-            "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
-            "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
-            "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
-        }
+        self.content = OrderedDict()
+        self.content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
+        self.content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
+        self.content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
         w = pyexcel.BookWriter(self.testfile)
         w.write_book_from_dict(self.content)
         w.close()

@@ -177,8 +177,9 @@ class PyexcelMultipleSheetBase:
         r = pyexcel.BookReader( self.testfile)
         expected = [ "Sheet1", "Sheet2", "Sheet3"]
         sheet_names = r.sheet_names()
-        for name in sheet_names:
-            assert name in expected
+        print sheet_names
+        print expected
+        assert sheet_names == expected
 
     def test_reading_through_sheets(self):
         b = pyexcel.BookReader(self.testfile)
