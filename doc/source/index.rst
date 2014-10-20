@@ -76,7 +76,7 @@ Tutorial
 
 .. toctree::
 
-    tutorial01
+    tutorial
     tutorial02
     tutorial03
     tutorial04
