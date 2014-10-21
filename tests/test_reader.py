@@ -46,7 +46,7 @@ class TestReader:
 
     def test_get_item_operator(self):
         r = pyexcel.Reader(self.testfile)
-        value = r[0][1]
+        value = r[0,1]
         assert value == 'b'
 
     def test_row_at(self):
@@ -73,7 +73,7 @@ class TestReader:
     def test_out_of_index(self):
         r = pyexcel.Reader(self.testfile)
         try:
-            r[10000]
+            r.row[10000]
             assert 1!=1
         except IndexError:
             assert 1==1
@@ -376,7 +376,7 @@ class TestSeriesReader4:
         Series Reader will skip first row because it has column header
         """
         r = pyexcel.SeriesReader(self.testfile)
-        value = r[0][1]
+        value = r[0,1]
         assert value == 2
 
     def tearDown(self):

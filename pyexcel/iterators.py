@@ -73,6 +73,166 @@ def transpose(in_array):
     return new_array
 
 
+class Row:
+    def __init__(self, matrix):
+        self.ref = matrix
+
+    def _analyse_slice(self, aslice):
+        if aslice.start is None:
+            start = 0
+        else:
+            start = max(aslice.start, 0)
+        if aslice.stop is None:
+            stop = self.ref.number_of_rows()
+        else:
+            stop = min(aslice.stop, self.ref.number_of_rows())
+        if start > stop:
+            raise ValueError
+        elif start < stop:
+            if aslice.step:
+                my_range = range(start, stop, aslice.step)
+            else:
+                my_range = range(start, stop)
+            if six.PY3:
+                # for py3, my_range is a range object
+                my_range = list(my_range)
+        else:
+            my_range = [start]
+        return my_range
+
+    def __delitem__(self, aslice):
+        """Override the operator to delete items"""
+        if isinstance(aslice, slice):
+            my_range = self._analyse_slice(aslice)
+            self.ref.delete_rows(my_range)
+        else:
+            self.ref.delete_rows([aslice])
+
+    def __setitem__(self, aslice, c):
+        """Override the operator to set items"""
+        if isinstance(aslice, slice):
+            my_range = self._analyse_slice(aslice)
+            for i in my_range:
+                self.ref.set_row_at(i, c)
+        else:
+            self.ref.set_row_at(aslice, c)
+
+    def __getitem__(self, aslice):
+        """By default, this class recognize from top to bottom
+        from left to right"""
+        index = aslice
+        if isinstance(aslice, slice):
+            my_range = self._analyse_slice(aslice)
+            results = []
+            for i in my_range:
+                results.append(self.ref.row_at(i))
+            return results
+        if index in self.ref.row_range():
+            return self.ref.row_at(index)
+        else:
+            raise IndexError
+
+    def __iadd__(self, other):
+        """Overload += sign
+
+        :return: self
+        """
+        if isinstance(other, list):
+            self.ref.extend_rows(other)
+        elif isinstance(other, Matrix):
+            self.ref.extend_rows(other.array)
+        else:
+            raise TypeError
+        return self
+
+    def __add__(self, other):
+        """Overload += sign
+
+        :return: self
+        """
+        return self.__iadd__(self, other)
+
+
+class Column:
+    def __init__(self, matrix):
+        self.ref = matrix
+
+    def _analyse_slice(self, aslice):
+        if aslice.start is None:
+            start = 0
+        else:
+            start = max(aslice.start, 0)
+        if aslice.stop is None:
+            stop = self.ref.number_of_columns()
+        else:
+            stop = min(aslice.stop, self.ref.number_of_columns())
+        if start > stop:
+            raise ValueError
+        elif start < stop:
+            if aslice.step:
+                my_range = range(start, stop, aslice.step)
+            else:
+                my_range = range(start, stop)
+            if six.PY3:
+                # for py3, my_range is a range object
+                my_range = list(my_range)
+        else:
+            my_range = [start]
+        return my_range
+
+    def __delitem__(self, aslice):
+        """Override the operator to delete items"""
+        if isinstance(aslice, slice):
+            my_range = self._analyse_slice(aslice)
+            self.ref.delete_columns(my_range)
+        else:
+            self.ref.delete_columns([aslice])
+
+    def __setitem__(self, aslice, c):
+        """Override the operator to set items"""
+        if isinstance(aslice, slice):
+            my_range = self._analyse_slice(aslice)
+            for i in my_range:
+                self.ref.set_column_at(i, c)
+        else:
+            self.ref.set_column_at(aslice, c)
+
+    def __getitem__(self, aslice):
+        """By default, this class recognize from top to bottom
+        from left to right"""
+        index = aslice
+        if isinstance(aslice, slice):
+            my_range = self._analyse_slice(aslice)
+            results = []
+            for i in my_range:
+                results.append(self.ref.column_at(i))
+            return results
+        if index in self.ref.column_range():
+            return self.ref.column_at(index)
+        else:
+            raise IndexError
+
+    def __iadd__(self, other):
+        """Overload += sign
+
+        :return: self
+        """
+        if isinstance(other, list):
+            self.ref.extend_columns(other)
+        elif isinstance(other, Matrix):
+            self.ref.extend_columns(other.array)
+        else:
+            raise TypeError
+        return self.ref
+
+    def __add__(self, other):
+        """Overload += sign
+
+        :return: self
+        """
+        return self.__iadd__(other)
+
+
 class Matrix:
     """
     The internal representation of a sheet data. Each element
@@ -82,6 +242,9 @@ class Matrix:
     def __init__(self, array):
         """Constructor
 
+        The reason a deep copy was not made here is because
+        the data sheet could be huge. It could be costly to
+        copy every cell to a new memory area
         :param list array: a list of arrays
         """
         self.array = uniform(array)
@@ -191,6 +354,14 @@ class Matrix:
         """
         return ColumnReverseIterator(self)
 
+    @property
+    def row(self):
+        return Row(self)
+
+    @property
+    def column(self):
+        return Column(self)
+
     def row_at(self, index):
         """
         Returns an array that collects all data at the specified row
@@ -214,6 +385,59 @@ class Matrix:
             return cell_array
         else:
             return None
+
+    def set_column_at(self, column_index, data_array, starting=0):
+        """Update columns
+
+        It works like this if the call is: set_column_at(2, ['N','N', 'N'], 1)::
+
+                +--> column_index = 2
+                |
+            A B C
+            1 3 N <- starting = 1
+            2 4 N
+
+        This function will not set element outside the current table range
+        
+        :param int column_index: which column to be modified
+        :param list data_array: one dimensional array
+        :param int staring: from which index, the update happens
+        :raises IndexError: if column_index exceeds column range or starting exceeds row range
+        """
+        nrows = self.number_of_rows()
+        ncolumns = self.number_of_columns()
+        if column_index < ncolumns and starting < nrows:
+            to = min(len(data_array)+starting, nrows)
+            for i in range(starting, to):
+                self.cell_value(i, column_index, data_array[i-starting])
+        else:
+            raise IndexError
+
+    def set_row_at(self, row_index, data_array, starting=0):
+        """Update rows
+
+        It works like this if the call is: set_row_at(2, ['N', 'N', 'N'], 1)::
+
+            A B C
+            1 3 5 
+            2 N N <- row_index = 2
+              ^starting = 1
+        
+        This function will not set element outside the current table range
+        
+        :param int row_index: which row to be modified
+        :param list data_array: one dimensional array
+        :param int starting: from which index, the update happens
+        :raises IndexError: if row_index exceeds row range or starting exceeds column range
+        """
+        nrows = self.number_of_rows()
+        ncolumns = self.number_of_columns()
+        if row_index < nrows and starting < ncolumns:
+            to = min(len(data_array)+starting, ncolumns)
+            for i in range(starting, to):
+                self.cell_value(row_index, i, data_array[i-starting])
+        else:
+            raise IndexError
 
     def extend_rows(self, rows):
         """expected the rows to be off the same length"""
@@ -287,113 +511,14 @@ class Matrix:
                 for j in sorted_list:
                     del self.array[i][j]
 
-    def _analyse_slice(self, aslice):
-        if aslice.start is None:
-            start = 0
-        else:
-            start = max(aslice.start, 0)
-        if aslice.stop is None:
-            stop = self.number_of_rows()
-        else:
-            stop = min(aslice.stop, self.number_of_rows())
-        if start > stop:
-            raise ValueError
-        elif start < stop:
-            if aslice.step:
-                my_range = range(start, stop, aslice.step)
-            else:
-                my_range = range(start, stop)
-            if six.PY3:
-                # for py3, my_range is a range object
-                my_range = list(my_range)
-        else:
-            my_range = [start]
-        return my_range
-
-    def __delitem__(self, aslice):
-        """Override the operator to delete items"""
-        if isinstance(aslice, slice):
-            my_range = self._analyse_slice(aslice)
-            self.delete_rows(my_range)
-        else:
-            self.delete_rows([aslice])
-
-    def __setitem__(self, aslice, c):
+    def __setitem__(self, aset, c):
         """Override the operator to set items"""
-        if isinstance(aslice, slice):
-            my_range = self._analyse_slice(aslice)
-            for i in my_range:
-                self.set_row_at(i, c)
-        else:
-            self.set_row_at(aslice, c)
+        return self.cell_value(aset[0], aset[1], c)
 
-    def __getitem__(self, aslice):
+    def __getitem__(self, aset):
         """By default, this class recognize from top to bottom
         from left to right"""
-        index = aslice
-        if isinstance(aslice, slice):
-            my_range = self._analyse_slice(aslice)
-            results = []
-            for i in my_range:
-                results.append(self.row_at(i))
-            return results
-        if index in self.row_range():
-            return self.row_at(index)
-        else:
-            raise IndexError
-
-    def set_column_at(self, column_index, data_array, starting=0):
-        """Update columns
-
-        It works like this if the call is: set_column_at(2, ['N','N', 'N'], 1)::
-
-                +--> column_index = 2
-                |
-            A B C
-            1 3 N <- starting = 1
-            2 4 N
-
-        This function will not set element outside the current table range
-        
-        :param int column_index: which column to be modified
-        :param list data_array: one dimensional array
-        :param int staring: from which index, the update happens
-        :raises IndexError: if column_index exceeds column range or starting exceeds row range
-        """
-        nrows = self.number_of_rows()
-        ncolumns = self.number_of_columns()
-        if column_index < ncolumns and starting < nrows:
-            to = min(len(data_array)+starting, nrows)
-            for i in range(starting, to):
-                self.cell_value(i, column_index, data_array[i-starting])
-        else:
-            raise IndexError
-
-    def set_row_at(self, row_index, data_array, starting=0):
-        """Update rows
-
-        It works like this if the call is: set_row_at(2, ['N', 'N', 'N'], 1)::
-
-            A B C
-            1 3 5 
-            2 N N <- row_index = 2
-              ^starting = 1
-        
-        This function will not set element outside the current table range
-        
-        :param int row_index: which row to be modified
-        :param list data_array: one dimensional array
-        :param int starting: from which index, the update happens
-        :raises IndexError: if row_index exceeds row range or starting exceeds column range
-        """
-        nrows = self.number_of_rows()
-        ncolumns = self.number_of_columns()
-        if row_index < nrows and starting < ncolumns:
-            to = min(len(data_array)+starting, ncolumns)
-            for i in range(starting, to):
-                self.cell_value(row_index, i, data_array[i-starting])
-        else:
-            raise IndexError
+        return self.cell_value(aset[0], aset[1])
 
     def contains(self, predicate):
         """Has something in the table"""

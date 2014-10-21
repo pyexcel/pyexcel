@@ -13,12 +13,12 @@ class TestMatrix:
 
     def test_extend_columns(self):
         """Test extend columns"""
-        data = [
+        data1 = [
             [1, 2, 3, 4, 5, 6],
             [1, 2, 3, 4],
             [1]
         ]
-        m = pyexcel.iterators.Matrix(data)
+        m = pyexcel.iterators.Matrix(data1)
         data2 = [[1, 2], [1, 2]]
         m.extend_columns(data2)
         result = [
@@ -28,6 +28,26 @@ class TestMatrix:
         ]
         actual = pyexcel.utils.to_array(m)
         assert result == actual
+        # += 
+        data11 = [
+            [1, 2, 3, 4, 5, 6],
+            [1, 2, 3, 4],
+            [1]
+        ]
+        m2 = pyexcel.iterators.Matrix(data11)
+        m2.column += data2
+        actual2 = pyexcel.utils.to_array(m2)
+        assert result == actual2
+        # +
+        data111 = [
+            [1, 2, 3, 4, 5, 6],
+            [1, 2, 3, 4],
+            [1]
+        ]
+        m3 = pyexcel.iterators.Matrix(data111)
+        m4 = m3.column + data2
+        actual3 = pyexcel.utils.to_array(m4)
+        assert result == actual3
         
     def test_transpose(self):
         """Test delete item"""

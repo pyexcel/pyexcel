@@ -570,12 +570,12 @@ class TestDateFormat:
         0.0      0.0        
         """
         r = pyexcel.Reader(os.path.join("tests", "fixtures", "date_field.xls"))
-        assert isinstance(r[1][0], datetime.date) == True
-        assert r[1][0].strftime("%d/%m/%y") == "25/12/14"
-        assert isinstance(r[1][1], datetime.time) == True
-        assert r[1][1].strftime("%H:%M:%S") == "11:11:11"
-        assert r[4][0].strftime("%d/%m/%Y") == "01/01/1900"
-        assert r[4][1].strftime("%H:%M:%S") == "00:00:00"
+        assert isinstance(r[1,0], datetime.date) == True
+        assert r[1,0].strftime("%d/%m/%y") == "25/12/14"
+        assert isinstance(r[1,1], datetime.time) == True
+        assert r[1,1].strftime("%H:%M:%S") == "11:11:11"
+        assert r[4,0].strftime("%d/%m/%Y") == "01/01/1900"
+        assert r[4,1].strftime("%H:%M:%S") == "00:00:00"
 
     def test_writing_date_format(self):
         excel_filename = "testdateformat.xls"
@@ -586,12 +586,12 @@ class TestDateFormat:
         w.write_rows(data)
         w.close()
         r = pyexcel.Reader(excel_filename)
-        assert isinstance(r[0][0], datetime.date) == True
-        assert r[0][0].strftime("%d/%m/%y") == "25/12/14"
-        assert isinstance(r[0][1], datetime.time) == True
-        assert r[0][1].strftime("%H:%M:%S") == "11:11:11"
-        assert isinstance(r[0][2], datetime.date) == True
-        assert r[0][2].strftime("%d/%m/%y") == "25/12/14"
+        assert isinstance(r[0,0], datetime.date) == True
+        assert r[0,0].strftime("%d/%m/%y") == "25/12/14"
+        assert isinstance(r[0,1], datetime.time) == True
+        assert r[0,1].strftime("%H:%M:%S") == "11:11:11"
+        assert isinstance(r[0,2], datetime.date) == True
+        assert r[0,2].strftime("%d/%m/%y") == "25/12/14"
         os.unlink(excel_filename)
         
         

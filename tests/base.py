@@ -1,7 +1,6 @@
 import pyexcel
 import json
 import os
-import datetime
 
 
 def to_json(iterator):
@@ -139,21 +138,21 @@ class PyexcelBase:
     def test_slice(self):
         r = pyexcel.Reader(self.testfile)
         content1 = [[1, 1, 1, 1]]
-        assert content1 == r[0:1]
+        assert content1 == r.row[0:1]
         content2 = [[1, 1, 1, 1], [2, 2, 2, 2]]
-        assert content2 == r[0:2]
-        assert content2 == r[:2]
+        assert content2 == r.row[0:2]
+        assert content2 == r.row[:2]
         content3 = [[2, 2, 2, 2], [3,3,3,3]]
-        assert content3 == r[1:]
+        assert content3 == r.row[1:]
         try:
-            r[2:1]
+            r.row[2:1]
             assert 1==2
         except ValueError:
             assert 1==1
         content4 = [[1, 1, 1, 1], [2, 2, 2, 2]]
-        assert content4 == r[0:2:1]
+        assert content4 == r.row[0:2:1]
         content5 = [1, 1, 1, 1]
-        assert [content5] == r[0:0]
+        assert [content5] == r.row[0:0]
 
     def test_json(self):
         r = pyexcel.Reader(self.testfile)
@@ -222,13 +221,13 @@ class PyexcelMultipleSheetBase:
 
     def test_random_access_operator(self):
         r = pyexcel.BookReader(self.testfile)
-        value = r["Sheet1"][0][1]
+        value = r["Sheet1"].row[0][1]
         assert value == 1
-        value = r["Sheet3"][0][1]
+        value = r["Sheet3"].row[0][1]
         assert value == 'Y'
-        value = r["Sheet3"].become_series()[0][1]
+        value = r["Sheet3"].become_series().row[0][1]
         assert value == 4
-        value = r["Sheet3"].become_sheet()[0][1]
+        value = r["Sheet3"].become_sheet().row[0][1]
         assert value == 'Y'
 
         
@@ -329,23 +328,23 @@ class PyexcelSheetRWBase:
                    [True],
                    [1.1, 2.2, 3.3, 4.4, 5.5]]
         r.extend_rows(content)
-        assert r[3] == ['r', 's', 't', 'o', '']
-        assert r[4] == [1, 2, 3, 4, '']
-        assert r[5] == [True, "", "", "", '']
-        assert r[6] == [1.1, 2.2, 3.3, 4.4, 5.5]
+        assert r.row[3] == ['r', 's', 't', 'o', '']
+        assert r.row[4] == [1, 2, 3, 4, '']
+        assert r.row[5] == [True, "", "", "", '']
+        assert r.row[6] == [1.1, 2.2, 3.3, 4.4, 5.5]
         r2 = self.testclass(self.testfile)
         r2 += content
-        assert r2[3] == ['r', 's', 't', 'o', '']
-        assert r2[4] == [1, 2, 3, 4, '']
-        assert r2[5] == [True, "", "", "", '']
-        assert r2[6] == [1.1, 2.2, 3.3, 4.4, 5.5]        
+        assert r2.row[3] == ['r', 's', 't', 'o', '']
+        assert r2.row[4] == [1, 2, 3, 4, '']
+        assert r2.row[5] == [True, "", "", "", '']
+        assert r2.row[6] == [1.1, 2.2, 3.3, 4.4, 5.5]        
         r3 = self.testclass(self.testfile)
         sheet = pyexcel.sheets.Sheet(content, "test")
         r3 += sheet
-        assert r3[3] == ['r', 's', 't', 'o', '']
-        assert r3[4] == [1, 2, 3, 4, '']
-        assert r3[5] == [True, "", "", "", '']
-        assert r3[6] == [1.1, 2.2, 3.3, 4.4, 5.5]
+        assert r3.row[3] == ['r', 's', 't', 'o', '']
+        assert r3.row[4] == [1, 2, 3, 4, '']
+        assert r3.row[5] == [True, "", "", "", '']
+        assert r3.row[6] == [1.1, 2.2, 3.3, 4.4, 5.5]
         try:
             r3 += 12
             assert 1==2
@@ -357,19 +356,19 @@ class PyexcelSheetRWBase:
         columns = [['c1', 'c2', 'c3'],
                    ['x1', 'x2', 'x4']]
         r.extend_columns(columns)
-        assert r[0] == ['a', 'b', 'c', 'd', 'c1', 'c2', 'c3']
-        assert r[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
-        assert r[2] == ['i', 'j', 1.1, 1, '', '', '']
+        assert r.row[0] == ['a', 'b', 'c', 'd', 'c1', 'c2', 'c3']
+        assert r.row[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
+        assert r.row[2] == ['i', 'j', 1.1, 1, '', '', '']
         r2 = self.testclass(self.testfile)
         columns2 = [['c1', 'c2', 'c3'],
                    ['x1', 'x2', 'x4'],
                    ['y1', 'y2'],
                    ['z1']]
         r2.extend_columns(columns2)
-        assert r2[0] == ['a', 'b', 'c', 'd', 'c1', 'c2', 'c3']
-        assert r2[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
-        assert r2[2] == ['i', 'j', 1.1, 1, 'y1', 'y2', '']
-        assert r2[3] == ['', '', '', '', 'z1', '', '']
+        assert r2.row[0] == ['a', 'b', 'c', 'd', 'c1', 'c2', 'c3']
+        assert r2.row[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
+        assert r2.row[2] == ['i', 'j', 1.1, 1, 'y1', 'y2', '']
+        assert r2.row[3] == ['', '', '', '', 'z1', '', '']
 
     def test_add_as_columns(self):
         # test += operator
@@ -379,22 +378,22 @@ class PyexcelSheetRWBase:
                    ['z1']]
         r3 = self.testclass(self.testfile)
         r3 += pyexcel.sheets.AS_COLUMNS(columns2)
-        assert r3[0] == ['a', 'b', 'c', 'd', 'c1', 'c2', 'c3']
-        assert r3[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
-        assert r3[2] == ['i', 'j', 1.1, 1, 'y1', 'y2', '']
-        assert r3[3] == ['', '', '', '', 'z1', '', '']
+        assert r3.row[0] == ['a', 'b', 'c', 'd', 'c1', 'c2', 'c3']
+        assert r3.row[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
+        assert r3.row[2] == ['i', 'j', 1.1, 1, 'y1', 'y2', '']
+        assert r3.row[3] == ['', '', '', '', 'z1', '', '']
         r4 = self.testclass(self.testfile)
         sheet = pyexcel.sheets.Sheet(columns2, "test")
         r4 += pyexcel.sheets.AS_COLUMNS(sheet)
-        assert r4[0] == ['a', 'b', 'c', 'd', 'c1', 'c2', 'c3']
-        assert r4[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
-        assert r4[2] == ['i', 'j', 1.1, 1, 'y1', 'y2', '']
-        assert r4[3] == ['', '', '', '', 'z1', '', '']
+        assert r4.row[0] == ['a', 'b', 'c', 'd', 'c1', 'c2', 'c3']
+        assert r4.row[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
+        assert r4.row[2] == ['i', 'j', 1.1, 1, 'y1', 'y2', '']
+        assert r4.row[3] == ['', '', '', '', 'z1', '', '']
 
     def test_delete_rows(self):
         r = self.testclass(self.testfile)
         r.delete_rows([0,1])
-        assert r[0] == ['i', 'j', 1.1, 1]
+        assert r.row[0] == ['i', 'j', 1.1, 1]
         try:
             r.delete_rows("hi")
             assert 1==2
@@ -404,7 +403,7 @@ class PyexcelSheetRWBase:
     def test_delete_columns(self):
         r = self.testclass(self.testfile)
         r.delete_columns([0,2])
-        assert r[0] == ['b', 'd']
+        assert r.row[0] == ['b', 'd']
         try:
             r.delete_columns("hi")
             assert 1==2
