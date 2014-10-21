@@ -10,7 +10,7 @@
 """
 from .csvbook import CSVBook, CSVWriter
 from .xlbook import XLBook, XLWriter
-
+from ..sheets import is_string
 
 """
 A list of registered readers
@@ -34,27 +34,51 @@ WRITERS = {
 }
 
 
-def load_file(file, **keywords):
+def load_file(filename, **keywords):
     """
     Load data from any supported excel formats
     """
-    extension = file.split(".")[-1]
-    if extension in READERS:
-        book_class = READERS[extension]
-        book = book_class(file, **keywords)
+    extension = None
+    if isinstance(filename, tuple):
+        extension = filename[0]
+        content = filename[1]
+        if extension in READERS:
+            book_class = READERS[extension]
+            book = book_class(None, file_content=filename[1], **keywords)
+        else:
+            raise NotImplementedError("can not open %s stream" % file[0])
+    elif is_string(type(filename)):
+        extension = filename.split(".")[-1]
+        if extension in READERS:
+            book_class = READERS[extension]
+            book = book_class(filename, **keywords)
+        else:
+            raise NotImplementedError("can not open %s" % filename)
     else:
-        raise NotImplementedError("can not open %s" % file)
+        raise NotImplementedError("cannot handle unknown content")
     return book
 
 
-def get_writer(file, **keywords):
+def get_writer(filename, **keywords):
     """
     Create a writer from any supported excel formats
     """
-    extension = file.split(".")[-1]
-    if extension in WRITERS:
-        writer_class = WRITERS[extension]
-        writer = writer_class(file, **keywords)
-        return writer
+    extension = None
+    if isinstance(filename, tuple):
+        extension = filename[0]
+        if extension in WRITERS:
+            writer_class = WRITERS[extension]
+            writer = writer_class(filename[1], **keywords)
+            return writer
+        else:
+            raise NotImplementedError("Cannot write %s stream" % file[0])
+    elif is_string(type(filename)):
+        extension = filename.split(".")[-1]
+        if extension in WRITERS:
+            writer_class = WRITERS[extension]
+            writer = writer_class(filename, **keywords)
+            return writer
+        else:
+            raise NotImplementedError("Cannot open %s" % filename)
     else:
-        raise NotImplementedError("Cannot open %s" % file)
+        raise NotImplementedError("cannot handle unknown content")
