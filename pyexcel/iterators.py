@@ -358,9 +358,19 @@ class Matrix:
     def row(self):
         return Row(self)
 
+    @row.setter
+    def row(self, value):
+        # dummy setter to enable self.column += ..
+        pass
+
     @property
     def column(self):
         return Column(self)
+
+    @column.setter
+    def column(self, value):
+        # dummy setter to enable self.column += ..
+        pass
 
     def row_at(self, index):
         """
