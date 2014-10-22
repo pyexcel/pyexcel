@@ -43,9 +43,30 @@ class NamedColumn(Column):
 
     def __getitem__(self, str_or_aslice):
         if is_string(type(str_or_aslice)):
-            self.ref.named_column_at(str_or_aslice)
+            return self.ref.named_column_at(str_or_aslice)
         else:
-            Column.__getitem__(self, str_or_aslice)
+            return Column.__getitem__(self, str_or_aslice)
+
+    def __iadd__(self, other):
+        """Overload += sign
+
+        :return: self
+        """
+        if isinstance(other, list):
+            self.ref.extend_columns(other)
+        elif isinstance(other, Matrix):
+            self.ref.extend_columns(other.array)
+        else:
+            raise TypeError
+        return self
+
+    def __add__(self, other):
+        """Overload += sign
+
+        :return: self
+        """
+        return self.__iadd__(other)
+
 
 class PlainSheet(Matrix):
     """
@@ -316,6 +337,7 @@ class Sheet(MultipleFilterableSheet):
         self.headers = None
         self.signature_filter = None
         self.name = name
+        self.named_column = NamedColumn(self)
 
     def become_series(self):
         """
@@ -453,7 +475,7 @@ class Sheet(MultipleFilterableSheet):
 
     @property
     def column(self):
-        return NamedColumn(self)
+        return self.named_column
 
     @column.setter
     def column(self, value):

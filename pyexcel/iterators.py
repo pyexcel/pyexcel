@@ -150,7 +150,8 @@ class Row:
 
         :return: self
         """
-        return self.__iadd__(self, other)
+        self.__iadd__(self, other)
+        return self.ref
 
 
 class Column:
@@ -223,14 +224,15 @@ class Column:
             self.ref.extend_columns(other.array)
         else:
             raise TypeError
-        return self.ref
+        return self
 
     def __add__(self, other):
         """Overload += sign
 
         :return: self
         """
-        return self.__iadd__(other)
+        self.__iadd__(other)
+        return self.ref
 
 
 class Matrix:
