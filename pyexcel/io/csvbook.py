@@ -1,6 +1,7 @@
 import six
 import csv
 import codecs
+from ..sheets import is_string
 
 
 class UTF8Recorder(six.Iterator):
@@ -23,13 +24,21 @@ class CSVBook:
 
     It simply return one sheet
     """
-    def __init__(self, file, encoding="utf-8", **keywords):
+    def __init__(self, filename, file_content=None, encoding="utf-8", **keywords):
         self.array = []
-        if six.PY2:
-            f1 = open(file, 'rb')
-            f = UTF8Recorder(f1, encoding)
-        elif six.PY3:
-            f = open(file, 'r')
+        if filename:
+            if six.PY2:
+                f1 = open(filename, 'rb')
+                f = UTF8Recorder(f1, encoding)
+            elif six.PY3:
+                f = open(filename, 'r')
+        elif file_content:
+            # utf-8 support is left to the developer
+            f = file_content
+        else:
+            self.mysheets = {"csv":[]}
+            # no content let's return'
+            return
         reader = csv.reader(f, dialect=csv.excel, **keywords)
         longest_row_length = -1
         for row in reader:
@@ -60,16 +69,19 @@ class CSVSheetWriter:
     csv file writer
 
     """
-    def __init__(self, file, name, encoding="utf-8", **keywords):
-        if name:
-            names = file.split(".")
-            file_name = "%s_%s.%s" % (names[0], name, names[1])
+    def __init__(self, filename, name, encoding="utf-8", **keywords):
+        if is_string(type(filename)):
+            if name:
+                names = filename.split(".")
+                file_name = "%s_%s.%s" % (names[0], name, names[1])
+            else:
+                file_name = filename
+            if six.PY2:
+                self.f = open(file_name, "wb")
+            elif six.PY3:
+                self.f = open(file_name, "w", newline="")
         else:
-            file_name = file
-        if six.PY2:
-            self.f = open(file_name, "wb")
-        elif six.PY3:
-            self.f = open(file_name, "w", newline="")
+            self.f = filename
         self.encoding = encoding
         self.writer = csv.writer(self.f, **keywords)
 
@@ -99,8 +111,8 @@ class CSVWriter:
     if there is multiple sheets for csv file, it simpily writes
     multiple csv files
     """
-    def __init__(self, file, **keywords):
-        self.file = file
+    def __init__(self, filename, **keywords):
+        self.file = filename
         self.count = 0
         self.keywords = keywords
 

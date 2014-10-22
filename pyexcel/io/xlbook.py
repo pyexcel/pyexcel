@@ -88,8 +88,8 @@ class XLBook:
     It reads xls, xlsm, xlsx work book
     """
 
-    def __init__(self, file):
-        self.workbook = xlrd.open_workbook(file)
+    def __init__(self, filename, file_content=None, **keywords):
+        self.workbook = xlrd.open_workbook(filename, file_contents=file_content)
         self.mysheets = OrderedDict()
         for name in self.workbook.sheet_names():
             data = to_array(XLSheet(
