@@ -361,6 +361,7 @@ class Matrix:
     @row.setter
     def row(self, value):
         # dummy setter to enable self.column += ..
+        # in py3
         pass
 
     @property
@@ -370,6 +371,7 @@ class Matrix:
     @column.setter
     def column(self, value):
         # dummy setter to enable self.column += ..
+        # in py3
         pass
 
     def row_at(self, index):

@@ -9,7 +9,7 @@
 """
 import six
 import uuid
-from .iterators import Matrix, SeriesColumnIterator
+from .iterators import Matrix, SeriesColumnIterator, Column
 from .filters import (RowIndexFilter,
                      ColumnIndexFilter,
                      RowFilter)
@@ -28,6 +28,24 @@ class AS_COLUMNS(object):
     def __init__(self, payload):
         self.payload = payload
 
+class NamedColumn(Column):
+    def __delitem__(self, str_or_aslice):
+        if is_string(type(str_or_aslice)):
+            self.ref.delete_named_column_at(str_or_aslice)
+        else:
+            Column.__delitem__(self, str_or_aslice)
+
+    def __setitem__(self, str_or_aslice, c):
+        if is_string(type(str_or_aslice)):
+            self.ref.set_named_column_at(str_or_aslice, c)
+        else:
+            Column.__setitem__(self, str_or_aslice)
+
+    def __getitem__(self, str_or_aslice):
+        if is_string(type(str_or_aslice)):
+            self.ref.named_column_at(str_or_aslice)
+        else:
+            Column.__getitem__(self, str_or_aslice)
 
 class PlainSheet(Matrix):
     """
@@ -411,9 +429,33 @@ class Sheet(MultipleFilterableSheet):
             index = headers.index(name)
             self.set_column_at(index, column_array, 1)
 
+    def delete_named_column_at(self, name):
+        """
+        Take the first row as column names
+
+        Given name to identify the column index, set the column to
+        the given array except the column name.
+        """
+        if self.signature_filter:
+            self._headers()
+            index = self.headers.index(name)
+        else:
+            headers = self.row_at(0)
+            index = headers.index(name)
+        self.delete_columns([index])
+
     def __iter__(self):
         """Overload the iterator signature"""
         if self.signature_filter:
             return SeriesColumnIterator(self)
         else:
             return MultipleFilterableSheet.__iter__(self)
+
+    @property
+    def column(self):
+        return NamedColumn(self)
+
+    @column.setter
+    def column(self, value):
+        # dummy setter to enable self.column += ..
+        pass
