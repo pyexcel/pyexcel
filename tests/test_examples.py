@@ -25,7 +25,7 @@ class TestTutorial05:
 
     def test_tutorial05_example3(self):
         content="Column 1,Column 2,Column 3\n1,4,7\n2,5,8\n3,6,9"
-        reader = pyexcel.Reader(("csv", StringIO(content)))
+        reader = pyexcel.SeriesReader(("csv", StringIO(content)))
         print(reader.column["Column 3"]) 
         extra_data = [
             ["Column 4", "Column 5"],

@@ -14,6 +14,7 @@ from .filters import (RowIndexFilter,
                      ColumnIndexFilter,
                      RowFilter)
 
+
 def is_string(atype):
     """find out if a type is str or not"""
     if atype == str:
@@ -294,7 +295,10 @@ class MultipleFilterableSheet(PlainSheet):
 
         :param list rows: a list of arrays
         """
+        local_filters = self._filters
+        self._filters = []
         Matrix.extend_rows(self, rows)
+        self._filters = local_filters
         self.validate_filters()
 
     def delete_rows(self, row_indices):
@@ -302,7 +306,10 @@ class MultipleFilterableSheet(PlainSheet):
 
         :param list row_indices: a list of row indices to be removed
         """
+        local_filters = self._filters
+        self._filters = []
         Matrix.delete_rows(self, row_indices)
+        self._filters = local_filters
         self.validate_filters()
 
     def extend_columns(self, columns):
@@ -310,7 +317,10 @@ class MultipleFilterableSheet(PlainSheet):
 
         :param list columns: a list of arrays
         """
+        local_filters = self._filters
+        self._filters = []
         Matrix.extend_columns(self, columns)
+        self._filters = local_filters
         self.validate_filters()
 
     def delete_columns(self, column_indices):
@@ -318,7 +328,10 @@ class MultipleFilterableSheet(PlainSheet):
 
         :param list row_indices: a list of column indices to be removed
         """
+        local_filters = self._filters
+        self._filters = []
         Matrix.delete_columns(self, column_indices)
+        self._filters = local_filters
         self.validate_filters()
 
 

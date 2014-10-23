@@ -20,6 +20,17 @@ def create_sample_file1(file):
     w.close()
 
 
+def create_sample_file1_series(file):
+    w = pyexcel.Writer(file)
+    data=['c1', 'c2', 'c3', 'c4', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
+    table = []
+    table.append(data[:4])
+    table.append(data[4:8])
+    table.append(data[8:12])
+    table.append(data[12:16])
+    w.write_array(table)
+    w.close()
+
 def create_sample_file2(file):
     """
     1,2,3,4
