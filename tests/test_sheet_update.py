@@ -17,14 +17,13 @@ class TestReader:
         self.rows = 3
         create_sample_file1(self.testfile)
 
-    def test_update_a_cell(self):
-        r = pyexcel.readers.PlainReader(self.testfile)
-        r[0,0] = 'k'
-        assert r[0,0] == 'k'
-        d = datetime.date(2014, 10, 1)
-        r.cell_value(0, 1, d)
-        assert isinstance(r[0,1], datetime.date) is True
-        assert r[0,1].strftime("%d/%m/%y") == "01/10/14"
+    def test_set_named_column_at(self):
+        r = pyexcel.SeriesReader(self.testfile)
+        r.set_named_column_at('b', [11, 1])
+        assert r.column_at(1) == [11, 1]
+        r2 = pyexcel.Reader(self.testfile)
+        r2.set_named_column_at('b', [11, 1])
+        assert r2.column_at(1) == ['b', 11, 1]
 
     def test_update_a_cell_with_a_filter(self):
         """
@@ -41,62 +40,6 @@ class TestReader:
         assert r[2,1] == "k"
         r.clear_filters()
         assert r[2,3] == "k"
-
-    def test_set_column_at(self):
-        r = pyexcel.PlainReader(self.testfile)
-        try:
-            r.set_column_at(1, [11, 1], 1000)
-            assert 1 == 2
-        except IndexError:
-            assert 1 == 1
-
-    def test_set_named_column_at(self):
-        r = pyexcel.SeriesReader(self.testfile)
-        r.set_named_column_at('b', [11, 1])
-        assert r.column_at(1) == [11, 1]
-        r2 = pyexcel.Reader(self.testfile)
-        r2.set_named_column_at('b', [11, 1])
-        assert r2.column_at(1) == ['b', 11, 1]
-
-    def test_set_item(self):
-        r = pyexcel.Reader(self.testfile)
-        content = ['r', 's', 't', 'o']
-        r.row[1] = content
-        assert r.row[1] == content
-        content2 = [1, 2, 3, 4]
-        r.row[1:] = content2
-        assert r.row[2] == [1, 2, 3, 4]
-        content3 = [True, False, True, False]
-        r.row[0:0] = content3
-        assert r.row[0] == [True, False, True, False]
-        r.row[0:2:1] = [1, 1, 1, 1]
-        assert r.row[0] == [1, 1, 1, 1]
-        assert r.row[1] == [1, 1, 1, 1]
-        assert r.row[2] == [1, 2, 3, 4]
-        try:
-            r.row[2:1] = ['e', 'r', 'r', 'o']
-            assert 1 == 2
-        except ValueError:
-            assert 1 == 1
-
-    def test_delete_item(self):
-        r = pyexcel.readers.PlainReader(self.testfile)
-        content = ['i', 'j', 1.1, 1]
-        assert r.row[2] == content
-        del r.row[0]
-        assert r.row[1] == content
-        r2 = pyexcel.readers.PlainReader(self.testfile)
-        del r2.row[1:]
-        assert r2.number_of_rows() == 1
-        r3 = pyexcel.readers.PlainReader(self.testfile)
-        del r3.row[0:0]
-        assert r3.row[1] == content
-        assert r3.number_of_rows() == 2
-        try:
-            del r.row[2:1]
-            assert 1 == 2
-        except ValueError:
-            assert 1 == 1
 
     def tearDown(self):
         if os.path.exists(self.testfile):
