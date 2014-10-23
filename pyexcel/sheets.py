@@ -290,49 +290,49 @@ class MultipleFilterableSheet(PlainSheet):
             filter.validate_filter(self)
             self._filters.append(filter)
 
+    def _lift_filters(func):
+        """
+        disable filters, do something and enable fitlers
+        """
+        def wrapper(self, *args):
+            local_filters = self._filters
+            self._filters = []
+            func(self, *args)
+            self._filters = local_filters
+            self.validate_filters()
+        return wrapper
+
+    @_lift_filters
     def extend_rows(self, rows):
         """expected the rows to be off the same length
 
         :param list rows: a list of arrays
         """
-        local_filters = self._filters
-        self._filters = []
         Matrix.extend_rows(self, rows)
-        self._filters = local_filters
-        self.validate_filters()
 
+    @_lift_filters
     def delete_rows(self, row_indices):
         """delete rows
 
         :param list row_indices: a list of row indices to be removed
         """
-        local_filters = self._filters
-        self._filters = []
         Matrix.delete_rows(self, row_indices)
-        self._filters = local_filters
-        self.validate_filters()
 
+    @_lift_filters
     def extend_columns(self, columns):
         """expected the rows to be of the same length
 
         :param list columns: a list of arrays
         """
-        local_filters = self._filters
-        self._filters = []
         Matrix.extend_columns(self, columns)
-        self._filters = local_filters
-        self.validate_filters()
 
+    @_lift_filters
     def delete_columns(self, column_indices):
         """delete rows
 
         :param list row_indices: a list of column indices to be removed
         """
-        local_filters = self._filters
-        self._filters = []
         Matrix.delete_columns(self, column_indices)
-        self._filters = local_filters
-        self.validate_filters()
 
 
 class Sheet(MultipleFilterableSheet):
