@@ -150,7 +150,7 @@ class Row:
 
         :return: self
         """
-        self.__iadd__(self, other)
+        self.__iadd__(other)
         return self.ref
 
 
