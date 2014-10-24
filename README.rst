@@ -5,8 +5,8 @@ pyexcel
 .. image:: https://api.travis-ci.org/chfw/pyexcel.png
     :target: http://travis-ci.org/chfw/pyexcel
 
-.. image:: https://coveralls.io/repos/chfw/pyexcel/badge.png 
-    :target: https://coveralls.io/r/chfw/pyexcel 
+.. image:: https://coveralls.io/repos/chfw/pyexcel/badge.png?branch=master 
+    :target: https://coveralls.io/r/chfw/pyexcel?branch=master 
 
 .. image:: https://readthedocs.org/projects/pyexcel/badge/?version=latest
     :target: https://readthedocs.org/projects/pyexcel/?badge=latest
@@ -25,6 +25,11 @@ pyexcel
 It was created due to the lack of uniform programming interface to access data in different formats. A developer needs to use different methods of different libraries to read the same data in different excel formats, hence the resulting code is cluttered and unmaintainable.
 
 All great work have done by odf, ezodf(2), xlrd and other individual developers. This library unites only the data access code.
+
+Documentation
+=============
+
+It is hosted in `pyexcel@pyhosted <https://pythonhosted.org/pyexcel/>`_ and `pyexcel@read the docs <https://pyexcel.readthedocs.org/en/latest>`_
 
 Installation
 ============
@@ -92,11 +97,6 @@ Known Issues
 
 * If a zero was typed in a DATE formatted field in xls, you will get "01/01/1900".
 * If a zero was typed in a TIME formatted field in xls, you will get "00:00:00".
-
-Documentation
-=============
-
-It is hosted in `pyhosted <https://pythonhosted.org/pyexcel/>`_
 
 Acknowledgement
 ===============
