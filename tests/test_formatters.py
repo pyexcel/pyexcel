@@ -326,6 +326,8 @@ class TestRowFormatter:
         c1 = r.row_at(1)
         c2 = [2.0, 2.0, 2.1, 2.1, 3.0, 3.0]
         for i in range(0, len(c1)):
+            print(c1[i])
+            print(c2[i])
             assert c1[i] == c2[i]
 
     def test_custom_func_with_a_general_converter(self):

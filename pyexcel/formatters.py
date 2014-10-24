@@ -195,9 +195,9 @@ class RowFormatter(Formatter):
         :param func custom_converter: the custom functional formatter
         """
         if isinstance(row_index, int):
-            func = lambda r, c, v: c == row_index
+            func = lambda r, c, v: r == row_index
         elif isinstance(row_index, list):
-            func = lambda r, c, v: c in row_index
+            func = lambda r, c, v: r in row_index
         else:
             raise NotImplementedError("%s is not supported" % type(row_index))
         Formatter.__init__(self, func, FORMAT, custom_converter)
