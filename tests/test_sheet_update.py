@@ -37,7 +37,7 @@ class TestReader:
         first
         """
         r = pyexcel.FilterableReader(self.testfile)
-        r.filter(pyexcel.filters.ColumnFilter([0, 2]))
+        r.add_filter(pyexcel.filters.ColumnFilter([0, 2]))
         r.cell_value(2, 1, "k")
         assert r[2,1] == "k"
         r.clear_filters()
@@ -161,7 +161,7 @@ class TestReaderWithFilter:
 
     def test_add_rows_even_row_filter(self):
         r = pyexcel.Reader(self.testfile)
-        r.filter(pyexcel.filters.EvenRowFilter())
+        r.add_filter(pyexcel.filters.EvenRowFilter())
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4
         result = [1, 2, 3, 4, 9, 10, 11, 12]
@@ -176,7 +176,7 @@ class TestReaderWithFilter:
 
     def test_add_rows_even_row_filter2(self):
         r = pyexcel.readers.FilterableReader(self.testfile)
-        r.filter(pyexcel.filters.EvenRowFilter())
+        r.add_filter(pyexcel.filters.EvenRowFilter())
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4
         result = [1, 2, 3, 4, 9, 10, 11, 12]
@@ -191,7 +191,7 @@ class TestReaderWithFilter:
 
     def test_delete_rows_even_row_filter(self):
         r = pyexcel.Reader(self.testfile)
-        r.filter(pyexcel.filters.EvenRowFilter())
+        r.add_filter(pyexcel.filters.EvenRowFilter())
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4
         result = [1, 2, 3, 4, 9, 10, 11, 12]
@@ -203,7 +203,7 @@ class TestReaderWithFilter:
 
     def test_add_rows_odd_column_filter(self):
         r = pyexcel.Reader(self.testfile)
-        r.filter(pyexcel.filters.OddColumnFilter())
+        r.add_filter(pyexcel.filters.OddColumnFilter())
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
         result = [2, 4, 6, 8, 10, 12]
@@ -219,7 +219,7 @@ class TestReaderWithFilter:
 
     def test_delete_rows_odd_column_filter(self):
         r = pyexcel.Reader(self.testfile)
-        r.filter(pyexcel.filters.OddColumnFilter())
+        r.add_filter(pyexcel.filters.OddColumnFilter())
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
         result = [2, 4, 6, 8, 10, 12]

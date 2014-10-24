@@ -323,14 +323,26 @@ class MultipleFilterableSheet(PlainSheet):
         self._filters = []
 
     def filter(self, afilter):
-        """This is short hand for add_filter"""
+        """Apply the filter with immediate effect"""
         if isinstance(afilter, ColumnIndexFilter):
-            pass
+            self._apply_column_filters(afilter)
         elif isinstance(afilter, RowIndexFilter):
-            pass
+            self._apply_row_filters(afilter)
         else:
-            pass
-        self.add_filter(afilter)
+            raise NotImplementedError("IndexFilter is not supported")
+
+    def _apply_row_filters(self, afilter):
+        afilter.validate_filter(self)
+        decending_list = sorted(afilter.indices, reverse=True)
+        for i in decending_list:
+            del self.row[i]
+            
+    def _apply_column_filters(self, afilter):
+        """Private method to apply column filter"""
+        afilter.validate_filter(self)
+        decending_list = sorted(afilter.indices, reverse=True)        
+        for i in decending_list:
+            del self.column[i]
 
     def validate_filters(self):
         """Re-apply filters
@@ -343,16 +355,27 @@ class MultipleFilterableSheet(PlainSheet):
             filter.validate_filter(self)
             self._filters.append(filter)
 
+    def freeze_filters(self):
+        local_filters = self._filters
+        self._filters = []
+        for f in local_filters:
+            self.filter(f)
+
     def _lift_filters(func):
         """
         disable filters, do something and enable fitlers
         """
         def wrapper(self, *args):
-            local_filters = self._filters
-            self._filters = []
+            local_filters = []
+            # if filter exist
+            if len(self._filters) > 0:
+                local_filters = self._filters
+                self._filters = []
             func(self, *args)
-            self._filters = local_filters
-            self.validate_filters()
+            #if filter exist
+            if len(local_filters) > 0:
+                self._filters = local_filters
+                self.validate_filters()
         return wrapper
 
     @_lift_filters

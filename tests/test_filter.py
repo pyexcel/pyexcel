@@ -57,7 +57,7 @@ class TestFilterWithFilterableReader:
     def test_column_index_filter(self):
         r = pyexcel.FilterableReader(self.testfile)
         test_func = lambda x: x in [0, 2]
-        r.filter(pyexcel.filters.ColumnIndexFilter(test_func))
+        r.add_filter(pyexcel.filters.ColumnIndexFilter(test_func))
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
         result = [2, 4, 6, 8, 10, 12]
@@ -123,7 +123,7 @@ class TestFilterWithFilterableReader:
     def test_row_index_filter(self):
         r = pyexcel.FilterableReader(self.testfile)
         filter_func = lambda x: x in [1]
-        r.filter(pyexcel.filters.RowIndexFilter(filter_func))
+        r.add_filter(pyexcel.filters.RowIndexFilter(filter_func))
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4
         result = [1, 2, 3, 4, 9, 10, 11, 12]
@@ -174,7 +174,7 @@ class TestFilterWithFilterableReader:
     def test_remove_filter(self):
         r = pyexcel.FilterableReader(self.testfile)
         f = pyexcel.filters.OddRowFilter()
-        r.filter(f)
+        r.add_filter(f)
         assert r.number_of_rows() == 1
         assert r.number_of_columns() == 4
         result = [5, 6, 7, 8]
@@ -243,7 +243,7 @@ class TestFilter:
     def test_column_index_filter(self):
         r = pyexcel.Reader(self.testfile)
         test_func = lambda x: x in [0, 2]
-        r.filter(pyexcel.filters.ColumnIndexFilter(test_func))
+        r.add_filter(pyexcel.filters.ColumnIndexFilter(test_func))
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
         result = [2, 4, 6, 8, 10, 12]
@@ -309,7 +309,7 @@ class TestFilter:
     def test_row_index_filter(self):
         r = pyexcel.Reader(self.testfile)
         filter_func = lambda x: x in [1]
-        r.filter(pyexcel.filters.RowIndexFilter(filter_func))
+        r.add_filter(pyexcel.filters.RowIndexFilter(filter_func))
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4
         result = [1, 2, 3, 4, 9, 10, 11, 12]
