@@ -5,8 +5,8 @@ pyexcel
 .. image:: https://api.travis-ci.org/chfw/pyexcel.png
     :target: http://travis-ci.org/chfw/pyexcel
 
-.. image:: https://codecov.io/github/chfw/pyexcel/coverage.png
-    :target: https://codecov.io/github/chfw/pyexcel
+.. image:: https://coveralls.io/repos/chfw/pyexcel/badge.png 
+    :target: https://coveralls.io/r/chfw/pyexcel 
 
 .. image:: https://readthedocs.org/projects/pyexcel/badge/?version=latest
     :target: https://readthedocs.org/projects/pyexcel/?badge=latest
