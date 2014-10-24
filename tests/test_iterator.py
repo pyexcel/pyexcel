@@ -181,7 +181,6 @@ class TestMatrix:
         r = pyexcel.iterators.Matrix(data)
         content = ['r', 's', 't', 'o']
         r.column[1] = content
-        print r.column[1]
         assert r.column[1] == content[:3]
         assert r.column[0] == ['a', 'e', 'i']
         content2 = [1, 2, 3, 4]
@@ -216,7 +215,6 @@ class TestMatrix:
         assert r2.number_of_rows() == 1
         r3 = pyexcel.iterators.Matrix(copy.deepcopy(data))
         del r3.row[0:0]
-        print r3.array
         assert r3.row[1] == content
         assert r3.number_of_rows() == 2
         try:
