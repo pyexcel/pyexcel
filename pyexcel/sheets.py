@@ -10,6 +10,7 @@
 import six
 import uuid
 from .iterators import Matrix, SeriesColumnIterator, Column
+from .formatters import ColumnFormatter, RowFormatter
 from .filters import (RowIndexFilter,
                      ColumnIndexFilter,
                      RowFilter)
@@ -78,8 +79,40 @@ class PlainSheet(Matrix):
         Matrix.__init__(self, array)
         self._formatters = []
 
+    def apply_formatter(self, aformatter):
+        """Apply the formatter immediately. No return ticket
+        """
+        if isinstance(aformatter, ColumnFormatter):
+            self._apply_column_formatter(aformatter)
+        elif isinstance(aformatter, RowFormatter):
+            self._apply_row_formatter(aformatter)
+        else:
+            for index in self.row_range():
+                self.row[index] = map(aformatter.do_format,
+                                      self.row[index])
+                
+    def _apply_column_formatter(self, column_formatter):
+        indices = list(self.column_range())
+        applicables = filter(column_formatter.quanlify_func, indices)
+        for index in applicables:
+            self.column[index] = map(column_formatter.do_format,
+                                     self.column[index])
+
+    def _apply_row_formatter(self, row_formatter):
+        indices = list(self.row_range())
+        applicables = filter(row_formatter.quanlify_func, indices)
+        for index in applicables:
+            self.row[index] = map(row_formatter.do_format,
+                                  self.row[index])
+
+
     def add_formatter(self, aformatter):
-        """Add a formatter
+        """Add a lazy formatter. 
+
+        The formatter takes effect on the fly when a cell value is read
+        This is cost effective when you have a big data table
+        and you use only a few columns or rows. If you have farily modest
+        data table, you can choose apply_formatter() too.
 
         :param Formatter aformatter: a custom formatter
         """
@@ -96,6 +129,23 @@ class PlainSheet(Matrix):
         """Clear all formatters"""
         self._formatters = []
 
+    def freeze_formatters(self):
+        """Apply all added formatters and clear them
+
+        The tradeoff here is when you extend the sheet, you won't
+        get the effect of previously applied formatters because they
+        are applied and gone.
+        """
+        if len(self._formatters) < 1:
+            return
+        # set the values
+        for rindex in self.row_range():
+            for cindex in self.column_range():
+                value = self.cell_value(rindex, cindex)
+                self.cell_value(rindex, cindex, value)
+        # clear formatters
+        self._formatters = []
+
     def _cell_value(self, row, column, new_value=None):
         """
         Random access to the xls cells
@@ -108,10 +158,7 @@ class PlainSheet(Matrix):
             if len(self._formatters) > 0:
                 for f in self._formatters:
                     if f.is_my_business(row, column, value):
-                        if value == "":
-                            value = f.do_format(None)
-                        else:
-                            value = f.do_format(value)
+                        value = f.do_format(value)
             else:
                 if is_string(type(value)):
                     try:
@@ -277,6 +324,12 @@ class MultipleFilterableSheet(PlainSheet):
 
     def filter(self, afilter):
         """This is short hand for add_filter"""
+        if isinstance(afilter, ColumnIndexFilter):
+            pass
+        elif isinstance(afilter, RowIndexFilter):
+            pass
+        else:
+            pass
         self.add_filter(afilter)
 
     def validate_filters(self):

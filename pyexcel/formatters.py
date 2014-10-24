@@ -154,23 +154,52 @@ class Formatter:
         return self.quanlify_func(row, column, value)
 
     def do_format(self, value):
+        new_value = value
+        if value == "":
+            new_value = None
         if self.converter is not None and isinstance(self.converter, types.FunctionType):
-            return self.converter(value)
+            return self.converter(new_value)
         else:
-            return to_format(self.desired_format, value)
+            return to_format(self.desired_format, new_value)
 
 
 class ColumnFormatter(Formatter):
     """Column Formatter"""
     def __init__(self, column_index, FORMAT, custom_converter=None):
-        func = lambda r, c, v: c == column_index
+        """
+        Constructor
+        
+        :param int or list column_index: to which column or what columns
+        to apply the formatter
+        :param type FORMAT: the target format
+        :param func custom_converter: the custom functional formatter
+        """
+        if isinstance(column_index, int):
+            func = lambda r, c, v: c == column_index
+        elif isinstance(column_index, list):
+            func = lambda r, c, v: c in column_index
+        else:
+            raise NotImplementedError("%s is not supported" % type(column_index))
         Formatter.__init__(self, func, FORMAT, custom_converter)
 
 
 class RowFormatter(Formatter):
     """Row Formatter"""    
     def __init__(self, row_index, FORMAT, custom_converter=None):
-        func = lambda r, c, v: r == row_index
+        """
+        Constructor
+
+        :param int or list row_index: to which row or what rows to apply the
+        formatter
+        :param type FORMAT: the target format
+        :param func custom_converter: the custom functional formatter
+        """
+        if isinstance(row_index, int):
+            func = lambda r, c, v: c == row_index
+        elif isinstance(row_index, list):
+            func = lambda r, c, v: c in row_index
+        else:
+            raise NotImplementedError("%s is not supported" % type(row_index))
         Formatter.__init__(self, func, FORMAT, custom_converter)
 
 
