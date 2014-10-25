@@ -9,7 +9,37 @@ else:
 from base import create_sample_file1
 
 
-class TestStringIO:
+class TestIO:
+    def test_wrong_io_input(self):
+        try:
+            r = pyexcel.Reader(1000)
+            assert 1==2
+        except IOError:
+            assert 1==1
+
+    def test_wrong_io_output(self):
+        try:
+            r = pyexcel.Writer(1000)
+            assert 1==2
+        except IOError:
+            assert 1==1
+
+    def test_not_supported_input_stream(self):
+        try:
+            content = "11\n11"
+            r = pyexcel.Reader(("sylk", StringIO(content)))
+            assert 1==2
+        except NotImplementedError:
+            assert 1==1
+
+    def test_not_supported_output_stream(self):
+        try:
+            io = StringIO
+            r = pyexcel.Writer(("sylk", io))
+            assert 1==2
+        except NotImplementedError:
+            assert 1==1
+        
     def test_csv_stringio(self):
         csvfile = "cute.csv"
         create_sample_file1(csvfile)

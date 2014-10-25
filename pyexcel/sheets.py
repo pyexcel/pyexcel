@@ -25,10 +25,12 @@ def is_string(atype):
             return True
     return False
 
+
 class AS_COLUMNS(object):
     """Indicate direction is by columns"""
     def __init__(self, payload):
         self.payload = payload
+
 
 class NamedColumn(Column):
     def __delitem__(self, str_or_aslice):
@@ -67,7 +69,8 @@ class NamedColumn(Column):
 
         :return: self
         """
-        return self.__iadd__(other)
+        self.__iadd__(other)
+        return self.ref
 
 
 class PlainSheet(Matrix):
@@ -79,6 +82,10 @@ class PlainSheet(Matrix):
         Matrix.__init__(self, array)
         self._formatters = []
 
+    def format(self, aformatter):
+        """Shorthand for apply_formatter"""
+        self.apply_formatter(aformatter)
+
     def apply_formatter(self, aformatter):
         """Apply the formatter immediately. No return ticket
         """
@@ -87,24 +94,28 @@ class PlainSheet(Matrix):
         elif isinstance(aformatter, RowFormatter):
             self._apply_row_formatter(aformatter)
         else:
-            for index in self.row_range():
-                self.row[index] = map(aformatter.do_format,
-                                      self.row[index])
+            self.add_formatter(aformatter)
+            self.freeze_formatters()
                 
     def _apply_column_formatter(self, column_formatter):
         indices = list(self.column_range())
-        applicables = filter(column_formatter.quanlify_func, indices)
-        for index in applicables:
-            self.column[index] = map(column_formatter.do_format,
-                                     self.column[index])
+        applicables = filter(lambda c: column_formatter.is_my_business(-1, c, -1),
+                             indices)
+        # set the values
+        for rindex in self.row_range():
+            for cindex in applicables:
+                value = self.cell_value(rindex, cindex)
+                self.cell_value(rindex, cindex, value)
 
     def _apply_row_formatter(self, row_formatter):
         indices = list(self.row_range())
-        applicables = filter(row_formatter.quanlify_func, indices)
-        for index in applicables:
-            self.row[index] = map(row_formatter.do_format,
-                                  self.row[index])
-
+        applicables = filter(lambda r: row_formatter.is_my_business(r, -1, -1),
+                             indices)
+        # set the values
+        for rindex in applicables:
+            for cindex in self.column_range():
+                value = self.cell_value(rindex, cindex)
+                self.cell_value(rindex, cindex, value)
 
     def add_formatter(self, aformatter):
         """Add a lazy formatter. 

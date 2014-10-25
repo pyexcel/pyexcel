@@ -56,17 +56,13 @@ def int_to_format(value, FORMAT):
 
 def date_to_format(value, FORMAT):
     """Convert date to specified format"""
-    if FORMAT == datetime.datetime:
-        ret = value
-    elif FORMAT == str:
+    if FORMAT == str:
         if isinstance(value, datetime.date):
             ret = value.strftime("%d/%m/%y")
         elif isinstance(value, datetime.datetime):
             ret = value.strftime("%d/%m/%y")
         elif isinstance(value, datetime.time):
             ret = value.strftime("%H:%M:%S")
-        else:
-            ret = value
     else:
         ret = value
     return ret

@@ -4,6 +4,11 @@ import datetime
 
 
 class TestToFormatFunction:
+    def test_none_2_str(self):
+        value = None
+        n_value = pyexcel.formatters.to_format(str, value)
+        assert n_value == ""
+
     def test_string_2_float(self):
         value = "11.11"
         n_value = pyexcel.formatters.to_format(
@@ -203,6 +208,27 @@ class TestColumnFormatter:
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
 
+    def test_one_formatter_for_two_columns(self):
+        r = pyexcel.Reader(self.testfile)
+        r.add_formatter(pyexcel.formatters.ColumnFormatter(
+            [0,5],
+            str))
+        c1 = r.column_at(0)[1:]
+        c2 = self.data["2"]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+        c1 = r.column_at(5)[1:]
+        c2 = self.data["6"]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+
+    def test_not_implemented_column_formatter(self):
+        try:
+            pyexcel.formatters.ColumnFormatter("world", str)
+            assert 1==2
+        except NotImplementedError:
+            assert 1==1
+
     def test_two_formatters(self):
         r = pyexcel.Reader(self.testfile)
         r.add_formatter(pyexcel.formatters.ColumnFormatter(
@@ -273,6 +299,8 @@ class TestRowFormatter:
         w.close()
 
     def test_general_usage(self):
+        """format a row 
+        """
         r = pyexcel.Reader(self.testfile)
         r.add_formatter(pyexcel.formatters.RowFormatter(
             1,
@@ -281,6 +309,30 @@ class TestRowFormatter:
         c2 = ["1", "1", "1.1", "1.1", "2", "2"]
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
+
+    def test_one_formatter_for_two_rows(self):
+        """format more than one row
+        """
+        r = pyexcel.Reader(self.testfile)
+        r.add_formatter(pyexcel.formatters.RowFormatter(
+            [1,2],
+            str))
+        c1 = r.row_at(2)
+        c2 = ["2", "2", "2.2", "2.2", "3", "3"]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+        c1 = r.row_at(1)
+        c2 = ["1", "1", "1.1", "1.1", "2", "2"]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+
+    def test_unacceptable_index(self):
+        try:
+            pyexcel.formatters.RowFormatter(
+                "hello", str)
+            assert 1==2
+        except NotImplementedError:
+            assert 1==1
 
     def test_remove_formatter(self):
         r = pyexcel.Reader(self.testfile)
@@ -326,8 +378,6 @@ class TestRowFormatter:
         c1 = r.row_at(1)
         c2 = [2.0, 2.0, 2.1, 2.1, 3.0, 3.0]
         for i in range(0, len(c1)):
-            print(c1[i])
-            print(c2[i])
             assert c1[i] == c2[i]
 
     def test_custom_func_with_a_general_converter(self):
@@ -386,6 +436,7 @@ class TestSheetFormatter:
             "1": [1, 2, 3, 4, 5, 6, 7, 8],
             "3": [1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
             "5": [2, 3, 4, 5, 6, 7, 8, 9],
+            "7": [1, '',]
         }
         self.testfile = "test.csv"
         w = pyexcel.Writer(self.testfile)
@@ -399,7 +450,8 @@ class TestSheetFormatter:
         self.data = [
             ["1", "2", "3", "4", "5", "6", "7", "8"],
             ["1.1", "2.2", "3.3", "4.4", "5.5", "6.6", "7.7", "8.8"],
-            ["2", "3", "4", "5", "6", "7", "8", "9"]
+            ["2", "3", "4", "5", "6", "7", "8", "9"],
+            ["1", "",  "",  "",  "",  "", "", ""]
         ]
         c1 = r.column_at(0)
         for i in range(0, len(c1)):
@@ -415,7 +467,7 @@ class TestSheetFormatter:
         r.add_formatter(pyexcel.formatters.SheetFormatter(
             int))
         c1 = r.row_at(0)
-        c2 = [1, 3, 5]
+        c2 = [1, 3, 5, 7]
         for i in range(0, len(c1)):
             assert type(c1[i]) == int
             assert c1[i] == c2[i]
@@ -424,14 +476,16 @@ class TestSheetFormatter:
         r = pyexcel.Reader(self.testfile)
         f = lambda x: float(x) + 1
         r.add_formatter(pyexcel.formatters.SheetFormatter(
+            float))
+        r.add_formatter(pyexcel.formatters.SheetFormatter(
             float,
             f))
         c1 = r.row_at(1)
-        c2 = [2.0, 2.1, 3.0]
+        c2 = [2.0, 2.1, 3.0, 2.0]
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
         c1 = r.row_at(2)
-        c2 = [3, 3.2, 4]
+        c2 = [3, 3.2, 4, 1.0]
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
 
@@ -439,18 +493,35 @@ class TestSheetFormatter:
         r = pyexcel.Reader(self.testfile)
         f = lambda x: float(x) + 1
         r.add_formatter(pyexcel.formatters.SheetFormatter(
+            float))
+        r.add_formatter(pyexcel.formatters.SheetFormatter(
             float,
             f))
         r.add_formatter(pyexcel.formatters.SheetFormatter(
             str))
         c1 = r.row_at(1)
-        c2 = ["2.0", "2.1", "3.0"]
+        c2 = ["2.0", "2.1", "3.0", "2.0"]
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
         c1 = r.row_at(2)
-        c2 = ["3.0", "3.2", "4.0"]
+        c2 = ["3.0", "3.2", "4.0", "1.0"]
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
+
+    def test_custom_func_with_a_general_converter(self):
+        """Before float type operation, please convert
+        the sheet to float first, otherwise, TypeError
+        """
+        r = pyexcel.Reader(self.testfile)
+        f = lambda x: float(x) + 1
+        r.add_formatter(pyexcel.formatters.SheetFormatter(
+            float,
+            f))
+        try:
+            c1 = r.row_at(2)
+            assert 1==2
+        except TypeError:
+            assert 1==1
 
     def test_clear_formatters(self):
         r = pyexcel.Reader(self.testfile)
@@ -595,5 +666,3 @@ class TestDateFormat:
         assert isinstance(r[0,2], datetime.date) == True
         assert r[0,2].strftime("%d/%m/%y") == "25/12/14"
         os.unlink(excel_filename)
-        
-        

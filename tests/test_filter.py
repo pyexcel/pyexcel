@@ -3,6 +3,13 @@ import pyexcel
 from base import create_sample_file2
 
 
+class TestIndexFilter:
+    def test_validate(self):
+        ifr = pyexcel.filters.IndexFilter(None)
+        ifr.validate_filter(None)
+        ifr.translate(1,2)
+        assert 1==1
+
 class TestFilterWithFilterableReader:
     def setUp(self):
         """

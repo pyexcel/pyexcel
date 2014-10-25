@@ -474,7 +474,7 @@ class Matrix:
     def delete_rows(self, row_indices):
         """delete rows by specified row indices"""
         if isinstance(row_indices, list) is False:
-            raise ValueError
+            raise IndexError
         if len(row_indices) > 0:
             unique_list = f7(row_indices)
             sorted_list = sorted(unique_list, reverse=True)

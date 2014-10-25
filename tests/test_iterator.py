@@ -18,7 +18,20 @@ class TestMatrixColumn:
             [1, 2, 3, 4, '', '', 1, 2],
             [1, '', '', '', '', '', '', '']
         ]
-        
+
+    def test_get_slice_of_columns(self):
+        m = pyexcel.iterators.Matrix(self.data)
+        data = m.column[:2]
+        assert data == [[1, 1, 1], [2, 2, '']]
+
+    def test_get_with_a_wrong_index(self):
+        """Get with a wrong index"""
+        m = pyexcel.iterators.Matrix(self.data)
+        try:
+            data = m.column["hello"]
+            assert 1==2
+        except IndexError:
+            assert 1==1
 
     def test_extend_columns(self):
         """Test extend columns"""
@@ -98,7 +111,7 @@ class TestMatrixColumn:
         assert r.column[1] == content[:3]
         assert r.column[0] == [1, 1, 1]
 
-    def test_set_a_slice_of_row(self):
+    def test_set_a_slice_of_column(self):
         r = pyexcel.iterators.Matrix(self.data)        
         content2 = [1, 2, 3, 4]
         r.column[1:] = content2
@@ -150,6 +163,16 @@ class TestMatrixRow:
         """Test in place add"""
         r2 = pyexcel.iterators.Matrix(self.data)
         r2.row += self.content
+        assert r2.row[3] == ['r', 's', 't', 'o', '']
+        assert r2.row[4] == [1, 2, 3, 4, '']
+        assert r2.row[5] == [True, "", "", "", '']
+        assert r2.row[6] == [1.1, 2.2, 3.3, 4.4, 5.5]
+
+    def test_iadd_matrix(self):
+        """Test in place add"""
+        r2 = pyexcel.iterators.Matrix(self.data)
+        r3 = pyexcel.iterators.Matrix(self.content)
+        r2.row += r3
         assert r2.row[3] == ['r', 's', 't', 'o', '']
         assert r2.row[4] == [1, 2, 3, 4, '']
         assert r2.row[5] == [True, "", "", "", '']
@@ -236,6 +259,12 @@ class TestMatrixRow:
 
 
 class TestMatrix:
+    def setUp(self):
+        self.data = [
+            ['a', 'b', 'c', 'd'],
+            ['e', 'f', 'g', 'h'],
+            ['i', 'j', 1.1, 1]
+        ]
 
     def test_empty_array_input(self):
         """Test empty array as input to Matrix"""
@@ -244,12 +273,7 @@ class TestMatrix:
         assert m.number_of_rows() == 0
 
     def test_update_a_cell(self):
-        data = [
-            ['a', 'b', 'c', 'd'],
-            ['e', 'f', 'g', 'h'],
-            ['i', 'j', 1.1, 1]
-        ]
-        r = pyexcel.iterators.Matrix(data)
+        r = pyexcel.iterators.Matrix(self.data)
         r[0,0] = 'k'
         assert r[0,0] == 'k'
         d = datetime.date(2014, 10, 1)
@@ -274,17 +298,20 @@ class TestMatrix:
         assert result == actual
                     
     def test_set_column_at(self):
-        data = [
-            ['a', 'b', 'c', 'd'],
-            ['e', 'f', 'g', 'h'],
-            ['i', 'j', 1.1, 1]
-        ]
-        r = pyexcel.iterators.Matrix(data)
+        r = pyexcel.iterators.Matrix(self.data)
         try:
             r.set_column_at(1, [11, 1], 1000)
             assert 1 == 2
         except IndexError:
             assert 1 == 1
+
+    def test_delete_rows_with_invalid_list(self):
+        m = pyexcel.iterators.Matrix([])
+        try:
+            m.delete_rows('ab')
+            assert 1==2
+        except IndexError:
+            assert 1==1
 
 
 class TestIteratableArray(PyexcelIteratorBase):
