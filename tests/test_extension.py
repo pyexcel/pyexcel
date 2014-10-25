@@ -11,7 +11,7 @@ class TestExt:
     def test_unknown(self):
         """test unknown"""
         try:
-            from pe.ext import unknown
+            from pyexcel.ext import unknown
             assert 1==2
         except ImportError:
             assert 1==1
