@@ -4,6 +4,8 @@ import codecs
 from ..sheets import is_string
 if six.PY2:
     from StringIO import StringIO
+else:
+    from io import StringIO
 
 
 class UTF8Recorder(six.Iterator):
@@ -39,7 +41,7 @@ class CSVBook:
             if six.PY2:
                 f = UTF8Recorder(StringIO(file_content), encoding)
             elif six.PY3:
-                f = file_content
+                f = StringIO(file_content)
         else:
             self.mysheets = {"csv":[]}
             # no content let's return'
