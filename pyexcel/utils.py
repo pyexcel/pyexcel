@@ -40,7 +40,7 @@ def to_dict(o):
     return the_dict
 
 
-def to_records(reader):
+def to_records(reader, custom_headers=None):
     """
     Make an array of dictionaries
 
@@ -51,12 +51,16 @@ def to_records(reader):
     """
     if isinstance(reader, Sheet) is False:
         raise NotImplementedError
-    headers = reader.series()
     need_revert = False
+    headers = reader.series()
     if len(headers) == 0:
+        # this means the reader is not a series
+        # reader
         reader.become_series()
         headers = reader.series()
         need_revert = True
+    if custom_headers:
+        headers = custom_headers
     ret = []
     for row in reader.rows():
         the_dict = dict(zip(headers, row))
