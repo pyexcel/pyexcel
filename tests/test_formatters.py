@@ -18,7 +18,7 @@ class TestToFormatFunction:
         value = "abc"
         n_value = pe.formatters.to_format(
             float, value)
-        assert n_value == "N/A"
+        assert n_value == value
 
     def test_string_to_string(self):
         value = "string"
@@ -39,7 +39,7 @@ class TestToFormatFunction:
         value = "abc"
         n_value = pe.formatters.to_format(
             int, value)
-        assert n_value == "N/A"
+        assert n_value == value
 
     def test_float_2_string_format(self):
         value = 1.0

@@ -18,13 +18,13 @@ def string_to_format(value, FORMAT):
         try:
             ret = float(value)
         except ValueError:
-            ret = "N/A"
+            ret = value
     elif FORMAT == int:
         try:
             ret = float(value)
             ret = int(ret)
         except ValueError:
-            ret = "N/A"
+            ret = value
     else:
         ret = value
 
