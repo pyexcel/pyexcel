@@ -44,6 +44,15 @@ class TestFilterSheet:
         assert s.row[0] == [1, 2, 3]
         assert s.column[0] == [1]
 
+    def test_non_filter(self):
+        data = []
+        s = pe.sheets.MultipleFilterableSheet(data)
+        try:
+            s.filter("abc")
+            assert 1==2
+        except NotImplementedError:
+            assert 1==1
+
 
 class TestSheetNamedColumn:
     def setUp(self):
@@ -74,4 +83,13 @@ class TestSheetNamedColumn:
         except TypeError:
             assert 1==1
 
+    def test_delete_named_column(self):
+        s = pe.sheets.Sheet(self.data, "test")
+        del s.column["Column 2"]
+        assert s.number_of_columns() == 2
+        try:
+            s.column["Column 2"]
+            assert 1==2
+        except ValueError:
+            assert 1==1
         

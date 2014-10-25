@@ -3,12 +3,30 @@ import pyexcel as pe
 from base import create_sample_file2
 
 
-class TestIndexFilter:
+class TestFilter:
     def test_validate(self):
         ifr = pe.filters.IndexFilter(None)
         ifr.validate_filter(None)
         ifr.translate(1,2)
         assert 1==1
+
+    def test_empty_column_filter(self):
+        data = [
+            [1,2,3]
+        ]
+        s = pe.sheets.MultipleFilterableSheet(data)
+        s.add_filter(pe.filters.ColumnFilter([100]))
+        result = pe.utils.to_array(s)
+        assert data == result
+
+    def test_empty_row_filter(self):
+        data = [
+            [1,2,3]
+        ]
+        s = pe.sheets.MultipleFilterableSheet(data)
+        s.add_filter(pe.filters.RowFilter([100]))
+        result = pe.utils.to_array(s)
+        assert data == result
 
 
 class TestFilterWithFilterableReader:
