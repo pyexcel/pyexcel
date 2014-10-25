@@ -1,6 +1,6 @@
 import os
-from base import PyexcelWriterBase, PyexcelHatWriterBase
-import pyexcel
+from base import PyexcelWriterBase, PyexcelHatWriterBase, clean_up_files
+import pyexcel as pe
 
 
 class TestCSVnXLSMWriter(PyexcelWriterBase):
@@ -9,10 +9,8 @@ class TestCSVnXLSMWriter(PyexcelWriterBase):
         self.testfile2="test.xlsm"
 
     def tearDown(self):
-        if os.path.exists(self.testfile):
-            os.unlink(self.testfile)
-        if os.path.exists(self.testfile2):
-            os.unlink(self.testfile2)
+        file_list = [self.testfile, self.testfile2]
+        clean_up_files(file_list)
 
 class TestXLSnXLSXWriter(PyexcelWriterBase):
     def setUp(self):
@@ -20,10 +18,8 @@ class TestXLSnXLSXWriter(PyexcelWriterBase):
         self.testfile2="test.xlsx"
 
     def tearDown(self):
-        if os.path.exists(self.testfile):
-            os.unlink(self.testfile)
-        if os.path.exists(self.testfile2):
-            os.unlink(self.testfile2)
+        file_list = [self.testfile, self.testfile2]
+        clean_up_files(file_list)
 
 
 class TestXLSHatWriter(PyexcelHatWriterBase):
@@ -43,49 +39,47 @@ class TestWriteReader:
             "Y": [6, 7, 8, 9, 10],
             "Z": [11, 12, 13, 14, 15],
         }
-        w = pyexcel.Writer(self.testfile)
+        w = pe.Writer(self.testfile)
         w.write_dict(self.content)
         w.close()
         self.testfile2 = "test.xlsm"
 
     def test_content_is_read(self):
-        r = pyexcel.SeriesReader(self.testfile)
-        content = pyexcel.utils.to_dict(r)
+        r = pe.SeriesReader(self.testfile)
+        content = pe.utils.to_dict(r)
         print(content)
         assert content == self.content
 
     def test_write_simple_reader(self):
-        r = pyexcel.Reader(self.testfile)
-        w = pyexcel.Writer(self.testfile2)
+        r = pe.Reader(self.testfile)
+        w = pe.Writer(self.testfile2)
         w.write_reader(r)
         w.close()
-        r2 = pyexcel.SeriesReader(self.testfile2)
-        content = pyexcel.utils.to_dict(r2)
+        r2 = pe.SeriesReader(self.testfile2)
+        content = pe.utils.to_dict(r2)
         assert content == self.content
 
     def test_write_series_reader(self):
-        r = pyexcel.SeriesReader(self.testfile)
-        w = pyexcel.Writer(self.testfile2)
+        r = pe.SeriesReader(self.testfile)
+        w = pe.Writer(self.testfile2)
         w.write_reader(r)
         w.close()
-        r2 = pyexcel.SeriesReader(self.testfile2)
-        content = pyexcel.utils.to_dict(r2)
+        r2 = pe.SeriesReader(self.testfile2)
+        content = pe.utils.to_dict(r2)
         print(content)
         assert content == self.content
 
     def test_write_simple_reader_error(self):
         try:
-            w = pyexcel.Writer(self.testfile2)
+            w = pe.Writer(self.testfile2)
             w.write_reader("abc")  # boom
             assert 1==2
         except TypeError:
             assert 1==1
 
     def tearDown(self):
-        if os.path.exists(self.testfile):
-            os.unlink(self.testfile)
-        if os.path.exists(self.testfile2):
-            os.unlink(self.testfile2)
+        file_list = [self.testfile, self.testfile2]
+        clean_up_files(file_list)
 
 
 class TestBookWriter:
@@ -112,31 +106,29 @@ class TestBookWriter:
         }
         self.testfile = "test.xls"
         self.testfile2 = "test.xlsx"
-        w = pyexcel.BookWriter(self.testfile)
+        w = pe.BookWriter(self.testfile)
         w.write_book_from_dict(self.content)
         w.close()
 
 
     def test_write_book_reader(self):
-        reader = pyexcel.BookReader(self.testfile)
-        writer = pyexcel.BookWriter(self.testfile2)
+        reader = pe.BookReader(self.testfile)
+        writer = pe.BookWriter(self.testfile2)
         writer.write_book_reader(reader)
         writer.close()
-        reader2 = pyexcel.BookReader(self.testfile2)
-        data = pyexcel.utils.to_dict(reader2)
+        reader2 = pe.BookReader(self.testfile2)
+        data = pe.utils.to_dict(reader2)
         assert data == self.content
 
     def test_not_supported_file(self):
         try:
-            pyexcel.BookWriter("bad.format")
+            pe.BookWriter("bad.format")
         except NotImplementedError:
             assert 1==1
 
     def tearDown(self):
-        if os.path.exists(self.testfile):
-            os.unlink(self.testfile)
-        if os.path.exists(self.testfile2):
-            os.unlink(self.testfile2)
+        file_list = [self.testfile, self.testfile2]
+        clean_up_files(file_list)
 
 
 class TestCSVBookWriter:
@@ -163,34 +155,33 @@ class TestCSVBookWriter:
         }
         self.testfile = "test.xls"
         self.testfile2 = "test.csv"
-        w = pyexcel.BookWriter(self.testfile)
+        w = pe.BookWriter(self.testfile)
         w.write_book_from_dict(self.content)
         w.close()
 
     def test_write_book_reader(self):
-        reader = pyexcel.BookReader(self.testfile)
-        writer = pyexcel.BookWriter(self.testfile2)
+        reader = pe.BookReader(self.testfile)
+        writer = pe.BookWriter(self.testfile2)
         writer.write_book_reader(reader)
         writer.close()
         sheet1 = "test_Sheet 1.csv"
-        reader1 = pyexcel.Reader(sheet1)
-        data = pyexcel.utils.to_array(reader1)
+        reader1 = pe.Reader(sheet1)
+        data = pe.utils.to_array(reader1)
         assert data == self.content["Sheet 1"]
         sheet2 = "test_Sheet 2.csv"
-        reader2 = pyexcel.Reader(sheet2)
-        data = pyexcel.utils.to_array(reader2)
+        reader2 = pe.Reader(sheet2)
+        data = pe.utils.to_array(reader2)
         assert data == self.content["Sheet 2"]
         sheet3 = "test_Sheet 3.csv"
-        reader3 = pyexcel.Reader(sheet3)
-        data = pyexcel.utils.to_array(reader3)
+        reader3 = pe.Reader(sheet3)
+        data = pe.utils.to_array(reader3)
         assert data == self.content["Sheet 3"]
 
     def tearDown(self):
-        if os.path.exists(self.testfile):
-            os.unlink(self.testfile)
-        if os.path.exists("test_Sheet 1.csv"):
-            os.unlink("test_Sheet 1.csv")
-        if os.path.exists("test_Sheet 2.csv"):
-            os.unlink("test_Sheet 2.csv")
-        if os.path.exists("test_Sheet 3.csv"):
-            os.unlink("test_Sheet 3.csv")
+        file_list = [
+            self.testfile,
+            "test_Sheet 1.csv",
+            "test_Sheet 2.csv",
+            "test_Sheet 3.csv"
+        ]
+        clean_up_files(file_list)

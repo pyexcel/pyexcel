@@ -1,5 +1,5 @@
-import pyexcel
-from base import PyexcelBase
+import pyexcel as pe
+from base import PyexcelBase, clean_up_files
 import os
 from base import create_sample_file1
 
@@ -18,24 +18,24 @@ class TestReader:
         create_sample_file1(self.testfile)
 
     def test_cell_value(self):
-        r = pyexcel.Reader(self.testfile)
+        r = pe.Reader(self.testfile)
         value = r.cell_value(100,100)
         assert value == None
         value = r.cell_value(0, 1)
         assert value == 'b'
 
     def test_row_range(self):
-        r = pyexcel.Reader(self.testfile)
+        r = pe.Reader(self.testfile)
         row_range = r.row_range()
         assert len(row_range) == 3
 
     def test_column_range(self):
-        r = pyexcel.Reader(self.testfile)
+        r = pe.Reader(self.testfile)
         column_range = r.column_range()
         assert len(column_range) == 4
 
     def test_named_column_at(self):
-        r = pyexcel.Reader(self.testfile)
+        r = pe.Reader(self.testfile)
         try:
             r.named_column_at("A")
             assert 1==2
@@ -45,19 +45,19 @@ class TestReader:
         assert ['e', 'i'] == data
 
     def test_get_item_operator(self):
-        r = pyexcel.Reader(self.testfile)
+        r = pe.Reader(self.testfile)
         value = r[0,1]
         assert value == 'b'
 
     def test_row_at(self):
-        r = pyexcel.Reader(self.testfile)
+        r = pe.Reader(self.testfile)
         value = r.row_at(100)
         assert value == None
         value = r.row_at(2)
         assert value == ['i', 'j', 1.1, 1]
 
     def test_column_at(self):
-        r = pyexcel.Reader(self.testfile)
+        r = pe.Reader(self.testfile)
         value = r.column_at(100)
         assert value == None
         value = r.column_at(1)
@@ -65,13 +65,13 @@ class TestReader:
 
     def test_not_supported_file(self):
         try:
-            pyexcel.Reader("test.sylk")
+            pe.Reader("test.sylk")
             assert 0==1
         except NotImplementedError:
             assert 1==1
 
     def test_out_of_index(self):
-        r = pyexcel.Reader(self.testfile)
+        r = pe.Reader(self.testfile)
         try:
             r.row[10000]
             assert 1!=1
@@ -79,13 +79,12 @@ class TestReader:
             assert 1==1
 
     def test_contains(self):
-        r = pyexcel.Reader(self.testfile)
+        r = pe.Reader(self.testfile)
         f = lambda row: row[0]=='a' and row[1] == 'b'
         assert r.contains(f) == True
 
     def tearDown(self):
-        if os.path.exists(self.testfile):
-            os.unlink(self.testfile)
+        clean_up_files([self.testfile])
 
 
 class TestCSVReader(PyexcelBase):
@@ -104,8 +103,7 @@ class TestCSVReader(PyexcelBase):
         self._write_test_file(self.testfile)
 
     def tearDown(self):
-        if os.path.exists(self.testfile):
-            os.unlink(self.testfile)
+        clean_up_files([self.testfile])
 
 
 class TestCSVReader2:
@@ -122,14 +120,14 @@ class TestCSVReader2:
         create_sample_file1(self.testfile)
 
     def test_data_types(self):
-        r = pyexcel.Reader(self.testfile)
+        r = pe.Reader(self.testfile)
         result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
-        actual = pyexcel.utils.to_array(r.enumerate())
+        actual = pe.utils.to_array(r.enumerate())
         assert result == actual
 
     def tearDown(self):
-        if os.path.exists(self.testfile):
-            os.unlink(self.testfile)
+        clean_up_files([self.testfile])
+
 
 class TestCSVReaderDialect:
     def create_sample_file(self, file):
@@ -138,7 +136,7 @@ class TestCSVReaderDialect:
         5,6,7,8
         9,10,11,12
         """    
-        w = pyexcel.Writer(file, delimiter=":")
+        w = pe.Writer(file, delimiter=":")
         table = []
         for i in [0, 4, 8]:
             array = [i+1, i+2, i+3, i+4]
@@ -167,13 +165,12 @@ class TestCSVReaderDialect:
         assert expected == content
 
     def test_read_delimiter(self):
-        r = pyexcel.Reader(self.testfile, delimiter=":")
-        content = pyexcel.utils.to_array(r)
+        r = pe.Reader(self.testfile, delimiter=":")
+        content = pe.utils.to_array(r)
         assert content == [[1, 2, 3, 4], [5, 6,7, 8], [9, 10, 11, 12]]
         
     def tearDown(self):
-        if os.path.exists(self.testfile):
-            os.unlink(self.testfile)
+        clean_up_files([self.testfile])
 
 
 class TestXLSReader(PyexcelBase):
@@ -189,8 +186,7 @@ class TestXLSReader(PyexcelBase):
         self._write_test_file(self.testfile)
 
     def tearDown(self):
-        if os.path.exists(self.testfile):
-            os.unlink(self.testfile)
+        clean_up_files([self.testfile])
 
 
 class TestXLSXReader(PyexcelBase):
@@ -206,8 +202,7 @@ class TestXLSXReader(PyexcelBase):
         self._write_test_file(self.testfile)
 
     def tearDown(self):
-        if os.path.exists(self.testfile):
-            os.unlink(self.testfile)
+        clean_up_files([self.testfile])
 
 
 class TestXLSMReader(PyexcelBase):
@@ -223,8 +218,7 @@ class TestXLSMReader(PyexcelBase):
         self._write_test_file(self.testfile)
 
     def tearDown(self):
-        if os.path.exists(self.testfile):
-            os.unlink(self.testfile)
+        clean_up_files([self.testfile])
 
 
 class TestSeriesReader3:
@@ -238,14 +232,14 @@ class TestSeriesReader3:
             [4, 4, 4],
             [5, 5, 5]
         ]
-        w = pyexcel.Writer(self.testfile)
+        w = pe.Writer(self.testfile)
         w.write_array(self.content)
         w.close()
 
     def test_row_filter(self):
-        r = pyexcel.SeriesReader(self.testfile)
-        r.add_filter(pyexcel.filters.RowFilter([1]))
-        actual = pyexcel.utils.to_dict(r)
+        r = pe.SeriesReader(self.testfile)
+        r.add_filter(pe.filters.RowFilter([1]))
+        actual = pe.utils.to_dict(r)
         result = {
             "X": [1, 3, 4, 5],
             "Y": [1, 3, 4, 5],
@@ -254,10 +248,10 @@ class TestSeriesReader3:
         assert result == actual
 
     def test_odd_row_filter(self):
-        r = pyexcel.SeriesReader(self.testfile)
-        f = pyexcel.filters.OddRowFilter()
+        r = pe.SeriesReader(self.testfile)
+        f = pe.filters.OddRowFilter()
         r.add_filter(f)
-        actual = pyexcel.utils.to_dict(r)
+        actual = pe.utils.to_dict(r)
         result = {
             "X": [2, 4],
             "Y": [2, 4],
@@ -265,13 +259,13 @@ class TestSeriesReader3:
         }
         assert result == actual
         r.remove_filter(f)
-        actual = pyexcel.utils.to_array(r.rows())
+        actual = pe.utils.to_array(r.rows())
         assert actual == self.content[1:]
 
     def test_even_row_filter(self):
-        r = pyexcel.SeriesReader(self.testfile)
-        r.add_filter(pyexcel.filters.EvenRowFilter())
-        actual = pyexcel.utils.to_dict(r)
+        r = pe.SeriesReader(self.testfile)
+        r.add_filter(pe.filters.EvenRowFilter())
+        actual = pe.utils.to_dict(r)
         result = {
             "X": [1, 3, 5],
             "Y": [1, 3, 5],
@@ -280,48 +274,47 @@ class TestSeriesReader3:
         assert result == actual
         # test removing the filter, it prints the original one
         r.clear_filters()
-        actual = pyexcel.utils.to_array(r.rows())
+        actual = pe.utils.to_array(r.rows())
         assert actual == self.content[1:]
 
     def test_orthogonality(self):
-        r = pyexcel.SeriesReader(self.testfile)
-        r.add_filter(pyexcel.filters.EvenRowFilter())
-        r.add_filter(pyexcel.filters.OddColumnFilter())
-        actual = pyexcel.utils.to_dict(r)
+        r = pe.SeriesReader(self.testfile)
+        r.add_filter(pe.filters.EvenRowFilter())
+        r.add_filter(pe.filters.OddColumnFilter())
+        actual = pe.utils.to_dict(r)
         result = {
             "Y": [1, 3, 5]
         }
         assert result == actual
         # test removing the filter, it prints the original one
         r.clear_filters()
-        actual = pyexcel.utils.to_array(r.rows())
+        actual = pe.utils.to_array(r.rows())
         assert actual == self.content[1:]
 
     def test_orthogonality2(self):
-        r = pyexcel.SeriesReader(self.testfile)
-        r.add_filter(pyexcel.filters.OddColumnFilter())
-        r.add_filter(pyexcel.filters.EvenRowFilter())
-        actual = pyexcel.utils.to_dict(r)
+        r = pe.SeriesReader(self.testfile)
+        r.add_filter(pe.filters.OddColumnFilter())
+        r.add_filter(pe.filters.EvenRowFilter())
+        actual = pe.utils.to_dict(r)
         result = {
             "Y": [1, 3, 5]
         }
         assert result == actual
         # test removing the filter, it prints the original one
         r.clear_filters()
-        actual = pyexcel.utils.to_array(r)
+        actual = pe.utils.to_array(r)
         result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [1, 2, 3, 4, 5]}, {'Z': [1, 2, 3, 4, 5]}]
         assert actual == result
 
     def test_series_column_iterator(self):
-        r = pyexcel.SeriesReader(self.testfile)
-        sci = pyexcel.iterators.SeriesColumnIterator(r)
-        actual = pyexcel.utils.to_array(sci)
+        r = pe.SeriesReader(self.testfile)
+        sci = pe.iterators.SeriesColumnIterator(r)
+        actual = pe.utils.to_array(sci)
         result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [1, 2, 3, 4, 5]}, {'Z': [1, 2, 3, 4, 5]}]
         assert actual == result
 
     def tearDown(self):
-        if os.path.exists(self.testfile):
-            os.unlink(self.testfile)
+        clean_up_files([self.testfile])
 
 
 class TestSeriesReader4:
@@ -335,31 +328,31 @@ class TestSeriesReader4:
             [1, 2, 3],
             [1, 2, 3]
         ]
-        w = pyexcel.Writer(self.testfile)
+        w = pe.Writer(self.testfile)
         w.write_array(self.content)
         w.close()
 
     def test_content_is_read(self):
-        r = pyexcel.SeriesReader(self.testfile)
-        actual = pyexcel.utils.to_array(r.rows())
+        r = pe.SeriesReader(self.testfile)
+        actual = pe.utils.to_array(r.rows())
         assert self.content[1:] == actual
 
     def test_headers(self):
-        r = pyexcel.SeriesReader(self.testfile)
+        r = pe.SeriesReader(self.testfile)
         actual = r.series()
         assert self.content[0] == actual
 
     def test_named_column_at(self):
-        r = pyexcel.SeriesReader(self.testfile)
+        r = pe.SeriesReader(self.testfile)
         result = r.named_column_at("X")
         actual = {"X":[1, 1, 1, 1, 1]}
         assert result == actual["X"]
 
     def test_column_filter(self):
-        r = pyexcel.SeriesReader(self.testfile)
-        filter = pyexcel.filters.ColumnFilter([1])
+        r = pe.SeriesReader(self.testfile)
+        filter = pe.filters.ColumnFilter([1])
         r.add_filter(filter)
-        actual = pyexcel.utils.to_dict(r)
+        actual = pe.utils.to_dict(r)
         result = {
             "X": [1, 1, 1, 1, 1],
             "Z": [3, 3, 3, 3, 3]
@@ -368,17 +361,16 @@ class TestSeriesReader4:
         assert result == actual
         # test removing the filter, it prints the original one
         r.remove_filter(filter)
-        actual = pyexcel.utils.to_array(r.rows())
+        actual = pe.utils.to_array(r.rows())
         assert actual == self.content[1:]
 
     def test_get_item_operator(self):
         """
         Series Reader will skip first row because it has column header
         """
-        r = pyexcel.SeriesReader(self.testfile)
+        r = pe.SeriesReader(self.testfile)
         value = r[0,1]
         assert value == 2
 
     def tearDown(self):
-        if os.path.exists(self.testfile):
-            os.unlink(self.testfile)
+        clean_up_files([self.testfile])

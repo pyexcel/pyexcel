@@ -1,5 +1,5 @@
 from base import PyexcelMultipleSheetBase
-import pyexcel
+import pyexcel as pe
 import os
 from base import create_sample_file1
 import sys
@@ -29,34 +29,34 @@ class TestSingleSheetReaderForMulitpleSheetBook:
         self.content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
         self.content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
         self.content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
-        w = pyexcel.BookWriter(self.testfile)
+        w = pe.BookWriter(self.testfile)
         w.write_book_from_dict(self.content)
         w.close()
 
     def test_non_default_sheet_as_single_sheet_reader(self):
-        r = pyexcel.Reader(self.testfile, "Sheet1")
-        data = pyexcel.utils.to_array(r)
+        r = pe.Reader(self.testfile, "Sheet1")
+        data = pe.utils.to_array(r)
         assert data == self.content["Sheet1"]
-        r2 = pyexcel.Reader(self.testfile, "Sheet2")
-        data = pyexcel.utils.to_array(r2)
+        r2 = pe.Reader(self.testfile, "Sheet2")
+        data = pe.utils.to_array(r2)
         assert data == self.content["Sheet2"]
-        r3 = pyexcel.Reader(self.testfile, "Sheet3")
-        data = pyexcel.utils.to_array(r3)
+        r3 = pe.Reader(self.testfile, "Sheet3")
+        data = pe.utils.to_array(r3)
         assert data == self.content["Sheet3"]
 
     def test_non_default_sheet_as_single_sheet_reader_series(self):
-        r = pyexcel.SeriesReader(self.testfile, "Sheet3")
-        data = pyexcel.utils.to_array(r.rows())
+        r = pe.SeriesReader(self.testfile, "Sheet3")
+        data = pe.utils.to_array(r.rows())
         assert data == self.content["Sheet3"][1:]
 
     def test_non_default_sheet_as_single_sheet_plain_reader(self):
-        r = pyexcel.PlainReader(self.testfile, "Sheet2")
-        data = pyexcel.utils.to_array(r.rows())
+        r = pe.PlainReader(self.testfile, "Sheet2")
+        data = pe.utils.to_array(r.rows())
         assert data == self.content["Sheet2"]
 
     def test_non_default_sheet_as_single_sheet_filterable_reader(self):
-        r = pyexcel.FilterableReader(self.testfile, "Sheet2")
-        data = pyexcel.utils.to_array(r.rows())
+        r = pe.FilterableReader(self.testfile, "Sheet2")
+        data = pe.utils.to_array(r.rows())
         assert data == self.content["Sheet2"]
 
     def tearDown(self):
@@ -78,7 +78,7 @@ class TestReader:
         create_sample_file1(self.testfile)
 
     def test_csv_book_reader(self):
-        r = pyexcel.BookReader(self.testfile)
+        r = pe.BookReader(self.testfile)
         assert r.number_of_sheets() == 1
         assert r.sheet_names() == ["csv"]
 
@@ -95,7 +95,7 @@ class TestAddBooks:
         2,2,2,2
         3,3,3,3
         """
-        w = pyexcel.BookWriter(file)
+        w = pe.BookWriter(file)
         w.write_book_from_dict(content)
         w.close()
 
@@ -117,7 +117,7 @@ class TestAddBooks:
         self._write_test_file(self.test_single_sheet_file, self.content1)
 
     def test_delete_sheets(self):
-        b1 = pyexcel.readers.Book(self.testfile)
+        b1 = pe.readers.Book(self.testfile)
         assert len(b1.sheet_names()) == 3
         del b1["Sheet1"]
         assert len(b1.sheet_names()) == 2
@@ -141,7 +141,7 @@ class TestAddBooks:
             
     def test_delete_sheets2(self):
         """repetitively delete first sheet"""
-        b1 = pyexcel.readers.Book(self.testfile)
+        b1 = pe.readers.Book(self.testfile)
         del b1[0]
         assert len(b1.sheet_names()) == 2
         del b1[0]
@@ -153,10 +153,10 @@ class TestAddBooks:
         """
         test this scenario: book3 = book1 + book2
         """
-        b1 = pyexcel.BookReader(self.testfile)
-        b2 = pyexcel.BookReader(self.testfile2)
+        b1 = pe.BookReader(self.testfile)
+        b2 = pe.BookReader(self.testfile2)
         b3 = b1 + b2
-        content = pyexcel.utils.to_dict(b3)
+        content = pe.utils.to_dict(b3)
         sheet_names = content.keys()
         assert len(sheet_names) == 6
         for name in sheet_names:
@@ -171,10 +171,10 @@ class TestAddBooks:
         """
         test this scenario: book1 +=  book2
         """
-        b1 = pyexcel.BookReader(self.testfile)
-        b2 = pyexcel.BookReader(self.testfile2)
+        b1 = pe.BookReader(self.testfile)
+        b2 = pe.BookReader(self.testfile2)
         b1 += b2
-        content = pyexcel.utils.to_dict(b1)
+        content = pe.utils.to_dict(b1)
         sheet_names = content.keys()
         assert len(sheet_names) == 6
         for name in sheet_names:
@@ -189,10 +189,10 @@ class TestAddBooks:
         """
         test this scenario: book3 = book1 + sheet3
         """
-        b1 = pyexcel.BookReader(self.testfile)
-        b2 = pyexcel.BookReader(self.testfile2)
+        b1 = pe.BookReader(self.testfile)
+        b2 = pe.BookReader(self.testfile2)
         b3 = b1 + b2["Sheet3"]
-        content = pyexcel.utils.to_dict(b3)
+        content = pe.utils.to_dict(b3)
         sheet_names = content.keys()
         assert len(sheet_names) == 4
         for name in sheet_names:
@@ -207,10 +207,10 @@ class TestAddBooks:
         """
         test this scenario: book3 = book1 + sheet3
         """
-        b1 = pyexcel.BookReader(self.testfile)
-        b2 = pyexcel.BookReader(self.testfile2)
+        b1 = pe.BookReader(self.testfile)
+        b2 = pe.BookReader(self.testfile2)
         b1 += b2["Sheet3"]
-        content = pyexcel.utils.to_dict(b1)
+        content = pe.utils.to_dict(b1)
         sheet_names = content.keys()
         assert len(sheet_names) == 4
         for name in sheet_names:
@@ -225,10 +225,10 @@ class TestAddBooks:
         """
         test this scenario: book3 = sheet1 + sheet2
         """
-        b1 = pyexcel.BookReader(self.testfile)
-        b2 = pyexcel.BookReader(self.testfile2)
+        b1 = pe.BookReader(self.testfile)
+        b2 = pe.BookReader(self.testfile2)
         b3 = b1["Sheet1"] + b2["Sheet3"]
-        content = pyexcel.utils.to_dict(b3)
+        content = pe.utils.to_dict(b3)
         sheet_names = content.keys()
         assert len(sheet_names) == 2
         assert content["Sheet3"] == self.content["Sheet3"]
@@ -238,10 +238,10 @@ class TestAddBooks:
         """
         test this scenario: book3 = sheet1 + book
         """
-        b1 = pyexcel.BookReader(self.testfile)
-        b2 = pyexcel.BookReader(self.testfile2)
+        b1 = pe.BookReader(self.testfile)
+        b2 = pe.BookReader(self.testfile2)
         b3 = b1["Sheet1"] + b2
-        content = pyexcel.utils.to_dict(b3)
+        content = pe.utils.to_dict(b3)
         sheet_names = content.keys()
         assert len(sheet_names) == 4
         for name in sheet_names:
@@ -256,10 +256,10 @@ class TestAddBooks:
         """
         test this scenario: book3 = single_sheet_book + book
         """
-        b1 = pyexcel.BookReader(self.test_single_sheet_file)
-        b2 = pyexcel.BookReader(self.testfile2)
+        b1 = pe.BookReader(self.test_single_sheet_file)
+        b2 = pe.BookReader(self.testfile2)
         b3 = b1 + b2
-        content = pyexcel.utils.to_dict(b3)
+        content = pe.utils.to_dict(b3)
         sheet_names = content.keys()
         assert len(sheet_names) == 4
         for name in sheet_names:
@@ -276,10 +276,10 @@ class TestAddBooks:
         """
         test this scenario: book3 = book + single_sheet_book
         """
-        b1 = pyexcel.BookReader(self.test_single_sheet_file)
-        b2 = pyexcel.BookReader(self.testfile2)
+        b1 = pe.BookReader(self.test_single_sheet_file)
+        b2 = pe.BookReader(self.testfile2)
         b3 = b2 + b1
-        content = pyexcel.utils.to_dict(b3)
+        content = pe.utils.to_dict(b3)
         sheet_names = content.keys()
         assert len(sheet_names) == 4
         for name in sheet_names:
@@ -296,10 +296,10 @@ class TestAddBooks:
         """
         test this scenario: book3 = sheet1 + single_sheet_book
         """
-        b1 = pyexcel.BookReader(self.testfile)
-        b2 = pyexcel.BookReader(self.test_single_sheet_file)
+        b1 = pe.BookReader(self.testfile)
+        b2 = pe.BookReader(self.test_single_sheet_file)
         b3 = b1["Sheet1"] + b2
-        content = pyexcel.utils.to_dict(b3)
+        content = pe.utils.to_dict(b3)
         sheet_names = content.keys()
         assert len(sheet_names) == 2
         for name in sheet_names:
@@ -312,9 +312,9 @@ class TestAddBooks:
         """
         test this scenario: book3 = sheet1 + single_sheet_book
         """
-        b1 = pyexcel.BookReader(self.testfile)
+        b1 = pe.BookReader(self.testfile)
         b3 = b1["Sheet1"] + b1["Sheet1"]
-        content = pyexcel.utils.to_dict(b3)
+        content = pe.utils.to_dict(b3)
         sheet_names = content.keys()
         assert len(sheet_names) == 2
         for name in sheet_names:
@@ -325,7 +325,7 @@ class TestAddBooks:
         """
         test this scenario: book3 = book + integer
         """
-        b1 = pyexcel.BookReader(self.testfile)
+        b1 = pe.BookReader(self.testfile)
         try:
             b1 + 12
             assert 1==2
@@ -341,7 +341,7 @@ class TestAddBooks:
         """
         test this scenario: book3 = sheet1 + integer
         """
-        b1 = pyexcel.BookReader(self.testfile)
+        b1 = pe.BookReader(self.testfile)
         try:
             b1["Sheet1"] + 12
             assert 1==2
@@ -353,7 +353,7 @@ class TestAddBooks:
         except TypeError:
             assert 1==1
         try:
-            b1["Sheet1"] += pyexcel.sheets.AS_COLUMNS(12)
+            b1["Sheet1"] += pe.sheets.AS_COLUMNS(12)
             assert 1==2
         except TypeError:
             assert 1==1
@@ -372,12 +372,12 @@ class TestAddBooks:
 class TestMergeCSVsIntoOne:
     """
     This test case tests this code works
-    >>> import pyexcel
+    >>> import pyexcel as pe
     >>> import glob
-    >>> merged = pyexcel.Reader()
+    >>> merged = pe.Reader()
     >>> for file in glob.glob("*.csv"):
-    >>>     merged += pyexcel.Reader(file)
-    >>> writer = pyexcel.Writer("merged.csv")
+    >>>     merged += pe.Reader(file)
+    >>> writer = pe.Writer("merged.csv")
     >>> writer.write_reader(merged)
     >>> writer.close()
     """
@@ -385,28 +385,28 @@ class TestMergeCSVsIntoOne:
     def test_merging(self):
         # set up
         data = [[1,2,3],[4,5,6],[7,8,9]]
-        import pyexcel
-        w=pyexcel.Writer("1.csv")
+        import pyexcel as pe
+        w=pe.Writer("1.csv")
         w.write_rows(data)
         w.close()
         data2 = [['a','b','c'],['d','e','f'],['g','h','i']]
-        w=pyexcel.Writer("2.csv")
+        w=pe.Writer("2.csv")
         w.write_rows(data2)
         w.close()
         data3=[[1.1, 2.2, 3.3],[4.4, 5.5, 6.6],[7.7, 8.8, 9.9]]
-        w=pyexcel.Writer("3.csv")
+        w=pe.Writer("3.csv")
         w.write_rows(data3)
         w.close()
         # execute
-        merged = pyexcel.Reader()
+        merged = pe.Reader()
         for file in ["1.csv", "2.csv", "3.csv"]:
-            r = pyexcel.Reader(file)
+            r = pe.Reader(file)
             merged += r
-        writer = pyexcel.Writer("merged.csv")
+        writer = pe.Writer("merged.csv")
         writer.write_reader(merged)
         writer.close()
-        r=pyexcel.Reader("merged.csv")
-        actual = pyexcel.utils.to_array(r)
+        r=pe.Reader("merged.csv")
+        actual = pe.utils.to_array(r)
         result = [
             [1.0, 2.0, 3.0],
             [4.0, 5.0, 6.0],

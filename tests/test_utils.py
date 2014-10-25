@@ -1,4 +1,4 @@
-import pyexcel
+import pyexcel as pe
 import os
 from base import create_sample_file2
 import sys
@@ -21,21 +21,21 @@ class TestUtils():
         create_sample_file2(self.testfile)
 
     def test_to_one_dimension_array(self):
-        r = pyexcel.Reader(self.testfile)
+        r = pe.Reader(self.testfile)
         result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-        actual = pyexcel.utils.to_one_dimensional_array(r)
+        actual = pe.utils.to_one_dimensional_array(r)
         assert result == actual
-        actual2 = pyexcel.utils.to_one_dimensional_array(result)
+        actual2 = pe.utils.to_one_dimensional_array(result)
         assert actual2 == result
 
     def test_to_array(self):
-        r = pyexcel.Reader(self.testfile)
+        r = pe.Reader(self.testfile)
         result = [
             [1, 2, 3, 4],
             [5, 6, 7, 8, ],
             [9, 10, 11, 12]
         ]
-        actual = pyexcel.utils.to_array(r)
+        actual = pe.utils.to_array(r)
         assert result == actual
         
     def test_to_dict(self):
@@ -43,12 +43,12 @@ class TestUtils():
         Note: data file with column headers are tested
         in test_filters.py
         """
-        r = pyexcel.Reader(self.testfile)
+        r = pe.Reader(self.testfile)
         result = OrderedDict()
         result.update({"Series_1": [1, 2, 3, 4]})
         result.update({"Series_2": [5, 6, 7, 8, ]})
         result.update({"Series_3": [9, 10, 11, 12]})
-        actual = pyexcel.utils.to_dict(r.rows())
+        actual = pe.utils.to_dict(r.rows())
         assert actual.keys() == result.keys()
         assert result == actual
         result = {
@@ -65,7 +65,7 @@ class TestUtils():
             "Series_11": 11,
             "Series_12": 12
         }
-        actual = pyexcel.utils.to_dict(r.enumerate())
+        actual = pe.utils.to_dict(r.enumerate())
         assert result == actual
 
     def tearDown(self):
@@ -88,13 +88,13 @@ class TestUtils2():
             "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
             "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
         }
-        w = pyexcel.BookWriter(self.testfile)
+        w = pe.BookWriter(self.testfile)
         w.write_book_from_dict(self.content)
         w.close()
 
     def test_book_reader_to_dict(self):
-        r = pyexcel.BookReader(self.testfile)
-        actual = pyexcel.utils.to_dict(r)
+        r = pe.BookReader(self.testfile)
+        actual = pe.utils.to_dict(r)
         assert actual == self.content
 
     def tearDown(self):
@@ -116,23 +116,34 @@ class TestToRecord():
             "Y": [4, 5, 6],
             "Z": [7, 8, 9]
         }
-        w = pyexcel.Writer(self.testfile)
+        w = pe.Writer(self.testfile)
         w.write_dict(self.content)
         w.close()
 
     def test_book_reader_to_records(self):
-        r = pyexcel.Reader(self.testfile)
+        r = pe.Reader(self.testfile)
         result = [
             {u'Y': 4.0, u'X': 1.0, u'Z': 7.0},
             {u'Y': 5.0, u'X': 2.0, u'Z': 8.0},
             {u'Y': 6.0, u'X': 3.0, u'Z': 9.0}]
-        actual = pyexcel.utils.to_records(r)
+        actual = pe.utils.to_records(r)
+        assert actual == result
+
+    def test_book_reader_to_records(self):
+        r = pe.Reader(self.testfile)
+        custom_headers = ["O", "P", "Q"]
+        result = [
+            {u'P': 4.0, u'O': 1.0, u'Q': 7.0},
+            {u'P': 5.0, u'O': 2.0, u'Q': 8.0},
+            {u'P': 6.0, u'O': 3.0, u'Q': 9.0}]
+        actual = pe.utils.to_records(r, custom_headers)
+        print(actual)
         assert actual == result
 
     def test_book_reader_to_records_with_wrong_args(self):
-        r = pyexcel.BookReader(self.testfile)
+        r = pe.BookReader(self.testfile)
         try:
-            pyexcel.utils.to_records(r)
+            pe.utils.to_records(r)
             assert 1==2
         except NotImplementedError:
             assert 1==1
