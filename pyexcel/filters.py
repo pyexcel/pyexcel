@@ -49,6 +49,7 @@ class IndexFilter:
         Find out which column index to be filtered
 
         :param Matrix reader: a Matrix instance
+        
         """
         pass
 
@@ -210,6 +211,7 @@ class RowValueFilter(RowIndexFilter):
                 if not self.eval_func(r):
                     new_indices.append(index)
                 index += 1
+        
         :param Matrix reader: a Matrix instance
         """
         self.indices = [row[0] for row in enumerate(reader.rows()) if not self.eval_func(row[1])]

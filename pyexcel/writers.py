@@ -33,6 +33,7 @@ def dict_to_array(the_dict, with_keys=True):
             ['', 8, 12],
             ['', '', 13]
         ]
+    
     :param dict the_dict: the dictionary to be converted.
     :param bool with_keys: to write the keys as the first row or not
     """

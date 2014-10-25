@@ -10,7 +10,7 @@
 :Source code: http://github.com/chfw/pyexcel
 :Issues: http://github.com/chfw/pyexcel/issues
 :License: GPL v3
-:Version: 0.0.5
+:Version: |version|
 
 Introduction
 -------------
@@ -77,7 +77,7 @@ Tutorial
 .. toctree::
 
     tutorial
-	tutorial05
+    tutorial05
     tutorial02
     tutorial03
     tutorial04
