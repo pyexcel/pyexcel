@@ -1,6 +1,8 @@
 Data manipulation in a sheet
 ============================
 
+The data in a sheet is represented by :class:`Matrix` which maintains the data as a list of lists. You can regard :class:`Matrix` as a two dimensional array with additional iterators. Random access to individual column and row is explosed by class:`Column` and class:`Row` 
+
 Column manipulation with SeriesReader
 -------------------------------------
 

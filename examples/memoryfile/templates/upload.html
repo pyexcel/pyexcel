@@ -1,0 +1,9 @@
+<html>
+<title>Example upload : pyexcel example</title>
+<body>
+<form method=POST enctype=multipart/form-data action="{{ url_for('upload') }}">
+    <input type=file name=excel>
+	<input type=submit value="upload">
+</form>
+</body>
+</html>

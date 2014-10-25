@@ -81,6 +81,7 @@ Tutorial
     tutorial02
     tutorial03
     tutorial04
+    tutorial06
 
 Cook book
 ++++++++++

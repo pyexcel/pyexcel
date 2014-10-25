@@ -27,7 +27,7 @@ class TestIO:
     def test_not_supported_input_stream(self):
         try:
             content = "11\n11"
-            r = pe.Reader(("sylk", StringIO(content)))
+            r = pe.Reader(("sylk", content))
             assert 1==2
         except NotImplementedError:
             assert 1==1
@@ -45,7 +45,7 @@ class TestIO:
         create_sample_file1(csvfile)
         with open(csvfile, "r") as f:
             content = f.read()
-            r = pe.Reader(("csv", StringIO(content)))
+            r = pe.Reader(("csv", content))
             result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
             actual = pe.utils.to_array(r.enumerate())
             assert result == actual
@@ -73,8 +73,7 @@ class TestIO:
         w = pe.Writer(("csv",io))
         w.write_rows(data)
         #w.close()
-        io.seek(0)
-        r = pe.Reader(("csv", io))
+        r = pe.Reader(("csv", io.getvalue()))
         result=[1, 2, 3, 4, 5, 6]
         actual = pe.utils.to_array(r.enumerate())
         assert actual == result

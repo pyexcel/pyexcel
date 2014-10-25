@@ -8,7 +8,7 @@
     :license: GPL v3
 """
 from .iterators import SheetIterator
-from .sheets import PlainSheet, MultipleFilterableSheet, Sheet
+from .sheets import PlainSheet, MultipleFilterableSheet, Sheet, is_string
 from .utils import to_dict
 from .io import load_file
 import sys
@@ -26,24 +26,32 @@ class Book:
 
     For csv file, there will be just one sheet
     """
-    def __init__(self, file=None, **keywards):
+    def __init__(self, filename=None, **keywords):
         """
         Book constructor
 
-        Selecting a specific book according to file extension
+        Selecting a specific book according to filename extension
         """
         self.path = ""
         self.filename = "memory"
         self.name_array = []
         self.sheets = {}
-        if file and os.path.exists(file):
-            self.load_from(file, **keywards)
+        if is_string(type(filename)):
+            if filename and os.path.exists(filename):
+                self.load_from(filename, **keywords)
+        elif isinstance(filename, tuple):
+            self.load_from_memory(filename, **keywords)
 
-    def load_from(self, file, **keywards):
+    def load_from(self, file, **keywords):
         path, filename = os.path.split(file)
         self.path = path
         self.filename = filename
-        book = load_file(file, **keywards)
+        book = load_file(file, **keywords)
+        sheets = book.sheets()
+        self.load_from_sheets(sheets)
+
+    def load_from_memory(self, the_tuple, **keywords):
+        book = load_file(the_tuple, **keywords)
         sheets = book.sheets()
         self.load_from_sheets(sheets)
 

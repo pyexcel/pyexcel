@@ -1,4 +1,4 @@
-Filterting cells
+Filtering cells
 ================
 
 Work with data series in a single sheet
