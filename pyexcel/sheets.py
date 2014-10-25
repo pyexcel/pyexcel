@@ -533,7 +533,7 @@ class Sheet(MultipleFilterableSheet):
             headers = self.row_at(0)
             index = headers.index(name)
             column_array = self.column_at(index)[1:]
-        return {name: column_array}
+        return column_array
 
     def set_named_column_at(self, name, column_array):
         """

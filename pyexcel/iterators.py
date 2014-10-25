@@ -876,7 +876,8 @@ class SeriesColumnIterator(PyexcelIterator):
         if self.current in self.reader_ref.column_range():
             index = self.current
             self.current += 1
-            return self.reader_ref.named_column_at(self.headers[index])
+            column_header = self.headers[index]
+            return {column_header: self.reader_ref.named_column_at(column_header)}
         else:
             raise StopIteration
 

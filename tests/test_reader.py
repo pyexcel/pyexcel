@@ -42,7 +42,7 @@ class TestReader:
         except ValueError:
             assert 1==1
         data = r.named_column_at('a')
-        assert {'a': ['e', 'i']} == data
+        assert ['e', 'i'] == data
 
     def test_get_item_operator(self):
         r = pyexcel.Reader(self.testfile)
@@ -353,7 +353,7 @@ class TestSeriesReader4:
         r = pyexcel.SeriesReader(self.testfile)
         result = r.named_column_at("X")
         actual = {"X":[1, 1, 1, 1, 1]}
-        assert result == actual
+        assert result == actual["X"]
 
     def test_column_filter(self):
         r = pyexcel.SeriesReader(self.testfile)
