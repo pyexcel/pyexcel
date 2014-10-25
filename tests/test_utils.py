@@ -129,7 +129,9 @@ class TestToRecord():
         actual = pe.utils.to_records(r)
         assert actual == result
 
-    def test_book_reader_to_records(self):
+    def test_book_reader_to_records_custom(self):
+        """use custom header
+        """
         r = pe.Reader(self.testfile)
         custom_headers = ["O", "P", "Q"]
         result = [

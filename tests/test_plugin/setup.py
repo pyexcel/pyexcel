@@ -1,5 +1,5 @@
 """
-    pe-test_plugin
+    pyexcel-test_plugin
     ~~~~~~~~~~~~~~
 
     It is a tes plugin
@@ -13,7 +13,7 @@ except ImportError:
     from setuptools import setup, find_packages
 
 setup(
-    name='pe-test_plugin',
+    name='pyexcel-test_plugin',
     author="C. W.",
     version='0.0.1',
     author_email="wangc_2011@hotmail.com",
