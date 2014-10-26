@@ -74,7 +74,6 @@ class TestReader:
         i,j,1.1,1
         """
         self.testfile = "testcsv.csv"
-        self.rows = 3
         create_sample_file1(self.testfile)
 
     def test_csv_book_reader(self):

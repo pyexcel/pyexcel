@@ -281,6 +281,25 @@ class TestMatrix:
         assert isinstance(r[0,1], datetime.date) is True
         assert r[0,1].strftime("%d/%m/%y") == "01/10/14"
 
+    def test_old_style_access(self):
+        r = pe.iterators.Matrix(self.data)
+        r[0,0] = 'k'
+        assert r[0][0] == 'k'
+
+    def test_wrong_index_type(self):
+        r = pe.iterators.Matrix(self.data)
+        r[0,0] = 'k'
+        try:
+            r["string"][0]
+            assert 1==2
+        except IndexError:
+            assert 1==1
+        try:
+            r["string"] = 'k'
+            assert 1==2
+        except IndexError:
+            assert 1==1
+
     def test_transpose(self):
         """Test transpose"""
         data = [
