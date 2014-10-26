@@ -713,7 +713,13 @@ class Matrix:
     def __getitem__(self, aset):
         """By default, this class recognize from top to bottom
         from left to right"""
-        return self.cell_value(aset[0], aset[1])
+        if isinstance(aset, tuple):
+            return self.cell_value(aset[0], aset[1])
+        elif isinstance(aset, int):
+            print("Deprecated usage. Please use [row, column]")
+            return self.row_at(aset)
+        else:
+            raise IndexError
 
     def contains(self, predicate):
         """Has something in the table"""
