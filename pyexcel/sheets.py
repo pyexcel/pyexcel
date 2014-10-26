@@ -33,6 +33,16 @@ class AS_COLUMNS(object):
 
 
 class NamedColumn(Column):
+    """Series Sheet would have Named Column instead of Column
+
+    example::
+
+        import pyexcel as pe
+
+        r = pe.SeriesReader("example.csv")
+        print(r.column["column 1"])
+    
+    """
     def __delitem__(self, str_or_aslice):
         if is_string(type(str_or_aslice)):
             self.ref.delete_named_column_at(str_or_aslice)
@@ -50,27 +60,6 @@ class NamedColumn(Column):
             return self.ref.named_column_at(str_or_aslice)
         else:
             return Column.__getitem__(self, str_or_aslice)
-
-    def __iadd__(self, other):
-        """Overload += sign
-
-        :return: self
-        """
-        if isinstance(other, list):
-            self.ref.extend_columns(other)
-        elif isinstance(other, Matrix):
-            self.ref.extend_columns(other.array)
-        else:
-            raise TypeError
-        return self
-
-    def __add__(self, other):
-        """Overload += sign
-
-        :return: self
-        """
-        self.__iadd__(other)
-        return self.ref
 
 
 class PlainSheet(Matrix):
@@ -454,6 +443,9 @@ class Sheet(MultipleFilterableSheet):
         self.signature_filter = None
         self.validate_filters()
         return self
+
+    def is_series(self):
+        return self.signature_filter is not None
 
     def add_filter(self, afilter):
         """

@@ -7,9 +7,10 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-from .utils import to_dict
+from .utils import to_dict, to_array
 from .iterators import Matrix, transpose
 from .io import get_writer
+from .sheets import Sheet
 
 
 def dict_to_array(the_dict, with_keys=True):
@@ -104,8 +105,13 @@ class SheetWriter:
 
         :param Matrix reader: a Matrix instance
         """
-        if isinstance(reader, Matrix):
-            self.write_rows(reader.array)
+        if isinstance(reader, Sheet):
+            if reader.is_series():
+                self.write_dict(to_dict(reader))
+            else:
+                self.write_rows(to_array(reader))
+        elif isinstance(reader, Matrix):
+            self.write_rows(to_array(reader))
         else:
             raise TypeError
 

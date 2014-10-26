@@ -236,8 +236,10 @@ class Column:
         if isinstance(aslice, slice):
             my_range = self._analyse_slice(aslice)
             self.ref.delete_columns(my_range)
-        else:
+        elif isinstance(aslice, int):
             self.ref.delete_columns([aslice])
+        else:
+            raise IndexError
 
     def __setitem__(self, aslice, c):
         """Override the operator to set items"""
@@ -245,8 +247,10 @@ class Column:
             my_range = self._analyse_slice(aslice)
             for i in my_range:
                 self.ref.set_column_at(i, c)
-        else:
+        elif isinstance(aslice, int):
             self.ref.set_column_at(aslice, c)
+        else:
+            raise IndexError
 
     def __getitem__(self, aslice):
         """By default, this class recognize from top to bottom
@@ -708,7 +712,10 @@ class Matrix:
 
     def __setitem__(self, aset, c):
         """Override the operator to set items"""
-        return self.cell_value(aset[0], aset[1], c)
+        if isinstance(aset, tuple):
+            return self.cell_value(aset[0], aset[1], c)
+        else:
+            raise IndexError
 
     def __getitem__(self, aset):
         """By default, this class recognize from top to bottom

@@ -43,6 +43,11 @@ class Book:
             self.load_from_memory(filename, **keywords)
 
     def load_from(self, file, **keywords):
+        """Load content from physical file
+
+        :param str file: the file name
+        :param any keywords: additional parameters
+        """
         path, filename = os.path.split(file)
         self.path = path
         self.filename = filename
@@ -51,17 +56,29 @@ class Book:
         self.load_from_sheets(sheets)
 
     def load_from_memory(self, the_tuple, **keywords):
+        """Load content from memory content
+
+        :param tuple the_tuple: first element should be file extension,
+        second element should be file content
+        :param any keywords: additional parameters
+        """
         book = load_file(the_tuple, **keywords)
         sheets = book.sheets()
         self.load_from_sheets(sheets)
 
     def load_from_sheets(self, sheets):
+        """Load content from existing sheets
+
+        :param dict sheets: a dictionary of sheets. Each sheet is
+        a list of lists
+        """
         self.sheets = OrderedDict()
         for name in sheets.keys():
             self.sheets[name] = self.get_sheet(sheets[name], name)
         self.name_array = list(self.sheets.keys())
 
     def get_sheet(self, array, name):
+        """Create a sheet from a list of lists"""
         return Sheet(array, name)
 
     def __iter__(self):
@@ -113,6 +130,14 @@ class Book:
         return self
 
     def __add__(self, other):
+        """Operator overloading
+
+        example::
+
+            book3 = book1 + book2
+            book3 = book1 + book2["Sheet 1"]
+
+        """
         content = {}
         a = to_dict(self)
         for k in a.keys():
@@ -143,6 +168,14 @@ class Book:
         return c
 
     def __iadd__(self, other):
+        """Operator overloading +=
+
+        example::
+
+            book += book2
+            book += book2["Sheet1"]
+        
+        """
         if isinstance(other, Book):
             names = other.sheet_names()
             for name in names:
@@ -188,7 +221,13 @@ class Reader(Sheet):
         else:
             Sheet.__init__(self, [], "memory")
 
-    def load_file(self, file, sheet, **keywords):
+    def load_file(self, file, sheet=None, **keywords):
+        """
+        Load only one sheet from the file
+
+        :param str file: the file name
+        :param str sheet: the sheet to be used as the default sheet
+        """
         book = load_file(file, **keywords)
         sheets = book.sheets()
         if sheet:

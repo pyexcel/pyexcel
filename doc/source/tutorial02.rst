@@ -1,6 +1,11 @@
 Filtering cells
 ================
 
+There are three ways of applying a filter:
+
+#. use `add_filter`, `remove_filter` and `clear_filter` to interactively apply a filter. The content is not modified until you call `freeze_filters`
+#. use `filter` function to apply a filter immediately. The content is modified.
+
 Work with data series in a single sheet
 ---------------------------------------
 
