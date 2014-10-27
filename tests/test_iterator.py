@@ -111,7 +111,6 @@ class TestMatrixColumn:
         assert r.column[1] == content[:3]
         assert r.column[0] == [1, 1, 1]
         r.column['B'] = ['p', 'q', 'r']
-        print r.column['B']
         assert r.column['B'] == ['p', 'q', 'r']
 
     def test_set_a_slice_of_column(self):
