@@ -33,7 +33,6 @@ class TestRareCases:
         r1 = pe.SeriesReader(("csv", data))
         filter_func = lambda row: row['Age'] == 23
         r1.filter(pe.filters.RowValueFilter(filter_func))
-        print pe.utils.to_records(r1)
 
 
 class TestFilterWithFilterableReader:
