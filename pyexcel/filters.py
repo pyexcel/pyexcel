@@ -34,6 +34,7 @@ class IndexFilter:
         :param Function func: a evaluation function
         """
         self.eval_func = func
+        # indices to be filtered out
         self.indices = None
 
     def rows(self):
@@ -57,6 +58,7 @@ class IndexFilter:
         """Map the row, column after filtering to the
         original ones before filtering"""
         pass
+
 
 class ColumnIndexFilter(IndexFilter):
     """A column filter that operates on column indices"""
@@ -198,7 +200,10 @@ class EvenRowFilter(RowIndexFilter):
 
 
 class RowValueFilter(RowIndexFilter):
-    """Filter out rows that satisfy a condition"""
+    """Filter out rows that satisfy a condition
+
+    .. note:: it takes time as it needs to go through all values
+    """
     def validate_filter(self, reader):
         """
         Filter out the row indices
@@ -214,7 +219,11 @@ class RowValueFilter(RowIndexFilter):
         
         :param Matrix reader: a Matrix instance
         """
-        self.indices = [row[0] for row in enumerate(reader.rows()) if not self.eval_func(row[1])]
+        if reader.is_series():
+            series = reader.series()
+            self.indices = [row[0] for row in enumerate(reader.rows()) if not self.eval_func(dict(zip(series, row[1])))]
+        else:
+            self.indices = [row[0] for row in enumerate(reader.rows()) if not self.eval_func(row[1])]
 
 
 class RowInFileFilter(RowValueFilter):

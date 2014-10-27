@@ -558,6 +558,19 @@ class Sheet(MultipleFilterableSheet):
             index = headers.index(name)
         self.delete_columns([index])
 
+    def delete_rows(self, row_indices):
+        """delete rows by specified row indices"""
+        indices_to_delete = row_indices
+        if self.signature_filter is not None:
+            new_indices = []
+            for row_index in row_indices:
+                new_row_index, ignored_column = self.signature_filter.translate(
+                    row_index, 0
+                )
+                new_indices.append(new_row_index)
+            indices_to_delete = new_indices
+        MultipleFilterableSheet.delete_rows(self, indices_to_delete)
+
     def __iter__(self):
         """Overload the iterator signature"""
         if self.signature_filter:

@@ -3,7 +3,7 @@ import pyexcel as pe
 from base import create_sample_file2
 
 
-class TestFilter:
+class TestRareCases:
     def test_validate(self):
         ifr = pe.filters.IndexFilter(None)
         ifr.validate_filter(None)
@@ -27,6 +27,13 @@ class TestFilter:
         s.add_filter(pe.filters.RowFilter([100]))
         result = pe.utils.to_array(s)
         assert data == result
+
+    def test_row_value_filter_with_series_reader(self):
+        data = "Person,Age\nAdam,24\nBilly,23\nCeri,28\nDennis,25"
+        r1 = pe.SeriesReader(("csv", data))
+        filter_func = lambda row: row['Age'] == 23
+        r1.filter(pe.filters.RowValueFilter(filter_func))
+        print pe.utils.to_records(r1)
 
 
 class TestFilterWithFilterableReader:
@@ -215,7 +222,8 @@ class TestFilterWithFilterableReader:
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
 
-class TestFilter:
+
+class TestFilterWithReader:
     def setUp(self):
         """
         Make a test csv file as:
@@ -370,6 +378,7 @@ class TestFilter:
             os.unlink(self.testfile)
 
 
+
 class TestComplexFilter:
     def setUp(self):
         """
@@ -427,5 +436,3 @@ class TestComplexFilter:
             os.unlink(self.testfile1)
         if os.path.exists(self.testfile2):
             os.unlink(self.testfile2)
-
-
