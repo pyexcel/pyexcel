@@ -7,8 +7,8 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-from .sheets import Sheet
 import sys
+from .sheets import Sheet
 if sys.version_info[0] == 2 and sys.version_info[1] < 7:
     from ordereddict import OrderedDict
 else:
@@ -79,7 +79,7 @@ def from_records(records):
 
     keys = records[0].keys()
     data = []
-    data.append(keys)
+    data.append(list(keys))
     for r in records:
         row = []
         for k in keys:
