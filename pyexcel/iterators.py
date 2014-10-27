@@ -72,6 +72,33 @@ def transpose(in_array):
         new_array.append(row_data)
     return new_array
 
+    
+def _analyse_slice(aslice, upper_bound):
+    """
+    An internal function to analyze a given slice
+    """
+    if aslice.start is None:
+        start = 0
+    else:
+        start = max(aslice.start, 0)
+    if aslice.stop is None:
+        stop = upper_bound
+    else:
+        stop = min(aslice.stop, upper_bound)
+    if start > stop:
+        raise ValueError
+    elif start < stop:
+        if aslice.step:
+            my_range = range(start, stop, aslice.step)
+        else:
+            my_range = range(start, stop)
+        if six.PY3:
+            # for py3, my_range is a range object
+            my_range = list(my_range)
+    else:
+        my_range = [start]
+    return my_range
+
 
 class Row:
     """
@@ -102,33 +129,10 @@ class Row:
     def __init__(self, matrix):
         self.ref = matrix
 
-    def _analyse_slice(self, aslice):
-        if aslice.start is None:
-            start = 0
-        else:
-            start = max(aslice.start, 0)
-        if aslice.stop is None:
-            stop = self.ref.number_of_rows()
-        else:
-            stop = min(aslice.stop, self.ref.number_of_rows())
-        if start > stop:
-            raise ValueError
-        elif start < stop:
-            if aslice.step:
-                my_range = range(start, stop, aslice.step)
-            else:
-                my_range = range(start, stop)
-            if six.PY3:
-                # for py3, my_range is a range object
-                my_range = list(my_range)
-        else:
-            my_range = [start]
-        return my_range
-
     def __delitem__(self, aslice):
         """Override the operator to delete items"""
         if isinstance(aslice, slice):
-            my_range = self._analyse_slice(aslice)
+            my_range = _analyse_slice(aslice, self.ref.number_of_rows())
             self.ref.delete_rows(my_range)
         else:
             self.ref.delete_rows([aslice])
@@ -136,7 +140,7 @@ class Row:
     def __setitem__(self, aslice, c):
         """Override the operator to set items"""
         if isinstance(aslice, slice):
-            my_range = self._analyse_slice(aslice)
+            my_range = _analyse_slice(aslice, self.ref.number_of_rows())
             for i in my_range:
                 self.ref.set_row_at(i, c)
         else:
@@ -147,7 +151,7 @@ class Row:
         from left to right"""
         index = aslice
         if isinstance(aslice, slice):
-            my_range = self._analyse_slice(aslice)
+            my_range = _analyse_slice(aslice, self.ref.number_of_rows())
             results = []
             for i in my_range:
                 results.append(self.ref.row_at(i))
@@ -208,33 +212,10 @@ class Column:
     def __init__(self, matrix):
         self.ref = matrix
 
-    def _analyse_slice(self, aslice):
-        if aslice.start is None:
-            start = 0
-        else:
-            start = max(aslice.start, 0)
-        if aslice.stop is None:
-            stop = self.ref.number_of_columns()
-        else:
-            stop = min(aslice.stop, self.ref.number_of_columns())
-        if start > stop:
-            raise ValueError
-        elif start < stop:
-            if aslice.step:
-                my_range = range(start, stop, aslice.step)
-            else:
-                my_range = range(start, stop)
-            if six.PY3:
-                # for py3, my_range is a range object
-                my_range = list(my_range)
-        else:
-            my_range = [start]
-        return my_range
-
     def __delitem__(self, aslice):
         """Override the operator to delete items"""
         if isinstance(aslice, slice):
-            my_range = self._analyse_slice(aslice)
+            my_range = _analyse_slice(aslice, self.ref.number_of_columns())
             self.ref.delete_columns(my_range)
         elif isinstance(aslice, int):
             self.ref.delete_columns([aslice])
@@ -244,7 +225,7 @@ class Column:
     def __setitem__(self, aslice, c):
         """Override the operator to set items"""
         if isinstance(aslice, slice):
-            my_range = self._analyse_slice(aslice)
+            my_range = _analyse_slice(aslice, self.ref.number_of_columns())
             for i in my_range:
                 self.ref.set_column_at(i, c)
         elif isinstance(aslice, int):
@@ -257,7 +238,7 @@ class Column:
         from left to right"""
         index = aslice
         if isinstance(aslice, slice):
-            my_range = self._analyse_slice(aslice)
+            my_range = _analyse_slice(aslice, self.ref.number_of_columns())
             results = []
             for i in my_range:
                 results.append(self.ref.column_at(i))
