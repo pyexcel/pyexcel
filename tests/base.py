@@ -111,6 +111,19 @@ class PyexcelHatWriterBase:
         r = pe.SeriesReader(self.testfile)
         actual = pe.utils.to_dict(r)
         assert actual == self.content
+        
+    def test_write_records(self):
+        w = pe.Writer(self.testfile)
+        w.write_dict(self.content)
+        w.close()
+        r = pe.SeriesReader(self.testfile)
+        records = pe.utils.to_records(r)
+        w2 = pe.Writer(self.testfile)
+        w2.write_records(records)
+        w2.close()
+        r2 = pe.SeriesReader(self.testfile)
+        actual = pe.utils.to_dict(r2)
+        assert actual == self.content
     
 
 class PyexcelBase:

@@ -7,7 +7,7 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-from .utils import to_dict, to_array
+from .utils import to_dict, to_array, from_records
 from .iterators import Matrix, transpose
 from .io import get_writer
 from .sheets import Sheet
@@ -123,6 +123,16 @@ class SheetWriter:
         :param list in_array: a two dimensional array
         """
         out_array = transpose(in_array)
+        self.write_rows(out_array)
+
+    def write_records(self, records):
+        """Write records to rows
+
+        key will become the column header and all data
+        will be stacked one by one as rows
+        :param list of dictionary records: the incoming data
+        """
+        out_array = from_records(records)
         self.write_rows(out_array)
 
     def close(self):
