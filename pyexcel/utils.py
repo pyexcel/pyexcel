@@ -71,6 +71,23 @@ def to_records(reader, custom_headers=None):
     return ret
 
 
+def from_records(records):
+    """Reverse function of to_records
+    """
+    if len(records) < 1:
+        return None
+
+    keys = records[0].keys()
+    data = []
+    data.append(keys)
+    for r in records:
+        row = []
+        for k in keys:
+            row.append(r[k])
+        data.append(row)
+    return data
+
+
 def to_one_dimensional_array(iterator):
     """convert a reader to one dimensional array"""
     array = []
