@@ -11,7 +11,7 @@ import six
 import copy
 
 
-def f7(seq):
+def _unique(seq):
     """
     Return a unique list of the incoming list
     
@@ -661,7 +661,7 @@ class Matrix:
         if isinstance(row_indices, list) is False:
             raise IndexError
         if len(row_indices) > 0:
-            unique_list = f7(row_indices)
+            unique_list = _unique(row_indices)
             sorted_list = sorted(unique_list, reverse=True)
             for i in sorted_list:
                 if i < self.number_of_rows():
@@ -704,7 +704,7 @@ class Matrix:
         if isinstance(column_indices, list) is False:
             raise ValueError
         if len(column_indices) > 0:
-            unique_list = f7(column_indices)
+            unique_list = _unique(column_indices)
             sorted_list = sorted(unique_list, reverse=True)
             for i in range(0, len(self.array)):
                 for j in sorted_list:
