@@ -43,7 +43,6 @@ class TestMatrixColumn:
     def test_iadd_list(self):
         """Test in place add a list
         """
-        data2 = [[1, 2], [1, 2]]
         m2 = pe.iterators.Matrix(self.data)
         m2.column += self.data2
         actual2 = pe.utils.to_array(m2)
@@ -53,7 +52,6 @@ class TestMatrixColumn:
         """Test operator add overload
         """
         # +
-        data2 = [[1, 2], [1, 2]]
         m3 = pe.iterators.Matrix(self.data)
         m4 = m3.column + self.data2
         actual3 = pe.utils.to_array(m4)
@@ -98,6 +96,8 @@ class TestMatrixColumn:
         m = pe.iterators.Matrix(self.data)
         del m.column[0]
         assert m.row[0] == [2, 3, 4, 5, 6]
+        del m.column['A']
+        assert m.row[0] == [3, 4, 5, 6]
 
     def test_delete_a_slice(self):
         m = pe.iterators.Matrix(self.data)
@@ -110,6 +110,9 @@ class TestMatrixColumn:
         r.column[1] = content
         assert r.column[1] == content[:3]
         assert r.column[0] == [1, 1, 1]
+        r.column['B'] = ['p', 'q', 'r']
+        print r.column['B']
+        assert r.column['B'] == ['p', 'q', 'r']
 
     def test_set_a_slice_of_column(self):
         r = pe.iterators.Matrix(self.data)        
@@ -280,6 +283,10 @@ class TestMatrix:
         r.cell_value(0, 1, d)
         assert isinstance(r[0,1], datetime.date) is True
         assert r[0,1].strftime("%d/%m/%y") == "01/10/14"
+        r["A1"] = 'p'
+        assert r[0,0] == 'p'
+        r[0,1] = 16
+        assert r["B1"] == 16
 
     def test_old_style_access(self):
         r = pe.iterators.Matrix(self.data)
@@ -395,3 +402,54 @@ class TestHatIterators:
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
+
+            
+class TestUtilityFunctions:
+    def test_excel_column_index(self):
+        chars = ""
+        index = pe.iterators._excel_column_index(chars)
+        assert index == -1
+        chars = "Z"
+        index = pe.iterators._excel_column_index(chars)
+        assert index == 25
+        chars = "AB"
+        index = pe.iterators._excel_column_index(chars)
+        assert index == 27
+        chars = "AAB"
+        index = pe.iterators._excel_column_index(chars)
+        assert index == 703
+
+    def test_excel_cell_position(self):
+        pos_chars = "A"
+        row, column = pe.iterators._excel_cell_position(pos_chars)
+        assert row == -1
+        assert column == -1
+        pos_chars = "A1"
+        row, column = pe.iterators._excel_cell_position(pos_chars)
+        assert row == 0
+        assert column == 0
+        pos_chars = "AAB111"
+        row, column = pe.iterators._excel_cell_position(pos_chars)
+        assert row == 110
+        assert column == 703
+
+    def test_analyse_slice(self):
+        a = slice(None, 3)
+        bound = 4
+        expected = [0, 1, 2]
+        result = pe.iterators._analyse_slice(a, bound)
+        assert expected == result
+        a = slice(1, None)
+        bound = 4
+        expected = [1, 2, 3]
+        result = pe.iterators._analyse_slice(a, bound)
+        assert expected == result
+        a = slice(2, 1)
+        bound = 4
+        expected = [1, 2, 3]
+        try:
+            result = pe.iterators._analyse_slice(a, bound)
+            assert 1==2
+        except ValueError:
+            assert 1==1
+       

@@ -7,6 +7,7 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
+import re
 import six
 import copy
 
@@ -72,6 +73,35 @@ def transpose(in_array):
         new_array.append(row_data)
     return new_array
 
+
+"""
+In order to easily compute the actual index of 'X' or 'AX', these utility
+functions were written
+"""
+
+_INDICES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+def _get_index(index_chars):
+    length = len(index_chars)
+    if len(index_chars) > 1:
+        return (_get_index(index_chars[0])+1) * (len(_INDICES) ** (length-1)) + _get_index(index_chars[1:])
+    else:
+        return _INDICES.index(index_chars[0])
+
+def _excel_column_index(index_chars):
+    if len(index_chars) < 1:
+        return -1
+    else:
+        return _get_index(index_chars.upper())
+
+def _excel_cell_position(pos_chars):
+    if len(pos_chars) < 2:
+        return -1, -1
+    group = re.match("([A-Za-z]+)([0-9]+)", pos_chars)
+    if group:    
+        return int(group.group(2)) - 1, _excel_column_index(group.group(1))
+    else:
+        raise IndexError
     
 def _analyse_slice(aslice, upper_bound):
     """
@@ -217,6 +247,9 @@ class Column:
         if isinstance(aslice, slice):
             my_range = _analyse_slice(aslice, self.ref.number_of_columns())
             self.ref.delete_columns(my_range)
+        elif isinstance(aslice, str):
+            index = _excel_column_index(aslice)
+            self.ref.delete_columns([index])
         elif isinstance(aslice, int):
             self.ref.delete_columns([aslice])
         else:
@@ -228,6 +261,9 @@ class Column:
             my_range = _analyse_slice(aslice, self.ref.number_of_columns())
             for i in my_range:
                 self.ref.set_column_at(i, c)
+        elif isinstance(aslice, str):
+            index = _excel_column_index(aslice)
+            self.ref.set_column_at(index, c)
         elif isinstance(aslice, int):
             self.ref.set_column_at(aslice, c)
         else:
@@ -243,6 +279,8 @@ class Column:
             for i in my_range:
                 results.append(self.ref.column_at(i))
             return results
+        elif isinstance(aslice, str):
+            index = _excel_column_index(aslice)
         if index in self.ref.column_range():
             return self.ref.column_at(index)
         else:
@@ -695,6 +733,9 @@ class Matrix:
         """Override the operator to set items"""
         if isinstance(aset, tuple):
             return self.cell_value(aset[0], aset[1], c)
+        elif isinstance(aset, str):
+            row, column = _excel_cell_position(aset)
+            return self.cell_value(row, column, c)
         else:
             raise IndexError
 
@@ -703,6 +744,9 @@ class Matrix:
         from left to right"""
         if isinstance(aset, tuple):
             return self.cell_value(aset[0], aset[1])
+        elif isinstance(aset, str):
+            row, column = _excel_cell_position(aset)
+            return self.cell_value(row, column)
         elif isinstance(aset, int):
             print("Deprecated usage. Please use [row, column]")
             return self.row_at(aset)
