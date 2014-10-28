@@ -219,11 +219,33 @@ class RowValueFilter(RowIndexFilter):
         
         :param Matrix reader: a Matrix instance
         """
-        if reader.is_series():
-            series = reader.series()
-            self.indices = [row[0] for row in enumerate(reader.rows()) if not self.eval_func(dict(zip(series, row[1])))]
-        else:
-            self.indices = [row[0] for row in enumerate(reader.rows()) if not self.eval_func(row[1])]
+        self.indices = [row[0] for row in enumerate(reader.rows()) if not self.eval_func(row[1])]
+
+
+class SeriesRowValueFilter(RowIndexFilter):
+    """Filter out rows that satisfy a condition
+
+    .. note:: it takes time as it needs to go through all values
+    """
+    def validate_filter(self, reader):
+        """
+        Filter out the row indices
+
+        This is what it does::
+        
+            new_indices = []
+            index = 0
+            for r in reader.rows():
+                if not self.eval_func(r):
+                    new_indices.append(index)
+                index += 1
+        
+        :param Matrix reader: a Matrix instance
+        """
+        if not reader.is_series():
+            raise NotImplementedError("Please use RowValueFilter instead")
+        series = reader.series()
+        self.indices = [row[0] for row in enumerate(reader.rows()) if not self.eval_func(dict(zip(series, row[1])))]
 
 
 class RowInFileFilter(RowValueFilter):

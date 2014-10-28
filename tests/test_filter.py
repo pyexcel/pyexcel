@@ -32,7 +32,9 @@ class TestRareCases:
         data = "Person,Age\nAdam,24\nBilly,23\nCeri,28\nDennis,25"
         r1 = pe.SeriesReader(("csv", data))
         filter_func = lambda row: row['Age'] == 23
-        r1.filter(pe.filters.RowValueFilter(filter_func))
+        r1.filter(pe.filters.SeriesRowValueFilter(filter_func))
+        assert r1.number_of_rows() == 1
+        assert r1.row[0] == ['Billy', 23]
 
 
 class TestFilterWithFilterableReader:

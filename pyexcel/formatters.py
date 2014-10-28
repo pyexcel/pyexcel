@@ -12,6 +12,10 @@ import types
 import datetime
 
 
+def _is_array_type(an_array, atype):
+    tmp = filter(lambda i: not isinstance(i, atype), an_array)
+    return len(tmp) == 0
+
 def string_to_format(value, FORMAT):
     """Convert string to specified format"""
     if FORMAT == float:
@@ -170,14 +174,53 @@ class ColumnFormatter(Formatter):
         :param type FORMAT: the target format
         :param func custom_converter: the custom functional formatter
         """
+        self.indices = column_index
         if isinstance(column_index, int):
             func = lambda r, c, v: c == column_index
         elif isinstance(column_index, list):
-            func = lambda r, c, v: c in column_index
+            if len(column_index) == 0:
+                raise NotImplementedError("column list is empty. do not waste resurce")
+            if _is_array_type(column_index, int):
+                func = lambda r, c, v: c in column_index
+            else:
+                raise NotImplementedError("column list should be a list of integers")
         else:
             raise NotImplementedError("%s is not supported" % type(column_index))
         Formatter.__init__(self, func, FORMAT, custom_converter)
 
+
+class NamedColumnFormatter(ColumnFormatter):
+    """Column Formatter"""
+    def __init__(self, column_index, FORMAT, custom_converter=None):
+        """
+        Constructor
+        
+        :param int or list column_index: to which column or what columns
+        to apply the formatter
+        :param type FORMAT: the target format
+        :param func custom_converter: the custom functional formatter
+        """
+        self.indices = column_index
+        if isinstance(column_index, str):
+            func = lambda r, c, v: c == column_index
+        elif isinstance(column_index, list):
+            if len(column_index) == 0:
+                raise NotImplementedError("column list is empty. do not waste resurce")
+            if _is_array_type(column_index, int):
+                func = lambda r, c, v: c in column_index
+            else:
+                raise NotImplementedError("column list should be a list of strings")
+        else:
+            raise NotImplementedError("%s is not supported" % type(column_index))
+        Formatter.__init__(self, func, FORMAT, custom_converter)
+
+    def update_index(self, new_indices):
+        if isinstance(new_indices, int):
+            self.quanlify_func = lambda r, c, v: c == new_indices
+        elif isinstance(new_indices, list):
+            self.quanlify_func = lambda r, c, v: c in new_indices
+        else:
+            raise NotImplementedError("%s is not supported" % type(new_indices))
 
 class RowFormatter(Formatter):
     """Row Formatter"""    
@@ -190,14 +233,54 @@ class RowFormatter(Formatter):
         :param type FORMAT: the target format
         :param func custom_converter: the custom functional formatter
         """
+        self.indices = row_index
         if isinstance(row_index, int):
             func = lambda r, c, v: r == row_index
         elif isinstance(row_index, list):
-            func = lambda r, c, v: r in row_index
+            if len(row_index) == 0:
+                raise NotImplementedError("column list is empty. do not waste resurce")
+            if _is_array_type(row_index, int):
+                func = lambda r, c, v: r in row_index
+            else:
+                raise NotImplementedError("column list should be a list of integers")
         else:
             raise NotImplementedError("%s is not supported" % type(row_index))
         Formatter.__init__(self, func, FORMAT, custom_converter)
 
+
+class NamedRowFormatter(RowFormatter):
+    """Row Formatter"""    
+    def __init__(self, row_index, FORMAT, custom_converter=None):
+        """
+        Constructor
+
+        :param int or list row_index: to which row or what rows to apply the
+        formatter
+        :param type FORMAT: the target format
+        :param func custom_converter: the custom functional formatter
+        """
+        self.indices = row_index
+        if isinstance(row_index, str):
+            func = lambda r, c, v: r == row_index
+        elif isinstance(row_index, list):
+            if len(row_index) == 0:
+                raise NotImplementedError("column list is empty. do not waste resurce")
+            if _is_array_type(row_index, str):
+                func = lambda r, c, v: r in row_index
+            else:
+                raise NotImplementedError("column list should be a list of strings")
+        else:
+            raise NotImplementedError("%s is not supported" % type(row_index))
+        Formatter.__init__(self, func, FORMAT, custom_converter)
+            
+    def update_index(self, new_indices):
+        if isinstance(new_indices, int):
+            self.quanlify_func = lambda r, c, v: r == new_indices
+        elif isinstance(new_indices, list):
+            self.quanlify_func = lambda r, c, v: r in new_indices
+        else:
+            raise NotImplementedError("%s is not supported" % type(new_indices))
+            
 
 class SheetFormatter(Formatter):
     """

@@ -10,7 +10,7 @@
 import six
 import uuid
 from .iterators import Matrix, SeriesColumnIterator, Column
-from .formatters import ColumnFormatter, RowFormatter
+from .formatters import ColumnFormatter, RowFormatter, SheetFormatter
 from .filters import (RowIndexFilter,
                      ColumnIndexFilter,
                      RowFilter)
@@ -83,6 +83,7 @@ class PlainSheet(Matrix):
         elif isinstance(aformatter, RowFormatter):
             self._apply_row_formatter(aformatter)
         else:
+            # to do don't use add_formatter'
             self.add_formatter(aformatter)
             self.freeze_formatters()
                 
@@ -94,6 +95,7 @@ class PlainSheet(Matrix):
         for rindex in self.row_range():
             for cindex in applicables:
                 value = self.cell_value(rindex, cindex)
+                value = column_formatter.do_format(value)
                 self.cell_value(rindex, cindex, value)
 
     def _apply_row_formatter(self, row_formatter):
@@ -104,6 +106,7 @@ class PlainSheet(Matrix):
         for rindex in applicables:
             for cindex in self.column_range():
                 value = self.cell_value(rindex, cindex)
+                value = row_formatter.do_format(value)
                 self.cell_value(rindex, cindex, value)
 
     def add_formatter(self, aformatter):
@@ -145,7 +148,7 @@ class PlainSheet(Matrix):
                 self.cell_value(rindex, cindex, value)
         # clear formatters
         self._formatters = []
-
+                
     def _cell_value(self, row, column, new_value=None):
         """
         Random access to the xls cells
@@ -159,12 +162,6 @@ class PlainSheet(Matrix):
                 for f in self._formatters:
                     if f.is_my_business(row, column, value):
                         value = f.do_format(value)
-            else:
-                if is_string(type(value)):
-                    try:
-                        value = float(value)
-                    except ValueError:
-                        pass
             return value
         else:
             self.array[row][column] = new_value
@@ -559,7 +556,12 @@ class Sheet(MultipleFilterableSheet):
         self.delete_columns([index])
 
     def delete_rows(self, row_indices):
-        """delete rows by specified row indices"""
+        """delete rows by specified row indices
+
+        delete_rows method is overriden because absolute row index 0
+        in SeriesReader is series row. We need to apply the translation
+        for row 0
+        """
         indices_to_delete = row_indices
         if self.signature_filter is not None:
             new_indices = []
@@ -571,6 +573,39 @@ class Sheet(MultipleFilterableSheet):
             indices_to_delete = new_indices
         MultipleFilterableSheet.delete_rows(self, indices_to_delete)
 
+    def apply_formatter(self, aformatter):
+        aformatter = self._translate_named_formatter(aformatter)
+        PlainSheet.apply_formatter(self, aformatter)
+
+    def _translate_named_formatter(self, aformatter):
+        if self.signature_filter is None:
+            return aformatter
+        series = self.series()
+        if isinstance(aformatter, SheetFormatter) is False:
+            if isinstance(aformatter.indices, str):
+                new_indices = series.index(aformatter.indices)
+                aformatter.update_index(new_indices)
+            elif (isinstance(aformatter.indices, list) and
+                  isinstance(aformatter.indices[0], str)):
+                # translate each column name to index
+                aformatter.indices = map(lambda astr: series.index(astr),
+                                         aformatter.indices)
+                aformatter.update_index(new_indices)
+        return aformatter
+
+    def add_formatter(self, aformatter):
+        """Add a lazy formatter. 
+
+        The formatter takes effect on the fly when a cell value is read
+        This is cost effective when you have a big data table
+        and you use only a few columns or rows. If you have farily modest
+        data table, you can choose apply_formatter() too.
+
+        :param Formatter aformatter: a custom formatter
+        """
+        aformatter = self._translate_named_formatter(aformatter)
+        PlainSheet.add_formatter(self, aformatter)
+        
     def __iter__(self):
         """Overload the iterator signature"""
         if self.signature_filter:

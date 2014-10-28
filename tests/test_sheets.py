@@ -63,6 +63,14 @@ class TestSheetNamedColumn:
             [7, 8, 9]
         ]
 
+    def test_formatter_by_named_column(self):
+        s = pe.sheets.Sheet(self.data, "test")
+        s.become_series()
+        f = pe.formatters.NamedColumnFormatter("Column 1", str)
+        s.format(f)
+        assert s.column["Column 1"] == ["1", "4", "7"]
+
+        
     def test_add(self):
         s = pe.sheets.Sheet(self.data, "test")
         data = [
