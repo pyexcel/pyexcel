@@ -371,3 +371,64 @@ class TestSeriesReader4:
 
     def tearDown(self):
         clean_up_files([self.testfile])
+
+
+class TestSeriesReader5:
+    def setUp(self):
+        self.testfile = "test.xls"
+        self.content = [
+            [1, 2, 3],
+            [1, 2, 3],
+            [1, 2, 3],
+            [1, 2, 3],
+            ["X", "Y", "Z"],
+            [1, 2, 3]
+        ]
+        w = pe.Writer(self.testfile)
+        w.write_array(self.content)
+        w.close()
+
+    def test_content_is_read(self):
+        r = pe.SeriesReader(self.testfile, series_row=4)
+        actual = pe.utils.to_array(r.rows())
+        self.content.pop(4)
+        assert self.content == actual
+
+    def test_headers(self):
+        r = pe.SeriesReader(self.testfile, series_row=4)
+        actual = r.series()
+        assert self.content[4] == actual
+
+    def test_named_column_at(self):
+        r = pe.SeriesReader(self.testfile, series_row=4)
+        result = r.named_column_at("X")
+        actual = {"X":[1, 1, 1, 1, 1]}
+        assert result == actual["X"]
+
+    def test_column_filter(self):
+        r = pe.SeriesReader(self.testfile, series_row=4)
+        filter = pe.filters.ColumnFilter([1])
+        r.add_filter(filter)
+        actual = pe.utils.to_dict(r)
+        result = {
+            "X": [1, 1, 1, 1, 1],
+            "Z": [3, 3, 3, 3, 3]
+        }
+        assert "Y" not in actual
+        assert result == actual
+        # test removing the filter, it prints the original one
+        r.remove_filter(filter)
+        actual = pe.utils.to_array(r.rows())
+        self.content.pop(4)
+        assert actual == self.content
+
+    def test_get_item_operator(self):
+        """
+        Series Reader will skip first row because it has column header
+        """
+        r = pe.SeriesReader(self.testfile, series_row=4)
+        value = r[0,1]
+        assert value == 2
+
+    def tearDown(self):
+        clean_up_files([self.testfile])

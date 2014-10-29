@@ -242,9 +242,9 @@ class SeriesReader(Reader):
     A single sheet excel file reader and it has column headers
     """
 
-    def __init__(self, file, sheet=None):
+    def __init__(self, file, sheet=None, series_row=0):
         Reader.__init__(self, file, sheet)
-        self.become_series()
+        self.become_series(series_row)
 
 
 class PlainReader(PlainSheet):

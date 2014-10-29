@@ -9,11 +9,12 @@
 """
 import six
 import uuid
+import copy
 from .iterators import Matrix, SeriesColumnIterator, Column
 from .formatters import ColumnFormatter, RowFormatter, SheetFormatter
 from .filters import (RowIndexFilter,
                      ColumnIndexFilter,
-                     RowFilter)
+                     SingleRowFilter)
 
 
 def is_string(atype):
@@ -60,6 +61,33 @@ class NamedColumn(Column):
             return self.ref.named_column_at(str_or_aslice)
         else:
             return Column.__getitem__(self, str_or_aslice)
+
+    def __iadd__(self, other):
+        """Overload += sign
+
+        :param list other: the column header must be the first element.
+        :return: self
+        """
+        if isinstance(other, list):
+            incoming_data = copy.deepcopy(other)
+        elif isinstance(other, Matrix):
+            incoming_data = copy.deepcopy(other.array)
+        else:
+            raise TypeError
+        header_row = self.ref.header_row
+        if header_row != 0:
+            key = incoming_data.pop(0)
+            incoming_data.insert(header_row, key)
+        Column.__iadd__(self, incoming_data)
+        return self
+
+    def __add__(self, other):
+        """Overload += sign
+
+        :return: self
+        """
+        self.__iadd__(other)
+        return self.ref
 
 
 class PlainSheet(Matrix):
@@ -424,12 +452,14 @@ class Sheet(MultipleFilterableSheet):
         self.signature_filter = None
         self.name = name
         self.named_column = NamedColumn(self)
+        self.header_row = 0
 
-    def become_series(self):
+    def become_series(self, row=0):
         """
         Evolve this sheet to a SeriesReader
         """
-        self.signature_filter = RowFilter([0])
+        self.header_row = row
+        self.signature_filter = SingleRowFilter(row)
         self.validate_filters()
         return self
 
@@ -491,14 +521,14 @@ class Sheet(MultipleFilterableSheet):
     def _headers(self):
         self.headers = []
         for i in self.column_range():
-            new_row = 0
+            new_row = self.header_row
             new_column = i
             number_of_column_filters = len(self.column_filters)
             for x in range(number_of_column_filters-1, -1, -1):
                 new_row, new_column = self.column_filters[x].translate(
                     new_row,
                     new_column)
-            self.headers.append(self._cell_value(0, new_column))
+            self.headers.append(self._cell_value(new_row, new_column))
 
     def series(self):
         """
@@ -519,9 +549,10 @@ class Sheet(MultipleFilterableSheet):
             index = self.headers.index(name)
             column_array = self.column_at(index)
         else:
-            headers = self.row_at(0)
+            headers = self.row_at(self.header_row)
             index = headers.index(name)
-            column_array = self.column_at(index)[1:]
+            column_array = self.column_at(index)
+            column_array.pop(self.header_row)
         return column_array
 
     def set_named_column_at(self, name, column_array):
@@ -536,7 +567,7 @@ class Sheet(MultipleFilterableSheet):
             index = self.headers.index(name)
             self.set_column_at(index, column_array)
         else:
-            headers = self.row_at(0)
+            headers = self.row_at(self.header_row)
             index = headers.index(name)
             self.set_column_at(index, column_array, 1)
 
@@ -551,7 +582,7 @@ class Sheet(MultipleFilterableSheet):
             self._headers()
             index = self.headers.index(name)
         else:
-            headers = self.row_at(0)
+            headers = self.row_at(self.header_row)
             index = headers.index(name)
         self.delete_columns([index])
 

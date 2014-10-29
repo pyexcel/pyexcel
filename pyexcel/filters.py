@@ -177,6 +177,18 @@ class RowFilter(RowIndexFilter):
         RowIndexFilter.__init__(self, eval_func)
 
 
+class SingleRowFilter(RowIndexFilter):
+    """A row filter that takes in a list of indices to be
+    filtered out""" 
+    def __init__(self, index):
+        """Constructor
+
+        :param list indices: a list of column indices to be filtered out
+        """
+        eval_func = lambda x: x == index
+        RowIndexFilter.__init__(self, eval_func)
+
+
 class OddRowFilter(RowIndexFilter):
     """
     Filter out odd rows

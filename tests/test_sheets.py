@@ -71,7 +71,6 @@ class TestSheetNamedColumn:
         s.format(f)
         assert s.column["Column 1"] == ["1", "4", "7"]
 
-        
     def test_add(self):
         s = pe.sheets.Sheet(self.data, "test")
         data = [
@@ -101,4 +100,49 @@ class TestSheetNamedColumn:
             assert 1==2
         except ValueError:
             assert 1==1
-        
+
+
+class TestSheetNamedColumn2:
+    def setUp(self):
+        self.data = [
+            [1, 2, 3],
+            [4, 5, 6],
+            ["Column 1", "Column 2", "Column 3"],
+            [7, 8, 9]
+        ]
+
+    def test_series(self):
+        s = pe.sheets.Sheet(self.data, "test")
+        s.become_series(2)
+        assert s.series() == ["Column 1", "Column 2", "Column 3"]
+
+    def test_formatter_by_named_column(self):
+        s = pe.sheets.Sheet(self.data, "test")
+        s.become_series(2)
+        f = pe.formatters.NamedColumnFormatter("Column 1", str)
+        s.format(f)
+        assert s.column["Column 1"] == ["1", "4", "7"]
+
+    def test_add(self):
+        s = pe.sheets.Sheet(self.data, "test")
+        s.become_series(2)
+        data = [
+            ["Column 4"],
+            [10],
+            [11],
+            [12]
+        ]
+        m = pe.iterators.Matrix(data)
+        s = s.column + m
+        assert s.column["Column 4"] == [10, 11, 12]
+
+    def test_delete_named_column(self):
+        s = pe.sheets.Sheet(self.data, "test")
+        s.become_series(2)
+        del s.column["Column 2"]
+        assert s.number_of_columns() == 2
+        try:
+            s.column["Column 2"]
+            assert 1==2
+        except ValueError:
+            assert 1==1
