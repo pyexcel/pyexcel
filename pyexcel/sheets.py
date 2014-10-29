@@ -88,11 +88,9 @@ class PlainSheet(Matrix):
             self.freeze_formatters()
                 
     def _apply_column_formatter(self, column_formatter):
-        indices = list(self.column_range())
-        applicables = filter(lambda c: column_formatter.is_my_business(-1, c, -1),
-                             indices)
-        if six.PY3:
-            applicables = list(applicables)
+        def filter_indices(column_index):
+            return column_formatter.is_my_business(-1, column_index, -1)
+        applicables = [i for i in self.column_range() if filter_indices(i)]
         # set the values
         for rindex in self.row_range():
             for cindex in applicables:
@@ -101,11 +99,9 @@ class PlainSheet(Matrix):
                 self.cell_value(rindex, cindex, value)
 
     def _apply_row_formatter(self, row_formatter):
-        indices = list(self.row_range())
-        applicables = filter(lambda r: row_formatter.is_my_business(r, -1, -1),
-                             indices)
-        if six.PY3:
-            applicables = list(applicables)
+        def filter_indices(row_index):
+            return row_formatter.is_my_business(row_index, -1, -1)
+        applicables = [i for i in self.row_range() if filter_indices(i)]
         # set the values
         for rindex in applicables:
             for cindex in self.column_range():
