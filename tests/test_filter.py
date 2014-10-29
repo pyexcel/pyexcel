@@ -1,6 +1,6 @@
 import os
 import pyexcel as pe
-from base import create_sample_file2
+from base import create_sample_file2_in_memory
 
 
 class TestRareCases:
@@ -46,17 +46,17 @@ class TestFilterWithFilterableReader:
         5,6,7,8
         9,10,11,12
         """
-        self.testfile = "test.xlsm"
-        create_sample_file2(self.testfile)
+        self.file_type = "xlsm"
+        self.testfile = create_sample_file2_in_memory(self.file_type)
 
     def test_use_filter_reader_without_filter(self):
-        r = pe.FilterableReader(self.testfile)
+        r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
         result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
 
     def test_column_filter(self):
-        r = pe.FilterableReader(self.testfile)
+        r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
         r.filter(pe.filters.ColumnFilter([0, 2]))
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
@@ -64,7 +64,7 @@ class TestFilterWithFilterableReader:
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
         # filter out last column and first column
-        r = pe.FilterableReader(self.testfile)
+        r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
         r.filter(pe.filters.ColumnFilter([0, 3]))
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
@@ -72,7 +72,7 @@ class TestFilterWithFilterableReader:
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
         # filter out all
-        r = pe.FilterableReader(self.testfile)
+        r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
         r.filter(pe.filters.ColumnFilter([0, 1, 2, 3]))
         assert r.number_of_columns() == 0
         result = []
@@ -80,7 +80,7 @@ class TestFilterWithFilterableReader:
         assert result == actual
 
     def test_column_filter_with_invalid_indices(self):
-        r = pe.FilterableReader(self.testfile)
+        r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
         r.filter(pe.filters.ColumnFilter([11, -1]))
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 4
@@ -89,7 +89,7 @@ class TestFilterWithFilterableReader:
         assert result == actual
 
     def test_column_index_filter(self):
-        r = pe.FilterableReader(self.testfile)
+        r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
         test_func = lambda x: x in [0, 2]
         r.add_filter(pe.filters.ColumnIndexFilter(test_func))
         assert r.number_of_rows() == 3
@@ -104,7 +104,7 @@ class TestFilterWithFilterableReader:
         assert result == actual
 
     def test_even_column_filter(self):
-        r = pe.FilterableReader(self.testfile)
+        r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
         r.filter(pe.filters.EvenColumnFilter())
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
@@ -113,7 +113,7 @@ class TestFilterWithFilterableReader:
         assert result == actual
 
     def test_odd_column_filter(self):
-        r = pe.FilterableReader(self.testfile)
+        r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
         r.filter(pe.filters.OddColumnFilter())
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
@@ -122,7 +122,7 @@ class TestFilterWithFilterableReader:
         assert result == actual
 
     def test_row_filter(self):
-        r = pe.FilterableReader(self.testfile)
+        r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
         r.filter(pe.filters.RowFilter([1]))
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4
@@ -130,7 +130,7 @@ class TestFilterWithFilterableReader:
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
         # filter out last column and first column
-        r = pe.FilterableReader(self.testfile)
+        r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
         r.filter(pe.filters.RowFilter([0, 2]))
         assert r.number_of_rows() == 1
         assert r.number_of_columns() == 4
@@ -138,7 +138,7 @@ class TestFilterWithFilterableReader:
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
         # filter out all
-        r = pe.FilterableReader(self.testfile)
+        r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
         r.filter(pe.filters.RowFilter([0, 1, 2]))
         assert r.number_of_rows() == 0
         result = []
@@ -146,7 +146,7 @@ class TestFilterWithFilterableReader:
         assert result == actual
 
     def test_row_filter_with_invalid_indices(self):
-        r = pe.FilterableReader(self.testfile)
+        r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
         r.filter(pe.filters.RowFilter([11, -1]))
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 4
@@ -155,7 +155,7 @@ class TestFilterWithFilterableReader:
         assert result == actual
 
     def test_row_index_filter(self):
-        r = pe.FilterableReader(self.testfile)
+        r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
         filter_func = lambda x: x in [1]
         r.add_filter(pe.filters.RowIndexFilter(filter_func))
         assert r.number_of_rows() == 2
@@ -170,7 +170,7 @@ class TestFilterWithFilterableReader:
         assert result == actual
 
     def test_even_row_filter(self):
-        r = pe.FilterableReader(self.testfile)
+        r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
         r.filter(pe.filters.EvenRowFilter())
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4
@@ -179,7 +179,7 @@ class TestFilterWithFilterableReader:
         assert result == actual
 
     def test_odd_row_filter(self):
-        r = pe.FilterableReader(self.testfile)
+        r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
         r.filter(pe.filters.OddRowFilter())
         assert r.number_of_rows() == 1
         assert r.number_of_columns() == 4
@@ -188,7 +188,7 @@ class TestFilterWithFilterableReader:
         assert result == actual
 
     def test_two_filters(self):
-        r = pe.FilterableReader(self.testfile)
+        r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
         f1 = pe.filters.OddRowFilter()
         f2 = pe.filters.OddColumnFilter()
         r.add_filter(f1)
@@ -206,7 +206,7 @@ class TestFilterWithFilterableReader:
         assert result == actual
 
     def test_remove_filter(self):
-        r = pe.FilterableReader(self.testfile)
+        r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
         f = pe.filters.OddRowFilter()
         r.add_filter(f)
         assert r.number_of_rows() == 1
@@ -219,10 +219,6 @@ class TestFilterWithFilterableReader:
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
 
-    def tearDown(self):
-        if os.path.exists(self.testfile):
-            os.unlink(self.testfile)
-
 
 class TestFilterWithReader:
     def setUp(self):
@@ -233,17 +229,18 @@ class TestFilterWithReader:
         5,6,7,8
         9,10,11,12
         """
-        self.testfile = "test.xlsm"
-        create_sample_file2(self.testfile)
+        self.file_type = "xlsx"
+        self.testfile = create_sample_file2_in_memory(self.file_type)
+        self.test_tuple = (self.file_type, self.testfile.getvalue())
 
     def test_use_filter_reader_without_filter(self):
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
 
     def test_column_filter(self):
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         r.filter(pe.filters.ColumnFilter([0, 2]))
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
@@ -251,7 +248,7 @@ class TestFilterWithReader:
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
         # filter out last column and first column
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         r.filter(pe.filters.ColumnFilter([0, 3]))
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
@@ -259,7 +256,7 @@ class TestFilterWithReader:
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
         # filter out all
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         r.filter(pe.filters.ColumnFilter([0, 1, 2, 3]))
         assert r.number_of_columns() == 0
         result = []
@@ -267,7 +264,7 @@ class TestFilterWithReader:
         assert result == actual
 
     def test_column_filter_with_invalid_indices(self):
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         r.filter(pe.filters.ColumnFilter([11, -1]))
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 4
@@ -276,7 +273,7 @@ class TestFilterWithReader:
         assert result == actual
 
     def test_column_index_filter(self):
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         test_func = lambda x: x in [0, 2]
         r.add_filter(pe.filters.ColumnIndexFilter(test_func))
         assert r.number_of_rows() == 3
@@ -291,7 +288,7 @@ class TestFilterWithReader:
         assert result == actual
 
     def test_even_column_filter(self):
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         r.filter(pe.filters.EvenColumnFilter())
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
@@ -300,7 +297,7 @@ class TestFilterWithReader:
         assert result == actual
 
     def test_odd_column_filter(self):
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         r.filter(pe.filters.OddColumnFilter())
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
@@ -309,7 +306,7 @@ class TestFilterWithReader:
         assert result == actual
 
     def test_row_filter(self):
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         r.filter(pe.filters.RowFilter([1]))
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4
@@ -317,7 +314,7 @@ class TestFilterWithReader:
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
         # filter out last column and first column
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         r.filter(pe.filters.RowFilter([0, 2]))
         assert r.number_of_rows() == 1
         assert r.number_of_columns() == 4
@@ -325,7 +322,7 @@ class TestFilterWithReader:
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
         # filter out all
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         r.filter(pe.filters.RowFilter([0, 1, 2]))
         assert r.number_of_rows() == 0
         result = []
@@ -333,7 +330,7 @@ class TestFilterWithReader:
         assert result == actual
 
     def test_row_filter_with_invalid_indices(self):
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         r.filter(pe.filters.RowFilter([11, -1]))
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 4
@@ -342,7 +339,7 @@ class TestFilterWithReader:
         assert result == actual
 
     def test_row_index_filter(self):
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         filter_func = lambda x: x in [1]
         r.add_filter(pe.filters.RowIndexFilter(filter_func))
         assert r.number_of_rows() == 2
@@ -357,7 +354,7 @@ class TestFilterWithReader:
         assert result == actual
 
     def test_even_row_filter(self):
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         r.filter(pe.filters.EvenRowFilter())
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4
@@ -366,18 +363,13 @@ class TestFilterWithReader:
         assert result == actual
 
     def test_odd_row_filter(self):
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         r.filter(pe.filters.OddRowFilter())
         assert r.number_of_rows() == 1
         assert r.number_of_columns() == 4
         result = [5, 6, 7, 8]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
-
-    def tearDown(self):
-        if os.path.exists(self.testfile):
-            os.unlink(self.testfile)
-
 
 
 class TestComplexFilter:

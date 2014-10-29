@@ -2,6 +2,12 @@ import pyexcel as pe
 import os
 import datetime
 from base import clean_up_files
+import six
+if six.PY2:
+    from StringIO import StringIO
+    from StringIO import StringIO as BytesIO
+else:
+    from io import BytesIO, StringIO
 
 
 class TestToFormatFunction:
@@ -194,13 +200,14 @@ class TestColumnFormatter:
             "5": [2, 3, 4, 5, 6, 7, 8, 9],
             "6": ["2", "3", "4", "5", "6", "7", "8", "9"]
         }
-        self.testfile = "test.csv"
-        w = pe.Writer(self.testfile)
+        self.io = StringIO()
+        w = pe.Writer(("csv", self.io))
         w.write_dict(self.data)
-        w.close()
+        #w.close()
+        self.test_tuple = ("csv", self.io.getvalue())
 
     def test_general_usage(self):
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         r.add_formatter(pe.formatters.ColumnFormatter(
             0,
             str))
@@ -210,7 +217,7 @@ class TestColumnFormatter:
             assert c1[i] == c2[i]
 
     def test_one_formatter_for_two_columns(self):
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         r.add_formatter(pe.formatters.ColumnFormatter(
             [0,5],
             str))
@@ -231,7 +238,7 @@ class TestColumnFormatter:
             assert 1==1
 
     def test_two_formatters(self):
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         r.add_formatter(pe.formatters.ColumnFormatter(
             0,
             str))
@@ -249,7 +256,7 @@ class TestColumnFormatter:
             assert c1[i] == c2[i]
 
     def test_custom_func(self):
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         f = lambda x: int(x) + 1
         r.add_formatter(pe.formatters.ColumnFormatter(
             0,
@@ -261,7 +268,7 @@ class TestColumnFormatter:
             assert c1[i] == c2[i]
 
     def test_custom_func_with_a_general_converter(self):
-        r = pe.Reader(self.testfile)
+        r = pe.Reader(self.test_tuple)
         f = lambda x: int(x) + 1
         r.add_formatter(pe.formatters.ColumnFormatter(
             0,
@@ -278,9 +285,6 @@ class TestColumnFormatter:
         c2 = self.data["6"]
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
-
-    def tearDown(self):
-        clean_up_files([self.testfile])
 
 
 class TestRowFormatter:

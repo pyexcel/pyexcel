@@ -1,7 +1,12 @@
 import pyexcel as pe
 import json
 import os
-import datetime
+import six
+if six.PY2:
+    from StringIO import StringIO
+    from StringIO import StringIO as BytesIO
+else:
+    from io import BytesIO, StringIO
 
 
 def clean_up_files(file_list):
@@ -50,6 +55,23 @@ def create_sample_file2(file):
         table.append(array)
     w.write_array(table)
     w.close()
+
+
+def create_sample_file2_in_memory(file_type):
+    """
+    1,2,3,4
+    5,6,7,8
+    9,10,11,12
+    """
+    io = BytesIO()
+    w = pe.Writer((file_type, io))
+    table = []
+    for i in [0, 4, 8]:
+        array = [i+1, i+2, i+3, i+4]
+        table.append(array)
+    w.write_array(table)
+    w.close()
+    return io
     
 
 class PyexcelWriterBase:
