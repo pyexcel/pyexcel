@@ -25,18 +25,16 @@ userid   name
 
 Let's read it out first::
 
-    >> from pyexcel import SeriesReader
-    >> reader = SeriesReader("example.xls")
-    >> from pyexcel.utils import to_dict
-    >> to_dict(reader)
+    >> import pyexcel as pe
+    >> reader = pe.SeriesReader("example.xls")
+    >> pe.to_dict(reader)
     {u'userid': [10120.0, 10121.0, 10122.0], u'name': [u'Adam', u'Bella', u'Cedar']}
 
 As you can see, `userid` column is of `float` type. Next, let's convert the column to string format::
 
-    >> from pyexcel.formatters import ColumnFormatter, STRING_FORMAT
-    >> formatter = ColumnFormatter(0, STRING_FORMAT)
+    >> formatter = pe.formatters.ColumnFormatter(0, str)
     >> reader.add_formatter(formatter)
-    >> to_dict(reader)
+    >> pe.to_dict(reader)
     {u'userid': ['10120.0', '10121.0', '10122.0'], u'name': [u'Adam', u'Bella', u'Cedar']}
 
 Now, they are in string format.
@@ -57,10 +55,9 @@ Sometimes, the data in a spreadsheet may have unwanted strings in all or some ce
 
 First, let's read the content and see what do we have::
 
-    >>> from pyexcel import Reader
-    >>> from pyexcel.utils import to_array
-    >>> r=Reader("tutorial_datatype_02.ods")
-    >>> to_array(r)
+    >>> import pyexcel as pe
+    >>> r=pe.Reader("tutorial_datatype_02.ods")
+    >>> pe.to_array(r)
     [[u'Version', u'Comments', u'Author &nbsp;'], [u'v0.0.1 ', u'Release versions',
     u'&nbsp;Eda'], [u'&nbsp; V0.02 ', u'Useful updates &nbsp; &nbsp;', u'&nbsp;Freud
     ']]
@@ -76,11 +73,9 @@ Now try to create a custom cleanse function::
 
 Then let's create a `SheetFormatter` and apply it::
 
-    >>> from pyexcel.formatters import SheetFormatter
-    >>> from pyexcel.formatters import STRING_FORMAT
-    >>> sf = SheetFormatter(STRING_FORMAT, cleanse_func)
+    >>> sf = pe.formatters.SheetFormatter(str, cleanse_func)
     >>> r.add_formatter(sf)
-    >>> to_array(r)
+    >>> pe.to_array(r)
     [[u'Version', u'Comments', u'Author'], [u'v0.0.1', u'Release versions', u'Eda'],
      [u'V0.02', u'Useful updates', u'Freud']]
 

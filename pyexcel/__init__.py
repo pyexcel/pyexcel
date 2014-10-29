@@ -14,6 +14,7 @@
 from .readers import Reader, BookReader, Book
 from .writers import Writer, BookWriter
 from .readers import SeriesReader, PlainReader, FilterableReader
+from .utils import to_dict, to_array, to_records
 from . import formatters, cookbook
 
-__VERSION__ = '0.0.4'
+__VERSION__ = '0.0.7'

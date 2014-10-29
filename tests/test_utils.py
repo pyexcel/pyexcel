@@ -48,7 +48,7 @@ class TestUtils():
         result.update({"Series_1": [1, 2, 3, 4]})
         result.update({"Series_2": [5, 6, 7, 8, ]})
         result.update({"Series_3": [9, 10, 11, 12]})
-        actual = pe.utils.to_dict(r.rows())
+        actual = pe.to_dict(r.rows())
         assert actual.keys() == result.keys()
         assert result == actual
         result = {
@@ -65,7 +65,7 @@ class TestUtils():
             "Series_11": 11,
             "Series_12": 12
         }
-        actual = pe.utils.to_dict(r.enumerate())
+        actual = pe.to_dict(r.enumerate())
         assert result == actual
 
     def tearDown(self):
@@ -94,7 +94,7 @@ class TestUtils2():
 
     def test_book_reader_to_dict(self):
         r = pe.BookReader(self.testfile)
-        actual = pe.utils.to_dict(r)
+        actual = pe.to_dict(r)
         assert actual == self.content
 
     def tearDown(self):
@@ -126,7 +126,7 @@ class TestToRecord():
             {u'Y': 4.0, u'X': 1.0, u'Z': 7.0},
             {u'Y': 5.0, u'X': 2.0, u'Z': 8.0},
             {u'Y': 6.0, u'X': 3.0, u'Z': 9.0}]
-        actual = pe.utils.to_records(r)
+        actual = pe.to_records(r)
         assert actual == result
 
     def test_book_reader_to_records_custom(self):
@@ -138,14 +138,14 @@ class TestToRecord():
             {u'P': 4.0, u'O': 1.0, u'Q': 7.0},
             {u'P': 5.0, u'O': 2.0, u'Q': 8.0},
             {u'P': 6.0, u'O': 3.0, u'Q': 9.0}]
-        actual = pe.utils.to_records(r, custom_headers)
+        actual = pe.to_records(r, custom_headers)
         print(actual)
         assert actual == result
 
     def test_book_reader_to_records_with_wrong_args(self):
         r = pe.BookReader(self.testfile)
         try:
-            pe.utils.to_records(r)
+            pe.to_records(r)
             assert 1==2
         except NotImplementedError:
             assert 1==1

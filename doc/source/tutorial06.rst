@@ -8,7 +8,7 @@ With pyexcel >=0.0.6, excel files in memory can be manipulated directly without 
 
     content = "1,2,3\n3,4,5"
     reader = pe.Reader(("csv", content))
-    print pe.utils.to_array(reader.rows())
+    print pe.to_array(reader.rows())
 
 As you can see, the tuple which is consisted of file type extension and the content to :class:`Reader`. 
 
@@ -30,7 +30,7 @@ You can find a real world example in **examples/memoryfile/** directory: pyexcel
             # pass a tuple instead of a file name
             reader = pe.Book((extension, request.files['excel'].read()))
             # then use it as usual
-            data = pe.utils.to_dict(reader)
+            data = pe.to_dict(reader)
             # respond with a json
             return jsonify({"result":data})
         return render_template...

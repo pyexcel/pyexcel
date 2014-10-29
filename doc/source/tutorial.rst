@@ -124,7 +124,7 @@ The following code will give you the data in json::
     
     # "example.xls","example.xlsx","example.xlsm"
     reader = pe.Reader("example.csv")
-    data = pe.utils.to_array(reader)
+    data = pe.to_array(reader)
     print json.dumps(data)
 
 
@@ -152,7 +152,7 @@ The following code will give you data series in a dictionary:
     
     # "example.xls","example.xlsx","example.xlsm"
     reader = pe.SeriesReader("example.csv")
-    data = pe.utils.to_dict(reader)
+    data = pe.to_dict(reader)
     print data
 
 
@@ -179,7 +179,7 @@ The following code will produce what you want::
     
     # "example.xls","example.xlsx","example.xlsm"
     reader = pe.SeriesReader("example.csv")
-    data = pe.utils.to_record(reader)
+    data = pe.to_record(reader)
     print json.dumps(data)
 
 
@@ -267,7 +267,7 @@ You can get a dictionary out of it by the following code::
     
     
     reader = pe.Reader("example.xls")
-    my_dict = pe.utils.to_dict(reader)
+    my_dict = pe.to_dict(reader)
     print(my_dict)
 
 the output is::

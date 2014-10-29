@@ -12,6 +12,7 @@
 :License: GPL v3
 :Version: |version|
 
+
 Introduction
 -------------
 
@@ -41,32 +42,28 @@ Source code is hosted in github. You can get it using git client::
 Open Document Spreadsheet(ods) Support
 -----------------------------------------
 
-In order to add ods support, please choose one of two packages: `pyexcel-ods <https://github.com/chfw/pyexcel-ods>`_ or `pyexcel-ods3 <https://github.com/chfw/pyexcel-ods3>`_ ::
-
-    $ pip install pyexcel-ods
-
-or::
-
-    $ pip install pyexcel-ods3
-
-In order to use them together with `pyexcel`, you need an extra import line in your code to activate it::
-
-    from pyexcel.ext import ods
-
-or::
-
-    from pyexcel.ext import ods3
-
-No futher code is needed. `pyexcel` will automatically support *ods* after this import.
-
-Here is the comparsion of two packages:
+In order to add ods support, please choose one of two packages: `pyexcel-ods <https://github.com/chfw/pyexcel-ods>`__ or `pyexcel-ods3 <https://github.com/chfw/pyexcel-ods3>`__ . Please read individual installation instructions respectively. Here is the comparsion of two packages:
 
 ============ ========== ========== ========== ========== ==============
 package      python 2.6 python 2.7 python 3.3 python 3.4 lxml dependent
 ============ ========== ========== ========== ========== ==============
 pyexcel-ods  yes	    yes	   	   						 no   		  
-pyexcel-ods3 		    yes        yes        yes		 yes		      		   	 		   
+pyexcel-ods3 		    yes        yes        yes		 yes		   	 		   
 ============ ========== ========== ========== ========== ============== 
+
+
+Plugin compatibility management
+-------------------------------
+======= ======== ====== 
+pyexcel ods      ods3
+======= ======== ======
+v0.0.1  n/a      n/a
+v0.0.2	...      ...             
+v0.0.3  ...      ...                		   
+v0.0.4  0.0.1    0.0.1
+v0.0.5  ...      ...
+v0.0.6  0.0.2    0.0.2
+======= ======== ======
 
 Usage examples
 ----------------
