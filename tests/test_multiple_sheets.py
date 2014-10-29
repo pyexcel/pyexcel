@@ -406,7 +406,6 @@ class TestMergeCSVsIntoOne:
         writer.close()
         r=pe.Reader("merged.csv")
         actual = pe.utils.to_array(r)
-        print actual
         result = [
             [u'1', u'2', u'3'],
             [u'4', u'5', u'6'],
