@@ -1,3 +1,12 @@
+"""
+    pyexcel.io.xlbook
+    ~~~~~~~~~~~~~~~~~~~
+
+    The lower level xls/xlsx/xlsm file format handler using xlrd/xlwt
+
+    :copyright: (c) 2014 by C. W.
+    :license: GPL v3
+"""
 import sys
 import datetime
 import xlrd

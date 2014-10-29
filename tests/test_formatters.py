@@ -358,7 +358,6 @@ class TestRowFormatter:
         r = pe.Reader(self.testfile)
         c1 = r.row_at(1)
         c2 = [1, "1", 1.1, "1.1", 2, "2"]
-        print c1
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
         r.add_formatter(pe.formatters.RowFormatter(
@@ -421,7 +420,6 @@ class TestRowFormatter:
         r.remove_formatter(ft)
         c1 = r.row_at(1)
         c2 = [1, "1", 1.1, "1.1", 2, "2"]
-        print c1
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
 

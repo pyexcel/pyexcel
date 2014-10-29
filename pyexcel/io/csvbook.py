@@ -1,3 +1,12 @@
+"""
+    pyexcel.io.csvbook
+    ~~~~~~~~~~~~~~~~~~~
+
+    The lower level csv file format handler.
+
+    :copyright: (c) 2014 by C. W.
+    :license: GPL v3
+"""
 import six
 import csv
 import codecs

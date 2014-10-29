@@ -19,6 +19,7 @@ class TestPlainSheet:
     def test_apply_column_formatter(self):
         s = pe.sheets.PlainSheet(self.data)
         s.apply_formatter(pe.formatters.ColumnFormatter(0, float))
+        print(s.column[0])
         assert s.column[0] == [1, 1, 1.1, 1.1, 2, 2]
 
     def test_apply_sheet_formatter(self):

@@ -91,6 +91,8 @@ class PlainSheet(Matrix):
         indices = list(self.column_range())
         applicables = filter(lambda c: column_formatter.is_my_business(-1, c, -1),
                              indices)
+        if six.PY3:
+            applicables = list(applicables)
         # set the values
         for rindex in self.row_range():
             for cindex in applicables:
@@ -102,6 +104,8 @@ class PlainSheet(Matrix):
         indices = list(self.row_range())
         applicables = filter(lambda r: row_formatter.is_my_business(r, -1, -1),
                              indices)
+        if six.PY3:
+            applicables = list(applicables)
         # set the values
         for rindex in applicables:
             for cindex in self.column_range():

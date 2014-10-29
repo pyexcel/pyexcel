@@ -7,57 +7,10 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-from .utils import to_dict, to_array, from_records
+from .utils import to_dict, to_array, from_records, dict_to_array
 from .iterators import Matrix, transpose
 from .io import get_writer
 from .sheets import Sheet
-
-
-def dict_to_array(the_dict, with_keys=True):
-    """Convert a dictionary of columns to an array
-
-    The example dict is::
-
-        {
-            "Column 1": [1, 2, 3],
-            "Column 2": [5, 6, 7, 8],
-            "Column 3": [9, 10, 11, 12, 13],
-        }
-    
-    The output will be::
-
-        [
-            ["Column 1", "Column 2", "Column 3"],
-            [1, 5, 9],
-            [2, 6, 10],
-            [3, 7, 11],
-            ['', 8, 12],
-            ['', '', 13]
-        ]
-    
-    :param dict the_dict: the dictionary to be converted.
-    :param bool with_keys: to write the keys as the first row or not
-    """
-    content = []
-    keys = sorted(the_dict.keys())
-    if with_keys:
-        content.append(keys)
-    max_length = -1
-    for k in keys:
-        column_length = len(the_dict[k])
-        if max_length == -1:
-            max_length = column_length
-        elif max_length < column_length:
-            max_length = column_length
-    for i in range(0, max_length):
-        row_data = []
-        for k in keys:
-            if i < len(the_dict[k]):
-                row_data.append(the_dict[k][i])
-            else:
-                row_data.append('')
-        content.append(row_data)
-    return content
 
 
 class SheetWriter:

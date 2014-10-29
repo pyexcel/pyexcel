@@ -14,6 +14,8 @@ import datetime
 
 def _is_array_type(an_array, atype):
     tmp = filter(lambda i: not isinstance(i, atype), an_array)
+    if six.PY3:
+        tmp = list(tmp)
     return len(tmp) == 0
 
 def string_to_format(value, FORMAT):
