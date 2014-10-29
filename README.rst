@@ -37,9 +37,9 @@ Usage
     >>> # access first sheet's top left cell
     >>> print(book["Sheet 1"]["A1"])
     1
-	>>> # alternative access to the same cell
+    >>> # alternative access to the same cell
     >>> print(book["Sheet 1"][0,0])
-    1	
+    1   
 
 Documentation
 =============
