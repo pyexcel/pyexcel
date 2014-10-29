@@ -7,6 +7,9 @@ Previous section has assumed the data is in the format that you want. In reality
 #. use `format` to apply formatter immediately. 
 
 
+There is slightly different behavior between csv reader and xls reader. The cell type of the cells read by csv reader will be always text while the cell types read by xls reader vary. 
+
+
 Convert a column of numbers to strings
 --------------------------------------
 

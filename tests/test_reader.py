@@ -1,6 +1,5 @@
 import pyexcel as pe
 from base import PyexcelBase, clean_up_files
-import os
 from base import create_sample_file1
 
 
@@ -53,7 +52,7 @@ class TestReader:
         value = r.row_at(100)
         assert value == None
         value = r.row_at(2)
-        assert value == ['i', 'j', 1.1, 1]
+        assert value == ['i', 'j', "1.1", "1"]
 
     def test_column_at(self):
         r = pe.Reader(self.testfile)
@@ -119,7 +118,7 @@ class TestCSVReader2:
 
     def test_data_types(self):
         r = pe.Reader(self.testfile)
-        result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
+        result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', '1.1', '1']
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
 
@@ -165,7 +164,7 @@ class TestCSVReaderDialect:
     def test_read_delimiter(self):
         r = pe.Reader(self.testfile, delimiter=":")
         content = pe.utils.to_array(r)
-        assert content == [[1, 2, 3, 4], [5, 6,7, 8], [9, 10, 11, 12]]
+        assert content == [["1", "2", "3", "4"], ["5", "6", "7", "8"], ["9", "10", "11", "12"]]
         
     def tearDown(self):
         clean_up_files([self.testfile])
@@ -221,7 +220,7 @@ class TestXLSMReader(PyexcelBase):
 
 class TestSeriesReader3:
     def setUp(self):
-        self.testfile = "test.csv"
+        self.testfile = "test.xlsx"
         self.content = [
             ["X", "Y", "Z"],
             [1, 1, 1],
@@ -317,7 +316,7 @@ class TestSeriesReader3:
 
 class TestSeriesReader4:
     def setUp(self):
-        self.testfile = "test.csv"
+        self.testfile = "test.xls"
         self.content = [
             ["X", "Y", "Z"],
             [1, 2, 3],

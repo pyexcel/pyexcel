@@ -364,7 +364,7 @@ class TestIterator(PyexcelIteratorBase):
         5,6,7,8
         9,10,11,12
         """
-        self.testfile = "testcsv.csv"
+        self.testfile = "testcsv.xlsx"
         create_sample_file2(self.testfile)
         self.iteratable = pe.Reader(self.testfile)
 
@@ -375,7 +375,7 @@ class TestIterator(PyexcelIteratorBase):
 
 class TestHatIterators:
     def setUp(self):
-        self.testfile = "test.csv"
+        self.testfile = "test.xlsm"
         self.content = [
             ["X", "Y", "Z"],
             [1, 2, 3],

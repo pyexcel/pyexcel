@@ -35,9 +35,9 @@ class TestWriteReader:
     def setUp(self):
         self.testfile = "test.csv"
         self.content = {
-            "X": [1, 2, 3, 4, 5],
-            "Y": [6, 7, 8, 9, 10],
-            "Z": [11, 12, 13, 14, 15],
+            "X": ["1", "2", "3", "4", "5"],
+            "Y": ["6", "7", "8", "9", "10"],
+            "Z": ["11", "12", "13", "14", "15"]
         }
         w = pe.Writer(self.testfile)
         w.write_dict(self.content)
@@ -166,14 +166,17 @@ class TestCSVBookWriter:
         writer.close()
         sheet1 = "test_Sheet 1.csv"
         reader1 = pe.Reader(sheet1)
+        reader1.apply_formatter(pe.formatters.SheetFormatter(float))
         data = pe.utils.to_array(reader1)
         assert data == self.content["Sheet 1"]
         sheet2 = "test_Sheet 2.csv"
         reader2 = pe.Reader(sheet2)
+        reader2.apply_formatter(pe.formatters.SheetFormatter(float))
         data = pe.utils.to_array(reader2)
         assert data == self.content["Sheet 2"]
         sheet3 = "test_Sheet 3.csv"
         reader3 = pe.Reader(sheet3)
+        reader3.apply_formatter(pe.formatters.SheetFormatter(float))
         data = pe.utils.to_array(reader3)
         assert data == self.content["Sheet 3"]
 

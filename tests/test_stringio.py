@@ -46,7 +46,7 @@ class TestIO:
         with open(csvfile, "r") as f:
             content = f.read()
             r = pe.Reader(("csv", content))
-            result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
+            result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', '1.1', '1']
             actual = pe.utils.to_array(r.enumerate())
             assert result == actual
         if os.path.exists(csvfile):
@@ -74,7 +74,7 @@ class TestIO:
         w.write_rows(data)
         #w.close()
         r = pe.Reader(("csv", io.getvalue()))
-        result=[1, 2, 3, 4, 5, 6]
+        result=['1', '2', '3', '4', '5', '6']
         actual = pe.utils.to_array(r.enumerate())
         assert actual == result
 

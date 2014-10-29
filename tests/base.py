@@ -60,10 +60,8 @@ class PyexcelWriterBase:
     it is used for testing
     """
     content = [
-        [1,2,3,4,5],
-        [1,2,3,4,5],
-        [1,2,3,4,5],
-        [1,2,3,4,5]
+        ['a', 'b', 'c'],
+        ['e', 'f', 'g']
     ]
 
     def _create_a_file(self, file):
@@ -140,7 +138,7 @@ class PyexcelBase:
         table = []
         for i in range(0,self.rows):
             row = i + 1
-            array = [row, row, row, row]
+            array = [str(row)] * 4
             table.append(array)
         w.write_rows(table)
         w.close()
@@ -153,10 +151,10 @@ class PyexcelBase:
         r = pe.Reader(self.testfile)
         for i in range(0, self.rows):
             row = i + 1
-            assert row == r.cell_value(i,1)
+            assert str(row) == r.cell_value(i,1)
         for i in r.row_range():
-            assert i+1 == r.cell_value(i,1)
-        assert 3 == r.cell_value(2, 3)
+            assert str(i+1) == r.cell_value(i,1)
+        assert str(3) == r.cell_value(2, 3)
             
     def test_row_range(self):
         r = pe.Reader(self.testfile)
@@ -168,26 +166,22 @@ class PyexcelBase:
 
     def test_slice(self):
         r = pe.Reader(self.testfile)
-        content1 = [[1, 1, 1, 1]]
+        content1 = [['1', '1', '1', '1']]
         assert content1 == r.row[0:1]
-        content2 = [[1, 1, 1, 1], [2, 2, 2, 2]]
+        content2 = [["1", "1", "1", "1"], ["2", "2", "2", "2"]]
         assert content2 == r.row[0:2]
         assert content2 == r.row[:2]
-        content3 = [[2, 2, 2, 2], [3,3,3,3]]
+        content3 = [["2", "2", "2", "2"], ["3","3","3","3"]]
         assert content3 == r.row[1:]
         try:
             r.row[2:1]
             assert 1==2
         except ValueError:
             assert 1==1
-        content4 = [[1, 1, 1, 1], [2, 2, 2, 2]]
+        content4 = [["1", "1", "1", "1"], ["2", "2", "2", "2"]]
         assert content4 == r.row[0:2:1]
-        content5 = [1, 1, 1, 1]
+        content5 = ["1", "1", "1", "1"]
         assert [content5] == r.row[0:0]
-
-    def test_json(self):
-        r = pe.Reader(self.testfile)
-        assert to_json(r.rows()) == '[[1.0, 1.0, 1.0, 1.0], [2.0, 2.0, 2.0, 2.0], [3.0, 3.0, 3.0, 3.0]]'
 
 
 class PyexcelMultipleSheetBase:

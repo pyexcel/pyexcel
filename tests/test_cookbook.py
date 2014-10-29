@@ -146,6 +146,7 @@ class TestCookbook:
     def test_merge_two_files(self):
         pe.cookbook.merge_two_files(self.testfile, self.testfile2)
         r = pe.SeriesReader("pyexcel_merged.csv")
+        r.format(pe.formatters.SheetFormatter(int))
         data = pe.utils.to_dict(r)
         content = {}
         content.update(self.content)
@@ -161,6 +162,7 @@ class TestCookbook:
         file_array = [self.testfile, self.testfile2, self.testfile3]
         pe.cookbook.merge_files(file_array)
         r = pe.SeriesReader("pyexcel_merged.csv")
+        r.format(pe.formatters.SheetFormatter(int))
         data = pe.utils.to_dict(r)
         content = {}
         content.update(self.content)
@@ -178,6 +180,7 @@ class TestCookbook:
         r2 = pe.SeriesReader(self.testfile2)
         pe.cookbook.merge_two_readers(r1, r2)
         r = pe.SeriesReader("pyexcel_merged.csv")
+        r.format(pe.formatters.SheetFormatter(int))
         data = pe.utils.to_dict(r)
         content = {}
         content.update(self.content)
@@ -196,6 +199,7 @@ class TestCookbook:
         file_array = [r1, r2, r3]
         pe.cookbook.merge_readers(file_array)
         r = pe.SeriesReader("pyexcel_merged.csv")
+        r.format(pe.formatters.SheetFormatter(int))
         data = pe.utils.to_dict(r)
         content = {}
         content.update(self.content)
@@ -213,6 +217,7 @@ class TestCookbook:
         r2 = pe.SeriesReader(self.testfile2)
         pe.cookbook.merge_two_readers(r1, r2)
         r = pe.SeriesReader("pyexcel_merged.csv")
+        r.format(pe.formatters.SheetFormatter(int))
         data = pe.utils.to_dict(r)
         content = {}
         content.update(self.content)
@@ -229,11 +234,12 @@ class TestCookbook:
         r2.add_filter(pe.filters.EvenRowFilter())
         pe.cookbook.merge_two_readers(r1, r2)
         r = pe.SeriesReader("pyexcel_merged.csv")
+        r.format(pe.formatters.SheetFormatter(int))
         data = pe.utils.to_dict(r)
         content = {
-            'Y': [7, 9, ''],
-            'X': [2, 4, ''],
-            'Z': [12, 14, ''],
+            'Y': [7, 9, 0],
+            'X': [2, 4, 0],
+            'Z': [12, 14, 0],
             'O': [1, 3, 5],
             'Q': [11, 13, 15],
             'P': [6, 8, 10]
@@ -250,6 +256,7 @@ class TestCookbook:
         r2.add_filter(pe.filters.EvenColumnFilter())
         pe.cookbook.merge_two_readers(r1, r2)
         r = pe.SeriesReader("pyexcel_merged.csv")
+        r.format(pe.formatters.SheetFormatter(int))
         data = pe.utils.to_dict(r)
         content = {
             "Y": [6, 7, 8, 9, 10],
@@ -265,6 +272,7 @@ class TestCookbook:
         r = pe.BookReader("merged.xlsx")
         content = pe.utils.to_dict(r[self.testfile].become_series())
         assert content == self.content
+        r[self.testfile2].format(pe.formatters.SheetFormatter(int))
         content2 = pe.utils.to_dict(r[self.testfile2].become_series())
         assert content2 == self.content2
         content3 = pe.utils.to_dict(r[self.testfile3].become_series())
@@ -283,6 +291,7 @@ class TestCookbook:
         r = pe.BookReader("merged.xlsx")
         content = pe.utils.to_dict(r[self.testfile].become_series())
         assert content == self.content
+        r[self.testfile2].format(pe.formatters.SheetFormatter(int))
         content2 = pe.utils.to_dict(r[self.testfile2].become_series())
         assert content2 == self.content2
         content3 = pe.utils.to_dict(r[self.testfile3].become_series())

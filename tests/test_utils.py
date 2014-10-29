@@ -17,7 +17,7 @@ class TestUtils():
         5,6,7,8
         9,10,11,12
         """
-        self.testfile = "testcsv.csv"
+        self.testfile = "testcsv.xls"
         create_sample_file2(self.testfile)
 
     def test_to_one_dimension_array(self):

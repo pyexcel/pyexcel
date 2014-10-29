@@ -1,5 +1,4 @@
 import pyexcel as pe
-import os
 from base import (create_sample_file1,
                   create_sample_file1_series,
                   create_sample_file2,
@@ -57,7 +56,7 @@ class TestPlainReader(PyexcelSheetRWBase):
         i,j,1.1,1
         """
         self.testclass = pe.PlainReader
-        self.testfile = "testcsv.csv"
+        self.testfile = "testcsv.xlsx"
         create_sample_file1(self.testfile)
 
     def tearDown(self):
@@ -74,7 +73,7 @@ class TestReader2(PyexcelSheetRWBase):
         i,j,1.1,1
         """
         self.testclass = pe.Reader
-        self.testfile = "testcsv.csv"
+        self.testfile = "testcsv.xls"
         create_sample_file1(self.testfile)
 
     def tearDown(self):
@@ -91,7 +90,7 @@ class TestSeriesReader(PyexcelSheetRWBase):
         i,j,1.1,1
         """
         self.testclass = pe.SeriesReader
-        self.testfile = "testcsv.csv"
+        self.testfile = "testcsv.xls"
         create_sample_file1_series(self.testfile)
 
     def test_extend_columns(self):
@@ -152,7 +151,7 @@ class TestReaderWithFilter:
         5, 6, 7, 8
         9, 10,11,12
         """
-        self.testfile = "test.csv"
+        self.testfile = "test.xlsm"
         create_sample_file2(self.testfile)
 
     def test_add_rows_even_row_filter(self):
