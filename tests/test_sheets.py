@@ -143,3 +143,47 @@ class TestSheetNamedColumn2:
             assert 1==2
         except ValueError:
             assert 1==1
+
+
+class TestSheetNamedRow:
+    def setUp(self):
+        self.data = [
+            ["Row 0", -1, -2, -3],
+            ["Row 1", 1, 2, 3],
+            ["Row 2", 4, 5, 6],
+            ["Row 3", 7, 8, 9]
+        ]
+
+    def test_formatter_by_named_row(self):
+        s = pe.sheets.ColumnSeriesSheet(self.data, "test")
+        f = pe.formatters.NamedRowFormatter("Row 1", str)
+        s.format(f)
+        assert s.row["Row 1"] == ["1", "2", "3"]
+
+    def test_add(self):
+        s = pe.sheets.ColumnSeriesSheet(self.data, "test")
+        data = [
+            ["Row 5", 10, 11, 12]
+        ]
+        m = pe.iterators.Matrix(data)
+        s = s.row + m
+        assert s.row["Row 5"] == [10, 11, 12]
+
+    def test_add_wrong_type(self):
+        s = pe.sheets.ColumnSeriesSheet(self.data, "test")
+        try:
+            s = s.row + "string type"
+            assert 1==2
+        except TypeError:
+            assert 1==1
+
+    def test_delete_named_column(self):
+        s = pe.sheets.ColumnSeriesSheet(self.data, "test")
+        del s.row["Row 2"]
+        assert s.number_of_rows() == 3
+        try:
+            s.row["Row 2"]
+            assert 1==2
+        except ValueError:
+            assert 1==1
+

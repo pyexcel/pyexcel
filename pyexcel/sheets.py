@@ -10,7 +10,7 @@
 import six
 import uuid
 import copy
-from .iterators import Matrix, SeriesColumnIterator, Column
+from .iterators import Matrix, SeriesColumnIterator, Column, Row
 from .formatters import ColumnFormatter, RowFormatter, SheetFormatter
 from .filters import (RowIndexFilter,
                       ColumnIndexFilter,
@@ -32,6 +32,66 @@ class AS_COLUMNS(object):
     """Indicate direction is by columns"""
     def __init__(self, payload):
         self.payload = payload
+
+
+class NamedRow(Row):
+    """Series Sheet would have Named Row instead of Row
+
+    example::
+
+        import pyexcel as pe
+
+        r = pe.SeriesReader("example.csv")
+        print(r.row["row 1"])
+    
+    """
+    def __delitem__(self, str_or_aslice):
+        if is_string(type(str_or_aslice)):
+            self.ref.delete_named_row_at(str_or_aslice)
+        else:
+            Row.__delitem__(self, str_or_aslice)
+        self.ref.make_series()
+
+    def __setitem__(self, str_or_aslice, c):
+        if is_string(type(str_or_aslice)):
+            self.ref.set_named_row_at(str_or_aslice, c)
+        else:
+            Row.__setitem__(self, str_or_aslice)
+
+    def __getitem__(self, str_or_aslice):
+        if is_string(type(str_or_aslice)):
+            return self.ref.named_row_at(str_or_aslice)
+        else:
+            return Row.__getitem__(self, str_or_aslice)
+
+    def __iadd__(self, other):
+        """Overload += sign
+
+        :param list other: the row header must be the first element.
+        :return: self
+        """
+        if isinstance(other, list):
+            incoming_data = copy.deepcopy(other)
+        elif isinstance(other, Matrix):
+            incoming_data = copy.deepcopy(other.array)
+        else:
+            raise TypeError
+        series_index = self.ref.series_index
+        if series_index != 0:
+            for sublist in incoming_data:
+                key = sublist.pop(0)
+                sublist.insert(series_index, key)
+        Row.__iadd__(self, incoming_data)
+        self.ref.make_series()
+        return self
+
+    def __add__(self, other):
+        """Overload += sign
+
+        :return: self
+        """
+        self.__iadd__(other)
+        return self.ref
 
 
 class NamedColumn(Column):
@@ -466,7 +526,6 @@ class GenericSeriesSheet(Sheet):
         self.headers = None
         self.signature_filter = None
         self.series_index = series
-        self.make_series()
 
     def become_sheet(self):
         """
@@ -682,6 +741,7 @@ class ColumnSeriesSheet(GenericSeriesSheet):
         self.named_row = NamedRow(self)
         self.signature_filter = SingleColumnFilter(series)
         self.validate_filters()
+        self.make_series()
 
     def validate_filters(self):
         """Re-apply filters
@@ -703,14 +763,14 @@ class ColumnSeriesSheet(GenericSeriesSheet):
     def make_series(self):
         self.headers = []
         for i in self.row_range():
-            new_column = self.series_index
             new_row = i
+            new_column = self.series_index
             number_of_row_filters = len(self.row_filters)
             for x in range(number_of_row_filters-1, -1, -1):
-                new_column, new_row = self.row_filters[x].translate(
-                    new_column,
-                    new_row)
-            self.headers.append(self._cell_value(new_column, new_row))
+                new_row, new_column = self.row_filters[x].translate(
+                    new_row,
+                    new_column)
+            self.headers.append(self._cell_value(new_row, new_column))
 
     def named_row_at(self, name):
         """Get a row by its name """
