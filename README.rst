@@ -2,7 +2,7 @@
 pyexcel 
 ========
 
-.. image:: https://api.travis-ci.org/chfw/pyexcel.png
+.. image:: https://api.travis-ci.org/chfw/pyexcel.svg?branch=master
     :target: http://travis-ci.org/chfw/pyexcel
 
 .. image:: https://coveralls.io/repos/chfw/pyexcel/badge.png?branch=master 
