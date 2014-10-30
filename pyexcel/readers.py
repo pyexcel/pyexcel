@@ -8,7 +8,7 @@
     :license: GPL v3
 """
 from .iterators import SheetIterator
-from .sheets import PlainSheet, MultipleFilterableSheet, Sheet, is_string
+from .sheets import PlainSheet, MultipleFilterableSheet, RowSeriesSheet, is_string, Sheet
 from .utils import to_dict
 from .io import load_file
 import sys
@@ -237,14 +237,30 @@ class Reader(Sheet):
             Sheet.__init__(self, sheets[keys[0]], keys[0])
 
 
-class SeriesReader(Reader):
+class SeriesReader(RowSeriesSheet):
     """
     A single sheet excel file reader and it has column headers
     """
+    def __init__(self, file=None, sheet=None, series=0, **keywords):
+        if file:
+            self.load_file(file, sheet, series, **keywords)
+        else:
+            RowSeriesSheet.__init__(self, [], "memory", 0)
 
-    def __init__(self, file, sheet=None, series_row=0):
-        Reader.__init__(self, file, sheet)
-        self.become_series(series_row)
+    def load_file(self, file, sheet=None, series=0, **keywords):
+        """
+        Load only one sheet from the file
+
+        :param str file: the file name
+        :param str sheet: the sheet to be used as the default sheet
+        """
+        book = load_file(file, **keywords)
+        sheets = book.sheets()
+        if sheet:
+            RowSeriesSheet.__init__(self, sheets[sheet], sheet, series)
+        else:
+            keys = list(sheets.keys())
+            RowSeriesSheet.__init__(self, sheets[keys[0]], keys[0], series)
 
 
 class PlainReader(PlainSheet):

@@ -106,6 +106,18 @@ class ColumnFilter(ColumnIndexFilter):
         ColumnIndexFilter.__init__(self, eval_func)
 
 
+class SingleColumnFilter(ColumnIndexFilter):
+    """A column filter that takes in a list of indices to be
+    filtered out""" 
+    def __init__(self, index):
+        """Constructor
+
+        :param list indices: a list of column indices to be filtered out
+        """
+        eval_func = lambda x: x == index
+        ColumnIndexFilter.__init__(self, eval_func)
+
+
 class OddColumnFilter(ColumnIndexFilter):
     """A column filter that filters out odd indices
 

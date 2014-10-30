@@ -33,7 +33,7 @@ class TestReader:
         assert len(column_range) == 4
 
     def test_named_column_at(self):
-        r = pe.Reader(self.testfile)
+        r = pe.SeriesReader(self.testfile)
         try:
             r.named_column_at("A")
             assert 1==2
@@ -276,12 +276,14 @@ class TestSeriesReader3:
 
     def test_orthogonality(self):
         r = pe.SeriesReader(self.testfile)
+        print(pe.to_dict(r))        
         r.add_filter(pe.filters.EvenRowFilter())
         r.add_filter(pe.filters.OddColumnFilter())
-        actual = pe.utils.to_dict(r)
+        actual = pe.to_dict(r)
         result = {
             "Y": [1, 3, 5]
         }
+        print(actual)
         assert result == actual
         # test removing the filter, it prints the original one
         r.clear_filters()
@@ -389,24 +391,24 @@ class TestSeriesReader5:
         w.close()
 
     def test_content_is_read(self):
-        r = pe.SeriesReader(self.testfile, series_row=4)
+        r = pe.SeriesReader(self.testfile, series=4)
         actual = pe.utils.to_array(r.rows())
         self.content.pop(4)
         assert self.content == actual
 
     def test_headers(self):
-        r = pe.SeriesReader(self.testfile, series_row=4)
+        r = pe.SeriesReader(self.testfile, series=4)
         actual = r.series()
         assert self.content[4] == actual
 
     def test_named_column_at(self):
-        r = pe.SeriesReader(self.testfile, series_row=4)
+        r = pe.SeriesReader(self.testfile, series=4)
         result = r.named_column_at("X")
         actual = {"X":[1, 1, 1, 1, 1]}
         assert result == actual["X"]
 
     def test_column_filter(self):
-        r = pe.SeriesReader(self.testfile, series_row=4)
+        r = pe.SeriesReader(self.testfile, series=4)
         filter = pe.filters.ColumnFilter([1])
         r.add_filter(filter)
         actual = pe.utils.to_dict(r)

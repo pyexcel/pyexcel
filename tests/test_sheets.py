@@ -65,14 +65,14 @@ class TestSheetNamedColumn:
         ]
 
     def test_formatter_by_named_column(self):
-        s = pe.sheets.Sheet(self.data, "test")
-        s.become_series()
+        s = pe.sheets.RowSeriesSheet(self.data, "test")
         f = pe.formatters.NamedColumnFormatter("Column 1", str)
         s.format(f)
+        print(s.column["Column 1"])
         assert s.column["Column 1"] == ["1", "4", "7"]
 
     def test_add(self):
-        s = pe.sheets.Sheet(self.data, "test")
+        s = pe.sheets.RowSeriesSheet(self.data, "test")
         data = [
             ["Column 4"],
             [10],
@@ -84,7 +84,7 @@ class TestSheetNamedColumn:
         assert s.column["Column 4"] == [10, 11, 12]
 
     def test_add_wrong_type(self):
-        s = pe.sheets.Sheet(self.data, "test")
+        s = pe.sheets.RowSeriesSheet(self.data, "test")
         try:
             s = s.column + "string type"
             assert 1==2
@@ -92,7 +92,7 @@ class TestSheetNamedColumn:
             assert 1==1
 
     def test_delete_named_column(self):
-        s = pe.sheets.Sheet(self.data, "test")
+        s = pe.sheets.RowSeriesSheet(self.data, "test")
         del s.column["Column 2"]
         assert s.number_of_columns() == 2
         try:
@@ -112,20 +112,18 @@ class TestSheetNamedColumn2:
         ]
 
     def test_series(self):
-        s = pe.sheets.Sheet(self.data, "test")
-        s.become_series(2)
+        s = pe.sheets.RowSeriesSheet(self.data, "test", 2)
+        print(s.series())
         assert s.series() == ["Column 1", "Column 2", "Column 3"]
 
     def test_formatter_by_named_column(self):
-        s = pe.sheets.Sheet(self.data, "test")
-        s.become_series(2)
+        s = pe.sheets.RowSeriesSheet(self.data, "test", 2)
         f = pe.formatters.NamedColumnFormatter("Column 1", str)
         s.format(f)
         assert s.column["Column 1"] == ["1", "4", "7"]
 
     def test_add(self):
-        s = pe.sheets.Sheet(self.data, "test")
-        s.become_series(2)
+        s = pe.sheets.RowSeriesSheet(self.data, "test", 2)
         data = [
             ["Column 4"],
             [10],
@@ -137,8 +135,7 @@ class TestSheetNamedColumn2:
         assert s.column["Column 4"] == [10, 11, 12]
 
     def test_delete_named_column(self):
-        s = pe.sheets.Sheet(self.data, "test")
-        s.become_series(2)
+        s = pe.sheets.RowSeriesSheet(self.data, "test", 2)
         del s.column["Column 2"]
         assert s.number_of_columns() == 2
         try:

@@ -8,7 +8,7 @@
     :license: GPL v3
 """
 import sys
-from .sheets import Sheet
+from .sheets import RowSeriesSheet, Sheet
 if sys.version_info[0] == 2 and sys.version_info[1] < 7:
     from ordereddict import OrderedDict
 else:
@@ -49,7 +49,7 @@ def to_records(reader, custom_headers=None):
     per each row. This is particularly helpful for
     database operations.
     """
-    if isinstance(reader, Sheet) is False:
+    if isinstance(reader, RowSeriesSheet) is False:
         raise NotImplementedError
     need_revert = False
     headers = reader.series()

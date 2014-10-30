@@ -1126,6 +1126,31 @@ class SeriesColumnIterator(PyexcelIterator):
             raise StopIteration
 
 
+class SeriesRowIterator(PyexcelIterator):
+    """
+    Row Iterator
+
+    Default iterator for :class:`Sheet` when it becomes Series
+    See :func:`Sheet.__iter__` for more details
+    """
+    def __init__(self, reader):
+        self.reader_ref = reader
+        self.current = 0
+        self.headers = reader.series()
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.current in self.reader_ref.row_range():
+            index = self.current
+            self.current += 1
+            column_header = self.headers[index]
+            return {column_header: self.reader_ref.named_row_at(column_header)}
+        else:
+            raise StopIteration
+
+
 class SheetIterator(PyexcelIterator):
     """
     Sheet Iterator

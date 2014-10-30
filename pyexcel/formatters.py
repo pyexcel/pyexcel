@@ -217,6 +217,7 @@ class NamedColumnFormatter(ColumnFormatter):
         Formatter.__init__(self, func, FORMAT, custom_converter)
 
     def update_index(self, new_indices):
+        self.indices = new_indices
         if isinstance(new_indices, int):
             self.quanlify_func = lambda r, c, v: c == new_indices
         elif isinstance(new_indices, list):
