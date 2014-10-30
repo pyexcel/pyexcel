@@ -556,6 +556,7 @@ class RowSeriesSheet(GenericSeriesSheet):
         for filter in local_filters:
             filter.validate_filter(self)
             self._filters.append(filter)
+        self.make_series()
 
     def make_series(self):
         self.headers = []
@@ -697,6 +698,7 @@ class ColumnSeriesSheet(GenericSeriesSheet):
         for filter in local_filters:
             filter.validate_filter(self)
             self._filters.append(filter)
+        self.make_series()
 
     def make_series(self):
         self.headers = []

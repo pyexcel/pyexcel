@@ -223,11 +223,11 @@ class TestSeriesReader3:
         self.testfile = "test.xlsx"
         self.content = [
             ["X", "Y", "Z"],
-            [1, 1, 1],
-            [2, 2, 2],
-            [3, 3, 3],
-            [4, 4, 4],
-            [5, 5, 5]
+            [1, 11, 12],
+            [2, 21, 22],
+            [3, 31, 32],
+            [4, 41, 42],
+            [5, 51, 52]
         ]
         w = pe.Writer(self.testfile)
         w.write_array(self.content)
@@ -239,8 +239,8 @@ class TestSeriesReader3:
         actual = pe.utils.to_dict(r)
         result = {
             "X": [1, 3, 4, 5],
-            "Y": [1, 3, 4, 5],
-            "Z": [1, 3, 4, 5]
+            "Y": [11, 31, 41, 51],
+            "Z": [12, 32, 42, 52]
         }
         assert result == actual
 
@@ -249,10 +249,11 @@ class TestSeriesReader3:
         f = pe.filters.OddRowFilter()
         r.add_filter(f)
         actual = pe.utils.to_dict(r)
+        print(actual)
         result = {
             "X": [2, 4],
-            "Y": [2, 4],
-            "Z": [2, 4]
+            "Y": [21, 41],
+            "Z": [22, 42]
         }
         assert result == actual
         r.remove_filter(f)
@@ -265,8 +266,8 @@ class TestSeriesReader3:
         actual = pe.utils.to_dict(r)
         result = {
             "X": [1, 3, 5],
-            "Y": [1, 3, 5],
-            "Z": [1, 3, 5]
+            "Y": [11, 31, 51],
+            "Z": [12, 32, 52]
         }
         assert result == actual
         # test removing the filter, it prints the original one
@@ -281,7 +282,7 @@ class TestSeriesReader3:
         r.add_filter(pe.filters.OddColumnFilter())
         actual = pe.to_dict(r)
         result = {
-            "Y": [1, 3, 5]
+            "Y": [11, 31, 51]
         }
         print(actual)
         assert result == actual
@@ -296,20 +297,20 @@ class TestSeriesReader3:
         r.add_filter(pe.filters.EvenRowFilter())
         actual = pe.utils.to_dict(r)
         result = {
-            "Y": [1, 3, 5]
+            "Y": [11, 31, 51]
         }
         assert result == actual
         # test removing the filter, it prints the original one
         r.clear_filters()
         actual = pe.utils.to_array(r)
-        result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [1, 2, 3, 4, 5]}, {'Z': [1, 2, 3, 4, 5]}]
+        result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [11, 21, 31, 41, 51]}, {'Z': [12, 22, 32, 42, 52]}]
         assert actual == result
 
     def test_series_column_iterator(self):
         r = pe.SeriesReader(self.testfile)
         sci = pe.iterators.SeriesColumnIterator(r)
         actual = pe.utils.to_array(sci)
-        result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [1, 2, 3, 4, 5]}, {'Z': [1, 2, 3, 4, 5]}]
+        result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [11, 21, 31, 41, 51]}, {'Z': [12, 22, 32, 42, 52]}]
         assert actual == result
 
     def tearDown(self):

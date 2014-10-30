@@ -22,9 +22,6 @@ class TestReader:
         r = pe.SeriesReader(self.testfile)
         r.set_named_column_at('b', [11, 1])
         assert r.column_at(1) == [11, 1]
-        r2 = pe.Reader(self.testfile)
-        r2.set_named_column_at('b', [11, 1])
-        assert r2.column_at(1) == ['b', 11, 1]
 
     def test_update_a_cell_with_a_filter(self):
         """

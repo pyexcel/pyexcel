@@ -121,7 +121,7 @@ class TestToRecord():
         w.close()
 
     def test_book_reader_to_records(self):
-        r = pe.Reader(self.testfile)
+        r = pe.SeriesReader(self.testfile)
         result = [
             {u'Y': 4.0, u'X': 1.0, u'Z': 7.0},
             {u'Y': 5.0, u'X': 2.0, u'Z': 8.0},
@@ -132,7 +132,7 @@ class TestToRecord():
     def test_book_reader_to_records_custom(self):
         """use custom header
         """
-        r = pe.Reader(self.testfile)
+        r = pe.SeriesReader(self.testfile)
         custom_headers = ["O", "P", "Q"]
         result = [
             {u'P': 4.0, u'O': 1.0, u'Q': 7.0},

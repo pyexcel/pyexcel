@@ -230,15 +230,15 @@ class PyexcelMultipleSheetBase:
         data = pe.utils.to_array(b["Sheet1"].rows())
         expected = [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]
         assert data == expected
-        data = pe.utils.to_array(b["Sheet2"].rows())
+        data = pe.to_array(b["Sheet2"].rows())
         expected = [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]
         assert data == expected
-        data = pe.utils.to_array(b["Sheet3"].rows())
+        data = pe.to_array(b["Sheet3"].rows())
         expected = [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
         assert data == expected
         sheet3 = b["Sheet3"]
-        sheet3.become_series()
-        data = pe.utils.to_array(b["Sheet3"].rows())
+        s3 = sheet3.become_series()
+        data = pe.to_array(s3.rows())
         expected = [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
         assert data == expected
 
@@ -274,8 +274,8 @@ class PyexcelMultipleSheetBase:
         assert value == 'Y'
         value = r["Sheet3"].become_series().row[0][1]
         assert value == 4
-        value = r["Sheet3"].become_sheet().row[0][1]
-        assert value == 'Y'
+        #value = r["Sheet3"].become_sheet().row[0][1]
+        #assert value == 'Y'
 
         
 class PyexcelIteratorBase:
