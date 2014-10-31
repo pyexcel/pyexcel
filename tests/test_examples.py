@@ -1,5 +1,10 @@
+import sys
 import pyexcel as pe
 import six
+if sys.version_info[0] == 2 and sys.version_info[1] < 7:
+    from ordereddict import OrderedDict
+else:
+    from collections import OrderedDict
 
 
 class TestTutorial05:
@@ -23,12 +28,9 @@ class TestTutorial05:
         content="Column 1,Column 2,Column 3\n1,4,7\n2,5,8\n3,6,9"
         reader = pe.SeriesReader(("csv", content))
         print(reader.column["Column 3"]) 
-        extra_data = [
-            ["Column 4", "Column 5"],
-            [10, 13],
-            [11, 14],
-            [12, 15]
-        ]
+        extra_data = OrderedDict()
+        extra_data.update({"Column 4":[10, 11, 12]})
+        extra_data.update({"Column 5":[13, 14, 15]})
         reader.column += extra_data
         print(pe.utils.to_dict(reader))
         assert reader.column["Column 4"] == [10, 11, 12]

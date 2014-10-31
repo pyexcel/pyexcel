@@ -66,7 +66,6 @@ class TestWriteReader:
         w.close()
         r2 = pe.SeriesReader(self.testfile2)
         content = pe.utils.to_dict(r2)
-        print(content)
         assert content == self.content
 
     def test_write_simple_reader_error(self):

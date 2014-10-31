@@ -308,7 +308,7 @@ class TestSeriesReader3:
 
     def test_series_column_iterator(self):
         r = pe.SeriesReader(self.testfile)
-        sci = pe.iterators.SeriesColumnIterator(r)
+        sci = pe.iterators.ColumnIndexIterator(r)
         actual = pe.utils.to_array(sci)
         result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [11, 21, 31, 41, 51]}, {'Z': [12, 22, 32, 42, 52]}]
         assert actual == result
@@ -339,7 +339,7 @@ class TestSeriesReader4:
 
     def test_headers(self):
         r = pe.SeriesReader(self.testfile)
-        actual = r.series()
+        actual = r.row_series
         assert self.content[0] == actual
 
     def test_named_column_at(self):
@@ -394,12 +394,13 @@ class TestSeriesReader5:
     def test_content_is_read(self):
         r = pe.SeriesReader(self.testfile, series=4)
         actual = pe.utils.to_array(r.rows())
+        print actual
         self.content.pop(4)
         assert self.content == actual
 
     def test_headers(self):
         r = pe.SeriesReader(self.testfile, series=4)
-        actual = r.series()
+        actual = r.row_series
         assert self.content[4] == actual
 
     def test_named_column_at(self):
@@ -417,6 +418,7 @@ class TestSeriesReader5:
             "X": [1, 1, 1, 1, 1],
             "Z": [3, 3, 3, 3, 3]
         }
+        print actual
         assert "Y" not in actual
         assert result == actual
         # test removing the filter, it prints the original one

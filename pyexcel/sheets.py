@@ -7,15 +7,18 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
+import sys
 import six
 import uuid
 import copy
-from .iterators import Matrix, SeriesColumnIterator, Column, Row
-from .formatters import ColumnFormatter, RowFormatter, SheetFormatter
+from .iterators import Matrix, ColumnIndexIterator, RowIndexIterator, Column, Row, transpose
+from .formatters import ColumnFormatter, RowFormatter, SheetFormatter, NamedColumnFormatter, NamedRowFormatter
 from .filters import (RowIndexFilter,
-                      ColumnIndexFilter,
-                      SingleColumnFilter,
-                      SingleRowFilter)
+                      ColumnIndexFilter)
+if sys.version_info[0] == 2 and sys.version_info[1] < 7:
+    from ordereddict import OrderedDict
+else:
+    from collections import OrderedDict
 
 
 def is_string(atype):
@@ -26,12 +29,6 @@ def is_string(atype):
         if atype == unicode:
             return True
     return False
-
-
-class AS_COLUMNS(object):
-    """Indicate direction is by columns"""
-    def __init__(self, payload):
-        self.payload = payload
 
 
 class NamedRow(Row):
@@ -45,12 +42,8 @@ class NamedRow(Row):
         print(r.row["row 1"])
     
     """
-    def __delitem__(self, str_or_aslice):
-        if is_string(type(str_or_aslice)):
-            self.ref.delete_named_row_at(str_or_aslice)
-        else:
-            Row.__delitem__(self, str_or_aslice)
-        self.ref.make_series()
+    def __delitem__(self, column_name):
+        self.ref.delete_named_row_at(column_name)
 
     def __setitem__(self, str_or_aslice, c):
         if is_string(type(str_or_aslice)):
@@ -70,19 +63,12 @@ class NamedRow(Row):
         :param list other: the row header must be the first element.
         :return: self
         """
-        if isinstance(other, list):
-            incoming_data = copy.deepcopy(other)
-        elif isinstance(other, Matrix):
-            incoming_data = copy.deepcopy(other.array)
+        if isinstance(other, OrderedDict):
+            self.ref.extend_rows(other)
         else:
-            raise TypeError
-        series_index = self.ref.series_index
-        if series_index != 0:
-            for sublist in incoming_data:
-                key = sublist.pop(0)
-                sublist.insert(series_index, key)
-        Row.__iadd__(self, incoming_data)
-        self.ref.make_series()
+            if len(self.ref._column_series) > 0:
+                raise TypeError("Please give a order dict")
+            Row.__iadd__(self, other)
         return self
 
     def __add__(self, other):
@@ -110,7 +96,6 @@ class NamedColumn(Column):
             self.ref.delete_named_column_at(str_or_aslice)
         else:
             Column.__delitem__(self, str_or_aslice)
-        self.ref.make_series()
 
     def __setitem__(self, str_or_aslice, c):
         if is_string(type(str_or_aslice)):
@@ -130,18 +115,12 @@ class NamedColumn(Column):
         :param list other: the column header must be the first element.
         :return: self
         """
-        if isinstance(other, list):
-            incoming_data = copy.deepcopy(other)
-        elif isinstance(other, Matrix):
-            incoming_data = copy.deepcopy(other.array)
+        if isinstance(other, OrderedDict):
+            self.ref.extend_columns(other)
         else:
-            raise TypeError
-        series_index = self.ref.series_index
-        if series_index != 0:
-            key = incoming_data.pop(0)
-            incoming_data.insert(series_index, key)
-        Column.__iadd__(self, incoming_data)
-        self.ref.make_series()
+            if len(self.ref._row_series) > 0:
+                raise TypeError("Please give a order dict")
+            Column.__iadd__(self, other)
         return self
 
     def __add__(self, other):
@@ -304,20 +283,7 @@ class PlainSheet(Matrix):
 
         :return: self
         """
-        if isinstance(other, list):
-            self.extend_rows(other)
-        elif isinstance(other, Sheet):
-            self.extend_rows(other.array)
-        elif isinstance(other, AS_COLUMNS):
-            new_other = other.payload
-            if isinstance(new_other, list):
-                self.extend_columns(new_other)
-            elif isinstance(new_other, Sheet):
-                self.extend_columns(new_other.array)
-            else:
-                raise TypeError
-        else:
-            raise TypeError
+        print("Depreciated!Not supported any more. Please .row or .column to extendsheet")
         return self
 
 
@@ -505,225 +471,33 @@ class Sheet(MultipleFilterableSheet):
         self.name = name
 
     def become_series(self, series=0):
-        return RowSeriesSheet(self.array, self.name, series)
+        return IndexSheet(self.array, self.name, series)
 
     def is_series(self):
         return False
 
 
-class GenericSeriesSheet(Sheet):
-    """
-    A represetation of Matrix that can be formatted, filtered and
-    support dictionary.
-
-    This class is used in collaboration with Book to represent
-    multi-sheet book.
-    """
-    def __init__(self, sheet, name, series=0):
-        Sheet.__init__(self, sheet, name)
-        self.column_filters = []
-        self.row_filters = []
-        self.headers = None
-        self.signature_filter = None
-        self.series_index = series
-
-    def become_sheet(self):
-        """
-        Evolve back to plain sheet reader
-        """
-        self.signature_filter = None
-        self.validate_filters()
-        return self
-
-    def is_series(self):
-        return True
-
-    def add_filter(self, afilter):
-        """
-        Apply a filter
-        """
-        if isinstance(afilter, ColumnIndexFilter):
-            self.column_filters.append(afilter)
-        elif isinstance(afilter, RowIndexFilter):
-            self.row_filters.append(afilter)
-        self.validate_filters()
-
-    def clear_filters(self):
-        """
-        Clear all filters
-        """
-        self.column_filters = []
-        self.row_filters = []
-        self.validate_filters()
-
-    def remove_filter(self, afilter):
-        """
-        Remove a named custom filter
-        """
-        if isinstance(afilter, ColumnIndexFilter):
-            self.column_filters.remove(afilter)
-        elif isinstance(afilter, RowIndexFilter):
-            self.row_filters.remove(afilter)
-        self.validate_filters()
-
-    def validate_filters(self):
-        """Re-apply filters
-
-        It is called when some data is updated
-        """
-        raise NotImplementedError("This is not implemented")
-
-    def make_series(self):
-        self.headers = []
-        return self.headers
-
-    def series(self):
-        """
-        Returns the first row as headers
-        
-        :returns: column headers
-        """
-        return self.headers
-
-
-class RowSeriesSheet(GenericSeriesSheet):
-    """
-    A represetation of Matrix that can be formatted, filtered and
-    support dictionary.
-
-    This class is used in collaboration with Book to represent
-    multi-sheet book.
-    """
-    def __init__(self, sheet, name, series=0):
-        GenericSeriesSheet.__init__(self, sheet, name, series)
+class IndexSheet(MultipleFilterableSheet):
+    def __init__(self, sheet, name, row_series=-1, column_series=-1):
+        MultipleFilterableSheet.__init__(self, sheet)
+        self.name = name
+        self._row_series = []
+        self._column_series = []
+        self.named_row = NamedRow(self)
         self.named_column = NamedColumn(self)
-        self.signature_filter = SingleRowFilter(series)
-        self.validate_filters()
+        if row_series != -1:
+            self.index_by_row(row_series)
+        if column_series != -1:
+            self.index_by_column(column_series)
 
-    def validate_filters(self):
-        """Re-apply filters
+    @property
+    def row(self):
+        return self.named_row
 
-        It is called when some data is updated
-        """
-        if self.signature_filter:
-            local_filters = (self.column_filters +
-                             [self.signature_filter] +
-                             self.row_filters)
-        else:
-            local_filters = self.column_filters + self.row_filters
-        self._filters = []
-        for filter in local_filters:
-            filter.validate_filter(self)
-            self._filters.append(filter)
-        self.make_series()
-
-    def make_series(self):
-        self.headers = []
-        for i in self.column_range():
-            new_row = self.series_index
-            new_column = i
-            number_of_column_filters = len(self.column_filters)
-            for x in range(number_of_column_filters-1, -1, -1):
-                new_row, new_column = self.column_filters[x].translate(
-                    new_row,
-                    new_column)
-            self.headers.append(self._cell_value(new_row, new_column))
-        return self.headers
-
-    def named_column_at(self, name):
-        """Get a column by its name """
-        if self.signature_filter:
-            index = self.headers.index(name)
-            column_array = self.column_at(index)
-        else:
-            headers = self.row_at(self.series_index)
-            index = headers.index(name)
-            column_array = self.column_at(index)
-            column_array.pop(self.series_index)
-        return column_array
-
-    def set_named_column_at(self, name, column_array):
-        """
-        Take the first row as column names
-
-        Given name to identify the column index, set the column to
-        the given array except the column name.
-        """
-        if self.signature_filter:
-            index = self.headers.index(name)
-            self.set_column_at(index, column_array)
-        else:
-            headers = self.row_at(self.series_index)
-            index = headers.index(name)
-            self.set_column_at(index, column_array, 1)
-
-    def delete_named_column_at(self, name):
-        """
-        Take the first row as column names
-
-        Given name to identify the column index, set the column to
-        the given array except the column name.
-        """
-        if self.signature_filter:
-            index = self.headers.index(name)
-        else:
-            headers = self.row_at(self.series_index)
-            index = headers.index(name)
-        self.delete_columns([index])
-
-    def delete_rows(self, row_indices):
-        """delete rows by specified row indices
-
-        delete_rows method is overriden because absolute row index 0
-        in SeriesReader is series row. We need to apply the translation
-        for row 0
-        """
-        indices_to_delete = row_indices
-        if self.signature_filter is not None:
-            new_indices = []
-            for row_index in row_indices:
-                new_row_index, ignored_column = self.signature_filter.translate(
-                    row_index, 0
-                )
-                new_indices.append(new_row_index)
-            indices_to_delete = new_indices
-        MultipleFilterableSheet.delete_rows(self, indices_to_delete)
-
-    def apply_formatter(self, aformatter):
-        aformatter = self._translate_named_formatter(aformatter)
-        PlainSheet.apply_formatter(self, aformatter)
-
-    def _translate_named_formatter(self, aformatter):
-        if self.signature_filter is None:
-            return aformatter
-        series = self.series()
-        if isinstance(aformatter, SheetFormatter) is False:
-            if isinstance(aformatter.indices, str):
-                new_indices = series.index(aformatter.indices)
-                aformatter.update_index(new_indices)
-            elif (isinstance(aformatter.indices, list) and
-                  isinstance(aformatter.indices[0], str)):
-                # translate each column name to index
-                aformatter.indices = list(map(lambda astr: series.index(astr),
-                                         aformatter.indices))
-                aformatter.update_index(new_indices)
-        return aformatter
-
-    def add_formatter(self, aformatter):
-        """Add a lazy formatter. 
-
-        The formatter takes effect on the fly when a cell value is read
-        This is cost effective when you have a big data table
-        and you use only a few columns or rows. If you have farily modest
-        data table, you can choose apply_formatter() too.
-
-        :param Formatter aformatter: a custom formatter
-        """
-        aformatter = self._translate_named_formatter(aformatter)
-        PlainSheet.add_formatter(self, aformatter)
-        
-    def __iter__(self):
-        return SeriesColumnIterator(self)
+    @row.setter
+    def row(self, value):
+        # dummy setter to enable self.row += ..
+        pass
 
     @property
     def column(self):
@@ -734,54 +508,68 @@ class RowSeriesSheet(GenericSeriesSheet):
         # dummy setter to enable self.column += ..
         pass
 
+    def index_by_row(self, row_index):
+        self.row_index = row_index
+        self._row_series = self.row_at(row_index)
+        del self.row[row_index]
 
-class ColumnSeriesSheet(GenericSeriesSheet):
-    def __init__(self, sheet, name, series=0):
-        GenericSeriesSheet.__init__(self, sheet, name, series)
-        self.named_row = NamedRow(self)
-        self.signature_filter = SingleColumnFilter(series)
-        self.validate_filters()
-        self.make_series()
+    def index_by_column(self, column_index):
+        self.column_index = column_index
+        self._column_series = self.column_at(column_index)
+        del self.column[column_index]
 
-    def validate_filters(self):
-        """Re-apply filters
-
-        It is called when some data is updated
-        """
-        if self.signature_filter:
-            local_filters = (self.row_filters +
-                             [self.signature_filter] +
-                             self.column_filters)
+    @property
+    def row_series(self):
+        if len(self._filters) != 0:
+            column_filters = [ f for f in self._filters if isinstance(f, ColumnIndexFilter)]
+            if len(column_filters) != 0:
+                indices = range(0, len(self._row_series))
+                for f in column_filters:
+                    indices = [i for i in indices if i not in f.indices]
+                return [self._row_series[i] for i in indices]
+            else:
+                return self._row_series
         else:
-            local_filters = self.row_filters + self.column_filters
-        self._filters = []
-        for filter in local_filters:
-            filter.validate_filter(self)
-            self._filters.append(filter)
-        self.make_series()
+            return self._row_series
 
-    def make_series(self):
-        self.headers = []
-        for i in self.row_range():
-            new_row = i
-            new_column = self.series_index
-            number_of_row_filters = len(self.row_filters)
-            for x in range(number_of_row_filters-1, -1, -1):
-                new_row, new_column = self.row_filters[x].translate(
-                    new_row,
-                    new_column)
-            self.headers.append(self._cell_value(new_row, new_column))
+    @property
+    def column_series(self):
+        return self._column_series
+
+    def named_column_at(self, name):
+        """Get a column by its name """
+        index = self.row_series.index(name)
+        column_array = self.column_at(index)
+        return column_array
+
+    def set_named_column_at(self, name, column_array):
+        """
+        Take the first row as column names
+
+        Given name to identify the column index, set the column to
+        the given array except the column name.
+        """
+        index = self.row_series.index(name)
+        self.set_column_at(index, column_array)
+
+    def delete_named_column_at(self, name):
+        """
+        Take the first row as column names
+
+        Given name to identify the column index, set the column to
+        the given array except the column name.
+        """
+        if isinstance(name, int):
+            self.delete_columns([name])
+        else:
+            index = self.row_series.index(name)
+            self.row_series.pop(index)
+            self.delete_columns([index])
 
     def named_row_at(self, name):
         """Get a row by its name """
-        if self.signature_filter:
-            index = self.headers.index(name)
-            row_array = self.row_at(index)
-        else:
-            headers = self.column_at(self.series_index)
-            index = headers.index(name)
-            row_array = self.row_at(index)
-            row_array.pop(self.series_index)
+        index = self.column_series.index(name)
+        row_array = self.row_at(index)
         return row_array
 
     def set_named_row_at(self, name, row_array):
@@ -791,13 +579,8 @@ class ColumnSeriesSheet(GenericSeriesSheet):
         Given name to identify the row index, set the row to
         the given array except the row name.
         """
-        if self.signature_filter:
-            index = self.headers.index(name)
-            self.set_row_at(index, row_array)
-        else:
-            headers = self.column_at(self.series_index)
-            index = headers.index(name)
-            self.set_row_at(index, row_array, 1)
+        index = self.column_series.index(name)
+        self.set_row_at(index, row_array)
 
     def delete_named_row_at(self, name):
         """
@@ -806,40 +589,25 @@ class ColumnSeriesSheet(GenericSeriesSheet):
         Given name to identify the row index, set the row to
         the given array except the row name.
         """
-        if self.signature_filter:
-            index = self.headers.index(name)
+        if isinstance(name, int):
+            self.delete_rows([name])
         else:
-            headers = self.column_at(self.series_index)
-            index = headers.index(name)
-        self.delete_rows([index])
-
-    def delete_columns(self, column_indices):
-        """delete columns by specified column indices
-
-        delete_columns method is overriden because absolute column index 0
-        in SeriesReader is series column. We need to apply the translation
-        for column 0
-        """
-        indices_to_delete = column_indices
-        if self.signature_filter is not None:
-            new_indices = []
-            for column_index in column_indices:
-                ignored_row, new_column_index = self.signature_filter.translate(
-                    0, column_index
-                )
-                new_indices.append(new_column_index)
-            indices_to_delete = new_indices
-        MultipleFilterableSheet.delete_columns(self, indices_to_delete)
+            index = self.column_series.index(name)
+            self.column_series.pop(index)
+            self.delete_rows([index])
 
     def apply_formatter(self, aformatter):
         aformatter = self._translate_named_formatter(aformatter)
         PlainSheet.apply_formatter(self, aformatter)
 
     def _translate_named_formatter(self, aformatter):
-        if self.signature_filter is None:
-            return aformatter
-        series = self.series()
-        if isinstance(aformatter, SheetFormatter) is False:
+        if isinstance(aformatter, NamedColumnFormatter):
+            series = self.row_series
+        elif isinstance(aformatter, NamedRowFormatter):
+            series = self.column_series
+        else:
+            series = None
+        if series:
             if isinstance(aformatter.indices, str):
                 new_indices = series.index(aformatter.indices)
                 aformatter.update_index(new_indices)
@@ -863,15 +631,39 @@ class ColumnSeriesSheet(GenericSeriesSheet):
         """
         aformatter = self._translate_named_formatter(aformatter)
         PlainSheet.add_formatter(self, aformatter)
-        
+
+    def extend_rows(self, rows):
+        incoming_data = []    
+        if isinstance(rows, OrderedDict):
+            keys = rows.keys()
+            for k in keys:
+                self.column_series.append(k)
+                incoming_data.append(rows[k])
+            MultipleFilterableSheet.extend_rows(self, incoming_data)
+        elif len(self.column_series) > 0:
+            raise TypeError
+        else:
+            MultipleFilterableSheet.extend_rows(self, rows)
+
+    def extend_columns(self, columns):
+        incoming_data = []    
+        if isinstance(columns, OrderedDict):
+            keys = columns.keys()
+            for k in keys:
+                self.row_series.append(k)
+                incoming_data.append(columns[k])
+            incoming_data = transpose(incoming_data)
+            MultipleFilterableSheet.extend_columns(self, incoming_data)
+        elif len(self.row_series) > 0:
+            raise TypeError
+        else:
+            MultipleFilterableSheet.extend_columns(self, columns)            
+            
     def __iter__(self):
-        return SeriesColumnIterator(self)
+        return ColumnIndexIterator(self)
 
-    @property
-    def row(self):
-        return self.named_row
+    def series_columns(self):
+        return ColumnIndexIterator(self)
 
-    @row.setter
-    def row(self, value):
-        # dummy setter to enable self.row += ..
-        pass
+    def series_rows(self):
+        return RowIndexFilter(self)

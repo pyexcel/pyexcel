@@ -10,7 +10,8 @@
 from .utils import to_dict, to_array, from_records, dict_to_array
 from .iterators import Matrix, transpose
 from .io import get_writer
-from .sheets import Sheet
+from .sheets import Sheet, IndexSheet
+from .readers import SeriesReader
 
 
 class SheetWriter:
@@ -58,11 +59,8 @@ class SheetWriter:
 
         :param Matrix reader: a Matrix instance
         """
-        if isinstance(reader, Sheet):
-            if reader.is_series():
-                self.write_dict(to_dict(reader))
-            else:
-                self.write_rows(to_array(reader))
+        if isinstance(reader, SeriesReader):
+            self.write_dict(to_dict(reader))
         elif isinstance(reader, Matrix):
             self.write_rows(to_array(reader))
         else:

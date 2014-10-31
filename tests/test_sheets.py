@@ -1,5 +1,11 @@
+import sys
 import pyexcel as pe
+if sys.version_info[0] == 2 and sys.version_info[1] < 7:
+    from ordereddict import OrderedDict
+else:
+    from collections import OrderedDict
 
+    
 class TestPlainSheet:
     def setUp(self):
         self.data = [
@@ -19,7 +25,6 @@ class TestPlainSheet:
     def test_apply_column_formatter(self):
         s = pe.sheets.PlainSheet(self.data)
         s.apply_formatter(pe.formatters.ColumnFormatter(0, float))
-        print(s.column[0])
         assert s.column[0] == [1, 1, 1.1, 1.1, 2, 2]
 
     def test_apply_sheet_formatter(self):
@@ -65,26 +70,24 @@ class TestSheetNamedColumn:
         ]
 
     def test_formatter_by_named_column(self):
-        s = pe.sheets.RowSeriesSheet(self.data, "test")
+        s = pe.sheets.IndexSheet(self.data, "test")
+        s.index_by_row(0)
         f = pe.formatters.NamedColumnFormatter("Column 1", str)
         s.format(f)
-        print(s.column["Column 1"])
         assert s.column["Column 1"] == ["1", "4", "7"]
 
     def test_add(self):
-        s = pe.sheets.RowSeriesSheet(self.data, "test")
-        data = [
-            ["Column 4"],
-            [10],
-            [11],
-            [12]
-        ]
-        m = pe.iterators.Matrix(data)
-        s = s.column + m
+        s = pe.sheets.IndexSheet(self.data, "test")
+        s.index_by_row(0)
+        data = OrderedDict({
+            "Column 4":[10, 11,12]
+        })
+        s = s.column + data
         assert s.column["Column 4"] == [10, 11, 12]
 
     def test_add_wrong_type(self):
-        s = pe.sheets.RowSeriesSheet(self.data, "test")
+        s = pe.sheets.IndexSheet(self.data, "test")
+        s.index_by_row(0)
         try:
             s = s.column + "string type"
             assert 1==2
@@ -92,7 +95,8 @@ class TestSheetNamedColumn:
             assert 1==1
 
     def test_delete_named_column(self):
-        s = pe.sheets.RowSeriesSheet(self.data, "test")
+        s = pe.sheets.IndexSheet(self.data, "test")
+        s.index_by_row(0)
         del s.column["Column 2"]
         assert s.number_of_columns() == 2
         try:
@@ -112,30 +116,30 @@ class TestSheetNamedColumn2:
         ]
 
     def test_series(self):
-        s = pe.sheets.RowSeriesSheet(self.data, "test", 2)
-        print(s.series())
-        assert s.series() == ["Column 1", "Column 2", "Column 3"]
+        s = pe.sheets.IndexSheet(self.data, "test")
+        s.index_by_row(2)
+        assert s.row_series == ["Column 1", "Column 2", "Column 3"]
 
     def test_formatter_by_named_column(self):
-        s = pe.sheets.RowSeriesSheet(self.data, "test", 2)
+        s = pe.sheets.IndexSheet(self.data, "test")
+        s.index_by_row(2)
         f = pe.formatters.NamedColumnFormatter("Column 1", str)
         s.format(f)
         assert s.column["Column 1"] == ["1", "4", "7"]
 
     def test_add(self):
-        s = pe.sheets.RowSeriesSheet(self.data, "test", 2)
-        data = [
-            ["Column 4"],
-            [10],
-            [11],
-            [12]
-        ]
-        m = pe.iterators.Matrix(data)
-        s = s.column + m
+        s = pe.sheets.IndexSheet(self.data, "test")
+        s.index_by_row(2)
+        data = OrderedDict({
+            "Column 4": [10, 11, 12]
+            }
+        )
+        s = s.column + data
         assert s.column["Column 4"] == [10, 11, 12]
 
     def test_delete_named_column(self):
-        s = pe.sheets.RowSeriesSheet(self.data, "test", 2)
+        s = pe.sheets.IndexSheet(self.data, "test")
+        s.index_by_row(2)
         del s.column["Column 2"]
         assert s.number_of_columns() == 2
         try:
@@ -155,22 +159,25 @@ class TestSheetNamedRow:
         ]
 
     def test_formatter_by_named_row(self):
-        s = pe.sheets.ColumnSeriesSheet(self.data, "test")
+        s = pe.sheets.IndexSheet(self.data, "test")
+        s.index_by_column(0)
         f = pe.formatters.NamedRowFormatter("Row 1", str)
         s.format(f)
         assert s.row["Row 1"] == ["1", "2", "3"]
 
     def test_add(self):
-        s = pe.sheets.ColumnSeriesSheet(self.data, "test")
-        data = [
-            ["Row 5", 10, 11, 12]
-        ]
-        m = pe.iterators.Matrix(data)
-        s = s.row + m
+        s = pe.sheets.IndexSheet(self.data, "test")
+        s.index_by_column(0)
+        data = OrderedDict({
+            "Row 5": [10, 11, 12]
+            }
+        )
+        s = s.row + data
         assert s.row["Row 5"] == [10, 11, 12]
 
     def test_add_wrong_type(self):
-        s = pe.sheets.ColumnSeriesSheet(self.data, "test")
+        s = pe.sheets.IndexSheet(self.data, "test")
+        s.index_by_column(0)
         try:
             s = s.row + "string type"
             assert 1==2
@@ -178,7 +185,8 @@ class TestSheetNamedRow:
             assert 1==1
 
     def test_delete_named_column(self):
-        s = pe.sheets.ColumnSeriesSheet(self.data, "test")
+        s = pe.sheets.IndexSheet(self.data, "test")
+        s.index_by_column(0)
         del s.row["Row 2"]
         assert s.number_of_rows() == 3
         try:

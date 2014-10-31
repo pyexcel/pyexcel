@@ -8,7 +8,7 @@
     :license: GPL v3
 """
 from .iterators import SheetIterator
-from .sheets import PlainSheet, MultipleFilterableSheet, RowSeriesSheet, is_string, Sheet
+from .sheets import PlainSheet, MultipleFilterableSheet, IndexSheet, is_string, Sheet
 from .utils import to_dict
 from .io import load_file
 import sys
@@ -237,7 +237,7 @@ class Reader(Sheet):
             Sheet.__init__(self, sheets[keys[0]], keys[0])
 
 
-class SeriesReader(RowSeriesSheet):
+class SeriesReader(IndexSheet):
     """
     A single sheet excel file reader and it has column headers
     """
@@ -245,7 +245,8 @@ class SeriesReader(RowSeriesSheet):
         if file:
             self.load_file(file, sheet, series, **keywords)
         else:
-            RowSeriesSheet.__init__(self, [], "memory", 0)
+            IndexSheet.__init__(self, [], "memory")
+            self.index_by_row(series)
 
     def load_file(self, file, sheet=None, series=0, **keywords):
         """
@@ -257,10 +258,11 @@ class SeriesReader(RowSeriesSheet):
         book = load_file(file, **keywords)
         sheets = book.sheets()
         if sheet:
-            RowSeriesSheet.__init__(self, sheets[sheet], sheet, series)
+            IndexSheet.__init__(self, sheets[sheet], sheet)
         else:
             keys = list(sheets.keys())
-            RowSeriesSheet.__init__(self, sheets[keys[0]], keys[0], series)
+            IndexSheet.__init__(self, sheets[keys[0]], keys[0])
+        self.index_by_row(series)
 
 
 class PlainReader(PlainSheet):

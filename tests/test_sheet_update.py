@@ -1,9 +1,14 @@
+import sys
 import pyexcel as pe
 from base import (create_sample_file1,
                   create_sample_file1_series,
                   create_sample_file2,
                   clean_up_files,
                   PyexcelSheetRWBase)
+if sys.version_info[0] == 2 and sys.version_info[1] < 7:
+    from ordereddict import OrderedDict
+else:
+    from collections import OrderedDict
 
 
 class TestReader:
@@ -89,51 +94,37 @@ class TestSeriesReader(PyexcelSheetRWBase):
         self.testclass = pe.SeriesReader
         self.testfile = "testcsv.xls"
         create_sample_file1_series(self.testfile)
-
+            
     def test_extend_columns(self):
         r = self.testclass(self.testfile)
         columns = [
             ['p', 'a', 'd'],
             ['c1', 'c2', 'c3'],
             ['x1', 'x2', 'x4']]
+        try:
+            r.extend_columns(columns)
+            assert 1==2
+        except TypeError:
+            assert 1==1
+        columns = OrderedDict()
+        columns.update({"p": ['c1', 'x1']})
+        columns.update({"a": ['c2', 'x2']})
+        columns.update({"d": ['c3', 'x4']})
         r.extend_columns(columns)
         assert r.row[0] == ['a', 'b', 'c', 'd', 'c1', 'c2', 'c3']
         assert r.row[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
         assert r.row[2] == ['i', 'j', 1.1, 1, '', '', '']
         r2 = self.testclass(self.testfile)
-        columns2 = [
-            ['p', 'a', 'd'],
-            ['c1', 'c2', 'c3'],
-            ['x1', 'x2', 'x4'],
-            ['y1', 'y2'],
-            ['z1']]
-        r2.extend_columns(columns2)
+        columns = OrderedDict()
+        columns.update({"p": ['c1', 'x1', 'y1', 'z1']})
+        columns.update({"a": ['c2', 'x2', 'y2']})
+        columns.update({"d": ['c3', 'x4']})
+        r2.extend_columns(columns)
+
         assert r2.row[0] == ['a', 'b', 'c', 'd', 'c1', 'c2', 'c3']
         assert r2.row[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
         assert r2.row[2] == ['i', 'j', 1.1, 1, 'y1', 'y2', '']
         assert r2.row[3] == ['', '', '', '', 'z1', '', '']
-
-    def test_add_as_columns(self):
-        # test += operator
-        columns2 = [
-            [1,2,3],  # padded to make the rest of the test the same
-            ['c1', 'c2', 'c3'],
-            ['x1', 'x2', 'x4'],
-            ['y1', 'y2'],
-            ['z1']]
-        r3 = self.testclass(self.testfile)
-        r3 += pe.sheets.AS_COLUMNS(columns2)
-        assert r3.row[0] == ['a', 'b', 'c', 'd', 'c1', 'c2', 'c3']
-        assert r3.row[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
-        assert r3.row[2] == ['i', 'j', 1.1, 1, 'y1', 'y2', '']
-        assert r3.row[3] == ['', '', '', '', 'z1', '', '']
-        r4 = self.testclass(self.testfile)
-        sheet = pe.sheets.Sheet(columns2, "test")
-        r4 += pe.sheets.AS_COLUMNS(sheet)
-        assert r4.row[0] == ['a', 'b', 'c', 'd', 'c1', 'c2', 'c3']
-        assert r4.row[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
-        assert r4.row[2] == ['i', 'j', 1.1, 1, 'y1', 'y2', '']
-        assert r4.row[3] == ['', '', '', '', 'z1', '', '']
 
     def tearDown(self):
         clean_up_files([self.testfile])
