@@ -249,7 +249,6 @@ class TestSeriesReader3:
         f = pe.filters.OddRowFilter()
         r.add_filter(f)
         actual = pe.utils.to_dict(r)
-        print(actual)
         result = {
             "X": [2, 4],
             "Y": [21, 41],
@@ -277,14 +276,12 @@ class TestSeriesReader3:
 
     def test_orthogonality(self):
         r = pe.SeriesReader(self.testfile)
-        print(pe.to_dict(r))        
         r.add_filter(pe.filters.EvenRowFilter())
         r.add_filter(pe.filters.OddColumnFilter())
         actual = pe.to_dict(r)
         result = {
             "Y": [11, 31, 51]
         }
-        print(actual)
         assert result == actual
         # test removing the filter, it prints the original one
         r.clear_filters()
@@ -394,7 +391,6 @@ class TestSeriesReader5:
     def test_content_is_read(self):
         r = pe.SeriesReader(self.testfile, series=4)
         actual = pe.utils.to_array(r.rows())
-        print actual
         self.content.pop(4)
         assert self.content == actual
 
@@ -418,7 +414,6 @@ class TestSeriesReader5:
             "X": [1, 1, 1, 1, 1],
             "Z": [3, 3, 3, 3, 3]
         }
-        print actual
         assert "Y" not in actual
         assert result == actual
         # test removing the filter, it prints the original one
