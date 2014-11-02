@@ -1,6 +1,8 @@
 import pyexcel as pe
 from base import PyexcelBase, clean_up_files
 from base import create_sample_file1
+from _compact import BytesIO, StringIO
+from base import create_sample_file1
 
 
 class TestReader:
@@ -15,6 +17,10 @@ class TestReader:
         self.testfile = "testcsv.csv"
         create_sample_file1(self.testfile)
 
+    def test_is_series(self):
+        r = pe.Reader(self.testfile)
+        assert r.is_series() is False
+        
     def test_cell_value(self):
         r = pe.Reader(self.testfile)
         value = r.cell_value(100,100)
@@ -33,7 +39,7 @@ class TestReader:
         assert len(column_range) == 4
 
     def test_named_column_at(self):
-        r = pe.Reader(self.testfile)
+        r = pe.SeriesReader(self.testfile)
         try:
             r.named_column_at("A")
             assert 1==2
@@ -223,24 +229,38 @@ class TestSeriesReader3:
         self.testfile = "test.xlsx"
         self.content = [
             ["X", "Y", "Z"],
-            [1, 1, 1],
-            [2, 2, 2],
-            [3, 3, 3],
-            [4, 4, 4],
-            [5, 5, 5]
+            [1, 11, 12],
+            [2, 21, 22],
+            [3, 31, 32],
+            [4, 41, 42],
+            [5, 51, 52]
         ]
         w = pe.Writer(self.testfile)
         w.write_array(self.content)
         w.close()
 
+    def test_empty_series_reader(self):
+        r = pe.SeriesReader()
+        assert r.name == "memory"
+        test_data = [
+            [1, 2, 3],
+            [4, 5, 6],
+            ["Column 1", "Column 2", "Column 3"]
+        ]
+        r.column += test_data
+        actual = pe.to_array(r)
+        assert test_data == actual
+        r.declare_index(2)
+        assert r.row_series == test_data[2]
+        
     def test_row_filter(self):
         r = pe.SeriesReader(self.testfile)
         r.add_filter(pe.filters.RowFilter([1]))
         actual = pe.utils.to_dict(r)
         result = {
             "X": [1, 3, 4, 5],
-            "Y": [1, 3, 4, 5],
-            "Z": [1, 3, 4, 5]
+            "Y": [11, 31, 41, 51],
+            "Z": [12, 32, 42, 52]
         }
         assert result == actual
 
@@ -251,8 +271,8 @@ class TestSeriesReader3:
         actual = pe.utils.to_dict(r)
         result = {
             "X": [2, 4],
-            "Y": [2, 4],
-            "Z": [2, 4]
+            "Y": [21, 41],
+            "Z": [22, 42]
         }
         assert result == actual
         r.remove_filter(f)
@@ -265,8 +285,8 @@ class TestSeriesReader3:
         actual = pe.utils.to_dict(r)
         result = {
             "X": [1, 3, 5],
-            "Y": [1, 3, 5],
-            "Z": [1, 3, 5]
+            "Y": [11, 31, 51],
+            "Z": [12, 32, 52]
         }
         assert result == actual
         # test removing the filter, it prints the original one
@@ -278,9 +298,9 @@ class TestSeriesReader3:
         r = pe.SeriesReader(self.testfile)
         r.add_filter(pe.filters.EvenRowFilter())
         r.add_filter(pe.filters.OddColumnFilter())
-        actual = pe.utils.to_dict(r)
+        actual = pe.to_dict(r)
         result = {
-            "Y": [1, 3, 5]
+            "Y": [11, 31, 51]
         }
         assert result == actual
         # test removing the filter, it prints the original one
@@ -294,20 +314,20 @@ class TestSeriesReader3:
         r.add_filter(pe.filters.EvenRowFilter())
         actual = pe.utils.to_dict(r)
         result = {
-            "Y": [1, 3, 5]
+            "Y": [11, 31, 51]
         }
         assert result == actual
         # test removing the filter, it prints the original one
         r.clear_filters()
         actual = pe.utils.to_array(r)
-        result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [1, 2, 3, 4, 5]}, {'Z': [1, 2, 3, 4, 5]}]
+        result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [11, 21, 31, 41, 51]}, {'Z': [12, 22, 32, 42, 52]}]
         assert actual == result
 
     def test_series_column_iterator(self):
         r = pe.SeriesReader(self.testfile)
-        sci = pe.iterators.SeriesColumnIterator(r)
+        sci = pe.iterators.ColumnIndexIterator(r)
         actual = pe.utils.to_array(sci)
-        result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [1, 2, 3, 4, 5]}, {'Z': [1, 2, 3, 4, 5]}]
+        result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [11, 21, 31, 41, 51]}, {'Z': [12, 22, 32, 42, 52]}]
         assert actual == result
 
     def tearDown(self):
@@ -336,7 +356,7 @@ class TestSeriesReader4:
 
     def test_headers(self):
         r = pe.SeriesReader(self.testfile)
-        actual = r.series()
+        actual = r.row_series
         assert self.content[0] == actual
 
     def test_named_column_at(self):
@@ -389,24 +409,24 @@ class TestSeriesReader5:
         w.close()
 
     def test_content_is_read(self):
-        r = pe.SeriesReader(self.testfile, series_row=4)
+        r = pe.SeriesReader(self.testfile, series=4)
         actual = pe.utils.to_array(r.rows())
         self.content.pop(4)
         assert self.content == actual
 
     def test_headers(self):
-        r = pe.SeriesReader(self.testfile, series_row=4)
-        actual = r.series()
+        r = pe.SeriesReader(self.testfile, series=4)
+        actual = r.row_series
         assert self.content[4] == actual
 
     def test_named_column_at(self):
-        r = pe.SeriesReader(self.testfile, series_row=4)
+        r = pe.SeriesReader(self.testfile, series=4)
         result = r.named_column_at("X")
         actual = {"X":[1, 1, 1, 1, 1]}
         assert result == actual["X"]
 
     def test_column_filter(self):
-        r = pe.SeriesReader(self.testfile, series_row=4)
+        r = pe.SeriesReader(self.testfile, series=4)
         filter = pe.filters.ColumnFilter([1])
         r.add_filter(filter)
         actual = pe.utils.to_dict(r)
@@ -432,3 +452,108 @@ class TestSeriesReader5:
 
     def tearDown(self):
         clean_up_files([self.testfile])
+
+
+class TestColumnSeriesReader:
+    def setUp(self):
+        file_type = "xlsx"
+        io = BytesIO()
+        self.content = [
+            ["X", "Y", "Z"],
+            [1, 11, 12],
+            [2, 21, 22],
+            [3, 31, 32],
+            [4, 41, 42],
+            [5, 51, 52]
+        ]
+        w = pe.Writer((file_type, io))
+        w.write_columns(self.content)
+        w.close()
+        self.test_tuple = (file_type, io.getvalue())
+
+    def test_row_filter(self):
+        r = pe.ColumnSeriesReader(self.test_tuple)
+        r.add_filter(pe.filters.SingleRowFilter(1))
+        actual = pe.utils.to_dict(r)
+        result = {
+            "X": [1, 2, 3, 4, 5],
+            "Z": [12, 22, 32, 42, 52]
+        }
+        assert result == actual
+
+    def test_row_filter(self):
+        r = pe.ColumnSeriesReader(self.test_tuple)
+        r.add_filter(pe.filters.SingleColumnFilter(0))
+        actual = pe.utils.to_dict(r)
+        result = {
+            "X": [2, 3, 4, 5],
+            "Y": [21, 31, 41, 51],
+            "Z": [22, 32, 42, 52]
+        }
+        assert result == actual
+        assert r.column_series == ["X", "Y", "Z"]
+
+    def test_odd_row_filter(self):
+        r = pe.ColumnSeriesReader(self.test_tuple)
+        f = pe.filters.OddRowFilter()
+        r.add_filter(f)
+        actual = pe.utils.to_dict(r)
+        result = {
+            "Y": [11, 21, 31, 41, 51]
+        }
+        assert result == actual
+        r.remove_filter(f)
+        actual = pe.utils.to_array(r.rows())
+        assert actual == pe.iterators.transpose(self.content[1:])
+
+    def test_even_row_filter(self):
+        r = pe.ColumnSeriesReader(self.test_tuple)
+        r.add_filter(pe.filters.EvenRowFilter())
+        actual = pe.utils.to_dict(r)
+        result = {
+            "X": [1, 2, 3, 4, 5],
+            "Z": [12, 22, 32, 42, 52]
+        }
+        assert result == actual
+        # test removing the filter, it prints the original one
+        r.clear_filters()
+        actual = pe.utils.to_array(r.rows())
+        assert actual == pe.iterators.transpose(self.content[1:])
+
+    def test_orthogonality(self):
+        r = pe.ColumnSeriesReader(self.test_tuple)
+        r.add_filter(pe.filters.EvenRowFilter())
+        r.add_filter(pe.filters.OddColumnFilter())
+        actual = pe.to_dict(r)
+        result = {
+            "X": [2, 4],
+            "Z": [22, 42]
+        }
+        assert result == actual
+        # test removing the filter, it prints the original one
+        r.clear_filters()
+        actual = pe.utils.to_array(r.rows())
+        assert actual == pe.iterators.transpose(self.content[1:])
+
+    def test_orthogonality2(self):
+        r = pe.ColumnSeriesReader(self.test_tuple)
+        r.add_filter(pe.filters.OddColumnFilter())
+        r.add_filter(pe.filters.EvenRowFilter())
+        actual = pe.utils.to_dict(r)
+        result = {
+            "X": [2, 4],
+            "Z": [22, 42]
+        }
+        assert result == actual
+        # test removing the filter, it prints the original one
+        r.clear_filters()
+        actual = pe.utils.to_array(r)
+        result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [11, 21, 31, 41, 51]}, {'Z': [12, 22, 32, 42, 52]}]
+        assert actual == result
+
+    def test_series_column_iterator(self):
+        r = pe.ColumnSeriesReader(self.test_tuple)
+        sri = pe.iterators.RowIndexIterator(r)
+        actual = pe.utils.to_array(sri)
+        result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [11, 21, 31, 41, 51]}, {'Z': [12, 22, 32, 42, 52]}]
+        assert actual == result

@@ -7,14 +7,10 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-import sys
 import datetime
 import xlrd
 from xlwt import Workbook, XFStyle
-if sys.version_info[0] == 2 and sys.version_info[1] < 7:
-    from ordereddict import OrderedDict
-else:
-    from collections import OrderedDict
+from .._compact import OrderedDict
 
 
 XLS_FORMAT_CONVERSION = {

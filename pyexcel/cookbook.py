@@ -32,7 +32,7 @@ def update_columns(infilename, column_dicts, outfilename=None):
     if os.path.exists(default_out_file):
         raise NotImplementedError(__WARNING_TEXT__)
     r = SeriesReader(infilename)
-    series = r.series()
+    series = r.row_series
     for k in column_dicts.keys():
         index = series.index(k)
         r.set_column_at(index, column_dicts[k])

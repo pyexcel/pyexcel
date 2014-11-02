@@ -2,12 +2,7 @@ import pyexcel as pe
 import os
 import datetime
 from base import clean_up_files
-import six
-if six.PY2:
-    from StringIO import StringIO
-    from StringIO import StringIO as BytesIO
-else:
-    from io import BytesIO, StringIO
+from _compact import BytesIO, StringIO
 
 
 class TestToFormatFunction:
@@ -230,11 +225,23 @@ class TestColumnFormatter:
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
 
-    def test_not_implemented_column_formatter(self):
+    def test_invalid_input(self):
         try:
             pe.formatters.ColumnFormatter("world", str)
             assert 1==2
         except NotImplementedError:
+            assert 1==1
+
+        try:
+            pe.formatters.ColumnFormatter([], str)
+            assert 1==2
+        except IndexError:
+            assert 1==1
+
+        try:
+            pe.formatters.ColumnFormatter([1, 1.1], str)
+            assert 1==2
+        except IndexError:
             assert 1==1
 
     def test_two_formatters(self):
@@ -336,6 +343,20 @@ class TestRowFormatter:
                 "hello", str)
             assert 1==2
         except NotImplementedError:
+            assert 1==1
+
+        try:
+            pe.formatters.RowFormatter(
+                [], str
+            )
+            assert 1==2
+        except IndexError:
+            assert 1==1
+
+        try:
+            pe.formatters.RowFormatter([1, 1.1], str)
+            assert 1==2
+        except IndexError:
             assert 1==1
 
     def test_remove_formatter(self):

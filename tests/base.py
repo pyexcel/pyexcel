@@ -1,12 +1,7 @@
-import pyexcel as pe
 import json
 import os
-import six
-if six.PY2:
-    from StringIO import StringIO
-    from StringIO import StringIO as BytesIO
-else:
-    from io import BytesIO, StringIO
+import pyexcel as pe
+from _compact import StringIO, BytesIO
 
 
 def clean_up_files(file_list):
@@ -230,15 +225,15 @@ class PyexcelMultipleSheetBase:
         data = pe.utils.to_array(b["Sheet1"].rows())
         expected = [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]
         assert data == expected
-        data = pe.utils.to_array(b["Sheet2"].rows())
+        data = pe.to_array(b["Sheet2"].rows())
         expected = [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]
         assert data == expected
-        data = pe.utils.to_array(b["Sheet3"].rows())
+        data = pe.to_array(b["Sheet3"].rows())
         expected = [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
         assert data == expected
         sheet3 = b["Sheet3"]
-        sheet3.become_series()
-        data = pe.utils.to_array(b["Sheet3"].rows())
+        s3 = sheet3.become_series()
+        data = pe.to_array(s3.rows())
         expected = [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
         assert data == expected
 
@@ -274,8 +269,8 @@ class PyexcelMultipleSheetBase:
         assert value == 'Y'
         value = r["Sheet3"].become_series().row[0][1]
         assert value == 4
-        value = r["Sheet3"].become_sheet().row[0][1]
-        assert value == 'Y'
+        #value = r["Sheet3"].become_sheet().row[0][1]
+        #assert value == 'Y'
 
         
 class PyexcelIteratorBase:
@@ -374,40 +369,15 @@ class PyexcelSheetRWBase:
                    [1, 2, 3, 4],
                    [True],
                    [1.1, 2.2, 3.3, 4.4, 5.5]]
-        r2 += content
+        r2.row += content
         assert r2.row[3] == ['r', 's', 't', 'o', '']
         assert r2.row[4] == [1, 2, 3, 4, '']
         assert r2.row[5] == [True, "", "", "", '']
         assert r2.row[6] == [1.1, 2.2, 3.3, 4.4, 5.5]        
-        r3 = self.testclass(self.testfile)
-        sheet = pe.sheets.Sheet(content, "test")
-        r3 += sheet
-        assert r3.row[3] == ['r', 's', 't', 'o', '']
-        assert r3.row[4] == [1, 2, 3, 4, '']
-        assert r3.row[5] == [True, "", "", "", '']
-        assert r3.row[6] == [1.1, 2.2, 3.3, 4.4, 5.5]
         try:
-            r3 += 12
+            r2.row += 12
             assert 1==2
         except TypeError:
             assert 1==1
             
-    def test_add_as_columns(self):
-        # test += operator
-        columns2 = [['c1', 'c2', 'c3'],
-                   ['x1', 'x2', 'x4'],
-                   ['y1', 'y2'],
-                   ['z1']]
-        r3 = self.testclass(self.testfile)
-        r3 += pe.sheets.AS_COLUMNS(columns2)
-        assert r3.row[0] == ['a', 'b', 'c', 'd', 'c1', 'c2', 'c3']
-        assert r3.row[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
-        assert r3.row[2] == ['i', 'j', 1.1, 1, 'y1', 'y2', '']
-        assert r3.row[3] == ['', '', '', '', 'z1', '', '']
-        r4 = self.testclass(self.testfile)
-        sheet = pe.sheets.Sheet(columns2, "test")
-        r4 += pe.sheets.AS_COLUMNS(sheet)
-        assert r4.row[0] == ['a', 'b', 'c', 'd', 'c1', 'c2', 'c3']
-        assert r4.row[1] == ['e', 'f', 'g', 'h', 'x1', 'x2', 'x4']
-        assert r4.row[2] == ['i', 'j', 1.1, 1, 'y1', 'y2', '']
-        assert r4.row[3] == ['', '', '', '', 'z1', '', '']
+            

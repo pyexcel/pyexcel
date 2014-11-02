@@ -79,6 +79,15 @@ class TestFilterWithFilterableReader:
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
 
+    def test_single_column_filter(self):
+        r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
+        r.filter(pe.filters.SingleColumnFilter(0))
+        assert r.number_of_rows() == 3
+        assert r.number_of_columns() == 3
+        result = [2, 3, 4, 6, 7, 8, 10, 11, 12]
+        actual = pe.utils.to_array(r.enumerate())
+        assert result == actual
+
     def test_column_filter_with_invalid_indices(self):
         r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
         r.filter(pe.filters.ColumnFilter([11, -1]))
@@ -145,6 +154,15 @@ class TestFilterWithFilterableReader:
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
 
+    def test_single_row_filter(self):
+        r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
+        r.filter(pe.filters.SingleRowFilter(1))
+        assert r.number_of_rows() == 2
+        assert r.number_of_columns() == 4
+        result = [1, 2, 3, 4, 9, 10, 11, 12]
+        actual = pe.utils.to_array(r.enumerate())
+        assert result == actual
+        
     def test_row_filter_with_invalid_indices(self):
         r = pe.FilterableReader((self.file_type, self.testfile.getvalue()))
         r.filter(pe.filters.RowFilter([11, -1]))
@@ -199,8 +217,6 @@ class TestFilterWithFilterableReader:
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
         r.remove_filter(f1)
-        #assert r.number_of_rows() == 3
-        #assert r.number_of_columns() == 2
         result = [2, 4, 6, 8, 10, 12]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual

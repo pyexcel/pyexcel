@@ -2,11 +2,7 @@ from base import PyexcelMultipleSheetBase
 import pyexcel as pe
 import os
 from base import create_sample_file1
-import sys
-if sys.version_info[0] == 2 and sys.version_info[1] < 7:
-    from ordereddict import OrderedDict
-else:
-    from collections import OrderedDict
+from _compact import OrderedDict
 
 
 class TestXlsNXlsmMultipleSheets(PyexcelMultipleSheetBase):
@@ -349,12 +345,7 @@ class TestAddBooks:
         try:
             b1["Sheet1"] += 12
             assert 1==2
-        except TypeError:
-            assert 1==1
-        try:
-            b1["Sheet1"] += pe.sheets.AS_COLUMNS(12)
-            assert 1==2
-        except TypeError:
+        except AttributeError:
             assert 1==1
 
     def tearDown(self):
@@ -400,7 +391,7 @@ class TestMergeCSVsIntoOne:
         merged = pe.Reader()
         for file in ["1.csv", "2.csv", "3.csv"]:
             r = pe.Reader(file)
-            merged += r
+            merged.row += r
         writer = pe.Writer("merged.csv")
         writer.write_reader(merged)
         writer.close()
@@ -423,6 +414,3 @@ class TestMergeCSVsIntoOne:
         os.unlink("2.csv")
         os.unlink("3.csv")
         os.unlink("merged.csv")
-        
-
-

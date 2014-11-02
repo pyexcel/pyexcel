@@ -7,17 +7,13 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-from .iterators import SheetIterator
-from .sheets import PlainSheet, MultipleFilterableSheet, Sheet, is_string
-from .utils import to_dict
-from .io import load_file
-import sys
-if sys.version_info[0] == 2 and sys.version_info[1] < 7:
-    from ordereddict import OrderedDict
-else:
-    from collections import OrderedDict
 import os
 import uuid
+from .iterators import SheetIterator
+from .sheets import PlainSheet, MultipleFilterableSheet, IndexSheet, is_string, Sheet
+from .utils import to_dict
+from .io import load_file
+from ._compact import OrderedDict
 
 
 class Book:
@@ -237,14 +233,42 @@ class Reader(Sheet):
             Sheet.__init__(self, sheets[keys[0]], keys[0])
 
 
-class SeriesReader(Reader):
+class SeriesReader(IndexSheet):
     """
-    A single sheet excel file reader and it has column headers
+    A single sheet excel file reader and it has column headers in a selected row
     """
+    def __init__(self, file=None, sheet=None, series=0, **keywords):
+        if file:
+            self.load_file(file, sheet, series, **keywords)
+        else:
+            IndexSheet.__init__(self, [], "memory")
 
-    def __init__(self, file, sheet=None, series_row=0):
-        Reader.__init__(self, file, sheet)
-        self.become_series(series_row)
+    def declare_index(self, index):
+        self.index_by_row(index)
+
+    def load_file(self, file, sheet=None, series=0, **keywords):
+        """
+        Load only one sheet from the file
+
+        :param str file: the file name
+        :param str sheet: the sheet to be used as the default sheet
+        """
+        book = load_file(file, **keywords)
+        sheets = book.sheets()
+        if sheet:
+            IndexSheet.__init__(self, sheets[sheet], sheet)
+        else:
+            keys = list(sheets.keys())
+            IndexSheet.__init__(self, sheets[keys[0]], keys[0])
+        self.declare_index(series)
+
+
+class ColumnSeriesReader(SeriesReader):
+    """
+    A single sheet excel file reader and it has row headers in a selected column
+    """
+    def declare_index(self, index):
+        self.index_by_column(index)
 
 
 class PlainReader(PlainSheet):
