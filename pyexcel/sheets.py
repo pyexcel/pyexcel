@@ -53,12 +53,7 @@ class NamedRow(Row):
         :param list other: the row header must be the first element.
         :return: self
         """
-        if isinstance(other, OrderedDict):
-            self.ref.extend_rows(other)
-        else:
-            if len(self.ref._column_series) > 0:
-                raise TypeError("Please give a order dict")
-            Row.__iadd__(self, other)
+        self.ref.extend_rows(other)
         return self
 
     def __add__(self, other):
@@ -96,12 +91,7 @@ class NamedColumn(Column):
         :param list other: the column header must be the first element.
         :return: self
         """
-        if isinstance(other, OrderedDict):
-            self.ref.extend_columns(other)
-        else:
-            if len(self.ref._row_series) > 0:
-                raise TypeError("Please give a order dict")
-            Column.__iadd__(self, other)
+        self.ref.extend_columns(other)
         return self
 
     def __add__(self, other):
@@ -455,6 +445,7 @@ class Sheet(MultipleFilterableSheet):
         return IndexSheet(self.array, self.name, series)
 
     def is_series(self):
+        """Keep backward compactibility"""
         return False
 
 
@@ -643,7 +634,7 @@ class IndexSheet(MultipleFilterableSheet):
                 incoming_data.append(rows[k])
             MultipleFilterableSheet.extend_rows(self, incoming_data)
         elif len(self.column_series) > 0:
-            raise TypeError
+            raise TypeError("Please give a ordered list")
         else:
             MultipleFilterableSheet.extend_rows(self, rows)
 
@@ -657,7 +648,7 @@ class IndexSheet(MultipleFilterableSheet):
             incoming_data = transpose(incoming_data)
             MultipleFilterableSheet.extend_columns(self, incoming_data)
         elif len(self.row_series) > 0:
-            raise TypeError
+            raise TypeError("Please give a ordered list")
         else:
             MultipleFilterableSheet.extend_columns(self, columns)            
             

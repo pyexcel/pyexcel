@@ -17,6 +17,10 @@ class TestReader:
         self.testfile = "testcsv.csv"
         create_sample_file1(self.testfile)
 
+    def test_is_series(self):
+        r = pe.Reader(self.testfile)
+        assert r.is_series() is False
+        
     def test_cell_value(self):
         r = pe.Reader(self.testfile)
         value = r.cell_value(100,100)
