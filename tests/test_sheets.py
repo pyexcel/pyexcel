@@ -33,6 +33,12 @@ class TestPlainSheet:
         s = pe.sheets.PlainSheet(self.data)
         s.freeze_formatters()
 
+    def test_empty_sheet(self):
+        s = pe.sheets.PlainSheet([])
+        ret = s.cell_value(100, 100)
+        assert ret is None
+        ret = s._cell_value(100, 100)
+        assert ret == ""
         
 class TestFilterSheet:
     def test_freeze_filters(self):
@@ -122,6 +128,18 @@ class TestSheetNamedColumn:
         s = pe.sheets.IndexSheet(self.data, "test")
         s.index_by_row(0)
         del s.column["Column 2"]
+        assert s.number_of_columns() == 2
+        print(s.row_series)
+        try:
+            s.column["Column 2"]
+            assert 1==2
+        except ValueError:
+            assert 1==1
+            
+    def test_delete_indexed_column(self):
+        s = pe.sheets.IndexSheet(self.data, "test")
+        s.index_by_row(0)
+        del s.column[1]
         assert s.number_of_columns() == 2
         try:
             s.column["Column 2"]
@@ -249,6 +267,17 @@ class TestSheetNamedRow:
         s = pe.sheets.IndexSheet(self.data, "test")
         s.index_by_column(0)
         del s.row["Row 2"]
+        assert s.number_of_rows() == 3
+        try:
+            s.row["Row 2"]
+            assert 1==2
+        except ValueError:
+            assert 1==1
+            
+    def test_delete_indexed_column(self):
+        s = pe.sheets.IndexSheet(self.data, "test")
+        s.index_by_column(0)
+        del s.row[2]
         assert s.number_of_rows() == 3
         try:
             s.row["Row 2"]

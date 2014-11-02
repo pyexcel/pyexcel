@@ -42,16 +42,10 @@ class NamedRow(Row):
         self.ref.delete_named_row_at(column_name)
 
     def __setitem__(self, str_or_aslice, c):
-        if is_string(type(str_or_aslice)):
-            self.ref.set_named_row_at(str_or_aslice, c)
-        else:
-            Row.__setitem__(self, str_or_aslice, c)
+        self.ref.set_named_row_at(str_or_aslice, c)
 
     def __getitem__(self, str_or_aslice):
-        if is_string(type(str_or_aslice)):
-            return self.ref.named_row_at(str_or_aslice)
-        else:
-            return Row.__getitem__(self, str_or_aslice)
+        return self.ref.named_row_at(str_or_aslice)
 
     def __iadd__(self, other):
         """Overload += sign
@@ -88,22 +82,13 @@ class NamedColumn(Column):
     
     """
     def __delitem__(self, str_or_aslice):
-        if is_string(type(str_or_aslice)):
-            self.ref.delete_named_column_at(str_or_aslice)
-        else:
-            Column.__delitem__(self, str_or_aslice)
+        self.ref.delete_named_column_at(str_or_aslice)
 
     def __setitem__(self, str_or_aslice, c):
-        if is_string(type(str_or_aslice)):
-            self.ref.set_named_column_at(str_or_aslice, c)
-        else:
-            Column.__setitem__(self, str_or_aslice, c)
+        self.ref.set_named_column_at(str_or_aslice, c)
 
     def __getitem__(self, str_or_aslice):
-        if is_string(type(str_or_aslice)):
-            return self.ref.named_column_at(str_or_aslice)
-        else:
-            return Column.__getitem__(self, str_or_aslice)
+        return self.ref.named_column_at(str_or_aslice)
 
     def __iadd__(self, other):
         """Overload += sign
@@ -544,7 +529,9 @@ class IndexSheet(MultipleFilterableSheet):
 
     def named_column_at(self, name):
         """Get a column by its name """
-        index = self.row_series.index(name)
+        index = name
+        if is_string(type(index)):
+            index = self.row_series.index(name)
         column_array = self.column_at(index)
         return column_array
 
@@ -555,7 +542,9 @@ class IndexSheet(MultipleFilterableSheet):
         Given name to identify the column index, set the column to
         the given array except the column name.
         """
-        index = self.row_series.index(name)
+        index = name
+        if is_string(type(index)):
+            index = self.row_series.index(name)
         self.set_column_at(index, column_array)
 
     def delete_named_column_at(self, name):
@@ -566,6 +555,8 @@ class IndexSheet(MultipleFilterableSheet):
         the given array except the column name.
         """
         if isinstance(name, int):
+            if len(self.row_series) > 0:
+                self.row_series.pop(name)                
             self.delete_columns([name])
         else:
             index = self.row_series.index(name)
@@ -574,7 +565,9 @@ class IndexSheet(MultipleFilterableSheet):
 
     def named_row_at(self, name):
         """Get a row by its name """
-        index = self.column_series.index(name)
+        index = name
+        if is_string(type(index)):
+            index = self.column_series.index(name)
         row_array = self.row_at(index)
         return row_array
 
@@ -585,7 +578,9 @@ class IndexSheet(MultipleFilterableSheet):
         Given name to identify the row index, set the row to
         the given array except the row name.
         """
-        index = self.column_series.index(name)
+        index = name
+        if is_string(type(index)):
+            index = self.column_series.index(name)
         self.set_row_at(index, row_array)
 
     def delete_named_row_at(self, name):
@@ -596,6 +591,8 @@ class IndexSheet(MultipleFilterableSheet):
         the given array except the row name.
         """
         if isinstance(name, int):
+            if len(self.column_series) > 0:
+                self.column_series.pop(name)                
             self.delete_rows([name])
         else:
             index = self.column_series.index(name)

@@ -217,8 +217,6 @@ class TestFilterWithFilterableReader:
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
         r.remove_filter(f1)
-        #assert r.number_of_rows() == 3
-        #assert r.number_of_columns() == 2
         result = [2, 4, 6, 8, 10, 12]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual

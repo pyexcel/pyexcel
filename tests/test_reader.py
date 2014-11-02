@@ -477,6 +477,18 @@ class TestColumnSeriesReader:
         }
         assert result == actual
 
+    def test_row_filter(self):
+        r = pe.ColumnSeriesReader(self.test_tuple)
+        r.add_filter(pe.filters.SingleColumnFilter(0))
+        actual = pe.utils.to_dict(r)
+        result = {
+            "X": [2, 3, 4, 5],
+            "Y": [21, 31, 41, 51],
+            "Z": [22, 32, 42, 52]
+        }
+        assert result == actual
+        assert r.column_series == ["X", "Y", "Z"]
+
     def test_odd_row_filter(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
         f = pe.filters.OddRowFilter()
