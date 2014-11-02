@@ -2,6 +2,7 @@ import pyexcel as pe
 import os
 from base import create_sample_file2
 from _compact import OrderedDict
+from nose.tools import raises
 
 
 class TestUtils():
@@ -125,14 +126,11 @@ class TestToRecord():
         actual = pe.to_records(r)
         assert actual == result
 
+    @raises(ValueError)
     def test_index_sheet1(self):
         """Invalid input"""
         s = pe.sheets.IndexSheet([[1,2,3]], "test")
-        try:
-            actual = pe.to_records(s)
-            assert 1==2
-        except ValueError:
-            assert 1==1
+        actual = pe.to_records(s)
     
     def test_index_sheet2(self):
         s = pe.ColumnSeriesReader(self.testfile, 0)
@@ -166,13 +164,10 @@ class TestToRecord():
         actual = pe.to_records(r, custom_headers)
         assert actual == result
 
+    @raises(NotImplementedError)
     def test_book_reader_to_records_with_wrong_args(self):
         r = pe.BookReader(self.testfile)
-        try:
-            pe.to_records(r)
-            assert 1==2
-        except NotImplementedError:
-            assert 1==1
+        pe.to_records(r)
 
     def test_from_records(self):
         """give an empty records array"""

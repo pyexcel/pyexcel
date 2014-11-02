@@ -1,5 +1,6 @@
 import pyexcel as pe
 from _compact import OrderedDict
+from nose.tools import raises
 
     
 class TestPlainSheet:
@@ -52,14 +53,11 @@ class TestFilterSheet:
         assert s.row[0] == [1, 2, 3]
         assert s.column[0] == [1]
 
+    @raises(NotImplementedError)
     def test_non_filter(self):
         data = []
         s = pe.sheets.MultipleFilterableSheet(data)
-        try:
-            s.filter("abc")
-            assert 1==2
-        except NotImplementedError:
-            assert 1==1
+        s.filter("abc")  # bang
 
 
 class TestSheetNamedColumn:
@@ -88,23 +86,19 @@ class TestSheetNamedColumn:
         assert s.column["Column 1"] == ["1", "4", "7"]
         assert s.column["Column 3"] == ["3", "6", "9"]
 
+    @raises(IndexError)
     def test_formatter_by_named_column3(self):
         """Test multiple named columns with wrong type"""
-        try:
-            pe.formatters.NamedColumnFormatter(["Column 1", 1], str)
-            assert 1==2
-        except IndexError:
-            assert 1==1
-        try:
-            pe.formatters.NamedColumnFormatter([], str)
-            assert 1==2
-        except IndexError:
-            assert 1==1
-        try:
-            pe.formatters.NamedColumnFormatter(1.22, str)
-            assert 1==2
-        except NotImplementedError:
-            assert 1==1
+        pe.formatters.NamedColumnFormatter(["Column 1", 1], str)
+
+    @raises(IndexError)
+    def test_empty_list_in_named_column_formatter(self):
+        pe.formatters.NamedColumnFormatter([], str)
+
+    @raises(NotImplementedError)
+    def test_float_in_list_for_named_column_formatter(self):
+        pe.formatters.NamedColumnFormatter(1.22, str)
+        assert 1==2
         
     def test_add(self):
         s = pe.sheets.IndexSheet(self.data, "test")
@@ -115,37 +109,28 @@ class TestSheetNamedColumn:
         s = s.column + data
         assert s.column["Column 4"] == [10, 11, 12]
 
+    @raises(TypeError)
     def test_add_wrong_type(self):
+        """Add string type"""
         s = pe.sheets.IndexSheet(self.data, "test")
         s.index_by_row(0)
-        try:
-            s = s.column + "string type"
-            assert 1==2
-        except TypeError:
-            assert 1==1
+        s = s.column + "string type"  # bang
 
+    @raises(ValueError)
     def test_delete_named_column(self):
         s = pe.sheets.IndexSheet(self.data, "test")
         s.index_by_row(0)
         del s.column["Column 2"]
         assert s.number_of_columns() == 2
-        print(s.row_series)
-        try:
-            s.column["Column 2"]
-            assert 1==2
-        except ValueError:
-            assert 1==1
-            
+        s.column["Column 2"]  # bang
+
+    @raises(ValueError)
     def test_delete_indexed_column(self):
         s = pe.sheets.IndexSheet(self.data, "test")
         s.index_by_row(0)
         del s.column[1]
         assert s.number_of_columns() == 2
-        try:
-            s.column["Column 2"]
-            assert 1==2
-        except ValueError:
-            assert 1==1
+        s.column["Column 2"]  # bang
 
 
 class TestSheetNamedColumn2:
@@ -179,16 +164,13 @@ class TestSheetNamedColumn2:
         s = s.column + data
         assert s.column["Column 4"] == [10, 11, 12]
 
+    @raises(ValueError)
     def test_delete_named_column(self):
         s = pe.sheets.IndexSheet(self.data, "test")
         s.index_by_row(2)
         del s.column["Column 2"]
         assert s.number_of_columns() == 2
-        try:
-            s.column["Column 2"]
-            assert 1==2
-        except ValueError:
-            assert 1==1
+        s.column["Column 2"]  # bang
 
     def test_set_indexed_row(self):
         s = pe.sheets.IndexSheet(self.data, "test")
@@ -226,23 +208,18 @@ class TestSheetNamedRow:
         assert s.row["Row 1"] == ["1", "2", "3"]
         assert s.row["Row 2"] == ["4", "5", "6"]
 
+    @raises(IndexError)
     def test_formatter_by_named_column3(self):
         """Test multiple named columns with wrong type"""
-        try:
-            pe.formatters.NamedRowFormatter(["Row 1", 1], str)
-            assert 1==2
-        except IndexError:
-            assert 1==1
-        try:
-            pe.formatters.NamedRowFormatter([], str)
-            assert 1==2
-        except IndexError:
-            assert 1==1
-        try:
-            pe.formatters.NamedRowFormatter(1.22, str)
-            assert 1==2
-        except NotImplementedError:
-            assert 1==1
+        pe.formatters.NamedRowFormatter(["Row 1", 1], str)
+
+    @raises(IndexError)
+    def test_empty_list_in_named_row_column(self):
+        pe.formatters.NamedRowFormatter([], str)
+
+    @raises(NotImplementedError)
+    def test_float_in_list_in_named_formatter(self):
+        pe.formatters.NamedRowFormatter(1.22, str)
 
     def test_add(self):
         s = pe.sheets.IndexSheet(self.data, "test")
@@ -254,36 +231,27 @@ class TestSheetNamedRow:
         s = s.row + data
         assert s.row["Row 5"] == [10, 11, 12]
 
+    @raises(TypeError)
     def test_add_wrong_type(self):
         s = pe.sheets.IndexSheet(self.data, "test")
         s.index_by_column(0)
-        try:
-            s = s.row + "string type"
-            assert 1==2
-        except TypeError:
-            assert 1==1
+        s = s.row + "string type"  # bang
 
+    @raises(ValueError)
     def test_delete_named_column(self):
         s = pe.sheets.IndexSheet(self.data, "test")
         s.index_by_column(0)
         del s.row["Row 2"]
         assert s.number_of_rows() == 3
-        try:
-            s.row["Row 2"]
-            assert 1==2
-        except ValueError:
-            assert 1==1
-            
+        s.row["Row 2"]  # already deleted
+
+    @raises(ValueError)
     def test_delete_indexed_column(self):
         s = pe.sheets.IndexSheet(self.data, "test")
         s.index_by_column(0)
         del s.row[2]
         assert s.number_of_rows() == 3
-        try:
-            s.row["Row 2"]
-            assert 1==2
-        except ValueError:
-            assert 1==1
+        s.row["Row 2"]  # already deleted
 
     def test_set_named_row(self):
         s = pe.sheets.IndexSheet(self.data, "test")

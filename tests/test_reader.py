@@ -3,6 +3,7 @@ from base import PyexcelBase, clean_up_files
 from base import create_sample_file1
 from _compact import BytesIO, StringIO
 from base import create_sample_file1
+from nose.tools import raises
 
 
 class TestReader:
@@ -38,15 +39,12 @@ class TestReader:
         column_range = r.column_range()
         assert len(column_range) == 4
 
+    @raises(ValueError)
     def test_named_column_at(self):
         r = pe.SeriesReader(self.testfile)
-        try:
-            r.named_column_at("A")
-            assert 1==2
-        except ValueError:
-            assert 1==1
         data = r.named_column_at('a')
         assert ['e', 'i'] == data
+        r.named_column_at("A")
 
     def test_get_item_operator(self):
         r = pe.Reader(self.testfile)

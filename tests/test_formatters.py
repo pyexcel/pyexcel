@@ -3,6 +3,7 @@ import os
 import datetime
 from base import clean_up_files
 from _compact import BytesIO, StringIO
+from nose.tools import raises
 
 
 class TestToFormatFunction:
@@ -54,13 +55,6 @@ class TestToFormatFunction:
             int, value)
         assert type(n_value) == int
         assert n_value == 1
-        value = "1.1"
-        try:
-            n_value = pe.formatters.to_format(
-                int, value)
-            assert 1==2
-        except:
-            assert 1 == 1
 
     def test_float_2_date_format(self):
         value = 1.1111
@@ -225,24 +219,18 @@ class TestColumnFormatter:
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
 
+    @raises(NotImplementedError)
     def test_invalid_input(self):
-        try:
-            pe.formatters.ColumnFormatter("world", str)
-            assert 1==2
-        except NotImplementedError:
-            assert 1==1
+        pe.formatters.ColumnFormatter("world", str)
 
-        try:
-            pe.formatters.ColumnFormatter([], str)
-            assert 1==2
-        except IndexError:
-            assert 1==1
+    @raises(IndexError)
+    def test_invalid_input2(self):
+        """Empty list"""
+        pe.formatters.ColumnFormatter([], str)
 
-        try:
-            pe.formatters.ColumnFormatter([1, 1.1], str)
-            assert 1==2
-        except IndexError:
-            assert 1==1
+    @raises(IndexError)
+    def test_float_in_list(self):
+        pe.formatters.ColumnFormatter([1, 1.1], str)
 
     def test_two_formatters(self):
         r = pe.Reader(self.test_tuple)
@@ -337,27 +325,20 @@ class TestRowFormatter:
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
 
+    @raises(NotImplementedError)
     def test_unacceptable_index(self):
-        try:
-            pe.formatters.RowFormatter(
-                "hello", str)
-            assert 1==2
-        except NotImplementedError:
-            assert 1==1
+        pe.formatters.RowFormatter(
+            "hello", str)
 
-        try:
-            pe.formatters.RowFormatter(
-                [], str
-            )
-            assert 1==2
-        except IndexError:
-            assert 1==1
+    @raises(IndexError)
+    def test_empty_list_as_input(self):
+        pe.formatters.RowFormatter(
+            [], str
+        )
 
-        try:
-            pe.formatters.RowFormatter([1, 1.1], str)
-            assert 1==2
-        except IndexError:
-            assert 1==1
+    @raises(IndexError)
+    def test_float_in_row_formatter(self):
+        pe.formatters.RowFormatter([1, 1.1], str)
 
     def test_remove_formatter(self):
         r = pe.Reader(self.testfile)
@@ -525,6 +506,7 @@ class TestSheetFormatter:
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
 
+    @raises(TypeError)
     def test_custom_func_with_a_general_converter2(self):
         """Before float type operation, please convert
         the sheet to float first, otherwise, TypeError
@@ -534,11 +516,7 @@ class TestSheetFormatter:
         r.add_formatter(pe.formatters.SheetFormatter(
             float,
             f))
-        try:
-            c1 = r.row_at(2)
-            assert 1==2
-        except TypeError:
-            assert 1==1
+        c1 = r.row_at(2) # bang
 
     def test_clear_formatters(self):
         r = pe.Reader(self.testfile)
