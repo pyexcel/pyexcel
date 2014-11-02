@@ -129,6 +129,35 @@ class TestToRecord():
         actual = pe.to_records(r)
         assert actual == result
 
+    def test_index_sheet1(self):
+        """Invalid input"""
+        s = pe.sheets.IndexSheet([[1,2,3]], "test")
+        try:
+            actual = pe.to_records(s)
+            assert 1==2
+        except ValueError:
+            assert 1==1
+    
+    def test_index_sheet2(self):
+        s = pe.ColumnSeriesReader(self.testfile, 0)
+        actual = pe.to_records(s)
+        result = [
+            {1.0: 4.0, 'X': 'Y', 3.0: 6.0, 2.0: 5.0},
+            {1.0: 7.0, 'X': 'Z', 3.0: 9.0, 2.0: 8.0}
+        ]
+        assert actual == result
+        
+    def test_index_sheet3(self):
+        s = pe.ColumnSeriesReader(self.testfile, 0)
+        headers = ["Row 1", "Row 2", "Row 3", "Row 4"]
+        actual = pe.to_records(s, headers)
+        print(actual)
+        result = [
+            {'Row 4': 6.0, 'Row 2': 4.0, 'Row 1': 'Y', 'Row 3': 5.0},
+            {'Row 4': 9.0, 'Row 2': 7.0, 'Row 1': 'Z', 'Row 3': 8.0}
+        ]
+        assert actual == result
+
     def test_book_reader_to_records_custom(self):
         """use custom header
         """
@@ -139,7 +168,6 @@ class TestToRecord():
             {u'P': 5.0, u'O': 2.0, u'Q': 8.0},
             {u'P': 6.0, u'O': 3.0, u'Q': 9.0}]
         actual = pe.to_records(r, custom_headers)
-        print(actual)
         assert actual == result
 
     def test_book_reader_to_records_with_wrong_args(self):
@@ -149,6 +177,11 @@ class TestToRecord():
             assert 1==2
         except NotImplementedError:
             assert 1==1
+
+    def test_from_records(self):
+        """give an empty records array"""
+        value = pe.utils.from_records([])
+        assert value == None
 
     def tearDown(self):
         if os.path.exists(self.testfile):

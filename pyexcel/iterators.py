@@ -11,7 +11,6 @@ import re
 import six
 import copy
 
-
 def _unique(seq):
     """
     Return a unique list of the incoming list
@@ -54,7 +53,6 @@ def uniform(array):
                 row += [""] * (width - row_length)
         return array
 
-
 def transpose(in_array):
     """
     Rotate the array by 90 degrees
@@ -72,7 +70,6 @@ def transpose(in_array):
                 row_data.append('')
         new_array.append(row_data)
     return new_array
-
 
 """
 In order to easily compute the actual index of 'X' or 'AX', these utility

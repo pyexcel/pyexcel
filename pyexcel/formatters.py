@@ -13,9 +13,7 @@ import datetime
 
 
 def _is_array_type(an_array, atype):
-    tmp = filter(lambda i: not isinstance(i, atype), an_array)
-    if six.PY3:
-        tmp = list(tmp)
+    tmp = [ i for i in an_array if not isinstance(i, atype)]
     return len(tmp) == 0
 
 def string_to_format(value, FORMAT):
@@ -181,11 +179,11 @@ class ColumnFormatter(Formatter):
             func = lambda r, c, v: c == column_index
         elif isinstance(column_index, list):
             if len(column_index) == 0:
-                raise NotImplementedError("column list is empty. do not waste resurce")
+                raise IndexError("column list is empty. do not waste resurce")
             if _is_array_type(column_index, int):
                 func = lambda r, c, v: c in column_index
             else:
-                raise NotImplementedError("column list should be a list of integers")
+                raise IndexError("column list should be a list of integers")
         else:
             raise NotImplementedError("%s is not supported" % type(column_index))
         Formatter.__init__(self, func, FORMAT, custom_converter)
@@ -207,11 +205,11 @@ class NamedColumnFormatter(ColumnFormatter):
             func = lambda r, c, v: c == column_index
         elif isinstance(column_index, list):
             if len(column_index) == 0:
-                raise NotImplementedError("column list is empty. do not waste resurce")
-            if _is_array_type(column_index, int):
+                raise IndexError("column list is empty. do not waste resurce")
+            if _is_array_type(column_index, str):
                 func = lambda r, c, v: c in column_index
             else:
-                raise NotImplementedError("column list should be a list of strings")
+                raise IndexError("column list should be a list of strings")
         else:
             raise NotImplementedError("%s is not supported" % type(column_index))
         Formatter.__init__(self, func, FORMAT, custom_converter)
@@ -241,11 +239,11 @@ class RowFormatter(Formatter):
             func = lambda r, c, v: r == row_index
         elif isinstance(row_index, list):
             if len(row_index) == 0:
-                raise NotImplementedError("column list is empty. do not waste resurce")
+                raise IndexError("row list is empty. do not waste resurce")
             if _is_array_type(row_index, int):
                 func = lambda r, c, v: r in row_index
             else:
-                raise NotImplementedError("column list should be a list of integers")
+                raise IndexError("row list should be a list of integers")
         else:
             raise NotImplementedError("%s is not supported" % type(row_index))
         Formatter.__init__(self, func, FORMAT, custom_converter)
@@ -267,11 +265,11 @@ class NamedRowFormatter(RowFormatter):
             func = lambda r, c, v: r == row_index
         elif isinstance(row_index, list):
             if len(row_index) == 0:
-                raise NotImplementedError("column list is empty. do not waste resurce")
+                raise IndexError("row list is empty. do not waste resurce")
             if _is_array_type(row_index, str):
                 func = lambda r, c, v: r in row_index
             else:
-                raise NotImplementedError("column list should be a list of strings")
+                raise IndexError("row list should be a list of strings")
         else:
             raise NotImplementedError("%s is not supported" % type(row_index))
         Formatter.__init__(self, func, FORMAT, custom_converter)

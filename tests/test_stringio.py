@@ -91,3 +91,17 @@ class TestIO:
         result=[1, 2, 3, 4, 5, 6]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
+
+    def test_xlsm_output_stringio(self):
+        data = [
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        io = BytesIO()
+        w = pe.Writer(("xlsm",io))
+        w.write_rows(data)
+        w.close()
+        r = pe.Reader(("xlsm", io.getvalue()))
+        result=[1, 2, 3, 4, 5, 6]
+        actual = pe.utils.to_array(r.enumerate())
+        assert result == actual

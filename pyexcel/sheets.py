@@ -49,7 +49,7 @@ class NamedRow(Row):
         if is_string(type(str_or_aslice)):
             self.ref.set_named_row_at(str_or_aslice, c)
         else:
-            Row.__setitem__(self, str_or_aslice)
+            Row.__setitem__(self, str_or_aslice, c)
 
     def __getitem__(self, str_or_aslice):
         if is_string(type(str_or_aslice)):
@@ -101,7 +101,7 @@ class NamedColumn(Column):
         if is_string(type(str_or_aslice)):
             self.ref.set_named_column_at(str_or_aslice, c)
         else:
-            Column.__setitem__(self, str_or_aslice)
+            Column.__setitem__(self, str_or_aslice, c)
 
     def __getitem__(self, str_or_aslice):
         if is_string(type(str_or_aslice)):
@@ -534,7 +534,17 @@ class IndexSheet(MultipleFilterableSheet):
 
     @property
     def column_series(self):
-        return self._column_series
+        if len(self._filters) != 0:
+            row_filters = [ f for f in self._filters if isinstance(f, RowIndexFilter)]
+            if len(row_filters) != 0:
+                indices = range(0, len(self._column_series))
+                for f in row_filters:
+                    indices = [i for i in indices if i not in f.indices]
+                return [self._column_series[i] for i in indices]
+            else:
+                return self._column_series
+        else:
+            return self._column_series
 
     def named_column_at(self, name):
         """Get a column by its name """
@@ -614,8 +624,7 @@ class IndexSheet(MultipleFilterableSheet):
             elif (isinstance(aformatter.indices, list) and
                   isinstance(aformatter.indices[0], str)):
                 # translate each row name to index
-                aformatter.indices = map(lambda astr: series.index(astr),
-                                         aformatter.indices)
+                new_indices = [ series.index(astr) for astr in aformatter.indices]
                 aformatter.update_index(new_indices)
         return aformatter
 
@@ -660,10 +669,9 @@ class IndexSheet(MultipleFilterableSheet):
             MultipleFilterableSheet.extend_columns(self, columns)            
             
     def __iter__(self):
-        return ColumnIndexIterator(self)
-
-    def series_columns(self):
-        return ColumnIndexIterator(self)
-
-    def series_rows(self):
-        return RowIndexFilter(self)
+        if len(self._row_series) > 0:
+            return ColumnIndexIterator(self)
+        elif len(self._column_series) > 0:
+            return RowIndexIterator(self)
+        else:
+            return MultipleFilterableSheet.__iter__(self)

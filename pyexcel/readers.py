@@ -239,14 +239,17 @@ class Reader(Sheet):
 
 class SeriesReader(IndexSheet):
     """
-    A single sheet excel file reader and it has column headers
+    A single sheet excel file reader and it has column headers in a selected row
     """
     def __init__(self, file=None, sheet=None, series=0, **keywords):
         if file:
             self.load_file(file, sheet, series, **keywords)
         else:
             IndexSheet.__init__(self, [], "memory")
-            self.index_by_row(series)
+            self._declare_index(series)
+
+    def _declare_index(self, index):
+        self.index_by_row(index)
 
     def load_file(self, file, sheet=None, series=0, **keywords):
         """
@@ -262,7 +265,15 @@ class SeriesReader(IndexSheet):
         else:
             keys = list(sheets.keys())
             IndexSheet.__init__(self, sheets[keys[0]], keys[0])
-        self.index_by_row(series)
+        self._declare_index(series)
+
+
+class ColumnSeriesReader(SeriesReader):
+    """
+    A single sheet excel file reader and it has row headers in a selected column
+    """
+    def _declare_index(self, index):
+        self.index_by_column(index)
 
 
 class PlainReader(PlainSheet):

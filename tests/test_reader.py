@@ -1,6 +1,13 @@
 import pyexcel as pe
 from base import PyexcelBase, clean_up_files
 from base import create_sample_file1
+import six
+if six.PY2:
+    from StringIO import StringIO
+    from StringIO import StringIO as BytesIO
+else:
+    from io import BytesIO, StringIO
+from base import create_sample_file1
 
 
 class TestReader:
@@ -432,3 +439,96 @@ class TestSeriesReader5:
 
     def tearDown(self):
         clean_up_files([self.testfile])
+
+
+class TestColumnSeriesReader:
+    def setUp(self):
+        file_type = "xlsx"
+        io = BytesIO()
+        self.content = [
+            ["X", "Y", "Z"],
+            [1, 11, 12],
+            [2, 21, 22],
+            [3, 31, 32],
+            [4, 41, 42],
+            [5, 51, 52]
+        ]
+        w = pe.Writer((file_type, io))
+        w.write_columns(self.content)
+        w.close()
+        self.test_tuple = (file_type, io.getvalue())
+
+    def test_row_filter(self):
+        r = pe.ColumnSeriesReader(self.test_tuple)
+        r.add_filter(pe.filters.SingleRowFilter(1))
+        actual = pe.utils.to_dict(r)
+        result = {
+            "X": [1, 2, 3, 4, 5],
+            "Z": [12, 22, 32, 42, 52]
+        }
+        assert result == actual
+
+    def test_odd_row_filter(self):
+        r = pe.ColumnSeriesReader(self.test_tuple)
+        f = pe.filters.OddRowFilter()
+        r.add_filter(f)
+        actual = pe.utils.to_dict(r)
+        result = {
+            "Y": [11, 21, 31, 41, 51]
+        }
+        assert result == actual
+        r.remove_filter(f)
+        actual = pe.utils.to_array(r.rows())
+        assert actual == pe.iterators.transpose(self.content[1:])
+
+    def test_even_row_filter(self):
+        r = pe.ColumnSeriesReader(self.test_tuple)
+        r.add_filter(pe.filters.EvenRowFilter())
+        actual = pe.utils.to_dict(r)
+        result = {
+            "X": [1, 2, 3, 4, 5],
+            "Z": [12, 22, 32, 42, 52]
+        }
+        assert result == actual
+        # test removing the filter, it prints the original one
+        r.clear_filters()
+        actual = pe.utils.to_array(r.rows())
+        assert actual == pe.iterators.transpose(self.content[1:])
+
+    def test_orthogonality(self):
+        r = pe.ColumnSeriesReader(self.test_tuple)
+        r.add_filter(pe.filters.EvenRowFilter())
+        r.add_filter(pe.filters.OddColumnFilter())
+        actual = pe.to_dict(r)
+        result = {
+            "X": [2, 4],
+            "Z": [22, 42]
+        }
+        assert result == actual
+        # test removing the filter, it prints the original one
+        r.clear_filters()
+        actual = pe.utils.to_array(r.rows())
+        assert actual == pe.iterators.transpose(self.content[1:])
+
+    def test_orthogonality2(self):
+        r = pe.ColumnSeriesReader(self.test_tuple)
+        r.add_filter(pe.filters.OddColumnFilter())
+        r.add_filter(pe.filters.EvenRowFilter())
+        actual = pe.utils.to_dict(r)
+        result = {
+            "X": [2, 4],
+            "Z": [22, 42]
+        }
+        assert result == actual
+        # test removing the filter, it prints the original one
+        r.clear_filters()
+        actual = pe.utils.to_array(r)
+        result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [11, 21, 31, 41, 51]}, {'Z': [12, 22, 32, 42, 52]}]
+        assert actual == result
+
+    def test_series_column_iterator(self):
+        r = pe.ColumnSeriesReader(self.test_tuple)
+        sri = pe.iterators.RowIndexIterator(r)
+        actual = pe.utils.to_array(sri)
+        result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [11, 21, 31, 41, 51]}, {'Z': [12, 22, 32, 42, 52]}]
+        assert actual == result
