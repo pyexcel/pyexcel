@@ -1,12 +1,7 @@
 import json
 import os
-import six
 import pyexcel as pe
-if six.PY2:
-    from StringIO import StringIO
-    from StringIO import StringIO as BytesIO
-else:
-    from io import BytesIO, StringIO
+from _compact import StringIO, BytesIO
 
 
 def clean_up_files(file_list):

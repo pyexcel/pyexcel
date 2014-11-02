@@ -2,12 +2,7 @@ import pyexcel as pe
 import os
 import datetime
 from base import clean_up_files
-import six
-if six.PY2:
-    from StringIO import StringIO
-    from StringIO import StringIO as BytesIO
-else:
-    from io import BytesIO, StringIO
+from _compact import BytesIO, StringIO
 
 
 class TestToFormatFunction:

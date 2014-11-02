@@ -1,11 +1,6 @@
 import os
-import six
 import pyexcel as pe
-if six.PY2:
-    from StringIO import StringIO
-    from StringIO import StringIO as BytesIO
-else:
-    from io import BytesIO, StringIO
+from _compact import BytesIO, StringIO
 from base import create_sample_file1
 
 
@@ -64,6 +59,18 @@ class TestIO:
         if os.path.exists(csvfile):
             os.unlink(csvfile)
 
+    def test_book_stringio(self):
+        csvfile = "cute.xls"
+        create_sample_file1(csvfile)
+        with open(csvfile, "rb") as f:
+            content = f.read()
+            b = pe.Book(("xls", content))
+            result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
+            actual = pe.utils.to_array(b[0].enumerate())
+            assert result == actual
+        if os.path.exists(csvfile):
+            os.unlink(csvfile)
+
     def test_csv_output_stringio(self):
         data = [
             [1, 2, 3],
@@ -104,4 +111,20 @@ class TestIO:
         r = pe.Reader(("xlsm", io.getvalue()))
         result=[1, 2, 3, 4, 5, 6]
         actual = pe.utils.to_array(r.enumerate())
+        assert result == actual
+
+    def test_book_output_stringio(self):
+        data = {
+            "Sheet 1": [
+                [1, 2, 3],
+                [4, 5, 6]
+            ]
+        }
+        io = BytesIO()
+        w = pe.BookWriter(("xlsm",io))
+        w.write_book_from_dict(data)
+        w.close()
+        b = pe.BookReader(("xlsm", io.getvalue()))
+        result=[1, 2, 3, 4, 5, 6]
+        actual = pe.utils.to_array(b[0].enumerate())
         assert result == actual

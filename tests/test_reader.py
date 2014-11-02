@@ -1,12 +1,7 @@
 import pyexcel as pe
 from base import PyexcelBase, clean_up_files
 from base import create_sample_file1
-import six
-if six.PY2:
-    from StringIO import StringIO
-    from StringIO import StringIO as BytesIO
-else:
-    from io import BytesIO, StringIO
+from _compact import BytesIO, StringIO
 from base import create_sample_file1
 
 
