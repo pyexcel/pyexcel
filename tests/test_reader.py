@@ -235,6 +235,20 @@ class TestSeriesReader3:
         w.write_array(self.content)
         w.close()
 
+    def test_empty_series_reader(self):
+        r = pe.SeriesReader()
+        assert r.name == "memory"
+        test_data = [
+            [1, 2, 3],
+            [4, 5, 6],
+            ["Column 1", "Column 2", "Column 3"]
+        ]
+        r.column += test_data
+        actual = pe.to_array(r)
+        assert test_data == actual
+        r.declare_index(2)
+        assert r.row_series == test_data[2]
+        
     def test_row_filter(self):
         r = pe.SeriesReader(self.testfile)
         r.add_filter(pe.filters.RowFilter([1]))
