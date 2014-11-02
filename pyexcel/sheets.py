@@ -7,7 +7,6 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-import sys
 import six
 import uuid
 import copy
@@ -15,10 +14,7 @@ from .iterators import Matrix, ColumnIndexIterator, RowIndexIterator, Column, Ro
 from .formatters import ColumnFormatter, RowFormatter, SheetFormatter, NamedColumnFormatter, NamedRowFormatter
 from .filters import (RowIndexFilter,
                       ColumnIndexFilter)
-if sys.version_info[0] == 2 and sys.version_info[1] < 7:
-    from ordereddict import OrderedDict
-else:
-    from collections import OrderedDict
+from ._compact import OrderedDict
 
 
 def is_string(atype):

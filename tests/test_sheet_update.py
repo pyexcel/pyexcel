@@ -1,14 +1,10 @@
-import sys
 import pyexcel as pe
 from base import (create_sample_file1,
                   create_sample_file1_series,
                   create_sample_file2,
                   clean_up_files,
                   PyexcelSheetRWBase)
-if sys.version_info[0] == 2 and sys.version_info[1] < 7:
-    from ordereddict import OrderedDict
-else:
-    from collections import OrderedDict
+from _compact import OrderedDict
 
 
 class TestReader:

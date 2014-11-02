@@ -7,12 +7,8 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-import sys
 from .sheets import IndexSheet, Sheet
-if sys.version_info[0] == 2 and sys.version_info[1] < 7:
-    from ordereddict import OrderedDict
-else:
-    from collections import OrderedDict
+from ._compact import OrderedDict
 
 
 def to_array(o):

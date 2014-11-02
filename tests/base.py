@@ -1,7 +1,7 @@
-import pyexcel as pe
 import json
 import os
 import six
+import pyexcel as pe
 if six.PY2:
     from StringIO import StringIO
     from StringIO import StringIO as BytesIO
