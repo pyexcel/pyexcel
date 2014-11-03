@@ -64,20 +64,15 @@ class TestReader:
         value = r.column_at(1)
         assert value == ['b','f','j']
 
+    @raises(NotImplementedError)
     def test_not_supported_file(self):
-        try:
-            pe.Reader("test.sylk")
-            assert 0==1
-        except NotImplementedError:
-            assert 1==1
+        pe.Reader("test.sylk")
+        assert 0==1
 
+    @raises(IndexError)
     def test_out_of_index(self):
         r = pe.Reader(self.testfile)
-        try:
-            r.row[10000]
-            assert 1!=1
-        except IndexError:
-            assert 1==1
+        r.row[10000]
 
     def test_contains(self):
         r = pe.Reader(self.testfile)
@@ -478,7 +473,7 @@ class TestColumnSeriesReader:
         }
         assert result == actual
 
-    def test_row_filter(self):
+    def test_column_filter(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
         r.add_filter(pe.filters.SingleColumnFilter(0))
         actual = pe.utils.to_dict(r)

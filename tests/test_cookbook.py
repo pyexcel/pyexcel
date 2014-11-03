@@ -1,6 +1,7 @@
 import pyexcel as pe
 import os
 from base import clean_up_files
+from nose.tools import raises
 
 
 class TestSpliting:
@@ -95,30 +96,25 @@ class TestCookbook:
         w.write_book_from_dict(self.content4)
         w.close()
 
+    @raises(ValueError)
     def test_update_columns(self):
         bad_column = {"A": [31, 1, 1, 1, 1]}
+        # try non-existent column first
+        pe.cookbook.update_columns(self.testfile, bad_column)
+
+    @raises(NotImplementedError)
+    def test_update_columns2(self):
         custom_column = {"Z": [33, 44, 55, 66, 77]}
-        try:
-            # try non-existent column first
-            pe.cookbook.update_columns(self.testfile, bad_column)
-            assert 1==2
-        except ValueError:
-            assert 1==1
         pe.cookbook.update_columns(self.testfile, custom_column)
         r = pe.SeriesReader("pyexcel_%s" % self.testfile)
         data = pe.utils.to_dict(r)
         assert data["Z"] == custom_column["Z"]
-        try:
-            # test if it try not overwrite a file
-            pe.cookbook.update_columns(self.testfile, custom_column)
-            r = pe.SeriesReader("pe_%s" % self.testfile)
-            assert 1==2
-        except NotImplementedError:
-            assert 1==1
         pe.cookbook.update_columns(self.testfile, custom_column, "test4.xls")
         r = pe.SeriesReader("test4.xls")
         data = pe.utils.to_dict(r)
         assert data["Z"] == custom_column["Z"]
+        # test if it try not overwrite a file
+        pe.cookbook.update_columns(self.testfile, custom_column)  #bang
 
     def test_update_rows(self):
         bad_column = {100: [31, 1, 1, 1, 1]}
@@ -143,6 +139,7 @@ class TestCookbook:
         r = pe.Reader("test4.xls")
         assert custom_column[1] == r.row_at(1)
 
+    @raises(NotImplementedError)
     def test_merge_two_files(self):
         pe.cookbook.merge_two_files(self.testfile, self.testfile2)
         r = pe.SeriesReader("pyexcel_merged.csv")
@@ -152,12 +149,9 @@ class TestCookbook:
         content.update(self.content)
         content.update(self.content2)
         assert data == content
-        try:
-            pe.cookbook.merge_two_files(self.testfile, self.testfile2)
-            assert 1==2
-        except NotImplementedError:
-            assert 1==1
+        pe.cookbook.merge_two_files(self.testfile, self.testfile2)  # bang
 
+    @raises(NotImplementedError)
     def test_merge_files(self):
         file_array = [self.testfile, self.testfile2, self.testfile3]
         pe.cookbook.merge_files(file_array)
@@ -169,12 +163,9 @@ class TestCookbook:
         content.update(self.content2)
         content.update(self.content3)
         assert data == content
-        try:
-            pe.cookbook.merge_files(file_array)
-            assert 1==2
-        except NotImplementedError:
-            assert 1==1
+        pe.cookbook.merge_files(file_array)  # bang, do not overwrite
 
+    @raises(NotImplementedError)
     def test_merge_two_readers(self):
         r1 = pe.SeriesReader(self.testfile)
         r2 = pe.SeriesReader(self.testfile2)
@@ -186,12 +177,9 @@ class TestCookbook:
         content.update(self.content)
         content.update(self.content2)
         assert data == content
-        try:
-            pe.cookbook.merge_two_readers(r1, r2)
-            assert 1==2
-        except NotImplementedError:
-            assert 1==1
+        pe.cookbook.merge_two_readers(r1, r2)  # bang, do not overwrite
 
+    @raises(NotImplementedError)
     def test_merge_readers(self):
         r1 = pe.SeriesReader(self.testfile)
         r2 = pe.SeriesReader(self.testfile2)
@@ -206,11 +194,7 @@ class TestCookbook:
         content.update(self.content2)
         content.update(self.content3)
         assert data == content
-        try:
-            pe.cookbook.merge_readers(file_array)
-            assert 1==2
-        except NotImplementedError:
-            assert 1==1
+        pe.cookbook.merge_readers(file_array)  # bang, do not overwrite
 
     def test_merge_two_row_filter_hat_readers(self):
         r1 = pe.SeriesReader(self.testfile)

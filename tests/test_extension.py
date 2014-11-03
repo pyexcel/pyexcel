@@ -1,3 +1,6 @@
+from nose.tools import raises
+
+
 class TestExt:
     
     def test_test(self):
@@ -7,11 +10,8 @@ class TestExt:
         from pyexcel.io import WRITERS
         assert READERS['test'] == 'test'
         assert WRITERS['test'] == 'test'
-        
+
+    @raises(ImportError)
     def test_unknown(self):
         """test unknown"""
-        try:
-            from pyexcel.ext import unknown
-            assert 1==2
-        except ImportError:
-            assert 1==1
+        from pyexcel.ext import unknown

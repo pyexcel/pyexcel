@@ -5,6 +5,7 @@ from base import (create_sample_file1,
                   clean_up_files,
                   PyexcelSheetRWBase)
 from _compact import OrderedDict
+from nose.tools import raises
 
 
 class TestReader:
@@ -90,18 +91,18 @@ class TestSeriesReader(PyexcelSheetRWBase):
         self.testclass = pe.SeriesReader
         self.testfile = "testcsv.xls"
         create_sample_file1_series(self.testfile)
-            
+
+    @raises(TypeError)
     def test_extend_columns(self):
         r = self.testclass(self.testfile)
         columns = [
             ['p', 'a', 'd'],
             ['c1', 'c2', 'c3'],
             ['x1', 'x2', 'x4']]
-        try:
-            r.extend_columns(columns)
-            assert 1==2
-        except TypeError:
-            assert 1==1
+        r.extend_columns(columns)
+
+    def test_extend_columns2(self):
+        r = self.testclass(self.testfile)
         columns = OrderedDict()
         columns.update({"p": ['c1', 'x1']})
         columns.update({"a": ['c2', 'x2']})
