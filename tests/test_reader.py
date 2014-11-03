@@ -50,19 +50,19 @@ class TestReader:
         value = r[0,1]
         assert value == 'b'
 
+    @raises(IndexError)
     def test_row_at(self):
         r = pe.Reader(self.testfile)
-        value = r.row_at(100)
-        assert value == None
         value = r.row_at(2)
         assert value == ['i', 'j', "1.1", "1"]
+        value = r.row_at(100) # bang
 
+    @raises(IndexError)
     def test_column_at(self):
         r = pe.Reader(self.testfile)
-        value = r.column_at(100)
-        assert value == None
         value = r.column_at(1)
         assert value == ['b','f','j']
+        value = r.column_at(100) # bang
 
     @raises(NotImplementedError)
     def test_not_supported_file(self):
@@ -243,7 +243,7 @@ class TestSeriesReader3:
         actual = pe.to_array(r)
         assert test_data == actual
         r.declare_index(2)
-        assert r.row_series == test_data[2]
+        assert r.rownames == test_data[2]
         
     def test_row_filter(self):
         r = pe.SeriesReader(self.testfile)
@@ -348,7 +348,7 @@ class TestSeriesReader4:
 
     def test_headers(self):
         r = pe.SeriesReader(self.testfile)
-        actual = r.row_series
+        actual = r.rownames
         assert self.content[0] == actual
 
     def test_named_column_at(self):
@@ -408,7 +408,7 @@ class TestSeriesReader5:
 
     def test_headers(self):
         r = pe.SeriesReader(self.testfile, series=4)
-        actual = r.row_series
+        actual = r.rownames
         assert self.content[4] == actual
 
     def test_named_column_at(self):
@@ -483,7 +483,7 @@ class TestColumnSeriesReader:
             "Z": [22, 32, 42, 52]
         }
         assert result == actual
-        assert r.column_series == ["X", "Y", "Z"]
+        assert r.colnames == ["X", "Y", "Z"]
 
     def test_odd_row_filter(self):
         r = pe.ColumnSeriesReader(self.test_tuple)

@@ -35,16 +35,25 @@ class NamedRow(Row):
 
         r = pe.SeriesReader("example.csv")
         print(r.row["row 1"])
-    
+
     """
     def __delitem__(self, column_name):
-        self.ref.delete_named_row_at(column_name)
+        if is_string(type(column_name)):
+            self.ref.delete_named_row_at(column_name)
+        else:
+            Row.__delitem__(self, column_name)
 
     def __setitem__(self, str_or_aslice, c):
-        self.ref.set_named_row_at(str_or_aslice, c)
+        if is_string(type(str_or_aslice)):
+            self.ref.set_named_row_at(str_or_aslice, c)
+        else:
+            Row.__setitem__(self, str_or_aslice, c)
 
     def __getitem__(self, str_or_aslice):
-        return self.ref.named_row_at(str_or_aslice)
+        if is_string(type(str_or_aslice)):
+            return self.ref.named_row_at(str_or_aslice)
+        else:
+            return Row.__getitem__(self, str_or_aslice)
 
     def __iadd__(self, other):
         """Overload += sign
@@ -73,16 +82,25 @@ class NamedColumn(Column):
 
         r = pe.SeriesReader("example.csv")
         print(r.column["column 1"])
-    
+
     """
     def __delitem__(self, str_or_aslice):
-        self.ref.delete_named_column_at(str_or_aslice)
+        if is_string(type(str_or_aslice)):
+            self.ref.delete_named_column_at(str_or_aslice)
+        else:
+            Column.__delitem__(self, str_or_aslice)
 
     def __setitem__(self, str_or_aslice, c):
-        self.ref.set_named_column_at(str_or_aslice, c)
+        if is_string(type(str_or_aslice)):
+            self.ref.set_named_column_at(str_or_aslice, c)
+        else:
+            Column.__setitem__(self, str_or_aslice, c)
 
     def __getitem__(self, str_or_aslice):
-        return self.ref.named_column_at(str_or_aslice)
+        if is_string(type(str_or_aslice)):
+            return self.ref.named_column_at(str_or_aslice)
+        else:
+            return Column.__getitem__(self, str_or_aslice)
 
     def __iadd__(self, other):
         """Overload += sign
@@ -126,7 +144,7 @@ class PlainSheet(Matrix):
             # to do don't use add_formatter'
             self.add_formatter(aformatter)
             self.freeze_formatters()
-                
+
     def _apply_column_formatter(self, column_formatter):
         def filter_indices(column_index):
             return column_formatter.is_my_business(-1, column_index, -1)
@@ -150,7 +168,7 @@ class PlainSheet(Matrix):
                 self.cell_value(rindex, cindex, value)
 
     def add_formatter(self, aformatter):
-        """Add a lazy formatter. 
+        """Add a lazy formatter.
 
         The formatter takes effect on the fly when a cell value is read
         This is cost effective when you have a big data table
@@ -188,7 +206,7 @@ class PlainSheet(Matrix):
                 self.cell_value(rindex, cindex, value)
         # clear formatters
         self._formatters = []
-                
+
     def _cell_value(self, row, column, new_value=None):
         """
         Random access to the xls cells
@@ -359,11 +377,11 @@ class MultipleFilterableSheet(PlainSheet):
         decending_list = sorted(afilter.indices, reverse=True)
         for i in decending_list:
             del self.row[i]
-            
+
     def _apply_column_filters(self, afilter):
         """Private method to apply column filter"""
         afilter.validate_filter(self)
-        decending_list = sorted(afilter.indices, reverse=True)        
+        decending_list = sorted(afilter.indices, reverse=True)
         for i in decending_list:
             del self.column[i]
 
@@ -434,19 +452,6 @@ class MultipleFilterableSheet(PlainSheet):
         Matrix.delete_columns(self, column_indices)
 
 
-class Sheet(MultipleFilterableSheet):
-    def __init__(self, sheet, name):
-        MultipleFilterableSheet.__init__(self, sheet)
-        self.name = name
-
-    def become_series(self, series=0):
-        return IndexSheet(self.array, self.name, series)
-
-    def is_series(self):
-        """Keep backward compactibility"""
-        return False
-
-
 class IndexSheet(MultipleFilterableSheet):
     def __init__(self, sheet, name, row_series=-1, column_series=-1):
         MultipleFilterableSheet.__init__(self, sheet)
@@ -489,7 +494,7 @@ class IndexSheet(MultipleFilterableSheet):
         del self.column[column_index]
 
     @property
-    def row_series(self):
+    def rownames(self):
         if len(self._filters) != 0:
             column_filters = [ f for f in self._filters if isinstance(f, ColumnIndexFilter)]
             if len(column_filters) != 0:
@@ -503,7 +508,7 @@ class IndexSheet(MultipleFilterableSheet):
             return self._row_series
 
     @property
-    def column_series(self):
+    def colnames(self):
         if len(self._filters) != 0:
             row_filters = [ f for f in self._filters if isinstance(f, RowIndexFilter)]
             if len(row_filters) != 0:
@@ -520,7 +525,7 @@ class IndexSheet(MultipleFilterableSheet):
         """Get a column by its name """
         index = name
         if is_string(type(index)):
-            index = self.row_series.index(name)
+            index = self.rownames.index(name)
         column_array = self.column_at(index)
         return column_array
 
@@ -533,8 +538,20 @@ class IndexSheet(MultipleFilterableSheet):
         """
         index = name
         if is_string(type(index)):
-            index = self.row_series.index(name)
+            index = self.rownames.index(name)
         self.set_column_at(index, column_array)
+
+    def delete_columns(self, column_indices):
+        MultipleFilterableSheet.delete_columns(self, column_indices)
+        if len(self._row_series) > 0:
+            new_series = [ self._row_series[i] for i in range(0, len(self._row_series)) if i not in column_indices ]
+            self._row_series = new_series
+
+    def delete_rows(self, row_indices):
+        MultipleFilterableSheet.delete_rows(self, row_indices)
+        if len(self._column_series) > 0:
+            new_series = [ self._column_series[i] for i in range(0, len(self._column_series)) if i not in row_indices ]
+            self._column_series = new_series
 
     def delete_named_column_at(self, name):
         """
@@ -544,19 +561,19 @@ class IndexSheet(MultipleFilterableSheet):
         the given array except the column name.
         """
         if isinstance(name, int):
-            if len(self.row_series) > 0:
-                self.row_series.pop(name)                
+            if len(self.rownames) > 0:
+                self.rownames.pop(name)
             self.delete_columns([name])
         else:
-            index = self.row_series.index(name)
-            self.row_series.pop(index)
+            index = self.rownames.index(name)
+            self.rownames.pop(index)
             self.delete_columns([index])
 
     def named_row_at(self, name):
         """Get a row by its name """
         index = name
         if is_string(type(index)):
-            index = self.column_series.index(name)
+            index = self.colnames.index(name)
         row_array = self.row_at(index)
         return row_array
 
@@ -569,7 +586,7 @@ class IndexSheet(MultipleFilterableSheet):
         """
         index = name
         if is_string(type(index)):
-            index = self.column_series.index(name)
+            index = self.colnames.index(name)
         self.set_row_at(index, row_array)
 
     def delete_named_row_at(self, name):
@@ -580,12 +597,12 @@ class IndexSheet(MultipleFilterableSheet):
         the given array except the row name.
         """
         if isinstance(name, int):
-            if len(self.column_series) > 0:
-                self.column_series.pop(name)                
+            if len(self.colnames) > 0:
+                self.colnames.pop(name)
             self.delete_rows([name])
         else:
-            index = self.column_series.index(name)
-            self.column_series.pop(index)
+            index = self.colnames.index(name)
+            self.colnames.pop(index)
             self.delete_rows([index])
 
     def apply_formatter(self, aformatter):
@@ -594,9 +611,9 @@ class IndexSheet(MultipleFilterableSheet):
 
     def _translate_named_formatter(self, aformatter):
         if isinstance(aformatter, NamedColumnFormatter):
-            series = self.row_series
+            series = self.rownames
         elif isinstance(aformatter, NamedRowFormatter):
-            series = self.column_series
+            series = self.colnames
         else:
             series = None
         if series:
@@ -611,7 +628,7 @@ class IndexSheet(MultipleFilterableSheet):
         return aformatter
 
     def add_formatter(self, aformatter):
-        """Add a lazy formatter. 
+        """Add a lazy formatter.
 
         The formatter takes effect on the fly when a cell value is read
         This is cost effective when you have a big data table
@@ -625,33 +642,33 @@ class IndexSheet(MultipleFilterableSheet):
 
     def extend_rows(self, rows):
         """Take ordereddict to extend named rows"""
-        incoming_data = []    
+        incoming_data = []
         if isinstance(rows, OrderedDict):
             keys = rows.keys()
             for k in keys:
-                self.column_series.append(k)
+                self.colnames.append(k)
                 incoming_data.append(rows[k])
             MultipleFilterableSheet.extend_rows(self, incoming_data)
-        elif len(self.column_series) > 0:
+        elif len(self.colnames) > 0:
             raise TypeError("Please give a ordered list")
         else:
             MultipleFilterableSheet.extend_rows(self, rows)
 
     def extend_columns(self, columns):
         """Take ordereddict to extend named columns"""
-        incoming_data = []    
+        incoming_data = []
         if isinstance(columns, OrderedDict):
             keys = columns.keys()
             for k in keys:
-                self.row_series.append(k)
+                self.rownames.append(k)
                 incoming_data.append(columns[k])
             incoming_data = transpose(incoming_data)
             MultipleFilterableSheet.extend_columns(self, incoming_data)
-        elif len(self.row_series) > 0:
+        elif len(self.rownames) > 0:
             raise TypeError("Please give a ordered list")
         else:
             MultipleFilterableSheet.extend_columns(self, columns)
-            
+
     def __iter__(self):
         if len(self._row_series) > 0:
             return ColumnIndexIterator(self)
@@ -659,3 +676,23 @@ class IndexSheet(MultipleFilterableSheet):
             return RowIndexIterator(self)
         else:
             return MultipleFilterableSheet.__iter__(self)
+
+    def to_records(self):
+        from .utils import to_records
+        return to_records(self)
+
+    def to_dict(self, row=False):
+        from .utils import to_dict
+        if row:
+            return to_dict(ColumnIndexIterator(self))
+        else:
+            return to_dict(RowIndexIterator(self))
+
+
+class Sheet(IndexSheet):
+    def become_series(self, series=0):
+        return IndexSheet(self.array, self.name, series)
+
+    def is_series(self):
+        """Keep backward compactibility"""
+        return False

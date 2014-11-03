@@ -271,7 +271,7 @@ class ColumnSeriesReader(SeriesReader):
         self.index_by_column(index)
 
 
-class PlainReader(PlainSheet):
+class PlainReader(Sheet):
     """
     PlainReader exists for speed over Reader and also for testing purposes
     """
@@ -279,13 +279,13 @@ class PlainReader(PlainSheet):
         book = load_file(file, **keywords)
         sheets = book.sheets()
         if sheet:
-            PlainSheet.__init__(self, sheets[sheet])
+            Sheet.__init__(self, sheets[sheet], "")
         else:
             keys = list(sheets.keys())
-            PlainSheet.__init__(self, sheets[keys[0]])
+            Sheet.__init__(self, sheets[keys[0]], "")
 
 
-class FilterableReader(MultipleFilterableSheet):
+class FilterableReader(Sheet):
     """
     FiltableReader lets you use filters at the sequence of your choice
     """
@@ -293,7 +293,7 @@ class FilterableReader(MultipleFilterableSheet):
         book = load_file(file, **keywords)
         sheets = book.sheets()
         if sheet:
-            MultipleFilterableSheet.__init__(self, sheets[sheet])
+            Sheet.__init__(self, sheets[sheet], "")
         else:
             keys = list(sheets.keys())
-            MultipleFilterableSheet.__init__(self, sheets[keys[0]])
+            Sheet.__init__(self, sheets[keys[0]], "")

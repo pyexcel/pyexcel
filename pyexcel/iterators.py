@@ -587,7 +587,7 @@ class Matrix:
                 cell_array.append(self.cell_value(index, i))
             return cell_array
         else:
-            return None
+            raise IndexError("Out of range")
 
     def column_at(self, index):
         """
@@ -599,7 +599,7 @@ class Matrix:
                 cell_array.append(self.cell_value(i, index))
             return cell_array
         else:
-            return None
+            raise IndexError("Out of range")
 
     def set_column_at(self, column_index, data_array, starting=0):
         """Update columns
@@ -764,6 +764,11 @@ class Matrix:
         Reference :func:`transpose`
         """
         self.array = transpose(self.array)
+
+    def to_array(self):
+        """Get an array out
+        """
+        return self.array
 
 
 class PyexcelIterator:
@@ -1116,7 +1121,7 @@ class ColumnIndexIterator(PyexcelIterator):
         if self.current in self.reader_ref.column_range():
             index = self.current
             self.current += 1
-            column_header = self.reader_ref.row_series[index]
+            column_header = self.reader_ref.rownames[index]
             return {column_header: self.reader_ref.named_column_at(column_header)}
         else:
             raise StopIteration
@@ -1140,7 +1145,7 @@ class RowIndexIterator(PyexcelIterator):
         if self.current in self.reader_ref.row_range():
             index = self.current
             self.current += 1
-            column_header = self.reader_ref.column_series[index]
+            column_header = self.reader_ref.colnames[index]
             return {column_header: self.reader_ref.named_row_at(column_header)}
         else:
             raise StopIteration

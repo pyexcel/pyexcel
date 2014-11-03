@@ -259,7 +259,7 @@ class SeriesRowValueFilter(RowIndexFilter):
         
         :param Matrix reader: a Matrix instance
         """
-        series = reader.row_series
+        series = reader.rownames
         self.indices = [row[0] for row in enumerate(reader.rows()) if not self.eval_func(dict(zip(series, row[1])))]
 
 
