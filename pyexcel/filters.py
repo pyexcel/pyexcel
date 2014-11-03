@@ -24,9 +24,6 @@
         f3         x
              1           2   3
 """
-import six
-
-
 class IndexFilter:
     """A generic index filter"""
     def __init__(self, func):
@@ -72,9 +69,7 @@ class ColumnIndexFilter(IndexFilter):
 
         :param Matrix reader: a Matrix instance
         """
-        self.indices = filter(self.eval_func, reader.column_range())
-        if six.PY3:
-            self.indices = list(self.indices)
+        self.indices = [ i for i in reader.column_range() if self.eval_func(i) ]
 
     def translate(self, row, column):
         """Map the row, column after filtering to the
@@ -155,9 +150,7 @@ class RowIndexFilter(IndexFilter):
 
         :param Matrix reader: a Matrix instance
         """
-        self.indices = filter(self.eval_func, reader.row_range())
-        if six.PY3:
-            self.indices = list(self.indices)
+        self.indices = [ i for i in reader.row_range() if self.eval_func(i) ]
 
     def translate(self, row, column):
         """Map the row, column after filtering to the
