@@ -61,7 +61,10 @@ class NamedRow(Row):
         :param list other: the row header must be the first element.
         :return: self
         """
-        self.ref.extend_rows(other)
+        if isinstance(other, OrderedDict):
+            self.ref.extend_rows(other)
+        else:
+            Row.__iadd__(self, other)
         return self
 
     def __add__(self, other):
@@ -108,7 +111,10 @@ class NamedColumn(Column):
         :param list other: the column header must be the first element.
         :return: self
         """
-        self.ref.extend_columns(other)
+        if isinstance(other, OrderedDict):
+            self.ref.extend_columns(other)
+        else:
+            Column.__iadd__(self, other)
         return self
 
     def __add__(self, other):
@@ -453,7 +459,7 @@ class MultipleFilterableSheet(PlainSheet):
 
 
 class IndexSheet(MultipleFilterableSheet):
-    def __init__(self, sheet, name, row_series=-1, column_series=-1):
+    def __init__(self, sheet=[], name="pyexcel", row_series=-1, column_series=-1):
         MultipleFilterableSheet.__init__(self, sheet)
         self.name = name
         self._row_series = []
@@ -684,9 +690,9 @@ class IndexSheet(MultipleFilterableSheet):
     def to_dict(self, row=False):
         from .utils import to_dict
         if row:
-            return to_dict(ColumnIndexIterator(self))
-        else:
             return to_dict(RowIndexIterator(self))
+        else:
+            return to_dict(ColumnIndexIterator(self))
 
 
 class Sheet(IndexSheet):

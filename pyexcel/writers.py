@@ -11,7 +11,6 @@ from .utils import to_dict, to_array, from_records, dict_to_array
 from .iterators import Matrix, transpose
 from .io import get_writer
 from .sheets import Sheet, IndexSheet
-from .readers import SeriesReader
 
 
 class SheetWriter:
@@ -59,12 +58,14 @@ class SheetWriter:
 
         :param Matrix reader: a Matrix instance
         """
-        if isinstance(reader, SeriesReader):
-            self.write_dict(to_dict(reader))
-        elif isinstance(reader, Matrix):
-            self.write_rows(to_array(reader))
-        else:
+        if not isinstance(reader, Matrix):
             raise TypeError
+        if len(reader.rownames) > 0:
+            self.write_dict(reader.to_dict())
+        elif len(reader.colnames) > 0:
+            self.write_dict(reader.to_dict(True))
+        else:
+            self.write_rows(to_array(reader))
 
     def write_columns(self, in_array):
         """Write columns in reference to rows

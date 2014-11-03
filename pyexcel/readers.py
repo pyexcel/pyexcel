@@ -202,73 +202,51 @@ class BookReader(Book):
     pass
 
 
-class Reader(Sheet):
+def load(file, sheetname, row_series=-1, column_series=-1, **keywords):
+    book = load_file(file, **keywords)
+    sheets = book.sheets()
+    if sheetname:
+        if sheetname not in sheets:
+            raise KeyError("%s is not found" % sheetname)
+    else:
+        keys = list(sheets.keys())
+        sheetname = keys[0]
+    return Sheet(sheets[sheetname],
+                 sheetname,
+                 row_series=row_series,
+                 column_series=column_series)
+
+def loads(file_type, file_content, sheet, **keywords):
+    return load((file_type, file_content), sheet, **keywords)
+
+
+def Reader(file=None, sheet=None, **keywords):
     """
     A single sheet excel file reader
 
     Default is the sheet at index 0. Or you specify one using sheet index
     or sheet name. The short coming of this reader is: column filter is
     applied first then row filter is applied next
+
+    use as class would fail though
     """
-
-    def __init__(self, file=None, sheet=None, **keywords):
-        if file:
-            self.load_file(file, sheet, **keywords)
-        else:
-            Sheet.__init__(self, [], "memory")
-
-    def load_file(self, file, sheet=None, **keywords):
-        """
-        Load only one sheet from the file
-
-        :param str file: the file name
-        :param str sheet: the sheet to be used as the default sheet
-        """
-        book = load_file(file, **keywords)
-        sheets = book.sheets()
-        if sheet:
-            Sheet.__init__(self, sheets[sheet], sheet)
-        else:
-            keys = sorted(list(sheets.keys()))
-            Sheet.__init__(self, sheets[keys[0]], keys[0])
+    return load(file, sheet, **keywords)
 
 
-class SeriesReader(IndexSheet):
+def SeriesReader(file=None, sheet=None, series=0, **keywords):
     """
     A single sheet excel file reader and it has column headers in a selected row
+
+    use as class would fail
     """
-    def __init__(self, file=None, sheet=None, series=0, **keywords):
-        if file:
-            self.load_file(file, sheet, series, **keywords)
-        else:
-            IndexSheet.__init__(self, [], "memory")
-
-    def declare_index(self, index):
-        self.index_by_row(index)
-
-    def load_file(self, file, sheet=None, series=0, **keywords):
-        """
-        Load only one sheet from the file
-
-        :param str file: the file name
-        :param str sheet: the sheet to be used as the default sheet
-        """
-        book = load_file(file, **keywords)
-        sheets = book.sheets()
-        if sheet:
-            IndexSheet.__init__(self, sheets[sheet], sheet)
-        else:
-            keys = list(sheets.keys())
-            IndexSheet.__init__(self, sheets[keys[0]], keys[0])
-        self.declare_index(series)
+    return load(file, sheet, row_series=series, **keywords)
 
 
-class ColumnSeriesReader(SeriesReader):
+def ColumnSeriesReader(file=None, sheet=None, series=0, **keywords):
     """
     A single sheet excel file reader and it has row headers in a selected column
     """
-    def declare_index(self, index):
-        self.index_by_column(index)
+    return load(file, sheet, column_series=series, **keywords)
 
 
 class PlainReader(Sheet):

@@ -232,18 +232,19 @@ class TestSeriesReader3:
         w.close()
 
     def test_empty_series_reader(self):
-        r = pe.SeriesReader()
-        assert r.name == "memory"
+        # debug this further
+        s = pe.Sheet([])  # seriesreader is gone since v0.0.7
+        assert s.name == "pyexcel"
         test_data = [
             [1, 2, 3],
             [4, 5, 6],
             ["Column 1", "Column 2", "Column 3"]
         ]
-        r.column += test_data
-        actual = pe.to_array(r)
+        s.column += test_data
+        actual = pe.to_array(s)
         assert test_data == actual
-        r.declare_index(2)
-        assert r.rownames == test_data[2]
+        s.index_by_row(2)
+        assert s.rownames == test_data[2]
         
     def test_row_filter(self):
         r = pe.SeriesReader(self.testfile)

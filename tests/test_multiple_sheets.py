@@ -385,7 +385,7 @@ class TestMergeCSVsIntoOne:
         w.write_rows(data3)
         w.close()
         # execute
-        merged = pe.Reader()
+        merged = pe.Sheet()
         for file in ["1.csv", "2.csv", "3.csv"]:
             r = pe.Reader(file)
             merged.row += r

@@ -27,6 +27,7 @@ from .filters import (ColumnIndexFilter,
                       RowIndexFilter,
                       SingleColumnFilter,
                       SingleRowFilter)
+from .sheets import Sheet
 from . import cookbook
 
 __VERSION__ = '0.0.7'
