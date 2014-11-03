@@ -2,38 +2,27 @@ import os
 import pyexcel as pe
 from _compact import BytesIO, StringIO
 from base import create_sample_file1
+from nose.tools import raises
 
 
 class TestIO:
+    @raises(IOError)
     def test_wrong_io_input(self):
-        try:
-            r = pe.Reader(1000)
-            assert 1==2
-        except IOError:
-            assert 1==1
+        pe.Reader(1000)
 
+    @raises(IOError)
     def test_wrong_io_output(self):
-        try:
-            r = pe.Writer(1000)
-            assert 1==2
-        except IOError:
-            assert 1==1
+        pe.Writer(1000)
 
+    @raises(NotImplementedError)
     def test_not_supported_input_stream(self):
-        try:
-            content = "11\n11"
-            r = pe.Reader(("sylk", content))
-            assert 1==2
-        except NotImplementedError:
-            assert 1==1
+        content = "11\n11"
+        pe.Reader(("sylk", content))
 
+    @raises(NotImplementedError)
     def test_not_supported_output_stream(self):
-        try:
-            io = StringIO
-            r = pe.Writer(("sylk", io))
-            assert 1==2
-        except NotImplementedError:
-            assert 1==1
+        io = StringIO
+        pe.Writer(("sylk", io))
         
     def test_csv_stringio(self):
         csvfile = "cute.csv"
