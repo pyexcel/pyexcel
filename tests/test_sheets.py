@@ -98,7 +98,6 @@ class TestSheetNamedColumn:
     @raises(NotImplementedError)
     def test_float_in_list_for_named_column_formatter(self):
         pe.formatters.NamedColumnFormatter(1.22, str)
-        assert 1==2
         
     def test_add(self):
         s = pe.sheets.IndexSheet(self.data, "test")

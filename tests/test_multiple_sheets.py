@@ -3,6 +3,7 @@ import pyexcel as pe
 import os
 from base import create_sample_file1
 from _compact import OrderedDict
+from nose.tools import raises
 
 
 class TestXlsNXlsmMultipleSheets(PyexcelMultipleSheetBase):
@@ -111,30 +112,32 @@ class TestAddBooks:
         }
         self._write_test_file(self.test_single_sheet_file, self.content1)
 
+    @raises(KeyError)
     def test_delete_sheets(self):
+        """Can delete by sheet name"""
         b1 = pe.readers.Book(self.testfile)
         assert len(b1.sheet_names()) == 3
         del b1["Sheet1"]
         assert len(b1.sheet_names()) == 2
-        try:
-            del b1["Sheet1"]
-            assert 1==2
-        except KeyError:
-            assert 1==1
+        del b1["Sheet1"]  # bang, already deleted
+
+    @raises(IndexError)
+    def test_delete_sheets2(self):
+        """Can delete by index"""
+        b1 = pe.readers.Book(self.testfile)
+        assert len(b1.sheet_names()) == 3
+        del b1[2]
         del b1[1]
         assert len(b1.sheet_names()) == 1
-        try:
-            del b1[1]
-            assert 1==2
-        except IndexError:
-            assert 1==1
-        try:
-            del b1[1.1]
-            assert 1==2
-        except TypeError:
-            assert 1==1
+        del b1[1] # bang, already deleted
+
+    @raises(TypeError)
+    def test_delete_sheets3(self):
+        """Test float in []"""
+        b1 = pe.readers.Book(self.testfile)
+        del b1[1.1]
             
-    def test_delete_sheets2(self):
+    def test_delete_sheets4(self):
         """repetitively delete first sheet"""
         b1 = pe.readers.Book(self.testfile)
         del b1[0]
@@ -316,37 +319,31 @@ class TestAddBooks:
             if "Sheet1" in name:
                 assert content[name] == self.content["Sheet1"]
 
+    @raises(TypeError)
     def test_add_book_error(self):
         """
         test this scenario: book3 = book + integer
         """
         b1 = pe.BookReader(self.testfile)
-        try:
-            b1 + 12
-            assert 1==2
-        except TypeError:
-            assert 1==1
-        try:
-            b1 += 12
-            assert 1==2
-        except TypeError:
-            assert 1==1
+        b1 + 12  # bang, cannot add integer
 
+    @raises(TypeError)
+    def test_add_book_error2(self):
+        b1 = pe.BookReader(self.testfile)
+        b1 += 12  # bang cannot iadd integer
+
+    @raises(TypeError)
     def test_add_sheet_error(self):
         """
         test this scenario: book3 = sheet1 + integer
         """
         b1 = pe.BookReader(self.testfile)
-        try:
-            b1["Sheet1"] + 12
-            assert 1==2
-        except TypeError:
-            assert 1==1
-        try:
-            b1["Sheet1"] += 12
-            assert 1==2
-        except AttributeError:
-            assert 1==1
+        b1["Sheet1"] + 12  # bang, cannot add integer
+
+    @raises(NotImplementedError)
+    def test_add_sheet_error2(self):
+        b1 = pe.BookReader(self.testfile)
+        b1["Sheet1"] += 12  #bang, cannot iadd integer
 
     def tearDown(self):
         if os.path.exists(self.testfile):

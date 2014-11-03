@@ -2,7 +2,7 @@ import pyexcel as pe
 import os
 import datetime
 from base import clean_up_files
-from _compact import BytesIO, StringIO
+from _compact import StringIO
 from nose.tools import raises
 
 

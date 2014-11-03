@@ -3,6 +3,7 @@ import pyexcel as pe
 import datetime
 import copy
 from base import PyexcelIteratorBase, create_sample_file2
+from nose.tools import raises
 
 
 class TestMatrixColumn:
@@ -24,14 +25,11 @@ class TestMatrixColumn:
         data = m.column[:2]
         assert data == [[1, 1, 1], [2, 2, '']]
 
+    @raises(IndexError)
     def test_get_with_a_wrong_index(self):
         """Get with a wrong index"""
         m = pe.iterators.Matrix(self.data)
-        try:
-            data = m.column["hello"]
-            assert 1==2
-        except IndexError:
-            assert 1==1
+        data = m.column["hello"]  # bang, string type index 
 
     def test_extend_columns(self):
         """Test extend columns"""
@@ -70,13 +68,10 @@ class TestMatrixColumn:
         ]
         assert result2 == actual4
 
+    @raises(TypeError)
     def test_type_error(self):
         m = pe.iterators.Matrix(self.data)
-        try:
-            m.column += 12
-            assert 1==2
-        except TypeError:
-            assert 1==1
+        m.column += 12  # bang, cannot add integers
 
     def test_delete_columns(self):
         r = pe.iterators.Matrix(self.data)
@@ -84,13 +79,10 @@ class TestMatrixColumn:
         r.delete_columns([0,2])
         assert r.row[0] == [2, 4, 5, 6]
 
+    @raises(ValueError)
     def test_delete_wrong_type(self):
         r = pe.iterators.Matrix(self.data)
-        try:
-            r.delete_columns("hi")
-            assert 1==2
-        except ValueError:
-            assert 1==1
+        r.delete_columns("hi")  # bang, cannot delete columns named as string
 
     def test_delete_one_index(self):
         m = pe.iterators.Matrix(self.data)
@@ -188,13 +180,10 @@ class TestMatrixRow:
         assert r3.row[5] == [True, "", "", "", '']
         assert r3.row[6] == [1.1, 2.2, 3.3, 4.4, 5.5]
 
+    @raises(TypeError)
     def test_type_error(self):
         m = pe.iterators.Matrix(self.data)
-        try:
-            m.row += 12
-            assert 1==2
-        except TypeError:
-            assert 1==1
+        m.row += 12  # bang, cannot add integer
    
     def test_delete_a_index(self):
         """Delete a index"""
@@ -292,19 +281,15 @@ class TestMatrix:
         r[0,0] = 'k'
         assert r[0][0] == 'k'
 
+    @raises(IndexError)
     def test_wrong_index_type(self):
         r = pe.iterators.Matrix(self.data)
-        r[0,0] = 'k'
-        try:
-            r["string"][0]
-            assert 1==2
-        except IndexError:
-            assert 1==1
-        try:
-            r["string"] = 'k'
-            assert 1==2
-        except IndexError:
-            assert 1==1
+        r["string"][0]  # bang, cannot get
+
+    @raises(IndexError)
+    def test_wrong_index_type2(self):
+        r = pe.iterators.Matrix(self.data)
+        r["string"] = 'k'  # bang, cannot set
 
     def test_transpose(self):
         """Test transpose"""
@@ -330,13 +315,10 @@ class TestMatrix:
         except IndexError:
             assert 1 == 1
 
+    @raises(IndexError)
     def test_delete_rows_with_invalid_list(self):
         m = pe.iterators.Matrix([])
-        try:
-            m.delete_rows('ab')
-            assert 1==2
-        except IndexError:
-            assert 1==1
+        m.delete_rows('ab')  # bang, cannot delete
 
 
 class TestIteratableArray(PyexcelIteratorBase):
@@ -432,6 +414,7 @@ class TestUtilityFunctions:
         assert row == 110
         assert column == 703
 
+    @raises(ValueError)
     def test_analyse_slice(self):
         a = slice(None, 3)
         bound = 4
@@ -443,12 +426,7 @@ class TestUtilityFunctions:
         expected = [1, 2, 3]
         result = pe.iterators._analyse_slice(a, bound)
         assert expected == result
-        a = slice(2, 1)
+        a = slice(2, 1)  # invalid series
         bound = 4
-        expected = [1, 2, 3]
-        try:
-            result = pe.iterators._analyse_slice(a, bound)
-            assert 1==2
-        except ValueError:
-            assert 1==1
+        result = pe.iterators._analyse_slice(a, bound) # bang
        

@@ -1,7 +1,8 @@
 import json
 import os
 import pyexcel as pe
-from _compact import StringIO, BytesIO
+from _compact import BytesIO
+from nose.tools import raises
 
 
 def clean_up_files(file_list):
@@ -181,6 +182,7 @@ class PyexcelBase:
         r = pe.Reader(self.testfile)
         assert 4 == r.number_of_columns()
 
+    @raises(ValueError)
     def test_slice(self):
         r = pe.Reader(self.testfile)
         content1 = [['1', '1', '1', '1']]
@@ -190,15 +192,11 @@ class PyexcelBase:
         assert content2 == r.row[:2]
         content3 = [["2", "2", "2", "2"], ["3","3","3","3"]]
         assert content3 == r.row[1:]
-        try:
-            r.row[2:1]
-            assert 1==2
-        except ValueError:
-            assert 1==1
         content4 = [["1", "1", "1", "1"], ["2", "2", "2", "2"]]
         assert content4 == r.row[0:2:1]
         content5 = ["1", "1", "1", "1"]
         assert [content5] == r.row[0:0]
+        r.row[2:1]  # bang
 
 
 class PyexcelMultipleSheetBase:
@@ -363,6 +361,8 @@ class PyexcelIteratorBase:
 
 
 class PyexcelSheetRWBase:
+            
+    @raises(TypeError)
     def test_extend_rows(self):
         r2 = self.testclass(self.testfile)
         content = [['r', 's', 't', 'o'],
@@ -374,10 +374,4 @@ class PyexcelSheetRWBase:
         assert r2.row[4] == [1, 2, 3, 4, '']
         assert r2.row[5] == [True, "", "", "", '']
         assert r2.row[6] == [1.1, 2.2, 3.3, 4.4, 5.5]        
-        try:
-            r2.row += 12
-            assert 1==2
-        except TypeError:
-            assert 1==1
-            
-            
+        r2.row += 12  # bang

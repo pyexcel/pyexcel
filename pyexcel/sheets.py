@@ -9,9 +9,8 @@
 """
 import six
 import uuid
-import copy
 from .iterators import Matrix, ColumnIndexIterator, RowIndexIterator, Column, Row, transpose
-from .formatters import ColumnFormatter, RowFormatter, SheetFormatter, NamedColumnFormatter, NamedRowFormatter
+from .formatters import ColumnFormatter, RowFormatter, NamedColumnFormatter, NamedRowFormatter
 from .filters import (RowIndexFilter,
                       ColumnIndexFilter)
 from ._compact import OrderedDict
@@ -254,8 +253,7 @@ class PlainSheet(Matrix):
 
         :return: self
         """
-        print("Depreciated!Not supported any more. Please .row or .column to extendsheet")
-        return self
+        raise NotImplementedError("Depreciated!Not supported any more. Please .row or .column to extendsheet")
 
 
 class MultipleFilterableSheet(PlainSheet):
@@ -626,6 +624,7 @@ class IndexSheet(MultipleFilterableSheet):
         PlainSheet.add_formatter(self, aformatter)
 
     def extend_rows(self, rows):
+        """Take ordereddict to extend named rows"""
         incoming_data = []    
         if isinstance(rows, OrderedDict):
             keys = rows.keys()
@@ -639,6 +638,7 @@ class IndexSheet(MultipleFilterableSheet):
             MultipleFilterableSheet.extend_rows(self, rows)
 
     def extend_columns(self, columns):
+        """Take ordereddict to extend named columns"""
         incoming_data = []    
         if isinstance(columns, OrderedDict):
             keys = columns.keys()
@@ -650,7 +650,7 @@ class IndexSheet(MultipleFilterableSheet):
         elif len(self.row_series) > 0:
             raise TypeError("Please give a ordered list")
         else:
-            MultipleFilterableSheet.extend_columns(self, columns)            
+            MultipleFilterableSheet.extend_columns(self, columns)
             
     def __iter__(self):
         if len(self._row_series) > 0:

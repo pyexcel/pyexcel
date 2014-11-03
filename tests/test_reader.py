@@ -1,8 +1,7 @@
 import pyexcel as pe
 from base import PyexcelBase, clean_up_files
 from base import create_sample_file1
-from _compact import BytesIO, StringIO
-from base import create_sample_file1
+from _compact import BytesIO
 from nose.tools import raises
 
 

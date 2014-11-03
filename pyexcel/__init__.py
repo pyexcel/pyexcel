@@ -13,10 +13,20 @@
 
 from .readers import Reader, BookReader, Book
 from .writers import Writer, BookWriter
-from .readers import SeriesReader, ColumnSeriesReader, PlainReader, FilterableReader
+from .readers import (SeriesReader,
+                      ColumnSeriesReader,
+                      PlainReader,
+                      FilterableReader)
 from .utils import to_dict, to_array, to_records
-from .formatters import (ColumnFormatter, RowFormatter, SheetFormatter,
-                         NamedColumnFormatter, NamedRowFormatter)
+from .formatters import (ColumnFormatter,
+                         RowFormatter,
+                         SheetFormatter,
+                         NamedColumnFormatter,
+                         NamedRowFormatter)
+from .filters import (ColumnIndexFilter,
+                      RowIndexFilter,
+                      SingleColumnFilter,
+                      SingleRowFilter)
 from . import cookbook
 
 __VERSION__ = '0.0.7'

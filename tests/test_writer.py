@@ -1,6 +1,7 @@
 import os
 from base import PyexcelWriterBase, PyexcelHatWriterBase, clean_up_files
 import pyexcel as pe
+from nose.tools import raises
 
 
 class TestCSVnXLSMWriter(PyexcelWriterBase):
@@ -68,13 +69,10 @@ class TestWriteReader:
         content = pe.utils.to_dict(r2)
         assert content == self.content
 
+    @raises(TypeError)
     def test_write_simple_reader_error(self):
-        try:
-            w = pe.Writer(self.testfile2)
-            w.write_reader("abc")  # boom
-            assert 1==2
-        except TypeError:
-            assert 1==1
+        w = pe.Writer(self.testfile2)
+        w.write_reader("abc")  # boom
 
     def tearDown(self):
         file_list = [self.testfile, self.testfile2]
