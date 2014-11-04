@@ -10,10 +10,34 @@
 import os
 import uuid
 from .iterators import SheetIterator
-from .sheets import PlainSheet, MultipleFilterableSheet, IndexSheet, is_string, Sheet
+from .sheets import Sheet
 from .utils import to_dict
 from .io import load_file
 from ._compact import OrderedDict
+
+
+def load_book(file, **keywords):
+    """Load content from physical file
+
+    :param str file: the file name
+    :param any keywords: additional parameters
+    """
+    path, filename = os.path.split(file)
+    book = load_file(file, **keywords)
+    sheets = book.sheets()
+    return Book(sheets, filename, path, **keywords)
+
+
+def load_book_from_memory(file_type, file_content, **keywords):
+    """Load content from memory content
+
+    :param tuple the_tuple: first element should be file extension,
+    second element should be file content
+    :param any keywords: additional parameters
+    """
+    book = load_file((file_type, file_content), **keywords)
+    sheets = book.sheets()
+    return Book(sheets, **keywords)
 
 
 class Book:
@@ -22,44 +46,15 @@ class Book:
 
     For csv file, there will be just one sheet
     """
-    def __init__(self, filename=None, **keywords):
+    def __init__(self, sheets={}, filename="memory", path=None, **keywords):
         """
         Book constructor
 
         Selecting a specific book according to filename extension
         """
-        self.path = ""
-        self.filename = "memory"
-        self.name_array = []
-        self.sheets = {}
-        if is_string(type(filename)):
-            if filename and os.path.exists(filename):
-                self.load_from(filename, **keywords)
-        elif isinstance(filename, tuple):
-            self.load_from_memory(filename, **keywords)
-
-    def load_from(self, file, **keywords):
-        """Load content from physical file
-
-        :param str file: the file name
-        :param any keywords: additional parameters
-        """
-        path, filename = os.path.split(file)
         self.path = path
         self.filename = filename
-        book = load_file(file, **keywords)
-        sheets = book.sheets()
-        self.load_from_sheets(sheets)
-
-    def load_from_memory(self, the_tuple, **keywords):
-        """Load content from memory content
-
-        :param tuple the_tuple: first element should be file extension,
-        second element should be file content
-        :param any keywords: additional parameters
-        """
-        book = load_file(the_tuple, **keywords)
-        sheets = book.sheets()
+        self.name_array = []
         self.load_from_sheets(sheets)
 
     def load_from_sheets(self, sheets):
@@ -195,11 +190,10 @@ class Book:
         return self
 
 
-class BookReader(Book):
+def BookReader(file, **keywords):
+    """For backward compatibility
     """
-    For backward compatibility
-    """
-    pass
+    return load_book(file, **keywords)
 
 
 def load(file, sheetname, row_series=-1, column_series=-1, **keywords):
@@ -216,7 +210,8 @@ def load(file, sheetname, row_series=-1, column_series=-1, **keywords):
                  row_series=row_series,
                  column_series=column_series)
 
-def loads(file_type, file_content, sheet, **keywords):
+
+def load_from_memory(file_type, file_content, sheet, **keywords):
     return load((file_type, file_content), sheet, **keywords)
 
 
@@ -229,49 +224,42 @@ def Reader(file=None, sheet=None, **keywords):
     applied first then row filter is applied next
 
     use as class would fail though
+    changed since 0.0.7
     """
     return load(file, sheet, **keywords)
 
 
 def SeriesReader(file=None, sheet=None, series=0, **keywords):
-    """
-    A single sheet excel file reader and it has column headers in a selected row
+    """A single sheet excel file reader and it has column headers in a selected row
 
     use as class would fail
+    changed since 0.0.7
     """
     return load(file, sheet, row_series=series, **keywords)
 
 
 def ColumnSeriesReader(file=None, sheet=None, series=0, **keywords):
-    """
-    A single sheet excel file reader and it has row headers in a selected column
+    """A single sheet excel file reader and it has row headers in a selected column
+
+    use as class would fail
+    changed since 0.0.7
     """
     return load(file, sheet, column_series=series, **keywords)
 
 
-class PlainReader(Sheet):
+def PlainReader(file, sheet=None, **keywords):
+    """PlainReader exists for speed over Reader and also for testing purposes
+
+    use as class would fail
+    changed since 0.0.7
     """
-    PlainReader exists for speed over Reader and also for testing purposes
-    """
-    def __init__(self, file, sheet=None, **keywords):
-        book = load_file(file, **keywords)
-        sheets = book.sheets()
-        if sheet:
-            Sheet.__init__(self, sheets[sheet], "")
-        else:
-            keys = list(sheets.keys())
-            Sheet.__init__(self, sheets[keys[0]], "")
+    return load(file, sheet, **keywords)
 
 
-class FilterableReader(Sheet):
+def FilterableReader(file, sheet=None, **keywords):
+    """FiltableReader lets you use filters at the sequence of your choice
+    
+    use as class would fail
+    changed since 0.0.7
     """
-    FiltableReader lets you use filters at the sequence of your choice
-    """
-    def __init__(self, file, sheet=None, **keywords):
-        book = load_file(file, **keywords)
-        sheets = book.sheets()
-        if sheet:
-            Sheet.__init__(self, sheets[sheet], "")
-        else:
-            keys = list(sheets.keys())
-            Sheet.__init__(self, sheets[keys[0]], "")
+    return load(file, sheet, **keywords)

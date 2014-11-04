@@ -53,7 +53,7 @@ class TestIO:
         create_sample_file1(csvfile)
         with open(csvfile, "rb") as f:
             content = f.read()
-            b = pe.Book(("xls", content))
+            b = pe.load_book_from_memory("xls", content)
             result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
             actual = pe.utils.to_array(b[0].enumerate())
             assert result == actual
@@ -113,7 +113,7 @@ class TestIO:
         w = pe.BookWriter(("xlsm",io))
         w.write_book_from_dict(data)
         w.close()
-        b = pe.BookReader(("xlsm", io.getvalue()))
+        b = pe.load_book_from_memory("xlsm", io.getvalue())
         result=[1, 2, 3, 4, 5, 6]
         actual = pe.utils.to_array(b[0].enumerate())
         assert result == actual

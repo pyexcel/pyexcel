@@ -11,7 +11,13 @@
     :license: GPL v3
 """
 
-from .readers import Reader, BookReader, Book
+from .readers import (Reader,
+                      BookReader,
+                      Book,
+                      load,
+                      load_from_memory,
+                      load_book,
+                      load_book_from_memory)
 from .writers import Writer, BookWriter
 from .readers import (SeriesReader,
                       ColumnSeriesReader,

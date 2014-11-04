@@ -8,7 +8,7 @@
     :license: GPL v3
 """
 import os
-from .readers import SeriesReader, Reader, Book
+from .readers import SeriesReader, Reader, Book, load_book
 from .utils import to_dict, to_array
 from .writers import Writer, BookWriter
 
@@ -142,7 +142,7 @@ def merge_all_to_a_book(filelist, outfilename="merged.xls"):
     """
     merged = Book()
     for file in filelist:
-        merged += Book(file)
+        merged += load_book(file)
     w = BookWriter(outfilename)
     w.write_book_reader(merged)
     w.close()
@@ -154,7 +154,7 @@ def split_a_book(file, outfilename=None):
     :param str file: an accessible file name
     :param str outfilename: save the sheets with file suffix
     """
-    r = Book(file)
+    r = load_book(file)
     if outfilename:
         saveas = outfilename
     else:
@@ -172,7 +172,7 @@ def extract_a_sheet_from_a_book(file, sheetname, outfilename=None):
     :param str sheetname: a valid sheet name
     :param str outfilename: save the sheet as
     """
-    r = Book(file)
+    r = load_book(file)
     if outfilename:
         saveas = outfilename
     else:

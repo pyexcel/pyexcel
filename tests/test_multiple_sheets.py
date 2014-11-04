@@ -115,7 +115,7 @@ class TestAddBooks:
     @raises(KeyError)
     def test_delete_sheets(self):
         """Can delete by sheet name"""
-        b1 = pe.readers.Book(self.testfile)
+        b1 = pe.load_book(self.testfile)
         assert len(b1.sheet_names()) == 3
         del b1["Sheet1"]
         assert len(b1.sheet_names()) == 2
@@ -124,7 +124,7 @@ class TestAddBooks:
     @raises(IndexError)
     def test_delete_sheets2(self):
         """Can delete by index"""
-        b1 = pe.readers.Book(self.testfile)
+        b1 = pe.load_book(self.testfile)
         assert len(b1.sheet_names()) == 3
         del b1[2]
         del b1[1]
@@ -134,12 +134,12 @@ class TestAddBooks:
     @raises(TypeError)
     def test_delete_sheets3(self):
         """Test float in []"""
-        b1 = pe.readers.Book(self.testfile)
+        b1 = pe.load_book(self.testfile)
         del b1[1.1]
             
     def test_delete_sheets4(self):
         """repetitively delete first sheet"""
-        b1 = pe.readers.Book(self.testfile)
+        b1 = pe.load_book(self.testfile)
         del b1[0]
         assert len(b1.sheet_names()) == 2
         del b1[0]
