@@ -68,7 +68,20 @@ class TestIO:
         io = StringIO()
         w = pe.Writer(("csv",io))
         w.write_rows(data)
-        #w.close()
+        w.close()
+        r = pe.Reader(("csv", io.getvalue()))
+        result=['1', '2', '3', '4', '5', '6']
+        actual = pe.utils.to_array(r.enumerate())
+        assert actual == result
+
+    def test_csv_output_stringio2(self):
+        data = [
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        r = pe.Sheet(data)
+        io = StringIO()
+        r.save_to_memory("csv", io)
         r = pe.Reader(("csv", io.getvalue()))
         result=['1', '2', '3', '4', '5', '6']
         actual = pe.utils.to_array(r.enumerate())
@@ -113,6 +126,21 @@ class TestIO:
         w = pe.BookWriter(("xlsm",io))
         w.write_book_from_dict(data)
         w.close()
+        b = pe.load_book_from_memory("xlsm", io.getvalue())
+        result=[1, 2, 3, 4, 5, 6]
+        actual = pe.utils.to_array(b[0].enumerate())
+        assert result == actual
+
+    def test_book_save_to_stringio(self):
+        data = {
+            "Sheet 1": [
+                [1, 2, 3],
+                [4, 5, 6]
+            ]
+        }
+        book = pe.Book(data)
+        io = BytesIO()
+        book.save_to_memory("xlsm", io)
         b = pe.load_book_from_memory("xlsm", io.getvalue())
         result=[1, 2, 3, 4, 5, 6]
         actual = pe.utils.to_array(b[0].enumerate())

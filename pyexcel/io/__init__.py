@@ -44,7 +44,7 @@ def load_file(filename, **keywords):
         content = filename[1]
         if extension in READERS:
             book_class = READERS[extension]
-            book = book_class(None, file_content=filename[1], **keywords)
+            book = book_class(None, file_content=content, **keywords)
         else:
             raise NotImplementedError("can not open %s stream" % filename[0])
     elif is_string(type(filename)):

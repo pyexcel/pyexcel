@@ -459,7 +459,10 @@ class MultipleFilterableSheet(PlainSheet):
 
 
 class IndexSheet(MultipleFilterableSheet):
-    def __init__(self, sheet=[], name="pyexcel", row_series=-1, column_series=-1):
+    def __init__(self, sheet=None, name="pyexcel", row_series=-1, column_series=-1):
+        # this get rid of phatom data by not specifying sheet
+        if sheet is None:
+            sheet = []
         MultipleFilterableSheet.__init__(self, sheet)
         self.name = name
         self._row_series = []
@@ -702,3 +705,12 @@ class Sheet(IndexSheet):
     def is_series(self):
         """Keep backward compactibility"""
         return False
+
+    def save_as(self, filename):
+        from .writers import Writer
+        w = Writer(filename)
+        w.write_reader(self)
+        w.close()
+
+    def save_to_memory(self, file_type, stream):
+        self.save_as((file_type, stream))

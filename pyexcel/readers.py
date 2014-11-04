@@ -189,6 +189,18 @@ class Book:
         self.name_array = list(self.sheets.keys())
         return self
 
+    def save_as(self, filename):
+        from .writers import BookWriter
+        writer = BookWriter(filename)
+        writer.write_book_reader(self)
+        writer.close()
+
+    def save_to_memory(self, file_type, stream):
+        from .writers import BookWriter
+        writer = BookWriter((file_type, stream))
+        writer.write_book_reader(self)
+        writer.close()
+
 
 def BookReader(file, **keywords):
     """For backward compatibility

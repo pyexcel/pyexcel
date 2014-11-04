@@ -60,6 +60,13 @@ class TestWriteReader:
         content = pe.utils.to_dict(r2)
         assert content == self.content
 
+    def test_simple_reader_save_as(self):
+        r = pe.Reader(self.testfile)
+        r.save_as(self.testfile2)
+        r2 = pe.SeriesReader(self.testfile2)
+        content = pe.utils.to_dict(r2)
+        assert content == self.content
+
     def test_write_series_reader(self):
         r = pe.SeriesReader(self.testfile)
         w = pe.Writer(self.testfile2)
@@ -107,12 +114,18 @@ class TestBookWriter:
         w.write_book_from_dict(self.content)
         w.close()
 
-
     def test_write_book_reader(self):
         reader = pe.BookReader(self.testfile)
         writer = pe.BookWriter(self.testfile2)
         writer.write_book_reader(reader)
         writer.close()
+        reader2 = pe.BookReader(self.testfile2)
+        data = pe.utils.to_dict(reader2)
+        assert data == self.content
+
+    def test_book_save_as(self):
+        reader = pe.BookReader(self.testfile)
+        reader.save_as(self.testfile2)
         reader2 = pe.BookReader(self.testfile2)
         data = pe.utils.to_dict(reader2)
         assert data == self.content

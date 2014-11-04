@@ -117,7 +117,8 @@ class CSVSheetWriter:
         """
         This call close the file handle
         """
-        self.f.close()
+        if not isinstance(self.f, StringIO):
+            self.f.close()
 
 
 class CSVWriter:
