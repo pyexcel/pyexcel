@@ -504,6 +504,7 @@ class IndexSheet(MultipleFilterableSheet):
 
     @property
     def rownames(self):
+        """Row names"""
         if len(self._filters) != 0:
             column_filters = [ f for f in self._filters if isinstance(f, ColumnIndexFilter)]
             if len(column_filters) != 0:
@@ -518,6 +519,7 @@ class IndexSheet(MultipleFilterableSheet):
 
     @property
     def colnames(self):
+        """Column names"""
         if len(self._filters) != 0:
             row_filters = [ f for f in self._filters if isinstance(f, RowIndexFilter)]
             if len(row_filters) != 0:

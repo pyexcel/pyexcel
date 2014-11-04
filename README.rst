@@ -31,8 +31,8 @@ Usage
 =====
 
     >>> import pyexcel as pe
-    >>> book = pe.Book("your_file.xls")
-    >>> pe.to_dict(book)
+    >>> book = pe.load_book("your_file.xls")
+    >>> book.to_dict()
     {"Sheet 1":[[1, 2, 3], ["4", "5", "6"]], "Sheet 2": [["a", "b", "c"], ["e", "f", "g"]], "Sheet 3":[[True, True, False]]}
     >>> # access first sheet's top left cell
     >>> print(book["Sheet 1"]["A1"])
