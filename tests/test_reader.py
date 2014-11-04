@@ -233,9 +233,7 @@ class TestSeriesReader3:
 
     def test_empty_series_reader(self):
         # debug this further
-        print "=" * 80
         s = pe.Sheet()  # seriesreader is gone since v0.0.7
-        print "=" * 80
         assert s.name == "pyexcel"
         test_data = [
             [1, 2, 3],
