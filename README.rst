@@ -32,7 +32,7 @@ Usage
 
     >>> import pyexcel as pe
     >>> book = pe.load_book("your_file.xls")
-    >>> book.to_dict()
+    >>> book.to_dict() # v0.0.7
     {"Sheet 1":[[1, 2, 3], ["4", "5", "6"]], "Sheet 2": [["a", "b", "c"], ["e", "f", "g"]], "Sheet 3":[[True, True, False]]}
     >>> # access first sheet's top left cell
     >>> print(book["Sheet 1"]["A1"])
@@ -44,7 +44,12 @@ Usage
 Documentation
 =============
 
-It is hosted in `pyexcel@pyhosted <https://pythonhosted.org/pyexcel/>`_ and `pyexcel@read the docs <https://pyexcel.readthedocs.org/en/latest>`_
+Latest document is hosted at `pyexcel@read the docs <https://pyexcel.readthedocs.org/en/latest>`_ and latest stable version is hosted in `pyexcel@pyhosted <https://pythonhosted.org/pyexcel/>`_
+
+Latest stable
+=============
+
+0.0.6
 
 Installation
 ============
