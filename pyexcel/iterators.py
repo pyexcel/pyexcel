@@ -468,7 +468,7 @@ class Matrix:
 
     def rows(self):
         """
-        Returns a row iterator to go through each row from top to bottom
+        Returns a top to bottom row iterator
 
         example::
     
@@ -491,7 +491,7 @@ class Matrix:
 
     def rrows(self):
         """
-        Returns a row iterator to go through each row from bottom to top
+        Returns a bottom to top row iterator
         
         example::
     
@@ -514,7 +514,8 @@ class Matrix:
 
     def columns(self):
         """
-        Returns a column iterator to go through each column from left to right
+        Returns a left to right column iterator
+      
         example::
     
             import pyexcel as pe
@@ -536,7 +537,7 @@ class Matrix:
 
     def rcolumns(self):
         """
-        Returns a column iterator to go through each column from right to left
+        Returns a right to left column iterator
     
         example::
     
@@ -579,7 +580,7 @@ class Matrix:
 
     def row_at(self, index):
         """
-        Returns an array that collects all data at the specified row
+        Gets the data at the specified row
         """
         if index in self.row_range():
             cell_array = []
@@ -591,7 +592,7 @@ class Matrix:
 
     def column_at(self, index):
         """
-        Returns an array that collects all data at the specified column
+        Gets the data at the specified column
         """
         if index in self.column_range():
             cell_array = []
@@ -602,7 +603,7 @@ class Matrix:
             raise IndexError("Out of range")
 
     def set_column_at(self, column_index, data_array, starting=0):
-        """Update columns
+        """Updates a column data range
 
         It works like this if the call is: set_column_at(2, ['N','N', 'N'], 1)::
 
@@ -629,7 +630,7 @@ class Matrix:
             raise IndexError
 
     def set_row_at(self, row_index, data_array, starting=0):
-        """Update rows
+        """Update a row data range
 
         It works like this if the call is: set_row_at(2, ['N', 'N', 'N'], 1)::
 
@@ -655,7 +656,7 @@ class Matrix:
             raise IndexError
 
     def extend_rows(self, rows):
-        """expected the rows to be off the same length"""
+        """Inserts two dimensinal data after the bottom row"""
         array_length = self.number_of_columns()
         max_length = array_length
         for r in rows:
@@ -673,7 +674,7 @@ class Matrix:
         self.array = uniform(self.array)
 
     def delete_rows(self, row_indices):
-        """delete rows by specified row indices"""
+        """Deletes specified row indices"""
         if isinstance(row_indices, list) is False:
             raise IndexError
         if len(row_indices) > 0:
@@ -684,8 +685,7 @@ class Matrix:
                     del self.array[i]
 
     def extend_columns(self, columns):
-        """
-        columns should be an array
+        """Inserts two dimensional data after the rightmost column
 
         This is how it works:
 
@@ -714,8 +714,7 @@ class Matrix:
         self.array = uniform(self.array)
 
     def delete_columns(self, column_indices):
-        """
-        Delete columns by specified list of indices
+        """Delete columns by specified list of indices
         """
         if isinstance(column_indices, list) is False:
             raise ValueError
@@ -1121,7 +1120,7 @@ class ColumnIndexIterator(PyexcelIterator):
         if self.current in self.reader_ref.column_range():
             index = self.current
             self.current += 1
-            column_header = self.reader_ref.rownames[index]
+            column_header = self.reader_ref.colnames[index]
             return {column_header: self.reader_ref.named_column_at(column_header)}
         else:
             raise StopIteration
@@ -1145,7 +1144,7 @@ class RowIndexIterator(PyexcelIterator):
         if self.current in self.reader_ref.row_range():
             index = self.current
             self.current += 1
-            column_header = self.reader_ref.colnames[index]
+            column_header = self.reader_ref.rownames[index]
             return {column_header: self.reader_ref.named_row_at(column_header)}
         else:
             raise StopIteration

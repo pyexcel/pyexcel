@@ -61,9 +61,9 @@ class SheetWriter:
         if not isinstance(reader, Matrix):
             raise TypeError
         if len(reader.rownames) > 0:
-            self.write_dict(reader.to_dict())
-        elif len(reader.colnames) > 0:
             self.write_dict(reader.to_dict(True))
+        elif len(reader.colnames) > 0:
+            self.write_dict(reader.to_dict())
         else:
             self.write_rows(to_array(reader))
 

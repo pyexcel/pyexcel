@@ -144,7 +144,7 @@ class TestSheetNamedColumn2:
     def test_series(self):
         s = pe.sheets.IndexSheet(self.data, "test")
         s.index_by_row(2)
-        assert s.rownames == ["Column 1", "Column 2", "Column 3"]
+        assert s.colnames == ["Column 1", "Column 2", "Column 3"]
 
     def test_formatter_by_named_column(self):
         s = pe.sheets.IndexSheet(self.data, "test")

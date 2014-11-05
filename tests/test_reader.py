@@ -244,7 +244,7 @@ class TestSeriesReader3:
         actual = pe.to_array(s)
         assert test_data == actual
         s.index_by_row(2)
-        assert s.rownames == test_data[2]
+        assert s.colnames == test_data[2]
         
     def test_row_filter(self):
         r = pe.SeriesReader(self.testfile)
@@ -349,7 +349,7 @@ class TestSeriesReader4:
 
     def test_headers(self):
         r = pe.SeriesReader(self.testfile)
-        actual = r.rownames
+        actual = r.colnames
         assert self.content[0] == actual
 
     def test_named_column_at(self):
@@ -409,7 +409,7 @@ class TestSeriesReader5:
 
     def test_headers(self):
         r = pe.SeriesReader(self.testfile, series=4)
-        actual = r.rownames
+        actual = r.colnames
         assert self.content[4] == actual
 
     def test_named_column_at(self):
@@ -484,7 +484,7 @@ class TestColumnSeriesReader:
             "Z": [22, 32, 42, 52]
         }
         assert result == actual
-        assert r.colnames == ["X", "Y", "Z"]
+        assert r.rownames == ["X", "Y", "Z"]
 
     def test_odd_row_filter(self):
         r = pe.ColumnSeriesReader(self.test_tuple)

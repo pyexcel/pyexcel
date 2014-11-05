@@ -48,19 +48,19 @@ def to_records(reader, custom_headers=None):
     ret = []
     if isinstance(reader, IndexSheet) is False:
         raise NotImplementedError
-    if len(reader.colnames) > 0:
-        if custom_headers:
-            headers = custom_headers
-        else:
-            headers = reader.colnames
-        for column in reader.columns():
-            the_dict = dict(zip(headers, column))
-            ret.append(the_dict)
-    elif len(reader.rownames) > 0:
+    if len(reader.rownames) > 0:
         if custom_headers:
             headers = custom_headers
         else:
             headers = reader.rownames
+        for column in reader.columns():
+            the_dict = dict(zip(headers, column))
+            ret.append(the_dict)
+    elif len(reader.colnames) > 0:
+        if custom_headers:
+            headers = custom_headers
+        else:
+            headers = reader.colnames
         for row in reader.rows():
             the_dict = dict(zip(headers, row))
             ret.append(the_dict)

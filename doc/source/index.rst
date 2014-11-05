@@ -92,8 +92,8 @@ API documentation
 
 .. toctree::
 
-    pyexcel
     api
+    iapi
 
 .. toctree::
    :maxdepth: 2

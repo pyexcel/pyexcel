@@ -5,19 +5,9 @@ API Reference
 .. currentmodule:: pyexcel
 .. _api:
 
-Input/Output
-=============
+This is intended for users of pyexcel
 
-.. _api.functions:
-
-.. autosummary::
-   :toctree: generated/
-
-   load
-   load_from_memory
-   load_book
-   load_book_from_memory
-
+   
 Sheet
 =====
 
@@ -27,6 +17,8 @@ Constructor
 .. autosummary::
    :toctree: generated/
 
+   load
+   load_from_memory
    Sheet
 
 Attributes
@@ -65,6 +57,7 @@ Cell access
    :toctree: generated/
 
    Sheet.cell_value
+   Sheet.__getitem__
 
 Row access
 ------------------
@@ -106,7 +99,7 @@ Any row as column names
    Sheet.delete_named_row_at
 
 
-Any row as row name
+Any column as row name
 ************************
 
 .. autosummary::
@@ -152,7 +145,24 @@ Conversion
    Sheet.to_array
    Sheet.to_dict
    Sheet.to_records
+
+Anti-conversion
+----------------
+
+.. autosummary::
+   :toctree: generated/
+
+   dict_to_array
+   from_records
+
+Transformation
+----------------
+
+ .. autosummary::
+	:toctree: generated/
+
    Sheet.transpose
+		
 
 Save changes
 --------------
@@ -171,24 +181,26 @@ Constructor
 ------------
 
 .. autosummary::
-   :toctree: generated/
+   :toctree: generated
 
+   load_book
+   load_book_from_memory
    Book
 
 Attribute
 ------------
 
 .. autosummary::
-   :toctree: generated/
+   :toctree: generated
 
    Book.number_of_sheets
    Book.sheet_names
 
-Save changes
+Conversions
 -------------
 
 .. autosummary::
-   :toctree: generated/
+   :toctree: generated
 
    Book.to_dict
 
@@ -196,7 +208,7 @@ Save changes
 -------------
 
 .. autosummary::
-   :toctree: generated/
+   :toctree: generated
 
    Book.save_as
    Book.save_to_memory

@@ -465,8 +465,8 @@ class IndexSheet(MultipleFilterableSheet):
             sheet = []
         MultipleFilterableSheet.__init__(self, sheet)
         self.name = name
-        self._row_series = []
-        self._column_series = []
+        self._column_names = []
+        self._row_names = []
         self.named_row = NamedRow(self)
         self.named_column = NamedColumn(self)
         if row_series != -1:
@@ -494,49 +494,49 @@ class IndexSheet(MultipleFilterableSheet):
 
     def index_by_row(self, row_index):
         self.row_index = row_index
-        self._row_series = self.row_at(row_index)
+        self._column_names = self.row_at(row_index)
         del self.row[row_index]
 
     def index_by_column(self, column_index):
         self.column_index = column_index
-        self._column_series = self.column_at(column_index)
+        self._row_names = self.column_at(column_index)
         del self.column[column_index]
 
     @property
-    def rownames(self):
+    def colnames(self):
         """Row names"""
         if len(self._filters) != 0:
             column_filters = [ f for f in self._filters if isinstance(f, ColumnIndexFilter)]
             if len(column_filters) != 0:
-                indices = range(0, len(self._row_series))
+                indices = range(0, len(self._column_names))
                 for f in column_filters:
                     indices = [i for i in indices if i not in f.indices]
-                return [self._row_series[i] for i in indices]
+                return [self._column_names[i] for i in indices]
             else:
-                return self._row_series
+                return self._column_names
         else:
-            return self._row_series
+            return self._column_names
 
     @property
-    def colnames(self):
+    def rownames(self):
         """Column names"""
         if len(self._filters) != 0:
             row_filters = [ f for f in self._filters if isinstance(f, RowIndexFilter)]
             if len(row_filters) != 0:
-                indices = range(0, len(self._column_series))
+                indices = range(0, len(self._row_names))
                 for f in row_filters:
                     indices = [i for i in indices if i not in f.indices]
-                return [self._column_series[i] for i in indices]
+                return [self._row_names[i] for i in indices]
             else:
-                return self._column_series
+                return self._row_names
         else:
-            return self._column_series
+            return self._row_names
 
     def named_column_at(self, name):
         """Get a column by its name """
         index = name
         if is_string(type(index)):
-            index = self.rownames.index(name)
+            index = self.colnames.index(name)
         column_array = self.column_at(index)
         return column_array
 
@@ -549,20 +549,20 @@ class IndexSheet(MultipleFilterableSheet):
         """
         index = name
         if is_string(type(index)):
-            index = self.rownames.index(name)
+            index = self.colnames.index(name)
         self.set_column_at(index, column_array)
 
     def delete_columns(self, column_indices):
         MultipleFilterableSheet.delete_columns(self, column_indices)
-        if len(self._row_series) > 0:
-            new_series = [ self._row_series[i] for i in range(0, len(self._row_series)) if i not in column_indices ]
-            self._row_series = new_series
+        if len(self._column_names) > 0:
+            new_series = [ self._column_names[i] for i in range(0, len(self._column_names)) if i not in column_indices ]
+            self._column_names = new_series
 
     def delete_rows(self, row_indices):
         MultipleFilterableSheet.delete_rows(self, row_indices)
-        if len(self._column_series) > 0:
-            new_series = [ self._column_series[i] for i in range(0, len(self._column_series)) if i not in row_indices ]
-            self._column_series = new_series
+        if len(self._row_names) > 0:
+            new_series = [ self._row_names[i] for i in range(0, len(self._row_names)) if i not in row_indices ]
+            self._row_names = new_series
 
     def delete_named_column_at(self, name):
         """
@@ -584,7 +584,7 @@ class IndexSheet(MultipleFilterableSheet):
         """Get a row by its name """
         index = name
         if is_string(type(index)):
-            index = self.colnames.index(name)
+            index = self.rownames.index(name)
         row_array = self.row_at(index)
         return row_array
 
@@ -597,7 +597,7 @@ class IndexSheet(MultipleFilterableSheet):
         """
         index = name
         if is_string(type(index)):
-            index = self.colnames.index(name)
+            index = self.rownames.index(name)
         self.set_row_at(index, row_array)
 
     def delete_named_row_at(self, name):
@@ -608,12 +608,12 @@ class IndexSheet(MultipleFilterableSheet):
         the given array except the row name.
         """
         if isinstance(name, int):
-            if len(self.colnames) > 0:
-                self.colnames.pop(name)
+            if len(self.rownames) > 0:
+                self.rownames.pop(name)
             self.delete_rows([name])
         else:
-            index = self.colnames.index(name)
-            self.colnames.pop(index)
+            index = self.rownames.index(name)
+            self.rownames.pop(index)
             self.delete_rows([index])
 
     def apply_formatter(self, aformatter):
@@ -622,9 +622,9 @@ class IndexSheet(MultipleFilterableSheet):
 
     def _translate_named_formatter(self, aformatter):
         if isinstance(aformatter, NamedColumnFormatter):
-            series = self.rownames
-        elif isinstance(aformatter, NamedRowFormatter):
             series = self.colnames
+        elif isinstance(aformatter, NamedRowFormatter):
+            series = self.rownames
         else:
             series = None
         if series:
@@ -657,10 +657,10 @@ class IndexSheet(MultipleFilterableSheet):
         if isinstance(rows, OrderedDict):
             keys = rows.keys()
             for k in keys:
-                self.colnames.append(k)
+                self.rownames.append(k)
                 incoming_data.append(rows[k])
             MultipleFilterableSheet.extend_rows(self, incoming_data)
-        elif len(self.colnames) > 0:
+        elif len(self.rownames) > 0:
             raise TypeError("Please give a ordered list")
         else:
             MultipleFilterableSheet.extend_rows(self, rows)
@@ -671,19 +671,19 @@ class IndexSheet(MultipleFilterableSheet):
         if isinstance(columns, OrderedDict):
             keys = columns.keys()
             for k in keys:
-                self.rownames.append(k)
+                self.colnames.append(k)
                 incoming_data.append(columns[k])
             incoming_data = transpose(incoming_data)
             MultipleFilterableSheet.extend_columns(self, incoming_data)
-        elif len(self.rownames) > 0:
+        elif len(self.colnames) > 0:
             raise TypeError("Please give a ordered list")
         else:
             MultipleFilterableSheet.extend_columns(self, columns)
 
     def __iter__(self):
-        if len(self._row_series) > 0:
+        if len(self._column_names) > 0:
             return ColumnIndexIterator(self)
-        elif len(self._column_series) > 0:
+        elif len(self._row_names) > 0:
             return RowIndexIterator(self)
         else:
             return MultipleFilterableSheet.__iter__(self)

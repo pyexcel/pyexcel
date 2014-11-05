@@ -23,7 +23,7 @@ from .readers import (SeriesReader,
                       ColumnSeriesReader,
                       PlainReader,
                       FilterableReader)
-from .utils import to_dict, to_array, to_records
+from .utils import to_dict, to_array, to_records, dict_to_array, from_records
 from .formatters import (ColumnFormatter,
                          RowFormatter,
                          SheetFormatter,

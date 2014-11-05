@@ -201,6 +201,11 @@ class Book:
         writer.write_book_reader(self)
         writer.close()
 
+    def to_dict(self):
+        """Convert the book to a dictionary"""
+        from .utils import to_dict
+        return to_dict(self)
+
 
 def BookReader(file, **keywords):
     """For backward compatibility
