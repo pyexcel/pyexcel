@@ -55,7 +55,7 @@ class CSVBook:
             self.mysheets = {"csv":[]}
             # no content let's return'
             return
-        reader = csv.reader(f, dialect=csv.excel, **keywords)
+        reader = csv.reader(f, **keywords)
         longest_row_length = -1
         for row in reader:
             myrow = []
