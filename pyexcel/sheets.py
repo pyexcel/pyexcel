@@ -86,7 +86,10 @@ class NamedRow(Row):
             handle_one_formatter(row_index, format, custom_converter, on_demand)
         elif format_specs:
             for spec in format_specs:
-                handle_one_formatter(spec[0], spec[1], spec[2], on_demand)
+                if len(spec) == 3:
+                    handle_one_formatter(spec[0], spec[1], spec[2], on_demand)
+                else:
+                    handle_one_formatter(spec[0], spec[1], None, on_demand)
                 
         
 class NamedColumn(Column):
@@ -149,7 +152,11 @@ class NamedColumn(Column):
             handle_one_formatter(column_index, format, custom_converter, on_demand)
         elif format_specs:
             for spec in format_specs:
-                handle_one_formatter(spec[0], spec[1], spec[2], on_demand)
+                if len(spec) == 3:
+                    handle_one_formatter(spec[0], spec[1], spec[2], on_demand)
+                else:
+                    handle_one_formatter(spec[0], spec[1], None, on_demand)
+
 
 class PlainSheet(Matrix):
     """

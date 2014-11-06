@@ -214,3 +214,36 @@ Save changes
 
    Book.save_as
    Book.save_to_memory
+
+
+Data formatters
+================
+
+.. currentmodule:: pyexcel.formatters
+
+.. autosummary::
+   :toctree: generated/
+
+   ColumnFormatter
+   NamedColumnFormatter
+   RowFormatter
+   NamedRowFormatter
+   SheetFormatter
+   
+
+Data Filters
+===============
+
+.. currentmodule:: pyexcel.filters
+
+.. autosummary::
+   :toctree: generated/
+
+   ColumnFilter
+   SingleColumnFilter
+   OddColumnFilter
+   EvenColumnFilter
+   RowFilter
+   SingleRowFilter
+   OddRowFilter
+   EvenRowFilter

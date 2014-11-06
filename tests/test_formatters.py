@@ -185,7 +185,7 @@ class TestColumnFormatter:
             "1": [1, 2, 3, 4, 5, 6, 7, 8],
             "2": ["1", "2", "3", "4", "5", "6", "7", "8"],
             "3": [1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
-            "4": ["1.1", "2.2", "3.3", "4.4", "5.5", "6.6", "7,7", "8.8"],
+            "4": ["1.1", "2.2", "3.3", "4.4", "5.5", "6.6", "7.7", "8.8"],
             "5": [2, 3, 4, 5, 6, 7, 8, 9],
             "6": ["2", "3", "4", "5", "6", "7", "8", "9"]
         }
@@ -202,6 +202,28 @@ class TestColumnFormatter:
             str))
         c1 = r.column_at(0)[1:]
         c2 = self.data["2"]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+
+    def test_column_format_general_usage(self):
+        r = pe.Reader(self.test_tuple)
+        r.column.format(
+            0,
+            str)
+        c1 = r.column_at(0)[1:]
+        c2 = self.data["2"]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+
+    def test_column_format_specs(self):
+        r = pe.Reader(self.test_tuple)
+        r.column.format(format_specs=[[0, str], [[2,3,4], float]])
+        c1 = r.column_at(0)[1:]
+        c2 = self.data["2"]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+        c1 = r.column_at(3)[1:]
+        c2 = self.data["3"]
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
 
