@@ -240,7 +240,7 @@ class TestSeriesReader3:
             [4, 5, 6],
             ["Column 1", "Column 2", "Column 3"]
         ]
-        s.column += test_data
+        s.column += pe.iterators.transpose(test_data)
         actual = pe.to_array(s)
         assert test_data == actual
         s.index_by_row(2)

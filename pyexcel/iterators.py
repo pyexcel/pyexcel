@@ -10,6 +10,8 @@
 import re
 import six
 import copy
+from ._compact import is_array_type
+
 
 def _unique(seq):
     """
@@ -54,10 +56,17 @@ def uniform(array):
         return array
 
 def transpose(in_array):
-    """
-    Rotate the array by 90 degrees
+    """Rotate clockwise by 90 degrees and flip horizontally
 
+    First column become first row. 
     :param list in_array: a list of arrays
+
+    The transformation is::
+
+        1 2 3       1  4
+        4 5 6 7 ->  2  5
+                    3  6
+                    '' 7
     """
     max_length = longest_row_number(in_array)
     new_array = []
@@ -291,7 +300,7 @@ class Column:
         if isinstance(other, list):
             self.ref.extend_columns(other)
         elif isinstance(other, Matrix):
-            self.ref.extend_columns(other.array)
+            self.ref.extend_columns_with_rows(other.array)
         else:
             raise TypeError
         return self
@@ -655,23 +664,21 @@ class Matrix:
         else:
             raise IndexError
 
+    def _extend_row(self, row):
+        array = copy.deepcopy(row)
+        self.array.append(array)
+
     def extend_rows(self, rows):
         """Inserts two dimensinal data after the bottom row"""
-        array_length = self.number_of_columns()
-        max_length = array_length
-        for r in rows:
-            length = len(r)
-            agreed_length = max(length, array_length)
-            if max_length < agreed_length:
-                max_length = agreed_length
-            array = copy.deepcopy(r[:agreed_length])
-            if length < array_length:
-                array = array + [""] * (array_length-length)
-            self.array.append(array)
-        # if number_of_rows > 0, means self has content
-        # if self does not have content, does not make sense to
-        # to increase width
-        self.array = uniform(self.array)
+        if isinstance(rows, list):
+            if is_array_type(rows, list):
+                for r in rows:
+                    self._extend_row(r)
+            else:
+                self._extend_row(rows)
+            self.array = uniform(self.array)
+        else:
+            raise TypeError("Cannot use %s" % type(rows))
 
     def delete_rows(self, row_indices):
         """Deletes specified row indices"""
@@ -697,19 +704,28 @@ class Matrix:
         
             s s s  +  t t
         """
+        if not isinstance(columns, list):
+            raise TypeError("Cannot extend using type %s" % type(columns))
+        incoming_data = columns
+        if not is_array_type(columns, list):
+            incoming_data = [columns]
+        incoming_data = transpose(incoming_data)
+        self.extend_columns_with_rows(incoming_data)    
+
+    def extend_columns_with_rows(self, rows):
         current_nrows = self.number_of_rows()
         current_ncols = self.number_of_columns()
-        insert_column_nrows = len(columns)
+        insert_column_nrows = len(rows)
         array_length = min(current_nrows, insert_column_nrows)
         for i in range(0, array_length):
-            array = copy.deepcopy(columns[i])
+            array = copy.deepcopy(rows[i])
             self.array[i] += array
         if current_nrows < insert_column_nrows:
             delta = insert_column_nrows - current_nrows
             base = current_nrows
             for i in range(0, delta):
                 new_array = [""] * current_ncols
-                new_array += columns[base+i]
+                new_array += rows[base+i]
                 self.array.append(new_array)
         self.array = uniform(self.array)
 

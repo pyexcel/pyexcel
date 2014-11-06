@@ -86,18 +86,6 @@ Column access
 Data series
 ------------
 
-Any row as column names
-************************
-
-.. autosummary::
-   :toctree: generated/
-
-   Sheet.index_by_column
-   Sheet.rownames
-   Sheet.named_row_at
-   Sheet.set_named_row_at
-   Sheet.delete_named_row_at
-
 
 Any column as row name
 ************************
@@ -105,12 +93,26 @@ Any column as row name
 .. autosummary::
    :toctree: generated/
 
-   Sheet.index_by_row
+   Sheet.name_columns_by_row
    Sheet.colnames
    Sheet.named_column_at
    Sheet.set_named_column_at
    Sheet.delete_named_column_at
 
+
+Any column as row names
+************************
+
+.. autosummary::
+   :toctree: generated/
+
+   Sheet.name_rows_by_column
+   Sheet.rownames
+   Sheet.named_row_at
+   Sheet.set_named_row_at
+   Sheet.delete_named_row_at
+
+   
 Formatting
 ------------------
 

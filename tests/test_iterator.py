@@ -13,7 +13,7 @@ class TestMatrixColumn:
             [1, 2, 3, 4],
             [1]
         ]
-        self.data2 = [[1, 2], [1, 2]]
+        self.data3 = [[1, 1], [2, 2]]
         self.result = [
             [1, 2, 3, 4, 5, 6, 1, 2],
             [1, 2, 3, 4, '', '', 1, 2],
@@ -34,7 +34,7 @@ class TestMatrixColumn:
     def test_extend_columns(self):
         """Test extend columns"""
         m = pe.iterators.Matrix(self.data)
-        m.extend_columns(self.data2)
+        m.extend_columns(self.data3)
         actual = pe.utils.to_array(m)
         assert self.result == actual
 
@@ -42,7 +42,7 @@ class TestMatrixColumn:
         """Test in place add a list
         """
         m2 = pe.iterators.Matrix(self.data)
-        m2.column += self.data2
+        m2.column += self.data3
         actual2 = pe.utils.to_array(m2)
         assert self.result == actual2
 
@@ -51,7 +51,7 @@ class TestMatrixColumn:
         """
         # +
         m3 = pe.iterators.Matrix(self.data)
-        m4 = m3.column + self.data2
+        m4 = m3.column + self.data3
         actual3 = pe.utils.to_array(m4)
         assert self.result == actual3
 
@@ -64,7 +64,7 @@ class TestMatrixColumn:
         result2 = [
             [1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6],
             [1, 2, 3, 4, '','',1, 2, 3, 4,'',''],
-            [1,'','','','','', 1,'','','','','']      
+            [1,'','','','','', 1,'','','','','']
         ]
         assert result2 == actual4
 

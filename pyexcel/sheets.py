@@ -75,7 +75,20 @@ class NamedRow(Row):
         self.__iadd__(other)
         return self.ref
 
-
+    def format(self, row_index=None, format=None, custom_converter=None, format_specs=None, on_demand=False):
+        def handle_one_formatter(rows, aformat, aconverter, on_demand):
+            formatter = RowFormatter(rows, aformat, aconverter)
+            if on_demand:
+                self.ref.add_formatter(formatter)
+            else:
+                self.ref.apply_formatter(formatter)
+        if row_index:
+            handle_one_formatter(row_index, format, custom_converter, on_demand)
+        elif format_specs:
+            for spec in format_specs:
+                handle_one_formatter(spec[0], spec[1], spec[2], on_demand)
+                
+        
 class NamedColumn(Column):
     """Series Sheet would have Named Column instead of Column
 
@@ -125,6 +138,18 @@ class NamedColumn(Column):
         self.__iadd__(other)
         return self.ref
 
+    def format(self, column_index=None, format=None, custom_converter=None, format_specs=None, on_demand=False):
+        def handle_one_formatter(columns, aformat, aconverter, on_demand):
+            formatter = ColumnFormatter(columns, aformat, aconverter)
+            if on_demand:
+                self.ref.add_formatter(formatter)
+            else:
+                self.ref.apply_formatter(formatter)
+        if column_index:
+            handle_one_formatter(column_index, format, custom_converter, on_demand)
+        elif format_specs:
+            for spec in format_specs:
+                handle_one_formatter(spec[0], spec[1], spec[2], on_demand)
 
 class PlainSheet(Matrix):
     """
@@ -476,6 +501,33 @@ class IndexSheet(MultipleFilterableSheet):
 
     @property
     def row(self):
+        """Row representation.
+
+        examples::
+
+            >>> import pyexcel as pe
+            >>> data = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+            >>> sheet = Sheet(data)
+            >>> sheet.row[1]
+            [4, 5, 6]
+            >>> sheet.row[0:3]
+            [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+            >>> sheet.row += [11, 12, 13]
+            >>> sheet.row[3]
+            [11, 12, 13]
+            >>> sheet.row[0:4] = [0, 0, 0] # set all to zero
+            >>> sheet.row[3]
+            [0, 0, 0]
+            >>> sheet.row[0] = ['a', 'b', 'c'] # set one row
+            >>> sheet.row[0]
+            ['a', 'b', 'c']
+            >>> del sheet.row[0] # delete first row
+            >>> sheet.row[0] # now, second row becomes the first
+            [0, 0, 0]
+            >>> del sheet.row[0:]
+            >>> sheet.row[0]  # nothing left
+            IndexError...
+        """
         return self.named_row
 
     @row.setter
@@ -493,11 +545,19 @@ class IndexSheet(MultipleFilterableSheet):
         pass
 
     def index_by_row(self, row_index):
+        self.name_columns_by_row(row_index)
+
+    def name_columns_by_row(self, row_index):
+        """Use the elements of a specified row to represent individual columns"""
         self.row_index = row_index
         self._column_names = self.row_at(row_index)
         del self.row[row_index]
 
     def index_by_column(self, column_index):
+        self.name_rows_by_column(column_index)
+        
+    def name_rows_by_column(self, column_index):
+        """Use the elements of a specified column to represent individual rows"""
         self.column_index = column_index
         self._row_names = self.column_at(column_index)
         del self.column[column_index]
@@ -673,7 +733,6 @@ class IndexSheet(MultipleFilterableSheet):
             for k in keys:
                 self.colnames.append(k)
                 incoming_data.append(columns[k])
-            incoming_data = transpose(incoming_data)
             MultipleFilterableSheet.extend_columns(self, incoming_data)
         elif len(self.colnames) > 0:
             raise TypeError("Please give a ordered list")
