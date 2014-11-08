@@ -213,7 +213,19 @@ def BookReader(file, **keywords):
     return load_book(file, **keywords)
 
 
-def load(file, sheetname, row_series=-1, column_series=-1, **keywords):
+def load(file, sheetname=None, name_columns_by_row=-1, name_rows_by_column=-1, **keywords):
+    """Constructs an instance :class:Sheet from a sheet of an excel file
+
+    except csv, most excel files has more than one sheet.
+    Hence sheetname is required here to indicate from which sheet the instance
+    should be constructed. If this parameter is omitted, the first sheet, which
+    is indexed at 0, is used. For csv, sheetname is always omitted because csv
+    file contains always one sheet.
+    :param str sheetname: which sheet to be used for construction
+    :param int name_colmns_by_row: which row to give column names
+    :param int name_rows_by_column: which column to give row names
+    :param dict keywords: other parameters
+    """
     book = load_file(file, **keywords)
     sheets = book.sheets()
     if sheetname:
@@ -224,15 +236,22 @@ def load(file, sheetname, row_series=-1, column_series=-1, **keywords):
         sheetname = keys[0]
     return Sheet(sheets[sheetname],
                  sheetname,
-                 row_series=row_series,
-                 column_series=column_series)
+                 name_columns_by_row=name_columns_by_row,
+                 name_rows_by_column=name_rows_by_column)
 
 
-def load_from_memory(file_type, file_content, sheet, **keywords):
-    return load((file_type, file_content), sheet, **keywords)
+def load_from_memory(file_type, file_content, sheetname, **keywords):
+    """Constructs an instance :class:Sheet from memory
+
+    :param str file_type: one value of these: 'csv', 'xls', 'xlsm', 'xslm', 'ods'
+    :param iostream file_content: file content
+    :param str sheetname: which sheet to be used for construction
+    :param dict keywords: any other parameters
+    """
+    return load((file_type, file_content), sheetname, **keywords)
 
 
-def Reader(file=None, sheet=None, **keywords):
+def Reader(file=None, sheetname=None, **keywords):
     """
     A single sheet excel file reader
 
@@ -243,40 +262,40 @@ def Reader(file=None, sheet=None, **keywords):
     use as class would fail though
     changed since 0.0.7
     """
-    return load(file, sheet, **keywords)
+    return load(file, sheetname, **keywords)
 
 
-def SeriesReader(file=None, sheet=None, series=0, **keywords):
+def SeriesReader(file=None, sheetname=None, series=0, **keywords):
     """A single sheet excel file reader and it has column headers in a selected row
 
     use as class would fail
     changed since 0.0.7
     """
-    return load(file, sheet, row_series=series, **keywords)
+    return load(file, sheetname, name_columns_by_row=series, **keywords)
 
 
-def ColumnSeriesReader(file=None, sheet=None, series=0, **keywords):
+def ColumnSeriesReader(file=None, sheetname=None, series=0, **keywords):
     """A single sheet excel file reader and it has row headers in a selected column
 
     use as class would fail
     changed since 0.0.7
     """
-    return load(file, sheet, column_series=series, **keywords)
+    return load(file, sheetname, name_rows_by_column=series, **keywords)
 
 
-def PlainReader(file, sheet=None, **keywords):
+def PlainReader(file, sheetname=None, **keywords):
     """PlainReader exists for speed over Reader and also for testing purposes
 
     use as class would fail
     changed since 0.0.7
     """
-    return load(file, sheet, **keywords)
+    return load(file, sheetname, **keywords)
 
 
-def FilterableReader(file, sheet=None, **keywords):
+def FilterableReader(file, sheetname=None, **keywords):
     """FiltableReader lets you use filters at the sequence of your choice
     
     use as class would fail
     changed since 0.0.7
     """
-    return load(file, sheet, **keywords)
+    return load(file, sheetname, **keywords)

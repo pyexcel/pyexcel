@@ -161,7 +161,7 @@ class Formatter:
 
 
 class ColumnFormatter(Formatter):
-    """Column Formatter"""
+    """Apply formatting on columns"""
     def __init__(self, column_index, FORMAT, custom_converter=None):
         """
         Constructor
@@ -187,7 +187,7 @@ class ColumnFormatter(Formatter):
 
 
 class NamedColumnFormatter(ColumnFormatter):
-    """Column Formatter"""
+    """Apply formatting using named columns"""
     def __init__(self, column_index, FORMAT, custom_converter=None):
         """
         Constructor
@@ -247,7 +247,7 @@ class RowFormatter(Formatter):
 
 
 class NamedRowFormatter(RowFormatter):
-    """Row Formatter"""    
+    """Formatting rows using named rows"""    
     def __init__(self, row_index, FORMAT, custom_converter=None):
         """
         Constructor
@@ -281,8 +281,7 @@ class NamedRowFormatter(RowFormatter):
             
 
 class SheetFormatter(Formatter):
-    """
-    Apply the formatter to all cells in the sheet
+    """Apply the formatter to all cells in the sheet
     """
     def __init__(self, FORMAT, custom_converter=None):
         Formatter.__init__(self, None, FORMAT, custom_converter)

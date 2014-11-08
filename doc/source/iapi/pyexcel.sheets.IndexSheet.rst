@@ -30,6 +30,7 @@ pyexcel.sheets.IndexSheet
       ~IndexSheet.delete_rows
       ~IndexSheet.enumerate
       ~IndexSheet.extend_columns
+      ~IndexSheet.extend_columns_with_rows
       ~IndexSheet.extend_rows
       ~IndexSheet.filter
       ~IndexSheet.format
@@ -37,6 +38,8 @@ pyexcel.sheets.IndexSheet
       ~IndexSheet.freeze_formatters
       ~IndexSheet.index_by_column
       ~IndexSheet.index_by_row
+      ~IndexSheet.name_columns_by_row
+      ~IndexSheet.name_rows_by_column
       ~IndexSheet.named_column_at
       ~IndexSheet.named_row_at
       ~IndexSheet.number_of_columns

@@ -26,6 +26,7 @@ pyexcel.sheets.PlainSheet
       ~PlainSheet.delete_rows
       ~PlainSheet.enumerate
       ~PlainSheet.extend_columns
+      ~PlainSheet.extend_columns_with_rows
       ~PlainSheet.extend_rows
       ~PlainSheet.format
       ~PlainSheet.freeze_formatters

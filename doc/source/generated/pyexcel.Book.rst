@@ -23,6 +23,7 @@ pyexcel.Book
       ~Book.sheet_by_index
       ~Book.sheet_by_name
       ~Book.sheet_names
+      ~Book.to_dict
    
    
 

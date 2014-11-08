@@ -90,8 +90,7 @@ class ColumnIndexFilter(IndexFilter):
 
 
 class ColumnFilter(ColumnIndexFilter):
-    """A column filter that takes in a list of indices to be
-    filtered out""" 
+    """Filters out a list of columns""" 
     def __init__(self, indices):
         """Constructor
 
@@ -102,8 +101,7 @@ class ColumnFilter(ColumnIndexFilter):
 
 
 class SingleColumnFilter(ColumnIndexFilter):
-    """A column filter that takes in a list of indices to be
-    filtered out""" 
+    """Filters out a single column index""" 
     def __init__(self, index):
         """Constructor
 
@@ -114,7 +112,7 @@ class SingleColumnFilter(ColumnIndexFilter):
 
 
 class OddColumnFilter(ColumnIndexFilter):
-    """A column filter that filters out odd indices
+    """Filters out odd indexed columns
 
     * column 0 is regarded as the first column.
     * column 1 is regarded as the seocond column -> this will be filtered out
@@ -125,7 +123,7 @@ class OddColumnFilter(ColumnIndexFilter):
 
 
 class EvenColumnFilter(ColumnIndexFilter):
-    """A column filter that filters out even indices
+    """Filters out even indexed columns
 
     * column 0 is regarded as the first column. -> this will be filtered out
     * column 1 is regarded as the seocond column
@@ -136,7 +134,7 @@ class EvenColumnFilter(ColumnIndexFilter):
 
 
 class RowIndexFilter(IndexFilter):
-    """A row filter that operates on column indices"""
+    """Filter out rows by its row index """
     def rows(self):
         """number of rows to be filtered out"""
         if self.indices:
@@ -171,8 +169,7 @@ class RowIndexFilter(IndexFilter):
 
 
 class RowFilter(RowIndexFilter):
-    """A row filter that takes in a list of indices to be
-    filtered out""" 
+    """Filters a list of rows""" 
     def __init__(self, indices):
         """Constructor
 
@@ -183,8 +180,7 @@ class RowFilter(RowIndexFilter):
 
 
 class SingleRowFilter(RowIndexFilter):
-    """A row filter that takes in a list of indices to be
-    filtered out""" 
+    """Filters out a single row"""
     def __init__(self, index):
         """Constructor
 
@@ -195,8 +191,7 @@ class SingleRowFilter(RowIndexFilter):
 
 
 class OddRowFilter(RowIndexFilter):
-    """
-    Filter out odd rows
+    """Filters out odd indexed rows
 
     row 0 is seen as the first row
     """
@@ -206,8 +201,7 @@ class OddRowFilter(RowIndexFilter):
 
 
 class EvenRowFilter(RowIndexFilter):
-    """
-    Filter out even rows
+    """Filters out even indexed rows
 
     row 0 is seen as the first row
     """
@@ -217,7 +211,7 @@ class EvenRowFilter(RowIndexFilter):
 
 
 class RowValueFilter(RowIndexFilter):
-    """Filter out rows that satisfy a condition
+    """Filters out rows based on its row values
 
     .. note:: it takes time as it needs to go through all values
     """

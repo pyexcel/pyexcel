@@ -28,6 +28,7 @@ pyexcel.sheets.MultipleFilterableSheet
       ~MultipleFilterableSheet.delete_rows
       ~MultipleFilterableSheet.enumerate
       ~MultipleFilterableSheet.extend_columns
+      ~MultipleFilterableSheet.extend_columns_with_rows
       ~MultipleFilterableSheet.extend_rows
       ~MultipleFilterableSheet.filter
       ~MultipleFilterableSheet.format

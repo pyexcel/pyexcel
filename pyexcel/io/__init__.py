@@ -12,9 +12,7 @@ from .csvbook import CSVBook, CSVWriter
 from .xlbook import XLBook, XLWriter
 from ..sheets import is_string
 
-"""
-A list of registered readers
-"""
+# A list of registered readers
 READERS = {
     "xls": XLBook,
     "xlsm": XLBook,
@@ -23,9 +21,7 @@ READERS = {
 }
 
 
-"""
-A list of registered writers
-"""
+# A list of registered writers
 WRITERS = {
     "xls": XLWriter,
     "xlsm": XLWriter,
@@ -35,8 +31,7 @@ WRITERS = {
 
 
 def load_file(filename, **keywords):
-    """
-    Load data from any supported excel formats
+    """Load data from any supported excel formats
     """
     extension = None
     if isinstance(filename, tuple):
@@ -60,8 +55,7 @@ def load_file(filename, **keywords):
 
 
 def get_writer(filename, **keywords):
-    """
-    Create a writer from any supported excel formats
+    """Create a writer from any supported excel formats
     """
     extension = None
     if isinstance(filename, tuple):

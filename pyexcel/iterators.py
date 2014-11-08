@@ -14,8 +14,7 @@ from ._compact import is_array_type
 
 
 def _unique(seq):
-    """
-    Return a unique list of the incoming list
+    """Return a unique list of the incoming list
     
     Reference:
     http://stackoverflow.com/questions/480214/
@@ -27,8 +26,7 @@ def _unique(seq):
 
 
 def longest_row_number(array):
-    """
-    Find the length of the longest row in the array
+    """Find the length of the longest row in the array
 
     :param list in_array: a list of arrays    
     """
@@ -40,8 +38,7 @@ def longest_row_number(array):
 
 
 def uniform(array):
-    """
-    Fill-in empty strings to empty cells to make it MxN
+    """Fill-in empty strings to empty cells to make it MxN
 
     :param list in_array: a list of arrays
     """
@@ -110,8 +107,7 @@ def _excel_cell_position(pos_chars):
         raise IndexError
     
 def _analyse_slice(aslice, upper_bound):
-    """
-    An internal function to analyze a given slice
+    """An internal function to analyze a given slice
     """
     if aslice.start is None:
         start = 0
@@ -137,8 +133,7 @@ def _analyse_slice(aslice, upper_bound):
 
 
 class Row:
-    """
-    Represet row of a matrix
+    """Represet row of a matrix
 
     .. table:: "example.csv"
 
@@ -220,8 +215,7 @@ class Row:
 
 
 class Column:
-    """
-    Represet columns of a matrix
+    """Represet columns of a matrix
     
     .. table:: "example.csv"
 
@@ -315,9 +309,7 @@ class Column:
 
 
 class Matrix:
-    """
-    The internal representation of a sheet data. Each element
-    can be of any python types
+    """The internal representation of a sheet data. Each element can be of any python types
     """
     
     def __init__(self, array):

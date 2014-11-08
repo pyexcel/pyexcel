@@ -259,6 +259,6 @@ class TestSheetNamedRow:
         assert s.row["Row 2"] == [11, 11, 11]
 
     def test_set_indexed_column(self):
-        s = pe.sheets.IndexSheet(self.data, "test", column_series=0)
+        s = pe.sheets.IndexSheet(self.data, "test", name_rows_by_column=0)
         s.column[0] = [12, 3, 4, 5]
         assert s.column[0] == [12, 3, 4, 5]

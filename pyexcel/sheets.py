@@ -9,7 +9,7 @@
 """
 import six
 import uuid
-from .iterators import Matrix, ColumnIndexIterator, RowIndexIterator, Column, Row, transpose
+from .iterators import Matrix, ColumnIndexIterator, RowIndexIterator, Column, Row
 from .formatters import ColumnFormatter, RowFormatter, NamedColumnFormatter, NamedRowFormatter
 from .filters import (RowIndexFilter,
                       ColumnIndexFilter)
@@ -491,7 +491,7 @@ class MultipleFilterableSheet(PlainSheet):
 
 
 class IndexSheet(MultipleFilterableSheet):
-    def __init__(self, sheet=None, name="pyexcel", row_series=-1, column_series=-1):
+    def __init__(self, sheet=None, name="pyexcel", name_columns_by_row=-1, name_rows_by_column=-1):
         # this get rid of phatom data by not specifying sheet
         if sheet is None:
             sheet = []
@@ -501,10 +501,10 @@ class IndexSheet(MultipleFilterableSheet):
         self._row_names = []
         self.named_row = NamedRow(self)
         self.named_column = NamedColumn(self)
-        if row_series != -1:
-            self.index_by_row(row_series)
-        if column_series != -1:
-            self.index_by_column(column_series)
+        if name_columns_by_row != -1:
+            self.name_columns_by_row(name_columns_by_row)
+        if name_rows_by_column != -1:
+            self.name_rows_by_column(name_rows_by_column)
 
     @property
     def row(self):
@@ -544,6 +544,7 @@ class IndexSheet(MultipleFilterableSheet):
 
     @property
     def column(self):
+        """Column representation, giving random access to columns"""
         return self.named_column
 
     @column.setter
@@ -620,23 +621,31 @@ class IndexSheet(MultipleFilterableSheet):
         self.set_column_at(index, column_array)
 
     def delete_columns(self, column_indices):
+        """Delete one or more columns
+
+        :param list column_indices: a list of column indices
+        """
         MultipleFilterableSheet.delete_columns(self, column_indices)
         if len(self._column_names) > 0:
             new_series = [ self._column_names[i] for i in range(0, len(self._column_names)) if i not in column_indices ]
             self._column_names = new_series
 
     def delete_rows(self, row_indices):
+        """Delete one or more rows
+
+        :param list row_indices: a list of row indices
+        """
         MultipleFilterableSheet.delete_rows(self, row_indices)
         if len(self._row_names) > 0:
             new_series = [ self._row_names[i] for i in range(0, len(self._row_names)) if i not in row_indices ]
             self._row_names = new_series
 
     def delete_named_column_at(self, name):
-        """
-        Take the first row as column names
+        """Works only after you named columns by a row
 
         Given name to identify the column index, set the column to
         the given array except the column name.
+        :param str name: a column name
         """
         if isinstance(name, int):
             if len(self.rownames) > 0:
@@ -668,8 +677,7 @@ class IndexSheet(MultipleFilterableSheet):
         self.set_row_at(index, row_array)
 
     def delete_named_row_at(self, name):
-        """
-        Take the first column as row names
+        """Take the first column as row names
 
         Given name to identify the row index, set the row to
         the given array except the row name.
@@ -684,6 +692,10 @@ class IndexSheet(MultipleFilterableSheet):
             self.delete_rows([index])
 
     def apply_formatter(self, aformatter):
+        """Apply the formatter immediately.
+        
+        :param Formatter aformatter: a custom formatter
+        """
         aformatter = self._translate_named_formatter(aformatter)
         PlainSheet.apply_formatter(self, aformatter)
 
@@ -719,7 +731,10 @@ class IndexSheet(MultipleFilterableSheet):
         PlainSheet.add_formatter(self, aformatter)
 
     def extend_rows(self, rows):
-        """Take ordereddict to extend named rows"""
+        """Take ordereddict to extend named rows
+
+        :param ordereddist/list rows: a list of rows.
+        """
         incoming_data = []
         if isinstance(rows, OrderedDict):
             keys = rows.keys()
@@ -733,7 +748,10 @@ class IndexSheet(MultipleFilterableSheet):
             MultipleFilterableSheet.extend_rows(self, rows)
 
     def extend_columns(self, columns):
-        """Take ordereddict to extend named columns"""
+        """Take ordereddict to extend named columns
+
+        :param ordereddist/list columns: a list of columns
+        """
         incoming_data = []
         if isinstance(columns, OrderedDict):
             keys = columns.keys()
@@ -755,10 +773,14 @@ class IndexSheet(MultipleFilterableSheet):
             return MultipleFilterableSheet.__iter__(self)
 
     def to_records(self):
+        """Returns the content as an array of dictionaries
+
+        """
         from .utils import to_records
         return to_records(self)
 
     def to_dict(self, row=False):
+        """Returns a dictionary"""
         from .utils import to_dict
         if row:
             return to_dict(RowIndexIterator(self))
@@ -767,6 +789,23 @@ class IndexSheet(MultipleFilterableSheet):
 
 
 class Sheet(IndexSheet):
+    """Two dimensional data container for filtering, formatting and custom iteration
+
+    :class:Sheet is a container for a two dimensional array, where individual
+    cell can be any Python types. Other than numbers, value of thsee
+    types: string, date, time and boolean can be mixed in the array. This
+    differs from Numpy's matrix where each cell are of the same number type.
+
+    In order to prepare two dimensional data for your computation, formatting
+    functions help convert array cells to required types. Formatting can be
+    applied not only to the whole sheet but also to selected rows or columns.
+    Custom conversion function can be passed to these formatting functions. For
+    example, to remove extra spaces surrounding the content of a cell, a custom
+    function is required.
+
+    Filtering functions are used to reduce the information contained in the
+    array. 
+    """
     def become_series(self, series=0):
         return IndexSheet(self.array, self.name, series)
 
@@ -775,10 +814,16 @@ class Sheet(IndexSheet):
         return False
 
     def save_as(self, filename):
+        """Save the content to a named file"""
         from .writers import Writer
         w = Writer(filename)
         w.write_reader(self)
         w.close()
 
     def save_to_memory(self, file_type, stream):
+        """Save the content to memory
+
+        :param str file_type: any value of 'csv', 'xls', 'xlsm', 'xlsx' and 'ods'
+        :param iostream stream: the memory stream to be written to 
+        """
         self.save_as((file_type, stream))

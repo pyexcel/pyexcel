@@ -26,3 +26,16 @@ In inheritance order from parent to child
    MultipleFilterableSheet
    IndexSheet
    Sheet
+
+
+File type handlers
+==================
+
+New file type handlers are registered via two internal static dictionaries: READERS for file readers, and WRITERS for file writers
+
+.. currentmodule:: pyexcel.io
+.. autosummary::
+   :toctree: iapi/
+
+   load_file
+   get_writer

@@ -31,6 +31,7 @@ pyexcel.sheets.Sheet
       ~Sheet.delete_rows
       ~Sheet.enumerate
       ~Sheet.extend_columns
+      ~Sheet.extend_columns_with_rows
       ~Sheet.extend_rows
       ~Sheet.filter
       ~Sheet.format
@@ -39,6 +40,8 @@ pyexcel.sheets.Sheet
       ~Sheet.index_by_column
       ~Sheet.index_by_row
       ~Sheet.is_series
+      ~Sheet.name_columns_by_row
+      ~Sheet.name_rows_by_column
       ~Sheet.named_column_at
       ~Sheet.named_row_at
       ~Sheet.number_of_columns

@@ -161,10 +161,10 @@ Transformation
 ----------------
 
  .. autosummary::
-	:toctree: generated/
+    :toctree: generated/
 
    Sheet.transpose
-		
+        
 
 Save changes
 --------------

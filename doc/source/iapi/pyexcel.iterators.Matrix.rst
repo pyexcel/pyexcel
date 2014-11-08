@@ -23,6 +23,7 @@ pyexcel.iterators.Matrix
       ~Matrix.delete_rows
       ~Matrix.enumerate
       ~Matrix.extend_columns
+      ~Matrix.extend_columns_with_rows
       ~Matrix.extend_rows
       ~Matrix.number_of_columns
       ~Matrix.number_of_rows
