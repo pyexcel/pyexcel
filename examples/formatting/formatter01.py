@@ -1,13 +1,8 @@
-from pyexcel import SeriesReader
-from pyexcel.utils import to_dict
-from pyexcel.formatters import ColumnFormatter
-from pyexcel.formatters import STRING_FORMAT
+import pyexcel as pe
 
-
-reader = SeriesReader("tutorial_datatype_01.xls")
-print to_dict(reader)
+sheet = pe.load("tutorial_datatype_01.xls", name_colmns_by_row=0)
+print sheet.to_dict()
 #{u'userid': [10120.0, 10121.0, 10122.0], u'name': [u'Adam', u'Bella', u'Cedar']}
-formatter = ColumnFormatter(0, STRING_FORMAT)
-reader.add_formatter(formatter)
-to_dict(reader)
+sheet.column.format(0, str)
+print sheet.to_dict()
 #{u'userid': ['10120.0', '10121.0', '10122.0'], u'name': [u'Adam', u'Bella', u'Cedar']}

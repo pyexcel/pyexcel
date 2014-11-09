@@ -27,6 +27,13 @@ from pyexcel.ext import ods
 book = pe.Book("multiple-sheets.xls")
 
 # Create a new book by creating a BookWriter instance
-book.save_as("multiple-sheets.ods")
+newbook = pe.BookWriter("multiple-sheets.ods")
+
+# Now simple state you want to save the content of
+# book to newbook
+newbook.write_book_reader(book)
+
+# Close the writer
+newbook.close()
 
 # then you will have the book in ods

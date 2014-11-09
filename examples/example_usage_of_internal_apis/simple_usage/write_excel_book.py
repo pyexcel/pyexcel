@@ -3,7 +3,7 @@ read_excel_book.py
 :copyright: (c) 2014 by C. W.
 :license: GPL v3
 
-This shows how to use **Book** class to write a dictionary
+This shows how to use **BookWriter** class to write a dictionary
 to sheet spreadsheet.
 """
 import pyexcel as pe
@@ -19,9 +19,10 @@ data={
 
 # Now simply choose the filename and format you want to save
 # file format is decided by the file extension
-book = pe.Book(data)
+w=pe.BookWriter("multiple-sheets.xls")
+# A call to write the dictionary
+w.write_book_from_dict(data)
+# Now close the file
+w.close()
 
-# simple save it
-book.save_as("multiple-sheets.xls")
-
-# The output of the file is "multiple-sheets.xls"
+# The output of the file is "mltiple-sheets.xls"

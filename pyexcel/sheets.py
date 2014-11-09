@@ -823,11 +823,25 @@ class IndexSheet(MultipleFilterableSheet):
         else:
             return to_dict(ColumnIndexIterator(self))
 
+    def __getitem__(self, aset):
+        if isinstance(aset, tuple):
+            if isinstance(aset[0], str):
+                row = self.rownames.index(aset[0])
+            else:
+                row = aset[0]
+
+            if isinstance(aset[1], str):
+                column = self.colnames.index(aset[1])
+            else:
+                column = aset[1]
+            return self.cell_value(row, column)
+        else:
+            return Matrix.__getitem__(self, aset)
 
 class Sheet(IndexSheet):
     """Two dimensional data container for filtering, formatting and custom iteration
 
-    :class:Sheet is a container for a two dimensional array, where individual
+    :class:`Sheet` is a container for a two dimensional array, where individual
     cell can be any Python types. Other than numbers, value of thsee
     types: string, date, time and boolean can be mixed in the array. This
     differs from Numpy's matrix where each cell are of the same number type.

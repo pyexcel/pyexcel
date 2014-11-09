@@ -18,11 +18,11 @@ page spreadsheet, The output is::
 
 """
 
-import pyexcel as pe
+import pyexcel
 
 # Simple give the file name to **Reader**
 # "example.xls","example.xlsx","example.ods", "example.xlsm"
-spreadsheet = pe.load("example.csv") 
+spreadsheet = pyexcel.Reader("example.csv") 
 
 # row_range() gives [0 .. number of rows]
 for r in spreadsheet.row_range():

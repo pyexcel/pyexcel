@@ -1,4 +1,4 @@
 Examples
 =========
 
-This directory give example code to show you how pyexcel can be used
+This directory provides example codes that can be readily used. Detailed example usage of each function can also be obtained in the documentation.

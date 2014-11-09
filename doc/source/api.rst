@@ -29,9 +29,9 @@ Constructor
 .. autosummary::
    :toctree: generated/
 
+   Sheet
    load
    load_from_memory
-   Sheet
 
 Attributes
 -----------
@@ -197,9 +197,9 @@ Constructor
 .. autosummary::
    :toctree: generated
 
+   Book
    load_book
    load_book_from_memory
-   Book
 
 Attribute
 ------------

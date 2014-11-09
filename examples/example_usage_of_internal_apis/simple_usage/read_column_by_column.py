@@ -11,10 +11,10 @@ page spreadsheet column by column. The output is::
     [3.0, 6.0, 9.0]
 
 """
-import pyexcel as pe
+import pyexcel
 
 # "example.csv","example.ods","example.xls", "example.xlsm"
-spreadsheet = pe.load("example.xlsx") 
+spreadsheet = pyexcel.Reader("example.xlsx") 
 
 # columns() returns column based iterator, meaning it can be iterated
 # column by column 

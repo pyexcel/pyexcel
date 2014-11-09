@@ -1,16 +1,14 @@
-from pyexcel import Reader
-from pyexcel.utils import to_array
-from pyexcel.formatters import SheetFormatter
-from pyexcel.formatters import STRING_FORMAT
+import pyexcel as pe
+from pyexcel.ext import ods
 
-r=Reader("tutorial_datatype_02.ods")
-to_array(r)
+sheet = pe.load("tutorial_datatype_02.ods")
+print(sheet.to_array())
 
 def cleanse_func(v, t):
     v = v.replace("&nbsp;", "")
     v = v.rstrip().strip()
     return v
 
-sf = SheetFormatter(STRING_FORMAT, cleanse_func)
-r.add_formatter(sf)
-to_array(r)
+sf = pe.SheetFormatter(str, cleanse_func)
+sheet.add_formatter(sf)
+print(sheet.to_array())

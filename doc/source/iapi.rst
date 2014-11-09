@@ -27,6 +27,36 @@ In inheritance order from parent to child
    IndexSheet
    Sheet
 
+Row represetation
+===================
+
+.. currentmodule:: pyexcel.iterators
+.. autosummary::
+   :toctree: iapi/
+
+   Row
+
+.. currentmodule:: pyexcel.sheets
+.. autosummary::
+   :toctree: iapi/
+
+   NamedRow
+
+Column represetation
+===================
+
+.. currentmodule:: pyexcel.iterators
+.. autosummary::
+   :toctree: iapi/
+
+   Column
+
+.. currentmodule:: pyexcel.sheets
+.. autosummary::
+   :toctree: iapi/
+
+   NamedColumn
+   
 
 File type handlers
 ==================
