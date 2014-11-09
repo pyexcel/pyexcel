@@ -29,7 +29,19 @@ class TestMatrixColumn:
     def test_get_with_a_wrong_index(self):
         """Get with a wrong index"""
         m = pe.iterators.Matrix(self.data)
-        data = m.column["hello"]  # bang, string type index 
+        m.column["hello"]  # bang, string type index
+        
+    @raises(IndexError)
+    def test_delete_with_a_wrong_index(self):
+        """Get with a wrong index"""
+        m = pe.iterators.Matrix(self.data)
+        del m.column["hello"]  # bang, string type index 
+
+    @raises(IndexError)
+    def test_set_with_a_wrong_index(self):
+        """Get with a wrong index"""
+        m = pe.iterators.Matrix(self.data)
+        m.column[1.11] = 1 # bang, string type index 
 
     def test_extend_columns(self):
         """Test extend columns"""
@@ -37,6 +49,12 @@ class TestMatrixColumn:
         m.extend_columns(self.data3)
         actual = pe.utils.to_array(m)
         assert self.result == actual
+
+    @raises(TypeError)
+    def test_extend_columns2(self):
+        """Test extend columns"""
+        m = pe.iterators.Matrix(self.data)
+        m.extend_columns(1.1)
 
     def test_iadd_list(self):
         """Test in place add a list
@@ -152,6 +170,11 @@ class TestMatrixRow:
         assert r.row[4] == [1, 2, 3, 4, '']
         assert r.row[5] == [True, "", "", "", '']
         assert r.row[6] == [1.1, 2.2, 3.3, 4.4, 5.5]
+
+    @raises(TypeError)
+    def test_extend_rows_error_input(self):
+        r = pe.iterators.Matrix(self.data)
+        r.extend_rows(102)
 
     def test_iadd(self):
         """Test in place add"""

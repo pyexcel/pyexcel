@@ -206,10 +206,22 @@ class TestColumnFormatter:
             assert c1[i] == c2[i]
 
     def test_column_format_general_usage(self):
+        """Test column format function"""
         r = pe.Reader(self.test_tuple)
         r.column.format(
             0,
             str)
+        c1 = r.column_at(0)[1:]
+        c2 = self.data["2"]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+            
+    def test_column_format_general_usage2(self):
+        """Test column format function on demand"""
+        r = pe.Reader(self.test_tuple)
+        r.column.format(
+            0,
+            str, on_demand=True)
         c1 = r.column_at(0)[1:]
         c2 = self.data["2"]
         for i in range(0, len(c1)):
@@ -331,6 +343,30 @@ class TestRowFormatter:
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
 
+    def test_general_usage2(self):
+        """format a row 
+        """
+        r = pe.Reader(self.testfile)
+        r.row.format(
+            1,
+            str)
+        c1 = r.row_at(1)
+        c2 = ["1.0", "1", "1.1", "1.1", "2.0", "2"]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+
+    def test_general_usage3(self):
+        """format a row 
+        """
+        r = pe.Reader(self.testfile)
+        r.row.format(
+            1,
+            str, on_demand=True)
+        c1 = r.row_at(1)
+        c2 = ["1.0", "1", "1.1", "1.1", "2.0", "2"]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+
     def test_one_formatter_for_two_rows(self):
         """format more than one row
         """
@@ -387,10 +423,24 @@ class TestRowFormatter:
         r.add_formatter(pe.formatters.RowFormatter(
             1,
             int))
+        r.add_formatter(pe.formatters.RowFormatter(
+            1,
+            str))
         c1 = r.row_at(1)
-        c2 = [1, 1, 1, 1, 2, 2]
+        c2 = ['1', '1', '1', '1', '2', '2']
         for i in range(0, len(c1)):
-            assert type(c1[i]) == int
+            assert c1[i] == c2[i]
+
+    def test_two_formatters_with_row_fomat(self):
+        r = pe.Reader(self.testfile)
+        c1 = r.row_at(1)
+        c2 = [1, "1", 1.1, "1.1", 2, "2"]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+        r.row.format(format_specs=[[1,int],[1,str]])
+        c1 = r.row_at(1)
+        c2 = ['1', '1', '1', '1', '2', '2']
+        for i in range(0, len(c1)):
             assert c1[i] == c2[i]
 
     def test_custom_func(self):
