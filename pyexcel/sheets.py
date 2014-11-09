@@ -53,7 +53,7 @@ class NamedRow(Row):
     Now let's verify what we had::
 
         >>> r=pe.Reader("merged.csv")
-        >>> print pe.utils.to_array(r)
+        >>> print(pe.utils.to_array(r))
         [[u'1', u'2', u'3'], [u'4', u'5', u'6'], [u'7', u'8', u'9'], [u'a', u'b', u'c'], [u'd', u'e', u'f'], [u'g', u'h', u'i'], [u'1.1', u'2.2', u'3.3'], [u'4.4', u'5.5', u'6.6'], [u'7.7', u'8.8', u'9.9']]
     
     .. testcleanup::
@@ -564,14 +564,7 @@ class IndexSheet(MultipleFilterableSheet):
             >>> del sheet.row[0:]
             >>> sheet.row[0]  # nothing left
             Traceback (most recent call last):
-              File "C:\Python27\lib\doctest.py", line 1289, in __run
-                compileflags, 1) in test.globs
-              File "<doctest pyexcel.sheets.IndexSheet.row[14]>", line 1, in <module>
-                sheet.row[0]  # nothing left
-              File "C:\Users\chenfu\Python\pyexcel\pyexcel\sheets.py", line 83, in __getitem__
-                return Row.__getitem__(self, str_or_aslice)
-              File "C:\Users\chenfu\Python\pyexcel\pyexcel\iterators.py", line 195, in __getitem__
-                raise IndexError
+                ...
             IndexError
         """
         return self.named_row
