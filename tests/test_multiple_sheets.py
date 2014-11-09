@@ -357,18 +357,6 @@ class TestAddBooks:
 
 
 class TestMergeCSVsIntoOne:
-    """
-    This test case tests this code works
-    >>> import pyexcel as pe
-    >>> import glob
-    >>> merged = pe.Reader()
-    >>> for file in glob.glob("*.csv"):
-    >>>     merged += pe.Reader(file)
-    >>> writer = pe.Writer("merged.csv")
-    >>> writer.write_reader(merged)
-    >>> writer.close()
-    """
-
     def test_merging(self):
         # set up
         data = [[1,2,3],[4,5,6],[7,8,9]]

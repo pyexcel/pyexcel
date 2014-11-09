@@ -41,8 +41,7 @@ def load_book_from_memory(file_type, file_content, **keywords):
 
 
 class Book:
-    """
-    Read an excel book that has mutliple sheets
+    """Read an excel book that has mutliple sheets
 
     For csv file, there will be just one sheet
     """
@@ -60,8 +59,7 @@ class Book:
     def load_from_sheets(self, sheets):
         """Load content from existing sheets
 
-        :param dict sheets: a dictionary of sheets. Each sheet is
-        a list of lists
+        :param dict sheets: a dictionary of sheets. Each sheet is a list of lists
         """
         self.sheets = OrderedDict()
         for name in sheets.keys():
@@ -190,12 +188,20 @@ class Book:
         return self
 
     def save_as(self, filename):
+        """Save the content to a new file
+
+        :param str filename: a file path
+        """
         from .writers import BookWriter
         writer = BookWriter(filename)
         writer.write_book_reader(self)
         writer.close()
 
     def save_to_memory(self, file_type, stream):
+        """Save the content to a memory stream
+
+        :param iostream stream: a memory stream
+        """
         from .writers import BookWriter
         writer = BookWriter((file_type, stream))
         writer.write_book_reader(self)
@@ -214,7 +220,7 @@ def BookReader(file, **keywords):
 
 
 def load(file, sheetname=None, name_columns_by_row=-1, name_rows_by_column=-1, **keywords):
-    """Constructs an instance :class:Sheet from a sheet of an excel file
+    """Constructs an instance :class:`Sheet` from a sheet of an excel file
 
     except csv, most excel files has more than one sheet.
     Hence sheetname is required here to indicate from which sheet the instance
@@ -241,7 +247,7 @@ def load(file, sheetname=None, name_columns_by_row=-1, name_rows_by_column=-1, *
 
 
 def load_from_memory(file_type, file_content, sheetname, **keywords):
-    """Constructs an instance :class:Sheet from memory
+    """Constructs an instance :class:`Sheet` from memory
 
     :param str file_type: one value of these: 'csv', 'xls', 'xlsm', 'xslm', 'ods'
     :param iostream file_content: file content

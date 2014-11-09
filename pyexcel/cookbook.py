@@ -25,6 +25,8 @@ def update_columns(infilename, column_dicts, outfilename=None):
     :param str infilename: an accessible file name
     :param dict column_dicts: dictionaries of columns
     :param str outfilename: save the sheet as
+
+
     """
     default_out_file = "pyexcel_%s" % infilename
     if outfilename:
@@ -110,7 +112,9 @@ def merge_readers(reader_array, outfilename="pyexcel_merged.csv"):
 
 def merge_two_readers(reader1, reader2, outfilename="pyexcel_merged.csv"):
     """merge two readers
+
     :param str outfilename: save the sheet as
+
     """
     if os.path.exists(outfilename):
         raise NotImplementedError(__WARNING_TEXT__)
@@ -135,7 +139,7 @@ def merge_csv_to_a_book(filelist, outfilename="merged.xls"):
 
 
 def merge_all_to_a_book(filelist, outfilename="merged.xls"):
-    """merge a list of csv files into a excel book
+    """merge a list of excel files into a excel book
 
     :param list filelist: a list of accessible file path
     :param str outfilename: save the sheet as

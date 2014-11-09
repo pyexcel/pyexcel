@@ -29,12 +29,39 @@ def is_string(atype):
 class NamedRow(Row):
     """Series Sheet would have Named Row instead of Row
 
-    example::
+    Here is an example to merge sheets. Suppose we have the
+    following three files::
+    
+        >>> import pyexcel as pe
+        >>> data = [[1,2,3],[4,5,6],[7,8,9]]
+        >>> s = pe.Sheet(data)
+        >>> s.save_as("1.csv")
+        >>> data2 = [['a','b','c'],['d','e','f'],['g','h','i']]
+        >>> s2 = pe.Sheet(data2)
+        >>> s2.save_as("2.csv")
+        >>> data3=[[1.1, 2.2, 3.3],[4.4, 5.5, 6.6],[7.7, 8.8, 9.9]]
+        >>> s3=pe.Sheet(data3)
+        >>> s3.save_as("3.csv")
+    
 
-        import pyexcel as pe
+        >>> merged = pe.Sheet()
+        >>> for file in ["1.csv", "2.csv", "3.csv"]:
+        ...     r = pe.load(file)
+        ...     merged.row += r
+        >>> merged.save_as("merged.csv")
 
-        r = pe.SeriesReader("example.csv")
-        print(r.row["row 1"])
+    Now let's verify what we had::
+
+        >>> r=pe.Reader("merged.csv")
+        >>> print pe.utils.to_array(r)
+        [[u'1', u'2', u'3'], [u'4', u'5', u'6'], [u'7', u'8', u'9'], [u'a', u'b', u'c'], [u'd', u'e', u'f'], [u'g', u'h', u'i'], [u'1.1', u'2.2', u'3.3'], [u'4.4', u'5.5', u'6.6'], [u'7.7', u'8.8', u'9.9']]
+    
+    .. testcleanup::
+        >>> import os
+        >>> os.unlink("1.csv")
+        >>> os.unlink("2.csv")
+        >>> os.unlink("3.csv")
+        >>> os.unlink("merged.csv")
 
     """
     def __delitem__(self, column_name):
@@ -435,6 +462,7 @@ class MultipleFilterableSheet(PlainSheet):
             self._filters.append(filter)
 
     def freeze_filters(self):
+        """Apply all filters and delete them"""
         local_filters = self._filters
         self._filters = []
         for f in local_filters:
@@ -491,6 +519,8 @@ class MultipleFilterableSheet(PlainSheet):
 
 
 class IndexSheet(MultipleFilterableSheet):
+    """Allow dictionary group of the content
+    """
     def __init__(self, sheet=None, name="pyexcel", name_columns_by_row=-1, name_rows_by_column=-1):
         # this get rid of phatom data by not specifying sheet
         if sheet is None:
@@ -533,7 +563,16 @@ class IndexSheet(MultipleFilterableSheet):
             [0, 0, 0]
             >>> del sheet.row[0:]
             >>> sheet.row[0]  # nothing left
-            IndexError...
+            Traceback (most recent call last):
+              File "C:\Python27\lib\doctest.py", line 1289, in __run
+                compileflags, 1) in test.globs
+              File "<doctest pyexcel.sheets.IndexSheet.row[14]>", line 1, in <module>
+                sheet.row[0]  # nothing left
+              File "C:\Users\chenfu\Python\pyexcel\pyexcel\sheets.py", line 83, in __getitem__
+                return Row.__getitem__(self, str_or_aslice)
+              File "C:\Users\chenfu\Python\pyexcel\pyexcel\iterators.py", line 195, in __getitem__
+                raise IndexError
+            IndexError
         """
         return self.named_row
 

@@ -144,16 +144,18 @@ class Row:
         = = =
     
     Above column manipluation can be performed on rows similiarly. This section will not repeat the same example but show some advance usages. 
+
     
         >>> import pyexcel as pe
-        >>> reader = pe.Reader("example.csv")
-        >>> reader.row[0:2]
-        [[1, 4, 7], [2, 5, 8]]
-        >>> reader.row[0:3] = [0, 0, 0]
-        >>> reader.row[2]
+        >>> data = [[1,2,3], [4,5,6], [7,8,9]]
+        >>> m = pe.iterators.Matrix(data)
+        >>> m.row[0:2]
+        [[1, 2, 3], [4, 5, 6]]
+        >>> m.row[0:3] = [0, 0, 0]
+        >>> m.row[2]
         [0, 0, 0]
-        >>> del reader.row[0:2]
-        >>> reader.row[0]
+        >>> del m.row[0:2]
+        >>> m.row[0]
         [0, 0, 0]
 
     """
@@ -228,15 +230,20 @@ class Column:
     Let us manipulate the data columns on the above data matrix::
     
         >>> import pyexcel as pe
-        >>> reader = pe.Reader("example.csv")
-        >>> reader.column[0]
+        >>> data = [[1,2,3], [4,5,6], [7,8,9]]
+        >>> m = pe.iterators.Matrix(data)
+        >>> m.column[0]
         [1, 4, 7]
-        >>> reader.column[2] = [0, 0, 0]
-        >>> reader.column[2]
+        >>> m.column[2] = [0, 0, 0]
+        >>> m.column[2]
         [0, 0, 0]
-        >>> del reader.column[2]
-        >>> reader.column[2]
-        [3, 6, 9]
+        >>> del m.column[1]
+        >>> m.column[1]
+        [0, 0, 0]
+        >>> m.column[2]
+        Traceback (most recent call last):
+            ...
+        IndexError
 
     """
     def __init__(self, matrix):
@@ -377,21 +384,18 @@ class Matrix:
 
     def enumerate(self):
         """
-        Default iterator to go through each cell one by one from top row to
-        bottom row and from left to right
-        example::
+        Iterate cell by cell from top to bottom and from left to right
+
+        .. testcode::
     
-            import pyexcel as pe
-            data = [  
-                [1, 2, 3, 4],
-                [5, 6, 7, 8],
-                [9, 10, 11, 12]
-            ]
-            m = pe.Matrix(data)
-            print(pe.utils.to_array(m.enumerate()))
-    
-        output::
-        
+            >>> import pyexcel as pe
+            >>> data = [  
+            ...     [1, 2, 3, 4],
+            ...     [5, 6, 7, 8],
+            ...     [9, 10, 11, 12]
+            ... ]
+            >>> m = pe.iterators.Matrix(data)
+            >>> print(pe.utils.to_array(m.enumerate()))
             [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
         More details see :class:`HTLBRIterator`
@@ -399,22 +403,20 @@ class Matrix:
         return HTLBRIterator(self)
 
     def reverse(self):
-        """
-        Reverse iterator to go through each cell one by one from
+        """Opposite to enumerate
+
+        each cell one by one from
         bottom row to top row and from right to left
         example::
     
-            import pyexcel as pe
-            data = [  
-                [1, 2, 3, 4],
-                [5, 6, 7, 8],
-                [9, 10, 11, 12]
-            ]
-            m = pe.Matrix(data)
-            print(pe.utils.to_array(m.reverse()))
-    
-        output::
-        
+            >>> import pyexcel as pe
+            >>> data = [  
+            ...     [1, 2, 3, 4],
+            ...     [5, 6, 7, 8],
+            ...     [9, 10, 11, 12]
+            ... ]
+            >>> m = pe.iterators.Matrix(data)
+            >>> print(pe.utils.to_array(m.reverse()))
             [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
 
         More details see :class:`HBRTLIterator`
@@ -494,7 +496,7 @@ class Matrix:
         """
         Returns a bottom to top row iterator
         
-        example::
+        .. testcode::
     
             import pyexcel as pe
             data = [  
@@ -505,7 +507,7 @@ class Matrix:
             m = pe.Matrix(data)
             print(pe.utils.to_array(m.rrows()))
     
-        output::
+        .. testoutput::
         
             [[9, 10, 11, 12], [5, 6, 7, 8], [1, 2, 3, 4]]
 
@@ -517,7 +519,7 @@ class Matrix:
         """
         Returns a left to right column iterator
       
-        example::
+        .. testcode::
     
             import pyexcel as pe
             data = [  
@@ -528,7 +530,7 @@ class Matrix:
             m = pe.Matrix(data)
             print(pe.utils.to_array(m.columns()))
     
-        output::
+        .. testoutput::
         
             [[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]
 
@@ -999,11 +1001,7 @@ class HBLTRIterator(VBLTRIterator):
     """
     Horizontal Bottom Left to Top Right Iterator
 
-    Iterate horizontally from bottom left to top right::
-    
-        >>E
-        >>> ^
-        S>> |
+    Iterate horizontally from bottom left to top right
     """
     def __init__(self, reader):
         self.reader_ref = reader

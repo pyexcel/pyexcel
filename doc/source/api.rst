@@ -7,9 +7,21 @@ API Reference
 
 This is intended for users of pyexcel
 
+Cookbook
+==========
+
+.. autosummary::
+   :toctree: generated/
+
+   merge_csv_to_a_book
+   merge_all_to_a_book
+   split_a_book
+   extract_a_sheet_from_a_book
+
    
 Sheet
 =====
+
 
 Constructor
 -----------
