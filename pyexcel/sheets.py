@@ -614,7 +614,7 @@ class IndexSheet(MultipleFilterableSheet):
                 indices = range(0, len(self._column_names))
                 for f in column_filters:
                     indices = [i for i in indices if i not in f.indices]
-                return [self._column_names[i] for i in indices]
+                return list([self._column_names[i] for i in indices])
             else:
                 return self._column_names
         else:
@@ -629,7 +629,7 @@ class IndexSheet(MultipleFilterableSheet):
                 indices = range(0, len(self._row_names))
                 for f in row_filters:
                     indices = [i for i in indices if i not in f.indices]
-                return [self._row_names[i] for i in indices]
+                return list([self._row_names[i] for i in indices])
             else:
                 return self._row_names
         else:
