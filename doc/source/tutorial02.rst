@@ -51,7 +51,7 @@ Play with data
 
 You can get headers::
 
-    >>> print(sheet.colnames)
+    >>> print(list(sheet.colnames))
     ['Column 1', 'Column 2', 'Column 3']
 
 You can use a utility function to get all in a dictionary::

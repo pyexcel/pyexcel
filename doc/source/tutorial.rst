@@ -27,7 +27,7 @@ Here is the example code showing how you can randomly access a cell::
 .. testcode::
 
    >>> sheet = pyexcel.load("example.xls""")
-   >>> print sheet[2, 2]
+   >>> print(sheet[2, 2])
    5.0
    >>> print(sheet["C3"])
    5.0
