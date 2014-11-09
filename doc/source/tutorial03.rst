@@ -25,16 +25,16 @@ userid   name
 
 Let's read it out first::
 
-    >> import pyexcel as pe
-    >> reader = pe.SeriesReader("example.xls")
-    >> pe.to_dict(reader)
+    >> import pyexcel
+    >> sheet = pyexcel.load("example.xls", name_columns_by_row=0)
+    >> sheet.to_dict()
     {u'userid': [10120.0, 10121.0, 10122.0], u'name': [u'Adam', u'Bella', u'Cedar']}
 
 As you can see, `userid` column is of `float` type. Next, let's convert the column to string format::
 
-    >> formatter = pe.formatters.ColumnFormatter(0, str)
-    >> reader.add_formatter(formatter)
-    >> pe.to_dict(reader)
+    >> formatter = pyexcel.ColumnFormatter(0, str)
+    >> sheet.add_formatter(formatter)
+    >> sheet.to_dict()
     {u'userid': ['10120.0', '10121.0', '10122.0'], u'name': [u'Adam', u'Bella', u'Cedar']}
 
 Now, they are in string format.
@@ -55,9 +55,9 @@ Sometimes, the data in a spreadsheet may have unwanted strings in all or some ce
 
 First, let's read the content and see what do we have::
 
-    >>> import pyexcel as pe
-    >>> r=pe.Reader("tutorial_datatype_02.ods")
-    >>> pe.to_array(r)
+    >>> import pyexcel
+    >>> sheet = pyexcel.load("tutorial_datatype_02.xls")
+    >>> sheet.to_array()
     [[u'Version', u'Comments', u'Author &nbsp;'], [u'v0.0.1 ', u'Release versions',
     u'&nbsp;Eda'], [u'&nbsp; V0.02 ', u'Useful updates &nbsp; &nbsp;', u'&nbsp;Freud
     ']]
@@ -73,16 +73,16 @@ Now try to create a custom cleanse function::
 
 Then let's create a `SheetFormatter` and apply it::
 
-    >>> sf = pe.formatters.SheetFormatter(str, cleanse_func)
-    >>> r.add_formatter(sf)
-    >>> pe.to_array(r)
+    >>> sf = pyexcel.formatters.SheetFormatter(str, cleanse_func)
+    >>> sheet.add_formatter(sf)
+    >>> sheet.to_array()
     [[u'Version', u'Comments', u'Author'], [u'v0.0.1', u'Release versions', u'Eda'],
      [u'V0.02', u'Useful updates', u'Freud']]
 
 So in the end, you get this:
 
 ================= ============================ ================
-        Version        Comments                Author
+Version           Comments                     Author
 ================= ============================ ================
 v0.0.1            Release versions             Eda
 v0.0.2            Useful updates               Freud

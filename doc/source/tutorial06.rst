@@ -4,11 +4,11 @@ Work with excel files in memory
 
 With pyexcel >=0.0.6, excel files in memory can be manipulated directly without saving it to physical disk and vice versa. This is useful in excel file handling at file upload or in excel file download. The way to enable it is to pass a tuple instead of file name to an excel reader or writer class. For example::
 
-    import pyexcel as pe
+    import pyexcel
 
     content = "1,2,3\n3,4,5"
-    reader = pe.Reader(("csv", content))
-    print pe.to_array(reader.rows())
+    sheet = pyexcel.load_from_memory(("csv", content))
+    print pyexcel.to_array(sheet.rows())
 
 As you can see, the tuple which is consisted of file type extension and the content to :class:`Reader`. 
 

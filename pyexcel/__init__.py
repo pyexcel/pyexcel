@@ -30,6 +30,10 @@ from .formatters import (ColumnFormatter,
                          NamedColumnFormatter,
                          NamedRowFormatter)
 from .filters import (ColumnIndexFilter,
+                      EvenColumnFilter,
+                      OddColumnFilter,
+                      EvenRowFilter,
+                      OddRowFilter,
                       RowIndexFilter,
                       SingleColumnFilter,
                       SingleRowFilter)

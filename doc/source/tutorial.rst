@@ -161,13 +161,12 @@ Suppose you have a csv, xls, xlsx file as the following:
 
 The following code will give you the data in json::
 
-    from pyexcel as pe
+    from pyexcel
     import json
     
     # "example.xls","example.xlsx","example.xlsm"
-    reader = pe.Reader("example.csv")
-    data = pe.to_array(reader)
-    print json.dumps(data)
+    sheet = pyexcel.load("example.csv")
+    print json.dumps(sheet.to_array()
 
 
 The output is::
@@ -193,9 +192,8 @@ The following code will give you data series in a dictionary:
     from pyexcel as pe
     
     # "example.xls","example.xlsx","example.xlsm"
-    reader = pe.SeriesReader("example.csv")
-    data = pe.to_dict(reader)
-    print data
+    sheet = pe.load("example.csv", name_columns_by_row=0)
+    print(sheet.to_dict())
 
 
 The output is::
@@ -220,9 +218,8 @@ The following code will produce what you want::
     import json
     
     # "example.xls","example.xlsx","example.xlsm"
-    reader = pe.SeriesReader("example.csv")
-    data = pe.to_record(reader)
-    print json.dumps(data)
+    reader = pe.load("example.csv", name_columns_by_row=0)
+    print json.dumps(data.to_record())
 
 
 The output is::
@@ -248,9 +245,8 @@ The following code will write it as an excel file of your choice::
     
     array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     # "output.xls" "output.xlsx" "output.ods" "output.xlsm"
-    writer = pe.Writer("output.csv")
-    writer.write_array(array)
-    writer.close()
+	sheet = pe.Sheet(array)
+    sheet.save_as("output.csv")
 
 
 Suppose you have a dictionary as the following:
@@ -269,9 +265,8 @@ The following code will write it as an excel file of your choice::
     
     example_dict = {"Column 1": [1, 2, 3], "Column 2": [4, 5, 6], "Column 3": [7, 8, 9]}
     # "output.xls" "output.xlsx" "output.ods" "output.xlsm"
-    writer = pe.Writer("output.csv")
-    writer.write_dict(example_dict)
-    writer.close()
+	book = pe.Book(example_dict)
+    book.save_as("output.csv")
 
 
 Read multiple sheet excel file
@@ -308,9 +303,8 @@ You can get a dictionary out of it by the following code::
     import pyexcel as pe
     
     
-    reader = pe.Reader("example.xls")
-    my_dict = pe.to_dict(reader)
-    print(my_dict)
+    book = pe.load_book("example.xls")
+    print(book.to_dict())
 
 the output is::
 
@@ -349,8 +343,7 @@ Suppose you have previous data as a dictionary and you want to save it as multip
                 [4.0, 3.0, 2.0]
             ] 
     }
-    writer = pe.BookWriter("myfile.xls")
-    writer.write_book_from_dict(content)
-    writer.close()
+    book = pe.Book(content)
+    book.save_as("output.xls")
 
 You shall get a xls file 

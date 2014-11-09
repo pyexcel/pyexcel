@@ -413,7 +413,6 @@ class MultipleFilterableSheet(PlainSheet):
         """
         afilter.validate_filter(self)
         self._filters.append(afilter)
-        return self
 
     def remove_filter(self, afilter):
         """Remove a named filter
@@ -807,6 +806,10 @@ class IndexSheet(MultipleFilterableSheet):
             return RowIndexIterator(self)
         else:
             return MultipleFilterableSheet.__iter__(self)
+
+    def to_array(self):
+        from .utils import to_array
+        return to_array(self)
 
     def to_records(self):
         """Returns the content as an array of dictionaries
