@@ -55,9 +55,9 @@ Sometimes, the data in a spreadsheet may have unwanted strings in all or some ce
 
 First, let's read the content and see what do we have::
 
-    >>> import pyexcel
-    >>> sheet = pyexcel.load("tutorial_datatype_02.xls")
-    >>> sheet.to_array()
+    >> import pyexcel
+    >> sheet = pyexcel.load("tutorial_datatype_02.xls")
+    >> sheet.to_array()
     [[u'Version', u'Comments', u'Author &nbsp;'], [u'v0.0.1 ', u'Release versions',
     u'&nbsp;Eda'], [u'&nbsp; V0.02 ', u'Useful updates &nbsp; &nbsp;', u'&nbsp;Freud
     ']]
@@ -65,7 +65,7 @@ First, let's read the content and see what do we have::
 
 Now try to create a custom cleanse function::
   
-    >>> def cleanse_func(v, t):
+    >> def cleanse_func(v, t):
     ...     v = v.replace("&nbsp;", "")
     ...     v = v.rstrip().strip()
     ...     return v
@@ -73,9 +73,9 @@ Now try to create a custom cleanse function::
 
 Then let's create a `SheetFormatter` and apply it::
 
-    >>> sf = pyexcel.formatters.SheetFormatter(str, cleanse_func)
-    >>> sheet.add_formatter(sf)
-    >>> sheet.to_array()
+    >> sf = pyexcel.formatters.SheetFormatter(str, cleanse_func)
+    >> sheet.add_formatter(sf)
+    >> sheet.to_array()
     [[u'Version', u'Comments', u'Author'], [u'v0.0.1', u'Release versions', u'Eda'],
      [u'V0.02', u'Useful updates', u'Freud']]
 

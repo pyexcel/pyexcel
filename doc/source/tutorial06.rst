@@ -28,9 +28,9 @@ You can find a real world example in **examples/memoryfile/** directory: pyexcel
             extension = filename.split(".")[1]
             # Obtain the file extension and content
             # pass a tuple instead of a file name
-            reader = pe.Book((extension, request.files['excel'].read()))
+            sheet = pyexcel.load_from_memory(extension, request.files['excel'].read())
             # then use it as usual
-            data = pe.to_dict(reader)
+            data = pyexcel.to_dict(sheet)
             # respond with a json
             return jsonify({"result":data})
         return render_template...

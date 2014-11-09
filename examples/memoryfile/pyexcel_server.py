@@ -27,9 +27,9 @@ def upload():
         extension = filename.split(".")[1]
         # Obtain the file extension and content
         # pass a tuple instead of a file name
-        reader = pe.Book((extension, request.files['excel'].read()))
+        sheet = pe.load_from_memory(extension, request.files['excel'].read())
         # then use it as usual
-        data = pe.utils.to_dict(reader)
+        data = sheet.to_dict()
         # respond with a json
         return jsonify({"result":data})
     return render_template('upload.html')

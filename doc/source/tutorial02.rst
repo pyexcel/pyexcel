@@ -39,6 +39,7 @@ You can read it use a SeriesReader::
    >>> s.save_as("example_series.xls")
 
 .. testcode::
+
    >>> sheet = pyexcel.load("example_series.xls", name_columns_by_row=0)
 
 .. testcode::
@@ -131,7 +132,7 @@ The complete code is::
 
     sheet = pyexcel.load("example_series.xls")
     sheet.add_filter(pyexcel.OddRowFilter())
-    sheet.add_filter(pyexcel.EvenColumnFilter)
+    sheet.add_filter(pyexcel.EvenColumnFilter())
     sheet.save_as("example_series_filter.xls")
 
 
