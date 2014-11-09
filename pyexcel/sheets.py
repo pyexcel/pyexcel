@@ -53,8 +53,12 @@ class NamedRow(Row):
     Now let's verify what we had::
 
         >>> r=pe.Reader("merged.csv")
+    
+    this is added to overcome doctest's inability to handle python 3's unicode::
+    
+        >>> r.format(pe.formatters.SheetFormatter(str, lambda v: str(v))) 
         >>> print(pe.utils.to_array(r))
-        [[u'1', u'2', u'3'], [u'4', u'5', u'6'], [u'7', u'8', u'9'], [u'a', u'b', u'c'], [u'd', u'e', u'f'], [u'g', u'h', u'i'], [u'1.1', u'2.2', u'3.3'], [u'4.4', u'5.5', u'6.6'], [u'7.7', u'8.8', u'9.9']]
+        [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9'], ['a', 'b', 'c'], ['d', 'e', 'f'], ['g', 'h', 'i'], ['1.1', '2.2', '3.3'], ['4.4', '5.5', '6.6'], ['7.7', '8.8', '9.9']]
     
     .. testcleanup::
         >>> import os
