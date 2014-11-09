@@ -44,7 +44,7 @@ You can read it use a SeriesReader::
 
 .. testcode::
    :hide:
-   >>> sheet._column_names = map(lambda v: str(v), sheet._column_names)
+   >>> sheet._column_names = [ str(name) for name in sheet._column_names]
 
 Play with data
 **************
