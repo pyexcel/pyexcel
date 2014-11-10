@@ -113,7 +113,7 @@ class NamedRow(Row):
                 self.ref.add_formatter(formatter)
             else:
                 self.ref.apply_formatter(formatter)
-        if row_index:
+        if row_index is not None:
             handle_one_formatter(row_index, format, custom_converter, on_demand)
         elif format_specs:
             for spec in format_specs:
@@ -179,7 +179,7 @@ class NamedColumn(Column):
                 self.ref.add_formatter(formatter)
             else:
                 self.ref.apply_formatter(formatter)
-        if column_index:
+        if column_index is not None:
             handle_one_formatter(column_index, format, custom_converter, on_demand)
         elif format_specs:
             for spec in format_specs:

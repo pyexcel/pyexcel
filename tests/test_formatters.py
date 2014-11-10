@@ -2,7 +2,7 @@ import pyexcel as pe
 import os
 import datetime
 from base import clean_up_files
-from _compact import StringIO
+from _compact import BytesIO
 from nose.tools import raises
 
 
@@ -183,17 +183,17 @@ class TestColumnFormatter:
     def setUp(self):
         self.data = {
             "1": [1, 2, 3, 4, 5, 6, 7, 8],
-            "2": ["1", "2", "3", "4", "5", "6", "7", "8"],
+            "2": ["1.0", "2.0", "3.0", "4.0", "5.0", "6.0", "7.0", "8.0"],
             "3": [1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
             "4": ["1.1", "2.2", "3.3", "4.4", "5.5", "6.6", "7.7", "8.8"],
             "5": [2, 3, 4, 5, 6, 7, 8, 9],
             "6": ["2", "3", "4", "5", "6", "7", "8", "9"]
         }
-        self.io = StringIO()
-        w = pe.Writer(("csv", self.io))
+        self.io = BytesIO()
+        w = pe.Writer(("xls", self.io))
         w.write_dict(self.data)
-        #w.close()
-        self.test_tuple = ("csv", self.io.getvalue())
+        w.close()
+        self.test_tuple = ("xls", self.io.getvalue())
 
     def test_general_usage(self):
         r = pe.Reader(self.test_tuple)
@@ -213,6 +213,8 @@ class TestColumnFormatter:
             str)
         c1 = r.column_at(0)[1:]
         c2 = self.data["2"]
+        print(c1)
+        print(c2)
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
             

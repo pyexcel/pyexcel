@@ -146,29 +146,6 @@ The complete code is::
 Work with multi-sheet file
 --------------------------
 
-Iterate through each sheet
-**************************
-
-Each each sheet is a `Sheet` instance and it accept all filters and iterators you have exercised in previous sections.
-
-You can process sheet by sheet::
-
-    for sheet in reader: # you may want to do something else
-         data = pe.to_array(sheet)
-         print data
-
-You may just process Sheet 2 specificially::
-
-    >> sheet = reader["Sheet 2"]
-    >> sheet.become_series() # make it aware of column headers
-    >> pe.to_dict(sheet) # now regard sheet as an instance of SeriesReader
-
-
-Write to a work book
-********************
-
-You can write a dictionary back to any file formats as you read the `Simple Usage` section. Keys will become the sheet names and values become the data content.
-
 How do I read a book, pocess it and save to a new book
 ******************************************************
 

@@ -254,8 +254,27 @@ The following code will produce what you want::
     >>> # "example.csv","example.xlsx","example.xlsm"
     >>> sheet = pyexcel.load("example.xls", name_columns_by_row=0)
     >>> records = sheet.to_records()
-    >>> print(json.dumps(records))
-    [{"Y": 2.0, "X": 1.0, "Z": 3.0}, {"Y": 5.0, "X": 4.0, "Z": 6.0}, {"Y": 8.0, "X": 7.0, "Z": 9.0}]
+    >>> for record in records:
+    ...     keys = sorted(record.keys())
+    ...     print("{")
+    ...     for key in keys:
+    ...         print("'%s':%d" % (key, record[key]))
+    ...     print("}")
+    {
+    'X':1
+    'Y':2
+    'Z':3
+    }
+    {
+    'X':4
+    'Y':5
+    'Z':6
+    }
+    {
+    'X':7
+    'Y':8
+    'Z':9
+    }
     >>> print(records[0]["X"]) # access first row and first item
     1.0
 
