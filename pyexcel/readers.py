@@ -62,7 +62,12 @@ class Book:
         :param dict sheets: a dictionary of sheets. Each sheet is a list of lists
         """
         self.sheets = OrderedDict()
-        for name in sheets.keys():
+        keys = sheets.keys()
+        if not isinstance(sheets, OrderedDict):
+            #if the end user does not care about the order
+            #we put alphatical order
+            keys = sorted(keys)
+        for name in keys:
             self.sheets[name] = self.get_sheet(sheets[name], name)
         self.name_array = list(self.sheets.keys())
 

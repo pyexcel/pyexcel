@@ -25,17 +25,31 @@ userid   name
 
 Let's read it out first::
 
-    >> import pyexcel
-    >> sheet = pyexcel.load("example.xls", name_columns_by_row=0)
-    >> sheet.to_dict()
-    {u'userid': [10120.0, 10121.0, 10122.0], u'name': [u'Adam', u'Bella', u'Cedar']}
+   >>> import pyexcel
+
+.. testcode::
+   :hide:
+
+   >>> data = [
+   ...     ["userid","name"],
+   ...     [10120,"Adam"],  
+   ...     [10121,"Bella"],
+   ...     [10122,"Cedar"]
+   ... ]
+   >>> s = pyexcel.Sheet(data)
+   >>> s.save_as("example.xls")
+
+.. testcode::
+   
+   >>> sheet = pyexcel.load("example.xls", name_columns_by_row=0)
+   >>> sheet.column["userid"]
+   [10120.0, 10121.0, 10122.0]
 
 As you can see, `userid` column is of `float` type. Next, let's convert the column to string format::
 
-    >> formatter = pyexcel.ColumnFormatter(0, str)
-    >> sheet.add_formatter(formatter)
-    >> sheet.to_dict()
-    {u'userid': ['10120.0', '10121.0', '10122.0'], u'name': [u'Adam', u'Bella', u'Cedar']}
+    >> sheet.column.format(0, str)
+    >> sheet.column["userid"]
+    ['10120.0', '10121.0', '10122.0']
 
 Now, they are in string format.
 
@@ -87,3 +101,9 @@ Version           Comments                     Author
 v0.0.1            Release versions             Eda
 v0.0.2            Useful updates               Freud
 ================= ============================ ================
+
+.. testcode::
+   :hide:
+
+   >>> import os
+   >>> os.unlink("example.xls")

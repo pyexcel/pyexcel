@@ -4,7 +4,11 @@ Simple usage
 Random access to individual cell
 --------------------------------
 
-For single sheet file, you can regard it as two dimensional array. So, you access each cell via this syntax: reader[row, column]. Suppose you have the following data, you can get value 5 by reader[1, 1].
+For single sheet file, you can regard it as two dimensional array. So, you access each cell via this syntax::
+
+    sheet[row, column]
+
+Suppose you have the following data, you can get value 5 by reader[2, 2].
 
 ======= = = =
 Example X Y Z
@@ -87,8 +91,15 @@ For the same reason, the row index has been reduced by 1. Since we have named co
     >>> print(sheet["b", "Y"])
     5.0
 
-For multiple sheet file, you can regard it as three dimensional array if you use `Book`. So, you access each cell via this syntax: reader[sheet_index][row][column] or reader["sheet_name"][row][column]. Suppose you have the following sheets. You can get 'P' from sheet 3 by using: bookreader["Sheet 3"][0][1] or bookreader[2][0][1]
+For multiple sheet file, you can regard it as three dimensional array if you use :class:`Book`. So, you access each cell via this syntax::
 
+    book[sheet_index][row, column]
+
+or::
+
+    book["sheet_name"][row, column]
+
+Suppose you have the following sheets:
 
 .. table:: Sheet 1
 
@@ -144,6 +155,8 @@ And you can randomly access a cell in a sheet::
 
     >>> book = pyexcel.load_book("example.xls")
     >>> print(book["Sheet 1"][0,0])
+    1.0
+    >>> print(book[0][0,0]) # the same cell
     1.0
 
 .. TIP::
@@ -240,11 +253,11 @@ The following code will produce what you want::
 
     >>> # "example.csv","example.xlsx","example.xlsm"
     >>> sheet = pyexcel.load("example.xls", name_columns_by_row=0)
-	>>> records = sheet.to_records()
+    >>> records = sheet.to_records()
     >>> print(json.dumps(records))
     [{"Y": 2.0, "X": 1.0, "Z": 3.0}, {"Y": 5.0, "X": 4.0, "Z": 6.0}, {"Y": 8.0, "X": 7.0, "Z": 9.0}]
-	>>> print(records[0]["X"]) # access first row and first item
-	1.0
+    >>> print(records[0]["X"]) # access first row and first item
+    1.0
 
 
 Writing a single sheet excel file
@@ -266,7 +279,7 @@ The following code will write it as an excel file of your choice::
     
     >>> array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     >>> # "output.xls" "output.xlsx" "output.ods" "output.xlsm"
-	>>> sheet = pyexcel.Sheet(array)
+    >>> sheet = pyexcel.Sheet(array)
     >>> sheet.save_as("output.csv")
 
 
@@ -284,9 +297,9 @@ The following code will write it as an excel file of your choice::
 
     
     >>> example_dict = {"Column 1": [1, 2, 3], "Column 2": [4, 5, 6], "Column 3": [7, 8, 9]}
-	>>> content = pyexcel.utils.dict_to_array(example_dict)
+    >>> content = pyexcel.utils.dict_to_array(example_dict)
     >>> # "output.xls" "output.xlsx" "output.ods" "output.xlsm"
-	>>> sheet = pyexcel.Sheet(content)
+    >>> sheet = pyexcel.Sheet(content)
     >>> sheet.save_as("output.csv")
 
 
@@ -327,8 +340,18 @@ Read multiple sheet excel file
 Let's read the previous file back:
     
     >>> book = pyexcel.load_book("output.xls")
-    >>> print(book.to_dict())
-    OrderedDict([(u'Sheet 2', [[u'X', u'Y', u'Z'], [1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]), (u'Sheet 3', [[u'O', u'P', u'Q'], [3.0, 2.0, 1.0], [4.0, 3.0, 2.0]]), (u'Sheet 1', [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]])])
+    >>> sheets = book.to_dict()
+    >>> for name in sheets.keys():
+    ...     print(name)
+    Sheet 1
+    Sheet 2
+    Sheet 3
 
+.. testcode::
+   :hide:
 
-
+   >>> import os
+   >>> os.unlink("output.xls")
+   >>> os.unlink("output.csv")
+   >>> os.unlink("example.xls")
+   >>> os.unlink("example_series.xls")
