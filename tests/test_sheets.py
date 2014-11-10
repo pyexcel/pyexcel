@@ -124,12 +124,28 @@ class TestSheetNamedColumn:
         s.column["Column 2"]  # bang
 
     @raises(ValueError)
-    def test_delete_indexed_column(self):
+    def test_delete_indexed_column1(self):
         s = pe.sheets.IndexSheet(self.data, "test")
         s.index_by_row(0)
         del s.column[1]
         assert s.number_of_columns() == 2
-        s.column["Column 2"]  # bang
+        s.column["Column 2"]  # access it after deletion, bang
+
+    @raises(ValueError)
+    def test_delete_indexed_column2(self):
+        s = pe.sheets.IndexSheet(self.data, "test")
+        s.index_by_row(0)
+        del s.column["Column 2"]
+        assert s.number_of_columns() == 2
+        s.column["Column 2"]  # access it after deletion, bang
+
+    @raises(ValueError)
+    def test_delete_indexed_column(self):
+        s = pe.sheets.IndexSheet(self.data, "test")
+        s.index_by_row(0)
+        s.delete_named_column_at(1)
+        assert s.number_of_columns() == 2
+        s.column["Column 2"]  # access it after deletion, bang
 
 
 class TestSheetNamedColumn2:
@@ -198,6 +214,19 @@ class TestSheetNamedRow:
         s.format(f)
         assert s.row["Row 1"] == ["1", "2", "3"]
 
+    def test_row_series_to_dict(self):
+        s = pe.sheets.IndexSheet(self.data, "test")
+        s.index_by_column(0)
+        content = s.to_dict(True)
+        keys = ["Row 0", "Row 1", "Row 2", "Row 3"]
+        assert keys == list(content.keys())
+
+    @raises(TypeError)
+    def test_formatter_by_named_row(self):
+        s = pe.sheets.IndexSheet(self.data, "test")
+        s.index_by_column(0)
+        s.extend_rows([1,2])
+
     def test_formatter_by_named_row2(self):
         """Test a list of string as index"""
         s = pe.sheets.IndexSheet(self.data, "test")
@@ -237,7 +266,7 @@ class TestSheetNamedRow:
         s = s.row + "string type"  # bang
 
     @raises(ValueError)
-    def test_delete_named_column(self):
+    def test_delete_named_row(self):
         s = pe.sheets.IndexSheet(self.data, "test")
         s.index_by_column(0)
         del s.row["Row 2"]
@@ -245,10 +274,18 @@ class TestSheetNamedRow:
         s.row["Row 2"]  # already deleted
 
     @raises(ValueError)
-    def test_delete_indexed_column(self):
+    def test_delete_indexed_row1(self):
         s = pe.sheets.IndexSheet(self.data, "test")
         s.index_by_column(0)
         del s.row[2]
+        assert s.number_of_rows() == 3
+        s.row["Row 2"]  # already deleted
+
+    @raises(ValueError)
+    def test_delete_indexed_row2(self):
+        s = pe.sheets.IndexSheet(self.data, "test")
+        s.index_by_column(0)
+        s.delete_named_row_at(2)
         assert s.number_of_rows() == 3
         s.row["Row 2"]  # already deleted
 

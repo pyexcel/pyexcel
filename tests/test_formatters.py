@@ -244,9 +244,9 @@ class TestColumnFormatter:
 
     def test_column_format_specs_on_demand(self):
         r = pe.Reader(self.test_tuple)
-        r.column.format(format_specs=[[0, str], [[2,3,4], float]], on_demand=True)
+        r.column.format(format_specs=[[0, float, lambda v: int(v)+1], [[2,3,4], float]])
         c1 = r.column_at(0)[1:]
-        c2 = self.data["2"]
+        c2 = self.data["5"]
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
         c1 = r.column_at(3)[1:]
@@ -452,9 +452,21 @@ class TestRowFormatter:
         c2 = [1, "1", 1.1, "1.1", 2, "2"]
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
-        r.row.format(format_specs=[[1,int],[1,str]])
+        r.row.format(format_specs=[[1, int],[1,str]])
         c1 = r.row_at(1)
         c2 = ['1', '1', '1', '1', '2', '2']
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+
+    def test_two_formatters_with_row_fomat_custom_func(self):
+        r = pe.Reader(self.testfile)
+        c1 = r.row_at(1)
+        c2 = [1, "1", 1.1, "1.1", 2, "2"]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+        r.row.format(format_specs=[[1, int, lambda v: float(v)+1],[1,str]])
+        c1 = r.row_at(1)
+        c2 = ['2.0', '2.0', '2.1', '2.1', '3.0', '3.0']
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
 

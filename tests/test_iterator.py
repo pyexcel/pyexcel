@@ -29,7 +29,7 @@ class TestMatrixColumn:
     def test_get_with_a_wrong_index(self):
         """Get with a wrong index"""
         m = pe.iterators.Matrix(self.data)
-        m.column["hello"]  # bang, string type index
+        m.column[1.11]  # bang, string type index
         
     @raises(IndexError)
     def test_delete_with_a_wrong_index(self):
@@ -49,6 +49,13 @@ class TestMatrixColumn:
         m.extend_columns(self.data3)
         actual = pe.utils.to_array(m)
         assert self.result == actual
+
+    def test_extend_column(self):
+        """test extend just one column"""
+        m = pe.iterators.Matrix(self.data)
+        m.extend_columns([1, 1])
+        assert m.row[0] == self.result[0][:7]
+        
 
     @raises(TypeError)
     def test_extend_columns2(self):
