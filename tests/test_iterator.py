@@ -47,7 +47,6 @@ class TestMatrixColumn:
     @raises(IndexError)
     def test_set_column_with_a_wrong_column_index(self):
         """Get with a wrong index"""
-        import pdb; pdb.set_trace()
         m = pe.iterators.Matrix(self.data)
         m.column[1.11] = 1 # bang, string type index 
 

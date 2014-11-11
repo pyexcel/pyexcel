@@ -1,6 +1,6 @@
-========
-pyexcel 
-========
+========================================================
+pyexcel - Let you focus on data, instead of file formats
+========================================================
 
 .. image:: https://api.travis-ci.org/chfw/pyexcel.svg?branch=master
     :target: http://travis-ci.org/chfw/pyexcel
@@ -84,12 +84,13 @@ Plugin compatibility management
 ======= ======== ====== 
 pyexcel ods      ods3
 ======= ======== ======
-v0.0.1  n/a      n/a
-v0.0.2	                	   
-v0.0.3                  		   
-v0.0.4  0.0.1    0.0.1
-v0.0.5                  		   
+v0.0.7
 v0.0.6  0.0.2    0.0.2
+v0.0.5                  		   
+v0.0.4  0.0.1    0.0.1
+v0.0.3                  		   
+v0.0.2	                	   
+v0.0.1  n/a      n/a
 ======= ======== ======
 
 Test 
