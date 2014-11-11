@@ -689,7 +689,7 @@ class IndexSheet(MultipleFilterableSheet):
         else:
             index = self.colnames.index(name)
             self.colnames.pop(index)
-            self.delete_columns([index])
+            MultipleFilterableSheet.delete_columns(self, [index])
 
     def named_row_at(self, name):
         """Get a row by its name """
@@ -724,7 +724,7 @@ class IndexSheet(MultipleFilterableSheet):
         else:
             index = self.rownames.index(name)
             self.rownames.pop(index)
-            self.delete_rows([index])
+            MultipleFilterableSheet.delete_rows(self, [index])
 
     def apply_formatter(self, aformatter):
         """Apply the formatter immediately.
@@ -782,6 +782,12 @@ class IndexSheet(MultipleFilterableSheet):
         else:
             MultipleFilterableSheet.extend_rows(self, rows)
 
+    def extend_columns_with_rows(self, rows):
+        if len(self.colnames) > 0:
+            headers = rows.pop(self.row_index)
+            self._column_names += headers
+        MultipleFilterableSheet.extend_columns_with_rows(self, rows)
+        
     def extend_columns(self, columns):
         """Take ordereddict to extend named columns
 

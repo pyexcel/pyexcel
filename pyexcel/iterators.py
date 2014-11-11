@@ -704,9 +704,9 @@ class Matrix:
         if not is_array_type(columns, list):
             incoming_data = [columns]
         incoming_data = transpose(incoming_data)
-        self.extend_columns_with_rows(incoming_data)    
+        self._extend_columns_with_rows(incoming_data)    
 
-    def extend_columns_with_rows(self, rows):
+    def _extend_columns_with_rows(self, rows):
         current_nrows = self.number_of_rows()
         current_ncols = self.number_of_columns()
         insert_column_nrows = len(rows)
@@ -723,6 +723,8 @@ class Matrix:
                 self.array.append(new_array)
         self.array = uniform(self.array)
 
+    def extend_columns_with_rows(self, rows):
+        self._extend_columns_with_rows(rows)
     def delete_columns(self, column_indices):
         """Delete columns by specified list of indices
         """

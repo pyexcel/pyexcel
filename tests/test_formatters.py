@@ -330,6 +330,12 @@ class TestColumnFormatter:
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
 
+    @raises(NotImplementedError)
+    def test_named_formatter(self):
+        """Test wrong data type to update_index"""
+        nrf = pe.formatters.NamedColumnFormatter("abc", str)
+        nrf.update_index("abc")
+        
 
 class TestRowFormatter:
     def setUp(self):
@@ -524,7 +530,12 @@ class TestRowFormatter:
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
 
-
+    @raises(NotImplementedError)
+    def test_named_formatter(self):
+        """Test wrong data type to update_index"""
+        nrf = pe.formatters.NamedRowFormatter("abc", str)
+        nrf.update_index("abc")
+        
     def tearDown(self):
         clean_up_files([self.testfile])
 

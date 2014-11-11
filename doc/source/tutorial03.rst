@@ -67,19 +67,35 @@ Sometimes, the data in a spreadsheet may have unwanted strings in all or some ce
 &nbsp; v0.0.2     Useful updates &nbsp; &nbsp;  &nbsp;Freud
 ================= ============================ ================
 
+.. testcode::
+   :hide:
+
+   >>> data = [
+   ...     ["        Version", "        Comments", "       Author &nbsp;"],
+   ...     ["  v0.0.1       ", " Release versions","           &nbsp;Eda"],
+   ...     ["&nbsp; v0.0.2  ", "Useful updates &nbsp; &nbsp;", "  &nbsp;Freud"]
+   ... ]
+   >>> s = pyexcel.Sheet(data)
+   >>> s.save_as("example.xls")
+
 First, let's read the content and see what do we have::
 
-    >> import pyexcel
-    >> sheet = pyexcel.load("tutorial_datatype_02.xls")
-    >> sheet.to_array()
-    [[u'Version', u'Comments', u'Author &nbsp;'], [u'v0.0.1 ', u'Release versions',
-    u'&nbsp;Eda'], [u'&nbsp; V0.02 ', u'Useful updates &nbsp; &nbsp;', u'&nbsp;Freud
-    ']]
+   >>> sheet = pyexcel.load("example.xls")
+
+.. testcode::
+   :hide:
+
+   >>> sheet.format(pyexcel.formatters.SheetFormatter(str, lambda v: str(v)))
+
+.. testcode::
+  
+   >>> sheet.to_array()
+   [['        Version', '        Comments', '       Author &nbsp;'], ['  v0.0.1       ', ' Release versions', '           &nbsp;Eda'], ['&nbsp; v0.0.2  ', 'Useful updates &nbsp; &nbsp;', '  &nbsp;Freud']]
 
 
 Now try to create a custom cleanse function::
   
-    >> def cleanse_func(v, t):
+    >>> def cleanse_func(v):
     ...     v = v.replace("&nbsp;", "")
     ...     v = v.rstrip().strip()
     ...     return v
@@ -87,11 +103,10 @@ Now try to create a custom cleanse function::
 
 Then let's create a `SheetFormatter` and apply it::
 
-    >> sf = pyexcel.formatters.SheetFormatter(str, cleanse_func)
-    >> sheet.add_formatter(sf)
-    >> sheet.to_array()
-    [[u'Version', u'Comments', u'Author'], [u'v0.0.1', u'Release versions', u'Eda'],
-     [u'V0.02', u'Useful updates', u'Freud']]
+    >>> sf = pyexcel.formatters.SheetFormatter(str, cleanse_func)
+    >>> sheet.add_formatter(sf)
+    >>> sheet.to_array()
+    [['Version', 'Comments', 'Author'], ['v0.0.1', 'Release versions', 'Eda'], ['v0.0.2', 'Useful updates', 'Freud']]
 
 So in the end, you get this:
 
