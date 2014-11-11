@@ -687,8 +687,8 @@ class IndexSheet(MultipleFilterableSheet):
                 self.rownames.pop(name)
             self.delete_columns([name])
         else:
-            index = self.rownames.index(name)
-            self.rownames.pop(index)
+            index = self.colnames.index(name)
+            self.colnames.pop(index)
             self.delete_columns([index])
 
     def named_row_at(self, name):
@@ -840,6 +840,7 @@ class IndexSheet(MultipleFilterableSheet):
             return self.cell_value(row, column)
         else:
             return Matrix.__getitem__(self, aset)
+
 
 class Sheet(IndexSheet):
     """Two dimensional data container for filtering, formatting and custom iteration

@@ -222,7 +222,7 @@ class TestSheetNamedRow:
         assert keys == list(content.keys())
 
     @raises(TypeError)
-    def test_formatter_by_named_row(self):
+    def test_extend_rows_using_wrong_data_type(self):
         s = pe.sheets.IndexSheet(self.data, "test")
         s.index_by_column(0)
         s.extend_rows([1,2])

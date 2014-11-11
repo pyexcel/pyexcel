@@ -20,6 +20,13 @@ class TestMatrixColumn:
             [1, '', '', '', '', '', '', '']
         ]
 
+    def test_to_array(self):
+        m = pe.iterators.Matrix(self.data)
+        data = m.to_array()
+        result = [[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, '', ''], [1, '', '', '', '', '']]
+        assert data == result
+
+
     def test_get_slice_of_columns(self):
         m = pe.iterators.Matrix(self.data)
         data = m.column[:2]
@@ -35,13 +42,25 @@ class TestMatrixColumn:
     def test_delete_with_a_wrong_index(self):
         """Get with a wrong index"""
         m = pe.iterators.Matrix(self.data)
-        del m.column["hello"]  # bang, string type index 
+        del m.column[1.11]  # bang, string type index 
 
     @raises(IndexError)
     def test_set_with_a_wrong_index(self):
         """Get with a wrong index"""
         m = pe.iterators.Matrix(self.data)
         m.column[1.11] = 1 # bang, string type index 
+
+    @raises(IndexError)
+    def test_set_with_a_wrong_index(self):
+        """Get with a wrong index"""
+        m = pe.iterators.Matrix(self.data)
+        m[1.1] # bang, 
+
+    @raises(IndexError)
+    def test_set_with_a_wrong_index(self):
+        """Get with a wrong index"""
+        m = pe.iterators.Matrix(self.data)
+        m[1.1] = 1 # bang, 
 
     def test_extend_columns(self):
         """Test extend columns"""
@@ -56,7 +75,6 @@ class TestMatrixColumn:
         m.extend_columns([1, 1])
         assert m.row[0] == self.result[0][:7]
         
-
     @raises(TypeError)
     def test_extend_columns2(self):
         """Test extend columns"""
