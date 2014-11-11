@@ -245,6 +245,7 @@ class TestSeriesReader3:
         assert test_data == actual
         s.index_by_row(2)
         assert s.colnames == test_data[2]
+        assert s.series() == test_data[2]
         
     def test_row_filter(self):
         r = pe.SeriesReader(self.testfile)

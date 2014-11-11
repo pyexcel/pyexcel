@@ -861,11 +861,23 @@ class Sheet(IndexSheet):
     array. 
     """
     def become_series(self, series=0):
-        return IndexSheet(self.array, self.name, series)
+        """Keep backward compactibility"""
+        print("Deprecated! Please use colnames. This function will be removed in 0.0.8")
+        self.name_columns_by_row(series)
+        return self
+
+    def series(self):
+        """Keep backward compactibility"""
+        print("Deprecated! Please use colnames. This function will be removed in 0.0.8")
+        return self.colnames
 
     def is_series(self):
         """Keep backward compactibility"""
-        return False
+        print("Deprecated! This function will be removed in 0.0.8")
+        if len(self.colnames) > 0:
+            return True
+        else:
+            return False
 
     def save_as(self, filename):
         """Save the content to a named file"""

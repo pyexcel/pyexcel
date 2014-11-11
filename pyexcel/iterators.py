@@ -264,6 +264,7 @@ class Column:
 
     def __setitem__(self, aslice, c):
         """Override the operator to set items"""
+        import pdb; pdb.set_trace()
         if isinstance(aslice, slice):
             my_range = _analyse_slice(aslice, self.ref.number_of_columns())
             for i in my_range:

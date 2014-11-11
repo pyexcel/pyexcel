@@ -33,25 +33,26 @@ class TestMatrixColumn:
         assert data == [[1, 1, 1], [2, 2, '']]
 
     @raises(IndexError)
-    def test_get_with_a_wrong_index(self):
+    def test_get_with_a_wrong_column_index(self):
         """Get with a wrong index"""
         m = pe.iterators.Matrix(self.data)
         m.column[1.11]  # bang, string type index
         
     @raises(IndexError)
-    def test_delete_with_a_wrong_index(self):
+    def test_delete_with_a_wrong_column_index(self):
         """Get with a wrong index"""
         m = pe.iterators.Matrix(self.data)
         del m.column[1.11]  # bang, string type index 
 
     @raises(IndexError)
-    def test_set_with_a_wrong_index(self):
+    def test_set_column_with_a_wrong_column_index(self):
         """Get with a wrong index"""
+        import pdb; pdb.set_trace()
         m = pe.iterators.Matrix(self.data)
         m.column[1.11] = 1 # bang, string type index 
 
     @raises(IndexError)
-    def test_set_with_a_wrong_index(self):
+    def test_get_with_a_wrong_index(self):
         """Get with a wrong index"""
         m = pe.iterators.Matrix(self.data)
         m[1.1] # bang, 
@@ -60,8 +61,8 @@ class TestMatrixColumn:
     def test_set_with_a_wrong_index(self):
         """Get with a wrong index"""
         m = pe.iterators.Matrix(self.data)
-        m[1.1] = 1 # bang, 
-
+        m[1.1] = 1 # bang,
+        
     def test_extend_columns(self):
         """Test extend columns"""
         m = pe.iterators.Matrix(self.data)
