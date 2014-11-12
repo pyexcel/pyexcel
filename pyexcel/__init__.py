@@ -24,6 +24,7 @@ from .readers import (SeriesReader,
                       PlainReader,
                       FilterableReader)
 from .utils import to_dict, to_array, to_records, dict_to_array, from_records
+from .iterators import transpose
 from .formatters import (ColumnFormatter,
                          RowFormatter,
                          SheetFormatter,

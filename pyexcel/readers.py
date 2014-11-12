@@ -251,7 +251,7 @@ def load(file, sheetname=None, name_columns_by_row=-1, name_rows_by_column=-1, *
                  name_rows_by_column=name_rows_by_column)
 
 
-def load_from_memory(file_type, file_content, sheetname, **keywords):
+def load_from_memory(file_type, file_content, sheetname=None, **keywords):
     """Constructs an instance :class:`Sheet` from memory
 
     :param str file_type: one value of these: 'csv', 'xls', 'xlsm', 'xslm', 'ods'

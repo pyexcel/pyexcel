@@ -180,6 +180,10 @@ class TestXLSReader(PyexcelBase):
         self.testfile = "test.xls"
         self._write_test_file(self.testfile)
 
+    @raises(KeyError)
+    def test_wrong_sheet(self):
+        pe.load(self.testfile, "Noexistent Sheet")
+
     def tearDown(self):
         clean_up_files([self.testfile])
 
@@ -460,9 +464,8 @@ class TestColumnSeriesReader:
             [4, 41, 42],
             [5, 51, 52]
         ]
-        w = pe.Writer((file_type, io))
-        w.write_columns(self.content)
-        w.close()
+        sheet = pe.Sheet(pe.transpose(self.content), name_rows_by_column=0)
+        sheet.save_to_memory(file_type, io)
         self.test_tuple = (file_type, io.getvalue())
 
     def test_row_filter(self):

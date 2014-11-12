@@ -52,6 +52,14 @@ class SheetWriter:
         array = dict_to_array(the_dict)
         self.write_rows(array)
 
+    def write_dict_columns(self, the_dict):
+        """Write a dictionary
+        
+        :param dict the_dict: the dictionary to be writeen
+        """
+        array = dict_to_array(the_dict)
+        self.write_columns(array)
+
     def write_reader(self, reader):
         """Write a reader/sheet
 
@@ -60,7 +68,7 @@ class SheetWriter:
         if not isinstance(reader, Matrix):
             raise TypeError
         if len(reader.rownames) > 0:
-            self.write_dict(reader.to_dict(True))
+            self.write_dict_columns(reader.to_dict(True))
         elif len(reader.colnames) > 0:
             self.write_dict(reader.to_dict())
         else:

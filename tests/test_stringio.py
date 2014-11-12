@@ -29,7 +29,7 @@ class TestIO:
         create_sample_file1(csvfile)
         with open(csvfile, "r") as f:
             content = f.read()
-            r = pe.Reader(("csv", content))
+            r = pe.load_from_memory("csv", content)
             result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', '1.1', '1']
             actual = pe.utils.to_array(r.enumerate())
             assert result == actual
@@ -41,7 +41,7 @@ class TestIO:
         create_sample_file1(csvfile)
         with open(csvfile, "rb") as f:
             content = f.read()
-            r = pe.Reader(("xls", content))
+            r = pe.load_from_memory("xls", content)
             result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
             actual = pe.utils.to_array(r.enumerate())
             assert result == actual
@@ -82,7 +82,7 @@ class TestIO:
         r = pe.Sheet(data)
         io = StringIO()
         r.save_to_memory("csv", io)
-        r = pe.Reader(("csv", io.getvalue()))
+        r = pe.load_from_memory("csv", io.getvalue())
         result=['1', '2', '3', '4', '5', '6']
         actual = pe.utils.to_array(r.enumerate())
         assert actual == result
@@ -96,7 +96,7 @@ class TestIO:
         w = pe.Writer(("xls",io))
         w.write_rows(data)
         w.close()
-        r = pe.Reader(("xls", io.getvalue()))
+        r = pe.load_from_memory("xls", io.getvalue())
         result=[1, 2, 3, 4, 5, 6]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
@@ -110,7 +110,7 @@ class TestIO:
         w = pe.Writer(("xlsm",io))
         w.write_rows(data)
         w.close()
-        r = pe.Reader(("xlsm", io.getvalue()))
+        r = pe.load_from_memory("xlsm", io.getvalue())
         result=[1, 2, 3, 4, 5, 6]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
