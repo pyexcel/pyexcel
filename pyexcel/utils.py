@@ -123,7 +123,9 @@ def dict_to_array(the_dict, with_keys=True):
     :param bool with_keys: to write the keys as the first row or not
     """
     content = []
-    keys = sorted(the_dict.keys())
+    keys = the_dict.keys()
+    if not isinstance(the_dict, OrderedDict):
+        keys = sorted(keys)
     if with_keys:
         content.append(keys)
     max_length = -1

@@ -16,15 +16,27 @@ Column 1 Column 2 Column 3
 3        6        9
 ======== ======== ========
 
+.. testcode::
+   :hide:
+
+   >>> import pyexcel
+   >>> data = [
+   ...      ["Column 1", "Column 2", "Column 3"],
+   ...      [1, 2, 3],
+   ...      [4, 5, 6],
+   ...      [7, 8, 9]
+   ...  ]
+   >>> s = pyexcel.Sheet(data)
+   >>> s.save_as("example.xls")
+
+
 And you want to update ``Column 2`` with these data: [11, 12, 13]
 
 Here is the code::
 
-    from pyexcel.cookbook import update_columns
-
-    
-    custom_column = {"Column 2":[11, 12, 13]}
-    update_columns("example1.csv", custom_column, "output.xls")
+   >>> from pyexcel.cookbook import update_columns
+   >>> custom_column = {"Column 2":[11, 12, 13]}
+   >>> update_columns("example.xls", custom_column, "output.xls")
 
 Your output.xls will have these data:
 
@@ -36,32 +48,47 @@ Column 1 Column 2 Column 3
 3        13       9
 ======== ======== ========
 
+.. testcode::
+   :hide:
+
+   >>> import os
+   >>> os.unlink("example.xls")
+   >>> os.unlink("output.xls")
+
 Update one row of a data file
 ---------------------------------
 
 Suppose you have the same data file:
 
-example1.csv
+example.xls
 
-======== ======== ========
-Column 1 Column 2 Column 3
-======== ======== ========
-1        4        7
-2        5        8
-3        6        9
-======== ======== ========
+===== = = =
+Row 1 1 2 3
+Row 2 4 5 6
+Row 3 7 8 9
+===== = = =
+
+.. testcode::
+   :hide:
+
+   >>> import pyexcel
+   >>> data = [
+   ...      ["Row 1", 1, 2, 3],
+   ...      ["Row 2", 4, 5, 6],
+   ...      ["Row 3", 7, 8, 9]
+   ... ]
+   >>> s = pyexcel.Sheet(data)
+   >>> s.save_as("example.xls")
 
 And you want to update the second row with these data: [7, 4, 1]
 
 Here is the code::
 
-    from pyexcel.cookbook import update_columns
+   >>> from pyexcel.cookbook import update_rows
+   >>> custom_row = {"Row 1":[11, 12, 13]}
+   >>> update_rows("example.xls", custom_row, "output.xls")
 
-    
-    custom_row = {1:[11, 12, 13]}
-    update_columns("example1.csv", custom_row, "output.xls")
-
-Your oupt.xls will have these data:
+Your output.xls will have these data:
 
 ======== ======== ========
 Column 1 Column 2 Column 3
@@ -71,6 +98,9 @@ Column 1 Column 2 Column 3
 3        6        9
 ======== ======== ========
 
+   >>> import os
+   >>> os.unlink("example.xls")
+   >>> os.unlink("output.xls")
 
 Merge two files into one
 -------------------------
@@ -142,7 +172,7 @@ And you want to filter out column 2 and 4 from example.ods,  filter out column 6
 ======== ======== ======== ======== ======== =========
 Column 1 Column 3 Column 5 Column 8 Column 9 Column 10
 ======== ======== ======== ======== ======== =========
-1        7        13       18       19       20		 
+1        7        13       18       19       20      
 2        8        14                                    
 3        9        15                           
 ======== ======== ======== ======== ======== =========

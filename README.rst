@@ -25,6 +25,8 @@ pyexcel - Let you focus on data, instead of file formats
 
 It was created due to the lack of uniform programming interface to access data in different formats. A developer needs to use different methods of different libraries to read the same data in different excel formats, hence the resulting code is cluttered and unmaintainable.
 
+In addition, the library recognizes that Excel files are de-facto file format for information sharing in non-software centric organisations. Excel files are not only used for mathematical computation in financial institutions but also used for many othe purposes in an office work environment.
+
 All great work have done by odf, ezodf(2), xlrd and other individual developers. This library unites only the data access code.
 
 Usage

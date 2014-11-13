@@ -8,7 +8,7 @@
     :license: GPL v3
 """
 import os
-from .readers import SeriesReader, Reader, Book, load_book
+from .readers import load,  Reader, Book, load_book
 from .utils import to_dict, to_array
 from .writers import Writer, BookWriter
 
@@ -33,7 +33,7 @@ def update_columns(infilename, column_dicts, outfilename=None):
         default_out_file = outfilename
     if os.path.exists(default_out_file):
         raise NotImplementedError(__WARNING_TEXT__)
-    r = SeriesReader(infilename)
+    r = load(infilename, name_columns_by_row=0)
     series = r.colnames
     for k in column_dicts.keys():
         index = series.index(k)
@@ -57,12 +57,12 @@ def update_rows(infilename, row_dicts, outfilename=None):
         default_out_file = outfilename
     if os.path.exists(default_out_file):
         raise NotImplementedError(__WARNING_TEXT__)
-    r = Reader(infilename)
+    r = load(infilename, name_rows_by_column=0)
+    series = r.rownames
     for k in row_dicts.keys():
-        r.set_row_at(k, row_dicts[k])
-    w = Writer(default_out_file)
-    w.write_reader(r)
-    w.close()
+        index = series.index(k)
+        r.set_row_at(index, row_dicts[k])
+    r.save_as(default_out_file)
 
 
 def merge_files(file_array, outfilename="pyexcel_merged.csv"):

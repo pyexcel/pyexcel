@@ -1,3 +1,10 @@
+"""
+pyexcel_server.py
+:copyright: (c) 2014 by C. W.
+:license: GPL v3
+
+This file shows you how to use column format function
+"""
 import pyexcel as pe
 
 sheet = pe.load("tutorial_datatype_01.xls", name_colmns_by_row=0)

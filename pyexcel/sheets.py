@@ -694,8 +694,8 @@ class IndexSheet(MultipleFilterableSheet):
     def named_row_at(self, name):
         """Get a row by its name """
         index = name
-        if is_string(type(index)):
-            index = self.rownames.index(name)
+        #if is_string(type(index)):        
+        index = self.rownames.index(name)
         row_array = self.row_at(index)
         return row_array
 
