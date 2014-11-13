@@ -107,7 +107,7 @@ Merge two files into one
 
 Suppose you want to merge the following two data files:
 
-example1.csv
+example.csv
 
 ======== ======== ========
 Column 1 Column 2 Column 3
@@ -117,7 +117,7 @@ Column 1 Column 2 Column 3
 3        6        9
 ======== ======== ========
 
-example2.ods
+example.xls
 
 ======== ========
 Column 4 Column 5
@@ -126,12 +126,30 @@ Column 4 Column 5
 11       13      
 ======== ========
 
+.. testcode::
+   :hide:
+
+   >>> data = [
+   ...      ["Column 1", "Column 2", "Column 3"],
+   ...      [1, 2, 3],
+   ...      [4, 5, 6],
+   ...      [7, 8, 9]
+   ...  ]
+   >>> s = pyexcel.Sheet(data)
+   >>> s.save_as("example.csv")
+   >>> data = [
+   ...      ["Column 4", "Column 5"],
+   ...      [10, 12],
+   ...      [11, 13]
+   ...  ]
+   >>> s = pyexcel.Sheet(data)
+   >>> s.save_as("example.xls")
+
+
 The following code will merge the tow into one file, say "output.xls"::
 
-    from pyexcel.cookbook import merge_two_files
-
-
-    merge_two_files("example1.csv", "example2.ods", "output.xls")
+   >>> from pyexcel.cookbook import merge_two_files
+   >>> merge_two_files("example.csv", "example.xls", "output.xls")
 
 The output.xls would have the following data:
 
