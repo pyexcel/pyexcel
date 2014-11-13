@@ -46,4 +46,4 @@ from .cookbook import (merge_csv_to_a_book,
                        split_a_book,
                        extract_a_sheet_from_a_book)
 
-__VERSION__ = '0.0.7'
+__VERSION__ = '0.0.8'

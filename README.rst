@@ -34,7 +34,7 @@ Usage
 
     >>> import pyexcel as pe
     >>> book = pe.load_book("your_file.xls")
-    >>> book.to_dict() # v0.0.7
+    >>> book.to_dict() 
     {"Sheet 1":[[1, 2, 3], ["4", "5", "6"]], "Sheet 2": [["a", "b", "c"], ["e", "f", "g"]], "Sheet 3":[[True, True, False]]}
     >>> # access first sheet's top left cell
     >>> print(book["Sheet 1"]["A1"])
@@ -51,7 +51,7 @@ Latest document is hosted at `pyexcel@read the docs <https://pyexcel.readthedocs
 Latest stable
 =============
 
-0.0.6
+0.0.7
 
 Installation
 ============
@@ -86,6 +86,7 @@ Plugin compatibility management
 ======= ======== ====== 
 pyexcel ods      ods3
 ======= ======== ======
+v0.0.8
 v0.0.7
 v0.0.6  0.0.2    0.0.2
 v0.0.5                  		   
@@ -107,7 +108,7 @@ On Windows, please use::
 
     test.bat
 
-Test coverage is shown in `codecov.io <https://codecov.io/github/chfw/pyexcel>`_ . For more local test coverage, you can add `--cover-html --cover-html-dir=your_file_directory` to `test.sh` or `test.bat`
+For more local test coverage, you can add `--cover-html --cover-html-dir=your_file_directory` to `test.sh` or `test.bat`
 
 
 Known Issues
