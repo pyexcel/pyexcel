@@ -11,6 +11,7 @@ import os
 from .readers import load,  Reader, Book, load_book
 from .utils import to_dict, to_array
 from .writers import Writer, BookWriter
+from ._compact import OrderedDict
 
 
 __WARNING_TEXT__ = "We do not overwrite files"
@@ -102,7 +103,7 @@ def merge_readers(reader_array, outfilename="pyexcel_merged.csv"):
     """
     if os.path.exists(outfilename):
         raise NotImplementedError(__WARNING_TEXT__)
-    content = {}
+    content = OrderedDict()
     for r in reader_array:
         content.update(to_dict(r))
     w = Writer(outfilename)

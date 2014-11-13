@@ -31,6 +31,8 @@ from .formatters import (ColumnFormatter,
                          NamedColumnFormatter,
                          NamedRowFormatter)
 from .filters import (ColumnIndexFilter,
+                      ColumnFilter,
+                      RowFilter,
                       EvenColumnFilter,
                       OddColumnFilter,
                       EvenRowFilter,
