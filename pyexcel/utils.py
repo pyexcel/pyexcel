@@ -7,6 +7,7 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
+import six
 from .sheets import IndexSheet, Sheet
 from ._compact import OrderedDict
 
@@ -124,6 +125,8 @@ def dict_to_array(the_dict, with_keys=True):
     """
     content = []
     keys = the_dict.keys()
+    if six.PY3:
+        keys = list(keys)
     if not isinstance(the_dict, OrderedDict):
         keys = sorted(keys)
     if with_keys:
