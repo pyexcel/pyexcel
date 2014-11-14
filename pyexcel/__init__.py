@@ -11,39 +11,44 @@
     :license: GPL v3
 """
 
-from .readers import (Reader,
-                      BookReader,
-                      Book,
-                      load,
-                      load_from_memory,
-                      load_book,
-                      load_book_from_memory)
+from .readers import (
+    BookReader,
+    Book,
+    load_book,
+    load_book_from_memory)
 from .writers import Writer, BookWriter
-from .readers import (SeriesReader,
-                      ColumnSeriesReader,
-                      PlainReader,
-                      FilterableReader)
+from .sheets import (
+    Sheet,
+    load,
+    load_from_memory,
+    Reader,
+    SeriesReader,
+    ColumnSeriesReader,
+    PlainReader,
+    FilterableReader)
 from .utils import to_dict, to_array, to_records, dict_to_array, from_records
 from .iterators import transpose
-from .formatters import (ColumnFormatter,
-                         RowFormatter,
-                         SheetFormatter,
-                         NamedColumnFormatter,
-                         NamedRowFormatter)
-from .filters import (ColumnIndexFilter,
-                      ColumnFilter,
-                      RowFilter,
-                      EvenColumnFilter,
-                      OddColumnFilter,
-                      EvenRowFilter,
-                      OddRowFilter,
-                      RowIndexFilter,
-                      SingleColumnFilter,
-                      SingleRowFilter)
-from .sheets import Sheet
-from .cookbook import (merge_csv_to_a_book,
-                       merge_all_to_a_book,
-                       split_a_book,
-                       extract_a_sheet_from_a_book)
+from .formatters import (
+    ColumnFormatter,
+    RowFormatter,
+    SheetFormatter,
+    NamedColumnFormatter,
+    NamedRowFormatter)
+from .filters import (
+    ColumnIndexFilter,
+    ColumnFilter,
+    RowFilter,
+    EvenColumnFilter,
+    OddColumnFilter,
+    EvenRowFilter,
+    OddRowFilter,
+    RowIndexFilter,
+    SingleColumnFilter,
+    SingleRowFilter)
+from .cookbook import (
+    merge_csv_to_a_book,
+    merge_all_to_a_book,
+    split_a_book,
+    extract_a_sheet_from_a_book)
 
 __VERSION__ = '0.0.8'

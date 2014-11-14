@@ -155,7 +155,7 @@ class TestReaderWithFilter:
         assert r.row[3] == content[3]
 
     def test_add_rows_even_row_filter2(self):
-        r = pe.readers.FilterableReader(self.testfile)
+        r = pe.FilterableReader(self.testfile)
         r.add_filter(pe.filters.EvenRowFilter())
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4

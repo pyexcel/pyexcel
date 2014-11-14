@@ -10,11 +10,7 @@
 import six
 import csv
 import codecs
-from ..sheets import is_string
-if six.PY2:
-    from StringIO import StringIO
-else:
-    from io import StringIO
+from .._compact import is_string, StringIO
 
 
 class UTF8Recorder(six.Iterator):

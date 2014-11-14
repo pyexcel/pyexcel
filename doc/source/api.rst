@@ -106,20 +106,20 @@ Any column as row name
    :toctree: generated/
 
    Sheet.name_columns_by_row
-   Sheet.colnames
+   Sheet.rownames
    Sheet.named_column_at
    Sheet.set_named_column_at
    Sheet.delete_named_column_at
 
 
-Any column as row names
+Any row as column name
 ************************
 
 .. autosummary::
    :toctree: generated/
 
    Sheet.name_rows_by_column
-   Sheet.rownames
+   Sheet.colnames
    Sheet.named_row_at
    Sheet.set_named_row_at
    Sheet.delete_named_row_at

@@ -10,7 +10,7 @@
 """
 from .csvbook import CSVBook, CSVWriter
 from .xlbook import XLBook, XLWriter
-from ..sheets import is_string
+from .._compact import is_string
 
 # A list of registered readers
 READERS = {

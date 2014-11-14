@@ -8,7 +8,8 @@
     :license: GPL v3
 """
 import os
-from .readers import load,  Reader, Book, load_book
+from .readers import Book, load_book
+from .sheets import load, Reader
 from .utils import to_dict, to_array
 from .writers import Writer, BookWriter
 from ._compact import OrderedDict
