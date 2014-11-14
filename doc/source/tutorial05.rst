@@ -8,7 +8,7 @@ Column manipulation with SeriesReader
 
 Suppose have one data file as the following:
 
-.. table:: file "example1.csv"
+.. table:: file "example.xls"
 
     ======== ======== ========
     Column 1 Column 2 Column 3
@@ -60,9 +60,9 @@ If you want to remove ``Column 2``, you can just call::
    >>> sheet.column["Column 3"]
    [7.0, 8.0, 9.0]
 
-Your output.xls will have these data:
+The sheet content will become:
 
-.. table:: "output.xls"
+.. table:: sheet content
 
     ======== ========
     Column 1 Column 3
@@ -96,10 +96,10 @@ Here is the example code to append two extra columns::
     ... ]
     >>> sheet2 = pyexcel.Sheet(extra_data)
     >>> sheet.column += sheet2
-	>>> sheet.column["Column 4"]
-	[10, 11, 12]
-	>>> sheet.column["Column 5"]
-	[13, 14, 15]
+    >>> sheet.column["Column 4"]
+    [10, 11, 12]
+    >>> sheet.column["Column 5"]
+    [13, 14, 15]
 
 Here is what you will get:
 

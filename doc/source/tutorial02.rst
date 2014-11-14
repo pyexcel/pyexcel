@@ -157,7 +157,7 @@ Yes, you can do that. The code looks like this::
    for sheet in book:
        # do you processing with sheet
        # do filtering?
-	   pass
+       pass
    book.save_as("output.xls")
  
 What would happen if I save a multi sheet book into "csv" file
@@ -165,36 +165,45 @@ What would happen if I save a multi sheet book into "csv" file
 
 Well, you will get one csv file per each sheet. Suppose you have these code::
 
-    import pyexcel
-    
-    
-    content = {
-        'Sheet 1': 
-            [
-                [1.0, 2.0, 3.0], 
-                [4.0, 5.0, 6.0], 
-                [7.0, 8.0, 9.0]
-            ],
-        'Sheet 2': 
-            [
-                ['X', 'Y', 'Z'], 
-                [1.0, 2.0, 3.0], 
-                [4.0, 5.0, 6.0]
-            ], 
-        'Sheet 3': 
-            [
-                ['O', 'P', 'Q'], 
-                [3.0, 2.0, 1.0], 
-                [4.0, 3.0, 2.0]
-            ] 
-    }
-    book = pyexcel.Book(content)
-    book.save_as("myfile.csv")
+   >>> content = {
+   ...     'Sheet 1': 
+   ...         [
+   ...             [1.0, 2.0, 3.0], 
+   ...             [4.0, 5.0, 6.0], 
+   ...             [7.0, 8.0, 9.0]
+   ...         ],
+   ...     'Sheet 2': 
+   ...         [
+   ...             ['X', 'Y', 'Z'], 
+   ...             [1.0, 2.0, 3.0], 
+   ...             [4.0, 5.0, 6.0]
+   ...         ], 
+   ...     'Sheet 3': 
+   ...         [
+   ...             ['O', 'P', 'Q'], 
+   ...             [3.0, 2.0, 1.0], 
+   ...             [4.0, 3.0, 2.0]
+   ...         ] 
+   ... }
+   >>> book = pyexcel.Book(content)
+   >>> book.save_as("myfile.csv")
 
 You will end up with three csv files::
 
-    myfile_Sheet 1.csv, myfile_Sheet 2.csv, myfile_Sheet 3.csv
+   >>> import glob
+   >>> outputfiles = glob.glob("myfile_*.csv")
+   >>> for file in outputfiles:
+   ...     print(file)
+   ...
+   myfile_Sheet 1.csv
+   myfile_Sheet 2.csv
+   myfile_Sheet 3.csv
 
 and their content is the value of the dictionary at the corresponding key
 
+.. testcode::
+   :hide:
 
+   >>> os.unlink("myfile_Sheet 1.csv")
+   >>> os.unlink("myfile_Sheet 2.csv")
+   >>> os.unlink("myfile_Sheet 3.csv")

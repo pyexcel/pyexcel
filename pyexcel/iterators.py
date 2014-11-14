@@ -748,8 +748,7 @@ class Matrix:
             raise IndexError
 
     def __getitem__(self, aset):
-        """By default, this class recognize from top to bottom
-        from left to right"""
+        """By default, this class recognize from top to bottom from left to right"""
         if isinstance(aset, tuple):
             return self.cell_value(aset[0], aset[1])
         elif isinstance(aset, str):

@@ -1,6 +1,10 @@
 Examples
 =========
 
+.. WARNING::
+
+    The pyexcel DOES NOT consider Fonts, Styles and Charts at all. In the resulting excel files, fonts, styles and charts will not be transferred.
+
 Update one column of a data file
 ---------------------------------
 
@@ -101,7 +105,6 @@ Column 1 Column 2 Column 3
 .. testcode::
    :hide:
 
-   >>> import os
    >>> os.unlink("example.xls")
    >>> os.unlink("output.xls")
 
@@ -167,7 +170,6 @@ Column 1 Column 2 Column 3 Column 4 Column 5
 .. testcode::
    :hide:
 
-   >>> import os
    >>> os.unlink("example.csv")
    >>> os.unlink("example.xls")
    >>> os.unlink("output.xls")
@@ -239,7 +241,6 @@ The following code will do the job::
    ['Column 1', 'Column 3', 'Column 5', 'Column 8', 'Column 9', 'Column 10']
    >>> sheet3.column["Column 8"]
    [18.0, '', '']
-   >>> import os
    >>> os.unlink("example.csv")
    >>> os.unlink("example.xls")
    >>> os.unlink("output.xls")
@@ -291,7 +292,7 @@ The following code will merge the tow into one file, say "output.xls"::
 
 The output.xls would have the following data:
 
-`example1.csv` as sheet name and inside the sheet, you have:
+`example.csv` as sheet name and inside the sheet, you have:
 
 ======== ======== ======== 
 Column 1 Column 2 Column 3 
@@ -302,7 +303,7 @@ Column 1 Column 2 Column 3
 ======== ======== ========
 
 
-`example1.ods` as sheet name and inside the sheet, you have:
+`example.ods` as sheet name and inside the sheet, you have:
 
 ======== ========
 Column 4 Column 5
@@ -314,10 +315,10 @@ Column 4 Column 5
 
 .. testcode::
    :hide:
+
    >>> book = pyexcel.load_book("output.xls")
    >>> [str(name) for name in book.sheet_names()]
    ['example.csv', 'example.xls']
-   >>> import os
    >>> os.unlink("example.csv")
    >>> os.unlink("example.xls")
    >>> os.unlink("output.xls")
@@ -344,15 +345,53 @@ You can mix and match with other excel formats: xls, xlsm and ods. For example, 
 Split a book into single sheet files
 -------------------------------------
 
+.. testcode::
+   :hide:
+
+    >>> content = {
+    ...     'Sheet 1': 
+    ...         [
+    ...             [1.0, 2.0, 3.0], 
+    ...             [4.0, 5.0, 6.0], 
+    ...             [7.0, 8.0, 9.0]
+    ...         ],
+    ...     'Sheet 2': 
+    ...         [
+    ...             ['X', 'Y', 'Z'], 
+    ...             [1.0, 2.0, 3.0], 
+    ...             [4.0, 5.0, 6.0]
+    ...         ], 
+    ...     'Sheet 3': 
+    ...         [
+    ...             ['O', 'P', 'Q'], 
+    ...             [3.0, 2.0, 1.0], 
+    ...             [4.0, 3.0, 2.0]
+    ...         ] 
+    ... }
+    >>> book = pyexcel.Book(content)
+    >>> book.save_as("megabook.xls")
+
 Suppose you have many sheets in a work book and you would like to separate each into a single sheet excel file. You can easily do this::
 
-    from pyexcel.cookbook import split_a_book
-
-
-    split_a_book("megabook.xls", "output.xls")
+   >>> from pyexcel.cookbook import split_a_book
+   >>> split_a_book("megabook.xls", "output.xls")
+   >>> import glob
+   >>> outputfiles = glob.glob("*_output.xls")
+   >>> for file in outputfiles:
+   ...     print(file)
+   ...
+   Sheet 1_output.xls
+   Sheet 2_output.xls
+   Sheet 3_output.xls
 
 for the output file, you can specify any of the supported formats
 
+.. testcode::
+   :hide:
+
+   >>> os.unlink("Sheet 1_output.xls")
+   >>> os.unlink("Sheet 2_output.xls")
+   >>> os.unlink("Sheet 3_output.xls")
 
 Extract just one sheet from a book
 -----------------------------------
@@ -360,10 +399,16 @@ Extract just one sheet from a book
 
 Suppose you just want to extract one sheet from many sheets that exists in a work book and you would like to separate it into a single sheet excel file. You can easily do this::
 
-    from pyexcel.cookbook import split_a_book
-
-
-    extract_a_sheet_from_a_book("megabook.xls", "output.xls")
+    >>> from pyexcel.cookbook import extract_a_sheet_from_a_book
+    >>> extract_a_sheet_from_a_book("megabook.xls", "Sheet 1", "output.xls")
+    >>> if os.path.exists("Sheet 1_output.xls"):
+    ...     print("Sheet 1_output.xls exists")
+    ...
+    Sheet 1_output.xls exists
 
 for the output file, you can specify any of the supported formats
 
+.. testcode::
+   :hide:
+
+   >>> os.unlink("Sheet 1_output.xls")

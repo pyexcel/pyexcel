@@ -57,6 +57,7 @@ pyexcel.Sheet
       ~Sheet.rvertical
       ~Sheet.save_as
       ~Sheet.save_to_memory
+      ~Sheet.series
       ~Sheet.set_column_at
       ~Sheet.set_named_column_at
       ~Sheet.set_named_row_at

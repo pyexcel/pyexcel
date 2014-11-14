@@ -61,3 +61,10 @@ Suppose you want to merge many csv files row by row into a new sheet.
    >>> writer = pyexcel.Writer("merged.csv")
    >>> writer.write_reader(merged)
    >>> writer.close()
+
+.. testcode::
+   :hide:
+
+   >>> import os
+   >>> os.unlink("book1.xls")
+   >>> os.unlink("book2.xlsx")

@@ -814,6 +814,7 @@ class IndexSheet(MultipleFilterableSheet):
             return MultipleFilterableSheet.__iter__(self)
 
     def to_array(self):
+        """Returns an array after filtering"""
         from .utils import to_array
         return to_array(self)
 
