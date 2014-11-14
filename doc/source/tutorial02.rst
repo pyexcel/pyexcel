@@ -192,7 +192,7 @@ You will end up with three csv files::
 
    >>> import glob
    >>> outputfiles = glob.glob("myfile_*.csv")
-   >>> for file in outputfiles:
+   >>> for file in sorted(outputfiles):
    ...     print(file)
    ...
    myfile_Sheet 1.csv

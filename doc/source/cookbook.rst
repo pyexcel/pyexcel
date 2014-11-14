@@ -377,7 +377,7 @@ Suppose you have many sheets in a work book and you would like to separate each 
    >>> split_a_book("megabook.xls", "output.xls")
    >>> import glob
    >>> outputfiles = glob.glob("*_output.xls")
-   >>> for file in outputfiles:
+   >>> for file in sorted(outputfiles):
    ...     print(file)
    ...
    Sheet 1_output.xls
