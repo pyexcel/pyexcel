@@ -1,7 +1,7 @@
-pyexcel.iterators.Row
-=====================
+pyexcel.sheets.Row
+==================
 
-.. currentmodule:: pyexcel.iterators
+.. currentmodule:: pyexcel.sheets
 
 .. autoclass:: Row
 

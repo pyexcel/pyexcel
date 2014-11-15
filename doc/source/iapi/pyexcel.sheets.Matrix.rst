@@ -1,7 +1,7 @@
-pyexcel.iterators.Matrix
-========================
+pyexcel.sheets.Matrix
+=====================
 
-.. currentmodule:: pyexcel.iterators
+.. currentmodule:: pyexcel.sheets
 
 .. autoclass:: Matrix
 

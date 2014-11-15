@@ -1,7 +1,7 @@
-pyexcel.iterators.Column
-========================
+pyexcel.sheets.Column
+=====================
 
-.. currentmodule:: pyexcel.iterators
+.. currentmodule:: pyexcel.sheets
 
 .. autoclass:: Column
 
