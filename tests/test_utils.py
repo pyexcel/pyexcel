@@ -129,8 +129,8 @@ class TestToRecord():
     @raises(ValueError)
     def test_index_sheet1(self):
         """Invalid input"""
-        s = pe.sheets.IndexSheet([[1,2,3]], "test")
-        actual = pe.to_records(s)
+        s = pe.sheets.NominableSheet([[1,2,3]], "test")
+        pe.to_records(s)
     
     def test_index_sheet2(self):
         s = pe.ColumnSeriesReader(self.testfile, 0)

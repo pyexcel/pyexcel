@@ -11,7 +11,7 @@
     :license: GPL v3
 """
 
-from .readers import (
+from .book import (
     BookReader,
     Book,
     load_book,
@@ -20,14 +20,14 @@ from .writers import Writer, BookWriter
 from .sheets import (
     Sheet,
     load,
-    load_from_memory,
+    transpose,
     Reader,
     SeriesReader,
     ColumnSeriesReader,
     PlainReader,
-    FilterableReader)
+    FilterableReader,
+    load_from_memory)
 from .utils import to_dict, to_array, to_records, dict_to_array, from_records
-from .iterators import transpose
 from .formatters import (
     ColumnFormatter,
     RowFormatter,

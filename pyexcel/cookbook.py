@@ -8,7 +8,7 @@
     :license: GPL v3
 """
 import os
-from .readers import Book, load_book
+from .book import Book, load_book
 from .sheets import load, Reader
 from .utils import to_dict, to_array
 from .writers import Writer, BookWriter

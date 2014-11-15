@@ -8,7 +8,7 @@
     :license: GPL v3
 """
 import six
-from .sheets import IndexSheet, Sheet
+from .sheets import NominableSheet, Sheet
 from ._compact import OrderedDict
 
 
@@ -47,7 +47,7 @@ def to_records(reader, custom_headers=None):
     database operations.
     """
     ret = []
-    if isinstance(reader, IndexSheet) is False:
+    if isinstance(reader, NominableSheet) is False:
         raise NotImplementedError
     if len(reader.rownames) > 0:
         if custom_headers:

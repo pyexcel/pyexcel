@@ -244,7 +244,7 @@ class TestSeriesReader3:
             [4, 5, 6],
             ["Column 1", "Column 2", "Column 3"]
         ]
-        s.column += pe.iterators.transpose(test_data)
+        s.column += pe.transpose(test_data)
         actual = pe.to_array(s)
         assert test_data == actual
         s.index_by_row(2)
@@ -501,7 +501,7 @@ class TestColumnSeriesReader:
         assert result == actual
         r.remove_filter(f)
         actual = pe.utils.to_array(r.rows())
-        assert actual == pe.iterators.transpose(self.content[1:])
+        assert actual == pe.transpose(self.content[1:])
 
     def test_even_row_filter(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
@@ -515,7 +515,7 @@ class TestColumnSeriesReader:
         # test removing the filter, it prints the original one
         r.clear_filters()
         actual = pe.utils.to_array(r.rows())
-        assert actual == pe.iterators.transpose(self.content[1:])
+        assert actual == pe.transpose(self.content[1:])
 
     def test_orthogonality(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
@@ -530,7 +530,7 @@ class TestColumnSeriesReader:
         # test removing the filter, it prints the original one
         r.clear_filters()
         actual = pe.utils.to_array(r.rows())
-        assert actual == pe.iterators.transpose(self.content[1:])
+        assert actual == pe.transpose(self.content[1:])
 
     def test_orthogonality2(self):
         r = pe.ColumnSeriesReader(self.test_tuple)

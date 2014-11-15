@@ -14,7 +14,7 @@ class TestRareCases:
         data = [
             [1,2,3]
         ]
-        s = pe.sheets.MultipleFilterableSheet(data)
+        s = pe.sheets.FilterableSheet(data)
         s.add_filter(pe.filters.ColumnFilter([100]))
         result = pe.utils.to_array(s)
         assert data == result
@@ -23,7 +23,7 @@ class TestRareCases:
         data = [
             [1,2,3]
         ]
-        s = pe.sheets.MultipleFilterableSheet(data)
+        s = pe.sheets.FilterableSheet(data)
         s.add_filter(pe.filters.RowFilter([100]))
         result = pe.utils.to_array(s)
         assert data == result

@@ -8,7 +8,7 @@
     :license: GPL v3
 """
 from .utils import to_dict, to_array, from_records, dict_to_array
-from .iterators import Matrix, transpose
+from .sheets import Matrix, transpose
 from .io import get_writer
 
 
