@@ -801,8 +801,18 @@ class Matrix:
 
     @outsource
     def __str__(self):
-        table = Texttable()
+        table = Texttable(max_width=0)
         table.set_chars(self.__border__())
-        table.add_rows(self.to_array())
+        data = self.to_array()
+        new_data = []
+        for sub_array in data:
+            new_array = []
+            for item in sub_array:
+                if item == "":
+                    new_array.append(" ")
+                else:
+                    new_array.append(item)
+            new_data.append(new_array)
+        table.add_rows(new_data)
         return table.draw()
         
