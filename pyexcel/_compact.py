@@ -1,5 +1,15 @@
+"""
+    pyexcel._compact
+    ~~~~~~~~~~~~~~~~~~~
+
+    Compatibles
+
+    :copyright: (c) 2014 by C. W.
+    :license: GPL v3
+"""
 import sys
 import six
+
 
 if sys.version_info[0] == 2 and sys.version_info[1] < 7:
     from ordereddict import OrderedDict
@@ -11,8 +21,9 @@ if six.PY2:
 else:
     from io import StringIO
 
+
 def is_array_type(an_array, atype):
-    tmp = [ i for i in an_array if not isinstance(i, atype)]
+    tmp = [i for i in an_array if not isinstance(i, atype)]
     return len(tmp) == 0
 
 

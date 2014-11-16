@@ -11,8 +11,10 @@ from ..io import load_file
 from .nominablesheet import NominableSheet
 
 
-
-def load(file, sheetname=None, name_columns_by_row=-1, name_rows_by_column=-1, **keywords):
+def load(file, sheetname=None,
+         name_columns_by_row=-1,
+         name_rows_by_column=-1,
+         **keywords):
     """Constructs an instance :class:`Sheet` from a sheet of an excel file
 
     except csv, most excel files has more than one sheet.
@@ -39,10 +41,14 @@ def load(file, sheetname=None, name_columns_by_row=-1, name_rows_by_column=-1, *
                  name_rows_by_column=name_rows_by_column)
 
 
-def load_from_memory(file_type, file_content, sheetname=None, **keywords):
+def load_from_memory(file_type,
+                     file_content,
+                     sheetname=None,
+                     **keywords):
     """Constructs an instance :class:`Sheet` from memory
 
-    :param str file_type: one value of these: 'csv', 'xls', 'xlsm', 'xslm', 'ods'
+    :param str file_type: one value of these: 'csv', 'xls',
+    'xlsm', 'xslm', 'ods'
     :param iostream file_content: file content
     :param str sheetname: which sheet to be used for construction
     :param dict keywords: any other parameters
@@ -66,7 +72,7 @@ class Sheet(NominableSheet):
     function is required.
 
     Filtering functions are used to reduce the information contained in the
-    array. 
+    array.
     """
     def become_series(self, series=0):
         """Keep backward compactibility"""
@@ -98,7 +104,7 @@ class Sheet(NominableSheet):
         """Save the content to memory
 
         :param str file_type: any value of 'csv', 'xls', 'xlsm', 'xlsx' and 'ods'
-        :param iostream stream: the memory stream to be written to 
+        :param iostream stream: the memory stream to be written to
         """
         self.save_as((file_type, stream))
 
@@ -146,7 +152,7 @@ def PlainReader(file, sheetname=None, **keywords):
 
 def FilterableReader(file, sheetname=None, **keywords):
     """FiltableReader lets you use filters at the sequence of your choice
-    
+
     use as class would fail
     changed since 0.0.7
     """

@@ -28,7 +28,7 @@ from ..presentation import outsource
 
 def _unique(seq):
     """Return a unique list of the incoming list
-    
+
     Reference:
     http://stackoverflow.com/questions/480214/
     how-do-you-remove-duplicates-from-a-list-in-python-whilst-preserving-order
@@ -41,7 +41,7 @@ def _unique(seq):
 def longest_row_number(array):
     """Find the length of the longest row in the array
 
-    :param list in_array: a list of arrays    
+    :param list in_array: a list of arrays
     """
     if len(array) > 0:
         # map runs len() against each member of the array
@@ -65,10 +65,11 @@ def uniform(array):
                 row += [""] * (width - row_length)
         return array
 
+
 def transpose(in_array):
     """Rotate clockwise by 90 degrees and flip horizontally
 
-    First column become first row. 
+    First column become first row.
     :param list in_array: a list of arrays
 
     The transformation is::
@@ -97,6 +98,7 @@ functions were written
 
 _INDICES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+
 def _get_index(index_chars):
     length = len(index_chars)
     if len(index_chars) > 1:
@@ -104,21 +106,24 @@ def _get_index(index_chars):
     else:
         return _INDICES.index(index_chars[0])
 
+
 def _excel_column_index(index_chars):
     if len(index_chars) < 1:
         return -1
     else:
         return _get_index(index_chars.upper())
 
+
 def _excel_cell_position(pos_chars):
     if len(pos_chars) < 2:
         return -1, -1
     group = re.match("([A-Za-z]+)([0-9]+)", pos_chars)
-    if group:    
+    if group:
         return int(group.group(2)) - 1, _excel_column_index(group.group(1))
     else:
         raise IndexError
-    
+
+
 def _analyse_slice(aslice, upper_bound):
     """An internal function to analyze a given slice
     """
@@ -155,10 +160,10 @@ class Row:
         4 5 6
         7 8 9
         = = =
-    
-    Above column manipluation can be performed on rows similiarly. This section will not repeat the same example but show some advance usages. 
 
-    
+    Above column manipluation can be performed on rows similiarly. This section will not repeat the same example but show some advance usages.
+
+
         >>> import pyexcel as pe
         >>> data = [[1,2,3], [4,5,6], [7,8,9]]
         >>> m = pe.sheets.Matrix(data)
@@ -231,7 +236,7 @@ class Row:
 
 class Column:
     """Represet columns of a matrix
-    
+
     .. table:: "example.csv"
 
         = = =
@@ -239,9 +244,9 @@ class Column:
         4 5 6
         7 8 9
         = = =
-    
+
     Let us manipulate the data columns on the above data matrix::
-    
+
         >>> import pyexcel as pe
         >>> data = [[1,2,3], [4,5,6], [7,8,9]]
         >>> m = pe.sheets.Matrix(data)
@@ -331,7 +336,7 @@ class Column:
 class Matrix:
     """The internal representation of a sheet data. Each element can be of any python types
     """
-    
+
     def __init__(self, array):
         """Constructor
 
@@ -400,9 +405,9 @@ class Matrix:
         Iterate cell by cell from top to bottom and from left to right
 
         .. testcode::
-    
+
             >>> import pyexcel as pe
-            >>> data = [  
+            >>> data = [
             ...     [1, 2, 3, 4],
             ...     [5, 6, 7, 8],
             ...     [9, 10, 11, 12]
@@ -421,9 +426,9 @@ class Matrix:
         each cell one by one from
         bottom row to top row and from right to left
         example::
-    
+
             >>> import pyexcel as pe
-            >>> data = [  
+            >>> data = [
             ...     [1, 2, 3, 4],
             ...     [5, 6, 7, 8],
             ...     [9, 10, 11, 12]
@@ -441,18 +446,18 @@ class Matrix:
         Default iterator to go through each cell one by one from
         leftmost column to rightmost row and from top to bottom
         example::
-    
+
             import pyexcel as pe
-            data = [  
+            data = [
                 [1, 2, 3, 4],
                 [5, 6, 7, 8],
                 [9, 10, 11, 12]
             ]
             m = pe.Matrix(data)
             print(pe.utils.to_array(m.vertical()))
-    
+
         output::
-        
+
             [1, 5, 9, 2, 6, 10, 3, 7, 11, 4, 8, 12]
 
         More details see :class:`VTLBRIterator`
@@ -464,18 +469,18 @@ class Matrix:
         Default iterator to go through each cell one by one from rightmost
         column to leftmost row and from bottom to top
         example::
-    
+
             import pyexcel as pe
-            data = [  
+            data = [
                 [1, 2, 3, 4],
                 [5, 6, 7, 8],
                 [9, 10, 11, 12]
             ]
             m = pe.Matrix(data)
             print(pe.utils.to_array(m.rvertical())
-    
+
         output::
-        
+
             [12, 8, 4, 11, 7, 3, 10, 6, 2, 9, 5, 1]
 
         More details see :class:`VBRTLIterator`
@@ -487,18 +492,18 @@ class Matrix:
         Returns a top to bottom row iterator
 
         example::
-    
+
             import pyexcel as pe
-            data = [  
+            data = [
                 [1, 2, 3, 4],
                 [5, 6, 7, 8],
                 [9, 10, 11, 12]
             ]
             m = pe.Matrix(data)
             print(pe.utils.to_array(m.rows()))
-    
+
         output::
-        
+
             [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
 
         More details see :class:`RowIterator`
@@ -508,20 +513,20 @@ class Matrix:
     def rrows(self):
         """
         Returns a bottom to top row iterator
-        
+
         .. testcode::
-    
+
             import pyexcel as pe
-            data = [  
+            data = [
                 [1, 2, 3, 4],
                 [5, 6, 7, 8],
                 [9, 10, 11, 12]
             ]
             m = pe.Matrix(data)
             print(pe.utils.to_array(m.rrows()))
-    
+
         .. testoutput::
-        
+
             [[9, 10, 11, 12], [5, 6, 7, 8], [1, 2, 3, 4]]
 
         More details see :class:`RowReverseIterator`
@@ -531,20 +536,20 @@ class Matrix:
     def columns(self):
         """
         Returns a left to right column iterator
-      
+
         .. testcode::
-    
+
             import pyexcel as pe
-            data = [  
+            data = [
                 [1, 2, 3, 4],
                 [5, 6, 7, 8],
                 [9, 10, 11, 12]
             ]
             m = pe.Matrix(data)
             print(pe.utils.to_array(m.columns()))
-    
+
         .. testoutput::
-        
+
             [[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]
 
         More details see :class:`ColumnIterator`
@@ -554,20 +559,20 @@ class Matrix:
     def rcolumns(self):
         """
         Returns a right to left column iterator
-    
+
         example::
-    
+
             import pyexcel as pe
-            data = [  
+            data = [
                 [1, 2, 3, 4],
                 [5, 6, 7, 8],
                 [9, 10, 11, 12]
             ]
             m = pe.Matrix(data)
             print(pe.utils.to_array(m.rcolumns()))
-    
+
         output::
-        
+
             [[4, 8, 12], [3, 7, 11], [2, 6, 10], [1, 5, 9]]
 
         More details see :class:`ColumnReverseIterator`
@@ -630,7 +635,7 @@ class Matrix:
             2 4 N
 
         This function will not set element outside the current table range
-        
+
         :param int column_index: which column to be modified
         :param list data_array: one dimensional array
         :param int staring: from which index, the update happens
@@ -651,12 +656,12 @@ class Matrix:
         It works like this if the call is: set_row_at(2, ['N', 'N', 'N'], 1)::
 
             A B C
-            1 3 5 
+            1 3 5
             2 N N <- row_index = 2
               ^starting = 1
-        
+
         This function will not set element outside the current table range
-        
+
         :param int row_index: which row to be modified
         :param list data_array: one dimensional array
         :param int starting: from which index, the update happens
@@ -704,11 +709,11 @@ class Matrix:
         This is how it works:
 
         Given::
-        
+
             s s s     t t
 
         Get::
-        
+
             s s s  +  t t
         """
         if not isinstance(columns, list):
@@ -717,7 +722,7 @@ class Matrix:
         if not is_array_type(columns, list):
             incoming_data = [columns]
         incoming_data = transpose(incoming_data)
-        self._extend_columns_with_rows(incoming_data)    
+        self._extend_columns_with_rows(incoming_data)
 
     def _extend_columns_with_rows(self, rows):
         current_nrows = self.number_of_rows()
@@ -813,4 +818,3 @@ class Matrix:
                     new_array.append(item)
             table.add_row(new_array)
         return table.draw()
-        

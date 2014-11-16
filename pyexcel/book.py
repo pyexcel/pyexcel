@@ -32,7 +32,8 @@ def load_book(file, **keywords):
 def load_book_from_memory(file_type, file_content, **keywords):
     """Load content from memory content
 
-    :param tuple the_tuple: first element should be file extension, second element should be file content
+    :param tuple the_tuple: first element should be file extension,
+    second element should be file content
     :param any keywords: additional parameters
     """
     book = load_file((file_type, file_content), **keywords)
@@ -62,13 +63,14 @@ class Book:
     def load_from_sheets(self, sheets):
         """Load content from existing sheets
 
-        :param dict sheets: a dictionary of sheets. Each sheet is a list of lists
+        :param dict sheets: a dictionary of sheets. Each sheet is
+        a list of lists
         """
         self.sheets = OrderedDict()
         keys = sheets.keys()
         if not isinstance(sheets, OrderedDict):
-            #if the end user does not care about the order
-            #we put alphatical order
+            # if the end user does not care about the order
+            # we put alphatical order
             keys = sorted(keys)
         for name in keys:
             self.sheets.update({name: self.get_sheet(sheets[name], name)})
@@ -174,7 +176,7 @@ class Book:
 
             book += book2
             book += book2["Sheet1"]
-        
+
         """
         if isinstance(other, Book):
             names = other.sheet_names()

@@ -1,6 +1,7 @@
 from textwrap import dedent
 import pyexcel as pe
 
+
 class TestPresentation:
     def test_normal_usage(self):
         content = [
@@ -91,7 +92,6 @@ class TestPresentation:
             ["Row 3", 7, 8, 9]
         ]
         s = pe.Sheet(content, name_rows_by_column=0)
-        print("X"+str(s)+"X")
         content = dedent("""
             Sheet Name: pyexcel
             +-------+---+---+---+

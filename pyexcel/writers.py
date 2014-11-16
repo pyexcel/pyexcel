@@ -34,7 +34,7 @@ class SheetWriter:
         Write a table
 
         table can be two dimensional array or a row iterator
-        :param list table: two dimensional array        
+        :param list table: two dimensional array
         """
         if len(table) < 1:
             return
@@ -46,7 +46,7 @@ class SheetWriter:
 
     def write_dict(self, the_dict):
         """Write a dictionary
-        
+
         :param dict the_dict: the dictionary to be writeen
         """
         array = dict_to_array(the_dict)
@@ -54,7 +54,7 @@ class SheetWriter:
 
     def write_dict_columns(self, the_dict):
         """Write a dictionary
-        
+
         :param dict the_dict: the dictionary to be writeen
         """
         array = dict_to_array(the_dict)
@@ -105,12 +105,13 @@ class SheetWriter:
 
 class BookWriter:
     """
-    A generic book writer. 
+    A generic book writer.
 
-    It provides one interface for writing any supported file formats. A book refers
-    to the excel file that has many sheets. csv file format does not support such
-    a concept, hence this writer will write a csv book in theory to scattered csv
-    files which share similiar file names.
+    It provides one interface for writing any supported file formats.
+    A book refers to the excel file that has many sheets. csv file
+    format does not support such a concept, hence this writer will
+    write a csv book in theory to scattered csv files which share
+    similiar file names.
     """
 
     def __init__(self, file, **keywords):
@@ -132,7 +133,8 @@ class BookWriter:
 
         Requirements for the dictionary is: key is the sheet name,
         its value must be two dimensional array
-        :param dict sheet_dicts: a dictionary of two dimensional array, for example::
+        :param dict sheet_dicts: a dictionary of two dimensional array,
+        for example::
 
             {
                 "Sheet1": [[1, 2, 3], [4, 5, 6]],
@@ -149,8 +151,8 @@ class BookWriter:
         """
         Write a book reader
 
-        Easy implementiation. Dump a book into a dictionary of two dimensional
-        arrays. Then write book from this dictionary
+        Easy implementiation. Dump a book into a dictionary of
+        two dimensional arrays. Then write book from this dictionary
         :param Book bookreader: a book object to be written
         """
         keys = bookreader.sheet_names()

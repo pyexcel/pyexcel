@@ -108,7 +108,7 @@ def dict_to_array(the_dict, with_keys=True):
             "Column 2": [5, 6, 7, 8],
             "Column 3": [9, 10, 11, 12, 13],
         }
-    
+
     The output will be::
 
         [
@@ -119,7 +119,7 @@ def dict_to_array(the_dict, with_keys=True):
             ['', 8, 12],
             ['', '', 13]
         ]
-    
+
     :param dict the_dict: the dictionary to be converted.
     :param bool with_keys: to write the keys as the first row or not
     """
@@ -147,4 +147,3 @@ def dict_to_array(the_dict, with_keys=True):
                 row_data.append('')
         content.append(row_data)
     return content
-

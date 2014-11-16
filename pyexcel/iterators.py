@@ -7,6 +7,8 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
+
+
 class PyexcelIterator:
     """
     A parent class is used to distiguish pyexcel iterators in pyexcel utilities
@@ -19,7 +21,7 @@ class PyexcelIterator:
 class HTLBRIterator(PyexcelIterator):
     """
     Horizontal Top Left to Bottom Right Iterator
-    
+
     Iterate horizontally from top left to bottom right.
     see :func:`Matrix.enumerate` for more details
     """
@@ -92,7 +94,7 @@ class VTLBRIterator(HTLBRIterator):
 class HBRTLIterator(HTLBRIterator):
     """
     Horizontal Bottom Right to Top Left Iterator
-    
+
     Iterate horizontally from bottom right to top left
     see :func:`Matrix.reverse` for more details
     """
@@ -118,7 +120,7 @@ class HBRTLIterator(HTLBRIterator):
 class VBRTLIterator(HBRTLIterator):
     """
     Vertical Bottom Right to Top Left Iterator
-    
+
     Iterate vertically from bottom right to top left
     see :func:`Matrix.rvertical` for more details
     """
@@ -132,7 +134,7 @@ class HTRBLIterator(PyexcelIterator):
     Horizontal Top Right to Bottom Left Iterator
 
     Iterate horizontally from top right to bottom left::
-    
+
         <<S
         <<<
         E<<
@@ -170,7 +172,7 @@ class VTRBLIterator(HTRBLIterator):
     Vertical Top Right to Bottom Left Iterator
 
     Iterate horizontally from top left to bottom right::
-    
+
         ||S
         |||
         E||
@@ -196,7 +198,7 @@ class VBLTRIterator(HTRBLIterator):
     Vertical Bottom Left to Top Right Iterator
 
     Iterate vertically from bottom left to top right::
-    
+
         ^^E
         ^^^
         S^^
@@ -296,7 +298,7 @@ class RowReverseIterator(PyexcelIterator):
 class ColumnIterator(PyexcelIterator):
     """
     Column Iterator from left to right
-    
+
     see :func:`Matrix.columns` for more details
     """
     def __init__(self, reader):
@@ -354,7 +356,8 @@ class ColumnIndexIterator(PyexcelIterator):
             index = self.current
             self.current += 1
             column_header = self.reader_ref.colnames[index]
-            return {column_header: self.reader_ref.named_column_at(column_header)}
+            return {
+                column_header: self.reader_ref.named_column_at(column_header)}
         else:
             raise StopIteration
 
@@ -378,7 +381,8 @@ class RowIndexIterator(PyexcelIterator):
             index = self.current
             self.current += 1
             column_header = self.reader_ref.rownames[index]
-            return {column_header: self.reader_ref.named_row_at(column_header)}
+            return {
+                column_header: self.reader_ref.named_row_at(column_header)}
         else:
             raise StopIteration
 

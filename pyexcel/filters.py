@@ -8,14 +8,14 @@
     :license: GPL v3
 
     Design note for filter algorithm::
-    
+
         #1 2 3 4 5 6 7  <- original index
         #  x     x
         #1   3 4   6 7  <- filtered index
         #1   2 3   4 5  <- actual index after filtering
-    
+
     Design note for multiple filter algorithm::
-    
+
         #    1 2 3 4 5 6 7 8 9
         f1     x       x
              1   2 3 4   5 6 7
@@ -24,6 +24,8 @@
         f3         x
              1           2   3
 """
+
+
 class IndexFilter:
     """A generic index filter"""
     def __init__(self, func):
@@ -38,6 +40,7 @@ class IndexFilter:
         """Rows that were filtered out
         """
         return 0
+
     def columns(self):
         """Columns that were filtered out"""
         return 0
@@ -47,7 +50,7 @@ class IndexFilter:
         Find out which column index to be filtered
 
         :param Matrix reader: a Matrix instance
-        
+
         """
         pass
 
@@ -69,7 +72,7 @@ class ColumnIndexFilter(IndexFilter):
 
         :param Matrix reader: a Matrix instance
         """
-        self.indices = [ i for i in reader.column_range() if self.eval_func(i) ]
+        self.indices = [i for i in reader.column_range() if self.eval_func(i)]
 
     def translate(self, row, column):
         """Map the row, column after filtering to the
@@ -77,7 +80,7 @@ class ColumnIndexFilter(IndexFilter):
 
         :param int row: row index after filtering
         :param int column: column index after filtering
-        :returns: set of (row, new_column) 
+        :returns: set of (row, new_column)
         """
         if self.indices:
             new_column = column
@@ -90,7 +93,7 @@ class ColumnIndexFilter(IndexFilter):
 
 
 class ColumnFilter(ColumnIndexFilter):
-    """Filters out a list of columns""" 
+    """Filters out a list of columns"""
     def __init__(self, indices):
         """Constructor
 
@@ -101,7 +104,7 @@ class ColumnFilter(ColumnIndexFilter):
 
 
 class SingleColumnFilter(ColumnIndexFilter):
-    """Filters out a single column index""" 
+    """Filters out a single column index"""
     def __init__(self, index):
         """Constructor
 
@@ -148,7 +151,7 @@ class RowIndexFilter(IndexFilter):
 
         :param Matrix reader: a Matrix instance
         """
-        self.indices = [ i for i in reader.row_range() if self.eval_func(i) ]
+        self.indices = [i for i in reader.row_range() if self.eval_func(i)]
 
     def translate(self, row, column):
         """Map the row, column after filtering to the
@@ -156,7 +159,7 @@ class RowIndexFilter(IndexFilter):
 
         :param int row: row index after filtering
         :param int column: column index after filtering
-        :returns: set of (row, new_column) 
+        :returns: set of (row, new_column)
         """
         if self.indices:
             new_row = row
@@ -169,7 +172,7 @@ class RowIndexFilter(IndexFilter):
 
 
 class RowFilter(RowIndexFilter):
-    """Filters a list of rows""" 
+    """Filters a list of rows"""
     def __init__(self, indices):
         """Constructor
 
@@ -220,17 +223,19 @@ class RowValueFilter(RowIndexFilter):
         Filter out the row indices
 
         This is what it does::
-        
+
             new_indices = []
             index = 0
             for r in reader.rows():
                 if not self.eval_func(r):
                     new_indices.append(index)
                 index += 1
-        
+
         :param Matrix reader: a Matrix instance
         """
-        self.indices = [row[0] for row in enumerate(reader.rows()) if not self.eval_func(row[1])]
+        self.indices = [row[0]
+                        for row in enumerate(reader.rows())
+                        if not self.eval_func(row[1])]
 
 
 class SeriesRowValueFilter(RowIndexFilter):
@@ -243,18 +248,20 @@ class SeriesRowValueFilter(RowIndexFilter):
         Filter out the row indices
 
         This is what it does::
-        
+
             new_indices = []
             index = 0
             for r in reader.rows():
                 if not self.eval_func(r):
                     new_indices.append(index)
                 index += 1
-        
+
         :param Matrix reader: a Matrix instance
         """
         series = reader.colnames
-        self.indices = [row[0] for row in enumerate(reader.rows()) if not self.eval_func(dict(zip(series, row[1])))]
+        self.indices = [row[0]
+                        for row in enumerate(reader.rows())
+                        if not self.eval_func(dict(zip(series, row[1])))]
 
 
 class RowInFileFilter(RowValueFilter):

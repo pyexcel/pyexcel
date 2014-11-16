@@ -9,6 +9,7 @@
 """
 STRINGIFICATION = {}
 
+
 def outsource(func):
     def inner(self):
         plugin = STRINGIFICATION.get(str(self.__class__), None)

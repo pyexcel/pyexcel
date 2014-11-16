@@ -19,10 +19,10 @@ class UTF8Recorder(six.Iterator):
     """
     def __init__(self, f, encoding):
         self.reader = codecs.getreader(encoding)(f)
-        
+
     def __iter__(self):
         return self
-        
+
     def __next__(self):
         return next(self.reader).encode('utf-8')
 
@@ -33,7 +33,10 @@ class CSVBook:
 
     It simply return one sheet
     """
-    def __init__(self, filename, file_content=None, encoding="utf-8", **keywords):
+    def __init__(self, filename,
+                 file_content=None,
+                 encoding="utf-8",
+                 **keywords):
         self.array = []
         if filename:
             if six.PY2:
@@ -48,7 +51,7 @@ class CSVBook:
             elif six.PY3:
                 f = StringIO(file_content)
         else:
-            self.mysheets = {"csv":[]}
+            self.mysheets = {"csv": []}
             # no content let's return'
             return
         reader = csv.reader(f, **keywords)
@@ -105,7 +108,8 @@ class CSVSheetWriter:
         write a row into the file
         """
         if six.PY2:
-            self.writer.writerow([six.text_type(s if s != None else '').encode(self.encoding) for s in array])
+            self.writer.writerow([six.text_type(s if s is not None else '').encode(self.encoding)
+                                  for s in array])
         else:
             self.writer.writerow(array)
 

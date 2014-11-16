@@ -166,4 +166,4 @@ class FormattableSheet(Matrix):
 
         :return: self
         """
-        raise NotImplementedError("Depreciated!Not supported any more. Please .row or .column to extendsheet")
+        raise NotImplementedError("Please .row or .column to extendsheet")

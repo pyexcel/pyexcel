@@ -11,7 +11,11 @@ import six
 from .matrix import Row, Column, Matrix
 from .formattablesheet import FormattableSheet
 from .filterablesheet import FilterableSheet
-from ..formatters import ColumnFormatter, RowFormatter, NamedColumnFormatter, NamedRowFormatter
+from ..formatters import (
+    ColumnFormatter,
+    RowFormatter,
+    NamedColumnFormatter,
+    NamedRowFormatter)
 from .._compact import is_string, OrderedDict
 from ..filters import ColumnIndexFilter, RowIndexFilter
 from ..iterators import ColumnIndexIterator, RowIndexIterator
@@ -24,7 +28,7 @@ class NamedRow(Row):
 
     Here is an example to merge sheets. Suppose we have the
     following three files::
-    
+
         >>> import pyexcel as pe
         >>> data = [[1,2,3],[4,5,6],[7,8,9]]
         >>> s = pe.Sheet(data)
@@ -35,7 +39,7 @@ class NamedRow(Row):
         >>> data3=[[1.1, 2.2, 3.3],[4.4, 5.5, 6.6],[7.7, 8.8, 9.9]]
         >>> s3=pe.Sheet(data3)
         >>> s3.save_as("3.csv")
-    
+
 
         >>> merged = pe.Sheet()
         >>> for file in ["1.csv", "2.csv", "3.csv"]:
@@ -46,13 +50,13 @@ class NamedRow(Row):
     Now let's verify what we had::
 
         >>> r=pe.Reader("merged.csv")
-    
+
     this is added to overcome doctest's inability to handle python 3's unicode::
-    
-        >>> r.format(pe.formatters.SheetFormatter(str, lambda v: str(v))) 
+
+        >>> r.format(pe.formatters.SheetFormatter(str, lambda v: str(v)))
         >>> print(pe.utils.to_array(r))
         [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9'], ['a', 'b', 'c'], ['d', 'e', 'f'], ['g', 'h', 'i'], ['1.1', '2.2', '3.3'], ['4.4', '5.5', '6.6'], ['7.7', '8.8', '9.9']]
-    
+
     .. testcleanup::
         >>> import os
         >>> os.unlink("1.csv")
@@ -99,7 +103,9 @@ class NamedRow(Row):
         self.__iadd__(other)
         return self.ref
 
-    def format(self, row_index=None, format=None, custom_converter=None, format_specs=None, on_demand=False):
+    def format(self,
+               row_index=None, format=None, custom_converter=None,
+               format_specs=None, on_demand=False):
         def handle_one_formatter(rows, aformat, aconverter, on_demand):
             formatter = RowFormatter(rows, aformat, aconverter)
             if on_demand:
@@ -114,8 +120,8 @@ class NamedRow(Row):
                     handle_one_formatter(spec[0], spec[1], spec[2], on_demand)
                 else:
                     handle_one_formatter(spec[0], spec[1], None, on_demand)
-                
-        
+
+
 class NamedColumn(Column):
     """Series Sheet would have Named Column instead of Column
 
@@ -165,7 +171,9 @@ class NamedColumn(Column):
         self.__iadd__(other)
         return self.ref
 
-    def format(self, column_index=None, format=None, custom_converter=None, format_specs=None, on_demand=False):
+    def format(self,
+               column_index=None, format=None, custom_converter=None,
+               format_specs=None, on_demand=False):
         def handle_one_formatter(columns, aformat, aconverter, on_demand):
             formatter = ColumnFormatter(columns, aformat, aconverter)
             if on_demand:
@@ -259,7 +267,7 @@ class NominableSheet(FilterableSheet):
 
     def index_by_column(self, column_index):
         self.name_rows_by_column(column_index)
-        
+
     def name_rows_by_column(self, column_index):
         """Use the elements of a specified column to represent individual rows"""
         self.column_index = column_index
@@ -270,7 +278,7 @@ class NominableSheet(FilterableSheet):
     def colnames(self):
         """Row names"""
         if len(self._filters) != 0:
-            column_filters = [ f for f in self._filters if isinstance(f, ColumnIndexFilter)]
+            column_filters = [f for f in self._filters if isinstance(f, ColumnIndexFilter)]
             if len(column_filters) != 0:
                 indices = range(0, len(self._column_names))
                 for f in column_filters:
@@ -285,7 +293,7 @@ class NominableSheet(FilterableSheet):
     def rownames(self):
         """Column names"""
         if len(self._filters) != 0:
-            row_filters = [ f for f in self._filters if isinstance(f, RowIndexFilter)]
+            row_filters = [f for f in self._filters if isinstance(f, RowIndexFilter)]
             if len(row_filters) != 0:
                 indices = range(0, len(self._row_names))
                 for f in row_filters:
@@ -323,7 +331,9 @@ class NominableSheet(FilterableSheet):
         """
         FilterableSheet.delete_columns(self, column_indices)
         if len(self._column_names) > 0:
-            new_series = [ self._column_names[i] for i in range(0, len(self._column_names)) if i not in column_indices ]
+            new_series = [self._column_names[i]
+                          for i in range(0, len(self._column_names))
+                          if i not in column_indices]
             self._column_names = new_series
 
     def delete_rows(self, row_indices):
@@ -333,7 +343,9 @@ class NominableSheet(FilterableSheet):
         """
         FilterableSheet.delete_rows(self, row_indices)
         if len(self._row_names) > 0:
-            new_series = [ self._row_names[i] for i in range(0, len(self._row_names)) if i not in row_indices ]
+            new_series = [self._row_names[i]
+                          for i in range(0, len(self._row_names))
+                          if i not in row_indices]
             self._row_names = new_series
 
     def delete_named_column_at(self, name):
@@ -355,7 +367,7 @@ class NominableSheet(FilterableSheet):
     def named_row_at(self, name):
         """Get a row by its name """
         index = name
-        #if is_string(type(index)):        
+        # if is_string(type(index)):
         index = self.rownames.index(name)
         row_array = self.row_at(index)
         return row_array
@@ -389,7 +401,7 @@ class NominableSheet(FilterableSheet):
 
     def apply_formatter(self, aformatter):
         """Apply the formatter immediately.
-        
+
         :param Formatter aformatter: a custom formatter
         """
         aformatter = self._translate_named_formatter(aformatter)
@@ -409,7 +421,7 @@ class NominableSheet(FilterableSheet):
             elif (isinstance(aformatter.indices, list) and
                   isinstance(aformatter.indices[0], str)):
                 # translate each row name to index
-                new_indices = [ series.index(astr) for astr in aformatter.indices]
+                new_indices = [series.index(astr) for astr in aformatter.indices]
                 aformatter.update_index(new_indices)
         return aformatter
 
@@ -448,7 +460,7 @@ class NominableSheet(FilterableSheet):
             headers = rows.pop(self.row_index)
             self._column_names += headers
         FilterableSheet.extend_columns_with_rows(self, rows)
-        
+
     def extend_columns(self, columns):
         """Take ordereddict to extend named columns
 
