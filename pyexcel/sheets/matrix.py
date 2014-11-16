@@ -11,6 +11,7 @@ of lookup.
 import re
 import six
 import copy
+import texttable
 from .._compact import is_array_type
 from ..iterators import (
     HTLBRIterator,
@@ -22,6 +23,7 @@ from ..iterators import (
     RowReverseIterator,
     ColumnReverseIterator
 )
+from ..presentation import outsource
 
 
 def _unique(seq):
@@ -790,3 +792,17 @@ class Matrix:
         """Get an array out
         """
         return self.array
+
+    def __border__(self):
+        return ['-', '|', '+', '-']
+
+    def __repr__(self):
+        return self.__str__()
+
+    @outsource
+    def __str__(self):
+        table = texttable.Texttable()
+        table.set_chars(self.__border__())
+        table.add_rows(self.to_array())
+        return table.draw()
+        

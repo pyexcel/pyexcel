@@ -1,3 +1,4 @@
 six
 xlrd
 xlwt-future
+texttable

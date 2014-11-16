@@ -474,7 +474,10 @@ class NominableSheet(FilterableSheet):
     def to_array(self):
         """Returns an array after filtering"""
         from ..utils import to_array
-        return to_array(self)
+        ret = []
+        ret += [self.colnames]
+        ret += to_array(self.rows())
+        return ret
 
     def to_records(self):
         """Returns the content as an array of dictionaries
@@ -505,3 +508,9 @@ class NominableSheet(FilterableSheet):
             return self.cell_value(row, column)
         else:
             return Matrix.__getitem__(self, aset)
+
+    def __border__(self):
+        if len(self.colnames) > 0:
+            return ['-', '|', '+', '=']
+        else:
+            return ['-', '|', '+', '-']

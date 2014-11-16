@@ -14,6 +14,7 @@ from .sheets import Sheet
 from .utils import to_dict
 from .io import load_file
 from ._compact import OrderedDict
+from .presentation import outsource
 
 
 def load_book(file, **keywords):
@@ -221,6 +222,13 @@ class Book:
         """Convert the book to a dictionary"""
         from .utils import to_dict
         return to_dict(self)
+
+    def __repr__(self):
+        return self.__str__()
+
+    @outsource
+    def __str__(self):
+        return str(self.__class__)
 
 
 def BookReader(file, **keywords):
