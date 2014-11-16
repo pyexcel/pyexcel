@@ -31,11 +31,13 @@ All great work have done by odf, xlrd and other individual developers. This libr
    >>> data = {
    ...     "Sheet 1": [
    ...         [1, 2, 3],
+   ...         ["Column 1", "Column 2", "Column 3"],
    ...         [4, 5, 6]
    ...     ],
    ...     "Sheet 2": [
-   ...         ["a", "b", "c"],
-   ...         ["e", "f", "g"]
+   ...         ["a", "b", "c", "Row 1"],
+   ...         ["e", "f", "g", "Row 2"],
+   ...         [1, 2, 3, "Row 3"]
    ...     ]
    ... }
    >>> book = pyexcel.Book(data)
@@ -45,26 +47,62 @@ Usage
 =====
 
     >>> import pyexcel as pe
+    >>> sheet = pe.load("your_file.xls")
+    >>> sheet
+    Sheet Name: Sheet 1
+    +----------+----------+----------+
+    | 1        | 2        | 3        |
+    +----------+----------+----------+
+    | Column 1 | Column 2 | Column 3 |
+    +----------+----------+----------+
+    | 4        | 5        | 6        |
+    +----------+----------+----------+
+    >>> sheet["A1"]
+    1.0
+    >>> # format a row using a lambda function
+    >>> sheet.row.format(1, str, lambda value: str(value))
+    >>> sheet.column[0]
+    [1.0, 'Column 1', 4.0]
+    >>> sheet.row[2]
+    [4.0, 5.0, 6.0]
+    >>> sheet.name_columns_by_row(1)
+    >>> sheet.column["Column 1"]
+    [1.0, 4.0]
+    >>> sheet.save_as("myfile.csv")
+    >>> # load the whole excel file
     >>> book = pe.load_book("your_file.xls")
     >>> book
     Sheet Name: Sheet 1
-    +---+---+---+
-    | 1 | 2 | 3 |
-    +---+---+---+
-    | 4 | 5 | 6 |
-    +---+---+---+
+    +----------+----------+----------+
+    | 1        | 2        | 3        |
+    +----------+----------+----------+
+    | Column 1 | Column 2 | Column 3 |
+    +----------+----------+----------+
+    | 4        | 5        | 6        |
+    +----------+----------+----------+
     Sheet Name: Sheet 2
-    +---+---+---+
-    | a | b | c |
-    +---+---+---+
-    | e | f | g |
-    +---+---+---+
-    >>> # access first sheet's top left cell
-    >>> print(book["Sheet 1"]["A1"])
-    1.0
-    >>> # alternative access to the same cell
+    +---+---+---+-------+
+    | a | b | c | Row 1 |
+    +---+---+---+-------+
+    | e | f | g | Row 2 |
+    +---+---+---+-------+
+    | 1 | 2 | 3 | Row 3 |
+    +---+---+---+-------+
+    >>> # alternative access to the same cell on sheet 1
     >>> print(book["Sheet 1"][0,0])
     1.0
+    >>> book["Sheet 2"].name_rows_by_column(3)
+    >>> book["Sheet 2"].row["Row 3"]
+    [1.0, 2.0, 3.0]
+    >>> book.save_as("new_file.xlsx") # save a copy
+
+.. testcode::
+   :hide:
+   
+   >>> import os
+   >>> os.unlink("your_file.xls")
+   >>> os.unlink("myfile.csv")
+   >>> os.unlink("new_file.xlsx")
 
 Installation
 -------------

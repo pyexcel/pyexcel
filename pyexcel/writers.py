@@ -153,8 +153,11 @@ class BookWriter:
         arrays. Then write book from this dictionary
         :param Book bookreader: a book object to be written
         """
-        sheet_dicts = to_dict(bookreader)
-        self.write_book_from_dict(sheet_dicts)
+        keys = bookreader.sheet_names()
+        for name in keys:
+            sheet = self.create_sheet(name)
+            sheet.write_reader(bookreader[name])
+            sheet.close()
 
     def close(self):
         """close the writer"""
