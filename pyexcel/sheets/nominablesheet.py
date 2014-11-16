@@ -475,7 +475,8 @@ class NominableSheet(FilterableSheet):
         """Returns an array after filtering"""
         from ..utils import to_array
         ret = []
-        ret += [self.colnames]
+        if len(self.colnames) > 0:
+            ret += [self.colnames]
         ret += to_array(self.rows())
         return ret
 

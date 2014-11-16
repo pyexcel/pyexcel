@@ -9,7 +9,7 @@ class TestPresentation:
         ]
         s = pe.Sheet(content)
         content = """+---+-----+-----+
-| 1 | 2   | 3   |
+| 1 |  2  |  3  |
 +---+-----+-----+
 | 4 | 588 | 6   |
 +---+-----+-----+

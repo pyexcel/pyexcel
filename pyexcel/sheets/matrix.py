@@ -11,7 +11,7 @@ of lookup.
 import re
 import six
 import copy
-import texttable
+from ..texttable import Texttable
 from .._compact import is_array_type
 from ..iterators import (
     HTLBRIterator,
@@ -801,7 +801,7 @@ class Matrix:
 
     @outsource
     def __str__(self):
-        table = texttable.Texttable()
+        table = Texttable()
         table.set_chars(self.__border__())
         table.add_rows(self.to_array())
         return table.draw()
