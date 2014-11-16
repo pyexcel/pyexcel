@@ -7,6 +7,7 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
+import six
 from .matrix import Row, Column, Matrix
 from .formattablesheet import FormattableSheet
 from .filterablesheet import FilterableSheet
@@ -477,9 +478,16 @@ class NominableSheet(FilterableSheet):
         """Returns an array after filtering"""
         from ..utils import to_array
         ret = []
-        if len(self.colnames) > 0:
-            ret += [self.colnames]
         ret += to_array(self.rows())
+        if len(self.rownames) > 0:
+            ret = map(lambda value: [value[0]] + value[1], zip(self.rownames, ret))
+            if six.PY3:
+                ret = list(ret)
+        if len(self.colnames) > 0:
+            if len(self.rownames) > 0:
+                ret.insert(0, [""] + self.colnames)
+            else:
+                ret.insert(0, self.colnames)
         return ret
 
     def to_records(self):

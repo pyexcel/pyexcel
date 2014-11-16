@@ -48,6 +48,7 @@ class TestPresentation:
             [7, 8, 9]
         ]
         s = pe.Sheet(content, name_columns_by_row=0)
+        print(s)
         content = dedent("""
            Sheet Name: pyexcel
            +----------+----------+----------+
@@ -59,6 +60,47 @@ class TestPresentation:
            +----------+----------+----------+
            | 7        | 8        | 9        |
            +----------+----------+----------+""").strip('\n')
+        assert str(s) == content
+
+    def test_data_frame(self):
+        content = [
+            ["", "Column 1", "Column 2", "Column 3"],
+            ["Row 1", 1, 2, 3],
+            ["Row 2", 4, 5, 6],
+            ["Row 3", 7, 8, 9]
+        ]
+        s = pe.Sheet(content, name_rows_by_column=0, name_columns_by_row=0)
+        print(str(s))
+        content = dedent("""
+            Sheet Name: pyexcel
+            +-------+----------+----------+----------+
+            |       | Column 1 | Column 2 | Column 3 |
+            +=======+==========+==========+==========+
+            | Row 1 | 1        | 2        | 3        |
+            +-------+----------+----------+----------+
+            | Row 2 | 4        | 5        | 6        |
+            +-------+----------+----------+----------+
+            | Row 3 | 7        | 8        | 9        |
+            +-------+----------+----------+----------+""").strip('\n')
+        assert str(s) == content
+
+    def test_row_series(self):
+        content = [
+            ["Row 1", 1, 2, 3],
+            ["Row 2", 4, 5, 6],
+            ["Row 3", 7, 8, 9]
+        ]
+        s = pe.Sheet(content, name_rows_by_column=0)
+        print("X"+str(s)+"X")
+        content = dedent("""
+            Sheet Name: pyexcel
+            +-------+---+---+---+
+            | Row 1 | 1 | 2 | 3 |
+            +-------+---+---+---+
+            | Row 2 | 4 | 5 | 6 |
+            +-------+---+---+---+
+            | Row 3 | 7 | 8 | 9 |
+            +-------+---+---+---+""").strip('\n')
         assert str(s) == content
 
     def test_book_presentation(self):
