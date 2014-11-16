@@ -14,6 +14,8 @@ from ..formatters import ColumnFormatter, RowFormatter, NamedColumnFormatter, Na
 from .._compact import is_string, OrderedDict
 from ..filters import ColumnIndexFilter, RowIndexFilter
 from ..iterators import ColumnIndexIterator, RowIndexIterator
+from ..presentation import outsource
+from ..texttable import Texttable
 
 
 class NamedRow(Row):
@@ -515,3 +517,24 @@ class NominableSheet(FilterableSheet):
             return ['-', '|', '+', '=']
         else:
             return ['-', '|', '+', '-']
+
+    @outsource
+    def __str__(self):
+        ret = "Sheet Name: %s\n" % self.name
+        if len(self.colnames) > 0:
+            table = Texttable(max_width=0)
+            table.set_chars(self.__border__())
+            data = self.to_array()
+            new_data = []
+            for sub_array in data:
+                new_array = []
+                for item in sub_array:
+                    if item == "":
+                        new_array.append(" ")
+                    else:
+                        new_array.append(item)
+                new_data.append(new_array)
+            table.add_rows(new_data)
+            return ret+table.draw()
+        else:
+            return ret+FilterableSheet.__str__(self)

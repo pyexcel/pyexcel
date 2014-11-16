@@ -34,14 +34,25 @@ Usage
 
     >>> import pyexcel as pe
     >>> book = pe.load_book("your_file.xls")
-    >>> book.to_dict() 
-    {"Sheet 1":[[1, 2, 3], ["4", "5", "6"]], "Sheet 2": [["a", "b", "c"], ["e", "f", "g"]], "Sheet 3":[[True, True, False]]}
+    >>> book
+    Sheet Name: Sheet 1
+    +---+---+---+
+    | 1 | 2 | 3 |
+    +---+---+---+
+    | 4 | 5 | 6 |
+    +---+---+---+
+    Sheet Name: Sheet 2
+    +---+---+---+
+    | a | b | c |
+    +---+---+---+
+    | e | f | g |
+    +---+---+---+
     >>> # access first sheet's top left cell
     >>> print(book["Sheet 1"]["A1"])
-    1
+    1.0
     >>> # alternative access to the same cell
     >>> print(book["Sheet 1"][0,0])
-    1   
+    1.0
 
 Documentation
 =============

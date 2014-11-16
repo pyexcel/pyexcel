@@ -228,7 +228,11 @@ class Book:
 
     @outsource
     def __str__(self):
-        return str(self.__class__)
+        ret = ""
+        for sheet in self.sheets:
+            ret += str(self.sheets[sheet])
+            ret += "\n"
+        return ret.strip('\n')
 
 
 def BookReader(file, **keywords):

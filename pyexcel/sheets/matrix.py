@@ -804,7 +804,6 @@ class Matrix:
         table = Texttable(max_width=0)
         table.set_chars(self.__border__())
         data = self.to_array()
-        new_data = []
         for sub_array in data:
             new_array = []
             for item in sub_array:
@@ -812,7 +811,6 @@ class Matrix:
                     new_array.append(" ")
                 else:
                     new_array.append(item)
-            new_data.append(new_array)
-        table.add_rows(new_data)
+            table.add_row(new_array)
         return table.draw()
         

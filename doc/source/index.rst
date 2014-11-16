@@ -24,6 +24,47 @@ In addition, the library recognizes that Excel files are de-facto file format fo
 
 All great work have done by odf, xlrd and other individual developers. This library unites only the data access code.
 
+.. testcode::
+   :hide:
+
+   >>> import pyexcel
+   >>> data = {
+   ...     "Sheet 1": [
+   ...         [1, 2, 3],
+   ...         [4, 5, 6]
+   ...     ],
+   ...     "Sheet 2": [
+   ...         ["a", "b", "c"],
+   ...         ["e", "f", "g"]
+   ...     ]
+   ... }
+   >>> book = pyexcel.Book(data)
+   >>> book.save_as("your_file.xls")
+
+Usage
+=====
+
+    >>> import pyexcel as pe
+    >>> book = pe.load_book("your_file.xls")
+    >>> book
+    Sheet Name: Sheet 1
+    +---+---+---+
+    | 1 | 2 | 3 |
+    +---+---+---+
+    | 4 | 5 | 6 |
+    +---+---+---+
+    Sheet Name: Sheet 2
+    +---+---+---+
+    | a | b | c |
+    +---+---+---+
+    | e | f | g |
+    +---+---+---+
+    >>> # access first sheet's top left cell
+    >>> print(book["Sheet 1"]["A1"])
+    1.0
+    >>> # alternative access to the same cell
+    >>> print(book["Sheet 1"][0,0])
+    1.0
 
 Installation
 -------------
