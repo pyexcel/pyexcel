@@ -82,7 +82,7 @@ class FormattableSheet(Matrix):
             >>> sheet = pe.Sheet(pe.dict_to_array(data))
             >>> sheet.row[1]
             [1, 1.3, 2, 1]
-            >>> sheet.map(lambda value: (float(value) if value != None else 0)+1)
+            >>> sheet.map(lambda value: round((float(value) if value != None else 0)+1, 2))
             >>> sheet.row[1]
             [2.0, 2.3, 3.0, 2.0]
 
@@ -106,7 +106,7 @@ class FormattableSheet(Matrix):
             >>> sheet = pe.Sheet(pe.dict_to_array(data))
             >>> sheet.row[1]
             [1, 1.3, 2, 1]
-            >>> aformatter = pe.SheetFormatter(None, lambda value: (float(value) if value != None else 0)+1)
+            >>> aformatter = pe.SheetFormatter(None, lambda value: round((float(value) if value != None else 0)+1, 2))
             >>> sheet.apply_formatter(aformatter)
             >>> sheet.row[1]
             [2.0, 2.3, 3.0, 2.0]
@@ -170,14 +170,14 @@ class FormattableSheet(Matrix):
             >>> sheet = pe.Sheet(pe.dict_to_array(data))
             >>> sheet.row[1]
             [1, 1.3, 2, 1]
-            >>> aformatter = pe.SheetFormatter(None, lambda value: (float(value) if value != None else 0)+1)
+            >>> aformatter = pe.SheetFormatter(None, lambda value: round((float(value) if value != None else 0)+1, 2))
             >>> sheet.add_formatter(aformatter)
             >>> sheet.row[1]
             [2.0, 2.3, 3.0, 2.0]
             >>> sheet.clear_formatters()
             >>> sheet.row[1]
             [1, 1.3, 2, 1]
-            >>> aformatter = pe.SheetFormatter(None, lambda value: (float(value) if value != None else 0)+1)
+            >>> aformatter = pe.SheetFormatter(None, lambda value: round((float(value) if value != None else 0)+1, 2))
             >>> sheet.apply_formatter(aformatter)
             >>> sheet.row[1]
             [2.0, 2.3, 3.0, 2.0]
@@ -204,20 +204,20 @@ class FormattableSheet(Matrix):
             >>> # Given a dictinoary as the following
             >>> data = {
             ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
-            ...     "3": [1.3, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
+            ...     "3": [1.25, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
             ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
             ...     "7": [1, '',]
             ...     }
             >>> sheet = pe.Sheet(pe.dict_to_array(data))
             >>> sheet.row[1]
-            [1, 1.3, 2, 1]
+            [1, 1.25, 2, 1]
             >>> aformatter = pe.SheetFormatter(None, lambda value: (float(value) if value != None else 0)+1)
             >>> sheet.add_formatter(aformatter)
             >>> sheet.row[1]
-            [2.0, 2.3, 3.0, 2.0]
+            [2.0, 2.25, 3.0, 2.0]
             >>> sheet.clear_formatters()
             >>> sheet.row[1]
-            [1, 1.3, 2, 1]
+            [1, 1.25, 2, 1]
 
 
         """
