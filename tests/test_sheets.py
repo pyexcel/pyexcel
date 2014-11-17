@@ -169,6 +169,12 @@ class TestSheetNamedColumn2:
         s.format(f)
         assert s.column["Column 1"] == ["1", "4", "7"]
 
+    def test_formatter_by_named_column_2(self):
+        s = pe.sheets.NominableSheet(self.data, "test")
+        s.index_by_row(2)
+        s.column.format("Column 1", str)
+        assert s.column["Column 1"] == ["1", "4", "7"]
+
     def test_add(self):
         s = pe.sheets.NominableSheet(self.data, "test")
         s.index_by_row(2)
@@ -208,6 +214,12 @@ class TestSheetNamedRow:
         s.index_by_column(0)
         f = pe.formatters.NamedRowFormatter("Row 1", str)
         s.format(f)
+        assert s.row["Row 1"] == ["1", "2", "3"]
+
+    def test_formatter_by_named_row_2(self):
+        s = pe.sheets.NominableSheet(self.data, "test")
+        s.index_by_column(0)
+        s.row.format("Row 1", str)
         assert s.row["Row 1"] == ["1", "2", "3"]
 
     def test_row_series_to_dict(self):

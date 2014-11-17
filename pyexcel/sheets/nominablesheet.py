@@ -23,6 +23,18 @@ from ..presentation import outsource
 from ..texttable import Texttable
 
 
+def names_to_indices(names, series):
+    if isinstance(names, str):
+        indices = series.index(names)
+    elif (isinstance(names, list) and
+          isinstance(names[0], str)):
+        # translate each row name to index
+        indices = [series.index(astr) for astr in names]
+    else:
+        return names
+    return indices
+
+
 class NamedRow(Row):
     """Series Sheet would have Named Row instead of Row
 
@@ -107,7 +119,10 @@ class NamedRow(Row):
                row_index=None, format=None, custom_converter=None,
                format_specs=None, on_demand=False):
         def handle_one_formatter(rows, aformat, aconverter, on_demand):
-            formatter = RowFormatter(rows, aformat, aconverter)
+            new_indices = rows
+            if len(self.ref.rownames) > 0:
+                new_indices = names_to_indices(rows, self.ref.rownames)
+            formatter = RowFormatter(new_indices, aformat, aconverter)
             if on_demand:
                 self.ref.add_formatter(formatter)
             else:
@@ -175,7 +190,10 @@ class NamedColumn(Column):
                column_index=None, format=None, custom_converter=None,
                format_specs=None, on_demand=False):
         def handle_one_formatter(columns, aformat, aconverter, on_demand):
-            formatter = ColumnFormatter(columns, aformat, aconverter)
+            new_indices = columns
+            if len(self.ref.colnames) > 0:
+                new_indices = names_to_indices(columns, self.ref.colnames)
+            formatter = ColumnFormatter(new_indices, aformat, aconverter)
             if on_demand:
                 self.ref.add_formatter(formatter)
             else:
@@ -415,14 +433,8 @@ class NominableSheet(FilterableSheet):
         else:
             series = None
         if series:
-            if isinstance(aformatter.indices, str):
-                new_indices = series.index(aformatter.indices)
-                aformatter.update_index(new_indices)
-            elif (isinstance(aformatter.indices, list) and
-                  isinstance(aformatter.indices[0], str)):
-                # translate each row name to index
-                new_indices = [series.index(astr) for astr in aformatter.indices]
-                aformatter.update_index(new_indices)
+            indices = names_to_indices(aformatter.indices, series)
+            aformatter.update_index(indices)
         return aformatter
 
     def add_formatter(self, aformatter):
