@@ -11,7 +11,8 @@ import uuid
 from .matrix import Matrix
 from ..formatters import (
     ColumnFormatter,
-    RowFormatter
+    RowFormatter,
+    SheetFormatter
 )
 
 
@@ -24,9 +25,18 @@ class FormattableSheet(Matrix):
         Matrix.__init__(self, array)
         self._formatters = []
 
-    def format(self, aformatter):
-        """Shorthand for apply_formatter"""
-        self.apply_formatter(aformatter)
+    def format(self, FORMAT, custom_converter=None, on_demand=False):
+        """Apply a formatting action for the whole sheet"""
+        sf = SheetFormatter(FORMAT, custom_converter)
+        if on_demand:
+            self.add_formatter(sf)
+        else:
+            self.apply_formatter(sf)
+
+    def map(self, custom_function):
+        """Execute a function across all cells of the sheet"""
+        sf = SheetFormatter(None, custom_function)
+        self.apply_formatter(sf)
 
     def apply_formatter(self, aformatter):
         """Apply the formatter immediately. No return ticket

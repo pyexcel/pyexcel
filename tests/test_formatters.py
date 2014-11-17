@@ -597,6 +597,20 @@ class TestSheetFormatter:
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
 
+    def test_custom_func2(self):
+        r = pe.Reader(self.testfile)
+        f = lambda x: float(x) + 1
+        r.format(float)
+        r.map(f)
+        c1 = r.row_at(1)
+        c2 = [2.0, 2.1, 3.0, 2.0]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+        c1 = r.row_at(2)
+        c2 = [3, 3.2, 4, 1.0]
+        for i in range(0, len(c1)):
+            assert c1[i] == c2[i]
+
     def test_custom_func_with_a_general_converter(self):
         r = pe.Reader(self.testfile)
         f = lambda x: float(x) + 1

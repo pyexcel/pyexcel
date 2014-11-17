@@ -26,7 +26,7 @@ class TestFormattableSheet:
 
     def test_apply_sheet_formatter(self):
         s = pe.sheets.FormattableSheet(self.data)
-        s.format(pe.formatters.SheetFormatter(float))
+        s.apply_formatter(pe.formatters.SheetFormatter(float))
         assert s.row[0] == s.row[1]
         assert s.column[0] == [1, 1, 1.1, 1.1, 2, 2]
 
@@ -74,7 +74,7 @@ class TestSheetNamedColumn:
         s = pe.sheets.NominableSheet(self.data, "test")
         s.index_by_row(0)
         f = pe.formatters.NamedColumnFormatter("Column 1", str)
-        s.format(f)
+        s.apply_formatter(f)
         assert s.column["Column 1"] == ["1", "4", "7"]
         
     def test_formatter_by_named_columns(self):
@@ -82,7 +82,7 @@ class TestSheetNamedColumn:
         s = pe.sheets.NominableSheet(self.data, "test")
         s.index_by_row(0)
         f = pe.formatters.NamedColumnFormatter(["Column 1", "Column 3"], str)
-        s.format(f)
+        s.apply_formatter(f)
         assert s.column["Column 1"] == ["1", "4", "7"]
         assert s.column["Column 3"] == ["3", "6", "9"]
 
@@ -166,7 +166,7 @@ class TestSheetNamedColumn2:
         s = pe.sheets.NominableSheet(self.data, "test")
         s.index_by_row(2)
         f = pe.formatters.NamedColumnFormatter("Column 1", str)
-        s.format(f)
+        s.apply_formatter(f)
         assert s.column["Column 1"] == ["1", "4", "7"]
 
     def test_formatter_by_named_column_2(self):
@@ -213,7 +213,7 @@ class TestSheetNamedRow:
         s = pe.sheets.NominableSheet(self.data, "test")
         s.index_by_column(0)
         f = pe.formatters.NamedRowFormatter("Row 1", str)
-        s.format(f)
+        s.apply_formatter(f)
         assert s.row["Row 1"] == ["1", "2", "3"]
 
     def test_formatter_by_named_row_2(self):
@@ -240,7 +240,7 @@ class TestSheetNamedRow:
         s = pe.sheets.NominableSheet(self.data, "test")
         s.index_by_column(0)
         f = pe.formatters.NamedRowFormatter(["Row 1", "Row 2"], str)
-        s.format(f)
+        s.apply_formatter(f)
         assert s.row["Row 1"] == ["1", "2", "3"]
         assert s.row["Row 2"] == ["4", "5", "6"]
 
