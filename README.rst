@@ -23,14 +23,9 @@ pyexcel - Let you focus on data, instead of file formats
 
 **pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. Its mission is to let you focus on data itself and it deals with different file formats. ODS format support is provided by `pyexcel-ods <https://github.com/chfw/pyexcel-ods>`__ or `pyexcel-ods3 <https://github.com/chfw/pyexcel-ods3>`__. Fonts, colors and charts are not supported.
 
-It was created due to the lack of uniform programming interface to access data in different formats. A developer needs to use different methods of different libraries to read the same data in different excel formats, hence the resulting code is cluttered and unmaintainable.
-
-In addition, the library recognizes that Excel files are de-facto file format for information sharing in non-software centric organisations. Excel files are not only used for mathematical computation in financial institutions but also used for many other purposes in an office work environment.
-
 All great work have done by odf, ezodf(2), xlrd and other individual developers. This library unites only the data access code.
 
-Usage
-=====
+Usage Exmaples::
 
     >>> import pyexcel as pe
     >>> sheet = pe.load("your_file.xls")

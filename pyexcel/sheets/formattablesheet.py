@@ -29,7 +29,7 @@ class FormattableSheet(Matrix):
             >>> # Given a dictinoary as the following
             >>> data = {
             ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
-            ...     "3": [1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
+            ...     "3": [1.3, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
             ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
             ...     "7": [1, '',]
             ...     }
@@ -48,16 +48,16 @@ class FormattableSheet(Matrix):
             >>> # Given a dictinoary as the following
             >>> data = {
             ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
-            ...     "3": [1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
+            ...     "3": [1.3, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
             ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
             ...     "7": [1, '',]
             ...     }
             >>> sheet = pe.Sheet(pe.dict_to_array(data))
             >>> sheet.row[1]
-            [1, 1.1, 2, 1]
+            [1, 1.3, 2, 1]
             >>> sheet.format(str)
             >>> sheet.row[1]
-            ['1', '1.1', '2', '1']
+            ['1', '1.3', '2', '1']
 
         """
         sf = SheetFormatter(FORMAT, custom_converter)
@@ -75,16 +75,16 @@ class FormattableSheet(Matrix):
             >>> # Given a dictinoary as the following
             >>> data = {
             ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
-            ...     "3": [1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
+            ...     "3": [1.3, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
             ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
             ...     "7": [1, '',]
             ...     }
             >>> sheet = pe.Sheet(pe.dict_to_array(data))
             >>> sheet.row[1]
-            [1, 1.1, 2, 1]
+            [1, 1.3, 2, 1]
             >>> sheet.map(lambda value: (float(value) if value != None else 0)+1)
             >>> sheet.row[1]
-            [2.0, 2.1, 3.0, 2.0]
+            [2.0, 2.3, 3.0, 2.0]
 
         """
         sf = SheetFormatter(None, custom_function)
@@ -92,6 +92,28 @@ class FormattableSheet(Matrix):
 
     def apply_formatter(self, aformatter):
         """Apply the formatter immediately. No return ticket
+
+        Example::
+
+            >>> import pyexcel as pe
+            >>> # Given a dictinoary as the following
+            >>> data = {
+            ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
+            ...     "3": [1.3, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
+            ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
+            ...     "7": [1, '',]
+            ...     }
+            >>> sheet = pe.Sheet(pe.dict_to_array(data))
+            >>> sheet.row[1]
+            [1, 1.3, 2, 1]
+            >>> aformatter = pe.SheetFormatter(None, lambda value: (float(value) if value != None else 0)+1)
+            >>> sheet.apply_formatter(aformatter)
+            >>> sheet.row[1]
+            [2.0, 2.3, 3.0, 2.0]
+            >>> sheet.clear_formatters() # no return ticket
+            >>> sheet.row[1]
+            [2.0, 2.3, 3.0, 2.0]
+
         """
         if isinstance(aformatter, ColumnFormatter):
             self._apply_column_formatter(aformatter)
@@ -133,6 +155,36 @@ class FormattableSheet(Matrix):
         data table, you can choose apply_formatter() too.
 
         :param Formatter aformatter: a custom formatter
+
+        
+        Example::
+
+            >>> import pyexcel as pe
+            >>> # Given a dictinoary as the following
+            >>> data = {
+            ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
+            ...     "3": [1.3, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
+            ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
+            ...     "7": [1, '',]
+            ...     }
+            >>> sheet = pe.Sheet(pe.dict_to_array(data))
+            >>> sheet.row[1]
+            [1, 1.3, 2, 1]
+            >>> aformatter = pe.SheetFormatter(None, lambda value: (float(value) if value != None else 0)+1)
+            >>> sheet.add_formatter(aformatter)
+            >>> sheet.row[1]
+            [2.0, 2.3, 3.0, 2.0]
+            >>> sheet.clear_formatters()
+            >>> sheet.row[1]
+            [1, 1.3, 2, 1]
+            >>> aformatter = pe.SheetFormatter(None, lambda value: (float(value) if value != None else 0)+1)
+            >>> sheet.apply_formatter(aformatter)
+            >>> sheet.row[1]
+            [2.0, 2.3, 3.0, 2.0]
+            >>> sheet.clear_formatters() # no return ticket
+            >>> sheet.row[1]
+            [2.0, 2.3, 3.0, 2.0]
+        
         """
         self._formatters.append(aformatter)
 
@@ -144,7 +196,31 @@ class FormattableSheet(Matrix):
         self._formatters.remove(aformatter)
 
     def clear_formatters(self):
-        """Clear all formatters"""
+        """Clear all formatters
+
+        Example::
+
+            >>> import pyexcel as pe
+            >>> # Given a dictinoary as the following
+            >>> data = {
+            ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
+            ...     "3": [1.3, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
+            ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
+            ...     "7": [1, '',]
+            ...     }
+            >>> sheet = pe.Sheet(pe.dict_to_array(data))
+            >>> sheet.row[1]
+            [1, 1.3, 2, 1]
+            >>> aformatter = pe.SheetFormatter(None, lambda value: (float(value) if value != None else 0)+1)
+            >>> sheet.add_formatter(aformatter)
+            >>> sheet.row[1]
+            [2.0, 2.3, 3.0, 2.0]
+            >>> sheet.clear_formatters()
+            >>> sheet.row[1]
+            [1, 1.3, 2, 1]
+
+
+        """
         self._formatters = []
 
     def freeze_formatters(self):

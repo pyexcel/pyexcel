@@ -37,8 +37,6 @@ pyexcel.sheets.Sheet
       ~Sheet.format
       ~Sheet.freeze_filters
       ~Sheet.freeze_formatters
-      ~Sheet.index_by_column
-      ~Sheet.index_by_row
       ~Sheet.is_series
       ~Sheet.map
       ~Sheet.name_columns_by_row
