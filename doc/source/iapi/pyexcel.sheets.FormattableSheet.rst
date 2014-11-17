@@ -30,6 +30,7 @@ pyexcel.sheets.FormattableSheet
       ~FormattableSheet.extend_rows
       ~FormattableSheet.format
       ~FormattableSheet.freeze_formatters
+      ~FormattableSheet.map
       ~FormattableSheet.number_of_columns
       ~FormattableSheet.number_of_rows
       ~FormattableSheet.rcolumns

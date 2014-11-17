@@ -65,7 +65,7 @@ class NamedRow(Row):
 
     this is added to overcome doctest's inability to handle python 3's unicode::
 
-        >>> r.format(pe.formatters.SheetFormatter(str, lambda v: str(v)))
+        >>> r.format(str, lambda v: str(v))
         >>> print(pe.utils.to_array(r))
         [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9'], ['a', 'b', 'c'], ['d', 'e', 'f'], ['g', 'h', 'i'], ['1.1', '2.2', '3.3'], ['4.4', '5.5', '6.6'], ['7.7', '8.8', '9.9']]
 
@@ -274,17 +274,11 @@ class NominableSheet(FilterableSheet):
         # dummy setter to enable self.column += ..
         pass
 
-    def index_by_row(self, row_index):
-        self.name_columns_by_row(row_index)
-
     def name_columns_by_row(self, row_index):
         """Use the elements of a specified row to represent individual columns"""
         self.row_index = row_index
         self._column_names = self.row_at(row_index)
         del self.row[row_index]
-
-    def index_by_column(self, column_index):
-        self.name_rows_by_column(column_index)
 
     def name_rows_by_column(self, column_index):
         """Use the elements of a specified column to represent individual rows"""

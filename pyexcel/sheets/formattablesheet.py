@@ -21,12 +21,45 @@ class FormattableSheet(Matrix):
     A represetation of Matrix that accept custom formatters
     """
     def __init__(self, array):
-        """Constructor"""
+        """Constructor
+
+        Example::
+
+            >>> import pyexcel as pe
+            >>> # Given a dictinoary as the following
+            >>> data = {
+            ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
+            ...     "3": [1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
+            ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
+            ...     "7": [1, '',]
+            ...     }
+            >>> sheet = pe.Sheet(pe.dict_to_array(data))
+        
+        """
         Matrix.__init__(self, array)
         self._formatters = []
 
     def format(self, FORMAT, custom_converter=None, on_demand=False):
-        """Apply a formatting action for the whole sheet"""
+        """Apply a formatting action for the whole sheet
+        
+        Example::
+
+            >>> import pyexcel as pe
+            >>> # Given a dictinoary as the following
+            >>> data = {
+            ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
+            ...     "3": [1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
+            ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
+            ...     "7": [1, '',]
+            ...     }
+            >>> sheet = pe.Sheet(pe.dict_to_array(data))
+            >>> sheet.row[1]
+            [1, 1.1, 2, 1]
+            >>> sheet.format(str)
+            >>> sheet.row[1]
+            ['1', '1.1', '2', '1']
+
+        """
         sf = SheetFormatter(FORMAT, custom_converter)
         if on_demand:
             self.add_formatter(sf)
@@ -34,7 +67,26 @@ class FormattableSheet(Matrix):
             self.apply_formatter(sf)
 
     def map(self, custom_function):
-        """Execute a function across all cells of the sheet"""
+        """Execute a function across all cells of the sheet
+
+        Example::
+
+            >>> import pyexcel as pe
+            >>> # Given a dictinoary as the following
+            >>> data = {
+            ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
+            ...     "3": [1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
+            ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
+            ...     "7": [1, '',]
+            ...     }
+            >>> sheet = pe.Sheet(pe.dict_to_array(data))
+            >>> sheet.row[1]
+            [1, 1.1, 2, 1]
+            >>> sheet.map(lambda value: (float(value) if value != None else 0)+1)
+            >>> sheet.row[1]
+            [2.0, 2.1, 3.0, 2.0]
+
+        """
         sf = SheetFormatter(None, custom_function)
         self.apply_formatter(sf)
 

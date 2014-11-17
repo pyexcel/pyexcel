@@ -176,6 +176,7 @@ Transformation
     :toctree: generated/
 
    Sheet.transpose
+   Sheet.map
         
 
 Save changes

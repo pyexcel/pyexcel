@@ -40,6 +40,7 @@ pyexcel.Sheet
       ~Sheet.index_by_column
       ~Sheet.index_by_row
       ~Sheet.is_series
+      ~Sheet.map
       ~Sheet.name_columns_by_row
       ~Sheet.name_rows_by_column
       ~Sheet.named_column_at

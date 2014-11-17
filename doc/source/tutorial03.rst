@@ -85,7 +85,7 @@ First, let's read the content and see what do we have::
 .. testcode::
    :hide:
 
-   >>> sheet.format(pyexcel.formatters.SheetFormatter(str, lambda v: str(v)))
+   >>> sheet.format(str, lambda v: str(v))
 
 .. testcode::
   

@@ -34,6 +34,7 @@ pyexcel.sheets.FilterableSheet
       ~FilterableSheet.format
       ~FilterableSheet.freeze_filters
       ~FilterableSheet.freeze_formatters
+      ~FilterableSheet.map
       ~FilterableSheet.number_of_columns
       ~FilterableSheet.number_of_rows
       ~FilterableSheet.rcolumns

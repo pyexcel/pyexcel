@@ -247,7 +247,7 @@ class TestSeriesReader3:
         s.column += pe.transpose(test_data)
         actual = pe.to_array(s)
         assert test_data == actual
-        s.index_by_row(2)
+        s.name_columns_by_row(2)
         assert s.colnames == test_data[2]
         assert s.series() == test_data[2]
         
