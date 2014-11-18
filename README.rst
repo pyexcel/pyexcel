@@ -21,7 +21,7 @@ pyexcel - Let you focus on data, instead of file formats
     :target: https://pypi.python.org/pypi/pyexcel
     :alt: Supported Python implementation
 
-**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. Its mission is to let you focus on data itself and it deals with different file formats. ODS format support is provided by `pyexcel-ods <https://github.com/chfw/pyexcel-ods>`__ or `pyexcel-ods3 <https://github.com/chfw/pyexcel-ods3>`__. Fonts, colors and charts are not supported.
+**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. Its mission is to let you focus on data itself and it deals with different file formats. ODS format support is provided by `pyexcel-ods <https://github.com/chfw/pyexcel-ods>`__ or `pyexcel-ods3 <https://github.com/chfw/pyexcel-ods3>`__. Additional text formats, such as **json**, **rst**, are supported through `pyexcel-text <https://github.com/chfw/pyexcel-text>`__ . Fonts, colors and charts are not supported.
 
 All great work have done by odf, ezodf(2), xlrd and other individual developers. This library unites only the data access code.
 
@@ -118,18 +118,18 @@ pyexcel-ods3 		    yes        yes        yes		 yes
 
 Plugin compatibility management
 -------------------------------
-======= ======== ====== 
-pyexcel ods      ods3
-======= ======== ======
-v0.0.8
-v0.0.7
-v0.0.6  0.0.2    0.0.2
-v0.0.5                  		   
-v0.0.4  0.0.1    0.0.1
-v0.0.3                  		   
-v0.0.2	                	   
-v0.0.1  n/a      n/a
-======= ======== ======
+======= ======== ====== ======
+pyexcel ods      ods3	text  
+======= ======== ======	======
+v0.0.8	..		 ..		0.0.1 
+v0.0.7	..		 ..		..    
+v0.0.6  0.0.2    0.0.2	..    
+v0.0.5  ..       ..     ..    		   
+v0.0.4  0.0.1    0.0.1	..    
+v0.0.3  ..       ..     ..    		   
+v0.0.2	..       ..     ..    	   
+v0.0.1  n/a      n/a	n/a   
+======= ======== ======	======
 
 Test 
 =====

@@ -16,7 +16,7 @@
 Introduction
 -------------
 
-**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. The data in excel files can be turned into array or dict with least code, and vice versa. And ready-made or custom filters and formatters can be applied. But it does not support fonts, colors and charts.
+**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. ODS format support is provided by `pyexcel-ods <https://github.com/chfw/pyexcel-ods>`__ or `pyexcel-ods3 <https://github.com/chfw/pyexcel-ods3>`__. Additional text formats, such as **json**, **rst**, are supported through `pyexcel-text <https://github.com/chfw/pyexcel-text>`__ . The data in excel files can be turned into array or dict with least code, and vice versa. And ready-made or custom filters and formatters can be applied. But it does not support fonts, colors and charts.
 
 It was created due to the lack of uniform programming interface to access data in different excel formats. A developer needs to use different methods of different libraries to read the same data in different excel formats, hence the resulting code is cluttered and unmaintainable.
 
@@ -135,18 +135,19 @@ pyexcel-ods3 		    yes        yes        yes		 yes
 
 Plugin compatibility management
 -------------------------------
-======= ======== ====== 
-pyexcel ods      ods3
-======= ======== ======
-v0.0.8
-v0.0.7
-v0.0.6  0.0.2    0.0.2
-v0.0.5                  		   
-v0.0.4  0.0.1    0.0.1
-v0.0.3                  		   
-v0.0.2	                	   
-v0.0.1  n/a      n/a
-======= ======== ======
+
+======= ======== ====== ======
+pyexcel ods      ods3	text  
+======= ======== ======	======
+v0.0.8	..		 ..		0.0.1 
+v0.0.7	..		 ..		..    
+v0.0.6  0.0.2    0.0.2	..    
+v0.0.5  ..       ..     ..    		   
+v0.0.4  0.0.1    0.0.1	..    
+v0.0.3  ..       ..     ..    		   
+v0.0.2	..       ..     ..    	   
+v0.0.1  n/a      n/a	n/a   
+======= ======== ======	======
 
 Usage examples
 ----------------
