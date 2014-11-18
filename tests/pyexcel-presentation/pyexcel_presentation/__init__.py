@@ -1,7 +1,14 @@
 from pyexcel.presentation import STRINGIFICATION
+import sys
 
 def present_matrix(matrix_instance):
-    return str(matrix_instance.__class__)
+    return "pyexcel.sheets.matrix.Matrix"
 
-STRINGIFICATION["pyexcel.sheets.matrix.Matrix"] = present_matrix
+def class_name(name):
+    if sys.version_info[0] > 2:
+        return "<class '%s'>" % name
+    else:
+        return name
+
+STRINGIFICATION[class_name("pyexcel.sheets.matrix.Matrix")] = present_matrix
 

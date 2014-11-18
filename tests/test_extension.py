@@ -22,4 +22,5 @@ class TestExt:
         from pyexcel.ext import presentation
         a = [[1,1]]
         m = pe.sheets.Matrix(a)
+        print(str(m))
         assert str(m) == "pyexcel.sheets.matrix.Matrix"
