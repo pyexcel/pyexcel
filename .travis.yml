@@ -11,6 +11,7 @@ python:
   - pypy
 install:
   - python setup.py install
+  - pip install git+https://github.com/chfw/pyexcel-xl.git
   - pip install -r tests/requirements.txt
 script:
   make test

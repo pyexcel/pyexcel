@@ -9,24 +9,18 @@
     :license: GPL v3
 """
 from .csvbook import CSVBook, CSVWriter
-from .xlbook import XLBook, XLWriter
 from .._compact import is_string
+
 
 # A list of registered readers
 READERS = {
-    "xls": XLBook,
-    "xlsm": XLBook,
-    "xlsx": XLBook,
-    "csv": CSVBook,
+    "csv": CSVBook
 }
 
 
 # A list of registered writers
 WRITERS = {
-    "xls": XLWriter,
-    "xlsm": XLWriter,
-    "xlsx": XLWriter,
-    "csv": CSVWriter,
+    "csv": CSVWriter
 }
 
 

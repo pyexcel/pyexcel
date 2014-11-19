@@ -58,6 +58,9 @@ class FormattableSheet(Matrix):
             >>> sheet.format(str)
             >>> sheet.row[1]
             ['1', '1.25', '2', '1']
+            >>> sheet.format(int)
+            >>> sheet.row[1]
+            [1, 1, 2, 1]
 
         """
         sf = SheetFormatter(FORMAT, custom_converter)
