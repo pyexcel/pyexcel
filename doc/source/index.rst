@@ -16,33 +16,30 @@
 Introduction
 -------------
 
-**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. Xls, xlsx and xlsm formats support are enabled by `pyexcel-xl <https://github.com/chfw/pyexcel-xl>`__ . ODS format support is provided by `pyexcel-ods <https://github.com/chfw/pyexcel-ods>`__ or `pyexcel-ods3 <https://github.com/chfw/pyexcel-ods3>`__. Additional text formats, such as **json**, **rst**, are supported through `pyexcel-text <https://github.com/chfw/pyexcel-text>`__ . The data in excel files can be turned into array or dict with least code, and vice versa. And ready-made or custom filters and formatters can be applied. But it does not support fonts, colors and charts.
+**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. This library makes information processing involving excel files an enjoyable task. The data in excel files can be turned into array or dict with least code, vice versa. And ready-made custom filters and formatters can be applied. However, this library is not made for data visualisations. Hence it does not support fonts, colors and charts.
 
 It was created due to the lack of uniform programming interface to access data in different excel formats. A developer needs to use different methods of different libraries to read the same data in different excel formats, hence the resulting code is cluttered and unmaintainable.
 
 In addition, the library recognizes that Excel files are de-facto file format for information sharing in non-software centric organisations. Excel files are not only used for mathematical computation in financial institutions but also used for many other purposes in an office work environment.
 
-All great work have done by odf, xlrd and other individual developers. This library unites only the data access code.
 
-================ ============================================================ ============= ========================
-Plugins          Supported file formats                                       Dependencies  Python versions
-================ ============================================================ ============= ========================
-pyexcel          csv                                                          six           2.6, 2.7, 3.3, 3.4, pypy
-`pyexcel-xl`_    xls, xlsx, xlsm                                              xlrd, xlwt    2.6, 2.7, 3.3, 3.4, pypy
-`pyexcel-ods`_   ods (python 2.6, 2.7)                                        odfpy         2.6, 2.7, pypy
-`pyexcel-ods3`_  ods (python 2.7, 3.3, 3.4)                                   ezodf, lxml   3.3, 3.4
-`pyexcel-text`_  json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple tabulate      2.6, 2.7, 3.3, 3.4, pypy
-================ ============================================================ ============= ========================
+All great work have done by individual library developers. This library unites only the data access code.
 
-.. _pyexcel-xl: https://github.com/chfw/pyexcel-xl
-.. _pyexcel-ods: https://github.com/chfw/pyexcel-ods
-.. _pyexcel-ods3: https://github.com/chfw/pyexcel-ods3
-.. _pyexcel-text: https://github.com/chfw/pyexcel-text
+Getting the source
+-------------------
+
+Source code is hosted in github. You can get it using git client::
+
+    $ git clone http://github.com/chfw/pyexcel.git
+
+Usage
+------
 
 .. testcode::
    :hide:
 
    >>> import pyexcel
+   >>> import pyexcel.ext.xl
    >>> data = {
    ...     "Sheet 1": [
    ...         [1, 2, 3],
@@ -58,12 +55,12 @@ pyexcel          csv                                                          si
    >>> book = pyexcel.Book(data)
    >>> book.save_as("your_file.xls")
 
-Usage
-=====
-
+Here are the example usages::
+   
     >>> import pyexcel as pe
+    >>> import pyexcel.ext.xl # import it to be able handle xls, xlsx, xlsm files
     >>> sheet = pe.load("your_file.xls")
-    >>> sheet
+    >>> sheet # ascii representation of the content
     Sheet Name: Sheet 1
     +----------+----------+----------+
     | 1        | 2        | 3        |
@@ -119,6 +116,7 @@ Usage
    >>> os.unlink("myfile.csv")
    >>> os.unlink("new_file.xlsx")
 
+
 Installation
 -------------
 
@@ -126,77 +124,74 @@ You can install it via pip::
 
     $ pip install pyexcel
 
+For individual excel file formats, please install them as you wish:
 
-Getting the source
--------------------
+================ ============================================================ ============= ======================== =============================	
+Plugins          Supported file formats                                       Dependencies  Python versions			 Comments						
+================ ============================================================ ============= ======================== =============================	
+pyexcel          csv                                                          six           2.6, 2.7, 3.3, 3.4, pypy 								
+`pyexcel-xl`_    xls, xlsx, xlsm                                              xlrd, xlwt    2.6, 2.7, 3.3, 3.4, pypy 								
+`pyexcel-ods`_   ods (python 2.6, 2.7)                                        odfpy         2.6, 2.7				 								
+`pyexcel-ods3`_  ods (python 2.7, 3.3, 3.4)                                   ezodf, lxml   3.3, 3.4				 								
+`pyexcel-text`_  json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple tabulate      2.6, 2.7, 3.3, 3.4, pypy only support writing to files	
+================ ============================================================ ============= ======================== =============================
 
-Source code is hosted in github. You can get it using git client::
+.. _pyexcel-xl: https://github.com/chfw/pyexcel-xl
+.. _pyexcel-ods: https://github.com/chfw/pyexcel-ods
+.. _pyexcel-ods3: https://github.com/chfw/pyexcel-ods3
+.. _pyexcel-text: https://github.com/chfw/pyexcel-text
 
-    $ git clone http://github.com/chfw/pyexcel.git
+Please import them before you start to access the desired file formats::
 
+    from pyexcel.ext import extension_name
 
-Open Document Spreadsheet(ods) Support
------------------------------------------
+or::
 
-In order to add ods support, please choose one of two packages: `pyexcel-ods <https://github.com/chfw/pyexcel-ods>`__ or `pyexcel-ods3 <https://github.com/chfw/pyexcel-ods3>`__ . Please read individual installation instructions respectively. Here is the comparsion of two packages:
+    import pyexcel.ext.extension_name
 
-============ ========== ========== ========== ========== ==============
-package      python 2.6 python 2.7 python 3.3 python 3.4 lxml dependent
-============ ========== ========== ========== ========== ==============
-pyexcel-ods  yes	    yes	   	   						 no   		  
-pyexcel-ods3 		    yes        yes        yes		 yes		   	 		   
-============ ========== ========== ========== ========== ============== 
+.. table:: Plugin compatibility table
 
+    ======= ======= ======== ====== ======
+    pyexcel xl      ods      ods3   text  
+    ======= ======= ======== ====== ======
+    v0.0.8  0.0.1   0.0.2    0.0.2  0.0.1 
+    v0.0.7  n/a     0.0.2    0.0.2  n/a    
+    v0.0.6          0.0.2    0.0.2      
+    v0.0.5          0.0.1    0.0.1             
+    v0.0.4          0.0.1    0.0.1      
+    v0.0.3          n/a      n/a    
+    ======= ======= ======== ====== ======
 
-Plugin compatibility management
--------------------------------
-
-======= ======= ======== ====== ======
-pyexcel xl      ods      ods3	text  
-======= ======= ======== ======	======
-v0.0.8	0.0.1   0.0.2	 0.0.2	0.0.1 
-v0.0.7	n/a     0.0.2	 0.0.2	n/a    
-v0.0.6  n/a     0.0.2    0.0.2	n/a    
-v0.0.5  n/a     0.0.1    0.0.1  n/a   		   
-v0.0.4  n/a     0.0.1    0.0.1	n/a    
-v0.0.3  n/a     n/a      n/a    n/a
-v0.0.2	n/a     n/a      n/a    n/a         	   
-v0.0.1  n/a     n/a      n/a	n/a   
-======= ======= ======== ======	======
-
-Usage examples
-----------------
+More usage examples
+--------------------
 
 Tutorial
 +++++++++
 
 .. toctree::
 
-    tutorial
-    tutorial05
-    tutorial02
-    tutorial03
-    tutorial04
-    tutorial06
+   tutorial
+   tutorial05
+   tutorial02
+   tutorial03
+   tutorial04
+   tutorial06
 
 Cook book
 ++++++++++
 
 .. toctree::
 
-    cookbook
+   cookbook
 
 API documentation
 ++++++++++++++++++
 
 .. toctree::
-
-    api
-    iapi
-
-.. toctree::
    :maxdepth: 2
 
+   api
+   iapi
 
 
 Indices and tables

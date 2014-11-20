@@ -412,3 +412,4 @@ for the output file, you can specify any of the supported formats
    :hide:
 
    >>> os.unlink("Sheet 1_output.xls")
+   >>> os.unlink("megabook.xls")

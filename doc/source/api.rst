@@ -1,3 +1,4 @@
+
 =============
 API Reference
 =============
@@ -172,8 +173,8 @@ Anti-conversion
 Transformation
 ----------------
 
- .. autosummary::
-    :toctree: generated/
+.. autosummary::
+   :toctree: generated/
 
    Sheet.transpose
    Sheet.map

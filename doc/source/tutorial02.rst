@@ -25,6 +25,7 @@ Read an excel file
 You can read it use a SeriesReader::
 
     >>> import pyexcel
+	>>> import pyexcel.ext.xl
 
 .. testcode::
    :hide:
@@ -207,3 +208,4 @@ and their content is the value of the dictionary at the corresponding key
    >>> os.unlink("myfile_Sheet 1.csv")
    >>> os.unlink("myfile_Sheet 2.csv")
    >>> os.unlink("myfile_Sheet 3.csv")
+   >>> os.unlink("example_series.xls")
