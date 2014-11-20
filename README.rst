@@ -21,13 +21,29 @@ pyexcel - Let you focus on data, instead of file formats
     :target: https://pypi.python.org/pypi/pyexcel
     :alt: Supported Python implementation
 
-**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. Its mission is to let you focus on data itself and it deals with different file formats. ODS format support is provided by `pyexcel-ods <https://github.com/chfw/pyexcel-ods>`__ or `pyexcel-ods3 <https://github.com/chfw/pyexcel-ods3>`__. Additional text formats, such as **json**, **rst**, are supported through `pyexcel-text <https://github.com/chfw/pyexcel-text>`__ . Fonts, colors and charts are not supported.
+**pyexcel** and its plugins are a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. Its mission is to let you focus on data itself and it deals with different file formats. Fonts, colors and charts are not supported.
 
-All great work have done by odf, ezodf(2), xlrd and other individual developers. This library unites only the data access code.
+================ ============================================================ ============= ========================
+Plugins          Supported file formats                                       Dependencies  Python versions
+================ ============================================================ ============= ========================
+pyexcel          csv                                                          six           2.6, 2.7, 3.3, 3.4, pypy
+`pyexcel-xl`__   xls, xlsx, xlsm                                              xlrd, xlwt    2.6, 2.7, 3.3, 3.4, pypy
+`pyexcel-ods`__  ods (python 2.6, 2.7)                                        odfpy         2.6, 2.7, pypy
+`pyexcel-ods3`__ ods (python 2.7, 3.3, 3.4)                                   ezodf, lxml   3.3, 3.4
+`pyexcel-text`__ json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple tabulate      2.6, 2.7, 3.3, 3.4, pypy
+================ ============================================================ ============= ========================
+
+.. _pyexcel-xl: https://github.com/chfw/pyexcel-xl
+.. _pyexcel-ods: https://github.com/chfw/pyexcel-ods
+.. _pyexcel-ods3: https://github.com/chfw/pyexcel-ods3
+.. _pyexcel-text: https://github.com/chfw/pyexcel-text
+
+All great work have done by odf, ezodf(2), xlrd, xlwt, tabulate and other individual developers. This library unites only the data access code.
 
 Usage Exmaples::
 
     >>> import pyexcel as pe
+    >>> imprt pyexcel.ext.xl
     >>> sheet = pe.load("your_file.xls")
     >>> sheet
     Sheet Name: Sheet 1
@@ -102,34 +118,22 @@ or clone it and install it::
     $ cd pyexcel
     $ python setup.py install
 
+Installation of individual plugins , please refer to individual plugin page.
 
-Open Document Spreadsheet(ods) Support
------------------------------------------
-
-In order to add ods support, please choose one of two packages: `pyexcel-ods <https://github.com/chfw/pyexcel-ods>`__ or `pyexcel-ods3 <https://github.com/chfw/pyexcel-ods3>`__ . Please read individual installation instructions respectively. Here is the comparsion of two packages:
-
-============ ========== ========== ========== ========== ==============
-package      python 2.6 python 2.7 python 3.3 python 3.4 lxml dependent
-============ ========== ========== ========== ========== ==============
-pyexcel-ods  yes	    yes	   	   						 no   		  
-pyexcel-ods3 		    yes        yes        yes		 yes		      		   	 		   
-============ ========== ========== ========== ========== ============== 
-
-
-Plugin compatibility management
+Plugin compatibility 
 -------------------------------
-======= ======== ====== ======
-pyexcel ods      ods3	text  
-======= ======== ======	======
-v0.0.8	..		 ..		0.0.1 
-v0.0.7	..		 ..		..    
-v0.0.6  0.0.2    0.0.2	..    
-v0.0.5  ..       ..     ..    		   
-v0.0.4  0.0.1    0.0.1	..    
-v0.0.3  ..       ..     ..    		   
-v0.0.2	..       ..     ..    	   
-v0.0.1  n/a      n/a	n/a   
-======= ======== ======	======
+======= ======= ======== ====== ======
+pyexcel xl      ods      ods3	text  
+======= ======= ======== ======	======
+v0.0.8	0.0.1   0.0.2	 0.0.2	0.0.1 
+v0.0.7	n/a     0.0.2	 0.0.2	n/a    
+v0.0.6  n/a     0.0.2    0.0.2	n/a    
+v0.0.5  n/a     0.0.1    0.0.1  n/a   		   
+v0.0.4  n/a     0.0.1    0.0.1	n/a    
+v0.0.3  n/a     n/a      n/a    n/a
+v0.0.2	n/a     n/a      n/a    n/a         	   
+v0.0.1  n/a     n/a      n/a	n/a   
+======= ======= ======== ======	======
 
 Test 
 =====

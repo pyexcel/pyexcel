@@ -16,13 +16,28 @@
 Introduction
 -------------
 
-**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. ODS format support is provided by `pyexcel-ods <https://github.com/chfw/pyexcel-ods>`__ or `pyexcel-ods3 <https://github.com/chfw/pyexcel-ods3>`__. Additional text formats, such as **json**, **rst**, are supported through `pyexcel-text <https://github.com/chfw/pyexcel-text>`__ . The data in excel files can be turned into array or dict with least code, and vice versa. And ready-made or custom filters and formatters can be applied. But it does not support fonts, colors and charts.
+**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. Xls, xlsx and xlsm formats support are enabled by `pyexcel-xl <https://github.com/chfw/pyexcel-xl>`__ . ODS format support is provided by `pyexcel-ods <https://github.com/chfw/pyexcel-ods>`__ or `pyexcel-ods3 <https://github.com/chfw/pyexcel-ods3>`__. Additional text formats, such as **json**, **rst**, are supported through `pyexcel-text <https://github.com/chfw/pyexcel-text>`__ . The data in excel files can be turned into array or dict with least code, and vice versa. And ready-made or custom filters and formatters can be applied. But it does not support fonts, colors and charts.
 
 It was created due to the lack of uniform programming interface to access data in different excel formats. A developer needs to use different methods of different libraries to read the same data in different excel formats, hence the resulting code is cluttered and unmaintainable.
 
 In addition, the library recognizes that Excel files are de-facto file format for information sharing in non-software centric organisations. Excel files are not only used for mathematical computation in financial institutions but also used for many other purposes in an office work environment.
 
 All great work have done by odf, xlrd and other individual developers. This library unites only the data access code.
+
+================ ============================================================ ============= ========================
+Plugins          Supported file formats                                       Dependencies  Python versions
+================ ============================================================ ============= ========================
+pyexcel          csv                                                          six           2.6, 2.7, 3.3, 3.4, pypy
+`pyexcel-xl`__   xls, xlsx, xlsm                                              xlrd, xlwt    2.6, 2.7, 3.3, 3.4, pypy
+`pyexcel-ods`__  ods (python 2.6, 2.7)                                        odfpy         2.6, 2.7, pypy
+`pyexcel-ods3`__ ods (python 2.7, 3.3, 3.4)                                   ezodf, lxml   3.3, 3.4
+`pyexcel-text`__ json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple tabulate      2.6, 2.7, 3.3, 3.4, pypy
+================ ============================================================ ============= ========================
+
+.. _pyexcel-xl: https://github.com/chfw/pyexcel-xl
+.. _pyexcel-ods: https://github.com/chfw/pyexcel-ods
+.. _pyexcel-ods3: https://github.com/chfw/pyexcel-ods3
+.. _pyexcel-text: https://github.com/chfw/pyexcel-text
 
 .. testcode::
    :hide:
@@ -136,18 +151,18 @@ pyexcel-ods3 		    yes        yes        yes		 yes
 Plugin compatibility management
 -------------------------------
 
-======= ======== ====== ======
-pyexcel ods      ods3	text  
-======= ======== ======	======
-v0.0.8	..		 ..		0.0.1 
-v0.0.7	..		 ..		..    
-v0.0.6  0.0.2    0.0.2	..    
-v0.0.5  ..       ..     ..    		   
-v0.0.4  0.0.1    0.0.1	..    
-v0.0.3  ..       ..     ..    		   
-v0.0.2	..       ..     ..    	   
-v0.0.1  n/a      n/a	n/a   
-======= ======== ======	======
+======= ======= ======== ====== ======
+pyexcel xl      ods      ods3	text  
+======= ======= ======== ======	======
+v0.0.8	0.0.1   0.0.2	 0.0.2	0.0.1 
+v0.0.7	n/a     0.0.2	 0.0.2	n/a    
+v0.0.6  n/a     0.0.2    0.0.2	n/a    
+v0.0.5  n/a     0.0.1    0.0.1  n/a   		   
+v0.0.4  n/a     0.0.1    0.0.1	n/a    
+v0.0.3  n/a     n/a      n/a    n/a
+v0.0.2	n/a     n/a      n/a    n/a         	   
+v0.0.1  n/a     n/a      n/a	n/a   
+======= ======= ======== ======	======
 
 Usage examples
 ----------------
