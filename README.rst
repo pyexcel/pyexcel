@@ -27,10 +27,10 @@ pyexcel - Let you focus on data, instead of file formats
 Plugins          Supported file formats                                       Dependencies  Python versions
 ================ ============================================================ ============= ========================
 pyexcel          csv                                                          six           2.6, 2.7, 3.3, 3.4, pypy
-`pyexcel-xl`__   xls, xlsx, xlsm                                              xlrd, xlwt    2.6, 2.7, 3.3, 3.4, pypy
-`pyexcel-ods`__  ods (python 2.6, 2.7)                                        odfpy         2.6, 2.7, pypy
-`pyexcel-ods3`__ ods (python 2.7, 3.3, 3.4)                                   ezodf, lxml   3.3, 3.4
-`pyexcel-text`__ json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple tabulate      2.6, 2.7, 3.3, 3.4, pypy
+`pyexcel-xl`_    xls, xlsx, xlsm                                              xlrd, xlwt    2.6, 2.7, 3.3, 3.4, pypy
+`pyexcel-ods`_   ods (python 2.6, 2.7)                                        odfpy         2.6, 2.7, pypy
+`pyexcel-ods3`_  ods (python 2.7, 3.3, 3.4)                                   ezodf, lxml   3.3, 3.4
+`pyexcel-text`_  json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple tabulate      2.6, 2.7, 3.3, 3.4, pypy
 ================ ============================================================ ============= ========================
 
 .. _pyexcel-xl: https://github.com/chfw/pyexcel-xl
