@@ -34,29 +34,12 @@ class TestReader:
         to save the change with original data, please clear the filter
         first
         """
-        r = pe.FilterableReader(self.testfile)
+        r = pe.Reader(self.testfile)
         r.add_filter(pe.filters.ColumnFilter([0, 2]))
         r.cell_value(2, 1, "k")
         assert r[2,1] == "k"
         r.clear_filters()
         assert r[2,3] == "k"
-
-    def tearDown(self):
-        clean_up_files([self.testfile])
-
-
-class TestPlainReader(PyexcelSheetRWBase):
-    def setUp(self):
-        """
-        Make a test csv file as:
-
-        a,b,c,d
-        e,f,g,h
-        i,j,1.1,1
-        """
-        self.testclass = pe.PlainReader
-        self.testfile = "testcsv.xlsx"
-        create_sample_file1(self.testfile)
 
     def tearDown(self):
         clean_up_files([self.testfile])
@@ -79,7 +62,7 @@ class TestReader2(PyexcelSheetRWBase):
         clean_up_files([self.testfile])
 
 
-class TestSeriesReader(PyexcelSheetRWBase):
+class TestSeriesReader:
     def setUp(self):
         """
         Make a test csv file as:
@@ -155,7 +138,7 @@ class TestReaderWithFilter:
         assert r.row[3] == content[3]
 
     def test_add_rows_even_row_filter2(self):
-        r = pe.FilterableReader(self.testfile)
+        r = pe.Reader(self.testfile)
         r.add_filter(pe.filters.EvenRowFilter())
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4

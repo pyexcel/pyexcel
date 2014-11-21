@@ -98,7 +98,6 @@ You can install it via pip::
 
 or clone it and install it::
 
-
     $ git clone http://github.com/chfw/pyexcel.git
     $ cd pyexcel
     $ python setup.py install
@@ -108,7 +107,7 @@ Installation of individual plugins , please refer to individual plugin page.
 ================ ============================================================ =============================
 Plugins          Supported file formats                                       Comments
 ================ ============================================================ =============================
-pyexcel          csv                                                          
+pyexcel          csv, tsv                                                          
 `pyexcel-xl`_    xls, xlsx, xlsm                                              
 `pyexcel-ods`_   ods (python 2.6, 2.7)                                        
 `pyexcel-ods3`_  ods (python 2.7, 3.3, 3.4)                                   
@@ -119,7 +118,6 @@ pyexcel          csv
 .. _pyexcel-ods: https://github.com/chfw/pyexcel-ods
 .. _pyexcel-ods3: https://github.com/chfw/pyexcel-ods3
 .. _pyexcel-text: https://github.com/chfw/pyexcel-text
-
 
 Plugin compatibility 
 -------------------------------

@@ -25,6 +25,15 @@ WRITERS = {
     "tsv": partial(CSVWriter, dialect="excel-tab")
 }
 
+def list_readers():
+    """list available readers"""
+    print(READERS.keys())
+
+
+def list_writers():
+    """list available writers"""
+    print(WRITERS.keys())
+
 
 def load_file(filename, **keywords):
     """Load data from any supported excel formats

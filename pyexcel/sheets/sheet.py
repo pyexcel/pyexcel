@@ -7,6 +7,7 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
+from functools import partial
 from ..io import load_file
 from .nominablesheet import NominableSheet
 
@@ -139,21 +140,3 @@ def ColumnSeriesReader(file=None, sheetname=None, series=0, **keywords):
     changed since 0.0.7
     """
     return load(file, sheetname, name_rows_by_column=series, **keywords)
-
-
-def PlainReader(file, sheetname=None, **keywords):
-    """PlainReader exists for speed over Reader and also for testing purposes
-
-    use as class would fail
-    changed since 0.0.7
-    """
-    return load(file, sheetname, **keywords)
-
-
-def FilterableReader(file, sheetname=None, **keywords):
-    """FiltableReader lets you use filters at the sequence of your choice
-
-    use as class would fail
-    changed since 0.0.7
-    """
-    return load(file, sheetname, **keywords)

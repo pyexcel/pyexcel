@@ -129,7 +129,7 @@ For individual excel file formats, please install them as you wish:
 ================ ============================================================ ============= ======================== =============================	
 Plugins          Supported file formats                                       Dependencies  Python versions			 Comments						
 ================ ============================================================ ============= ======================== =============================	
-pyexcel          csv                                                          six           2.6, 2.7, 3.3, 3.4, pypy 								
+pyexcel          csv, tsv                                                                   2.6, 2.7, 3.3, 3.4, pypy 								
 `pyexcel-xl`_    xls, xlsx, xlsm                                              xlrd, xlwt    2.6, 2.7, 3.3, 3.4, pypy 								
 `pyexcel-ods`_   ods (python 2.6, 2.7)                                        odfpy         2.6, 2.7				 								
 `pyexcel-ods3`_  ods (python 2.7, 3.3, 3.4)                                   ezodf, lxml   3.3, 3.4				 								

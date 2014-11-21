@@ -14,9 +14,7 @@ from .sheet import (
     load_from_memory,
     Reader,
     SeriesReader,
-    ColumnSeriesReader,
-    PlainReader,
-    FilterableReader)
+    ColumnSeriesReader)
 from .formattablesheet import FormattableSheet
 from .filterablesheet import FilterableSheet
 from .nominablesheet import NamedRow, NamedColumn

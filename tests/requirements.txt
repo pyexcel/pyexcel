@@ -1,3 +1,4 @@
+pyexcel-xl
 nose
 rednose
 nose-cov

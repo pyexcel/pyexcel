@@ -47,12 +47,7 @@ class TestSingleSheetReaderForMulitpleSheetBook:
         assert data == self.content["Sheet3"][1:]
 
     def test_non_default_sheet_as_single_sheet_plain_reader(self):
-        r = pe.PlainReader(self.testfile, "Sheet2")
-        data = pe.utils.to_array(r.rows())
-        assert data == self.content["Sheet2"]
-
-    def test_non_default_sheet_as_single_sheet_filterable_reader(self):
-        r = pe.FilterableReader(self.testfile, "Sheet2")
+        r = pe.load(self.testfile, "Sheet2")
         data = pe.utils.to_array(r.rows())
         assert data == self.content["Sheet2"]
 

@@ -24,8 +24,6 @@ from .sheets import (
     Reader,
     SeriesReader,
     ColumnSeriesReader,
-    PlainReader,
-    FilterableReader,
     load_from_memory)
 from .utils import to_dict, to_array, to_records, dict_to_array, from_records
 from .formatters import (
