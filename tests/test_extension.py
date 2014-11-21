@@ -24,3 +24,7 @@ class TestExt:
         m = pe.sheets.Matrix(a)
         print(str(m))
         assert str(m) == "pyexcel.sheets.matrix.Matrix"
+
+    def tearDown(self):
+        from pyexcel.presentation import STRINGIFICATION
+        STRINGIFICATION = {}
