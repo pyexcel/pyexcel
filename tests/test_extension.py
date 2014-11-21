@@ -16,7 +16,6 @@ class TestExt:
         """test unknown"""
         from pyexcel.ext import unknown
 
-
     def test_tabulate(self):
         import pyexcel as pe
         from pyexcel.ext import presentation
@@ -24,7 +23,3 @@ class TestExt:
         m = pe.sheets.Matrix(a)
         print(str(m))
         assert str(m) == "pyexcel.sheets.matrix.Matrix"
-
-    def tearDown(self):
-        from pyexcel.presentation import STRINGIFICATION
-        STRINGIFICATION = {}
