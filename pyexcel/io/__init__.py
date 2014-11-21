@@ -1,4 +1,3 @@
-
 """
     pyexcel.io
     ~~~~~~~~~~~~~~~~~~~
@@ -8,19 +7,22 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
+from functools import partial
 from .csvbook import CSVBook, CSVWriter
 from .._compact import is_string
 
 
 # A list of registered readers
 READERS = {
-    "csv": CSVBook
+    "csv": CSVBook,
+    "tsv": partial(CSVBook, dialect="excel-tab")
 }
 
 
 # A list of registered writers
 WRITERS = {
-    "csv": CSVWriter
+    "csv": CSVWriter,
+    "tsv": partial(CSVWriter, dialect="excel-tab")
 }
 
 

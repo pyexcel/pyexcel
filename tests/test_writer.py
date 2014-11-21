@@ -13,6 +13,24 @@ class TestCSVnXLSMWriter(PyexcelWriterBase):
         file_list = [self.testfile, self.testfile2]
         clean_up_files(file_list)
 
+class TestCSVnTSVWriter(PyexcelWriterBase):
+    def setUp(self):
+        self.testfile="test.csv"
+        self.testfile2="test.tsv"
+
+    def tearDown(self):
+        file_list = [self.testfile, self.testfile2]
+        clean_up_files(file_list)
+
+class TestTSVnCSVWriter(PyexcelWriterBase):
+    def setUp(self):
+        self.testfile="test.tsv"
+        self.testfile2="test.csv"
+
+    def tearDown(self):
+        file_list = [self.testfile, self.testfile2]
+        clean_up_files(file_list)
+
 class TestXLSnXLSXWriter(PyexcelWriterBase):
     def setUp(self):
         self.testfile="test.xls"
