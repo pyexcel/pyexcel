@@ -1,6 +1,5 @@
-import pyexcel as pe
-import os
 import datetime
+import pyexcel as pe
 from base import clean_up_files
 from _compact import BytesIO
 from nose.tools import raises
@@ -651,7 +650,8 @@ class TestSheetFormatter:
         r.add_formatter(pe.formatters.SheetFormatter(
             str))
         r.clear_formatters()
-        mydata = pe.utils.to_dict(r.become_series())
+        r.name_columns_by_row(0)
+        mydata = r.to_dict()
         assert mydata['1'] == self.data['1']
         assert mydata['3'] == self.data['3']
         assert mydata['5'] == self.data['5']
@@ -741,7 +741,8 @@ class TestSheetFormatterInXLS:
         r.add_formatter(pe.formatters.SheetFormatter(
             str))
         r.clear_formatters()
-        mydata = pe.utils.to_dict(r.become_series())
+        r.name_columns_by_row(0)
+        mydata = r.to_dict()
         assert mydata['1'] == self.data['1']
         assert mydata['3'] == self.data['3']
         assert mydata['5'] == self.data['5']

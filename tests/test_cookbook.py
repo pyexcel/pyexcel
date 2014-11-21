@@ -254,12 +254,15 @@ class TestCookbook:
                       self.testfile3, self.testfile4]
         pe.cookbook.merge_all_to_a_book(file_array, "merged.xlsx")
         r = pe.BookReader("merged.xlsx")
-        content = pe.utils.to_dict(r[self.testfile].become_series())
+        r[self.testfile].name_columns_by_row(0)
+        content = r[self.testfile].to_dict()
         assert content == self.content
         r[self.testfile2].apply_formatter(pe.formatters.SheetFormatter(int))
-        content2 = pe.utils.to_dict(r[self.testfile2].become_series())
+        r[self.testfile2].name_columns_by_row(0)
+        content2 = r[self.testfile2].to_dict()
         assert content2 == self.content2
-        content3 = pe.utils.to_dict(r[self.testfile3].become_series())
+        r[self.testfile3].name_columns_by_row(0)
+        content3 = r[self.testfile3].to_dict()
         assert content3 == self.content3
         content4 = pe.utils.to_array(r["Sheet1"])
         assert content4 == self.content4["Sheet1"]
@@ -273,12 +276,15 @@ class TestCookbook:
                       self.testfile3]
         pe.cookbook.merge_csv_to_a_book(file_array, "merged.xlsx")
         r = pe.BookReader("merged.xlsx")
-        content = pe.utils.to_dict(r[self.testfile].become_series())
+        r[self.testfile].name_columns_by_row(0)
+        content = r[self.testfile].to_dict()
         assert content == self.content
         r[self.testfile2].format(int)
-        content2 = pe.utils.to_dict(r[self.testfile2].become_series())
+        r[self.testfile2].name_columns_by_row(0)
+        content2 = r[self.testfile2].to_dict()
         assert content2 == self.content2
-        content3 = pe.utils.to_dict(r[self.testfile3].become_series())
+        r[self.testfile3].name_columns_by_row(0)
+        content3 = r[self.testfile3].to_dict()
         assert content3 == self.content3
 
     def tearDown(self):

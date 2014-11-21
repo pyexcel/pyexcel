@@ -7,7 +7,6 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-from functools import partial
 from ..io import load_file
 from .nominablesheet import NominableSheet
 
@@ -75,25 +74,6 @@ class Sheet(NominableSheet):
     Filtering functions are used to reduce the information contained in the
     array.
     """
-    def become_series(self, series=0):
-        """Keep backward compactibility"""
-        print("Deprecated! Please use colnames. This function will be removed in 0.0.8")
-        self.name_columns_by_row(series)
-        return self
-
-    def series(self):
-        """Keep backward compactibility"""
-        print("Deprecated! Please use colnames. This function will be removed in 0.0.8")
-        return self.colnames
-
-    def is_series(self):
-        """Keep backward compactibility"""
-        print("Deprecated! This function will be removed in 0.0.8")
-        if len(self.colnames) > 0:
-            return True
-        else:
-            return False
-
     def save_as(self, filename):
         """Save the content to a named file"""
         from ..writers import Writer

@@ -231,8 +231,8 @@ class PyexcelMultipleSheetBase:
         expected = [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
         assert data == expected
         sheet3 = b["Sheet3"]
-        s3 = sheet3.become_series()
-        data = pe.to_array(s3.rows())
+        sheet3.name_columns_by_row(0)
+        data = pe.to_array(sheet3.rows())
         expected = [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
         assert data == expected
 
@@ -266,7 +266,8 @@ class PyexcelMultipleSheetBase:
         assert value == 1
         value = r["Sheet3"].row[0][1]
         assert value == 'Y'
-        value = r["Sheet3"].become_series().row[0][1]
+        r["Sheet3"].name_columns_by_row(0)
+        value = r["Sheet3"].row[0][1]
         assert value == 4
         #value = r["Sheet3"].become_sheet().row[0][1]
         #assert value == 'Y'

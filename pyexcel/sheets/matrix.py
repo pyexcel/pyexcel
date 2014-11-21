@@ -741,7 +741,41 @@ class Matrix:
         self.array = uniform(self.array)
 
     def extend_columns_with_rows(self, rows):
+        """Rows were appended to the rightmost side
+
+        example::
+
+            >>> import pyexcel as pe
+            >>> data = [
+            ...     [1],
+            ...     [2],
+            ...     [3]
+            ... ]
+            >>> matrix = pe.sheets.Matrix(data)
+            >>> matrix
+            +---+
+            | 1 |
+            +---+
+            | 2 |
+            +---+
+            | 3 |
+            +---+
+            >>> rows = [
+            ...      [11, 11],
+            ...      [22, 22]
+            ... ]
+            >>> matrix.extend_columns_with_rows(rows)
+            >>> matrix
+            +---+----+----+
+            | 1 | 11 | 11 |
+            +---+----+----+
+            | 2 | 22 | 22 |
+            +---+----+----+
+            | 3 |    |    |
+            +---+----+----+
+        """
         self._extend_columns_with_rows(rows)
+
     def delete_columns(self, column_indices):
         """Delete columns by specified list of indices
         """
