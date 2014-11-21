@@ -7,13 +7,12 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-import six
 import csv
 import codecs
-from .._compact import is_string, StringIO
+from .._compact import is_string, StringIO, PY2, text_type, Iterator
 
 
-class UTF8Recorder(six.Iterator):
+class UTF8Recorder(Iterator):
     """
     Iterator that reads an encoded stream and reencodes the input to UTF-8.
     """
@@ -39,16 +38,16 @@ class CSVBook:
                  **keywords):
         self.array = []
         if filename:
-            if six.PY2:
+            if PY2:
                 f1 = open(filename, 'rb')
                 f = UTF8Recorder(f1, encoding)
-            elif six.PY3:
+            else:
                 f = open(filename, 'r')
         elif file_content:
             # utf-8 support is left to the developer
-            if six.PY2:
+            if PY2:
                 f = UTF8Recorder(StringIO(file_content), encoding)
-            elif six.PY3:
+            else:
                 f = StringIO(file_content)
         else:
             self.mysheets = {"csv": []}
@@ -59,7 +58,7 @@ class CSVBook:
         for row in reader:
             myrow = []
             for element in row:
-                if six.PY2:
+                if PY2:
                     myrow.append(element.decode(encoding))
                 else:
                     myrow.append(element)
@@ -91,9 +90,9 @@ class CSVSheetWriter:
                 file_name = "%s_%s.%s" % (names[0], name, names[1])
             else:
                 file_name = filename
-            if six.PY2:
+            if PY2:
                 self.f = open(file_name, "wb")
-            elif six.PY3:
+            else:
                 self.f = open(file_name, "w", newline="")
         else:
             self.f = filename
@@ -107,8 +106,8 @@ class CSVSheetWriter:
         """
         write a row into the file
         """
-        if six.PY2:
-            self.writer.writerow([six.text_type(s if s is not None else '').encode(self.encoding)
+        if PY2:
+            self.writer.writerow([text_type(s if s is not None else '').encode(self.encoding)
                                   for s in array])
         else:
             self.writer.writerow(array)

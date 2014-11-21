@@ -9,9 +9,7 @@ import sys
 with open("README.rst", 'r') as readme:
     README_txt = readme.read()
 
-dependencies = [
-    'six'
-]
+dependencies = []
 
 if sys.version_info[0] == 2 and sys.version_info[1] < 7:
     dependencies.append('ordereddict')

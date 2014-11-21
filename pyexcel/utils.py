@@ -7,9 +7,8 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-import six
 from .sheets import NominableSheet, Sheet
-from ._compact import OrderedDict
+from ._compact import OrderedDict, PY2
 
 
 def to_array(o):
@@ -125,7 +124,7 @@ def dict_to_array(the_dict, with_keys=True):
     """
     content = []
     keys = the_dict.keys()
-    if six.PY3:
+    if not PY2:
         keys = list(keys)
     if not isinstance(the_dict, OrderedDict):
         keys = sorted(keys)

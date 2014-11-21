@@ -327,4 +327,3 @@ epub_copyright = u'2014, C. W.'
 
 # If false, no index is generated.
 #epub_use_index = True
-analytics_code = 'UA-56747608-1'

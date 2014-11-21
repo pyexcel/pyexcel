@@ -51,7 +51,7 @@ DAMAGE.
 """
 import sys
 import os
-from six import reraise
+from ._compact import reraise
 
 
 class ExtensionImporter(object):

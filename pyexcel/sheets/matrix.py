@@ -9,10 +9,9 @@ of lookup.
     :license: GPL v3
 """
 import re
-import six
 import copy
 from ..texttable import Texttable
-from .._compact import is_array_type
+from .._compact import is_array_type, PY2
 from ..iterators import (
     HTLBRIterator,
     HBRTLIterator,
@@ -142,7 +141,7 @@ def _analyse_slice(aslice, upper_bound):
             my_range = range(start, stop, aslice.step)
         else:
             my_range = range(start, stop)
-        if six.PY3:
+        if not PY2:
             # for py3, my_range is a range object
             my_range = list(my_range)
     else:
@@ -362,7 +361,7 @@ class Matrix:
         """
         Utility function to get row range
         """
-        if six.PY2:
+        if PY2:
             return xrange(0, self.number_of_rows())
         else:
             return range(0, self.number_of_rows())
@@ -371,7 +370,7 @@ class Matrix:
         """
         Utility function to get column range
         """
-        if six.PY2:
+        if PY2:
             return xrange(0, self.number_of_columns())
         else:
             return range(0, self.number_of_columns())

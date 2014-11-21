@@ -7,7 +7,6 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-import six
 from .matrix import Row, Column, Matrix
 from .formattablesheet import FormattableSheet
 from .filterablesheet import FilterableSheet
@@ -16,7 +15,7 @@ from ..formatters import (
     RowFormatter,
     NamedColumnFormatter,
     NamedRowFormatter)
-from .._compact import is_string, OrderedDict
+from .._compact import is_string, OrderedDict, PY2
 from ..filters import ColumnIndexFilter, RowIndexFilter
 from ..iterators import ColumnIndexIterator, RowIndexIterator
 from ..presentation import outsource
@@ -499,7 +498,7 @@ class NominableSheet(FilterableSheet):
         ret += to_array(self.rows())
         if len(self.rownames) > 0:
             ret = map(lambda value: [value[0]] + value[1], zip(self.rownames, ret))
-            if six.PY3:
+            if not PY2:
                 ret = list(ret)
         if len(self.colnames) > 0:
             if len(self.rownames) > 0:

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import pyexcel
 
 
@@ -22,3 +23,7 @@ class TestCSVUTF:
     def test_csv_book(self):
         b = pyexcel.io.CSVBook(None, None)
         assert b.sheets() == {"csv":[]}
+
+    def tearDown(self):
+        if os.path.exists("utf.csv"):
+            os.unlink("utf.csv")

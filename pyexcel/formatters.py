@@ -7,10 +7,9 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-import six
 import types
 import datetime
-from ._compact import is_array_type
+from ._compact import is_array_type, PY2
 
 
 def string_to_format(value, FORMAT):
@@ -105,7 +104,7 @@ CONVERSION_FUNCTIONS = {
     None: empty_to_format,
 }
 
-if six.PY2:
+if PY2:
     CONVERSION_FUNCTIONS[unicode] = string_to_format
 
 
