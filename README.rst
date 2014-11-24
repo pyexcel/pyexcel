@@ -107,7 +107,7 @@ Installation of individual plugins , please refer to individual plugin page.
 ================ ============================================================ =============================
 Plugins          Supported file formats                                       Comments
 ================ ============================================================ =============================
-pyexcel          csv, tsv                                                          
+pyexcel          csv, csvz, tsv, tsvz                                              
 `pyexcel-xl`_    xls, xlsx, xlsm                                              
 `pyexcel-ods`_   ods (python 2.6, 2.7)                                        
 `pyexcel-ods3`_  ods (python 2.7, 3.3, 3.4)                                   

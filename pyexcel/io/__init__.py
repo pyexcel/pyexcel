@@ -17,7 +17,8 @@ from .._compact import is_string
 READERS = {
     "csv": CSVBook,
     "tsv": partial(CSVBook, dialect="excel-tab"),
-    "csvz": CSVZipBook
+    "csvz": CSVZipBook,
+    "tsvz": partial(CSVZipBook, dialect="excel-tab")
 }
 
 
@@ -25,7 +26,8 @@ READERS = {
 WRITERS = {
     "csv": CSVWriter,
     "tsv": partial(CSVWriter, dialect="excel-tab"),
-    "csvz": CSVZipWriter
+    "csvz": CSVZipWriter,
+    "tsvz": partial(CSVZipWriter, dialect="excel-tab")
 }
 
 def list_readers():

@@ -23,7 +23,12 @@ class CSVZipBook(CSVBook):
                  file_content=None,
                  encoding="utf-8",
                  **keywords):
-        with zipfile.ZipFile(filename) as myzip:
+        if filename:
+            the_file = filename
+        else:
+            the_file = StringIO(file_content)
+            the_file.seek(0)
+        with zipfile.ZipFile(the_file, 'r') as myzip:
             names = myzip.namelist()
             io = StringIO(myzip.read(names[0]))
             CSVBook.__init__(self, None, io.getvalue(), encoding=encoding, **keywords)
@@ -46,6 +51,11 @@ class CSVZipWriter(CSVWriter):
         This call close the file handle
         """
         with zipfile.ZipFile(self.zipfile, 'w') as myzip:
-            names = os.path.split(self.zipfile)
-            filename = names[-1]
-            myzip.writestr(filename.replace("csvz", "csv"), self.file.getvalue())
+            if isinstance(self.zipfile, StringIO):
+                filename = "pyexcel"
+            else:
+                names = os.path.split(self.zipfile)
+                filename = names[-1]
+                filename = filename.replace("csvz", "csv")
+            myzip.writestr(filename, self.file.getvalue())
+
