@@ -9,20 +9,23 @@
 """
 from functools import partial
 from .csvbook import CSVBook, CSVWriter
+from .csvzipbook import CSVZipWriter, CSVZipBook
 from .._compact import is_string
 
 
 # A list of registered readers
 READERS = {
     "csv": CSVBook,
-    "tsv": partial(CSVBook, dialect="excel-tab")
+    "tsv": partial(CSVBook, dialect="excel-tab"),
+    "csvz": CSVZipBook
 }
 
 
 # A list of registered writers
 WRITERS = {
     "csv": CSVWriter,
-    "tsv": partial(CSVWriter, dialect="excel-tab")
+    "tsv": partial(CSVWriter, dialect="excel-tab"),
+    "csvz": CSVZipWriter
 }
 
 def list_readers():
