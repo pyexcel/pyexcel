@@ -87,7 +87,7 @@ Latest document is hosted at `pyexcel@read the docs <https://pyexcel.readthedocs
 Latest stable
 =============
 
-0.0.7
+0.0.8
 
 Installation
 ============

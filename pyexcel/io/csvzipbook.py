@@ -10,7 +10,7 @@
 import os
 import zipfile
 from .csvbook import CSVBook, CSVWriter
-from .._compact import StringIO
+from .._compact import BytesIO, StringIO
 
 
 class CSVZipBook(CSVBook):
@@ -26,12 +26,12 @@ class CSVZipBook(CSVBook):
         if filename:
             the_file = filename
         else:
-            the_file = StringIO(file_content)
-            the_file.seek(0)
-        with zipfile.ZipFile(the_file, 'r') as myzip:
-            names = myzip.namelist()
-            io = StringIO(myzip.read(names[0]))
-            CSVBook.__init__(self, None, io.getvalue(), encoding=encoding, **keywords)
+            the_file = BytesIO(file_content)
+        myzip = zipfile.ZipFile(the_file, 'r')
+        names = myzip.namelist()
+        io = StringIO(myzip.read(names[0]).decode(encoding))
+        CSVBook.__init__(self, None, io.getvalue(), encoding=encoding, **keywords)
+        myzip.close()
 
 
 class CSVZipWriter(CSVWriter):
@@ -50,12 +50,13 @@ class CSVZipWriter(CSVWriter):
         """
         This call close the file handle
         """
-        with zipfile.ZipFile(self.zipfile, 'w') as myzip:
-            if isinstance(self.zipfile, StringIO):
-                filename = "pyexcel"
-            else:
-                names = os.path.split(self.zipfile)
-                filename = names[-1]
-                filename = filename.replace("csvz", "csv")
-            myzip.writestr(filename, self.file.getvalue())
+        myzip = zipfile.ZipFile(self.zipfile, 'w')
+        if isinstance(self.zipfile, BytesIO):
+            filename = "pyexcel"
+        else:
+            names = os.path.split(self.zipfile)
+            filename = names[-1]
+            filename = filename.replace("csvz", "csv")
+        myzip.writestr(filename, self.file.getvalue())
+        myzip.close()
 

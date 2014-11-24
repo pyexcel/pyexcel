@@ -9,7 +9,7 @@
 """
 import csv
 import codecs
-from .._compact import is_string, StringIO, PY2, text_type, Iterator
+from .._compact import is_string, StringIO, BytesIO, PY2, text_type, Iterator
 
 
 class UTF8Recorder(Iterator):
@@ -48,7 +48,10 @@ class CSVBook:
             if PY2:
                 f = UTF8Recorder(StringIO(file_content), encoding)
             else:
-                f = StringIO(file_content)
+                if isinstance(file_content, str):
+                    f = StringIO(file_content)
+                else:
+                    f = StringIO(file_content.decode(encoding))
         else:
             self.mysheets = {"csv": []}
             # no content let's return'
@@ -116,7 +119,7 @@ class CSVSheetWriter:
         """
         This call close the file handle
         """
-        if not isinstance(self.f, StringIO):
+        if not isinstance(self.f, StringIO) and not isinstance(self.f, BytesIO):
             self.f.close()
 
 

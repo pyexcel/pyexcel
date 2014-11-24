@@ -19,13 +19,14 @@ PY2 = sys.version_info[0] == 2
     
 if PY2:
     from StringIO import StringIO
+    from StringIO import StringIO as BytesIO
     text_type = unicode
     exec('def reraise(tp, value, tb=None):\n raise tp, value, tb')
     class Iterator(object):
         def next(self):
             return type(self).__next__(self)
 else:
-    from io import StringIO
+    from io import StringIO, BytesIO
     text_type = str
     def reraise(tp, value, tb=None):
         if value.__traceback__ is not tb:

@@ -104,7 +104,7 @@ class TestIO:
             [1, 2, 3],
             [4, 5, 6]
         ]
-        io = StringIO()
+        io = BytesIO()
         w = pe.Writer(("csvz",io))
         w.write_rows(data)
         w.close()
@@ -119,7 +119,7 @@ class TestIO:
             [4, 5, 6]
         ]
         r = pe.Sheet(data)
-        io = StringIO()
+        io = BytesIO()
         r.save_to_memory("csvz", io)
         r = pe.load_from_memory("csvz", io.getvalue())
         result=['1', '2', '3', '4', '5', '6']
@@ -143,7 +143,7 @@ class TestIO:
             [1, 2, 3],
             [4, 5, 6]
         ]
-        io = StringIO()
+        io = BytesIO()
         w = pe.Writer(("tsvz",io))
         w.write_rows(data)
         w.close()
@@ -158,7 +158,7 @@ class TestIO:
             [4, 5, 6]
         ]
         r = pe.Sheet(data)
-        io = StringIO()
+        io = BytesIO()
         r.save_to_memory("tsvz", io)
         r = pe.load_from_memory("tsvz", io.getvalue())
         result=['1', '2', '3', '4', '5', '6']
