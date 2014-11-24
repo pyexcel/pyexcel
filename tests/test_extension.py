@@ -16,7 +16,6 @@ class TestExt:
         """test unknown"""
         from pyexcel.ext import unknown
 
-
     def test_tabulate(self):
         import pyexcel as pe
         from pyexcel.ext import presentation

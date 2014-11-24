@@ -13,7 +13,7 @@ except ImportError:
     from setuptools import setup, find_packages
 
 setup(
-    name='pyexcel-pyexcel',
+    name='pyexcel-presentation',
     author="C. W.",
     version='0.0.1',
     author_email="wangc_2011@hotmail.com",
