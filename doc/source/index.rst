@@ -189,6 +189,13 @@ Cook book
 
    cookbook
 
+Real world cases
++++++++++++++++++++
+
+.. toctree::
+
+   answers
+
 API documentation
 ------------------
 
