@@ -6,7 +6,10 @@ API Reference
 .. currentmodule:: pyexcel
 .. _api:
 
-This is intended for users of pyexcel
+This is intended for users of pyexcel. Here's the entity relationship between Book, Sheet, Row and Column
+
+.. image:: entity-relationship-diagram.png
+
 
 Cookbook
 ==========

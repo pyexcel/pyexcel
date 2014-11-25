@@ -6,7 +6,8 @@ Internal API reference
 .. currentmodule:: pyexcel.sheets
 .. _iapi:
 
-This is intended for developers and hackers of pyexcel
+This is intended for developers and hackers of pyexcel. 
+
 
 Data sheet representation
 =========================
