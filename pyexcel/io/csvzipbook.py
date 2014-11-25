@@ -30,7 +30,10 @@ class CSVZipBook(CSVBook):
         myzip = zipfile.ZipFile(the_file, 'r')
         names = myzip.namelist()
         io = StringIO(myzip.read(names[0]).decode(encoding))
-        CSVBook.__init__(self, None, io.getvalue(), encoding=encoding, **keywords)
+        CSVBook.__init__(self, None,
+                         io.getvalue(),
+                         encoding=encoding,
+                         **keywords)
         myzip.close()
 
 
@@ -59,4 +62,3 @@ class CSVZipWriter(CSVWriter):
             filename = filename.replace("csvz", "csv")
         myzip.writestr(filename, self.file.getvalue())
         myzip.close()
-

@@ -17,7 +17,6 @@ pyexcel.Sheet
       ~Sheet.add_filter
       ~Sheet.add_formatter
       ~Sheet.apply_formatter
-      ~Sheet.become_series
       ~Sheet.cell_value
       ~Sheet.clear_filters
       ~Sheet.clear_formatters
@@ -37,7 +36,6 @@ pyexcel.Sheet
       ~Sheet.format
       ~Sheet.freeze_filters
       ~Sheet.freeze_formatters
-      ~Sheet.is_series
       ~Sheet.map
       ~Sheet.name_columns_by_row
       ~Sheet.name_rows_by_column
@@ -56,7 +54,6 @@ pyexcel.Sheet
       ~Sheet.rvertical
       ~Sheet.save_as
       ~Sheet.save_to_memory
-      ~Sheet.series
       ~Sheet.set_column_at
       ~Sheet.set_named_column_at
       ~Sheet.set_named_row_at

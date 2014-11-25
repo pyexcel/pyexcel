@@ -190,7 +190,7 @@ Cook book
    cookbook
 
 API documentation
-++++++++++++++++++
+------------------
 
 .. toctree::
    :maxdepth: 2
@@ -198,6 +198,13 @@ API documentation
    api
    iapi
 
+
+Developer's guide
+------------------
+
+.. toctree::
+
+   guide
 
 Indices and tables
 ==================

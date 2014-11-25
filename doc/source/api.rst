@@ -93,7 +93,6 @@ Column access
    Sheet.set_column_at
    Sheet.delete_columns
    Sheet.extend_columns
-   Sheet.is_series
 
 
 Data series
