@@ -47,8 +47,8 @@ def load_from_memory(file_type,
                      **keywords):
     """Constructs an instance :class:`Sheet` from memory
 
-    :param str file_type: one value of these: 'csv', 'xls',
-    'xlsm', 'xslm', 'ods'
+    :param str file_type: one value of these: 'csv', 'tsv', 'csvz',
+    'tsvz', 'xls', 'xlsm', 'xslm', 'ods'
     :param iostream file_content: file content
     :param str sheetname: which sheet to be used for construction
     :param dict keywords: any other parameters
@@ -84,7 +84,8 @@ class Sheet(NominableSheet):
     def save_to_memory(self, file_type, stream):
         """Save the content to memory
 
-        :param str file_type: any value of 'csv', 'xls', 'xlsm', 'xlsx' and 'ods'
+        :param str file_type: any value of 'csv', 'tsv', 'csvz',
+        'tsvz', 'xls', 'xlsm', 'xslm', 'ods'
         :param iostream stream: the memory stream to be written to
         """
         self.save_as((file_type, stream))

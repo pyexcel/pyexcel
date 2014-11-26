@@ -210,7 +210,11 @@ class NamedColumn(Column):
 class NominableSheet(FilterableSheet):
     """Allow dictionary group of the content
     """
-    def __init__(self, sheet=None, name="pyexcel", name_columns_by_row=-1, name_rows_by_column=-1):
+    def __init__(self, sheet=None, name="pyexcel",
+                 name_columns_by_row=-1,
+                 name_rows_by_column=-1,
+                 colnames=None,
+                 rownames=None):
         # this get rid of phatom data by not specifying sheet
         if sheet is None:
             sheet = []
@@ -221,10 +225,20 @@ class NominableSheet(FilterableSheet):
         self.named_row = NamedRow(self)
         self.named_column = NamedColumn(self)
         if name_columns_by_row != -1:
+            if colnames:
+                raise NotImplementedError("Confused! What do you want to put as column names")
             self.name_columns_by_row(name_columns_by_row)
+        else:
+            if colnames:
+                self._column_names = colnames
         if name_rows_by_column != -1:
+            if rownames:
+                raise NotImplementedError("Confused! What do you want to put as column names")
             self.name_rows_by_column(name_rows_by_column)
-
+        else:
+            if rownames:
+                self._row_names = rownames
+    
     @property
     def row(self):
         """Row representation.
@@ -300,6 +314,10 @@ class NominableSheet(FilterableSheet):
         else:
             return self._column_names
 
+    @colnames.setter
+    def colnames(self, value):
+        self._column_names = value
+
     @property
     def rownames(self):
         """Column names"""
@@ -315,6 +333,10 @@ class NominableSheet(FilterableSheet):
         else:
             return self._row_names
 
+    @rownames.setter
+    def rownames(self, value):
+        self._row_names = value
+        
     def named_column_at(self, name):
         """Get a column by its name """
         index = name
@@ -507,12 +529,12 @@ class NominableSheet(FilterableSheet):
                 ret.insert(0, self.colnames)
         return ret
 
-    def to_records(self):
+    def to_records(self, custom_headers=None):
         """Returns the content as an array of dictionaries
 
         """
         from ..utils import to_records
-        return to_records(self)
+        return to_records(self, custom_headers)
 
     def to_dict(self, row=False):
         """Returns a dictionary"""

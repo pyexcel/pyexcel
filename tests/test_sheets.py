@@ -161,7 +161,21 @@ class TestSheetNamedColumn2:
         s = pe.sheets.NominableSheet(self.data, "test")
         s.name_columns_by_row(2)
         assert s.colnames == ["Column 1", "Column 2", "Column 3"]
+        custom_columns = ["C1", "C2", "C3"]
+        s.colnames = custom_columns
+        assert s.colnames == custom_columns
 
+    def test_series2(self):
+        custom_columns = ["C1", "C2", "C3"]
+        s = pe.sheets.NominableSheet(self.data, "test", colnames=custom_columns)
+        assert s.colnames == custom_columns
+
+    @raises(NotImplementedError)
+    def test_series3(self):
+        custom_columns = ["C1", "C2", "C3"]
+        pe.sheets.NominableSheet(self.data, "test", colnames=custom_columns,
+                                     name_columns_by_row=0)
+        
     def test_formatter_by_named_column(self):
         s = pe.sheets.NominableSheet(self.data, "test")
         s.name_columns_by_row(2)
@@ -215,6 +229,24 @@ class TestSheetNamedRow:
         f = pe.formatters.NamedRowFormatter("Row 1", str)
         s.apply_formatter(f)
         assert s.row["Row 1"] == ["1", "2", "3"]
+        
+    def test_rownames(self):
+        s = pe.sheets.NominableSheet(self.data, "test", name_rows_by_column=0)
+        assert s.rownames == ["Row 0", "Row 1", "Row 2", "Row 3"]
+        custom_rows = ["R0", "R1", "R2", "R3"]
+        s.rownames = custom_rows
+        assert s.rownames == custom_rows
+        
+    def test_rownames2(self):
+        custom_rows = ["R0", "R1", "R2", "R3"]
+        s = pe.sheets.NominableSheet(self.data, "test", rownames=custom_rows)
+        assert s.rownames == custom_rows
+
+    @raises(NotImplementedError)
+    def test_rownames3(self):
+        custom_rows = ["R0", "R1", "R2", "R3"]
+        pe.sheets.NominableSheet(self.data, "test", name_rows_by_column=0,
+                                 rownames=custom_rows)
 
     def test_formatter_by_named_row_2(self):
         s = pe.sheets.NominableSheet(self.data, "test")
