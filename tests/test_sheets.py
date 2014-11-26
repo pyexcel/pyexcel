@@ -360,7 +360,6 @@ class TestUniquenessOfNames:
         ]
         sheet = pe.Sheet(data)
         sheet.colnames = ["Column", "Column", "Column"]
-        print sheet.colnames
         assert sheet.colnames == ["Column", "Column-1", "Column-2"]
 
     def test_row_names(self):
