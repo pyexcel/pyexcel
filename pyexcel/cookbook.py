@@ -38,7 +38,7 @@ def update_columns(infilename, column_dicts, outfilename=None):
     r = load(infilename, name_columns_by_row=0)
     series = r.colnames
     for k in column_dicts.keys():
-        index = series.index(k)
+        index = series.index(str(k))
         r.set_column_at(index, column_dicts[k])
     w = Writer(default_out_file)
     w.write_reader(r)
@@ -62,7 +62,7 @@ def update_rows(infilename, row_dicts, outfilename=None):
     r = load(infilename, name_rows_by_column=0)
     series = r.rownames
     for k in row_dicts.keys():
-        index = series.index(k)
+        index = series.index(str(k))
         r.set_row_at(index, row_dicts[k])
     r.save_as(default_out_file)
 

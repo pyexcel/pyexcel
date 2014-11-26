@@ -332,7 +332,7 @@ class Column:
         return self.ref
 
 
-class Matrix:
+class Matrix(object):
     """The internal representation of a sheet data. Each element can be of any python types
     """
 

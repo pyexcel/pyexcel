@@ -136,8 +136,8 @@ class TestToRecord():
         s = pe.ColumnSeriesReader(self.testfile, 0)
         actual = pe.to_records(s)
         result = [
-            {1.0: 4.0, 'X': 'Y', 3.0: 6.0, 2.0: 5.0},
-            {1.0: 7.0, 'X': 'Z', 3.0: 9.0, 2.0: 8.0}
+            {'1.0': 4.0, 'X': 'Y', '3.0': 6.0, '2.0': 5.0},
+            {'1.0': 7.0, 'X': 'Z', '3.0': 9.0, '2.0': 8.0}
         ]
         assert actual == result
         

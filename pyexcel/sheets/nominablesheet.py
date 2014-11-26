@@ -34,6 +34,18 @@ def names_to_indices(names, series):
     return indices
 
 
+def make_names_unique(alist):
+    duplicates = {}
+    new_names = []
+    for item in alist:
+        if item in duplicates:
+            duplicates[item] = duplicates[item] + 1
+            new_names.append("%s-%d" % (item, duplicates[item]))
+        else:
+            duplicates[item] = 0
+            new_names.append(str(item))
+    return new_names
+
 class NamedRow(Row):
     """Series Sheet would have Named Row instead of Row
 
@@ -288,20 +300,28 @@ class NominableSheet(FilterableSheet):
         pass
 
     def name_columns_by_row(self, row_index):
-        """Use the elements of a specified row to represent individual columns"""
+        """Use the elements of a specified row to represent individual columns
+
+        The specified row will be deleted from the data
+        :param int row_index: the index of the row that has the column names
+        """
         self.row_index = row_index
-        self._column_names = self.row_at(row_index)
+        self._column_names = make_names_unique(self.row_at(row_index))
         del self.row[row_index]
 
     def name_rows_by_column(self, column_index):
-        """Use the elements of a specified column to represent individual rows"""
+        """Use the elements of a specified column to represent individual rows
+
+        The specified column will be deleted from the data
+        :param int column_index: the index of the column that has the row names
+        """
         self.column_index = column_index
-        self._row_names = self.column_at(column_index)
+        self._row_names = make_names_unique(self.column_at(column_index))
         del self.column[column_index]
 
     @property
     def colnames(self):
-        """Row names"""
+        """Return column names"""
         if len(self._filters) != 0:
             column_filters = [f for f in self._filters if isinstance(f, ColumnIndexFilter)]
             if len(column_filters) != 0:
@@ -316,11 +336,12 @@ class NominableSheet(FilterableSheet):
 
     @colnames.setter
     def colnames(self, value):
-        self._column_names = value
+        """Set column names"""
+        self._column_names = make_names_unique(value)
 
     @property
     def rownames(self):
-        """Column names"""
+        """Return row names"""
         if len(self._filters) != 0:
             row_filters = [f for f in self._filters if isinstance(f, RowIndexFilter)]
             if len(row_filters) != 0:
@@ -335,7 +356,8 @@ class NominableSheet(FilterableSheet):
 
     @rownames.setter
     def rownames(self, value):
-        self._row_names = value
+        """Set row names"""
+        self._row_names = make_names_unique(value)
         
     def named_column_at(self, name):
         """Get a column by its name """
@@ -483,6 +505,7 @@ class NominableSheet(FilterableSheet):
             FilterableSheet.extend_rows(self, rows)
 
     def extend_columns_with_rows(self, rows):
+        """Put rows on the right most side of the data"""
         if len(self.colnames) > 0:
             headers = rows.pop(self.row_index)
             self._column_names += headers

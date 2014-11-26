@@ -5,7 +5,6 @@ Here's the architecture of pyexcel
 
 .. image:: architecture.png
 
-
 Pull requests are welcome.
 
 Acceptance criteria

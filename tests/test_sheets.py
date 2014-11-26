@@ -339,3 +339,47 @@ class TestSheetNamedRow:
         s = pe.sheets.NominableSheet(self.data, "test", name_rows_by_column=0)
         s.column[0] = [12, 3, 4, 5]
         assert s.column[0] == [12, 3, 4, 5]
+
+
+class TestUniquenessOfNames:
+    def test_column_names(self):
+        data = [
+            [1, 2, 3],
+            [4, 5, 6],
+            ["Column", "Column", "Column"],
+            [7, 8, 9]
+        ]
+        sheet = pe.Sheet(data, name_columns_by_row=2)
+        assert sheet.colnames == ["Column", "Column-1", "Column-2"]
+
+    def test_column_names2(self):
+        data = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9]
+        ]
+        sheet = pe.Sheet(data)
+        sheet.colnames = ["Column", "Column", "Column"]
+        print sheet.colnames
+        assert sheet.colnames == ["Column", "Column-1", "Column-2"]
+
+    def test_row_names(self):
+        data = [
+            ["Row", -1, -2, -3],
+            ["Row", 1, 2, 3],
+            ["Row", 4, 5, 6],
+            ["Row", 7, 8, 9]
+        ]
+        sheet = pe.Sheet(data, name_rows_by_column=0)
+        assert sheet.rownames == ["Row", "Row-1", "Row-2", "Row-3"]
+
+    def test_row_names2(self):
+        data = [
+            [-1, -2, -3],
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9]
+        ]
+        sheet = pe.Sheet(data)
+        sheet.rownames = ["Row"] * 4
+        assert sheet.rownames == ["Row", "Row-1", "Row-2", "Row-3"]
