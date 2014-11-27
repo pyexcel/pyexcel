@@ -24,6 +24,7 @@
         f3         x
              1           2   3
 """
+from ._compact import PY2
 
 
 class IndexFilter:
@@ -58,6 +59,46 @@ class IndexFilter:
         """Map the row, column after filtering to the
         original ones before filtering"""
         pass
+
+class RegionFilter(IndexFilter):
+    def __init__(self, row_slice, column_slice):
+        self.row_indices = range(row_slice.start, row_slice.stop, row_slice.step)
+        self.column_indices = range(column_slice.start, column_slice.stop, column_slice.step)
+        if not PY2:
+            self.row_indices = list(self.row_indices)
+            self.column_indices = list(self.column_indices)
+            
+    def columns(self):
+        """Columns that were filtered out"""
+        return len(self.column_indices)
+
+    def rows(self):
+        """Rows that were filtered out"""
+        return len(self.row_indices)
+
+    def validate_filter(self, reader):
+        self.row_indices = [i for i in reader.row_range() if i not in self.row_indices]
+        self.column_indices = [i for i in reader.column_range() if i not in self.column_indices]
+
+    def translate(self, row, column):
+        """Map the row, column after filtering to the
+        original ones before filtering
+
+        :param int row: row index after filtering
+        :param int column: column index after filtering
+        :returns: set of (row, new_column)
+        """
+        new_column = column
+        if self.column_indices:
+            for i in self.column_indices:
+                if i <= new_column:
+                    new_column += 1
+        new_row = row
+        if self.row_indices:
+            for i in self.row_indices:
+                if i <= new_row:
+                    new_row += 1
+        return new_row, new_column
 
 
 class ColumnIndexFilter(IndexFilter):

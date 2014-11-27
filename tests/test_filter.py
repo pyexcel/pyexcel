@@ -445,3 +445,40 @@ class TestComplexFilter:
             os.unlink(self.testfile1)
         if os.path.exists(self.testfile2):
             os.unlink(self.testfile2)
+
+class TestRegionFilter:
+    def test_normal_usage(self):
+        data = [
+            # 0 1  2  3  4 5   6
+            [1, 2, 3, 4, 5, 6, 7], #  0
+            [21, 22, 23, 24, 25, 26, 27],
+            [31, 32, 33, 34, 35, 36, 37],
+            [41, 42, 43, 44, 45, 46, 47],
+            [51, 52, 53, 54, 55, 56, 57]  # 4
+            ]
+        s = pe.Sheet(data)
+        s.filter(pe.filters.RegionFilter(slice(1,4,1), slice(1,5,1)))
+        expected = [
+            [22, 23, 24, 25],
+            [32, 33, 34, 35],
+            [42, 43, 44, 45]
+        ]
+        assert s.to_array() == expected
+
+    def test_normal_usage2(self):
+        data = [
+            # 0 1  2  3  4 5   6
+            [1, 2, 3, 4, 5, 6, 7], #  0
+            [21, 22, 23, 24, 25, 26, 27],
+            [31, 32, 33, 34, 35, 36, 37],
+            [41, 42, 43, 44, 45, 46, 47],
+            [51, 52, 53, 54, 55, 56, 57]  # 4
+            ]
+        s = pe.Sheet(data)
+        s.add_filter(pe.filters.RegionFilter(slice(1,4,1), slice(1,5,1)))
+        expected = [
+            [22, 23, 24, 25],
+            [32, 33, 34, 35],
+            [42, 43, 44, 45]
+        ]
+        assert s.to_array() == expected

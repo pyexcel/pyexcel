@@ -24,6 +24,7 @@ pyexcel.sheets.NominableSheet
       ~NominableSheet.column_range
       ~NominableSheet.columns
       ~NominableSheet.contains
+      ~NominableSheet.cut
       ~NominableSheet.delete_columns
       ~NominableSheet.delete_named_column_at
       ~NominableSheet.delete_named_row_at
@@ -43,7 +44,9 @@ pyexcel.sheets.NominableSheet
       ~NominableSheet.named_row_at
       ~NominableSheet.number_of_columns
       ~NominableSheet.number_of_rows
+      ~NominableSheet.paste
       ~NominableSheet.rcolumns
+      ~NominableSheet.region
       ~NominableSheet.remove_filter
       ~NominableSheet.remove_formatter
       ~NominableSheet.reverse

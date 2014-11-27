@@ -7,9 +7,10 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
+import copy
 from .matrix import Matrix
 from .formattablesheet import FormattableSheet
-from ..filters import ColumnIndexFilter, RowIndexFilter
+from ..filters import ColumnIndexFilter, RowIndexFilter, RegionFilter
 
 
 class FilterableSheet(FormattableSheet):
@@ -107,7 +108,13 @@ class FilterableSheet(FormattableSheet):
         elif isinstance(afilter, RowIndexFilter):
             self._apply_row_filters(afilter)
         else:
-            raise NotImplementedError("IndexFilter is not supported")
+            afilter.validate_filter(self)
+            decending_list = sorted(afilter.row_indices, reverse=True)
+            for i in decending_list:
+                del self.row[i]
+            decending_list = sorted(afilter.column_indices, reverse=True)
+            for i in decending_list:
+                del self.column[i]
 
     def _apply_row_filters(self, afilter):
         afilter.validate_filter(self)
@@ -188,3 +195,107 @@ class FilterableSheet(FormattableSheet):
         :param list row_indices: a list of column indices to be removed
         """
         Matrix.delete_columns(self, column_indices)
+
+    def region(self, topleft_corner, bottomright_corner):
+        """Get a rectangle shaped data out
+
+        :param slice topleft_corner: the top left corner of the rectangle
+        :param slice bottomright_corner: the bottom right corner of the rectangle
+
+        example::
+
+            >>> import pyexcel as pe
+            >>> data = [
+            ...     # 0 1  2  3  4 5   6
+            ...     [1, 2, 3, 4, 5, 6, 7], #  0
+            ...     [21, 22, 23, 24, 25, 26, 27],
+            ...     [31, 32, 33, 34, 35, 36, 37],
+            ...     [41, 42, 43, 44, 45, 46, 47],
+            ...     [51, 52, 53, 54, 55, 56, 57]  # 4
+            ... ]
+            >>> s = pe.Sheet(data)
+            >>> data = s.cut([1, 1], [4, 5])
+            >>> s2 = pe.Sheet(data) #  let's present the result
+            >>> s2
+            Sheet Name: pyexcel
+            +----+----+----+----+
+            | 22 | 23 | 24 | 25 |
+            +----+----+----+----+
+            | 32 | 33 | 34 | 35 |
+            +----+----+----+----+
+            | 42 | 43 | 44 | 45 |
+            +----+----+----+----+
+        """
+        row_slice = slice(topleft_corner[0], bottomright_corner[0], 1)
+        column_slice = slice(topleft_corner[1], bottomright_corner[1], 1)
+        f = RegionFilter(row_slice, column_slice)
+        self.add_filter(f)
+        ret_data = copy.deepcopy(self.to_array())
+        self.remove_filter(f)
+        return ret_data
+
+    def cut(self, topleft_corner, bottomright_corner):
+        """Get a rectangle shaped data out and clear them in position
+
+        :param slice topleft_corner: the top left corner of the rectangle
+        :param slice bottomright_corner: the bottom right corner of the rectangle
+
+        example::
+
+            >>> import pyexcel as pe
+            >>> data = [
+            ...     # 0 1  2  3  4 5   6
+            ...     [1, 2, 3, 4, 5, 6, 7], #  0
+            ...     [21, 22, 23, 24, 25, 26, 27],
+            ...     [31, 32, 33, 34, 35, 36, 37],
+            ...     [41, 42, 43, 44, 45, 46, 47],
+            ...     [51, 52, 53, 54, 55, 56, 57]  # 4
+            ... ]
+            >>> s = pe.Sheet(data)
+            >>> s
+            Sheet Name: pyexcel
+            +----+----+----+----+----+----+----+
+            | 1  | 2  | 3  | 4  | 5  | 6  | 7  |
+            +----+----+----+----+----+----+----+
+            | 21 | 22 | 23 | 24 | 25 | 26 | 27 |
+            +----+----+----+----+----+----+----+
+            | 31 | 32 | 33 | 34 | 35 | 36 | 37 |
+            +----+----+----+----+----+----+----+
+            | 41 | 42 | 43 | 44 | 45 | 46 | 47 |
+            +----+----+----+----+----+----+----+
+            | 51 | 52 | 53 | 54 | 55 | 56 | 57 |
+            +----+----+----+----+----+----+----+
+            >>> # cut  1<= row < 4, 1<= column < 5
+            >>> data = s.cut([1, 1], [4, 5])
+            >>> s
+            Sheet Name: pyexcel
+            +----+----+----+----+----+----+----+
+            | 1  | 2  | 3  | 4  | 5  | 6  | 7  |
+            +----+----+----+----+----+----+----+
+            | 21 |    |    |    |    | 26 | 27 |
+            +----+----+----+----+----+----+----+
+            | 31 |    |    |    |    | 36 | 37 |
+            +----+----+----+----+----+----+----+
+            | 41 |    |    |    |    | 46 | 47 |
+            +----+----+----+----+----+----+----+
+            | 51 | 52 | 53 | 54 | 55 | 56 | 57 |
+            +----+----+----+----+----+----+----+
+
+        """
+        row_slice = slice(topleft_corner[0], bottomright_corner[0], 1)
+        column_slice = slice(topleft_corner[1], bottomright_corner[1], 1)
+        f = RegionFilter(row_slice, column_slice)
+        self.add_filter(f)
+        ret_data = copy.deepcopy(self.to_array())
+        for r in self.row_range():
+            for c in self.column_range():
+                self.cell_value(r, c, '')
+        self.remove_filter(f)
+        return ret_data
+
+    def paste(self, topleft_corner):
+        """Paste a rectangle shaped data after a position
+
+        :param slice topleft_corner: the top left corner of the rectangle
+        """
+        pass

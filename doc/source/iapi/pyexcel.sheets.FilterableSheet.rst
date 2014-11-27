@@ -24,6 +24,7 @@ pyexcel.sheets.FilterableSheet
       ~FilterableSheet.column_range
       ~FilterableSheet.columns
       ~FilterableSheet.contains
+      ~FilterableSheet.cut
       ~FilterableSheet.delete_columns
       ~FilterableSheet.delete_rows
       ~FilterableSheet.enumerate
@@ -37,7 +38,9 @@ pyexcel.sheets.FilterableSheet
       ~FilterableSheet.map
       ~FilterableSheet.number_of_columns
       ~FilterableSheet.number_of_rows
+      ~FilterableSheet.paste
       ~FilterableSheet.rcolumns
+      ~FilterableSheet.region
       ~FilterableSheet.remove_filter
       ~FilterableSheet.remove_formatter
       ~FilterableSheet.reverse

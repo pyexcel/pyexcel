@@ -24,6 +24,7 @@ pyexcel.sheets.Sheet
       ~Sheet.column_range
       ~Sheet.columns
       ~Sheet.contains
+      ~Sheet.cut
       ~Sheet.delete_columns
       ~Sheet.delete_named_column_at
       ~Sheet.delete_named_row_at
@@ -43,7 +44,9 @@ pyexcel.sheets.Sheet
       ~Sheet.named_row_at
       ~Sheet.number_of_columns
       ~Sheet.number_of_rows
+      ~Sheet.paste
       ~Sheet.rcolumns
+      ~Sheet.region
       ~Sheet.remove_filter
       ~Sheet.remove_formatter
       ~Sheet.reverse

@@ -180,6 +180,8 @@ Transformation
 
    Sheet.transpose
    Sheet.map
+   Sheet.region
+   Sheet.cut
         
 
 Save changes
