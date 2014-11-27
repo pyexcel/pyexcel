@@ -41,7 +41,7 @@ def load_book_from_memory(file_type, file_content, **keywords):
     return Book(sheets, **keywords)
 
 
-class Book:
+class Book(object):
     """Read an excel book that has one or more sheets
 
     For csv file, there will be just one sheet
