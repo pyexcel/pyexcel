@@ -13,7 +13,7 @@ With pyexcel >=0.0.6, excel files in memory can be manipulated directly without 
 As you can see, the tuple which is consisted of file type extension and the content to :class:`Reader`. 
 
 
-Real example: read any supported excel and respond its content in json
+Read any supported excel and respond its content in json
 ----------------------------------------------------------------------
 
 You can find a real world example in **examples/memoryfile/** directory: pyexcel_server.py. Here is the example snippet
@@ -36,3 +36,26 @@ You can find a real world example in **examples/memoryfile/** directory: pyexcel
         return render_template...
 
 **request.files['excel']** in line 2 holds the file object. line 5 finds out the file extension. line 8 feeds in a tuple to **Book**. line 10 gives a dictionary represetation of the excel file and line 11 send the json represetation of the excel file back to client browser
+
+Write to memory and respond to download
+-------------------------------------------
+
+.. code-block:: python
+    :lineno:
+
+	data = [
+	    [...],
+		...
+    ]
+    
+    @app.route('/download')
+    def download():
+        sheet = pe.Sheet(data)
+        io = StringIO()
+        sheet.save_to_memory("csv", io)
+        output = make_response(io.getvalue())
+        output.headers["Content-Disposition"] = "attachment; filename=export.csv"
+        output.headers["Content-type"] = "text/csv"
+        return output
+
+**make_response** is a Flask utility to make a memory content as http response.

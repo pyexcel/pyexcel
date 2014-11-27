@@ -13,8 +13,8 @@ You will need the html file in templates directory and keep the directory struct
 
 After that, you can launch the mini server::
 
-    $ python flaskserver.py
+    $ python pyexcel_server.py
 
-Then visit http://localhost:5000/upload
+Then visit http://localhost:5000/upload or http://localhost:5000/download
 
 
