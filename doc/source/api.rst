@@ -265,3 +265,4 @@ Data Filters
    SingleRowFilter
    OddRowFilter
    EvenRowFilter
+   RegionFilter

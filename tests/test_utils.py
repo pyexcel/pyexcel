@@ -94,6 +94,11 @@ class TestUtils2():
         actual = pe.to_dict(r)
         assert actual == self.content
 
+    def test_book_reader_to_dict2(self):
+        r = pe.load_book(self.testfile)
+        actual = r.to_dict()
+        assert actual == self.content
+
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
