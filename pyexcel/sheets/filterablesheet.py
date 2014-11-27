@@ -107,7 +107,7 @@ class FilterableSheet(FormattableSheet):
             self._apply_column_filters(afilter)
         elif isinstance(afilter, RowIndexFilter):
             self._apply_row_filters(afilter)
-        else:
+        elif isinstance(afilter, RegionFilter):
             afilter.validate_filter(self)
             decending_list = sorted(afilter.row_indices, reverse=True)
             for i in decending_list:
@@ -115,6 +115,8 @@ class FilterableSheet(FormattableSheet):
             decending_list = sorted(afilter.column_indices, reverse=True)
             for i in decending_list:
                 del self.column[i]
+        else:
+            raise NotImplementedError("Invalid Filter!")
 
     def _apply_row_filters(self, afilter):
         afilter.validate_filter(self)
