@@ -429,3 +429,46 @@ class TestSheetRegion:
         ]
         assert data == expected
         assert s.to_array() == expected2
+
+    def test_cut_and_paste_region(self):
+        data = [
+            # 0 1  2  3  4 5   6
+            [1, 2, 3, 4, 5, 6, 7], #  0
+            [21, 22, 23, 24, 25, 26, 27],
+            [31, 32, 33, 34, 35, 36, 37],
+            [41, 42, 43, 44, 45, 46, 47],
+            [51, 52, 53, 54, 55, 56, 57]  # 4
+        ]
+        s = pe.Sheet(data)
+        data = s.cut([1, 1], [4, 5])
+        s.paste([0,0], rows=data)
+        expected = [
+            [22, 23, 24, 25, 5, 6, 7],
+            [32, 33, 34, 35, '', 26, 27],
+            [42, 43, 44, 45, '', 36, 37],
+            [41, '', '', '', '', 46, 47],
+            [51, 52, 53, 54, 55, 56, 57]
+        ]
+        assert expected == s.to_array()
+        
+    def test_cut_and_paste_region_within_limits_at_edge(self):
+        data = [
+            # 0 1  2  3  4 5   6
+            [1, 2, 3, 4, 5, 6, 7], #  0
+            [21, 22, 23, 24, 25, 26, 27],
+            [31, 32, 33, 34, 35, 36, 37],
+            [41, 42, 43, 44, 45, 46, 47],
+            [51, 52, 53, 54, 55, 56, 57]  # 4
+        ]
+        s = pe.Sheet(data)
+        data = s.cut([1, 1], [4, 5])
+        s.paste([0,0], rows=data)
+        expected = [
+            [22, 23, 24, 25, 5, 6, 7],
+            [32, 33, 34, 35, '', 26, 27],
+            [42, 43, 44, 45, '', 36, 37],
+            [41, '', '', '', '', 46, 47],
+            [51, 52, 53, 54, 55, 56, 57]
+        ]
+        print s
+        assert expected == s.to_array()

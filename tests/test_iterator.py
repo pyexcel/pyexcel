@@ -143,29 +143,29 @@ class TestMatrixColumn:
         r = pe.sheets.Matrix(self.data)
         content = ['r', 's', 't', 'o']
         r.column[1] = content
-        assert r.column[1] == content[:3]
-        assert r.column[0] == [1, 1, 1]
+        assert r.column[1] == content
+        assert r.column[0] == [1, 1, 1, '']
         r.column['B'] = ['p', 'q', 'r']
-        assert r.column['B'] == ['p', 'q', 'r']
+        assert r.column['B'] == ['p', 'q', 'r', 'o']
 
     def test_set_a_slice_of_column(self):
         r = pe.sheets.Matrix(self.data)        
         content2 = [1, 2, 3, 4]
         r.column[1:] = content2
-        assert r.column[2] == content2[:3]
+        assert r.column[2] == content2
 
     def test_set_a_special_slice(self):
         r = pe.sheets.Matrix(self.data)        
         content3 = [True, False, True, False]
         r.column[0:0] = content3
-        assert r.column[0] == content3[:3]
+        assert r.column[0] == content3
 
     def test_a_stepper_in_a_slice(self):
         r = pe.sheets.Matrix(self.data)        
         r.column[0:2:1] = [1, 1, 1, 1]
-        assert r.column[0] == [1, 1, 1]
-        assert r.column[1] == [1, 1, 1]
-        assert r.column[2] == [3, 3, '']
+        assert r.column[0] == [1, 1, 1, 1]
+        assert r.column[1] == [1, 1, 1, 1]
+        assert r.column[2] == [3, 3, '', '']
 
     def test_set_an_invalid_slice(self):
         m = pe.sheets.Matrix(self.data)
@@ -340,7 +340,6 @@ class TestMatrix:
         r["string"] = 'k'  # bang, cannot set
 
     def test_transpose(self):
-        """Test transpose"""
         data = [
             [1, 2, 3],
             [4, 5, 6]

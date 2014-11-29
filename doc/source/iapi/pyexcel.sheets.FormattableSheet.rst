@@ -33,6 +33,7 @@ pyexcel.sheets.FormattableSheet
       ~FormattableSheet.map
       ~FormattableSheet.number_of_columns
       ~FormattableSheet.number_of_rows
+      ~FormattableSheet.paste
       ~FormattableSheet.rcolumns
       ~FormattableSheet.remove_formatter
       ~FormattableSheet.reverse

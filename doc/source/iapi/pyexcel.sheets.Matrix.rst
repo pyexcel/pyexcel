@@ -27,6 +27,7 @@ pyexcel.sheets.Matrix
       ~Matrix.extend_rows
       ~Matrix.number_of_columns
       ~Matrix.number_of_rows
+      ~Matrix.paste
       ~Matrix.rcolumns
       ~Matrix.reverse
       ~Matrix.row_at

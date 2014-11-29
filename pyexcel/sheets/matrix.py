@@ -56,13 +56,13 @@ def uniform(array):
     """
     width = longest_row_number(array)
     if width == 0:
-        return array
+        return 0, array
     else:
         for row in array:
             row_length = len(row)
             if row_length < width:
                 row += [""] * (width - row_length)
-        return array
+        return width, array
 
 
 def transpose(in_array):
@@ -344,7 +344,7 @@ class Matrix(object):
         copy every cell to a new memory area
         :param list array: a list of arrays
         """
-        self.array = uniform(array)
+        self.width, self.array = uniform(array)
 
     def number_of_rows(self):
         """The number of rows"""
@@ -353,7 +353,7 @@ class Matrix(object):
     def number_of_columns(self):
         """The number of columns"""
         if self.number_of_rows() > 0:
-            return len(self.array[0])
+            return self.width
         else:
             return 0
 
@@ -643,9 +643,15 @@ class Matrix(object):
         nrows = self.number_of_rows()
         ncolumns = self.number_of_columns()
         if column_index < ncolumns and starting < nrows:
-            to = min(len(data_array)+starting, nrows)
+            real_len = len(data_array)+starting
+            to = min(real_len, nrows)
             for i in range(starting, to):
                 self.cell_value(i, column_index, data_array[i-starting])
+            if real_len > nrows:
+                for i in range(nrows, real_len):
+                    new_row = [''] * column_index + [data_array[i-starting]]
+                    self.array.append(new_row)
+            self.width, self.array = uniform(self.array)
         else:
             raise IndexError
 
@@ -669,9 +675,14 @@ class Matrix(object):
         nrows = self.number_of_rows()
         ncolumns = self.number_of_columns()
         if row_index < nrows and starting < ncolumns:
-            to = min(len(data_array)+starting, ncolumns)
+            real_len = len(data_array)+starting
+            to = min(real_len, ncolumns)
             for i in range(starting, to):
                 self.cell_value(row_index, i, data_array[i-starting])
+            if real_len > ncolumns:
+                left = ncolumns - starting
+                self.array[row_index] = self.array[row_index] + data_array[left:]
+            self.width, self.array = uniform(self.array)
         else:
             raise IndexError
 
@@ -687,7 +698,7 @@ class Matrix(object):
                     self._extend_row(r)
             else:
                 self._extend_row(rows)
-            self.array = uniform(self.array)
+            self.width, self.array = uniform(self.array)
         else:
             raise TypeError("Cannot use %s" % type(rows))
 
@@ -738,7 +749,7 @@ class Matrix(object):
                 new_array = [""] * current_ncols
                 new_array += rows[base+i]
                 self.array.append(new_array)
-        self.array = uniform(self.array)
+        self.width, self.array = uniform(self.array)
 
     def extend_columns_with_rows(self, rows):
         """Rows were appended to the rightmost side
@@ -776,6 +787,94 @@ class Matrix(object):
         """
         self._extend_columns_with_rows(rows)
 
+    def paste(self, topleft_corner, rows=None, columns=None):
+        """Paste a rectangle shaped data after a position
+
+        :param slice topleft_corner: the top left corner of the rectangle
+        example::
+
+            >>> import pyexcel as pe
+            >>> data = [
+            ...     # 0 1  2  3  4 5   6
+            ...     [1, 2, 3, 4, 5, 6, 7], #  0
+            ...     [21, 22, 23, 24, 25, 26, 27],
+            ...     [31, 32, 33, 34, 35, 36, 37],
+            ...     [41, 42, 43, 44, 45, 46, 47],
+            ...     [51, 52, 53, 54, 55, 56, 57]  # 4
+            ... ]
+            >>> s = pe.Sheet(data)
+            >>> # cut  1<= row < 4, 1<= column < 5
+            >>> data = s.cut([1, 1], [4, 5])
+            >>> s.paste([4,6], rows=data)
+            >>> s
+            Sheet Name: pyexcel
+            +----+----+----+----+----+----+----+----+----+----+
+            | 1  | 2  | 3  | 4  | 5  | 6  | 7  |    |    |    |
+            +----+----+----+----+----+----+----+----+----+----+
+            | 21 |    |    |    |    | 26 | 27 |    |    |    |
+            +----+----+----+----+----+----+----+----+----+----+
+            | 31 |    |    |    |    | 36 | 37 |    |    |    |
+            +----+----+----+----+----+----+----+----+----+----+
+            | 41 |    |    |    |    | 46 | 47 |    |    |    |
+            +----+----+----+----+----+----+----+----+----+----+
+            | 51 | 52 | 53 | 54 | 55 | 56 | 22 | 23 | 24 | 25 |
+            +----+----+----+----+----+----+----+----+----+----+
+            |    |    |    |    |    |    | 32 | 33 | 34 | 35 |
+            +----+----+----+----+----+----+----+----+----+----+
+            |    |    |    |    |    |    | 42 | 43 | 44 | 45 |
+            +----+----+----+----+----+----+----+----+----+----+
+            >>> s.paste([6,9], columns=data)
+            >>> s
+            Sheet Name: pyexcel
+            +----+----+----+----+----+----+----+----+----+----+----+----+
+            | 1  | 2  | 3  | 4  | 5  | 6  | 7  |    |    |    |    |    |
+            +----+----+----+----+----+----+----+----+----+----+----+----+
+            | 21 |    |    |    |    | 26 | 27 |    |    |    |    |    |
+            +----+----+----+----+----+----+----+----+----+----+----+----+
+            | 31 |    |    |    |    | 36 | 37 |    |    |    |    |    |
+            +----+----+----+----+----+----+----+----+----+----+----+----+
+            | 41 |    |    |    |    | 46 | 47 |    |    |    |    |    |
+            +----+----+----+----+----+----+----+----+----+----+----+----+
+            | 51 | 52 | 53 | 54 | 55 | 56 | 22 | 23 | 24 | 25 |    |    |
+            +----+----+----+----+----+----+----+----+----+----+----+----+
+            |    |    |    |    |    |    | 32 | 33 | 34 | 35 |    |    |
+            +----+----+----+----+----+----+----+----+----+----+----+----+
+            |    |    |    |    |    |    | 42 | 43 | 44 | 22 | 32 | 42 |
+            +----+----+----+----+----+----+----+----+----+----+----+----+
+            |    |    |    |    |    |    |    |    |    | 23 | 33 | 43 |
+            +----+----+----+----+----+----+----+----+----+----+----+----+
+            |    |    |    |    |    |    |    |    |    | 24 | 34 | 44 |
+            +----+----+----+----+----+----+----+----+----+----+----+----+
+            |    |    |    |    |    |    |    |    |    | 25 | 35 | 45 |
+            +----+----+----+----+----+----+----+----+----+----+----+----+
+
+        """
+        if rows:
+            starting_row = topleft_corner[0]
+            number_of_rows = self.number_of_rows()
+            for index, row in enumerate(rows):
+                set_index = starting_row + index
+                if set_index < number_of_rows:
+                    self.set_row_at(set_index, row, starting=topleft_corner[1])
+                else:
+                    real_row = [""] * topleft_corner[1] + row
+                    self._extend_row(real_row)
+            self.width, self.array = uniform(self.array)
+        elif columns:
+            starting_column = topleft_corner[1]
+            number_of_columns = self.number_of_columns()
+            for index, column in enumerate(columns):
+                set_index = starting_column + index
+                if set_index < number_of_columns:
+                    self.set_column_at(set_index, column, starting=topleft_corner[0])
+                else:
+                    real_column = [""] * topleft_corner[0] + column
+                    self.extend_columns([real_column])
+            self.width, self.array = uniform(self.array)
+            pass
+        else:
+            raise ValueError("Nothing to be pasted!")
+
     def delete_columns(self, column_indices):
         """Delete columns by specified list of indices
         """
@@ -787,6 +886,7 @@ class Matrix(object):
             for i in range(0, len(self.array)):
                 for j in sorted_list:
                     del self.array[i][j]
+            self.width = longest_row_number(self.array)
 
     def __setitem__(self, aset, c):
         """Override the operator to set items"""
@@ -825,6 +925,7 @@ class Matrix(object):
         Reference :func:`transpose`
         """
         self.array = transpose(self.array)
+        self.width, self.array = uniform(self.array)
 
     def to_array(self):
         """Get an array out

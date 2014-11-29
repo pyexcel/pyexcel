@@ -182,6 +182,7 @@ Transformation
    Sheet.map
    Sheet.region
    Sheet.cut
+   Sheet.paste
         
 
 Save changes

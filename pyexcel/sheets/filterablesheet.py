@@ -294,10 +294,3 @@ class FilterableSheet(FormattableSheet):
                 self.cell_value(r, c, '')
         self.remove_filter(f)
         return ret_data
-
-    def paste(self, topleft_corner):
-        """Paste a rectangle shaped data after a position
-
-        :param slice topleft_corner: the top left corner of the rectangle
-        """
-        pass

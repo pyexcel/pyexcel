@@ -61,4 +61,4 @@ Write to memory and respond to download
 **make_response** is a Flask utility to make a memory content as http response.
 
 .. note:: Source code
-   You can find the corresponding source code at `examples/memoryfile (https://github.com/chfw/pyexcel/tree/master/examples/memoryfile)`_
+   You can find the corresponding source code at `examples/memoryfile <https://github.com/chfw/pyexcel/tree/master/examples/memoryfile>`_
