@@ -470,5 +470,4 @@ class TestSheetRegion:
             [41, '', '', '', '', 46, 47],
             [51, 52, 53, 54, 55, 56, 57]
         ]
-        print s
         assert expected == s.to_array()
