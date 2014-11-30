@@ -4,4 +4,4 @@ rednose
 nose-cov
 python-coveralls
 coverage
-
+sphinx_rtd_theme
