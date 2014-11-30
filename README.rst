@@ -20,26 +20,22 @@ pyexcel - Let you focus on data, instead of file formats
 .. image:: https://pypip.in/py_versions/pyexcel/badge.png
     :target: https://pypi.python.org/pypi/pyexcel
 
-.. image:: https://pypip.in/implementation/pyexcel/badge.png
-    :target: https://pypi.python.org/pypi/pyexcel
-    :alt: Supported Python implementation
-
-**pyexcel** and its plugins are a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. Its mission is to let you focus on data itself and it deals with different file formats. Fonts, colors and charts are not supported.
+**pyexcel** and its plugins are a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. Fonts, colors and charts are not supported.
 
 All great work have done by odf, ezodf(2), xlrd, xlwt, tabulate and other individual developers. This library unites only the data access code.
 
-Avaialbe Plugins
+Available Plugins
 =================
 
-================ ============================================================ =============================
-Plugins          Supported file formats                                       Comments
-================ ============================================================ =============================
-pyexcel          csv, csvz, tsv, tsvz                                              
-`pyexcel-xl`_    xls, xlsx, xlsm                                              
-`pyexcel-ods`_   ods (python 2.6, 2.7)                                        
-`pyexcel-ods3`_  ods (python 2.7, 3.3, 3.4)                                   
-`pyexcel-text`_  json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple only support writing to files
-================ ============================================================ =============================
+================ ============================================================
+Plugins          Supported file formats                                      
+================ ============================================================
+pyexcel          csv, csvz, tsv, tsvz                                        
+`pyexcel-xl`_    xls, xlsx, xlsm                                             
+`pyexcel-ods`_   ods (python 2.6, 2.7)                                       
+`pyexcel-ods3`_  ods (python 2.7, 3.3, 3.4)                                  
+`pyexcel-text`_  json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple
+================ ============================================================
 
 .. _pyexcel-xl: https://github.com/chfw/pyexcel-xl
 .. _pyexcel-ods: https://github.com/chfw/pyexcel-ods
@@ -61,8 +57,10 @@ or clone it and install it::
 
 Installation of individual plugins , please refer to individual plugin page.
 
-Usage Exmaples
+Usage
 ===============
+
+Here are some example codes::
 
     >>> import pyexcel as pe
     >>> import pyexcel.ext.xl # import it to be able handle xls, xlsx, xlsm files
