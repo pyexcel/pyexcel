@@ -74,7 +74,7 @@ The sheet content will become:
 
 
 Append more columns to a data file
----------------------------------
+------------------------------------
 
 Continue from previous example. Suppose you want add two more columns to the data file
 

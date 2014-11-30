@@ -61,7 +61,14 @@ class IndexFilter:
         pass
 
 class RegionFilter(IndexFilter):
+    """Filter on both row index and column index"""
+    
     def __init__(self, row_slice, column_slice):
+        """Constructor
+
+        :param slice row_slice: row index range
+        :param slice column_slice: column index range
+        """
         self.row_indices = range(row_slice.start, row_slice.stop, row_slice.step)
         self.column_indices = range(column_slice.start, column_slice.stop, column_slice.step)
         if not PY2:

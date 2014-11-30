@@ -41,7 +41,7 @@ Row represetation
    NamedRow
 
 Column represetation
-===================
+=====================
 
 .. autosummary::
    :toctree: iapi/
