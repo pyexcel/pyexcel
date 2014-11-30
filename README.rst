@@ -20,9 +20,11 @@ pyexcel - Let you focus on data, instead of file formats
 .. image:: https://pypip.in/py_versions/pyexcel/badge.png
     :target: https://pypi.python.org/pypi/pyexcel
 
-**pyexcel** and its plugins are a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. Fonts, colors and charts are not supported.
+Known constraints
+==================
 
-All great work have done by odf, ezodf(2), xlrd, xlwt, tabulate and other individual developers. This library unites only the data access code.
+Fonts, colors and charts are not supported. 
+
 
 Available Plugins
 =================
@@ -127,5 +129,7 @@ Known Issues
 
 Acknowledgement
 ===============
+
+All great work have done by odf, ezodf(2), xlrd, xlwt, tabulate and other individual developers. This library unites only the data access code.
 
 Extension management code was copied from `flask <https://github.com/mitsuhiko/flask>`_. 
