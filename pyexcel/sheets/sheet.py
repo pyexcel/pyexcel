@@ -7,6 +7,7 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
+import datetime
 from ..io import load_file
 from .nominablesheet import NominableSheet
 
@@ -54,6 +55,28 @@ def load_from_memory(file_type,
     :param dict keywords: any other parameters
     """
     return load((file_type, file_content), sheetname, **keywords)
+
+
+def load_from_sql(session, table):
+    """Constructs from database table
+
+    :param sqlalchemy.orm.Session session: SQLAlchemy session object
+    :param sqlalchemy.ext.declarative table: SQLAlchemy database table
+    :returns: :class:`Sheet`
+    """
+    array = []
+    objects = session.query(table).all()
+    column_names = [column.name for column in objects[0].__table__.columns]
+    array.append(column_names)
+    for o in objects:
+        new_array = []
+        for column in column_names:
+            value = getattr(o,column)
+            if isinstance(value, (datetime.date, datetime.time)):
+                value = value.isoformat()
+            new_array.append(value)
+        array.append(new_array)
+    return Sheet(array, name_columns_by_row=0)
 
 
 class Sheet(NominableSheet):

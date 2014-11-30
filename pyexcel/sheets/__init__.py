@@ -12,6 +12,7 @@ from .sheet import (
     NominableSheet,
     load,
     load_from_memory,
+    load_from_sql,
     Reader,
     SeriesReader,
     ColumnSeriesReader)
