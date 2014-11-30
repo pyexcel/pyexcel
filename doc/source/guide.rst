@@ -11,7 +11,7 @@ Acceptance criteria
 -------------------
 
 #. Has fair amount of documentation
-#. Has Test cases are written
+#. Has Test cases written
 #. Has all code lines tested
 #. Passes all Travis CI builds
 #. Pythonic code please
