@@ -129,7 +129,7 @@ For individual excel file formats, please install them as you wish:
 ================ ============================================================ ============= ======================== =============================	
 Plugins          Supported file formats                                       Dependencies  Python versions			 Comments						
 ================ ============================================================ ============= ======================== =============================	
-pyexcel          csv, csvz[#f1]_, tsv, tsvz[#f2]_                                           2.6, 2.7, 3.3, 3.4, pypy 								
+pyexcel          csv, csvz [#f1]_, tsv, tsvz [#f2]_                                         2.6, 2.7, 3.3, 3.4, pypy 								
 `pyexcel-xl`_    xls, xlsx, xlsm                                              xlrd, xlwt    2.6, 2.7, 3.3, 3.4, pypy 								
 `pyexcel-ods`_   ods (python 2.6, 2.7)                                        odfpy         2.6, 2.7				 								
 `pyexcel-ods3`_  ods (python 2.7, 3.3, 3.4)                                   ezodf, lxml   3.3, 3.4				 								
@@ -141,10 +141,6 @@ pyexcel          csv, csvz[#f1]_, tsv, tsvz[#f2]_                               
 .. _pyexcel-ods3: https://github.com/chfw/pyexcel-ods3
 .. _pyexcel-text: https://github.com/chfw/pyexcel-text
 
-.. rubric:: Footnotes
-
-.. [#f1] zipped csv file
-.. [#f2] zipped tsv file
 
 Please import them before you start to access the desired file formats::
 
@@ -220,3 +216,7 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+.. rubric:: Footnotes
+
+.. [#f1] zipped csv file
+.. [#f2] zipped tsv file
