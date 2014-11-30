@@ -36,6 +36,7 @@ Constructor
    Sheet
    load
    load_from_memory
+   load_from_sql
 
 Attributes
 -----------
