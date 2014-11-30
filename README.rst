@@ -11,6 +11,9 @@ pyexcel - Let you focus on data, instead of file formats
 .. image:: https://readthedocs.org/projects/pyexcel/badge/?version=latest
     :target: https://readthedocs.org/projects/pyexcel/?badge=latest
 
+.. image:: https://pypip.in/version/pyexcel/badge.png
+    :target: https://pypi.python.org/pypi/pyexcel
+
 .. image:: https://pypip.in/d/pyexcel/badge.png
     :target: https://pypi.python.org/pypi/pyexcel
 
@@ -25,7 +28,41 @@ pyexcel - Let you focus on data, instead of file formats
 
 All great work have done by odf, ezodf(2), xlrd, xlwt, tabulate and other individual developers. This library unites only the data access code.
 
-Usage Exmaples::
+Avaialbe Plugins
+=================
+
+================ ============================================================ =============================
+Plugins          Supported file formats                                       Comments
+================ ============================================================ =============================
+pyexcel          csv, csvz, tsv, tsvz                                              
+`pyexcel-xl`_    xls, xlsx, xlsm                                              
+`pyexcel-ods`_   ods (python 2.6, 2.7)                                        
+`pyexcel-ods3`_  ods (python 2.7, 3.3, 3.4)                                   
+`pyexcel-text`_  json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple only support writing to files
+================ ============================================================ =============================
+
+.. _pyexcel-xl: https://github.com/chfw/pyexcel-xl
+.. _pyexcel-ods: https://github.com/chfw/pyexcel-ods
+.. _pyexcel-ods3: https://github.com/chfw/pyexcel-ods3
+.. _pyexcel-text: https://github.com/chfw/pyexcel-text
+
+Installation
+============
+You can install it via pip::
+
+    $ pip install pyexcel
+
+
+or clone it and install it::
+
+    $ git clone http://github.com/chfw/pyexcel.git
+    $ cd pyexcel
+    $ python setup.py install
+
+Installation of individual plugins , please refer to individual plugin page.
+
+Usage Exmaples
+===============
 
     >>> import pyexcel as pe
     >>> import pyexcel.ext.xl # import it to be able handle xls, xlsx, xlsm files
@@ -82,70 +119,7 @@ Usage Exmaples::
 Documentation
 =============
 
-Latest document is hosted at `pyexcel@read the docs <https://pyexcel.readthedocs.org/en/latest>`_ and latest stable version is hosted in `pyexcel@pyhosted <https://pythonhosted.org/pyexcel/>`_
-
-Latest stable
-=============
-
-0.0.8
-
-Installation
-============
-You can install it via pip::
-
-    $ pip install pyexcel
-
-
-or clone it and install it::
-
-    $ git clone http://github.com/chfw/pyexcel.git
-    $ cd pyexcel
-    $ python setup.py install
-
-Installation of individual plugins , please refer to individual plugin page.
-
-================ ============================================================ =============================
-Plugins          Supported file formats                                       Comments
-================ ============================================================ =============================
-pyexcel          csv, csvz, tsv, tsvz                                              
-`pyexcel-xl`_    xls, xlsx, xlsm                                              
-`pyexcel-ods`_   ods (python 2.6, 2.7)                                        
-`pyexcel-ods3`_  ods (python 2.7, 3.3, 3.4)                                   
-`pyexcel-text`_  json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple only support writing to files
-================ ============================================================ =============================
-
-.. _pyexcel-xl: https://github.com/chfw/pyexcel-xl
-.. _pyexcel-ods: https://github.com/chfw/pyexcel-ods
-.. _pyexcel-ods3: https://github.com/chfw/pyexcel-ods3
-.. _pyexcel-text: https://github.com/chfw/pyexcel-text
-
-Plugin compatibility 
--------------------------------
-======= ======= ======== ====== ======
-pyexcel xl      ods      ods3	text  
-======= ======= ======== ======	======
-v0.0.8	0.0.1   0.0.2	 0.0.2	0.0.1 
-v0.0.7	n/a     0.0.2	 0.0.2	n/a    
-v0.0.6          0.0.2    0.0.2	    
-v0.0.5          0.0.1    0.0.1     		   
-v0.0.4          0.0.1    0.0.1	    
-v0.0.3          n/a      n/a    
-======= ======= ======== ======	======
-
-Test 
-=====
-
-Here is the test command::
-
-    pip install -r tests/requirements.txt
-    make test
-
-On Windows, please use::
-
-    test.bat
-
-For more local test coverage, you can add `--cover-html --cover-html-dir=your_file_directory` to `test.sh` or `test.bat`
-
+Documentation is hosted at `read the docs <https://pyexcel.readthedocs.org/en/latest>`_ and `pyhosted <https://pythonhosted.org/pyexcel/>`_
 
 Known Issues
 =============
