@@ -61,12 +61,12 @@ def load_from_sql(session, table):
     """Constructs from database table
 
     :param sqlalchemy.orm.Session session: SQLAlchemy session object
-    :param sqlalchemy.ext.declarative table: SQLAlchemy database table
+    :param sqlalchemy.ext.declarative or mapped table table: SQLAlchemy database table
     :returns: :class:`Sheet`
     """
     array = []
     objects = session.query(table).all()
-    column_names = [column.name for column in objects[0].__table__.columns]
+    column_names = [column for column in objects[0].__dict__ if column != '_sa_instance_state']
     array.append(column_names)
     for o in objects:
         new_array = []

@@ -8,7 +8,7 @@
     :license: GPL v3
 """
 import copy
-from .matrix import Matrix
+from .matrix import Matrix, uniform
 from .formattablesheet import FormattableSheet
 from ..filters import ColumnIndexFilter, RowIndexFilter, RegionFilter
 
@@ -294,3 +294,90 @@ class FilterableSheet(FormattableSheet):
                 self.cell_value(r, c, '')
         self.remove_filter(f)
         return ret_data
+
+    def insert(self, topleft_corner, rows=None, columns=None):
+        """Insert a rectangle shaped data after a position
+
+        :param slice topleft_corner: the top left corner of the rectangle
+        example::
+
+            >>> import pyexcel as pe
+            >>> data = [
+            ...     # 0 1  2  3  4 5   6
+            ...     [1, 2, 3, 4, 5, 6, 7], #  0
+            ...     [21, 22, 23, 24, 25, 26, 27],
+            ...     [31, 32, 33, 34, 35, 36, 37],
+            ...     [41, 42, 43, 44, 45, 46, 47],
+            ...     [51, 52, 53, 54, 55, 56, 57]  # 4
+            ... ]
+            >>> s = pe.Sheet(data)
+            >>> data_to_be_inserted = [
+            ...     ['a1', 'b1', 'c1', 'd1'],
+            ...     ['a2', 'b2', 'c2', 'd2'],
+            ...     ['a3', 'b3', 'c3', 'd3'],
+            ...     ['a4', 'b4', 'c4', 'd4'],
+            ...     ['a5', 'b5', 'c5', 'd5'],
+            ... ]
+            >>> s.insert([1, 1], rows=data_to_be_inserted)
+            >>> s
+            Sheet Name: pyexcel
+            +----+----+----+----+----+----+----+
+            | 1  | 2  | 3  | 4  | 5  | 6  | 7  |
+            +----+----+----+----+----+----+----+
+            | 21 | a1 | b1 | c1 | d1 | 26 | 27 |
+            +----+----+----+----+----+----+----+
+            | 31 | a2 | b2 | c2 | d2 | 36 | 37 |
+            +----+----+----+----+----+----+----+
+            | 41 | a3 | b3 | c3 | d3 | 46 | 47 |
+            +----+----+----+----+----+----+----+
+            | 51 | a4 | b4 | c4 | d4 | 56 | 57 |
+            +----+----+----+----+----+----+----+
+            |    | a5 | b5 | c5 | d5 |    |    |
+            +----+----+----+----+----+----+----+
+            |    | 22 | 23 | 24 | 25 |    |    |
+            +----+----+----+----+----+----+----+
+            |    | 32 | 33 | 34 | 35 |    |    |
+            +----+----+----+----+----+----+----+
+            |    | 42 | 43 | 44 | 45 |    |    |
+            +----+----+----+----+----+----+----+
+            |    | 52 | 53 | 54 | 55 |    |    |
+            +----+----+----+----+----+----+----+
+            >>> data_to_be_inserted2 = [
+            ...     ['A1', 'B1', 'C1', 'D1'],
+            ...     ['A2', 'B2', 'C2', 'D2'],
+            ...     ['A3', 'B3', 'C3', 'D3'],
+            ...     ['A4', 'B4', 'C4', 'D4'],
+            ...     ['A5', 'B5', 'C5', 'D5'],
+            ... ]
+            >>> s.insert([1, 1], columns=data_to_be_inserted2)
+            >>> s
+            xxx
+        """
+        if rows:
+            self._insert_rows(topleft_corner, rows)
+        elif columns:
+            self._insert_columns(topleft_corner, columns)
+        else:
+            pass
+
+    def _insert_columns(self, topleft_corner, columns):
+        height, incoming_data = uniform(copy.deepcopy(columns))
+        width = len(columns)
+        bottom_right_corner_row = min (self.width, topleft_corner[0]+width)
+        bottom_right_corner_column = min(self.number_of_rows(), topleft_corner[1]+height)
+        relocated_region = self.cut(topleft_corner,
+                                    (bottom_right_corner_row, bottom_right_corner_column))
+        self.paste(topleft_corner, columns=columns)
+        new_topeft_corner = (topleft_corner[0]+height, topleft_corner[1])
+        self.paste(new_topeft_corner, relocated_region)
+
+    def _insert_rows(self, topleft_corner, rows):
+        width, incoming_data = uniform(copy.deepcopy(rows))
+        height = len(rows)
+        bottom_right_corner_row = min (self.width, topleft_corner[0]+width)
+        bottom_right_corner_column = min(self.number_of_rows(), topleft_corner[1]+height)
+        relocated_region = self.cut(topleft_corner,
+                                    (bottom_right_corner_row, bottom_right_corner_column))
+        self.paste(topleft_corner, rows=rows)
+        new_topeft_corner = (topleft_corner[0]+height, topleft_corner[1])
+        self.paste(new_topeft_corner, relocated_region)
