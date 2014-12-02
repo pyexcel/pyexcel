@@ -871,7 +871,6 @@ class Matrix(object):
                     real_column = [""] * topleft_corner[0] + column
                     self.extend_columns([real_column])
             self.width, self.array = uniform(self.array)
-            pass
         else:
             raise ValueError("Nothing to be pasted!")
 

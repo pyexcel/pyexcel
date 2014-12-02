@@ -351,33 +351,64 @@ class FilterableSheet(FormattableSheet):
             ... ]
             >>> s.insert([1, 1], columns=data_to_be_inserted2)
             >>> s
-            xxx
+            Sheet Name: pyexcel
+            +----+----+----+----+----+----+----+
+            | 1  | 2  | 3  | 4  | 5  | 6  | 7  |
+            +----+----+----+----+----+----+----+
+            | 21 | A1 | A2 | A3 | A4 | A5 | 27 |
+            +----+----+----+----+----+----+----+
+            | 31 | B1 | B2 | B3 | B4 | B5 | 37 |
+            +----+----+----+----+----+----+----+
+            | 41 | C1 | C2 | C3 | C4 | C5 | 47 |
+            +----+----+----+----+----+----+----+
+            | 51 | D1 | D2 | D3 | D4 | D5 | 57 |
+            +----+----+----+----+----+----+----+
+            |    | a1 | b1 | c1 | d1 |    |    |
+            +----+----+----+----+----+----+----+
+            |    | a2 | b2 | c2 | d2 |    |    |
+            +----+----+----+----+----+----+----+
+            |    | a3 | b3 | c3 | d3 |    |    |
+            +----+----+----+----+----+----+----+
+            |    | a4 | b4 | c4 | d4 |    |    |
+            +----+----+----+----+----+----+----+
+            |    | a5 | b5 | c5 | d5 |    |    |
+            +----+----+----+----+----+----+----+
+            |    | 22 | 23 | 24 | 25 |    |    |
+            +----+----+----+----+----+----+----+
+            |    | 32 | 33 | 34 | 35 |    |    |
+            +----+----+----+----+----+----+----+
+            |    | 42 | 43 | 44 | 45 |    |    |
+            +----+----+----+----+----+----+----+
+            |    | 52 | 53 | 54 | 55 |    |    |
+            +----+----+----+----+----+----+----+
+        
         """
         if rows:
             self._insert_rows(topleft_corner, rows)
         elif columns:
             self._insert_columns(topleft_corner, columns)
         else:
-            pass
+            raise ValueError("Nothing to be inserted!")
 
     def _insert_columns(self, topleft_corner, columns):
         height, incoming_data = uniform(copy.deepcopy(columns))
-        width = len(columns)
-        bottom_right_corner_row = min (self.width, topleft_corner[0]+width)
-        bottom_right_corner_column = min(self.number_of_rows(), topleft_corner[1]+height)
-        relocated_region = self.cut(topleft_corner,
-                                    (bottom_right_corner_row, bottom_right_corner_column))
-        self.paste(topleft_corner, columns=columns)
+        bottom_right_corner_row = self.number_of_rows()
+        bottom_right_corner_column = min(self.width, topleft_corner[1]+height)
+        relocated_region = self.cut(
+            topleft_corner,
+            (bottom_right_corner_row, bottom_right_corner_column))
+        self.paste(topleft_corner, columns=incoming_data)
         new_topeft_corner = (topleft_corner[0]+height, topleft_corner[1])
         self.paste(new_topeft_corner, relocated_region)
 
     def _insert_rows(self, topleft_corner, rows):
         width, incoming_data = uniform(copy.deepcopy(rows))
         height = len(rows)
-        bottom_right_corner_row = min (self.width, topleft_corner[0]+width)
-        bottom_right_corner_column = min(self.number_of_rows(), topleft_corner[1]+height)
-        relocated_region = self.cut(topleft_corner,
-                                    (bottom_right_corner_row, bottom_right_corner_column))
-        self.paste(topleft_corner, rows=rows)
+        bottom_right_corner_row = self.number_of_rows()
+        bottom_right_corner_column = min(self.number_of_columns(), topleft_corner[1]+width)
+        relocated_region = self.cut(
+            topleft_corner,
+            (bottom_right_corner_row, bottom_right_corner_column))
+        self.paste(topleft_corner, rows=incoming_data)
         new_topeft_corner = (topleft_corner[0]+height, topleft_corner[1])
-        self.paste(new_topeft_corner, relocated_region)
+        self.paste(new_topeft_corner, rows=relocated_region)
