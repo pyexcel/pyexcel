@@ -60,6 +60,9 @@ def uniform(array):
     else:
         for row in array:
             row_length = len(row)
+            for index in range(0, row_length):
+                if row[index] is None:
+                    row[index] = ""
             if row_length < width:
                 row += [""] * (width - row_length)
         return width, array

@@ -97,21 +97,21 @@ class Sheet(NominableSheet):
     Filtering functions are used to reduce the information contained in the
     array.
     """
-    def save_as(self, filename):
+    def save_as(self, filename, **keywords):
         """Save the content to a named file"""
         from ..writers import Writer
-        w = Writer(filename)
+        w = Writer(filename, **keywords)
         w.write_reader(self)
         w.close()
 
-    def save_to_memory(self, file_type, stream):
+    def save_to_memory(self, file_type, stream, **keywords):
         """Save the content to memory
 
         :param str file_type: any value of 'csv', 'tsv', 'csvz',
         'tsvz', 'xls', 'xlsm', 'xslm', 'ods'
         :param iostream stream: the memory stream to be written to
         """
-        self.save_as((file_type, stream))
+        self.save_as((file_type, stream), **keywords)
 
 
 def Reader(file=None, sheetname=None, **keywords):

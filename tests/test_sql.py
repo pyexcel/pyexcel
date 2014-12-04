@@ -22,13 +22,13 @@ class TestSQL:
     def test_sql(self):
         sheet = pe.load_from_sql(Session(), Pyexcel)
         content = dedent("""
-        Sheet Name: pyexcel
-        +------------+----+--------+-------+
-        |   birth    | id | weight | name  |
-        +============+====+========+=======+
-        | 2014-11-11 | 0  | 11.250 | Adam  |
-        +------------+----+--------+-------+
-        | 2014-11-12 | 1  | 12.250 | Smith |
-        +------------+----+--------+-------+""").strip('\n')
+Sheet Name: pyexcel
++------------+----+--------+-------+
+|   birth    | id | weight | name  |
++============+====+========+=======+
+| 2014-11-11 | 0  | 11.250 | Adam  |
++------------+----+--------+-------+
+| 2014-11-12 | 1  | 12.250 | Smith |
++------------+----+--------+-------+""").strip('\n')
         print(str(sheet))
         assert str(sheet) == content

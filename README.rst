@@ -33,13 +33,15 @@ Available Plugins
 Plugins          Supported file formats                                      
 ================ ============================================================
 pyexcel          csv, csvz, tsv, tsvz                                        
-`pyexcel-xl`_    xls, xlsx, xlsm                                             
+`pyexcel-xl`_    xls, xlsx(r), xlsm(r)
+`pyexcel-xlsx`_  xlsx
 `pyexcel-ods`_   ods (python 2.6, 2.7)                                       
 `pyexcel-ods3`_  ods (python 2.7, 3.3, 3.4)                                  
 `pyexcel-text`_  json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple
 ================ ============================================================
 
 .. _pyexcel-xl: https://github.com/chfw/pyexcel-xl
+.. _pyexcel-xlsx: https://github.com/chfw/pyexcel-xlsx
 .. _pyexcel-ods: https://github.com/chfw/pyexcel-ods
 .. _pyexcel-ods3: https://github.com/chfw/pyexcel-ods3
 .. _pyexcel-text: https://github.com/chfw/pyexcel-text
@@ -65,7 +67,8 @@ Usage
 Here are some example codes::
 
     >>> import pyexcel as pe
-    >>> import pyexcel.ext.xl # import it to be able handle xls, xlsx, xlsm files
+    >>> import pyexcel.ext.xl # import it to be able handle xls file
+    >>> import pyexcel.ext.xlsx # import it to be able handle xlsx file
     >>> sheet = pe.load("your_file.xls")
     >>> sheet
     Sheet Name: Sheet 1

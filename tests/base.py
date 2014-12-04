@@ -2,6 +2,7 @@ import json
 import os
 import pyexcel as pe
 import pyexcel.ext.xl
+import pyexcel.ext.xlsx
 from _compact import BytesIO
 from nose.tools import raises
 

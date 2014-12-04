@@ -10,7 +10,7 @@ Suppose you have two excel books and each had three sheets. You can merge them a
 
 .. testcode::
    :hide:
-	  
+
    >>> data = {
    ...      'Sheet 2':
    ...          [

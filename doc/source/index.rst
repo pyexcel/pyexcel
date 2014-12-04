@@ -40,6 +40,7 @@ Usage
 
    >>> import pyexcel
    >>> import pyexcel.ext.xl
+   >>> import pyexcel.ext.xlsx
    >>> data = {
    ...     "Sheet 1": [
    ...         [1, 2, 3],
@@ -130,13 +131,15 @@ For individual excel file formats, please install them as you wish:
 Plugins          Supported file formats                                       Dependencies  Python versions			 Comments						
 ================ ============================================================ ============= ======================== =============================	
 pyexcel          csv, csvz [#f1]_, tsv, tsvz [#f2]_                                         2.6, 2.7, 3.3, 3.4, pypy 								
-`pyexcel-xl`_    xls, xlsx, xlsm                                              xlrd, xlwt    2.6, 2.7, 3.3, 3.4, pypy 								
+`pyexcel-xl`_    xls, xlsx(read only), xlsm(read only)                        xlrd, xlwt    2.6, 2.7, 3.3, 3.4, pypy only support writing xls
+`pyexcel-xlsx`_  xlsx,                                                        openpyxl      2.6, 2.7, 3.3, 3.4, pypy 								
 `pyexcel-ods`_   ods (python 2.6, 2.7)                                        odfpy         2.6, 2.7				 								
 `pyexcel-ods3`_  ods (python 2.7, 3.3, 3.4)                                   ezodf, lxml   3.3, 3.4				 								
 `pyexcel-text`_  json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple tabulate      2.6, 2.7, 3.3, 3.4, pypy only support writing to files	
 ================ ============================================================ ============= ======================== =============================
 
 .. _pyexcel-xl: https://github.com/chfw/pyexcel-xl
+.. _pyexcel-xlsx: https://github.com/chfw/pyexcel-xlsx
 .. _pyexcel-ods: https://github.com/chfw/pyexcel-ods
 .. _pyexcel-ods3: https://github.com/chfw/pyexcel-ods3
 .. _pyexcel-text: https://github.com/chfw/pyexcel-text
