@@ -1,8 +1,9 @@
+import sys
 import json
 import os
 import pyexcel as pe
-import pyexcel.ext.xl
 import pyexcel.ext.xlsx
+import pyexcel.ext.xl
 from _compact import BytesIO
 from nose.tools import raises
 

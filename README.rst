@@ -135,4 +135,3 @@ Acknowledgement
 
 All great work have done by odf, ezodf(2), xlrd, xlwt, tabulate and other individual developers. This library unites only the data access code.
 
-Extension management code was copied from `flask <https://github.com/mitsuhiko/flask>`_. 
