@@ -67,7 +67,7 @@ Usage
 Here are some example codes::
 
     >>> import pyexcel as pe
-    >>> import pyexcel.ext.xl # import it to be able handle xls file
+    >>> import pyexcel.ext.xls # import it to be able handle xls file
     >>> import pyexcel.ext.xlsx # import it to be able handle xlsx file
     >>> sheet = pe.load("your_file.xls")
     >>> sheet
@@ -135,3 +135,4 @@ Acknowledgement
 
 All great work have done by odf, ezodf(2), xlrd, xlwt, tabulate and other individual developers. This library unites only the data access code.
 
+Extension management code was copied from `flask <https://github.com/mitsuhiko/flask>`_. 

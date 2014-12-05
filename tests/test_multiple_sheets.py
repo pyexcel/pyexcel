@@ -1,7 +1,6 @@
 from base import PyexcelMultipleSheetBase
 import pyexcel as pe
 import os
-import sys
 from base import create_sample_file1
 from _compact import OrderedDict
 from nose.tools import raises
