@@ -66,7 +66,7 @@ def load_from_sql(session, table):
     """
     array = []
     objects = session.query(table).all()
-    column_names = [column for column in objects[0].__dict__ if column != '_sa_instance_state']
+    column_names = sorted([column for column in objects[0].__dict__ if column != '_sa_instance_state'])
     array.append(column_names)
     for o in objects:
         new_array = []
