@@ -25,7 +25,7 @@ Read an excel file
 You can read it use a SeriesReader::
 
     >>> import pyexcel
-	>>> import pyexcel.ext.xl
+	>>> import pyexcel.ext.xls
 
 .. testcode::
    :hide:

@@ -39,7 +39,7 @@ Usage
    :hide:
 
    >>> import pyexcel
-   >>> import pyexcel.ext.xl
+   >>> import pyexcel.ext.xls
    >>> import pyexcel.ext.xlsx
    >>> data = {
    ...     "Sheet 1": [
@@ -59,7 +59,8 @@ Usage
 Here are the example usages::
    
     >>> import pyexcel as pe
-    >>> import pyexcel.ext.xl # import it to be able handle xls, xlsx, xlsm files
+    >>> import pyexcel.ext.xls # import it to be able handle xls file
+    >>> import pyexcel.ext.xlsx # xlsx file
     >>> sheet = pe.load("your_file.xls")
     >>> sheet # ascii representation of the content
     Sheet Name: Sheet 1

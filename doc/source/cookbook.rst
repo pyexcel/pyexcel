@@ -24,7 +24,7 @@ Column 1 Column 2 Column 3
    :hide:
 
    >>> import pyexcel
-   >>> import pyexcel.ext.xl
+   >>> import pyexcel.ext.xls
    >>> data = [
    ...      ["Column 1", "Column 2", "Column 3"],
    ...      [1, 2, 3],
