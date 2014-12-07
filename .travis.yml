@@ -10,6 +10,7 @@ python:
   - 3.4
   - pypy
 install:
+  - if [[ $TRAVIS_PYTHON_VERSION == "2.6" ]]; then pip install ordereddict; fi
   - pip install -r tests/requirements.txt
 script:
   make test
