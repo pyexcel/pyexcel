@@ -7,4 +7,4 @@ sphinx_rtd_theme
 SQLAlchemy
 pyexcel-io
 pyexcel-xls
-pyexccel-xlsx
+pyexcel-xlsx
