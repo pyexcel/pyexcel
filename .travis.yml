@@ -10,9 +10,6 @@ python:
   - 3.4
   - pypy
 install:
-  - pip install git+https://github.com/chfw/pyexcel-io.git
-  - pip install git+https://github.com/chfw/pyexcel-xls.git
-  - pip install git+https://github.com/chfw/pyexcel-xlsx.git
   - pip install -r tests/requirements.txt
 script:
   make test

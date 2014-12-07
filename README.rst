@@ -29,18 +29,18 @@ Fonts, colors and charts are not supported.
 Available Plugins
 =================
 
-================ ============================================================
+================ ========================================================================
 Plugins          Supported file formats                                      
-================ ============================================================
+================ ========================================================================
 pyexcel          csv, csvz, tsv, tsvz                                        
-`pyexcel-xl`_    xls, xlsx(r), xlsm(r)
+`pyexcel-xls`_   xls, xlsx(r), xlsm(r)
 `pyexcel-xlsx`_  xlsx
 `pyexcel-ods`_   ods (python 2.6, 2.7)                                       
 `pyexcel-ods3`_  ods (python 2.7, 3.3, 3.4)                                  
-`pyexcel-text`_  json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple
-================ ============================================================
+`pyexcel-text`_  (write only)json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple
+================ ========================================================================
 
-.. _pyexcel-xl: https://github.com/chfw/pyexcel-xl
+.. _pyexcel-xls: https://github.com/chfw/pyexcel-xls
 .. _pyexcel-xlsx: https://github.com/chfw/pyexcel-xlsx
 .. _pyexcel-ods: https://github.com/chfw/pyexcel-ods
 .. _pyexcel-ods3: https://github.com/chfw/pyexcel-ods3
