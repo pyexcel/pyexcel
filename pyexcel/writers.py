@@ -7,7 +7,7 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-from .utils import to_dict, to_array, from_records, dict_to_array
+from .utils import to_array, from_records, dict_to_array
 from .sheets import Matrix, transpose
 from .io import get_writer
 

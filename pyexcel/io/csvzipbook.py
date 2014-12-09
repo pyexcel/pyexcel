@@ -9,11 +9,13 @@
 """
 import os
 import zipfile
-from .csvbook import CSVBook, CSVWriter
+import csv
+from pyexcel_io import BookReader, BookWriter
+from .csvbook import CSVinMemoryReader, NamedContent, CSVSheetWriter, DEFAULT_SHEETNAME
 from .._compact import BytesIO, StringIO
 
 
-class CSVZipBook(CSVBook):
+class CSVZipBook(BookReader):
     """
     CSVBook reader
 
@@ -21,23 +23,38 @@ class CSVZipBook(CSVBook):
     """
     def __init__(self, filename,
                  file_content=None,
-                 encoding="utf-8",
                  **keywords):
-        if filename:
-            the_file = filename
-        else:
-            the_file = BytesIO(file_content)
-        myzip = zipfile.ZipFile(the_file, 'r')
-        names = myzip.namelist()
-        io = StringIO(myzip.read(names[0]).decode(encoding))
-        CSVBook.__init__(self, None,
-                         io.getvalue(),
-                         encoding=encoding,
-                         **keywords)
-        myzip.close()
+        BookReader.__init__(self, filename, file_content, **keywords)
+        self.native_book.close()
+
+    def load_from_memory(self, file_content, **keywords):
+        io = BytesIO(file_content)
+        return zipfile.ZipFile(io, 'r')
+
+    def load_from_file(self, filename, **keywords):
+        return zipfile.ZipFile(filename, 'r')
+
+    def sheetIterator(self):
+        return self.native_book.namelist()
+
+    def getSheet(self, native_sheet, **keywords):
+        return CSVinMemoryReader(
+            NamedContent(native_sheet, self.native_book.read(native_sheet)),
+            **keywords)
 
 
-class CSVZipWriter(CSVWriter):
+class CSVZipSheetWriter(CSVSheetWriter):
+
+    def set_sheet_name(self, name):
+        self.content = StringIO()
+        self.writer = csv.writer(self.content, **self.keywords)
+
+    def close(self):
+        self.native_book.writestr(self.native_sheet, self.content.getvalue())
+        self.content.close()
+
+
+class CSVZipWriter(BookWriter):
     """
     csv file writer
 
@@ -45,20 +62,17 @@ class CSVZipWriter(CSVWriter):
     multiple csv files
     """
     def __init__(self, filename, **keywords):
-        self.zipfile = filename
-        io = StringIO()
-        CSVWriter.__init__(self, io, **keywords)
+        BookWriter.__init__(self, filename, **keywords)
+        self.myzip = zipfile.ZipFile(self.file, 'w')
 
+    def create_sheet(self, name):
+        given_name = name
+        if given_name is None:
+            given_name = DEFAULT_SHEETNAME
+        return CSVZipSheetWriter(self.myzip, given_name, **self.keywords)
+        
     def close(self):
         """
         This call close the file handle
         """
-        myzip = zipfile.ZipFile(self.zipfile, 'w')
-        if isinstance(self.zipfile, BytesIO):
-            filename = "pyexcel"
-        else:
-            names = os.path.split(self.zipfile)
-            filename = names[-1]
-            filename = filename.replace("csvz", "csv")
-        myzip.writestr(filename, self.file.getvalue())
-        myzip.close()
+        self.myzip.close()

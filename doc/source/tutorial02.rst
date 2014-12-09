@@ -197,16 +197,16 @@ You will end up with three csv files::
    >>> for file in sorted(outputfiles):
    ...     print(file)
    ...
-   myfile_Sheet 1.csv
-   myfile_Sheet 2.csv
-   myfile_Sheet 3.csv
+   myfile__Sheet 1.csv
+   myfile__Sheet 2.csv
+   myfile__Sheet 3.csv
 
 and their content is the value of the dictionary at the corresponding key
 
 .. testcode::
    :hide:
 
-   >>> os.unlink("myfile_Sheet 1.csv")
-   >>> os.unlink("myfile_Sheet 2.csv")
-   >>> os.unlink("myfile_Sheet 3.csv")
+   >>> os.unlink("myfile__Sheet 1.csv")
+   >>> os.unlink("myfile__Sheet 2.csv")
+   >>> os.unlink("myfile__Sheet 3.csv")
    >>> os.unlink("example_series.xls")

@@ -16,7 +16,7 @@ from pyexcel_io import BookReader, SheetReaderBase, SheetWriter, BookWriter, DEF
 from .._compact import is_string, StringIO, BytesIO, PY2, text_type, Iterator
 
 
-DEFAULT_SEPARATOR = '_'
+DEFAULT_SEPARATOR = '__'
 
 
 class UTF8Recorder(Iterator):
