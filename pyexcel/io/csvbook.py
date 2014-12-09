@@ -115,12 +115,12 @@ class CSVBook(BookReader):
 
     def load_from_file(self, filename, **keywords):
         names = filename.split('.')
-        filepattern = "%s%s*.%s" % (names[0], DEFAULT_SHEETNAME, names[1])
+        filepattern = "%s%s*.%s" % (names[0], DEFAULT_SEPARATOR, names[1])
         filelist = glob.glob(filepattern)
         if len(filelist) == 0:
             return [NamedContent("csv", filename)]
         else:
-            matcher = "%s%s(.*).%s" % (names[0], DEFAULT_SHEETNAME, names[1])
+            matcher = "%s%s(.*).%s" % (names[0], DEFAULT_SEPARATOR, names[1])
             ret = []
             for filen in filelist:
                 result = re.match(matcher, filen)

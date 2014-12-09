@@ -207,7 +207,7 @@ class PyexcelMultipleSheetBase:
         w = pe.BookWriter(filename)
         w.write_book_from_dict(self.content)
         w.close()
-
+        
     def _clean_up(self):
         if os.path.exists(self.testfile2):
             os.unlink(self.testfile2)
@@ -270,8 +270,6 @@ class PyexcelMultipleSheetBase:
         r["Sheet3"].name_columns_by_row(0)
         value = r["Sheet3"].row[0][1]
         assert value == 4
-        #value = r["Sheet3"].become_sheet().row[0][1]
-        #assert value == 'Y'
 
         
 class PyexcelIteratorBase:
