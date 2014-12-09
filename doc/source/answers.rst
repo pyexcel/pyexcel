@@ -18,3 +18,10 @@ Practical usage
 
 #. `Read .xls file data row by row python <http://stackoverflow.com/questions/23966002/read-xls-file-data-row-by-row-python/25839178#25839178>`_
 
+#. `How to read data from excel and set data type <http://stackoverflow.com/questions/26953628/how-to-read-data-from-excel-and-set-data-type/27138572#27138572>`_
+
+#. `Remove or keep specific columns in csv file <http://stackoverflow.com/questions/27342590/remove-or-keep-specific-columns-in-csv-file/27348897#27348897>`_
+   
+#. `How can I put a CSV file in an array? <http://stackoverflow.com/questions/27318907/how-can-i-put-a-csv-file-in-an-array/27348806#27348806>`_
+
+#. `Python - write data into csv format as string (not file) <http://stackoverflow.com/questions/9157314/python-write-data-into-csv-format-as-string-not-file/27226323#27226323>`_
