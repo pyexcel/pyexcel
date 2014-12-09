@@ -2,6 +2,17 @@ import os
 import pyexcel as pe
 
 
+class TestCSVZFromFile:
+
+    def test_write_and_read(self):
+        data = [[1, 4, 9], [2, 5, 8], [3, 6, 7]]
+        sheet = pe.load(os.path.join("tests", "fixtures", "test-single.csvz"))
+        sheet.format(int)
+        result = sheet.to_array()
+        print result
+        assert data == result
+
+
 class TestCSVZip:
     def setUp(self):
         self.testfile = "test3.csvz"
