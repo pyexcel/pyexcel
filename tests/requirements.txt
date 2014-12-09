@@ -5,6 +5,3 @@ python-coveralls
 coverage
 sphinx_rtd_theme
 SQLAlchemy
-pyexcel-io
-pyexcel-xls
-pyexcel-xlsx

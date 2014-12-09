@@ -19,6 +19,7 @@ class TestXlsNXlsmMultipleSheets(PyexcelMultipleSheetBase):
     def tearDown(self):
         self._clean_up()
 
+
 class TestCSVNXlsMultipleSheets:
     def setUp(self):
         self.testfile = "multiple1.csv"
@@ -132,6 +133,7 @@ class TestReader:
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
+
 
 class TestAddBooks:
     def _write_test_file(self, file, content):
