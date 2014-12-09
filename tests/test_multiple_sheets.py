@@ -48,6 +48,33 @@ class TestCSVNXlsMultipleSheets:
         if os.path.exists("multiple1__Sheet3.csv"):
             os.unlink("multiple1__Sheet3.csv")
 
+
+class TestCSVzMultipleSheets:
+    def setUp(self):
+        self.testfile = "multiple1.csvz"
+        self.content = OrderedDict()
+        self.content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
+        self.content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
+        self.content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
+        w = pe.BookWriter(self.testfile)
+        w.write_book_from_dict(self.content)
+        w.close()
+
+    def test_read_multiple_csv_into_book(self):
+        book = pe.load_book(self.testfile)
+        assert book.sheet_names() == ["Sheet1", "Sheet2", "Sheet3"]
+        book["Sheet1"].format(int)
+        assert self.content["Sheet1"] == book["Sheet1"].to_array()
+        book["Sheet2"].format(int)        
+        assert self.content["Sheet2"] == book["Sheet2"].to_array()
+        book["Sheet3"].format(int)        
+        assert self.content["Sheet3"] == book["Sheet3"].to_array()
+
+    def tearDown(self):
+        if os.path.exists("multiple1.csvz"):
+            os.unlink("multiple1.csvz")
+
+
 class TestSingleSheetReaderForMulitpleSheetBook:
     def setUp(self):
         self.testfile = "multiple1.xls"
