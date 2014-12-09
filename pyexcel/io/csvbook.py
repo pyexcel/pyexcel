@@ -7,9 +7,11 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
+import re
 import csv
 import codecs
 from abc import abstractmethod
+import glob
 from pyexcel_io import BookReader, SheetReaderBase, SheetWriter, BookWriter, DEFAULT_SHEETNAME
 from .._compact import is_string, StringIO, BytesIO, PY2, text_type, Iterator
 
@@ -31,10 +33,20 @@ class UTF8Recorder(Iterator):
         return next(self.reader).encode('utf-8')
 
 
+class NamedContent:
+    def __init__(self, name, payload):
+        self.name = name
+        self.payload = payload
+
+
 class CSVSheetReader(SheetReaderBase):
     def __init__(self, sheet, encoding="utf-8", **keywords):
         SheetReaderBase.__init__(self, sheet, **keywords)
         self.encoding = encoding
+
+    @property
+    def name(self):
+        return self.native_sheet.name
 
     @abstractmethod
     def get_file_handle(self):
@@ -63,34 +75,26 @@ class CSVSheetReader(SheetReaderBase):
 
 
 class CSVFileReader(CSVSheetReader):
-    @property
-    def name(self):
-        return 'csv'
-        
     @abstractmethod
     def get_file_handle(self):
         if PY2:
-            f1 = open(self.native_sheet, 'rb')
+            f1 = open(self.native_sheet.payload, 'rb')
             f = UTF8Recorder(f1, self.encoding)
         else:
-            f = open(self.native_sheet, 'r')
+            f = open(self.native_sheet.payload, 'r')
         return f
 
 
 class CSVinMemoryReader(CSVSheetReader):
-    @property
-    def name(self):
-        return "memory"
-        
     @abstractmethod
     def get_file_handle(self):
         if PY2:
-            f = UTF8Recorder(StringIO(self.native_sheet), self.encoding)
+            f = UTF8Recorder(StringIO(self.native_sheet.payload), self.encoding)
         else:
             if isinstance(self.native_sheet, str):
-                f = StringIO(self.native_sheet)
+                f = StringIO(self.native_sheet.payload)
             else:
-                f = StringIO(self.native_sheet.decode(self.encoding))
+                f = StringIO(self.native_sheet.payload.decode(self.encoding))
         return f
 
 
@@ -107,10 +111,21 @@ class CSVBook(BookReader):
             BookReader.__init__(self, filename, file_content, **keywords)
     
     def load_from_memory(self, file_content, **keywords):
-        return [file_content]
+        return [NamedContent('csv', file_content)]
 
     def load_from_file(self, filename, **keywords):
-        return [filename]
+        names = filename.split('.')
+        filepattern = "%s%s*.%s" % (names[0], DEFAULT_SHEETNAME, names[1])
+        filelist = glob.glob(filepattern)
+        if len(filelist) == 0:
+            return [NamedContent("csv", filename)]
+        else:
+            matcher = "%s%s(.*).%s" % (names[0], DEFAULT_SHEETNAME, names[1])
+            ret = []
+            for filen in filelist:
+                result = re.match(matcher, filen)
+                ret.append(NamedContent(result.group(1), filen))
+            return ret
 
     def sheetIterator(self):
         return self.native_book
