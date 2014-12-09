@@ -436,9 +436,6 @@ class TestSeriesReader5:
         assert actual == self.content
 
     def test_get_item_operator(self):
-        """
-        Series Reader will skip first row because it has column header
-        """
         r = pe.SeriesReader(self.testfile, series_row=4)
         value = r[0,1]
         assert value == 2
