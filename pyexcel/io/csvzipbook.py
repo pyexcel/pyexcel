@@ -38,19 +38,25 @@ class CSVZipBook(BookReader):
         return self.native_book.namelist()
 
     def getSheet(self, native_sheet, **keywords):
+        name_len = len(native_sheet) - 4
         return CSVinMemoryReader(
-            NamedContent(native_sheet, self.native_book.read(native_sheet)),
+            NamedContent(native_sheet[:name_len],
+                         self.native_book.read(native_sheet)),
             **keywords)
 
 
 class CSVZipSheetWriter(CSVSheetWriter):
-
+    def __init__(self, zipfile, sheetname, file_extension, **keywords):
+        self.file_extension = file_extension
+        CSVSheetWriter.__init__(self, zipfile, sheetname, **keywords)
+    
     def set_sheet_name(self, name):
         self.content = StringIO()
         self.writer = csv.writer(self.content, **self.keywords)
 
     def close(self):
-        self.native_book.writestr(self.native_sheet, self.content.getvalue())
+        file_name = "%s.%s" % (self.native_sheet, self.file_extension)
+        self.native_book.writestr(file_name, self.content.getvalue())
         self.content.close()
 
 
@@ -64,12 +70,19 @@ class CSVZipWriter(BookWriter):
     def __init__(self, filename, **keywords):
         BookWriter.__init__(self, filename, **keywords)
         self.myzip = zipfile.ZipFile(self.file, 'w')
+        if 'dialect' in keywords:
+            self.file_extension = "tsv"
+        else:
+            self.file_extension = "csv"
 
     def create_sheet(self, name):
         given_name = name
         if given_name is None:
             given_name = DEFAULT_SHEETNAME
-        return CSVZipSheetWriter(self.myzip, given_name, **self.keywords)
+        return CSVZipSheetWriter(self.myzip,
+                                 given_name,
+                                 self.file_extension,
+                                 **self.keywords)
         
     def close(self):
         """
