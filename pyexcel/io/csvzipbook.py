@@ -7,7 +7,6 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-import os
 import zipfile
 import csv
 from pyexcel_io import BookReader, BookWriter
