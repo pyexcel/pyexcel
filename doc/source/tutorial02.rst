@@ -203,6 +203,41 @@ You will end up with three csv files::
 
 and their content is the value of the dictionary at the corresponding key
 
+
+After I have saved my multiple sheet book in csv format, how do I get them back in pyexcel
+*******************************************************************************************
+
+First of all, you can read them back individual as csv file using pyexcel.load method. Secondly, the pyexcel can do
+the magic to load all of them back into a book. You will just need to provide the common name before the separator "__"::
+
+    >>> book2 = pyexcel.load_book("myfile.csv")
+    >>> book2
+    Sheet Name: Sheet 1
+    +---+---+---+
+    | 1 | 2 | 3 |
+    +---+---+---+
+    | 4 | 5 | 6 |
+    +---+---+---+
+    | 7 | 8 | 9 |
+    +---+---+---+
+    Sheet Name: Sheet 2
+    +---+---+---+
+    | X | Y | Z |
+    +---+---+---+
+    | 1 | 2 | 3 |
+    +---+---+---+
+    | 4 | 5 | 6 |
+    +---+---+---+
+    Sheet Name: Sheet 3
+    +---+---+---+
+    | O | P | Q |
+    +---+---+---+
+    | 3 | 2 | 1 |
+    +---+---+---+
+    | 4 | 3 | 2 |
+    +---+---+---+
+
+    
 .. testcode::
    :hide:
 
