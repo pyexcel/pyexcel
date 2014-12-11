@@ -178,6 +178,7 @@ Tutorial
    tutorial03
    tutorial04
    tutorial06
+   csvz
 
 Cook book
 ++++++++++
