@@ -47,6 +47,7 @@ class CSVZipBook(BookReader):
 class CSVZipSheetWriter(CSVSheetWriter):
     def __init__(self, zipfile, sheetname, file_extension, **keywords):
         self.file_extension = file_extension
+        keywords['single_sheet_in_book'] = False
         CSVSheetWriter.__init__(self, zipfile, sheetname, **keywords)
     
     def set_sheet_name(self, name):

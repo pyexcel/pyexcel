@@ -121,12 +121,12 @@ class BookWriter:
         """
         self.writer = get_writer(file, **keywords)
 
-    def create_sheet(self, name):
+    def create_sheet(self, sheet_name):
         """Create a new sheet
 
         :param str name: the new sheet name
         """
-        return SheetWriter(self.writer.create_sheet(name))
+        return SheetWriter(self.writer.create_sheet(sheet_name))
 
     def write_book_from_dict(self, sheet_dicts):
         """Write a dictionary to a multi-sheet file
@@ -174,13 +174,13 @@ class Writer(SheetWriter):
     of the data files
     """
 
-    def __init__(self, file, **keywords):
+    def __init__(self, file, sheet_name=None,  **keywords):
         """Constructor for single sheet writer
 
         This class creates only one sheet writer and stick with it
         """
-        self.bookwriter = BookWriter(file, **keywords)
-        self.writer = self.bookwriter.create_sheet(None).writer
+        self.bookwriter = BookWriter(file, single_sheet_in_book=True, **keywords)
+        self.writer = self.bookwriter.create_sheet(sheet_name).writer
 
     def close(self):
         """

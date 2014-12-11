@@ -142,9 +142,12 @@ class CSVSheetWriter(SheetWriter):
     csv file writer
 
     """
-    def __init__(self, filename, name, encoding="utf-8", **keywords):
+    def __init__(self, filename, name, encoding="utf-8", single_sheet_in_book=False, **keywords):
         self.encoding = encoding
-        SheetWriter.__init__(self, filename, name, name, **keywords)
+        sheet_name = name
+        if single_sheet_in_book:
+            sheet_name = None
+        SheetWriter.__init__(self, filename, sheet_name, sheet_name, **keywords)
 
     def set_sheet_name(self, name):
         if is_string(type(self.native_book)):

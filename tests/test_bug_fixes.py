@@ -1,4 +1,5 @@
 import pyexcel as pe
+import pyexcel.ext.xls
 import os
 
 class TestCSV:
@@ -18,4 +19,17 @@ class TestCSV:
         assert r[0,1] == ""
         assert r[3,1] == ""
         
-        
+    def test_issue_03(self):
+        file_prefix = "issue_03_test"
+        csv_file = "%s.csv" % file_prefix
+        xls_file = "%s.xls" % file_prefix
+        my_sheet_name = "mysheetname"
+        data = [[1,1]]
+        sheet = pe.Sheet(data, name=my_sheet_name)
+        sheet.save_as(csv_file)
+        assert(os.path.exists(csv_file))
+        sheet.save_as(xls_file)
+        book = pe.load_book(xls_file)
+        assert book.sheet_names()[0] == my_sheet_name
+        os.unlink(csv_file)
+        os.unlink(xls_file)

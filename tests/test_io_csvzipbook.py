@@ -51,7 +51,7 @@ class TestCSVZip:
         sheet.save_as(self.testfile)
         zip = zipfile.ZipFile(self.testfile, 'r')
         list_of_files = zip.namelist()
-        assert list_of_files == ['pyexcel_sheet1.csv']
+        assert list_of_files == ['pyexcel.csv']
 
     def test_file_in_the_csvz_has_csv_extension(self):
         data = OrderedDict()

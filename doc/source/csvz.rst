@@ -21,14 +21,14 @@ When a single sheet is to be saved, the resulting csvz file will be a zip file t
     >>> import zipfile
     >>> zip = zipfile.ZipFile("myfile.csvz", 'r')
     >>> zip.namelist()
-    ['pyexcel_sheet1.csv']
+    ['pyexcel.csv']
 	>>> zip.close()
 
 And it can be read out as well and can be saved in any other supported format.
 
     >>> sheet2 = pe.load("myfile.csvz")
     >>> sheet2
-    Sheet Name: pyexcel_sheet1
+    Sheet Name: pyexcel
     +---+---+---+
     | 1 | 2 | 3 |
     +---+---+---+

@@ -100,7 +100,7 @@ class Sheet(NominableSheet):
     def save_as(self, filename, **keywords):
         """Save the content to a named file"""
         from ..writers import Writer
-        w = Writer(filename, **keywords)
+        w = Writer(filename, sheet_name=self.name, **keywords)
         w.write_reader(self)
         w.close()
 
