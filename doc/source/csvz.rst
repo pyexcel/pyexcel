@@ -22,7 +22,7 @@ When a single sheet is to be saved, the resulting csvz file will be a zip file t
     >>> zip = zipfile.ZipFile("myfile.csvz", 'r')
     >>> zip.namelist()
     ['pyexcel.csv']
-	>>> zip.close()
+    >>> zip.close()
 
 And it can be read out as well and can be saved in any other supported format.
 
@@ -59,13 +59,13 @@ When multiple sheets are to be saved as a book, the resulting csvz file will be 
     ...             [4.0, 3.0, 2.0]
     ...         ] 
     ... }
-	>>> book = pe.Book(content)
-	>>> book.save_as("mybook.csvz")
+    >>> book = pe.Book(content)
+    >>> book.save_as("mybook.csvz")
     >>> import zipfile
     >>> zip = zipfile.ZipFile("mybook.csvz", 'r')
     >>> zip.namelist()
     ['Sheet 1.csv', 'Sheet 2.csv', 'Sheet 3.csv']
-	>>> zip.close()
+    >>> zip.close()
 
 The csvz book can be read back with two lines of code. And once it is read out, it can be saved in any other supported format.
 
