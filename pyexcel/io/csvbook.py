@@ -12,7 +12,7 @@ import csv
 import codecs
 from abc import abstractmethod
 import glob
-from pyexcel_io import BookReader, SheetReaderBase, SheetWriter, BookWriter, DEFAULT_SHEETNAME
+from pyexcel_io import BookReader, SheetReaderBase, SheetWriter, BookWriter, DEFAULT_SHEETNAME, NamedContent
 from .._compact import is_string, StringIO, BytesIO, PY2, text_type, Iterator
 
 
@@ -31,12 +31,6 @@ class UTF8Recorder(Iterator):
 
     def __next__(self):
         return next(self.reader).encode('utf-8')
-
-
-class NamedContent:
-    def __init__(self, name, payload):
-        self.name = name
-        self.payload = payload
 
 
 class CSVSheetReader(SheetReaderBase):
@@ -106,14 +100,15 @@ class CSVBook(BookReader):
     """
     def __init__(self, filename, file_content=None, **keywords):
         if filename is None and file_content is None:
+            self.keywords = keywords
             self.mysheets = {"csv":[]}
         else:
             BookReader.__init__(self, filename, file_content, **keywords)
     
-    def load_from_memory(self, file_content, **keywords):
+    def load_from_memory(self, file_content):
         return [NamedContent('csv', file_content)]
 
-    def load_from_file(self, filename, **keywords):
+    def load_from_file(self, filename):
         names = filename.split('.')
         filepattern = "%s%s*.%s" % (names[0], DEFAULT_SEPARATOR, names[1])
         filelist = glob.glob(filepattern)
@@ -130,11 +125,11 @@ class CSVBook(BookReader):
     def sheetIterator(self):
         return self.native_book
 
-    def getSheet(self, native_sheet, **keywords):
+    def getSheet(self, native_sheet):
         if self.load_from_memory_flag:
-            return CSVinMemoryReader(native_sheet, **keywords)
+            return CSVinMemoryReader(native_sheet, **self.keywords)
         else:
-            return CSVFileReader(native_sheet, **keywords)
+            return CSVFileReader(native_sheet, **self.keywords)
 
 
 class CSVSheetWriter(SheetWriter):

@@ -26,22 +26,22 @@ class CSVZipBook(BookReader):
         BookReader.__init__(self, filename, file_content, **keywords)
         self.native_book.close()
 
-    def load_from_memory(self, file_content, **keywords):
+    def load_from_memory(self, file_content):
         io = BytesIO(file_content)
         return zipfile.ZipFile(io, 'r')
 
-    def load_from_file(self, filename, **keywords):
+    def load_from_file(self, filename):
         return zipfile.ZipFile(filename, 'r')
 
     def sheetIterator(self):
         return self.native_book.namelist()
 
-    def getSheet(self, native_sheet, **keywords):
+    def getSheet(self, native_sheet):
         name_len = len(native_sheet) - 4
         return CSVinMemoryReader(
             NamedContent(native_sheet[:name_len],
                          self.native_book.read(native_sheet)),
-            **keywords)
+            **self.keywords)
 
 
 class CSVZipSheetWriter(CSVSheetWriter):
