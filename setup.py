@@ -10,7 +10,7 @@ with open("README.rst", 'r') as readme:
     README_txt = readme.read()
 
 dependencies = [
-    'pyexcel-io'
+    'pyexcel-io>=0.0.2'
 ]
 
 if sys.version_info[0] == 2 and sys.version_info[1] < 7:

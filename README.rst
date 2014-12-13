@@ -9,7 +9,7 @@ pyexcel - Let you focus on data, instead of file formats
     :target: https://coveralls.io/r/chfw/pyexcel?branch=master 
 
 .. image:: https://readthedocs.org/projects/pyexcel/badge/?version=latest
-    :target: https://readthedocs.org/projects/pyexcel/?badge=latest
+    :target: http://pyexcel.readthedocs.org/en/latest/
 
 .. image:: https://pypip.in/version/pyexcel/badge.png
     :target: https://pypi.python.org/pypi/pyexcel
