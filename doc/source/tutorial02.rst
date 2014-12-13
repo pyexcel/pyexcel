@@ -197,9 +197,9 @@ You will end up with three csv files::
    >>> for file in sorted(outputfiles):
    ...     print(file)
    ...
-   myfile__Sheet 1.csv
-   myfile__Sheet 2.csv
-   myfile__Sheet 3.csv
+   myfile__Sheet 1__0.csv
+   myfile__Sheet 2__1.csv
+   myfile__Sheet 3__2.csv
 
 and their content is the value of the dictionary at the corresponding key
 
@@ -241,7 +241,7 @@ the magic to load all of them back into a book. You will just need to provide th
 .. testcode::
    :hide:
 
-   >>> os.unlink("myfile__Sheet 1.csv")
-   >>> os.unlink("myfile__Sheet 2.csv")
-   >>> os.unlink("myfile__Sheet 3.csv")
+   >>> os.unlink("myfile__Sheet 1__0.csv")
+   >>> os.unlink("myfile__Sheet 2__1.csv")
+   >>> os.unlink("myfile__Sheet 3__2.csv")
    >>> os.unlink("example_series.xls")

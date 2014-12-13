@@ -42,12 +42,12 @@ class TestCSVNXlsMultipleSheets:
         assert self.content["Sheet3"] == book["Sheet3"].to_array()
 
     def tearDown(self):
-        if os.path.exists("multiple1__Sheet1.csv"):
-            os.unlink("multiple1__Sheet1.csv")
-        if os.path.exists("multiple1__Sheet2.csv"):
-            os.unlink("multiple1__Sheet2.csv")
-        if os.path.exists("multiple1__Sheet3.csv"):
-            os.unlink("multiple1__Sheet3.csv")
+        if os.path.exists("multiple1__Sheet1__0.csv"):
+            os.unlink("multiple1__Sheet1__0.csv")
+        if os.path.exists("multiple1__Sheet2__1.csv"):
+            os.unlink("multiple1__Sheet2__1.csv")
+        if os.path.exists("multiple1__Sheet3__2.csv"):
+            os.unlink("multiple1__Sheet3__2.csv")
 
 
 class TestCSVzMultipleSheets:

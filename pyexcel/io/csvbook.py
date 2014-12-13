@@ -110,16 +110,19 @@ class CSVBook(BookReader):
 
     def load_from_file(self, filename):
         names = filename.split('.')
-        filepattern = "%s%s*.%s" % (names[0], DEFAULT_SEPARATOR, names[1])
+        filepattern = "%s%s*%s*.%s" % (names[0], DEFAULT_SEPARATOR, DEFAULT_SEPARATOR, names[1])
         filelist = glob.glob(filepattern)
         if len(filelist) == 0:
             return [NamedContent("csv", filename)]
         else:
-            matcher = "%s%s(.*).%s" % (names[0], DEFAULT_SEPARATOR, names[1])
-            ret = []
+            matcher = "%s%s(.*)%s(.*).%s" % (names[0], DEFAULT_SEPARATOR, DEFAULT_SEPARATOR, names[1])
+            tmp_file_list = []
             for filen in filelist:
                 result = re.match(matcher, filen)
-                ret.append(NamedContent(result.group(1), filen))
+                tmp_file_list.append((result.group(1), result.group(2), filen))
+            ret = []
+            for sheetname, index, filen in sorted(tmp_file_list, key=lambda row: row[1]):
+                ret.append(NamedContent(sheetname, filen))
             return ret
 
     def sheetIterator(self):
@@ -137,21 +140,24 @@ class CSVSheetWriter(SheetWriter):
     csv file writer
 
     """
-    def __init__(self, filename, name, encoding="utf-8", single_sheet_in_book=False, **keywords):
+    def __init__(self, filename, name, encoding="utf-8", single_sheet_in_book=False, sheet_index=None, **keywords):
         self.encoding = encoding
         sheet_name = name
         if single_sheet_in_book:
             sheet_name = None
+        self.sheet_index = sheet_index
         SheetWriter.__init__(self, filename, sheet_name, sheet_name, **keywords)
 
     def set_sheet_name(self, name):
         if is_string(type(self.native_book)):
             if name != DEFAULT_SHEETNAME:
                 names = self.native_book.split(".")
-                file_name = "%s%s%s.%s" % (names[0],
-                                           DEFAULT_SEPARATOR,
-                                           name,
-                                           names[1])
+                file_name = "%s%s%s%s%s.%s" % (names[0],
+                                             DEFAULT_SEPARATOR,
+                                             name,             #  sheet name
+                                             DEFAULT_SEPARATOR,
+                                             self.sheet_index, #  sheet index
+                                             names[1])
             else:
                 file_name = self.native_book
             if PY2:
@@ -187,8 +193,15 @@ class CSVWriter(BookWriter):
     if there is multiple sheets for csv file, it simpily writes
     multiple csv files
     """
+    def __init__(self, file, **keywords):
+        self.index = 0
+        BookWriter.__init__(self, file, **keywords)
+        
     def create_sheet(self, name):
-        return CSVSheetWriter(self.file, name, **self.keywords)
+        self.index = self.index + 1
+        return CSVSheetWriter(self.file, name,
+                              sheet_index=(self.index-1),
+                              **self.keywords)
 
     def close(self):
         """

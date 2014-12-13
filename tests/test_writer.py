@@ -2,7 +2,7 @@ import os
 from base import PyexcelWriterBase, PyexcelHatWriterBase, clean_up_files
 import pyexcel as pe
 from nose.tools import raises
-
+from _compact import OrderedDict
 
 class TestCSVnXLSMWriter(PyexcelWriterBase):
     def setUp(self):
@@ -76,6 +76,7 @@ class TestWriteReader:
         w.close()
         r2 = pe.SeriesReader(self.testfile2)
         content = pe.utils.to_dict(r2)
+        print(content)
         assert content == self.content
 
     def test_simple_reader_save_as(self):
@@ -161,26 +162,26 @@ class TestBookWriter:
 
 class TestCSVBookWriter:
     def setUp(self):
-        self.content = {
-            'Sheet 2':
-            [
-                ['X', 'Y', 'Z'],
-                [1.0, 2.0, 3.0],
-                [4.0, 5.0, 6.0]
-            ],
-            'Sheet 3':
-            [
-                ['O', 'P', 'Q'],
-                [3.0, 2.0, 1.0],
-                [4.0, 3.0, 2.0]
-            ],
-            'Sheet 1':
+        self.content = OrderedDict([
+            ('Sheet 1',
             [
                 [1.0, 2.0, 3.0],
                 [4.0, 5.0, 6.0],
                 [7.0, 8.0, 9.0]
-            ]
-        }
+            ]),
+            ('Sheet 2',
+            [
+                ['X', 'Y', 'Z'],
+                [1.0, 2.0, 3.0],
+                [4.0, 5.0, 6.0]
+            ]),
+            ('Sheet 3',
+            [
+                ['O', 'P', 'Q'],
+                [3.0, 2.0, 1.0],
+                [4.0, 3.0, 2.0]
+            ])
+        ])
         self.testfile = "test.xls"
         self.testfile2 = "test.csv"
         w = pe.BookWriter(self.testfile)
@@ -192,17 +193,17 @@ class TestCSVBookWriter:
         writer = pe.BookWriter(self.testfile2)
         writer.write_book_reader(reader)
         writer.close()
-        sheet1 = "test__Sheet 1.csv"
+        sheet1 = "test__Sheet 1__0.csv"
         reader1 = pe.Reader(sheet1)
         reader1.apply_formatter(pe.formatters.SheetFormatter(float))
         data = pe.utils.to_array(reader1)
         assert data == self.content["Sheet 1"]
-        sheet2 = "test__Sheet 2.csv"
+        sheet2 = "test__Sheet 2__1.csv"
         reader2 = pe.Reader(sheet2)
         reader2.apply_formatter(pe.formatters.SheetFormatter(float))
         data = pe.utils.to_array(reader2)
         assert data == self.content["Sheet 2"]
-        sheet3 = "test__Sheet 3.csv"
+        sheet3 = "test__Sheet 3__2.csv"
         reader3 = pe.Reader(sheet3)
         reader3.apply_formatter(pe.formatters.SheetFormatter(float))
         data = pe.utils.to_array(reader3)
@@ -211,8 +212,8 @@ class TestCSVBookWriter:
     def tearDown(self):
         file_list = [
             self.testfile,
-            "test__Sheet 1.csv",
-            "test__Sheet 2.csv",
-            "test__Sheet 3.csv"
+            "test__Sheet 1__0.csv",
+            "test__Sheet 2__1.csv",
+            "test__Sheet 3__2.csv"
         ]
         clean_up_files(file_list)
