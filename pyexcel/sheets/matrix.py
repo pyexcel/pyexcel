@@ -163,7 +163,8 @@ class Row:
         7 8 9
         = = =
 
-    Above column manipluation can be performed on rows similiarly. This section will not repeat the same example but show some advance usages.
+    Above column manipluation can be performed on rows similiarly. This section
+    will not repeat the same example but show some advance usages.
 
 
         >>> import pyexcel as pe
@@ -336,7 +337,8 @@ class Column:
 
 
 class Matrix(object):
-    """The internal representation of a sheet data. Each element can be of any python types
+    """The internal representation of a sheet data. Each element
+    can be of any python types
     """
 
     def __init__(self, array):
@@ -628,7 +630,8 @@ class Matrix(object):
     def set_column_at(self, column_index, data_array, starting=0):
         """Updates a column data range
 
-        It works like this if the call is: set_column_at(2, ['N','N', 'N'], 1)::
+        It works like this if the call is:
+        set_column_at(2, ['N','N', 'N'], 1)::
 
                 +--> column_index = 2
                 |
@@ -641,7 +644,8 @@ class Matrix(object):
         :param int column_index: which column to be modified
         :param list data_array: one dimensional array
         :param int staring: from which index, the update happens
-        :raises IndexError: if column_index exceeds column range or starting exceeds row range
+        :raises IndexError: if column_index exceeds column range
+        or starting exceeds row range
         """
         nrows = self.number_of_rows()
         ncolumns = self.number_of_columns()
@@ -673,7 +677,8 @@ class Matrix(object):
         :param int row_index: which row to be modified
         :param list data_array: one dimensional array
         :param int starting: from which index, the update happens
-        :raises IndexError: if row_index exceeds row range or starting exceeds column range
+        :raises IndexError: if row_index exceeds row range or starting
+        exceeds column range
         """
         nrows = self.number_of_rows()
         ncolumns = self.number_of_columns()
@@ -869,7 +874,9 @@ class Matrix(object):
             for index, column in enumerate(columns):
                 set_index = starting_column + index
                 if set_index < number_of_columns:
-                    self.set_column_at(set_index, column, starting=topleft_corner[0])
+                    self.set_column_at(set_index,
+                                       column,
+                                       starting=topleft_corner[0])
                 else:
                     real_column = [""] * topleft_corner[0] + column
                     self.extend_columns([real_column])
@@ -901,7 +908,8 @@ class Matrix(object):
             raise IndexError
 
     def __getitem__(self, aset):
-        """By default, this class recognize from top to bottom from left to right"""
+        """By default, this class recognize from top to bottom
+        from left to right"""
         if isinstance(aset, tuple):
             return self.cell_value(aset[0], aset[1])
         elif isinstance(aset, str):

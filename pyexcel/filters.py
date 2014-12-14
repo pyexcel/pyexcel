@@ -60,21 +60,26 @@ class IndexFilter:
         original ones before filtering"""
         pass
 
+
 class RegionFilter(IndexFilter):
     """Filter on both row index and column index"""
-    
+
     def __init__(self, row_slice, column_slice):
         """Constructor
 
         :param slice row_slice: row index range
         :param slice column_slice: column index range
         """
-        self.row_indices = range(row_slice.start, row_slice.stop, row_slice.step)
-        self.column_indices = range(column_slice.start, column_slice.stop, column_slice.step)
+        self.row_indices = range(row_slice.start,
+                                 row_slice.stop,
+                                 row_slice.step)
+        self.column_indices = range(column_slice.start,
+                                    column_slice.stop,
+                                    column_slice.step)
         if not PY2:
             self.row_indices = list(self.row_indices)
             self.column_indices = list(self.column_indices)
-            
+
     def columns(self):
         """Columns that were filtered out"""
         return len(self.column_indices)
@@ -84,8 +89,10 @@ class RegionFilter(IndexFilter):
         return len(self.row_indices)
 
     def validate_filter(self, reader):
-        self.row_indices = [i for i in reader.row_range() if i not in self.row_indices]
-        self.column_indices = [i for i in reader.column_range() if i not in self.column_indices]
+        self.row_indices = [i for i in reader.row_range()
+                            if i not in self.row_indices]
+        self.column_indices = [i for i in reader.column_range()
+                               if i not in self.column_indices]
 
     def translate(self, row, column):
         """Map the row, column after filtering to the

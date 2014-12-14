@@ -160,7 +160,7 @@ class FilterableSheet(FormattableSheet):
                 local_filters = self._filters
                 self._filters = []
             func(self, *args)
-            #if filter exist
+            # if filter exist
             if len(local_filters) > 0:
                 self._filters = local_filters
                 self.validate_filters()
@@ -202,7 +202,8 @@ class FilterableSheet(FormattableSheet):
         """Get a rectangle shaped data out
 
         :param slice topleft_corner: the top left corner of the rectangle
-        :param slice bottomright_corner: the bottom right corner of the rectangle
+        :param slice bottomright_corner: the bottom right
+        corner of the rectangle
 
         example::
 
@@ -240,7 +241,8 @@ class FilterableSheet(FormattableSheet):
         """Get a rectangle shaped data out and clear them in position
 
         :param slice topleft_corner: the top left corner of the rectangle
-        :param slice bottomright_corner: the bottom right corner of the rectangle
+        :param slice bottomright_corner: the bottom right
+        corner of the rectangle
 
         example::
 
@@ -381,7 +383,7 @@ class FilterableSheet(FormattableSheet):
             +----+----+----+----+----+----+----+
             |    | 52 | 53 | 54 | 55 |    |    |
             +----+----+----+----+----+----+----+
-        
+
         """
         if rows:
             self._insert_rows(topleft_corner, rows)
@@ -405,7 +407,8 @@ class FilterableSheet(FormattableSheet):
         width, incoming_data = uniform(copy.deepcopy(rows))
         height = len(rows)
         bottom_right_corner_row = self.number_of_rows()
-        bottom_right_corner_column = min(self.number_of_columns(), topleft_corner[1]+width)
+        bottom_right_corner_column = min(self.number_of_columns(),
+                                         topleft_corner[1]+width)
         relocated_region = self.cut(
             topleft_corner,
             (bottom_right_corner_row, bottom_right_corner_column))

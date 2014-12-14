@@ -34,14 +34,14 @@ class FormattableSheet(Matrix):
             ...     "7": [1, '',]
             ...     }
             >>> sheet = pe.Sheet(pe.dict_to_array(data))
-        
+
         """
         Matrix.__init__(self, array)
         self._formatters = []
 
     def format(self, FORMAT, custom_converter=None, on_demand=False):
         """Apply a formatting action for the whole sheet
-        
+
         Example::
 
             >>> import pyexcel as pe
@@ -159,7 +159,6 @@ class FormattableSheet(Matrix):
 
         :param Formatter aformatter: a custom formatter
 
-        
         Example::
 
             >>> import pyexcel as pe
@@ -187,7 +186,7 @@ class FormattableSheet(Matrix):
             >>> sheet.clear_formatters() # no return ticket
             >>> sheet.row[1]
             [2.0, 2.25, 3.0, 2.0]
-        
+
         """
         self._formatters.append(aformatter)
 

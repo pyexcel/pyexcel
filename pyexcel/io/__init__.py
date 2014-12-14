@@ -30,6 +30,7 @@ WRITERS = {
     "tsvz": partial(CSVZipWriter, dialect="excel-tab")
 }
 
+
 def list_readers():
     """list available readers"""
     print(READERS.keys())

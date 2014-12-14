@@ -46,6 +46,7 @@ def make_names_unique(alist):
             new_names.append(str(item))
     return new_names
 
+
 class NamedRow(Row):
     """Series Sheet would have Named Row instead of Row
 
@@ -74,7 +75,8 @@ class NamedRow(Row):
 
         >>> r=pe.Reader("merged.csv")
 
-    this is added to overcome doctest's inability to handle python 3's unicode::
+    this is added to overcome doctest's inability to handle
+    python 3's unicode::
 
         >>> r.format(str, lambda v: str(v))
         >>> print(pe.utils.to_array(r))
@@ -139,13 +141,16 @@ class NamedRow(Row):
             else:
                 self.ref.apply_formatter(formatter)
         if row_index is not None:
-            handle_one_formatter(row_index, format, custom_converter, on_demand)
+            handle_one_formatter(row_index, format,
+                                 custom_converter, on_demand)
         elif format_specs:
             for spec in format_specs:
                 if len(spec) == 3:
-                    handle_one_formatter(spec[0], spec[1], spec[2], on_demand)
+                    handle_one_formatter(spec[0], spec[1],
+                                         spec[2], on_demand)
                 else:
-                    handle_one_formatter(spec[0], spec[1], None, on_demand)
+                    handle_one_formatter(spec[0], spec[1],
+                                         None, on_demand)
 
 
 class NamedColumn(Column):
@@ -210,13 +215,16 @@ class NamedColumn(Column):
             else:
                 self.ref.apply_formatter(formatter)
         if column_index is not None:
-            handle_one_formatter(column_index, format, custom_converter, on_demand)
+            handle_one_formatter(column_index, format,
+                                 custom_converter, on_demand)
         elif format_specs:
             for spec in format_specs:
                 if len(spec) == 3:
-                    handle_one_formatter(spec[0], spec[1], spec[2], on_demand)
+                    handle_one_formatter(spec[0], spec[1],
+                                         spec[2], on_demand)
                 else:
-                    handle_one_formatter(spec[0], spec[1], None, on_demand)
+                    handle_one_formatter(spec[0], spec[1],
+                                         None, on_demand)
 
 
 class NominableSheet(FilterableSheet):
@@ -238,19 +246,21 @@ class NominableSheet(FilterableSheet):
         self.named_column = NamedColumn(self)
         if name_columns_by_row != -1:
             if colnames:
-                raise NotImplementedError("Confused! What do you want to put as column names")
+                raise NotImplementedError(
+                    "Confused! What do you want to put as column names")
             self.name_columns_by_row(name_columns_by_row)
         else:
             if colnames:
                 self._column_names = colnames
         if name_rows_by_column != -1:
             if rownames:
-                raise NotImplementedError("Confused! What do you want to put as column names")
+                raise NotImplementedError(
+                    "Confused! What do you want to put as column names")
             self.name_rows_by_column(name_rows_by_column)
         else:
             if rownames:
                 self._row_names = rownames
-    
+
     @property
     def row(self):
         """Row representation.
@@ -323,7 +333,8 @@ class NominableSheet(FilterableSheet):
     def colnames(self):
         """Return column names"""
         if len(self._filters) != 0:
-            column_filters = [f for f in self._filters if isinstance(f, ColumnIndexFilter)]
+            column_filters = [f for f in self._filters
+                              if isinstance(f, ColumnIndexFilter)]
             if len(column_filters) != 0:
                 indices = range(0, len(self._column_names))
                 for f in column_filters:
@@ -343,7 +354,8 @@ class NominableSheet(FilterableSheet):
     def rownames(self):
         """Return row names"""
         if len(self._filters) != 0:
-            row_filters = [f for f in self._filters if isinstance(f, RowIndexFilter)]
+            row_filters = [f for f in self._filters
+                           if isinstance(f, RowIndexFilter)]
             if len(row_filters) != 0:
                 indices = range(0, len(self._row_names))
                 for f in row_filters:
@@ -358,7 +370,7 @@ class NominableSheet(FilterableSheet):
     def rownames(self, value):
         """Set row names"""
         self._row_names = make_names_unique(value)
-        
+
     def named_column_at(self, name):
         """Get a column by its name """
         index = name
@@ -542,7 +554,8 @@ class NominableSheet(FilterableSheet):
         ret = []
         ret += to_array(self.rows())
         if len(self.rownames) > 0:
-            ret = map(lambda value: [value[0]] + value[1], zip(self.rownames, ret))
+            ret = map(lambda value: [value[0]] + value[1],
+                      zip(self.rownames, ret))
             if not PY2:
                 ret = list(ret)
         if len(self.colnames) > 0:

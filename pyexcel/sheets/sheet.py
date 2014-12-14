@@ -61,17 +61,18 @@ def load_from_sql(session, table):
     """Constructs from database table
 
     :param sqlalchemy.orm.Session session: SQLAlchemy session object
-    :param sqlalchemy.ext.declarative or mapped table table: SQLAlchemy database table
+    :param sqlalchemy orm table table: SQLAlchemy database table
     :returns: :class:`Sheet`
     """
     array = []
     objects = session.query(table).all()
-    column_names = sorted([column for column in objects[0].__dict__ if column != '_sa_instance_state'])
+    column_names = sorted([column for column in objects[0].__dict__
+                           if column != '_sa_instance_state'])
     array.append(column_names)
     for o in objects:
         new_array = []
         for column in column_names:
-            value = getattr(o,column)
+            value = getattr(o, column)
             if isinstance(value, (datetime.date, datetime.time)):
                 value = value.isoformat()
             new_array.append(value)
@@ -80,7 +81,7 @@ def load_from_sql(session, table):
 
 
 class Sheet(NominableSheet):
-    """Two dimensional data container for filtering, formatting and custom iteration
+    """Two dimensional data container for filtering, formatting and iteration
 
     :class:`Sheet` is a container for a two dimensional array, where individual
     cell can be any Python types. Other than numbers, value of thsee

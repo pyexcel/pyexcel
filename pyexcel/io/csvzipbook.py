@@ -10,7 +10,12 @@
 import zipfile
 import csv
 from pyexcel_io import BookReader, BookWriter
-from .csvbook import CSVinMemoryReader, NamedContent, CSVSheetWriter, DEFAULT_SHEETNAME
+from .csvbook import (
+    CSVinMemoryReader,
+    NamedContent,
+    CSVSheetWriter,
+    DEFAULT_SHEETNAME
+)
 from .._compact import BytesIO, StringIO
 
 
@@ -49,7 +54,7 @@ class CSVZipSheetWriter(CSVSheetWriter):
         self.file_extension = file_extension
         keywords['single_sheet_in_book'] = False
         CSVSheetWriter.__init__(self, zipfile, sheetname, **keywords)
-    
+
     def set_sheet_name(self, name):
         self.content = StringIO()
         self.writer = csv.writer(self.content, **self.keywords)
@@ -83,7 +88,7 @@ class CSVZipWriter(BookWriter):
                                  given_name,
                                  self.file_extension,
                                  **self.keywords)
-        
+
     def close(self):
         """
         This call close the file handle
