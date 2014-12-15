@@ -77,7 +77,6 @@ class CSVSheetReader(SheetReaderBase):
 
 
 class CSVFileReader(CSVSheetReader):
-    @abstractmethod
     def get_file_handle(self):
         if PY2:
             f1 = open(self.native_sheet.payload, 'rb')
@@ -88,7 +87,6 @@ class CSVFileReader(CSVSheetReader):
 
 
 class CSVinMemoryReader(CSVSheetReader):
-    @abstractmethod
     def get_file_handle(self):
         if PY2:
             f = UTF8Recorder(StringIO(self.native_sheet.payload),
