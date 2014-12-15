@@ -49,4 +49,4 @@ from .cookbook import (
     split_a_book,
     extract_a_sheet_from_a_book)
 
-__VERSION__ = '0.0.10'
+__VERSION__ = '0.1.1'
