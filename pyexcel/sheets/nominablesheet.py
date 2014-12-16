@@ -15,7 +15,7 @@ from ..formatters import (
     RowFormatter,
     NamedColumnFormatter,
     NamedRowFormatter)
-from .._compact import is_string, OrderedDict, PY2
+from .._compact import is_string, OrderedDict, PY2, is_array_type
 from ..filters import ColumnIndexFilter, RowIndexFilter
 from ..iterators import ColumnIndexIterator, RowIndexIterator
 from ..presentation import outsource
@@ -91,8 +91,30 @@ class NamedRow(Row):
 
     """
     def __delitem__(self, column_name):
+        """
+
+        Examples::
+
+            >>> import pyexcel as pe
+            >>> data = [
+            ...     ['a', 1],
+            ...     ['b', 1],
+            ...     ['c', 1]
+            ... ]
+            >>> sheet = pe.Sheet(data, name_rows_by_column=0)
+            >>> del sheet.row['a', 'b']
+            >>> sheet
+            Sheet Name: pyexcel
+            +---+---+
+            | c | 1 |
+            +---+---+
+
+        """
         if is_string(type(column_name)):
             self.ref.delete_named_row_at(column_name)
+        elif isinstance(column_name, tuple) and is_array_type(list(column_name), str):
+            indices = names_to_indices(list(column_name), self.ref.rownames)
+            Row.__delitem__(self, indices)
         else:
             Row.__delitem__(self, column_name)
 
@@ -165,8 +187,42 @@ class NamedColumn(Column):
 
     """
     def __delitem__(self, str_or_aslice):
+        """
+
+        Example::
+
+            >>> import pyexcel as pe
+            >>> data = [
+            ...     ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+            ...     [1,2,3,4,5,6,7,9],
+            ... ]
+            >>> sheet = pe.Sheet(data, name_columns_by_row=0)
+            >>> sheet
+            Sheet Name: pyexcel
+            +---+---+---+---+---+---+---+---+
+            | a | b | c | d | e | f | g | h |
+            +===+===+===+===+===+===+===+===+
+            | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 |
+            +---+---+---+---+---+---+---+---+
+            >>> del sheet.column['a', 'b', 'i', 'f']
+            Traceback (most recent call last):
+                ...
+            ValueError: 'i' is not in list
+            >>> del sheet.column['a', 'c', 'e', 'h']
+            >>> sheet
+            Sheet Name: pyexcel
+            +---+---+---+---+
+            | b | d | f | g |
+            +===+===+===+===+
+            | 2 | 4 | 6 | 7 |
+            +---+---+---+---+
+
+        """
         if is_string(type(str_or_aslice)):
             self.ref.delete_named_column_at(str_or_aslice)
+        elif isinstance(str_or_aslice, tuple) and is_array_type(list(str_or_aslice), str):
+            indices = names_to_indices(list(str_or_aslice), self.ref.colnames)
+            Column.__delitem__(self, indices)
         else:
             Column.__delitem__(self, str_or_aslice)
 

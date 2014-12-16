@@ -15,6 +15,7 @@ pyexcel.filters.OddColumnFilter
    
       ~OddColumnFilter.__init__
       ~OddColumnFilter.columns
+      ~OddColumnFilter.invert
       ~OddColumnFilter.rows
       ~OddColumnFilter.translate
       ~OddColumnFilter.validate_filter

@@ -15,6 +15,7 @@ pyexcel.filters.RegionFilter
    
       ~RegionFilter.__init__
       ~RegionFilter.columns
+      ~RegionFilter.invert
       ~RegionFilter.rows
       ~RegionFilter.translate
       ~RegionFilter.validate_filter

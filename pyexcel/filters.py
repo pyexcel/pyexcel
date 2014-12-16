@@ -304,7 +304,7 @@ class RowValueFilter(RowIndexFilter):
                         if self.eval_func(row[1])]
 
 
-class SeriesRowValueFilter(RowIndexFilter):
+class NamedRowValueFilter(RowIndexFilter):
     """Filter out rows that satisfy a condition
 
     .. note:: it takes time as it needs to go through all values
@@ -328,6 +328,62 @@ class SeriesRowValueFilter(RowIndexFilter):
         self.indices = [row[0]
                         for row in enumerate(reader.rows())
                         if self.eval_func(dict(zip(series, row[1])))]
+
+
+class SeriesRowValueFilter(NamedRowValueFilter):
+    """Backword compactibility"""
+    pass
+
+
+class ColumnValueFilter(ColumnIndexFilter):
+    """Filters out rows based on its row values
+
+    .. note:: it takes time as it needs to go through all values
+    """
+    def validate_filter(self, reader):
+        """
+        Filter out the row indices
+
+        This is what it does::
+
+            new_indices = []
+            index = 0
+            for r in reader.rows():
+                if not self.eval_func(r):
+                    new_indices.append(index)
+                index += 1
+
+        :param Matrix reader: a Matrix instance
+        """
+        self.indices = [column[0]
+                        for column in enumerate(reader.columns())
+                        if self.eval_func(column[1])]
+
+
+class NamedColumnValueFilter(ColumnIndexFilter):
+    """Filter out rows that satisfy a condition
+
+    .. note:: it takes time as it needs to go through all values
+    """
+    def validate_filter(self, reader):
+        """
+        Filter out the row indices
+
+        This is what it does::
+
+            new_indices = []
+            index = 0
+            for r in reader.rows():
+                if not self.eval_func(r):
+                    new_indices.append(index)
+                index += 1
+
+        :param Matrix reader: a Matrix instance
+        """
+        series = reader.rownames
+        self.indices = [column[0]
+                        for column in enumerate(reader.columns())
+                        if self.eval_func(dict(zip(series, column[1])))]
 
 
 class RowInFileFilter(RowValueFilter):

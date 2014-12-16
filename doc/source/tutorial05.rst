@@ -72,6 +72,35 @@ The sheet content will become:
     3        9
     ======== ========
 
+Cherry pick some columns to be removed
+***************************************
+
+Suppose you have the following data::
+
+     >>> data = [
+     ...     ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+     ...     [1,2,3,4,5,6,7,9],
+     ... ]
+     >>> sheet = pyexcel.Sheet(data, name_columns_by_row=0)
+     >>> sheet
+     Sheet Name: pyexcel
+     +---+---+---+---+---+---+---+---+
+     | a | b | c | d | e | f | g | h |
+     +===+===+===+===+===+===+===+===+
+     | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 |
+     +---+---+---+---+---+---+---+---+
+
+And you want to remove columns named as: 'a', 'c, 'e', 'h'. This is how you do it::
+
+     >>> del sheet.column['a', 'c', 'e', 'h']
+     >>> sheet
+     Sheet Name: pyexcel
+     +---+---+---+---+
+     | b | d | f | g |
+     +===+===+===+===+
+     | 2 | 4 | 6 | 7 |
+     +---+---+---+---+
+
 
 Append more columns to a data file
 ------------------------------------

@@ -15,6 +15,7 @@ pyexcel.filters.RowFilter
    
       ~RowFilter.__init__
       ~RowFilter.columns
+      ~RowFilter.invert
       ~RowFilter.rows
       ~RowFilter.translate
       ~RowFilter.validate_filter

@@ -22,6 +22,7 @@ from ..iterators import (
     RowReverseIterator,
     ColumnReverseIterator
 )
+from ..filters import RowFilter, ColumnFilter
 from ..presentation import outsource
 
 
@@ -184,10 +185,53 @@ class Row:
         self.ref = matrix
 
     def __delitem__(self, aslice):
-        """Override the operator to delete items"""
+        """Override the operator to delete items
+        
+        Examples:
+
+            >>> import pyexcel as pe
+            >>> data = [[1],[2],[3],[4],[5],[6],[7],[9]]
+            >>> sheet = pe.Sheet(data)
+            >>> sheet
+            Sheet Name: pyexcel
+            +---+
+            | 1 |
+            +---+
+            | 2 |
+            +---+
+            | 3 |
+            +---+
+            | 4 |
+            +---+
+            | 5 |
+            +---+
+            | 6 |
+            +---+
+            | 7 |
+            +---+
+            | 9 |
+            +---+
+            >>> del sheet.row[1,2,3,5]
+            >>> sheet
+            Sheet Name: pyexcel
+            +---+
+            | 1 |
+            +---+
+            | 5 |
+            +---+
+            | 7 |
+            +---+
+            | 9 |
+            +---+
+
+        """
         if isinstance(aslice, slice):
             my_range = _analyse_slice(aslice, self.ref.number_of_rows())
             self.ref.delete_rows(my_range)
+        elif isinstance(aslice, tuple):
+            self.ref.filter(RowFilter(list(aslice)))
+        elif isinstance(aslice, list):
+            self.ref.filter(RowFilter(aslice))
         else:
             self.ref.delete_rows([aslice])
 
@@ -271,13 +315,38 @@ class Column:
         self.ref = matrix
 
     def __delitem__(self, aslice):
-        """Override the operator to delete items"""
+        """Override the operator to delete items
+
+        Examples:
+
+            >>> import pyexcel as pe
+            >>> data = [[1,2,3,4,5,6,7,9]]
+            >>> sheet = pe.Sheet(data)
+            >>> sheet
+            Sheet Name: pyexcel
+            +---+---+---+---+---+---+---+---+
+            | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 |
+            +---+---+---+---+---+---+---+---+
+            >>> del sheet.column[1,2,3,5]
+            >>> sheet
+            Sheet Name: pyexcel
+            +---+---+---+---+
+            | 1 | 5 | 7 | 9 |
+            +---+---+---+---+
+        
+        """
         if isinstance(aslice, slice):
             my_range = _analyse_slice(aslice, self.ref.number_of_columns())
             self.ref.delete_columns(my_range)
         elif isinstance(aslice, str):
             index = _excel_column_index(aslice)
             self.ref.delete_columns([index])
+        elif isinstance(aslice, tuple):
+            indices = list(aslice)
+            self.ref.filter(ColumnFilter(indices))
+        elif isinstance(aslice, list):
+            indices = aslice
+            self.ref.filter(ColumnFilter(indices))
         elif isinstance(aslice, int):
             self.ref.delete_columns([aslice])
         else:

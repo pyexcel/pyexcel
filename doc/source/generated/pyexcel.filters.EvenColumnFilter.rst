@@ -15,6 +15,7 @@ pyexcel.filters.EvenColumnFilter
    
       ~EvenColumnFilter.__init__
       ~EvenColumnFilter.columns
+      ~EvenColumnFilter.invert
       ~EvenColumnFilter.rows
       ~EvenColumnFilter.translate
       ~EvenColumnFilter.validate_filter
