@@ -34,9 +34,20 @@ class IndexFilter:
         :param Function func: a evaluation function
         """
         self.eval_func = func
+        self.shallow_eval_func = None
         # indices to be filtered out
         self.indices = None
 
+    def invert(self):
+        if self.eval_func:
+            if self.shallow_eval_func is None:
+                self.shallow_eval_func = self.eval_func
+                self.eval_func = lambda value: not self.shallow_eval_func(value)
+            else:
+                self.eval_func = self.shallow_eval_func
+                self.shallow_eval_func = None
+        return self
+        
     def rows(self):
         """Rows that were filtered out
         """
@@ -290,7 +301,7 @@ class RowValueFilter(RowIndexFilter):
         """
         self.indices = [row[0]
                         for row in enumerate(reader.rows())
-                        if not self.eval_func(row[1])]
+                        if self.eval_func(row[1])]
 
 
 class SeriesRowValueFilter(RowIndexFilter):
@@ -316,7 +327,7 @@ class SeriesRowValueFilter(RowIndexFilter):
         series = reader.colnames
         self.indices = [row[0]
                         for row in enumerate(reader.rows())
-                        if not self.eval_func(dict(zip(series, row[1])))]
+                        if self.eval_func(dict(zip(series, row[1])))]
 
 
 class RowInFileFilter(RowValueFilter):
@@ -327,5 +338,5 @@ class RowInFileFilter(RowValueFilter):
 
         :param Matrix reader: a Matrix instance
         """
-        func = lambda row_a: reader.contains((lambda row_b: row_a == row_b))
+        func = lambda row_a: not reader.contains((lambda row_b: row_a == row_b))
         RowValueFilter.__init__(self, func)

@@ -9,7 +9,6 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-
 from .book import (
     BookReader,
     Book,

@@ -32,7 +32,7 @@ class TestRareCases:
         data = "Person,Age\nAdam,24\nBilly,23\nCeri,28\nDennis,25"
         r1 = pe.SeriesReader(("csv", data))
         filter_func = lambda row: row['Age'] == '23'
-        r1.filter(pe.filters.SeriesRowValueFilter(filter_func))
+        r1.filter(pe.filters.SeriesRowValueFilter(filter_func).invert())
         assert r1.number_of_rows() == 1
         assert r1.row[0] == ['Billy', '23']
 
@@ -426,7 +426,7 @@ class TestComplexFilter:
         r1 = pe.load("testcsv1.csv")
         r2 = pe.load("testcsv2.csv")
         filter_func = lambda array: r2.contains((lambda row: array[0] == row[0] and array[1] == row[1]))
-        r1.filter(pe.filters.RowValueFilter(filter_func))
+        r1.filter(pe.filters.RowValueFilter(filter_func).invert())
         result = ['1', 'a', '2', 'b', '3', 'c', '8', 'h']
         actual = pe.utils.to_array(r1.enumerate())
         assert result == actual
