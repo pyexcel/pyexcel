@@ -95,7 +95,6 @@ class CSVinMemoryReader(CSVSheetReader):
             if isinstance(self.native_sheet.payload, str):
                 f = StringIO(self.native_sheet.payload)
             else:
-                import pdb; pdb.set_trace()
                 f = StringIO(self.native_sheet.payload.decode(self.encoding))
         return f
 

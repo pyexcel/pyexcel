@@ -9,5 +9,6 @@ nosetests --rednose --with-cov --with-doctest --doctest-extension=.rst doc/sourc
 if [ $? == 0 ] ; then
 	rm tmp.db
 else
+    rm tmp.db
     exit 1;
 fi
