@@ -93,6 +93,7 @@ def load_file(filename, **keywords):
     extension = None
     book = None
     from_memory = False
+    content = None
     if isinstance(filename, tuple):
         from_memory = True
         extension = filename[0]
