@@ -15,6 +15,7 @@ pyexcel.sheets.NamedRow
    
       ~NamedRow.__init__
       ~NamedRow.format
+      ~NamedRow.select
    
    
 

@@ -14,6 +14,7 @@ pyexcel.sheets.Column
    .. autosummary::
    
       ~Column.__init__
+      ~Column.select
    
    
 

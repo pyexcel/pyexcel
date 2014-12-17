@@ -15,6 +15,7 @@ pyexcel.sheets.NamedColumn
    
       ~NamedColumn.__init__
       ~NamedColumn.format
+      ~NamedColumn.select
    
    
 

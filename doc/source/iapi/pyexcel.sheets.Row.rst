@@ -14,6 +14,7 @@ pyexcel.sheets.Row
    .. autosummary::
    
       ~Row.__init__
+      ~Row.select
    
    
 
