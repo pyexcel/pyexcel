@@ -90,6 +90,67 @@ class NamedRow(Row):
         >>> os.unlink("merged.csv")
 
     """
+    def select(self, names):
+        """Delete row indices other than specified
+        
+        Examples:
+
+            >>> import pyexcel as pe
+            >>> data = [[1],[2],[3],[4],[5],[6],[7],[9]]
+            >>> sheet = pe.Sheet(data)
+            >>> sheet
+            Sheet Name: pyexcel
+            +---+
+            | 1 |
+            +---+
+            | 2 |
+            +---+
+            | 3 |
+            +---+
+            | 4 |
+            +---+
+            | 5 |
+            +---+
+            | 6 |
+            +---+
+            | 7 |
+            +---+
+            | 9 |
+            +---+
+            >>> sheet.row.select([1,2,3,5])
+            >>> sheet
+            Sheet Name: pyexcel
+            +---+
+            | 2 |
+            +---+
+            | 3 |
+            +---+
+            | 4 |
+            +---+
+            | 6 |
+            +---+
+            >>> data = [
+            ...     ['a', 1],
+            ...     ['b', 1],
+            ...     ['c', 1]
+            ... ]
+            >>> sheet = pe.Sheet(data, name_rows_by_column=0)
+            >>> sheet.row.select(['a', 'b'])
+            >>> sheet
+            Sheet Name: pyexcel
+            +---+---+
+            | a | 1 |
+            +---+---+
+            | b | 1 |
+            +---+---+
+
+        """
+        if is_array_type(names, str):
+            indices = names_to_indices(names, self.ref.rownames)
+            Row.select(self, indices)
+        else:
+            Row.select(self, names)
+
     def __delitem__(self, column_name):
         """
 
@@ -186,6 +247,57 @@ class NamedColumn(Column):
         print(r.column["column 1"])
 
     """
+    def select(self, names):
+        """Delete columns other than specified
+        
+        Examples:
+     
+            >>> import pyexcel as pe
+            >>> data = [[1,2,3,4,5,6,7,9]]
+            >>> sheet = pe.Sheet(data)
+            >>> sheet
+            Sheet Name: pyexcel
+            +---+---+---+---+---+---+---+---+
+            | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 |
+            +---+---+---+---+---+---+---+---+
+            >>> sheet.column.select([1,2,3,5])
+            >>> sheet
+            Sheet Name: pyexcel
+            +---+---+---+---+
+            | 2 | 3 | 4 | 6 |
+            +---+---+---+---+
+            >>> data = [
+            ...     ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+            ...     [1,2,3,4,5,6,7,9],
+            ... ]
+            >>> sheet = pe.Sheet(data, name_columns_by_row=0)
+            >>> sheet
+            Sheet Name: pyexcel
+            +---+---+---+---+---+---+---+---+
+            | a | b | c | d | e | f | g | h |
+            +===+===+===+===+===+===+===+===+
+            | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 |
+            +---+---+---+---+---+---+---+---+
+            >>> del sheet.column['a', 'b', 'i', 'f']
+            Traceback (most recent call last):
+                ...
+            ValueError: 'i' is not in list
+            >>> sheet.column.select(['a', 'c', 'e', 'h'])
+            >>> sheet
+            Sheet Name: pyexcel
+            +---+---+---+---+
+            | a | c | e | h |
+            +===+===+===+===+
+            | 1 | 3 | 5 | 9 |
+            +---+---+---+---+
+
+        """
+        if is_array_type(names, str):
+            indices = names_to_indices(names, self.ref.colnames)
+            Column.select(self, indices)
+        else:
+            Column.select(self, names)
+
     def __delitem__(self, str_or_aslice):
         """
 

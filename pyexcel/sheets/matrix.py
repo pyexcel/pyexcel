@@ -184,6 +184,49 @@ class Row:
     def __init__(self, matrix):
         self.ref = matrix
 
+    def select(self, indices):
+        """Delete row indices other than specified
+        
+        Examples:
+
+            >>> import pyexcel as pe
+            >>> data = [[1],[2],[3],[4],[5],[6],[7],[9]]
+            >>> sheet = pe.Sheet(data)
+            >>> sheet
+            Sheet Name: pyexcel
+            +---+
+            | 1 |
+            +---+
+            | 2 |
+            +---+
+            | 3 |
+            +---+
+            | 4 |
+            +---+
+            | 5 |
+            +---+
+            | 6 |
+            +---+
+            | 7 |
+            +---+
+            | 9 |
+            +---+
+            >>> sheet.row.select([1,2,3,5])
+            >>> sheet
+            Sheet Name: pyexcel
+            +---+
+            | 2 |
+            +---+
+            | 3 |
+            +---+
+            | 4 |
+            +---+
+            | 6 |
+            +---+
+
+        """
+        self.ref.filter(RowFilter(indices).invert())
+        
     def __delitem__(self, aslice):
         """Override the operator to delete items
         
@@ -314,6 +357,28 @@ class Column:
     def __init__(self, matrix):
         self.ref = matrix
 
+    def select(self, indices):
+        """
+        Examples:
+
+            >>> import pyexcel as pe
+            >>> data = [[1,2,3,4,5,6,7,9]]
+            >>> sheet = pe.Sheet(data)
+            >>> sheet
+            Sheet Name: pyexcel
+            +---+---+---+---+---+---+---+---+
+            | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 |
+            +---+---+---+---+---+---+---+---+
+            >>> sheet.column.select([1,2,3,5])
+            >>> sheet
+            Sheet Name: pyexcel
+            +---+---+---+---+
+            | 2 | 3 | 4 | 6 |
+            +---+---+---+---+
+        
+        """
+        self.ref.filter(ColumnFilter(indices).invert())
+        
     def __delitem__(self, aslice):
         """Override the operator to delete items
 
