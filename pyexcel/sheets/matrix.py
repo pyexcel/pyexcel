@@ -1084,6 +1084,7 @@ class Matrix(object):
 
     @outsource
     def __str__(self):
+        from ..formatters import to_format
         table = Texttable(max_width=0)
         table.set_chars(self.__border__())
         data = self.to_array()
@@ -1093,6 +1094,6 @@ class Matrix(object):
                 if item == "":
                     new_array.append(" ")
                 else:
-                    new_array.append(item)
+                    new_array.append(to_format(str, item))
             table.add_row(new_array)
         return table.draw()

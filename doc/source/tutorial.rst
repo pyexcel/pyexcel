@@ -4,9 +4,15 @@ Simple usage
 Random access to individual cell
 --------------------------------
 
-For single sheet file, you can regard it as two dimensional array. So, you access each cell via this syntax::
+To randaomly access a cell of :class:`Sheet` instance, two syntax are avaialbe::
 
     sheet[row, column]
+
+or
+
+    sheet['A1']
+
+The former syntax is handy when you know the row and column numbers. The latter syntax is introduced to help you convert the excel column header such as "AX" to integer numbers. 
 
 Suppose you have the following data, you can get value 5 by reader[2, 2].
 

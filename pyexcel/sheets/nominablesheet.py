@@ -771,6 +771,7 @@ class NominableSheet(FilterableSheet):
 
     @outsource
     def __str__(self):
+        from ..formatters import to_format
         ret = "Sheet Name: %s\n" % self.name
         if len(self.colnames) > 0:
             table = Texttable(max_width=0)
@@ -783,7 +784,7 @@ class NominableSheet(FilterableSheet):
                     if item == "":
                         new_array.append(" ")
                     else:
-                        new_array.append(item)
+                        new_array.append(to_format(str,item))
                 new_data.append(new_array)
             table.add_rows(new_data)
             return ret+table.draw()

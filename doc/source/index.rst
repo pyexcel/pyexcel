@@ -16,7 +16,7 @@
 Introduction
 -------------
 
-**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats: csv, ods, xls, xlsx and xlsm. This library makes information processing involving excel files an enjoyable task. The data in excel files can be turned into array or dict with least code, vice versa. And ready-made custom filters and formatters can be applied. However, this library is not made for data visualisations. Hence it does not support fonts, colors and charts.
+**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats. This library makes information processing involving excel files an enjoyable task. The data in excel files can be turned into array or dict with least code, vice versa. And ready-made custom filters and formatters can be applied. However, this library is not made to support fonts, colors and charts.
 
 It was created due to the lack of uniform programming interface to access data in different excel formats. A developer needs to use different methods of different libraries to read the same data in different excel formats, hence the resulting code is cluttered and unmaintainable.
 
@@ -57,57 +57,57 @@ Usage
 
 Here are the example usages::
    
-    >>> import pyexcel as pe
-    >>> import pyexcel.ext.xls # import it to be able handle xls file
-    >>> import pyexcel.ext.xlsx # xlsx file
-    >>> sheet = pe.load("your_file.xls")
-    >>> sheet # ascii representation of the content
-    Sheet Name: Sheet 1
-    +----------+----------+----------+
-    | 1        | 2        | 3        |
-    +----------+----------+----------+
-    | Column 1 | Column 2 | Column 3 |
-    +----------+----------+----------+
-    | 4        | 5        | 6        |
-    +----------+----------+----------+
-    >>> sheet["A1"]
-    1.0
-    >>> # format a row using a lambda function
-    >>> sheet.row.format(1, str, lambda value: str(value))
-    >>> sheet.column[0]
-    [1.0, 'Column 1', 4.0]
-    >>> sheet.row[2]
-    [4.0, 5.0, 6.0]
-    >>> sheet.name_columns_by_row(1)
-    >>> sheet.column["Column 1"]
-    [1.0, 4.0]
-    >>> sheet.save_as("myfile.csv")
-    >>> # load the whole excel file
-    >>> book = pe.load_book("your_file.xls")
-    >>> book
-    Sheet Name: Sheet 1
-    +----------+----------+----------+
-    | 1        | 2        | 3        |
-    +----------+----------+----------+
-    | Column 1 | Column 2 | Column 3 |
-    +----------+----------+----------+
-    | 4        | 5        | 6        |
-    +----------+----------+----------+
-    Sheet Name: Sheet 2
-    +---+---+---+-------+
-    | a | b | c | Row 1 |
-    +---+---+---+-------+
-    | e | f | g | Row 2 |
-    +---+---+---+-------+
-    | 1 | 2 | 3 | Row 3 |
-    +---+---+---+-------+
-    >>> # alternative access to the same cell on sheet 1
-    >>> print(book["Sheet 1"][0,0])
-    1.0
-    >>> book["Sheet 2"].name_rows_by_column(3)
-    >>> book["Sheet 2"].row["Row 3"]
-    [1.0, 2.0, 3.0]
-    >>> book.save_as("new_file.xlsx") # save a copy
+   >>> import pyexcel as pe
+   >>> import pyexcel.ext.xls # import it to be able handle xls file
+   >>> import pyexcel.ext.xlsx # xlsx file
+   >>> sheet = pe.load("your_file.xls")
+   >>> sheet # ascii representation of the content
+   Sheet Name: Sheet 1
+   +----------+----------+----------+
+   | 1        | 2        | 3        |
+   +----------+----------+----------+
+   | Column 1 | Column 2 | Column 3 |
+   +----------+----------+----------+
+   | 4        | 5        | 6        |
+   +----------+----------+----------+
+   >>> sheet["A1"]
+   1.0
+   >>> # format a row using a lambda function
+   >>> sheet.row.format(1, str, lambda value: str(value))
+   >>> sheet.column[0]
+   [1.0, 'Column 1', 4.0]
+   >>> sheet.row[2]
+   [4.0, 5.0, 6.0]
+   >>> sheet.name_columns_by_row(1)
+   >>> sheet.column["Column 1"]
+   [1.0, 4.0]
+   >>> sheet.save_as("myfile.csv")
+   >>> # load the whole excel file
+   >>> book = pe.load_book("your_file.xls")
+   >>> book
+   Sheet Name: Sheet 1
+   +----------+----------+----------+
+   | 1        | 2        | 3        |
+   +----------+----------+----------+
+   | Column 1 | Column 2 | Column 3 |
+   +----------+----------+----------+
+   | 4        | 5        | 6        |
+   +----------+----------+----------+
+   Sheet Name: Sheet 2
+   +---+---+---+-------+
+   | a | b | c | Row 1 |
+   +---+---+---+-------+
+   | e | f | g | Row 2 |
+   +---+---+---+-------+
+   | 1 | 2 | 3 | Row 3 |
+   +---+---+---+-------+
+   >>> # alternative access to the same cell on sheet 1
+   >>> print(book["Sheet 1"][0,0])
+   1.0
+   >>> book["Sheet 2"].name_rows_by_column(3)
+   >>> book["Sheet 2"].row["Row 3"]
+   [1.0, 2.0, 3.0]
+   >>> book.save_as("new_file.xlsx") # save a copy
 
 .. testcode::
    :hide:
@@ -130,7 +130,7 @@ For individual excel file formats, please install them as you wish:
 ================ ============================================================ ============= ======================== =============================	
 Plugins          Supported file formats                                       Dependencies  Python versions			 Comments						
 ================ ============================================================ ============= ======================== =============================	
-pyexcel          csv, csvz [#f1]_, tsv, tsvz [#f2]_                                         2.6, 2.7, 3.3, 3.4, pypy 								
+pyexcel          csv, csvz [#f1]_, tsv, tsvz [#f2]_                           `pyexcel-io`_ 2.6, 2.7, 3.3, 3.4, pypy 								
 `pyexcel-xls`_   xls, xlsx(read only), xlsm(read only)                        xlrd, xlwt    2.6, 2.7, 3.3, 3.4, pypy only support writing xls
 `pyexcel-xlsx`_  xlsx,                                                        openpyxl      2.6, 2.7, 3.3, 3.4, pypy 								
 `pyexcel-ods`_   ods (python 2.6, 2.7)                                        odfpy         2.6, 2.7				 								
@@ -138,6 +138,7 @@ pyexcel          csv, csvz [#f1]_, tsv, tsvz [#f2]_                             
 `pyexcel-text`_  json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple tabulate      2.6, 2.7, 3.3, 3.4, pypy only support writing to files	
 ================ ============================================================ ============= ======================== =============================
 
+.. _pyexcel-io: https://github.com/chfw/pyexcel-io
 .. _pyexcel-xls: https://github.com/chfw/pyexcel-xls
 .. _pyexcel-xlsx: https://github.com/chfw/pyexcel-xlsx
 .. _pyexcel-ods: https://github.com/chfw/pyexcel-ods
