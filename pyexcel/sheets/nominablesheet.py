@@ -278,6 +278,10 @@ class NamedColumn(Column):
             +===+===+===+===+===+===+===+===+
             | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 |
             +---+---+---+---+---+---+---+---+
+            >>> del sheet.column['a', 'b', 'i', 'f']
+            Traceback (most recent call last):
+                ...
+            ValueError: ...
             >>> sheet.column.select(['a', 'c', 'e', 'h'])
             >>> sheet
             Sheet Name: pyexcel
@@ -312,6 +316,10 @@ class NamedColumn(Column):
             +===+===+===+===+===+===+===+===+
             | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 |
             +---+---+---+---+---+---+---+---+
+            >>> del sheet.column['a', 'b', 'i', 'f']
+            Traceback (most recent call last):
+                ...
+            ValueError: ...
             >>> del sheet.column['a', 'c', 'e', 'h']
             >>> sheet
             Sheet Name: pyexcel
