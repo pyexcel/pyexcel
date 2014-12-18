@@ -278,7 +278,7 @@ class NamedColumn(Column):
             +===+===+===+===+===+===+===+===+
             | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 |
             +---+---+---+---+---+---+---+---+
-            >>> del sheet.column['a', 'b', 'i', 'f']
+            >>> del sheet.column['a', 'b', 'i', 'f'] # doctest:+ELLIPSIS
             Traceback (most recent call last):
                 ...
             ValueError: ...
@@ -316,7 +316,7 @@ class NamedColumn(Column):
             +===+===+===+===+===+===+===+===+
             | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 |
             +---+---+---+---+---+---+---+---+
-            >>> del sheet.column['a', 'b', 'i', 'f']
+            >>> del sheet.column['a', 'b', 'i', 'f'] # doctest:+ELLIPSIS
             Traceback (most recent call last):
                 ...
             ValueError: ...
