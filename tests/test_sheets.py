@@ -492,4 +492,4 @@ class TestLoadingFunction:
             "a": [1, 3],
             "b": [2, 4]
         }
-        print sheet.to_dict() == expected
+        assert sheet.to_dict() == expected
