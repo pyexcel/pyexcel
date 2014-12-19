@@ -80,6 +80,34 @@ def load_from_sql(session, table):
     return Sheet(array, name_columns_by_row=0)
 
 
+def load_from_dict(the_dict, with_keys=True):
+    """Return a sheet from a dictionary of one dimensional arrays
+
+    :param dict the_dict: its value should be one dimensional array
+    :param bool with_keys: indicate if dictionary keys should be appended or not
+    """
+    from ..utils import dict_to_array
+    tmp_array = dict_to_array(the_dict, with_keys)
+    sheet = Sheet(tmp_array)
+    if with_keys:
+        sheet.name_columns_by_row(0)
+    return sheet
+
+
+def load_from_records(records):
+    """Return a sheet from a list of records
+
+    Sheet.to_records() would produce a list of dictionaries. All dictionaries
+    share the same keys.
+    :params list records: records are likely to be produced by Sheet.to_records()
+    method.
+    """
+    from ..utils import from_records
+    tmp_array = from_records(records)
+    sheet = Sheet(tmp_array, name_columns_by_row=0)
+    return sheet
+
+
 class Sheet(NominableSheet):
     """Two dimensional data container for filtering, formatting and iteration
 

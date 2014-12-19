@@ -471,3 +471,25 @@ class TestSheetRegion:
             [51, 52, 53, 54, 55, 56, 57]
         ]
         assert expected == s.to_array()
+
+
+class TestLoadingFunction:
+    def test_load_from_dict(self):
+        content = {
+            "a": [1,2,3,5],
+            "b": [4,5,6,7,8]
+        }
+        sheet = pe.load_from_dict(content)
+        assert sheet.colnames == content.keys()
+
+    def test_load_from_records(self):
+        content = [
+            {"a": 1, "b": 2},
+            {"a": 3, "b": 4}
+        ]
+        sheet = pe.load_from_records(content)
+        expected = {
+            "a": [1, 3],
+            "b": [2, 4]
+        }
+        print sheet.to_dict() == expected

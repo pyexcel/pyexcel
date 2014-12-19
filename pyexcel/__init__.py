@@ -22,6 +22,8 @@ from .sheets import (
     Reader,
     SeriesReader,
     ColumnSeriesReader,
+    load_from_dict,
+    load_from_records,
     load_from_memory,
     load_from_sql)
 from .utils import to_dict, to_array, to_records, dict_to_array, from_records
