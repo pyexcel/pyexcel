@@ -480,7 +480,7 @@ class TestLoadingFunction:
             "b": [4,5,6,7,8]
         }
         sheet = pe.load_from_dict(content)
-        assert sheet.colnames == content.keys()
+        assert sorted(sheet.colnames) == sorted(content.keys())
 
     def test_load_from_records(self):
         content = [
