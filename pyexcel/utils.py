@@ -75,7 +75,7 @@ def from_records(records):
     if len(records) < 1:
         return None
 
-    keys = records[0].keys()
+    keys = sorted(records[0].keys())
     data = []
     data.append(list(keys))
     for r in records:
