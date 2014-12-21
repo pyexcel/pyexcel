@@ -88,6 +88,15 @@ class TestFilterWithFilterableReader:
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
 
+    def test_single_column_filter_double_invert(self):
+        r = pe.load((self.file_type, self.testfile.getvalue()))
+        r.filter(pe.filters.SingleColumnFilter(0).invert().invert())
+        assert r.number_of_rows() == 3
+        assert r.number_of_columns() == 3
+        result = [2, 3, 4, 6, 7, 8, 10, 11, 12]
+        actual = pe.utils.to_array(r.enumerate())
+        assert result == actual
+
     def test_column_filter_with_invalid_indices(self):
         r = pe.load((self.file_type, self.testfile.getvalue()))
         r.filter(pe.filters.ColumnFilter([11, -1]))
