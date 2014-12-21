@@ -127,12 +127,6 @@ Documentation
 
 Documentation is hosted at `read the docs <https://pyexcel.readthedocs.org/en/latest>`_ and `pyhosted <https://pythonhosted.org/pyexcel/>`_
 
-Known Issues
-=============
-
-* If a zero was typed in a DATE formatted field in xls, you will get "01/01/1900".
-* If a zero was typed in a TIME formatted field in xls, you will get "00:00:00".
-
 Acknowledgement
 ===============
 
