@@ -43,6 +43,10 @@ from .filters import (
     OddRowFilter,
     RowIndexFilter,
     SingleColumnFilter,
+    RowValueFilter,
+    NamedRowValueFilter,
+    ColumnValueFilter,
+    NamedColumnValueFilter,
     SingleRowFilter)
 from .cookbook import (
     merge_csv_to_a_book,

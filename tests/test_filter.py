@@ -482,3 +482,53 @@ class TestRegionFilter:
             [42, 43, 44, 45]
         ]
         assert s.to_array() == expected
+
+
+class TestColumnValueFilter:
+    def test_row_value_filter(self):
+        data = [
+            ['a', 'b', 'c', 'd', 'e'],
+            [1, 2, 3, 4, 1]
+        ]
+        sheet = pe.Sheet(data)
+        sheet.filter(pe.ColumnValueFilter(lambda column: column[1] == 1).invert())
+        expected = [
+            ['a', 'e'],
+            [1, 1]
+        ]
+        assert sheet.to_array() == expected
+
+
+class TestNamedRowValueFilter:
+    def test_row_value_filter(self):
+        data = [
+            ['a', 'b', 'c', 'd', 'e'],
+            [1, 2, 3, 4, 1],
+            [2, 3, 4, 5, 7],
+            [3, 4, 5, 6, 7]
+        ]
+        sheet = pe.Sheet(data, name_columns_by_row=0)
+        sheet.filter(pe.NamedRowValueFilter(lambda row: row['a'] == 3).invert())
+        expected = [
+            ['a', 'b', 'c', 'd', 'e'],
+            [3, 4, 5, 6, 7]
+        ]
+        assert sheet.to_array() == expected
+
+
+class TestNamedColumnValueFilter:
+    def test_row_value_filter(self):
+        data = [
+            ['a', 1, 2, 3, 4, 1],
+            ['b', 2, 3, 4, 5, 7],
+            ['c', 3, 4, 5, 6, 7]
+        ]
+        sheet = pe.Sheet(data, name_rows_by_column=0)
+        sheet.filter(pe.NamedColumnValueFilter(lambda column: column['a'] == 3).invert())
+        expected = [
+            ['a', 3],
+            ['b', 4],
+            ['c', 5]
+        ]
+        assert sheet.to_array() == expected
+

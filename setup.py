@@ -27,6 +27,7 @@ setup(
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     include_package_data=True,
     long_description=README_txt,
+    keywords=['excel', 'csv', 'tsv', 'xls', 'ods', 'xlsx'],
     zip_safe=False,
     tests_require=['nose'],
     classifiers=[
@@ -37,8 +38,10 @@ setup(
         'Programming Language :: Python',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Intended Audience :: Developers',
+        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: Implementation :: PyPy'
