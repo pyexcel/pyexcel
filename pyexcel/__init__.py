@@ -53,5 +53,6 @@ from .cookbook import (
     merge_all_to_a_book,
     split_a_book,
     extract_a_sheet_from_a_book)
+from excel import ExcelInput, FileIO
 
 __VERSION__ = '0.1.2'
