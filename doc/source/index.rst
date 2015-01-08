@@ -22,7 +22,7 @@ It was created due to the lack of uniform programming interface to access data i
 
 In addition, the library recognizes that Excel files are de-facto file format for information sharing in non-software centric organisations. Excel files are not only used for mathematical computation in financial institutions but also used for many other purposes in an office work environment.
 
-All great work have done by individual library developers. This library unites only the data access code. With that said, pyexcel also bring something new on the table. "csvz" and "tsvz" format, new format names as of 2014, are zipped csv or tsv files and supported by pyexcel.
+All great work have done by individual library developers. This library unites only the data access code. With that said, pyexcel also bring something new on the table. "csvz" and "tsvz" format, new format names as of 2014, are zipped csv or tsv files and are supported by pyexcel.
 
 Getting the source
 -------------------
@@ -159,8 +159,9 @@ or::
     ======= ========== =========== ============ ============ ============ ============
     pyexcel pyexcel-io pyexcel-xls pyexcel-xlsx pyexcel-ods  pyexcel-ods3 pyexcel-text  
     ======= ========== =========== ============ ============ ============ ============
-    v0.1.1  0.0.2      0.0.3       0.0.2        0.0.4        0.0.5        0.0.2
-    v0.0.10 0.0.2      0.0.3       0.0.2        0.0.4        0.0.5        0.0.2
+    v0.1.2  0.0.2      0.0.3+      0.0.2+       0.0.4        0.0.5        0.0.2
+    v0.1.1  0.0.2      0.0.3+      0.0.2+       0.0.4        0.0.5        0.0.2
+    v0.0.10 0.0.2      0.0.3+      0.0.2+       0.0.4        0.0.5        0.0.2
     v0.0.9  0.0.1      0.0.2       0.0.1        0.0.3        0.0.4        0.0.2
     v0.0.8  n/a        0.0.1       n/a          0.0.2        0.0.2+       0.0.1 
     v0.0.7             n/a                      0.0.2        0.0.2        n/a    
