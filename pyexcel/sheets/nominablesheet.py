@@ -214,6 +214,8 @@ class NamedRow(Row):
     def format(self,
                row_index=None, format=None, custom_converter=None,
                format_specs=None, on_demand=False):
+        """Format a row
+        """
         def handle_one_formatter(rows, aformat, aconverter, on_demand):
             new_indices = rows
             if len(self.ref.rownames) > 0:
@@ -373,6 +375,8 @@ class NamedColumn(Column):
     def format(self,
                column_index=None, format=None, custom_converter=None,
                format_specs=None, on_demand=False):
+        """Format a column
+        """
         def handle_one_formatter(columns, aformat, aconverter, on_demand):
             new_indices = columns
             if len(self.ref.colnames) > 0:
@@ -431,7 +435,7 @@ class NominableSheet(FilterableSheet):
 
     @property
     def row(self):
-        """Row representation.
+        """Row representation. see :class:`NamedRow`
 
         examples::
 
@@ -469,7 +473,7 @@ class NominableSheet(FilterableSheet):
 
     @property
     def column(self):
-        """Column representation, giving random access to columns"""
+        """Column representation. see :class:`NamedColumn`"""
         return self.named_column
 
     @column.setter

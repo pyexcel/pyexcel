@@ -35,11 +35,6 @@ Row represetation
 
    Row
 
-.. autosummary::
-   :toctree: iapi/
-
-   NamedRow
-
 Column represetation
 =====================
 
@@ -47,12 +42,6 @@ Column represetation
    :toctree: iapi/
 
    Column
-
-.. autosummary::
-   :toctree: iapi/
-
-   NamedColumn
-   
 
 File type handlers
 ==================

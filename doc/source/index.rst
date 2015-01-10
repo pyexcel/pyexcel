@@ -11,7 +11,7 @@
 :Issues: http://github.com/chfw/pyexcel/issues
 :License: GPL v3
 :Version: |version|
-
+:Generated: |today|
 
 Introduction
 -------------

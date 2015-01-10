@@ -6,23 +6,56 @@ API Reference
 .. currentmodule:: pyexcel
 .. _api:
 
-This is intended for users of pyexcel. Here's the entity relationship between Book, Sheet, Row and Column
+
+This is intended for users of pyexcel.
+
+
+
+Here's the entity relationship between Book, Sheet, Row and Column
 
 .. image:: entity-relationship-diagram.png
 
+   
+Book 
+=====
 
-Cookbook
-==========
+Constructor
+------------
 
 .. autosummary::
-   :toctree: generated/
+   :toctree: generated
 
-   merge_csv_to_a_book
-   merge_all_to_a_book
-   split_a_book
-   extract_a_sheet_from_a_book
+   Book
+   load_book
+   load_book_from_memory
 
-   
+Attribute
+------------
+
+.. autosummary::
+   :toctree: generated
+
+   Book.number_of_sheets
+   Book.sheet_names
+
+Conversions
+-------------
+
+.. autosummary::
+   :toctree: generated
+
+   Book.to_dict
+
+Save changes
+-------------
+
+.. autosummary::
+   :toctree: generated
+
+   Book.save_as
+   Book.save_to_memory
+
+
 Sheet
 =====
 
@@ -196,44 +229,28 @@ Save changes
    Sheet.save_to_memory
 
 
-Book 
-=====
+Row access
+============
 
-Constructor
-------------
-
+.. currentmodule:: pyexcel.sheets
+                   
 .. autosummary::
-   :toctree: generated
+   :toctree: generated/
 
-   Book
-   load_book
-   load_book_from_memory
+   NamedRow
+   NamedRow.format
+   NamedRow.select
 
-Attribute
-------------
+Column access
+===============
 
+                   
 .. autosummary::
-   :toctree: generated
+   :toctree: generated/
 
-   Book.number_of_sheets
-   Book.sheet_names
-
-Conversions
--------------
-
-.. autosummary::
-   :toctree: generated
-
-   Book.to_dict
-
-Save changes
--------------
-
-.. autosummary::
-   :toctree: generated
-
-   Book.save_as
-   Book.save_to_memory
+   NamedColumn
+   NamedColumn.format
+   NamedColumn.select
 
 
 Data formatters
@@ -268,3 +285,50 @@ Data Filters
    OddRowFilter
    EvenRowFilter
    RegionFilter
+
+.. currentmodule:: pyexcel
+				   
+Cookbook
+==========
+
+.. autosummary::
+   :toctree: generated/
+
+   merge_csv_to_a_book
+   merge_all_to_a_book
+   split_a_book
+   extract_a_sheet_from_a_book
+
+File persistence
+=================
+
+.. autosummary::
+   :toctree: generated/
+
+   FileIO
+
+From excel file to Python data structures
+------------------------------------------
+
+.. autosummary::
+   :toctree: generated/
+
+   FileIO.get_sheet
+   FileIO.get_array
+   FileIO.get_dict
+   FileIO.get_records
+   FileIO.get_book
+   FileIO.get_book_dict
+
+From Python data structures to excel file
+------------------------------------------
+
+.. autosummary::
+   :toctree: generated/
+
+   FileIO.save
+   FileIO.save_array
+   FileIO.save_dict
+   FileIO.save_records
+   FileIO.save_book_dict
+   

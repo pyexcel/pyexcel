@@ -1,3 +1,4 @@
+python setup.py clean --all
 python setup.py install
 del doc\source\generated\*.rst
 del doc\source\iapi\*.rst
