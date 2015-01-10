@@ -1,10 +1,10 @@
-Formatting cells
+Formatting
 ================
 
-Previous section has assumed the data is in the format that you want. In reality, you have to manipulate the data types a bit to suit your needs. Hence, `formatters` comes into the scene. The formatters take effect when the data is read on the fly. They do not affect the persistence of the data in the excel files. A row or column formatter can be applied to mutilpe rows/columns. There are two ways of applying a formatter:
+Previous section has assumed the data is in the format that you want. In reality, you have to manipulate the data types a bit to suit your needs. Hence, formatters comes into the scene. The formatters take effect when the data is read on the fly. They do not affect the persistence of the data in the excel files. A row or column formatter can be applied to mutilpe rows/columns. There are two ways of applying a formatter:
 
-#. use `add_formatter`, `remove_formatter` and `clear_formatter` to apply formatter on the fly. The formatter takes effect when a cell value is read. In other words, the sheet content is intact until you call `freeze_formatters` to apply all added formatters.  
-#. use `format` to apply formatter immediately. 
+#. use :meth:`~pyexcel.Sheet.add_formatter`, :meth:`~pyexcel.Sheet.remove_formatter` and :meth:`~pyexcel.Sheet.clear_formatter` to apply formatter on the fly. The formatter takes effect when a cell value is read. In other words, the sheet content is intact until you call :meth:`~pyexcel.Sheet.freeze_formatters` to apply all added formatters.  
+#. use :meth:`~pyexcel.Sheet.format` to apply formatter immediately. 
 
 
 There is slightly different behavior between csv reader and xls reader. The cell type of the cells read by csv reader will be always text while the cell types read by xls reader vary. 
@@ -13,7 +13,7 @@ There is slightly different behavior between csv reader and xls reader. The cell
 Convert a column of numbers to strings
 --------------------------------------
 
-By default, `pyexcel` will render numbers into numbers. For csv file, intergers are read as `int` and float numbers are read as `float`. However, for xls, xlsx and xlsm files, numbers are always read as `float`. Therefore, if you should like to have them in string format, you need to do some conversions. Suppose you have the following data in any of the supported excel formats:
+By default, all values in **csv** are read back as texts. However, for xls, xlsx and xlsm files, differnt data type are supported. Numbers are always read as `float`. Therefore, if you should like to have them in string format, you need to do some conversions. Suppose you have the following data in any of the supported excel formats:
 
 ======== =========
 userid   name
@@ -53,7 +53,7 @@ As you can see, `userid` column is of `float` type. Next, let's convert the colu
 
 Now, they are in string format.
 
-You can do this row by row as well using `RowFormatter` or do this to a whote spread sheet using `SheetFormatter`
+You can do this row by row as well using :class:`~pyexcel.RowFormatter` or do this to a whote spread sheet using :class:`~pyexcel.SheetFormatter`
 
 Cleanse the cells in a spread sheet
 -----------------------------------
@@ -101,7 +101,7 @@ Now try to create a custom cleanse function::
     ...     return v
     ...
 
-Then let's create a `SheetFormatter` and apply it::
+Then let's create a :class:`~pyexcel.SheetFormatter` and apply it::
 
     >>> sf = pyexcel.formatters.SheetFormatter(str, cleanse_func)
     >>> sheet.add_formatter(sf)

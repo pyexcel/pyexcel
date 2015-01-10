@@ -4,7 +4,7 @@ Simple usage
 Random access to individual cell
 --------------------------------
 
-To randaomly access a cell of :class:`Sheet` instance, two syntax are avaialbe::
+To randaomly access a cell of :class:`~pyexcel.Sheet` instance, two syntax are avaialbe::
 
     sheet[row, column]
 
@@ -97,7 +97,7 @@ For the same reason, the row index has been reduced by 1. Since we have named co
     >>> print(sheet["b", "Y"])
     5.0
 
-For multiple sheet file, you can regard it as three dimensional array if you use :class:`Book`. So, you access each cell via this syntax::
+For multiple sheet file, you can regard it as three dimensional array if you use :class:`~pyexcel.Book`. So, you access each cell via this syntax::
 
     book[sheet_index][row, column]
 

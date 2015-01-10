@@ -184,7 +184,7 @@ Filtering
    Sheet.filter
    Sheet.add_filter
    Sheet.remove_filter
-   Sheet.clear_formatters
+   Sheet.clear_filters
    Sheet.freeze_filters
 
 Conversion

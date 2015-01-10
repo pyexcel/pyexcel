@@ -12,7 +12,7 @@ The obvious tangile benefit of zipped csv over normal csv is the reduced file si
 Single Sheet
 ------------
 
-When a single sheet is to be saved, the resulting csvz file will be a zip file that contains one csv file bearing the name of `class:Sheet`.
+When a single sheet is to be saved, the resulting csvz file will be a zip file that contains one csv file bearing the name of :class:`~pyexcel.Sheet`.
 
     >>> import pyexcel as pe
     >>> data = [[1,2,3]]

@@ -1,10 +1,10 @@
-Filtering cells
+Filtering
 ================
 
-There are three ways of applying a filter:
+There are two ways of applying a filter:
 
-#. use `add_filter`, `remove_filter` and `clear_filter` to interactively apply a filter. The content is not modified until you call `freeze_filters`
-#. use `filter` function to apply a filter immediately. The content is modified.
+#. soft filtering. use :meth:`~pyexcel.Sheet.add_filter`, :meth:`~pyexcel.Sheet.remove_filter` and :meth:`~pyexcel.Sheet.clear_filters` to interactively apply a filter. The content is not modified until you call :meth:`~pyexcel.Sheet.freeze_filters`
+#. hard filtering. use :meth:`~pyexcel.Sheet.filter` function to apply a filter immediately. The content is modified.
 
 Work with data series in a single sheet
 ---------------------------------------
@@ -61,27 +61,27 @@ You can use a utility function to get all in a dictionary::
     >>> sheet.to_dict()
     OrderedDict([('Column 1', [1.0, 4.0, 7.0]), ('Column 2', [2.0, 5.0, 8.0]), ('Column 3', [3.0, 6.0, 9.0])])
 
-Maybe you want to get only the data without the column headers. You can call ``rows()`` instead::
+Maybe you want to get only the data without the column headers. You can call :meth:`~pyexcel.Sheet.rows()` instead::
 
     >>> pyexcel.to_array(sheet.rows())
     [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]]
 
-You can get data from the bottom to the top one by calling ``rrows()`` instead::
+You can get data from the bottom to the top one by calling :meth:`~pyexcel.Sheet.rrows()` instead::
 
     >>> pyexcel.utils.to_array(sheet.rrows())
     [[7.0, 8.0, 9.0], [4.0, 5.0, 6.0], [1.0, 2.0, 3.0]]
 
-You might want the data arranged vertically. You can call ``columns()`` instead::
+You might want the data arranged vertically. You can call :meth:`~pyexcel.Sheet.columns()` instead::
 	
     >>> pyexcel.utils.to_array(sheet.columns())
     [[1.0, 4.0, 7.0], [2.0, 5.0, 8.0], [3.0, 6.0, 9.0]]
 
-You can get columns in reverse sequence as well by calling ``rcolumns()`` instead::
+You can get columns in reverse sequence as well by calling :meth:`~pyexcel.Sheet.rcolumns()` instead::
 	
     >>> pyexcel.utils.to_array(sheet.rcolumns())
     [[3.0, 6.0, 9.0], [2.0, 5.0, 8.0], [1.0, 4.0, 7.0]]
 
-Do you want to flatten the data? you can get the content in one dimensional array. If you are interested in playing with one dimensional enurmation, you can check out these functions ``enumerate()``, ``reverse()``, ``vertical()``, and ``rvertical()``::
+Do you want to flatten the data? you can get the content in one dimensional array. If you are interested in playing with one dimensional enurmation, you can check out these functions :meth:`~pyexcel.Sheet.enumerate`, :meth:`~pyexcel.Sheet.reverse`, :meth:`~pyexcel.Sheet.vertical`, and :meth:`~pyexcel.Sheet.rvertical()`::
 
     >>> pyexcel.to_array(sheet.enumerate())
     [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
@@ -91,10 +91,6 @@ Do you want to flatten the data? you can get the content in one dimensional arra
     [1.0, 4.0, 7.0, 2.0, 5.0, 8.0, 3.0, 6.0, 9.0]
     >>> pyexcel.to_array(sheet.rvertical())
     [9.0, 6.0, 3.0, 8.0, 5.0, 2.0, 7.0, 4.0, 1.0]
-
-.. note::
-
-    If you do not want to single column headers out from the data body, you may have a look at the ``Reader`` in the next section
 
 
 Filter out some data
