@@ -8,7 +8,7 @@ To randaomly access a cell of :class:`~pyexcel.Sheet` instance, two syntax are a
 
     sheet[row, column]
 
-or
+or::
 
     sheet['A1']
 
