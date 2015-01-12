@@ -65,6 +65,7 @@ def load_from_sql(session, table):
     :returns: :class:`Sheet`
     """
     array = []
+    sheet_name = getattr(table, '__tablename__', None)
     objects = session.query(table).all()
     column_names = sorted([column for column in objects[0].__dict__
                            if column != '_sa_instance_state'])
@@ -77,7 +78,7 @@ def load_from_sql(session, table):
                 value = value.isoformat()
             new_array.append(value)
         array.append(new_array)
-    return Sheet(array, name_columns_by_row=0)
+    return Sheet(array, name=sheet_name, name_columns_by_row=0)
 
 
 def load_from_dict(the_dict, with_keys=True):
@@ -105,6 +106,28 @@ def load_from_records(records):
     from ..utils import from_records
     tmp_array = from_records(records)
     sheet = Sheet(tmp_array, name_columns_by_row=0)
+    return sheet
+
+
+def get_sheet(file_name, stream=None, file_type=None,
+              session=None, table=None,
+              adict=None, with_keys=True,
+              records=None,
+              array=None,
+              **keywords):
+    sheet = None
+    if file_name:
+        sheet = load(file_name, **keywords)
+    elif stream and file_type:
+        sheet = load_from_memory(stream, file_type, **keywords)
+    elif session and table:
+        sheet = load_from_sql(session, table)
+    elif adict:
+        sheet = load_from_dict(adict, with_keys)
+    elif records:
+        sheet = load_from_records(records)
+    elif array:
+        sheet = Sheet(array)
     return sheet
 
 

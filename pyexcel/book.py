@@ -10,7 +10,7 @@
 import os
 import uuid
 from .iterators import SheetIterator
-from .sheets import Sheet
+from .sheets import Sheet, load_from_sql
 from .utils import to_dict
 from .io import load_file
 from ._compact import OrderedDict
@@ -40,6 +40,25 @@ def load_book_from_memory(file_type, file_content, **keywords):
     sheets = book.sheets()
     return Book(sheets, **keywords)
 
+
+def load_book_from_sql(session, tables):
+    book = Book()
+    for table in tables:
+        sheet = load_from_sql(session, table)
+        book.sheets.update({sheet.name:sheet})
+    return book
+
+
+def get_book(file_name, stream=None, file_type=None, session=None, tables=None, **keywords):
+    book = None
+    if file_name:
+        book = load_book(file_name, **keywords)
+    elif stream and file_type:
+        book = load_book_from_memory(file_type, stream, **keywords)
+    elif session and tables:
+        book = load_book_from_sql(session, tables)
+    return book
+    
 
 class Book(object):
     """Read an excel book that has one or more sheets
