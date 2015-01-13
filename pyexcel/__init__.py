@@ -55,7 +55,7 @@ from .cookbook import (
     merge_all_to_a_book,
     split_a_book,
     extract_a_sheet_from_a_book)
-from _compact import BytesIO
+from ._compact import BytesIO
 
 
 def get_array(**keywords):
