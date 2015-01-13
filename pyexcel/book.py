@@ -47,7 +47,7 @@ def load_book_from_sql(session, tables):
     book = Book()
     for table in tables:
         sheet = load_from_sql(session, table)
-        book.sheets.update({sheet.name:sheet})
+        book += sheet
     return book
 
 

@@ -18,6 +18,12 @@ class Signature(Base):
     X=Column(Integer, primary_key=True)
     Y=Column(Integer)
     Z=Column(Integer)
+
+class Signature2(Base):
+    __tablename__="signature2"
+    A=Column(Integer, primary_key=True)
+    B=Column(Integer)
+    C=Column(Integer)
     
 Session=sessionmaker(bind=engine)
 

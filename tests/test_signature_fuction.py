@@ -1,7 +1,7 @@
 import pyexcel as pe
 import pyexcel.ext.xls
 import os
-from db import Session, Base, Signature, engine
+from db import Session, Base, Signature, Signature2, engine
 from _compact import OrderedDict
 
 
@@ -269,9 +269,13 @@ class TestSQL:
         Base.metadata.create_all(engine)
         row1 = Signature(X=1,Y=2, Z=3)
         row2 = Signature(X=4, Y=5, Z=6)
+        row3 = Signature2(A=1, B=2, C=3)
+        row4 = Signature2(A=4, B=5, C=6)
         session =Session()
         session.add(row1)
         session.add(row2)
+        session.add(row3)
+        session.add(row4)
         session.commit()
         
     def test_get_sheet_from_sql(self):
@@ -304,6 +308,40 @@ class TestSQL:
             {"X": 1, "Y": 2, "Z": 3},
             {"X": 4, "Y": 5, "Z": 6}
         ]
+
+    def test_get_book_from_sql(self):
+        book_dict = pe.get_book_dict(session=Session(),
+                                     tables=[Signature, Signature2])
+        expected = OrderedDict()
+        expected.update({'signature': [[1, 2, 3], [4, 5, 6]]})
+        expected.update({'signature2': [[1, 2, 3], [4, 5, 6]]})
+        assert book_dict == expected
+
+    def test_save_book_as_file_from_sql(self):
+        test_file="book_from_sql.xls"
+        pe.save_book_as(out_file=test_file,
+                        session=Session(),
+                        tables=[Signature, Signature2])
+        book_dict = pe.get_book_dict(file_name=test_file)
+        expected = OrderedDict()
+        expected.update({'signature': [[1, 2, 3], [4, 5, 6]]})
+        expected.update({'signature2': [[1, 2, 3], [4, 5, 6]]})
+        assert book_dict == expected
+        os.unlink(test_file)
+
+    def test_save_book_to_memory_from_sql(self):
+        test_file = pe.save_book_as(file_type="xls",
+                                    session=Session(),
+                                    tables=[Signature, Signature2])
+        book_dict = pe.get_book_dict(
+            content=test_file.getvalue(),
+            file_type="xls"
+        )
+        expected = OrderedDict()
+        expected.update({'signature': [[1, 2, 3], [4, 5, 6]]})
+        expected.update({'signature2': [[1, 2, 3], [4, 5, 6]]})
+        assert book_dict == expected
+
 
 class TestGetBook:
     def test_get_book_from_book_dict(self):
@@ -343,3 +381,22 @@ class TestGetBook:
         io = pe.save_book_to_memory("xls", bookdict=content)
         adict = pe.get_book_dict(content=io.getvalue(), file_type="xls")
         assert adict == content
+
+
+class TestSaveAs:
+    def test_save_file_as_another_one(self):
+        data = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        sheet = pe.Sheet(data)
+        testfile = "testfile.xls"
+        testfile2 = "testfile2.csv"
+        sheet.save_as(testfile)
+        pe.save_as(file_name=testfile, out_file=testfile2)
+        sheet = pe.get_sheet(file_name=testfile2)
+        sheet.format(int)
+        assert sheet.to_array() == data
+        os.unlink(testfile)
+        os.unlink(testfile2)
