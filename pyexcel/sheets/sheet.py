@@ -109,17 +109,30 @@ def load_from_records(records):
     return sheet
 
 
-def get_sheet(file_name, stream=None, file_type=None,
+def get_sheet(file_name=None, content=None, file_type=None,
               session=None, table=None,
               adict=None, with_keys=True,
               records=None,
               array=None,
               **keywords):
+    """Get an instance of :class:`Sheet` from an excel source
+
+    :param file_name: a file with supported file extension
+    :param content: the file content
+    :param file_type: the file type in *content*
+    :param session: database session
+    :param table: database table
+    :param adict: a dictionary of one dimensional arrays
+    :param with_keys: load with previous dictionary's keys, default is True
+    :param records: a list of dictionaries that have the same keys
+    :param array: a two dimensional array, a list of lists
+    :param keywords: additional parameters, see :meth:`Sheet.__init__`
+    """
     sheet = None
     if file_name:
         sheet = load(file_name, **keywords)
-    elif stream and file_type:
-        sheet = load_from_memory(stream, file_type, **keywords)
+    elif content and file_type:
+        sheet = load_from_memory(file_type, content, **keywords)
     elif session and table:
         sheet = load_from_sql(session, table)
     elif adict:
@@ -127,7 +140,7 @@ def get_sheet(file_name, stream=None, file_type=None,
     elif records:
         sheet = load_from_records(records)
     elif array:
-        sheet = Sheet(array)
+        sheet = Sheet(array, **keywords)
     return sheet
 
 

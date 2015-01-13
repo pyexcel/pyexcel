@@ -1,6 +1,6 @@
-pyexcel.FileIO.save
+pyexcel.get_records
 ===================
 
 .. currentmodule:: pyexcel
 
-.. automethod:: FileIO.save
+.. autofunction:: get_records

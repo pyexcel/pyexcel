@@ -407,6 +407,15 @@ class NominableSheet(FilterableSheet):
                  name_rows_by_column=-1,
                  colnames=None,
                  rownames=None):
+        """Constructor
+
+        :param sheet: two dimensional array
+        :param name: this becomes the sheet name.
+        :param name_columns_by_row: use a row to name all columns
+        :param name_rows_by_column: use a column to name all rows
+        :param colnames: use an external list of strings to name the columns
+        :param rownames: use an external list of strings to name the rows
+        """
         # this get rid of phatom data by not specifying sheet
         if sheet is None:
             sheet = []

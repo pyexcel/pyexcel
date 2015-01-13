@@ -42,6 +42,8 @@ def load_book_from_memory(file_type, file_content, **keywords):
 
 
 def load_book_from_sql(session, tables):
+    """Get an instance of :class:`Book` from a list of tables
+    """
     book = Book()
     for table in tables:
         sheet = load_from_sql(session, table)
@@ -49,14 +51,25 @@ def load_book_from_sql(session, tables):
     return book
 
 
-def get_book(file_name, stream=None, file_type=None, session=None, tables=None, **keywords):
+def get_book(file_name=None, content=None, file_type=None, session=None, tables=None, bookdict=None, **keywords):
+    """Get an instance of :class:`Book` from an excel source
+
+    :param file_name: a file with supported file extension
+    :param content: the file content
+    :param file_type: the file type in *content*
+    :param session: database session
+    :param table: database table
+    :param bookdict: a dictionary of two dimensional arrays
+    """
     book = None
     if file_name:
         book = load_book(file_name, **keywords)
-    elif stream and file_type:
-        book = load_book_from_memory(file_type, stream, **keywords)
+    elif content and file_type:
+        book = load_book_from_memory(file_type, content, **keywords)
     elif session and tables:
         book = load_book_from_sql(session, tables)
+    elif bookdict:
+        book = Book(bookdict)
     return book
     
 

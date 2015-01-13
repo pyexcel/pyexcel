@@ -13,5 +13,11 @@ class Pyexcel(Base):
     weight=Column(Float)
     birth=Column(Date)
 
+class Signature(Base):
+    __tablename__="signature"
+    X=Column(Integer, primary_key=True)
+    Y=Column(Integer)
+    Z=Column(Integer)
+    
 Session=sessionmaker(bind=engine)
 

@@ -9,15 +9,52 @@ API Reference
 
 This is intended for users of pyexcel.
 
+				   
+Signature functions
+====================
 
+Obtaining data from excel file
+-------------------------------
 
-Here's the entity relationship between Book, Sheet, Row and Column
+.. autosummary::
+   :toctree: generated/
 
-.. image:: entity-relationship-diagram.png
+   get_array
+   get_dict
+   get_records
+   get_book_dict
+   get_book
+   get_sheet
+
+Saving data to excel file
+--------------------------
+
+.. autosummary::
+   :toctree: generated/
+
+   save_as
+   save_book_as
+   get_dict
+
+   
+Cookbook
+==========
+
+.. autosummary::
+   :toctree: generated/
+
+   merge_csv_to_a_book
+   merge_all_to_a_book
+   split_a_book
+   extract_a_sheet_from_a_book
 
    
 Book 
 =====
+
+Here's the entity relationship between Book, Sheet, Row and Column
+
+.. image:: entity-relationship-diagram.png
 
 Constructor
 ------------
@@ -285,50 +322,3 @@ Data Filters
    OddRowFilter
    EvenRowFilter
    RegionFilter
-
-.. currentmodule:: pyexcel
-				   
-Cookbook
-==========
-
-.. autosummary::
-   :toctree: generated/
-
-   merge_csv_to_a_book
-   merge_all_to_a_book
-   split_a_book
-   extract_a_sheet_from_a_book
-
-File persistence
-=================
-
-.. autosummary::
-   :toctree: generated/
-
-   FileIO
-
-From excel file to Python data structures
-------------------------------------------
-
-.. autosummary::
-   :toctree: generated/
-
-   FileIO.get_sheet
-   FileIO.get_array
-   FileIO.get_dict
-   FileIO.get_records
-   FileIO.get_book
-   FileIO.get_book_dict
-
-From Python data structures to excel file
-------------------------------------------
-
-.. autosummary::
-   :toctree: generated/
-
-   FileIO.save
-   FileIO.save_array
-   FileIO.save_dict
-   FileIO.save_records
-   FileIO.save_book_dict
-   

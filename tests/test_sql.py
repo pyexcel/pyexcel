@@ -1,3 +1,4 @@
+import os
 import pyexcel as pe
 import datetime
 from textwrap import dedent
@@ -5,6 +6,7 @@ from db import Session, Base, Pyexcel, engine
 
 class TestSQL:
     def setUp(self):
+        Base.metadata.drop_all(engine)
         Base.metadata.create_all(engine)
         p1 = Pyexcel(id=0,
                      name="Adam",
