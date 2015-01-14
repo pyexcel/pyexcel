@@ -1,6 +1,8 @@
 Simple usage
 =============
 
+.. _access-to-cell:
+
 Random access to individual cell
 --------------------------------
 

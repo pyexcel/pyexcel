@@ -8,20 +8,22 @@ xls file to ods file.
 
 What this example implies is that you can do the conversion in
 between these formats:
-==== === === === ==== ====
-     ods csv xls xlsx xlsm
-==== === === === ==== ====
-ods  y   y   y   y    y       
-csv  y   y   y   y    y   
-xls  y   y   y   y    y   
-xlsx y   y   y   y    y   
-xlsm y   y   y   y    y   
----- --- --- --- ---- ----
+==== === === === === ==== ====
+     ods csv tsv xls xlsx xlsm
+==== === === === === ==== ====
+ods  y   y   y   y   y    y
+tsv  y   y   y   y   y    y
+csv  y   y   y   y   y    y   
+xls  y   y   y   y   y    y   
+xlsx y   y   y   y   y    y   
+xlsm y   y   y   y   y    y   
+---- --- --- --- --- ---- ----
 """
 import pyexcel as pe
 # you will need to install pyexcel-ods or pyexcel-ods3
 # depending on your python version
-from pyexcel.ext import ods
+import pyexcel.ext.xls
+import pyexcel.ext.ods
 
 # Simple open the file using Book
 book = pe.Book("multiple-sheets.xls")

@@ -1,3 +1,5 @@
+.. _formatting:
+
 Formatting
 ================
 
@@ -54,6 +56,8 @@ As you can see, `userid` column is of `float` type. Next, let's convert the colu
 Now, they are in string format.
 
 You can do this row by row as well using :class:`~pyexcel.RowFormatter` or do this to a whote spread sheet using :class:`~pyexcel.SheetFormatter`
+
+.. _cleansing:
 
 Cleanse the cells in a spread sheet
 -----------------------------------

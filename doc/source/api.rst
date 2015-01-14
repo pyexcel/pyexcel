@@ -34,8 +34,6 @@ Saving data to excel file
 
    save_as
    save_book_as
-   get_dict
-
    
 Cookbook
 ==========
