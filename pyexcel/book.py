@@ -60,6 +60,7 @@ def get_book(file_name=None, content=None, file_type=None, session=None, tables=
     :param session: database session
     :param table: database table
     :param bookdict: a dictionary of two dimensional arrays
+    see also :ref:`a-list-of-data-structures`
     """
     book = None
     if file_name:

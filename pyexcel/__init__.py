@@ -106,7 +106,7 @@ def get_records(name_columns_by_row=0, **keywords):
 
 def get_book_dict(**keywords):
     """Obtain a dictionary of two dimensional arrays
-   
+
     :param keywords: see :meth:`~pyexcel.get_book`
     """
     book = get_book(**keywords)

@@ -127,6 +127,7 @@ def get_sheet(file_name=None, content=None, file_type=None,
     :param records: a list of dictionaries that have the same keys
     :param array: a two dimensional array, a list of lists
     :param keywords: additional parameters, see :meth:`Sheet.__init__`
+    see also :ref:`a-list-of-data-structures`
     """
     sheet = None
     if file_name:

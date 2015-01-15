@@ -9,9 +9,12 @@ API Reference
 
 This is intended for users of pyexcel.
 
-				   
+
+.. _signature-functions:
 Signature functions
 ====================
+
+.. _conversion-from:
 
 Obtaining data from excel file
 -------------------------------
@@ -26,6 +29,7 @@ Obtaining data from excel file
    get_book
    get_sheet
 
+.. _conversion-to:
 Saving data to excel file
 --------------------------
 
