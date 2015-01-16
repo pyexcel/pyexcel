@@ -110,7 +110,10 @@ def get_book_dict(**keywords):
     :param keywords: see :meth:`~pyexcel.get_book`
     """
     book = get_book(**keywords)
-    return book.to_dict()
+    if book:
+        return book.to_dict()
+    else:
+        return None
 
 
 def save_to_memory(file_type, **keywords):

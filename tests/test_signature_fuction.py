@@ -5,6 +5,33 @@ from db import Session, Base, Signature, Signature2, engine
 from _compact import OrderedDict
 
 
+class TestNone:
+    def test_get_array(self):
+        expected = pe.get_array(x="something")
+        assert expected == None
+        
+    def test_get_dict(self):
+        expected = pe.get_dict(x="something")
+        assert expected == None
+        
+    def test_get_records(self):
+        expected = pe.get_records("something")
+        assert expected == None
+        
+    def test_get_sheet(self):
+        expected = pe.get_sheet(x="something")
+        assert expected == None
+        
+    def test_get_book(self):
+        expected = pe.get_book(x="something")
+        assert expected == None
+        
+    def test_get_book_dict(self):
+        expected = pe.get_book_dict(x="something")
+        assert expected == None
+        
+        
+
 class TestGetSheet:
     def test_get_sheet_from_file(self):
         data = [

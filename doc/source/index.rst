@@ -31,6 +31,59 @@ Source code is hosted in github. You can get it using git client::
 
     $ git clone http://github.com/chfw/pyexcel.git
 
+Installation
+-------------
+
+You can install it via pip::
+
+    $ pip install pyexcel
+
+For individual excel file formats, please install them as you wish:
+
+.. _a-map-of-plugins-and-file-formats:
+.. table:: a map of plugins and supported excel file formats
+
+   ================ ============================================================ ============= ======================== =============================	
+   Plugin           Supported file formats                                       Dependencies  Python versions			 Comments						
+   ================ ============================================================ ============= ======================== =============================	
+   pyexcel          csv, csvz [#f1]_, tsv, tsvz [#f2]_                           `pyexcel-io`_ 2.6, 2.7, 3.3, 3.4, pypy 								
+   `xls`_           xls, xlsx(read only), xlsm(read only)                        xlrd, xlwt    2.6, 2.7, 3.3, 3.4, pypy writing xls only
+   `xlsx`_          xlsx                                                         openpyxl      2.6, 2.7, 3.3, 3.4, pypy 								
+   `ods`_           ods (python 2.6, 2.7)                                        odfpy         2.6, 2.7				 								
+   `ods3`_          ods (python 2.7, 3.3, 3.4)                                   ezodf, lxml   3.3, 3.4				 								
+   `text`_          json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple tabulate      2.6, 2.7, 3.3, 3.4, pypy writing to files only
+   ================ ============================================================ ============= ======================== =============================
+
+.. _pyexcel-io: https://github.com/chfw/pyexcel-io
+.. _xls: https://github.com/chfw/pyexcel-xls
+.. _xlsx: https://github.com/chfw/pyexcel-xlsx
+.. _ods: https://github.com/chfw/pyexcel-ods
+.. _ods3: https://github.com/chfw/pyexcel-ods3
+.. _text: https://github.com/chfw/pyexcel-text
+
+
+Please import them before you start to access the desired file formats::
+
+    from pyexcel.ext import plugin
+
+or::
+
+    import pyexcel.ext.plugin
+
+.. table:: Plugin compatibility table
+
+    ======= ========== =========== ============ ============ ============ ============
+    pyexcel pyexcel-io xls         xlsx         ods          ods3         text  
+    ======= ========== =========== ============ ============ ============ ============
+    v0.1.2  0.0.2      0.0.3+      0.0.2+       0.0.4        0.0.5        0.0.2
+    v0.1.1  0.0.2      0.0.3+      0.0.2+       0.0.4        0.0.5        0.0.2
+    v0.0.10 0.0.2      0.0.3+      0.0.2+       0.0.4        0.0.5        0.0.2
+    v0.0.9  0.0.1      0.0.2       0.0.1        0.0.3        0.0.4        0.0.2
+    v0.0.8  n/a        0.0.1       n/a          0.0.2        0.0.2+       0.0.1 
+    v0.0.7             n/a                      0.0.2        0.0.2        n/a    
+    v0.0.6                                      0.0.2        0.0.2      
+    ======= ========== =========== ============ ============ ============ ============
+
 Usage
 ------
 
@@ -88,60 +141,6 @@ Here are the example usages::
    
    >>> import os
    >>> os.unlink("your_file.xls")
-
-
-Installation
--------------
-
-You can install it via pip::
-
-    $ pip install pyexcel
-
-For individual excel file formats, please install them as you wish:
-
-.. _a-map-of-plugins-and-file-formats:
-.. table:: a map of plugins and supported excel file formats
-
-   ================ ============================================================ ============= ======================== =============================	
-   Plugins          Supported file formats                                       Dependencies  Python versions			 Comments						
-   ================ ============================================================ ============= ======================== =============================	
-   pyexcel          csv, csvz [#f1]_, tsv, tsvz [#f2]_                           `pyexcel-io`_ 2.6, 2.7, 3.3, 3.4, pypy 								
-   `pyexcel-xls`_   xls, xlsx(read only), xlsm(read only)                        xlrd, xlwt    2.6, 2.7, 3.3, 3.4, pypy only support writing xls
-   `pyexcel-xlsx`_  xlsx,                                                        openpyxl      2.6, 2.7, 3.3, 3.4, pypy 								
-   `pyexcel-ods`_   ods (python 2.6, 2.7)                                        odfpy         2.6, 2.7				 								
-   `pyexcel-ods3`_  ods (python 2.7, 3.3, 3.4)                                   ezodf, lxml   3.3, 3.4				 								
-   `pyexcel-text`_  json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple tabulate      2.6, 2.7, 3.3, 3.4, pypy only support writing to files	
-   ================ ============================================================ ============= ======================== =============================
-
-.. _pyexcel-io: https://github.com/chfw/pyexcel-io
-.. _pyexcel-xls: https://github.com/chfw/pyexcel-xls
-.. _pyexcel-xlsx: https://github.com/chfw/pyexcel-xlsx
-.. _pyexcel-ods: https://github.com/chfw/pyexcel-ods
-.. _pyexcel-ods3: https://github.com/chfw/pyexcel-ods3
-.. _pyexcel-text: https://github.com/chfw/pyexcel-text
-
-
-Please import them before you start to access the desired file formats::
-
-    from pyexcel.ext import extension_name
-
-or::
-
-    import pyexcel.ext.extension_name
-
-.. table:: Plugin compatibility table
-
-    ======= ========== =========== ============ ============ ============ ============
-    pyexcel pyexcel-io pyexcel-xls pyexcel-xlsx pyexcel-ods  pyexcel-ods3 pyexcel-text  
-    ======= ========== =========== ============ ============ ============ ============
-    v0.1.2  0.0.2      0.0.3+      0.0.2+       0.0.4        0.0.5        0.0.2
-    v0.1.1  0.0.2      0.0.3+      0.0.2+       0.0.4        0.0.5        0.0.2
-    v0.0.10 0.0.2      0.0.3+      0.0.2+       0.0.4        0.0.5        0.0.2
-    v0.0.9  0.0.1      0.0.2       0.0.1        0.0.3        0.0.4        0.0.2
-    v0.0.8  n/a        0.0.1       n/a          0.0.2        0.0.2+       0.0.1 
-    v0.0.7             n/a                      0.0.2        0.0.2        n/a    
-    v0.0.6                                      0.0.2        0.0.2      
-    ======= ========== =========== ============ ============ ============ ============
 
 Design
 --------------------
