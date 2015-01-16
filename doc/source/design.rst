@@ -84,19 +84,19 @@ Examples::
     ... }
     >>> a_list_of_dictionaries = [
     ...     {
-    ...         "Name": Adam,
+    ...         "Name": 'Adam',
     ...         "Age": 28
     ...     },
     ...     {
-    ...         "Name": Beatrice,
+    ...         "Name": 'Beatrice',
     ...         "Age": 29
     ...     },
     ...     {
-    ...         "Name": Ceri,
+    ...         "Name": 'Ceri',
     ...         "Age": 30
     ...     },
     ...     {
-    ...         "Name": Dean,
+    ...         "Name": 'Dean',
     ...         "Age": 26
     ...     }
     ... ]
