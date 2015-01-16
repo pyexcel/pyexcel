@@ -73,34 +73,34 @@ list of data strcutures, and :ref:`vice versa<conversion-to>`.
 Examples::
 
     >>> two_dimensional_list = [
-	...    [1, 2, 3, 4],
-	...    [5, 6, 7, 8],
-	...    [9, 10, 11, 12],
-	... ]
+    ...    [1, 2, 3, 4],
+    ...    [5, 6, 7, 8],
+    ...    [9, 10, 11, 12],
+    ... ]
     >>> a_dictionary_of_one_dimensional_arrays = {
-	...     "Column 1": [1, 2, 3, 4],
-	...     "Column 2": [5, 6, 7, 8],
-	...     "Column 3": [9, 10, 11, 12],
-	... }
+    ...     "Column 1": [1, 2, 3, 4],
+    ...     "Column 2": [5, 6, 7, 8],
+    ...     "Column 3": [9, 10, 11, 12],
+    ... }
     >>> a_list_of_dictionaries = [
-	...     {
-    ...         "Name": Adam,
-	...         "Age": 28
-	...     },
-	...     {
-    ...         "Name": Beatrice,
-	...         "Age": 29
-	...     },
-	...     {
-    ...         "Name": Ceri,
-	...         "Age": 30
-	...     },
-	...     {
-    ...         "Name": Dean,
-	...         "Age": 26
-	...     }
-	... ]
-	>>> a_dictionary_of_two_dimensional_arrays = {
+    ...     {
+    ...         "Name": 'Adam',
+    ...         "Age": 28
+    ...     },
+    ...     {
+    ...         "Name": 'Beatrice',
+    ...         "Age": 29
+    ...     },
+    ...     {
+    ...         "Name": 'Ceri',
+    ...         "Age": 30
+    ...     },
+    ...     {
+    ...         "Name": 'Dean',
+    ...         "Age": 26
+    ...     }
+    ... ]
+    >>> a_dictionary_of_two_dimensional_arrays = {
     ...      'Sheet 1':
     ...          [
     ...              [1.0, 2.0, 3.0],
