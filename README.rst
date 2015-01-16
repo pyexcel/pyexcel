@@ -67,59 +67,28 @@ Installation of individual plugins , please refer to individual plugin page.
 Usage
 ===============
 
-Here are some example codes::
+Suppose you want to process the following excel data :
 
-    >>> import pyexcel as pe
-    >>> import pyexcel.ext.xls # import it to be able handle xls file
-    >>> import pyexcel.ext.xlsx # import it to be able handle xlsx file
-    >>> sheet = pe.load("your_file.xls")
-    >>> sheet
-    Sheet Name: Sheet 1
-    +----------+----------+----------+
-    | 1        | 2        | 3        |
-    +----------+----------+----------+
-    | Column 1 | Column 2 | Column 3 |
-    +----------+----------+----------+
-    | 4        | 5        | 6        |
-    +----------+----------+----------+
-    >>> sheet["A1"]
-    1.0
-    >>> # format a row using a lambda function
-    >>> sheet.row.format(1, str, lambda value: str(value))
-    >>> sheet.column[0]
-    [1.0, 'Column 1', 4.0]
-    >>> sheet.row[2]
-    [4.0, 5.0, 6.0]
-    >>> sheet.name_columns_by_row(1)
-    >>> sheet.column["Column 1"]
-    [1.0, 4.0]
-    >>> sheet.save_as("myfile.csv")
-    >>> # load the whole excel file
-    >>> book = pe.load_book("your_file.xls")
-    >>> book
-    Sheet Name: Sheet 1
-    +----------+----------+----------+
-    | 1        | 2        | 3        |
-    +----------+----------+----------+
-    | Column 1 | Column 2 | Column 3 |
-    +----------+----------+----------+
-    | 4        | 5        | 6        |
-    +----------+----------+----------+
-    Sheet Name: Sheet 2
-    +---+---+---+-------+
-    | a | b | c | Row 1 |
-    +---+---+---+-------+
-    | e | f | g | Row 2 |
-    +---+---+---+-------+
-    | 1 | 2 | 3 | Row 3 |
-    +---+---+---+-------+
-    >>> # alternative access to the same cell on sheet 1
-    >>> print(book["Sheet 1"][0,0])
-    1.0
-    >>> book["Sheet 2"].name_rows_by_column(3)
-    >>> book["Sheet 2"].row["Row 3"]
-    [1.0, 2.0, 3.0]
-    >>> book.save_as("new_file.xlsx") # save a copy
+========= ====
+Name      Age
+========= ====
+Adam      28
+Beatrice  29
+Ceri      30
+Dean      26
+========= ====
+
+Here are the example code::
+   
+   >>> import pyexcel as pe
+   >>> import pyexcel.ext.xls # import it to handle xls file
+   >>> records = pe.get_records(file_name="your_file.xls")
+   >>> for record in records:
+   ...     print("%s is aged at %d" % (record['Name'], record['Age']))
+   Adam is aged at 28
+   Beatrice is aged at 29
+   Ceri is aged at 30
+   Dean is aged at 26
 
 
 Documentation

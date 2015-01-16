@@ -2,6 +2,8 @@
 New file formats: .csvz and .tsvz
 ====================================
 
+.. _csvz:
+
 Introduction
 -------------
 
@@ -97,7 +99,7 @@ The csvz book can be read back with two lines of code. And once it is read out, 
     +---+---+---+
 
 
-Open csvz wihtout pyexcel
+Open csvz without pyexcel
 ----------------------------
 
 All you need is a unzipping software. I would recommend 7zip which is open source and is available on all available OS platforms.

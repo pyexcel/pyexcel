@@ -16,13 +16,13 @@
 Introduction
 -------------
 
-**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats. This library makes information processing involving excel files an enjoyable task. The data in excel files can be turned into array or dict with least code, vice versa. And ready-made custom filters and formatters can be applied. However, this library is not made to support fonts, colors and charts.
+**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats. This library makes information processing involving excel files an enjoyable task. The data in excel files can be turned into :ref:`array or dict<a-list-of-data-structures>` with least code, vice versa. And ready-made custom filters and formatters can be applied. However, this library is not made to support fonts, colors and charts.
 
 It was created due to the lack of uniform programming interface to access data in different excel formats. A developer needs to use different methods of different libraries to read the same data in different excel formats, hence the resulting code is cluttered and unmaintainable.
 
 In addition, the library recognizes that Excel files are de-facto file format for information sharing in non-software centric organisations. Excel files are not only used for mathematical computation in financial institutions but also used for many other purposes in an office work environment.
 
-All great work have done by individual library developers. This library unites only the data access code. With that said, pyexcel also bring something new on the table. "csvz" and "tsvz" format, new format names as of 2014, are zipped csv or tsv files and are supported by pyexcel.
+All great work have done by individual library developers. This library unites only the data access code. With that said, pyexcel also bring something new on the table: :ref:`"csvz" and "tsvz"<csvz>` format, new format names as of 2014. They are invented and supported by pyexcel.
 
 Getting the source
 -------------------
@@ -39,83 +39,55 @@ Usage
 
    >>> import pyexcel
    >>> import pyexcel.ext.xls
-   >>> import pyexcel.ext.xlsx
-   >>> data = {
-   ...     "Sheet 1": [
-   ...         [1, 2, 3],
-   ...         ["Column 1", "Column 2", "Column 3"],
-   ...         [4, 5, 6]
-   ...     ],
-   ...     "Sheet 2": [
-   ...         ["a", "b", "c", "Row 1"],
-   ...         ["e", "f", "g", "Row 2"],
-   ...         [1, 2, 3, "Row 3"]
-   ...     ]
-   ... }
-   >>> book = pyexcel.Book(data)
-   >>> book.save_as("your_file.xls")
+   >>> a_list_of_dictionaries = [
+   ...     {
+   ...         "Name": 'Adam',
+   ...         "Age": 28
+   ...     },
+   ...     {
+   ...         "Name": 'Beatrice',
+   ...         "Age": 29
+   ...     },
+   ...     {
+   ...         "Name": 'Ceri',
+   ...         "Age": 30
+   ...     },
+   ...     {
+   ...         "Name": 'Dean',
+   ...         "Age": 26
+   ...     }
+   ... ]
+   >>> pyexcel.save_as(records=a_list_of_dictionaries, out_file="your_file.xls")
+
+Suppose you want to process the following excel data :
+
+========= ====
+Name      Age
+========= ====
+Adam      28
+Beatrice  29
+Ceri      30
+Dean      26
+========= ====
 
 Here are the example usages::
    
    >>> import pyexcel as pe
-   >>> import pyexcel.ext.xls # import it to be able handle xls file
-   >>> import pyexcel.ext.xlsx # xlsx file
-   >>> sheet = pe.load("your_file.xls")
-   >>> sheet # ascii representation of the content
-   Sheet Name: Sheet 1
-   +----------+----------+----------+
-   | 1        | 2        | 3        |
-   +----------+----------+----------+
-   | Column 1 | Column 2 | Column 3 |
-   +----------+----------+----------+
-   | 4        | 5        | 6        |
-   +----------+----------+----------+
-   >>> sheet["A1"]
-   1.0
-   >>> # format a row using a lambda function
-   >>> sheet.row.format(1, str, lambda value: str(value))
-   >>> sheet.column[0]
-   [1.0, 'Column 1', 4.0]
-   >>> sheet.row[2]
-   [4.0, 5.0, 6.0]
-   >>> sheet.name_columns_by_row(1)
-   >>> sheet.column["Column 1"]
-   [1.0, 4.0]
-   >>> sheet.save_as("myfile.csv")
-   >>> # load the whole excel file
-   >>> book = pe.load_book("your_file.xls")
-   >>> book
-   Sheet Name: Sheet 1
-   +----------+----------+----------+
-   | 1        | 2        | 3        |
-   +----------+----------+----------+
-   | Column 1 | Column 2 | Column 3 |
-   +----------+----------+----------+
-   | 4        | 5        | 6        |
-   +----------+----------+----------+
-   Sheet Name: Sheet 2
-   +---+---+---+-------+
-   | a | b | c | Row 1 |
-   +---+---+---+-------+
-   | e | f | g | Row 2 |
-   +---+---+---+-------+
-   | 1 | 2 | 3 | Row 3 |
-   +---+---+---+-------+
-   >>> # alternative access to the same cell on sheet 1
-   >>> print(book["Sheet 1"][0,0])
-   1.0
-   >>> book["Sheet 2"].name_rows_by_column(3)
-   >>> book["Sheet 2"].row["Row 3"]
-   [1.0, 2.0, 3.0]
-   >>> book.save_as("new_file.xlsx") # save a copy
+   >>> import pyexcel.ext.xls # import it to handle xls file
+   >>> import pyexcel.ext.xlsx # import it to handle xlsx file
+   >>> records = pe.get_records(file_name="your_file.xls")
+   >>> for record in records:
+   ...     print("%s is aged at %d" % (record['Name'], record['Age']))
+   Adam is aged at 28
+   Beatrice is aged at 29
+   Ceri is aged at 30
+   Dean is aged at 26
 
 .. testcode::
    :hide:
    
    >>> import os
    >>> os.unlink("your_file.xls")
-   >>> os.unlink("myfile.csv")
-   >>> os.unlink("new_file.xlsx")
 
 
 Installation
@@ -180,11 +152,8 @@ Design
    csvz
 
 
-More usage examples
---------------------
-
 Tutorial
-+++++++++
+----------
 
 .. toctree::
 
@@ -196,14 +165,14 @@ Tutorial
    tutorial06
 
 Cook book
-++++++++++
+----------
 
 .. toctree::
 
    cookbook
 
 Real world cases
-+++++++++++++++++++
+-------------------
 
 .. toctree::
 
