@@ -253,6 +253,16 @@ class Book(object):
         writer.write_book_reader(self)
         writer.close()
 
+    def save_to_database(self, session, tables, mapdicts=None):
+        for i in range(0, self.number_of_sheets()):
+            sheet = self.sheet_by_index(i)
+            if len(sheet.colnames) == 0 and len(sheet.rownames) == 0:
+                sheet.name_colmns_by_row(0)
+            if mapdicts and i < len(mapdicts):
+                sheet.save_to_database(session, tables[i], mapdicts[i])
+            else:
+                sheet.save_to_database(session, tables[i], None)
+
     def to_dict(self):
         """Convert the book to a dictionary"""
         from .utils import to_dict

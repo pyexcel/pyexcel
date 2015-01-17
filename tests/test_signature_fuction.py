@@ -290,6 +290,112 @@ class TestGetRecords:
             {"X": 4, "Y": 5, "Z": 6}
         ]
 
+class TestSavingToDatabase:
+    def setUp(self):
+        Base.metadata.drop_all(engine)
+        Base.metadata.create_all(engine)
+        self.session = Session()
+        
+    def test_save_a_dict(self):
+        adict = {
+            "X": [1, 4],
+            "Y": [2, 5],
+            "Z": [3, 6]
+        }
+        sheet = pe.get_sheet(adict=adict)
+        sheet.save_to_database(self.session, Signature)
+        result = pe.get_dict(session=self.session, table=Signature)
+        assert adict == result
+
+    def test_save_a_dict2(self):
+        data = [
+            [1, 4, 'X'],
+            [2, 5, 'Y'],
+            [3, 6, 'Z']
+        ]
+        sheet = pe.Sheet(data)
+        sheet.name_rows_by_column(2)
+        sheet.save_to_database(self.session, Signature)
+        result = pe.get_dict(session=self.session, table=Signature)
+        assert result == {
+            "X": [1, 4],
+            "Y": [2, 5],
+            "Z": [3, 6]
+        }
+
+    def test_save_a_dict3(self):
+        data = [
+            [1, 4, 'A'],
+            [2, 5, 'B'],
+            [3, 6, 'C']
+        ]
+        sheet = pe.Sheet(data)
+        sheet.name_rows_by_column(2)
+        mapdict = {
+            'A': 'X',
+            'B': 'Y',
+            'C': 'Z'
+        }
+        sheet.save_to_database(self.session, Signature, mapdict)
+        result = pe.get_dict(session=self.session, table=Signature)
+        assert result == {
+            "X": [1, 4],
+            "Y": [2, 5],
+            "Z": [3, 6]
+        }
+
+    def test_book_save_a_dict(self):
+        data = [
+            [1, 4, 'X'],
+            [2, 5, 'Y'],
+            [3, 6, 'Z']
+        ]
+        sheet_dict = {
+            "sheet": data
+        }
+        book = pe.Book(sheet_dict)
+        book['sheet'].name_rows_by_column(2)
+        book.save_to_database(self.session, [Signature])
+        result = pe.get_dict(session=self.session, table=Signature)
+        assert result == {
+            "X": [1, 4],
+            "Y": [2, 5],
+            "Z": [3, 6]
+        }
+        
+    def test_book_save_a_dict2(self):
+        data = [
+            [1, 4, 'X'],
+            [2, 5, 'Y'],
+            [3, 6, 'Z']
+        ]
+        data1 = [
+            [1, 4, 'A'],
+            [2, 5, 'B'],
+            [3, 6, 'C']
+        ]
+        sheet_dict = {
+            "sheet": data,
+            "sheet1": data1
+        }
+        book = pe.Book(sheet_dict)
+        book['sheet'].name_rows_by_column(2)
+        book['sheet1'].name_rows_by_column(2)
+        book.save_to_database(self.session, [Signature, Signature2])
+        result = pe.get_dict(session=self.session, table=Signature)
+        assert result == {
+            "X": [1, 4],
+            "Y": [2, 5],
+            "Z": [3, 6]
+        }
+        result = pe.get_dict(session=self.session, table=Signature2)
+        assert result == {
+            "A": [1, 4],
+            "B": [2, 5],
+            "C": [3, 6]
+        }
+
+
 class TestSQL:
     def setUp(self):
         Base.metadata.drop_all(engine)

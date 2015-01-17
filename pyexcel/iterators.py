@@ -274,6 +274,24 @@ class RowIterator(PyexcelIterator):
             raise StopIteration
 
 
+class NamedRowIterator(RowIterator):
+    """
+    Iterate data dictionary row by row from top to bottom
+
+    default iterator for :class:`Matrix`.
+    See :func:`Matrix.rows` for more details
+    """
+    def next(self):
+        if self.current in self.reader_ref.row_range():
+            row = self.current
+            self.current += 1
+            row_array = self.reader_ref.row_at(row)
+            row_dict = dict(zip(self.reader_ref.colnames, row_array))
+            return row_dict
+        else:
+            raise StopIteration
+
+
 class RowReverseIterator(PyexcelIterator):
     """
     Iterate data row by row from bottom to top
@@ -312,6 +330,22 @@ class ColumnIterator(PyexcelIterator):
         if self.current in self.reader_ref.column_range():
             self.current += 1
             return self.reader_ref.column_at(self.current-1)
+        else:
+            raise StopIteration
+
+
+class NamedColumnIterator(ColumnIterator):
+    """
+    Column Iterator from left to right
+
+    see :func:`Matrix.columns` for more details
+    """
+    def next(self):
+        if self.current in self.reader_ref.column_range():
+            self.current += 1
+            column_array = self.reader_ref.column_at(self.current-1)
+            column_dict = dict(zip(self.reader_ref.rownames, column_array))
+            return column_dict
         else:
             raise StopIteration
 

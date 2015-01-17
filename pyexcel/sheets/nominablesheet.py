@@ -17,7 +17,12 @@ from ..formatters import (
     NamedRowFormatter)
 from .._compact import is_string, OrderedDict, PY2, is_array_type
 from ..filters import ColumnIndexFilter, RowIndexFilter
-from ..iterators import ColumnIndexIterator, RowIndexIterator
+from ..iterators import (
+    ColumnIndexIterator,
+    RowIndexIterator,
+    NamedRowIterator,
+    NamedColumnIterator
+)
 from ..presentation import outsource
 from ..texttable import Texttable
 
@@ -803,3 +808,9 @@ class NominableSheet(FilterableSheet):
             return ret+table.draw()
         else:
             return ret+FilterableSheet.__str__(self)
+
+    def named_rows(self):
+        return NamedRowIterator(self)
+
+    def named_columns(self):
+        return NamedColumnIterator(self)

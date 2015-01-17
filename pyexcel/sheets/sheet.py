@@ -179,6 +179,26 @@ class Sheet(NominableSheet):
         """
         self.save_as((file_type, stream), **keywords)
 
+    def save_to_database(self, session, table, mapdict=None):
+        if len(self.colnames) > 0:
+            self._save_to_database(session, table, mapdict,
+                                   self.named_rows(), self.colnames)
+        elif len(self.rownames) > 0:
+            self._save_to_database(session, table, mapdict,
+                                   self.named_columns(), self.rownames)
+
+    def _save_to_database(self, session, table, mapdict, iterator, keys):
+        for row in iterator:
+            o = table()
+            for name in keys:
+                if mapdict:
+                    key = mapdict[name]
+                else:
+                    key = name
+                setattr(o, key, row[name])
+            session.add(o)
+        session.commit()
+
 
 def Reader(file=None, sheetname=None, **keywords):
     """
