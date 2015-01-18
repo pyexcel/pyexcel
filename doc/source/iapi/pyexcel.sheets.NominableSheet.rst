@@ -42,7 +42,9 @@ pyexcel.sheets.NominableSheet
       ~NominableSheet.name_columns_by_row
       ~NominableSheet.name_rows_by_column
       ~NominableSheet.named_column_at
+      ~NominableSheet.named_columns
       ~NominableSheet.named_row_at
+      ~NominableSheet.named_rows
       ~NominableSheet.number_of_columns
       ~NominableSheet.number_of_rows
       ~NominableSheet.paste

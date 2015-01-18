@@ -180,6 +180,12 @@ class Sheet(NominableSheet):
         self.save_as((file_type, stream), **keywords)
 
     def save_to_database(self, session, table, mapdict=None):
+        """Save data in sheet to database table
+
+        :param session: database session
+        :param table: a database table
+        :param mapdict: provide key mapping if default ones are different
+        """
         if len(self.colnames) > 0:
             self._save_to_database(session, table, mapdict,
                                    self.named_rows(), self.colnames)

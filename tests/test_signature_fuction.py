@@ -395,6 +395,47 @@ class TestSavingToDatabase:
             "C": [3, 6]
         }
 
+    def test_save_as_to_database(self):
+        adict = {
+            "X": [1, 4],
+            "Y": [2, 5],
+            "Z": [3, 6]
+        }
+        pe.save_as(adict=adict, dest_session=self.session, dest_table=Signature)
+        result = pe.get_dict(session=self.session, table=Signature)
+        assert adict == result
+
+    def test_save_book_as_to_database(self):
+        data = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        data1 = [
+            ["A", "B", "C"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        sheet_dict = {
+            "sheet": data,
+            "sheet1": data1
+        }
+        pe.save_book_as(bookdict=sheet_dict,
+                        dest_session=self.session,
+                        dest_tables=[Signature, Signature2])
+        result = pe.get_dict(session=self.session, table=Signature)
+        assert result == {
+            "X": [1, 4],
+            "Y": [2, 5],
+            "Z": [3, 6]
+        }
+        result = pe.get_dict(session=self.session, table=Signature2)
+        assert result == {
+            "A": [1, 4],
+            "B": [2, 5],
+            "C": [3, 6]
+        }
+
 
 class TestSQL:
     def setUp(self):
@@ -448,7 +489,6 @@ class TestSQL:
         expected = OrderedDict()
         expected.update({'signature': [['X', 'Y', 'Z'], [1, 2, 3], [4, 5, 6]]})
         expected.update({'signature2': [['A', 'B', 'C'], [1, 2, 3], [4, 5, 6]]})
-        print book_dict
         assert book_dict == expected
 
     def test_save_book_as_file_from_sql(self):

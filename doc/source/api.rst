@@ -93,7 +93,7 @@ Save changes
 
    Book.save_as
    Book.save_to_memory
-
+   Book.save_to_database
 
 Sheet
 =====
@@ -266,7 +266,7 @@ Save changes
 
    Sheet.save_as
    Sheet.save_to_memory
-
+   Sheet.save_to_database
 
 Row access
 ============

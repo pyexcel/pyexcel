@@ -115,9 +115,32 @@ def get_book_dict(**keywords):
     else:
         return None
 
+def save_to_database(session, table, mapdict=None, **keywords):
+    """Save a sheet to database
+    
+    :param session: database session
+    :param table: a database table
+    :param mapdict: provide key mapping if default ones are different
+    see also :meth:`~pyexcel.Sheet.save_to_database`
+    """
+    sheet = get_sheet(**keywords)
+    sheet.save_to_database(session, table, mapdict)
+    return None
 
+def save_book_to_database(session, tables, mapdicts=None, **keywords):
+    """Save a book to database
+
+    :param session: the database session
+    :param tables: a list of database tables
+    :param mapdicts: a list of mapping dictionaries
+    see also :meth:`~pyexcel.Book.save_to_database`
+    """
+    book = get_book(**keywords)
+    book.save_to_database(session, tables, mapdicts)
+    return None
+    
 def save_to_memory(file_type, **keywords):
-    """Save a sheet of an excel source separately
+    """Save a sheet of an excel source separately to memory
 
     :param file_type: indicate the file type
     :param keywords: see :meth:`~pyexcel.get_sheet`
@@ -144,13 +167,18 @@ def save_book_to_memory(file_type, **keywords):
     return io
 
 
-def save_as(out_file=None, file_type=None, **keywords):
+def save_as(out_file=None, file_type=None,
+            dest_session=None, dest_table=None, mapdict=None,
+            **keywords):
     """Save a sheet of an excel source separately
 
     :param out_file: another file name.
     :param file_type: this is needed if you want to save to memory
     :param keywords: see :meth:`~pyexcel.get_sheet`
-    :returns: None if saving to file, IO stream if saving to memory
+    :param dest_session: the target database session
+    :param dest_table: the target destination table
+    :param mapdicts: a mapping dictionary, see :methd:`~pyexcel.Sheet.save_to_memory`
+    :returns: IO stream if saving to memory. None otherwise
     """
     if out_file:
         sheet = get_sheet(**keywords)
@@ -158,15 +186,23 @@ def save_as(out_file=None, file_type=None, **keywords):
         return None
     elif file_type:
         return save_to_memory(file_type, **keywords)
+    elif dest_session and dest_table:
+        return save_to_database(dest_session, dest_table, mapdict, **keywords)
+    return None
 
 
-def save_book_as(out_file=None, file_type=None, **keywords):
+def save_book_as(out_file=None, file_type=None,
+                 dest_session=None, dest_tables=None, mapdicts=None,
+                 **keywords):
     """Save a copy of an excel source
 
     :param out_file: another file name.
     :param file_type: this is needed if you want to save to memory
+    :param dest_session: the target database session
+    :param dest_tables: the list of target destination tables
+    :param mapdicts: a list of mapping dictionaries, see :methd:`~pyexcel.Book.save_to_memory`
     :param keywords: see :meth:`~pyexcel.get_book`
-    :returns: None if saving to file, IO stream if saving to memory
+    :returns: IO stream if saving to memory. None otherwise
     """
     if out_file:
         book = get_book(**keywords)
@@ -174,6 +210,9 @@ def save_book_as(out_file=None, file_type=None, **keywords):
         return None
     elif file_type:
         return save_book_to_memory(file_type, **keywords)
+    elif dest_session and dest_tables:
+        return save_book_to_database(dest_session, dest_tables, mapdicts, **keywords)
+    return None
 
 
 __VERSION__ = '0.1.2'

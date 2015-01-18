@@ -19,6 +19,7 @@ pyexcel.Book
       ~Book.number_of_sheets
       ~Book.remove_sheet
       ~Book.save_as
+      ~Book.save_to_database
       ~Book.save_to_memory
       ~Book.sheet_by_index
       ~Book.sheet_by_name

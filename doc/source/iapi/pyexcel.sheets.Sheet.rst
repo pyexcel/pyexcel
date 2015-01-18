@@ -42,7 +42,9 @@ pyexcel.sheets.Sheet
       ~Sheet.name_columns_by_row
       ~Sheet.name_rows_by_column
       ~Sheet.named_column_at
+      ~Sheet.named_columns
       ~Sheet.named_row_at
+      ~Sheet.named_rows
       ~Sheet.number_of_columns
       ~Sheet.number_of_rows
       ~Sheet.paste
@@ -57,6 +59,7 @@ pyexcel.sheets.Sheet
       ~Sheet.rrows
       ~Sheet.rvertical
       ~Sheet.save_as
+      ~Sheet.save_to_database
       ~Sheet.save_to_memory
       ~Sheet.set_column_at
       ~Sheet.set_named_column_at
