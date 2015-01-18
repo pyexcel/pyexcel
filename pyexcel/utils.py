@@ -28,7 +28,7 @@ def to_dict(o):
         if type(c) == dict:
             the_dict.update(c)
         elif isinstance(c, Sheet):
-            the_dict.update({c.name: to_array(c)})
+            the_dict.update({c.name: c.to_array()})
         else:
             key = series % count
             the_dict.update({key: c})

@@ -446,8 +446,9 @@ class TestSQL:
         book_dict = pe.get_book_dict(session=Session(),
                                      tables=[Signature, Signature2])
         expected = OrderedDict()
-        expected.update({'signature': [[1, 2, 3], [4, 5, 6]]})
-        expected.update({'signature2': [[1, 2, 3], [4, 5, 6]]})
+        expected.update({'signature': [['X', 'Y', 'Z'], [1, 2, 3], [4, 5, 6]]})
+        expected.update({'signature2': [['A', 'B', 'C'], [1, 2, 3], [4, 5, 6]]})
+        print book_dict
         assert book_dict == expected
 
     def test_save_book_as_file_from_sql(self):
@@ -457,8 +458,8 @@ class TestSQL:
                         tables=[Signature, Signature2])
         book_dict = pe.get_book_dict(file_name=test_file)
         expected = OrderedDict()
-        expected.update({'signature': [[1, 2, 3], [4, 5, 6]]})
-        expected.update({'signature2': [[1, 2, 3], [4, 5, 6]]})
+        expected.update({'signature': [['X', 'Y', 'Z'], [1, 2, 3], [4, 5, 6]]})
+        expected.update({'signature2': [['A', 'B', 'C'], [1, 2, 3], [4, 5, 6]]})
         assert book_dict == expected
         os.unlink(test_file)
 
@@ -471,8 +472,8 @@ class TestSQL:
             file_type="xls"
         )
         expected = OrderedDict()
-        expected.update({'signature': [[1, 2, 3], [4, 5, 6]]})
-        expected.update({'signature2': [[1, 2, 3], [4, 5, 6]]})
+        expected.update({'signature': [['X', 'Y', 'Z'], [1, 2, 3], [4, 5, 6]]})
+        expected.update({'signature2': [['A', 'B', 'C'], [1, 2, 3], [4, 5, 6]]})
         assert book_dict == expected
 
 

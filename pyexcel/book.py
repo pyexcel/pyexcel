@@ -195,7 +195,7 @@ class Book(object):
             if new_key in content:
                 uid = uuid.uuid4().hex
                 new_key = "%s_%s" % (other.name, uid)
-            content[new_key] = other.array
+            content[new_key] = other.to_array()
         else:
             raise TypeError
         c = Book()
@@ -220,14 +220,14 @@ class Book(object):
                 if new_key in self.name_array:
                     uid = uuid.uuid4().hex
                     new_key = "%s_%s" % (name, uid)
-                self.sheets[new_key] = self.get_sheet(other[name].array,
+                self.sheets[new_key] = self.get_sheet(other[name].to_array(),
                                                       new_key)
         elif isinstance(other, Sheet):
             new_key = other.name
             if new_key in self.name_array:
                 uid = uuid.uuid4().hex
                 new_key = "%s_%s" % (other.name, uid)
-            self.sheets[new_key] = self.get_sheet(other.array, new_key)
+            self.sheets[new_key] = self.get_sheet(other.to_array(), new_key)
         else:
             raise TypeError
         self.name_array = list(self.sheets.keys())
