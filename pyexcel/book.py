@@ -43,6 +43,9 @@ def load_book_from_memory(file_type, file_content, **keywords):
 
 def load_book_from_sql(session, tables):
     """Get an instance of :class:`Book` from a list of tables
+
+    :param session: sqlalchemy session
+    :param tables: a list of database tables
     """
     book = Book()
     for table in tables:
@@ -51,7 +54,8 @@ def load_book_from_sql(session, tables):
     return book
 
 
-def get_book(file_name=None, content=None, file_type=None, session=None, tables=None, bookdict=None, **keywords):
+def get_book(file_name=None, content=None, file_type=None,
+             session=None, tables=None, bookdict=None, **keywords):
     """Get an instance of :class:`Book` from an excel source
 
     :param file_name: a file with supported file extension

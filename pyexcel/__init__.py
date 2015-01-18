@@ -177,7 +177,7 @@ def save_as(out_file=None, file_type=None,
     :param keywords: see :meth:`~pyexcel.get_sheet`
     :param dest_session: the target database session
     :param dest_table: the target destination table
-    :param mapdicts: a mapping dictionary, see :methd:`~pyexcel.Sheet.save_to_memory`
+    :param mapdicts: a mapping dictionary, see :meth:`~pyexcel.Sheet.save_to_memory`
     :returns: IO stream if saving to memory. None otherwise
     """
     if out_file:

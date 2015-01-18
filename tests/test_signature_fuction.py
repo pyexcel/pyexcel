@@ -211,7 +211,7 @@ class TestGetDict:
         result = pe.get_dict(adict=data)
         assert result == data
 
-    def test_get_records_from_dict(self):
+    def test_get_dict_from_records(self):
         data = [
             {"X": 1, "Y": 2, "Z": 3},
             {"X": 4, "Y": 5, "Z": 6}

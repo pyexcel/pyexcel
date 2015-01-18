@@ -67,6 +67,8 @@ Constructor
    Book
    load_book
    load_book_from_memory
+   load_book_from_sql
+
 
 Attribute
 ------------
