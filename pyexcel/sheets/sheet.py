@@ -114,6 +114,7 @@ def get_sheet(file_name=None, content=None, file_type=None,
               adict=None, with_keys=True,
               records=None,
               array=None,
+              sheet_name=None,
               **keywords):
     """Get an instance of :class:`Sheet` from an excel source
 
@@ -127,13 +128,25 @@ def get_sheet(file_name=None, content=None, file_type=None,
     :param records: a list of dictionaries that have the same keys
     :param array: a two dimensional array, a list of lists
     :param keywords: additional parameters, see :meth:`Sheet.__init__`
+    :param sheet_name: sheet name
+
+    Not all parameters are needed. Here is a table
+
+    ======================== =========================================
+    loading from file        file_name, sheet_name, keywords
+    loading from memory      file_type, content, sheet_name, keywords
+    loading from sql         session ,table
+    loading from dictionary  adict, with_keys
+    loading from records     records
+    loading from array       array
+    ======================== =========================================
     see also :ref:`a-list-of-data-structures`
     """
     sheet = None
     if file_name:
-        sheet = load(file_name, **keywords)
+        sheet = load(file_name, sheet_name, **keywords)
     elif content and file_type:
-        sheet = load_from_memory(file_type, content, **keywords)
+        sheet = load_from_memory(file_type, content, sheet_name, **keywords)
     elif session and table:
         sheet = load_from_sql(session, table)
     elif adict:

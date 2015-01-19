@@ -293,7 +293,7 @@ Column access
    NamedColumn.format
    NamedColumn.select
 
-
+.. _formatters:
 Data formatters
 ================
 
@@ -308,7 +308,7 @@ Data formatters
    NamedRowFormatter
    SheetFormatter
    
-
+.. _filters:
 Data Filters
 ===============
 
