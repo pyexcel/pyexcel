@@ -55,7 +55,8 @@ def load_book_from_sql(session, tables):
 
 
 def get_book(file_name=None, content=None, file_type=None,
-             session=None, tables=None, bookdict=None, **keywords):
+             session=None, tables=None,
+             bookdict=None, **keywords):
     """Get an instance of :class:`Book` from an excel source
 
     :param file_name: a file with supported file extension
@@ -257,36 +258,19 @@ class Book(object):
         writer.write_book_reader(self)
         writer.close()
 
-    def save_to_database(self, session, tables, mapdicts=None):
+    def save_to_database(self, session, tables):
         """Save data in sheets to database tables
 
-        Since sheet in data is orderred, this function save the first sheet
-        to the first table, and then the second sheet to the second table, and
-        so forth:
-        
-            ========== ========= =======================
-            1st sheet  1st table 1st mapping dictionary
-            2nd sheet  2nd table 2nd mapping dictionary
-            ...        ...       ...
-            ========== ========= =======================
-
         :param session: database session
-        :param tables: a list of database tables. Please align them in the same sequence as your sheets.
-        :param mapdicts: a list of mapping dictionaries.Please align them in the same
-        sequence as your sheets.
-
+        :param tables: a list of database tables, that is accepted by :meth:`Sheet.save_to_database`. The sequence of tables matters when there is dependencies
+                       in between the tables. For example, **Car** is made by **Car Maker**. **Car Maker** table should be specified before **Car** table.
         """
         for i in range(0, self.number_of_sheets()):
             if i >= len(tables):
                 print("Warning: the number of sheets is greater than the number of tables")
                 continue
             sheet = self.sheet_by_index(i)
-            if len(sheet.colnames) == 0 and len(sheet.rownames) == 0:
-                sheet.name_columns_by_row(0)
-            if mapdicts and i < len(mapdicts):
-                sheet.save_to_database(session, tables[i], mapdicts[i])
-            else:
-                sheet.save_to_database(session, tables[i], None)
+            sheet.save_to_database(session, tables[i])
 
     def to_dict(self):
         """Convert the book to a dictionary"""

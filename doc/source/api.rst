@@ -112,6 +112,16 @@ Constructor
    load_from_memory
    load_from_sql
 
+Save changes
+--------------
+
+.. autosummary::
+   :toctree: generated/
+
+   Sheet.save_as
+   Sheet.save_to_memory
+   Sheet.save_to_database
+
 Attributes
 -----------
 
@@ -259,17 +269,6 @@ Transformation
    Sheet.cut
    Sheet.paste
         
-
-Save changes
---------------
-
-.. autosummary::
-   :toctree: generated/
-
-   Sheet.save_as
-   Sheet.save_to_memory
-   Sheet.save_to_database
-
 Row access
 ============
 

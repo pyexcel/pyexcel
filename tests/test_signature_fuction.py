@@ -336,7 +336,7 @@ class TestSavingToDatabase:
             'B': 'Y',
             'C': 'Z'
         }
-        sheet.save_to_database(self.session, Signature, mapdict)
+        sheet.save_to_database(self.session, (Signature, None, mapdict))
         result = pe.get_dict(session=self.session, table=Signature)
         assert result == {
             "X": [1, 4],
@@ -379,9 +379,7 @@ class TestSavingToDatabase:
             "sheet1": data1
         }
         book = pe.Book(sheet_dict)
-        book['sheet'].name_rows_by_column(2)
-        book['sheet1'].name_rows_by_column(2)
-        book.save_to_database(self.session, [Signature, Signature2])
+        book.save_to_database(self.session, [(Signature, None, None, -1, 2), (Signature2, None, None, -1, 2)])
         result = pe.get_dict(session=self.session, table=Signature)
         assert result == {
             "X": [1, 4],

@@ -58,10 +58,10 @@ def load_from_memory(file_type,
 
 
 def load_from_sql(session, table):
-    """Constructs from database table
+    """Constructs an instance :class:`Sheet` from database table
 
-    :param sqlalchemy.orm.Session session: SQLAlchemy session object
-    :param sqlalchemy orm table table: SQLAlchemy database table
+    :param session: SQLAlchemy session object
+    :param table: SQLAlchemy database table
     :returns: :class:`Sheet`
     """
     array = []
@@ -192,29 +192,61 @@ class Sheet(NominableSheet):
         """
         self.save_as((file_type, stream), **keywords)
 
-    def save_to_database(self, session, table, mapdict=None):
+    def save_to_database(self, session, table):
         """Save data in sheet to database table
 
         :param session: database session
-        :param table: a database table
-        :param mapdict: provide key mapping if default ones are different
+        :param table: a database table or a tuple of (table, table_init_func, mapdict, name_columns_by_row).
+                      table_init_func is needed when the supplied table had a custom initialization function.
+                      mapdict is needed when the column headers of your sheet does not match the column names of the supplied table.
+                      name_column_by_row indicates which row has column headers and by default it is the first row of the supplied sheet
         """
+        mytable = None
+        table_init_func = None
+        mapdict = None
+        name_columns_by_row = -1
+        name_rows_by_column = -1
+        if isinstance(table, tuple):
+            if len(table) == 1:
+                mytable = table[0]
+            elif len(table) == 2:
+                mytable, table_init_func = table
+            elif len(table) == 3:
+                mytable, table_init_func, mapdict = table
+            elif len(table) == 4:
+                mytable, table_init_func, mapdict, name_columns_by_row = table
+            else:
+                mytable, table_init_func, mapdict, name_columns_by_row, name_rows_by_column = table
+        else:
+            mytable = table
+        if name_columns_by_row != -1:
+            self.name_columns_by_row(name_columns_by_row)
+        if name_rows_by_column != -1:
+            self.name_rows_by_column(name_rows_by_column)
         if len(self.colnames) > 0:
-            self._save_to_database(session, table, mapdict,
+            self._save_to_database(session, mytable, table_init_func, mapdict,
                                    self.named_rows(), self.colnames)
         elif len(self.rownames) > 0:
-            self._save_to_database(session, table, mapdict,
+            self._save_to_database(session, mytable, table_init_func, mapdict,
                                    self.named_columns(), self.rownames)
+        else:
+            self.name_columns_by_row(0)
+            self._save_to_database(session, mytable, table_init_func, mapdict,
+                                   self.named_rows(), self.colnames)
 
-    def _save_to_database(self, session, table, mapdict, iterator, keys):
+    def _save_to_database(self, session, table, table_init_func,
+                          mapdict, iterator, keys):
         for row in iterator:
-            o = table()
-            for name in keys:
-                if mapdict:
-                    key = mapdict[name]
-                else:
-                    key = name
-                setattr(o, key, row[name])
+            if table_init_func:
+                o = table_init_func(row)
+            else:
+                o = table()
+                for name in keys:
+                    if mapdict:
+                        key = mapdict[name]
+                    else:
+                        key = name
+                    setattr(o, key, row[name])
             session.add(o)
         session.commit()
 

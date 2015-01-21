@@ -14,7 +14,8 @@ from .book import (
     Book,
     get_book,
     load_book,
-    load_book_from_memory)
+    load_book_from_memory,
+    load_book_from_sql)
 from .writers import Writer, BookWriter
 from .sheets import (
     Sheet,
@@ -115,7 +116,7 @@ def get_book_dict(**keywords):
     else:
         return None
 
-def save_to_database(session, table, mapdict=None, **keywords):
+def save_to_database(session, table, **keywords):
     """Save a sheet to database
     
     :param session: database session
@@ -124,10 +125,10 @@ def save_to_database(session, table, mapdict=None, **keywords):
     see also :meth:`~pyexcel.Sheet.save_to_database`
     """
     sheet = get_sheet(**keywords)
-    sheet.save_to_database(session, table, mapdict)
+    sheet.save_to_database(session, table)
     return None
 
-def save_book_to_database(session, tables, mapdicts=None, **keywords):
+def save_book_to_database(session, tables, **keywords):
     """Save a book to database
 
     :param session: the database session
@@ -136,7 +137,7 @@ def save_book_to_database(session, tables, mapdicts=None, **keywords):
     see also :meth:`~pyexcel.Book.save_to_database`
     """
     book = get_book(**keywords)
-    book.save_to_database(session, tables, mapdicts)
+    book.save_to_database(session, tables)
     return None
     
 def save_to_memory(file_type, **keywords):
@@ -168,7 +169,7 @@ def save_book_to_memory(file_type, **keywords):
 
 
 def save_as(out_file=None, file_type=None,
-            dest_session=None, dest_table=None, mapdict=None,
+            dest_session=None, dest_table=None,
             **keywords):
     """Save a sheet of an excel source separately
 
@@ -187,12 +188,12 @@ def save_as(out_file=None, file_type=None,
     elif file_type:
         return save_to_memory(file_type, **keywords)
     elif dest_session and dest_table:
-        return save_to_database(dest_session, dest_table, mapdict, **keywords)
+        return save_to_database(dest_session, dest_table, **keywords)
     return None
 
 
 def save_book_as(out_file=None, file_type=None,
-                 dest_session=None, dest_tables=None, mapdicts=None,
+                 dest_session=None, dest_tables=None,
                  **keywords):
     """Save a copy of an excel source
 
@@ -211,7 +212,7 @@ def save_book_as(out_file=None, file_type=None,
     elif file_type:
         return save_book_to_memory(file_type, **keywords)
     elif dest_session and dest_tables:
-        return save_book_to_database(dest_session, dest_tables, mapdicts, **keywords)
+        return save_book_to_database(dest_session, dest_tables, **keywords)
     return None
 
 
