@@ -56,7 +56,7 @@ from .cookbook import (
     merge_all_to_a_book,
     split_a_book,
     extract_a_sheet_from_a_book)
-from ._compact import BytesIO
+from ._compact import BytesIO, StringIO
 
 
 def get_array(**keywords):
@@ -139,6 +139,13 @@ def save_book_to_database(session, tables, **keywords):
     book = get_book(**keywords)
     book.save_to_database(session, tables)
     return None
+
+
+def _get_io(file_type):
+    if file_type in ['csv', 'tsv']:
+        return StringIO()
+    else:
+        return BytesIO()
     
 def save_to_memory(file_type, **keywords):
     """Save a sheet of an excel source separately to memory
@@ -147,7 +154,7 @@ def save_to_memory(file_type, **keywords):
     :param keywords: see :meth:`~pyexcel.get_sheet`
     :returns: IO stream
     """
-    io = BytesIO()
+    io = _get_io(file_type)
     sheet = get_sheet(**keywords)
     sheet.save_to_memory(file_type, io)
     io.seek(0)
@@ -161,7 +168,7 @@ def save_book_to_memory(file_type, **keywords):
     :param keywords: see :meth:`~pyexcel.get_book`
     :returns: IO stream
     """
-    io = BytesIO()
+    io = _get_io(file_type)
     book = get_book(**keywords)
     book.save_to_memory(file_type, io)
     io.seek(0)
