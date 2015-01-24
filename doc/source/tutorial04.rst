@@ -1,4 +1,4 @@
-Excel Book Manipulations
+Book: Sheet operations
 =========================
 
 Merge excel books

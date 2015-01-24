@@ -1,7 +1,7 @@
 .. _formatting:
 
-Formatting
-================
+Sheet: Formatting
+===================
 
 Previous section has assumed the data is in the format that you want. In reality, you have to manipulate the data types a bit to suit your needs. Hence, formatters comes into the scene. The formatters take effect when the data is read on the fly. They do not affect the persistence of the data in the excel files. A row or column formatter can be applied to mutilpe rows/columns. There are two ways of applying a formatter:
 

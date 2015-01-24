@@ -20,6 +20,9 @@ pyexcel - Let you focus on data, instead of file formats
 .. image:: https://pypip.in/py_versions/pyexcel/badge.png
     :target: https://pypi.python.org/pypi/pyexcel
 
+.. image:: https://pypip.in/implementation/pyexcel-xls/badge.png
+    :target: https://pypi.python.org/pypi/pyexcel-xls
+
 .. image:: http://img.shields.io/gittip/chfw.svg
     :target: https://gratipay.com/chfw/
 

@@ -1,5 +1,5 @@
-Practical usage
-================
+Questions and Answers
+=======================
 
 
 #. `How do I write data to csv file in columns and rows from a list in python? <http://stackoverflow.com/questions/7528801/how-do-i-write-data-to-csv-file-in-columns-and-rows-from-a-list-in-python/27108294#27108294>`_

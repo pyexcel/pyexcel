@@ -1,5 +1,5 @@
 ====================================
-New file formats: .csvz and .tsvz
+File formats: .csvz and .tsvz
 ====================================
 
 .. _csvz:
