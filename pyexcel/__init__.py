@@ -223,4 +223,4 @@ def save_book_as(out_file=None, file_type=None,
     return None
 
 
-__VERSION__ = '0.1.2'
+__VERSION__ = '0.1.3'
