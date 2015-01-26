@@ -99,6 +99,12 @@ Documentation
 
 Documentation is hosted at `read the docs <https://pyexcel.readthedocs.org/en/latest>`_ and `pyhosted <https://pythonhosted.org/pyexcel/>`_
 
+Dependencies
+==============
+
+* pyexcel-io >= 0.0.2
+* texttable >= 0.8.2
+
 Acknowledgement
 ===============
 

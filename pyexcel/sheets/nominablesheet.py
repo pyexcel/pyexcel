@@ -7,6 +7,7 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
+from texttable import Texttable
 from .matrix import Row, Column, Matrix
 from .formattablesheet import FormattableSheet
 from .filterablesheet import FilterableSheet
@@ -24,7 +25,6 @@ from ..iterators import (
     NamedColumnIterator
 )
 from ..presentation import outsource
-from ..texttable import Texttable
 
 
 def names_to_indices(names, series):

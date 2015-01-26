@@ -10,7 +10,7 @@ of lookup.
 """
 import re
 import copy
-from ..texttable import Texttable
+from texttable import Texttable
 from .._compact import is_array_type, PY2
 from ..iterators import (
     HTLBRIterator,
