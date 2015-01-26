@@ -1,5 +1,7 @@
-Excel data
+Introduction
 ================================
+
+This section introduces Excel data models, its representing data structures and provides an overview of formatting, transformation, manipulation supported by **pyexcel**
 
 Data models and data structures
 --------------------------------

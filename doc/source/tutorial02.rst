@@ -1,5 +1,5 @@
-Filtering
-================
+Sheet: Data filtering
+======================
 
 There are two ways of applying a filter:
 
