@@ -1,8 +1,10 @@
 import pyexcel as pe
 import pyexcel.ext.xls
 import os
+from _compact import StringIO
 
-class TestCSV:
+
+class TestBugFixes:
     def test_bug_01(self):
         """
         if first row of csv is shorter than the rest of the rows,
@@ -33,3 +35,16 @@ class TestCSV:
         assert book.sheet_names()[0] == my_sheet_name
         os.unlink(csv_file)
         os.unlink(xls_file)
+
+    def test_issue_06(self):
+        import logging
+        logger = logging.getLogger("test")
+        logger.setLevel(logging.DEBUG)
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.DEBUG)
+        logger.addHandler(ch)
+        output = StringIO()
+        book = pe.Book({'hoja1':[['datos', 'de', 'prueba'],[1, 2, 3]], })
+        book.save_to_memory('csv', output)
+        logger.debug(output.getvalue())
+        assert 1==1
