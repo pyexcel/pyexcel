@@ -1,1 +1,2 @@
 pyexcel-io>=0.0.2
+texttable>=0.8.2
