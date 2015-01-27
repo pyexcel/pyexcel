@@ -15,6 +15,8 @@ from .nominablesheet import NominableSheet
 def load(file, sheetname=None,
          name_columns_by_row=-1,
          name_rows_by_column=-1,
+         colnames=None,
+         rownames=None,
          **keywords):
     """Constructs an instance :class:`Sheet` from a sheet of an excel file
 
@@ -39,7 +41,10 @@ def load(file, sheetname=None,
     return Sheet(sheets[sheetname],
                  sheetname,
                  name_columns_by_row=name_columns_by_row,
-                 name_rows_by_column=name_rows_by_column)
+                 name_rows_by_column=name_rows_by_column,
+                 colnames=colnames,
+                 rownames=rownames
+             )
 
 
 def load_from_memory(file_type,

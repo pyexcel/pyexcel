@@ -30,7 +30,6 @@ class TestNone:
         expected = pe.get_book_dict(x="something")
         assert expected == None
         
-        
 
 class TestGetSheet:
     def test_get_sheet_from_file(self):
@@ -572,3 +571,22 @@ class TestSaveAs:
         assert sheet.to_array() == data
         os.unlink(testfile)
         os.unlink(testfile2)
+
+    def test_save_as_and_append_colnames(self):
+        data = [
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        sheet = pe.Sheet(data)
+        testfile = "testfile.xls"
+        testfile2 = "testfile.xls"
+        sheet.save_as(testfile)
+        pe.save_as(file_name=testfile, out_file=testfile2,
+                   colnames=["X", "Y", "Z"]
+               )
+        array = pe.get_array(file_name=testfile2)
+        assert array == [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
