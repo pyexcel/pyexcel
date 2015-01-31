@@ -60,6 +60,7 @@ pyexcel.Sheet
       ~Sheet.rvertical
       ~Sheet.save_as
       ~Sheet.save_to_database
+      ~Sheet.save_to_django_model
       ~Sheet.save_to_memory
       ~Sheet.set_column_at
       ~Sheet.set_named_column_at

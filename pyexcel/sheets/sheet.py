@@ -164,6 +164,7 @@ def get_sheet(file_name=None, content=None, file_type=None,
     loading from records       records
     loading from array         array
     ========================== =========================================
+
     see also :ref:`a-list-of-data-structures`
     """
     sheet = None
