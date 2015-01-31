@@ -15,6 +15,7 @@ from .sheet import (
     load_from_records,
     load_from_memory,
     load_from_sql,
+    load_from_django_model,
     get_sheet,
     Reader,
     SeriesReader,

@@ -10,7 +10,7 @@
 import os
 import uuid
 from .iterators import SheetIterator
-from .sheets import Sheet, load_from_sql
+from .sheets import Sheet, load_from_sql, load_from_django_model
 from .utils import to_dict
 from .io import load_file
 from ._compact import OrderedDict
@@ -53,9 +53,22 @@ def load_book_from_sql(session, tables):
         book += sheet
     return book
 
+def load_book_from_django_models(models):
+    """Get an instance of :class:`Book` from a list of tables
+
+    :param session: sqlalchemy session
+    :param tables: a list of database tables
+    """
+    book = Book()
+    for model in models:
+        sheet = load_from_django_model(model)
+        book += sheet
+    return book
+
 
 def get_book(file_name=None, content=None, file_type=None,
              session=None, tables=None,
+             models=None,
              bookdict=None, **keywords):
     """Get an instance of :class:`Book` from an excel source
 
@@ -63,7 +76,8 @@ def get_book(file_name=None, content=None, file_type=None,
     :param content: the file content
     :param file_type: the file type in *content*
     :param session: database session
-    :param table: database table
+    :param tables: a list of database table
+    :param models: a list of django models
     :param bookdict: a dictionary of two dimensional arrays
     see also :ref:`a-list-of-data-structures`
     """
@@ -74,6 +88,8 @@ def get_book(file_name=None, content=None, file_type=None,
         book = load_book_from_memory(file_type, content, **keywords)
     elif session and tables:
         book = load_book_from_sql(session, tables)
+    elif models:
+        book = load_book_from_django_models(models)
     elif bookdict:
         book = Book(bookdict)
     return book
@@ -257,6 +273,19 @@ class Book(object):
         writer = BookWriter((file_type, stream))
         writer.write_book_reader(self)
         writer.close()
+
+    def save_to_django_models(self, models):
+        """Save to database table through django model
+        
+        :param models: a list of database models, that is accepted by :meth:`Sheet.save_to_django_model`. The sequence of tables matters when there is dependencies
+                       in between the tables. For example, **Car** is made by **Car Maker**. **Car Maker** table should be specified before **Car** table.
+        """
+        for i in range(0, self.number_of_sheets()):
+            if i >= len(models):
+                print("Warning: the number of sheets is greater than the number of tables")
+                continue
+            sheet = self.sheet_by_index(i)
+            sheet.save_to_django_model(models[i])
 
     def save_to_database(self, session, tables):
         """Save data in sheets to database tables

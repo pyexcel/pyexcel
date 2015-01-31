@@ -51,7 +51,7 @@ class TestGetSheet:
             [1, 2, 3],
             [4, 5, 6]
         ]
-        content = pe.save_as(file_type="xls", array=data)
+        content = pe.save_as(dest_file_type="xls", array=data)
         sheet = pe.get_sheet(content=content.getvalue(), file_type="xls")
         assert sheet.to_array() == data
         
@@ -112,7 +112,7 @@ class TestGetArray:
             [1, 2, 3],
             [4, 5, 6]
         ]
-        content = pe.save_as(file_type="xls", array=data)
+        content = pe.save_as(dest_file_type="xls", array=data)
         array = pe.get_array(content=content.getvalue(), file_type="xls")
         assert array == [
             ["X", "Y", "Z"],
@@ -180,7 +180,7 @@ class TestGetDict:
             [1, 2, 3],
             [4, 5, 6]
         ]
-        content = pe.save_as(file_type="xls", array=data)
+        content = pe.save_as(dest_file_type="xls", array=data)
         adict = pe.get_dict(content=content.getvalue(), file_type="xls")
         assert adict == {
             "X": [1, 4],
@@ -247,7 +247,7 @@ class TestGetRecords:
             [1, 2, 3],
             [4, 5, 6]
         ]
-        content = pe.save_as(file_type="xls", array=data)
+        content = pe.save_as(dest_file_type="xls", array=data)
         records = pe.get_records(content=content.getvalue(), file_type="xls")
         assert records == [
             {"X": 1, "Y": 2, "Z": 3},
@@ -501,7 +501,7 @@ class TestSQL:
         os.unlink(test_file)
 
     def test_save_book_to_memory_from_sql(self):
-        test_file = pe.save_book_as(file_type="xls",
+        test_file = pe.save_book_as(dest_file_type="xls",
                                     session=Session(),
                                     tables=[Signature, Signature2])
         book_dict = pe.get_book_dict(

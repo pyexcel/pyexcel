@@ -62,20 +62,10 @@ def load_from_memory(file_type,
     return load((file_type, file_content), sheetname, **keywords)
 
 
-def load_from_sql(session, table):
-    """Constructs an instance :class:`Sheet` from database table
-
-    :param session: SQLAlchemy session object
-    :param table: SQLAlchemy database table
-    :returns: :class:`Sheet`
-    """
+def load_from_query_sets(column_names, querysets, sheet_name=None):
     array = []
-    sheet_name = getattr(table, '__tablename__', None)
-    objects = session.query(table).all()
-    column_names = sorted([column for column in objects[0].__dict__
-                           if column != '_sa_instance_state'])
     array.append(column_names)
-    for o in objects:
+    for o in querysets:
         new_array = []
         for column in column_names:
             value = getattr(o, column)
@@ -84,6 +74,32 @@ def load_from_sql(session, table):
             new_array.append(value)
         array.append(new_array)
     return Sheet(array, name=sheet_name, name_columns_by_row=0)
+
+
+def load_from_sql(session, table):
+    """Constructs an instance :class:`Sheet` from database table
+
+    :param session: SQLAlchemy session object
+    :param table: SQLAlchemy database table
+    :returns: :class:`Sheet`
+    """
+    sheet_name = getattr(table, '__tablename__', None)
+    objects = session.query(table).all()
+    column_names = sorted([column for column in objects[0].__dict__
+                           if column != '_sa_instance_state'])
+    return load_from_query_sets(column_names, objects, sheet_name)
+
+
+def load_from_django_model(model):
+    """Constructs an instance :class:`Sheet` from a django model
+
+    :param model: Django model
+    :returns: :class:`Sheet`
+    """
+    sheet_name = model._meta.model_name
+    objects = model.objects.all()
+    column_names = sorted([field.attname for field in model._meta.concrete_fields])
+    return load_from_query_sets(column_names, objects, sheet_name)
 
 
 def load_from_dict(the_dict, with_keys=True):
@@ -116,6 +132,7 @@ def load_from_records(records):
 
 def get_sheet(file_name=None, content=None, file_type=None,
               session=None, table=None,
+              model=None,
               adict=None, with_keys=True,
               records=None,
               array=None,
@@ -128,6 +145,7 @@ def get_sheet(file_name=None, content=None, file_type=None,
     :param file_type: the file type in *content*
     :param session: database session
     :param table: database table
+    :param model: a django model
     :param adict: a dictionary of one dimensional arrays
     :param with_keys: load with previous dictionary's keys, default is True
     :param records: a list of dictionaries that have the same keys
@@ -137,14 +155,15 @@ def get_sheet(file_name=None, content=None, file_type=None,
 
     Not all parameters are needed. Here is a table
 
-    ======================== =========================================
-    loading from file        file_name, sheet_name, keywords
-    loading from memory      file_type, content, sheet_name, keywords
-    loading from sql         session ,table
-    loading from dictionary  adict, with_keys
-    loading from records     records
-    loading from array       array
-    ======================== =========================================
+    ========================== =========================================
+    loading from file          file_name, sheet_name, keywords
+    loading from memory        file_type, content, sheet_name, keywords
+    loading from sql           session ,table
+    loading from sql in django django model
+    loading from dictionary    adict, with_keys
+    loading from records       records
+    loading from array         array
+    ========================== =========================================
     see also :ref:`a-list-of-data-structures`
     """
     sheet = None
@@ -154,6 +173,8 @@ def get_sheet(file_name=None, content=None, file_type=None,
         sheet = load_from_memory(file_type, content, sheet_name, **keywords)
     elif session and table:
         sheet = load_from_sql(session, table)
+    elif model:
+        sheet = load_from_django_model(model)
     elif adict:
         sheet = load_from_dict(adict, with_keys)
     elif records:
@@ -197,11 +218,60 @@ class Sheet(NominableSheet):
         """
         self.save_as((file_type, stream), **keywords)
 
+
+    def save_to_django_model(self, model, batch_size=None):
+        """Save to database table through django model
+        
+        :param table: a database model or a tuple of (model, column_names, name_columns_by_row, name_rows_by_column).
+                      table_init_func is needed when the supplied table had a custom initialization function.
+                      mapdict is needed when the column headers of your sheet does not match the column names of the supplied table.
+                      name_column_by_row indicates which row has column headers and by default it is the first row of the supplied sheet
+        """
+        mymodel = None
+        column_names = None
+        data_wrapper = None
+        name_columns_by_row = -1
+        name_rows_by_column = -1
+        objs = None
+
+        if isinstance(model, tuple):
+            if len(model) == 1:
+                mymodel = model[0]
+            elif len(model) == 2:
+                mymodel, column_names = model
+            elif len(model) == 3:
+                mymodel, column_names, data_wrapper = model
+            elif len(model) == 4:
+                mymodel, column_names, data_wrapper, name_columns_by_row = model                
+            else:
+                mymodel, column_names, data_wrapper, name_columns_by_row, name_rows_by_column, = model
+        else:
+            mymodel = model
+
+        if data_wrapper is None:
+            data_wrapper = lambda row: row
+        if name_columns_by_row != -1:
+            self.name_columns_by_row(name_columns_by_row)
+        if name_rows_by_column != -1:
+            self.name_rows_by_column(name_rows_by_column)
+        
+        if len(self.colnames) > 0:
+            if column_names is None:
+                column_names = self.colnames
+        elif len(self.rownames) > 0:
+            if column_names is None:
+                column_names = self.rownames
+        if column_names is not None:
+            # by default, assume column_names for rows.
+            objs = [ mymodel(**dict(zip(column_names, data_wrapper(row)))) for row in self.rows()]
+            mymodel.objects.bulk_create(objs, batch_size=batch_size)
+      
+
     def save_to_database(self, session, table):
         """Save data in sheet to database table
 
         :param session: database session
-        :param table: a database table or a tuple of (table, table_init_func, mapdict, name_columns_by_row).
+        :param table: a database table or a tuple of (table, table_init_func, mapdict, name_columns_by_row, name_rows_by_column).
                       table_init_func is needed when the supplied table had a custom initialization function.
                       mapdict is needed when the column headers of your sheet does not match the column names of the supplied table.
                       name_column_by_row indicates which row has column headers and by default it is the first row of the supplied sheet
