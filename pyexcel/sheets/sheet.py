@@ -230,6 +230,7 @@ class Sheet(NominableSheet):
         """
         mymodel = None
         column_names = None
+        mapdict = None
         data_wrapper = None
         name_columns_by_row = -1
         name_rows_by_column = -1
@@ -239,13 +240,13 @@ class Sheet(NominableSheet):
             if len(model) == 1:
                 mymodel = model[0]
             elif len(model) == 2:
-                mymodel, column_names = model
+                mymodel, mapdict = model
             elif len(model) == 3:
-                mymodel, column_names, data_wrapper = model
+                mymodel, mapdict, data_wrapper = model
             elif len(model) == 4:
-                mymodel, column_names, data_wrapper, name_columns_by_row = model                
+                mymodel, mapdict, data_wrapper, name_columns_by_row = model
             else:
-                mymodel, column_names, data_wrapper, name_columns_by_row, name_rows_by_column, = model
+                mymodel, mapdict, data_wrapper, name_columns_by_row, name_rows_by_column, = model
         else:
             mymodel = model
 
@@ -255,17 +256,26 @@ class Sheet(NominableSheet):
             self.name_columns_by_row(name_columns_by_row)
         if name_rows_by_column != -1:
             self.name_rows_by_column(name_rows_by_column)
-        
-        if len(self.colnames) > 0:
-            if column_names is None:
-                column_names = self.colnames
-        elif len(self.rownames) > 0:
-            if column_names is None:
+
+        if isinstance(mapdict, list):
+            column_names = mapdict
+        elif isinstance(mapdict, dict):
+            if len(self.colnames) > 0:
+                column_names = [mapdict[name] for name in self.colnames]
+            elif len(self.rownames) > 0:
+                column_names = [mapdict[name] for name in self.rownames]
+        elif mapdict is None:
+            if len(self.colnames) > 0:
+                column_names = self.columnnames
+            elif len(self.rownames) > 0:
                 column_names = self.rownames
+
         if column_names is not None:
             # by default, assume column_names for rows.
             objs = [ mymodel(**dict(zip(column_names, data_wrapper(row)))) for row in self.rows()]
             mymodel.objects.bulk_create(objs, batch_size=batch_size)
+        else:
+            print("Warning: no actions taken because of no column names")
       
 
     def save_to_database(self, session, table):
