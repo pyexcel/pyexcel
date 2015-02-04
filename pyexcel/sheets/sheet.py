@@ -246,7 +246,7 @@ class Sheet(NominableSheet):
             elif len(model) == 4:
                 mymodel, mapdict, data_wrapper, name_columns_by_row = model
             else:
-                mymodel, mapdict, data_wrapper, name_columns_by_row, name_rows_by_column, = model
+                mymodel, mapdict, data_wrapper, name_columns_by_row, name_rows_by_column = model
         else:
             mymodel = model
 
@@ -275,7 +275,7 @@ class Sheet(NominableSheet):
             objs = [ mymodel(**dict(zip(column_names, data_wrapper(row)))) for row in self.rows()]
             mymodel.objects.bulk_create(objs, batch_size=batch_size)
         else:
-            print("Warning: no actions taken because of no column names")
+            raise NameError("No column names or row names found!")
       
 
     def save_to_database(self, session, table):
