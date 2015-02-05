@@ -142,7 +142,7 @@ def save_book_to_database(session, tables, **keywords):
     return None
 
 
-def save_to_django_model(dest_model,  **keywords):
+def save_to_django_model(dest_model, **keywords):
     """Save a sheet to database
     
     :param session: database session

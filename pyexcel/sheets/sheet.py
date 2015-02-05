@@ -266,7 +266,7 @@ class Sheet(NominableSheet):
                 column_names = [mapdict[name] for name in self.rownames]
         elif mapdict is None:
             if len(self.colnames) > 0:
-                column_names = self.columnnames
+                column_names = self.colnames
             elif len(self.rownames) > 0:
                 column_names = self.rownames
 
