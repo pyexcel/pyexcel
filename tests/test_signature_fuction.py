@@ -3,6 +3,7 @@ import pyexcel.ext.xls
 import os
 from db import Session, Base, Signature, Signature2, engine
 from _compact import OrderedDict
+from nose.tools import raises
 
 
 class TestNone:
@@ -590,3 +591,11 @@ class TestSaveAs:
             [1, 2, 3],
             [4, 5, 6]
         ]
+
+    @raises(ValueError)
+    def test_wrong_parameters(self):
+        pe.save_as(something="else")
+
+    @raises(ValueError)
+    def test_wrong_parameters_book(self):
+        pe.save_book_as(something="else")
