@@ -85,9 +85,12 @@ def load_from_sql(session, table):
     """
     sheet_name = getattr(table, '__tablename__', None)
     objects = session.query(table).all()
-    column_names = sorted([column for column in objects[0].__dict__
-                           if column != '_sa_instance_state'])
-    return load_from_query_sets(column_names, objects, sheet_name)
+    if len(objects) == 0:
+        return None
+    else:
+        column_names = sorted([column for column in objects[0].__dict__
+                               if column != '_sa_instance_state'])
+        return load_from_query_sets(column_names, objects, sheet_name)
 
 
 def load_from_django_model(model):
