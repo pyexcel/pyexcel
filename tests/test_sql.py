@@ -33,3 +33,12 @@ Sheet Name: pyexcel
 +------------+----+-------+--------+""").strip('\n')
         print(str(sheet))
         assert str(sheet) == content
+
+class TestEmptyTable:
+    def setUp(self):
+        Base.metadata.drop_all(engine)
+        Base.metadata.create_all(engine)
+
+    def test_empty_table(self):
+        sheet = pe.load_from_sql(Session(), Pyexcel)
+        assert sheet == None

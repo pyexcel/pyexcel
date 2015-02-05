@@ -133,6 +133,11 @@ class TestBook:
         book.save_to_django_models([(model, None, None, 0)])
         assert model.objects.objs == self.result
 
+    def test_module_save_to_models(self):
+        model=FakeDjangoModel()
+        pe.save_book_as(dest_models=[(model, None, None, 0)], bookdict=self.content)
+        assert model.objects.objs == self.result
+
     def test_load_book_from_django_model(self):
         model=FakeDjangoModel()
         book = pe.Book(self.content)
