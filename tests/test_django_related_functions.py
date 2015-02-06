@@ -103,7 +103,6 @@ class TestHorizontalSheet:
         mapdict = ["X", "Y", "Z"]
         model=FakeDjangoModel()
         pe.save_as(array=data2, dest_model=(model, mapdict, None, -1, 0))
-        print model.objects.objs
         assert model.objects.objs == self.result
 
     def test_mapping_dict(self):
@@ -119,7 +118,6 @@ class TestHorizontalSheet:
         }
         model=FakeDjangoModel()
         pe.save_as(array=data2, dest_model=(model, mapdict, None, -1, 0))
-        print model.objects.objs
         assert model.objects.objs == self.result
 
 
@@ -187,7 +185,6 @@ class TestSheet:
         mapdict = ["X", "Y", "Z"]
         model=FakeDjangoModel()
         pe.save_as(array=data2, dest_model=(model, mapdict, None, 0))
-        print model.objects.objs
         assert model.objects.objs == self.result
 
     def test_mapping_dict(self):
@@ -203,7 +200,6 @@ class TestSheet:
         }
         model=FakeDjangoModel()
         pe.save_as(array=data2, dest_model=(model, mapdict, None, 0))
-        print model.objects.objs
         assert model.objects.objs == self.result
 
 
