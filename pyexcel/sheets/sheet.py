@@ -238,6 +238,7 @@ class Sheet(NominableSheet):
         name_columns_by_row = -1
         name_rows_by_column = -1
         objs = None
+        using_rows = False
 
         if isinstance(model, tuple):
             if len(model) == 1:
@@ -261,21 +262,28 @@ class Sheet(NominableSheet):
             self.name_rows_by_column(name_rows_by_column)
 
         if isinstance(mapdict, list):
+            if len(self.colnames) == 0 and len(self.rownames) > 0:
+                using_rows = True
             column_names = mapdict
         elif isinstance(mapdict, dict):
             if len(self.colnames) > 0:
                 column_names = [mapdict[name] for name in self.colnames]
             elif len(self.rownames) > 0:
                 column_names = [mapdict[name] for name in self.rownames]
+                using_rows = True
         elif mapdict is None:
             if len(self.colnames) > 0:
                 column_names = self.colnames
             elif len(self.rownames) > 0:
                 column_names = self.rownames
+                using_rows = True
 
         if column_names is not None:
             # by default, assume column_names for rows.
-            objs = [ mymodel(**dict(zip(column_names, data_wrapper(row)))) for row in self.rows()]
+            if using_rows:
+                objs = [ mymodel(**dict(zip(column_names, data_wrapper(row)))) for row in self.columns()]
+            else:
+                objs = [ mymodel(**dict(zip(column_names, data_wrapper(row)))) for row in self.rows()]
             mymodel.objects.bulk_create(objs, batch_size=batch_size)
         else:
             raise NameError("No column names or row names found!")
