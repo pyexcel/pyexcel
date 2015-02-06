@@ -307,7 +307,18 @@ class TestSavingToDatabase:
         result = pe.get_dict(session=self.session, table=Signature)
         assert adict == result
 
-    def test_save_a_dict2(self):
+    def test_save_a_dict3(self):
+        adict = {
+            "X": [1, 4],
+            "Y": [2, 5],
+            "Z": [3, 6]
+        }
+        sheet = pe.get_sheet(adict=adict)
+        sheet.save_to_database(self.session, Signature)
+        result = pe.get_dict(session=self.session, table=(Signature))
+        assert adict == result
+
+    def test_save_an_array(self):
         data = [
             [1, 4, 'X'],
             [2, 5, 'Y'],
@@ -323,7 +334,7 @@ class TestSavingToDatabase:
             "Z": [3, 6]
         }
 
-    def test_save_a_dict3(self):
+    def test_save_an_array2(self):
         data = [
             [1, 4, 'A'],
             [2, 5, 'B'],
@@ -338,6 +349,28 @@ class TestSavingToDatabase:
         }
         sheet.save_to_database(self.session, (Signature, None, mapdict))
         result = pe.get_dict(session=self.session, table=Signature)
+        assert result == {
+            "X": [1, 4],
+            "Y": [2, 5],
+            "Z": [3, 6]
+        }
+        
+    def test_save_an_array3(self):
+        data = [
+            [1, 4, 'A'],
+            [2, 5, 'B'],
+            [3, 6, 'C']
+        ]
+        sheet = pe.Sheet(data)
+        sheet.name_rows_by_column(2)
+        mapdict = [
+            'X',
+            'Y',
+            'Z'
+        ]
+        sheet.save_to_database(self.session, (Signature, None, mapdict))
+        result = pe.get_dict(session=self.session, table=Signature)
+        print(result)
         assert result == {
             "X": [1, 4],
             "Y": [2, 5],

@@ -320,16 +320,30 @@ class Sheet(NominableSheet):
             self.name_columns_by_row(name_columns_by_row)
         if name_rows_by_column != -1:
             self.name_rows_by_column(name_rows_by_column)
-        if len(self.colnames) > 0:
-            self._save_to_database(session, mytable, table_init_func, mapdict,
-                                   self.named_rows(), self.colnames)
-        elif len(self.rownames) > 0:
-            self._save_to_database(session, mytable, table_init_func, mapdict,
-                                   self.named_columns(), self.rownames)
+
+        if isinstance(mapdict, dict):
+            if len(self.colnames) > 0:
+                self._save_to_database(session, mytable, table_init_func, mapdict,
+                                       self.named_rows(), self.colnames)
+            elif len(self.rownames) > 0:
+                self._save_to_database(session, mytable, table_init_func, mapdict,
+                                       self.named_columns(), self.rownames)
+            else:
+                raise ValueError("No column names!")
+        elif isinstance(mapdict, list):
+            self._save_to_database(session, mytable, table_init_func, None,
+                                   self.to_records(mapdict), mapdict)
         else:
-            self.name_columns_by_row(0)
-            self._save_to_database(session, mytable, table_init_func, mapdict,
-                                   self.named_rows(), self.colnames)
+            if len(self.colnames) > 0:
+                self._save_to_database(session, mytable, table_init_func, mapdict,
+                                       self.named_rows(), self.colnames)
+            elif len(self.rownames) > 0:
+                self._save_to_database(session, mytable, table_init_func, mapdict,
+                                       self.named_columns(), self.rownames)
+            else:
+                self.name_columns_by_row(0)
+                self._save_to_database(session, mytable, table_init_func, mapdict,
+                                       self.named_rows(), self.colnames)
 
     def _save_to_database(self, session, table, table_init_func,
                           mapdict, iterator, keys):
