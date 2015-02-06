@@ -54,7 +54,6 @@ class TestExceptions:
         ]
         sheet = pe.Sheet(data)
         sheet.save_to_django_model(model)
-        assert model.objects.objs == data
 
     @raises(NameError)
     def test_module_save_to_django_model(self):
@@ -65,7 +64,6 @@ class TestExceptions:
             [4, 5, 6]
         ]
         pe.save_as(array=data, dest_model=model)
-        assert model.objects.objs == data
 
     @raises(NameError)
     def test_book_save_to_models(self):
@@ -74,7 +72,6 @@ class TestExceptions:
         content.update({"Sheet1": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
         book = pe.Book(content)
         book.save_to_django_models([model])
-        assert model.objects.objs == self.result
 
 
 class TestHorizontalSheet:
@@ -137,6 +134,24 @@ class TestSheet:
         model=FakeDjangoModel()
         sheet = pe.Sheet(self.data, name_columns_by_row=0)
         sheet.save_to_django_model(model)
+        assert model.objects.objs == self.result
+
+    def test_sheet_save_to_django_model2(self):
+        model=FakeDjangoModel()
+        sheet = pe.Sheet(self.data, name_columns_by_row=0)
+        sheet.save_to_django_model((model,))
+        assert model.objects.objs == self.result
+
+    def test_sheet_save_to_django_model3(self):
+        model=FakeDjangoModel()
+        sheet = pe.Sheet(self.data, name_columns_by_row=0)
+        sheet.save_to_django_model((model,None))
+        assert model.objects.objs == self.result
+
+    def test_sheet_save_to_django_model4(self):
+        model=FakeDjangoModel()
+        sheet = pe.Sheet(self.data, name_columns_by_row=0)
+        sheet.save_to_django_model((model,None,None))
         assert model.objects.objs == self.result
 
     def test_sheet_save_to_django_model_2(self):
