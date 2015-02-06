@@ -77,6 +77,52 @@ class TestExceptions:
         assert model.objects.objs == self.result
 
 
+class TestHorizontalSheet:
+    def setUp(self):
+        self.data = [
+            ["X", 1, 4],
+            ["Y", 2, 5],
+            ["Z", 3, 6]
+        ]
+        self.result = [
+            {'Y': 2, 'X': 1, 'Z': 3},
+            {'Y': 5, 'X': 4, 'Z': 6}
+        ]
+        
+    def test_model_save_to_django_model(self):
+        model=FakeDjangoModel()
+        pe.save_as(array=self.data, dest_model=(model, None, None, -1, 0))
+        assert model.objects.objs == self.result
+
+    def test_mapping_array(self):
+        data2 = [
+            ["A", 1, 4],
+            ["B", 2, 5],
+            ["C", 3, 6]
+        ]
+        mapdict = ["X", "Y", "Z"]
+        model=FakeDjangoModel()
+        pe.save_as(array=data2, dest_model=(model, mapdict, None, -1, 0))
+        print model.objects.objs
+        assert model.objects.objs == self.result
+
+    def test_mapping_dict(self):
+        data2 = [
+            ["A", 1, 4],
+            ["B", 2, 5],
+            ["C", 3, 6]
+        ]
+        mapdict = {
+            "C": "Z",
+            "A": "X",
+            "B": "Y"
+        }
+        model=FakeDjangoModel()
+        pe.save_as(array=data2, dest_model=(model, mapdict, None, -1, 0))
+        print model.objects.objs
+        assert model.objects.objs == self.result
+
+
 class TestSheet:
     def setUp(self):
         self.data  = [
@@ -100,6 +146,18 @@ class TestSheet:
         sheet = pe.Sheet(self.data)
         sheet.save_to_django_model((model, None, None, 0))
         assert model.objects.objs == self.result
+        
+    def test_sheet_save_to_django_model_3(self):
+        model=FakeDjangoModel()
+        sheet = pe.Sheet(self.data)
+        def wrapper(row):
+            row[0] = row[0] + 1
+            return row
+        sheet.save_to_django_model((model, None, wrapper, 0))
+        assert model.objects.objs == [
+            {'Y': 2, 'X': 2, 'Z': 3},
+            {'Y': 5, 'X': 5, 'Z': 6}
+        ]
 
     def test_model_save_to_django_model(self):
         model=FakeDjangoModel()
@@ -119,6 +177,34 @@ class TestSheet:
         model._meta.update(["X", "Y", "Z"])
         sheet2 = pe.get_sheet(model=model)
         assert sheet2.to_records() == sheet.to_records()
+
+    def test_mapping_array(self):
+        data2 = [
+            ["A", "B", "C"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        mapdict = ["X", "Y", "Z"]
+        model=FakeDjangoModel()
+        pe.save_as(array=data2, dest_model=(model, mapdict, None, 0))
+        print model.objects.objs
+        assert model.objects.objs == self.result
+
+    def test_mapping_dict(self):
+        data2 = [
+            ["A", "B", "C"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        mapdict = {
+            "C": "Z",
+            "A": "X",
+            "B": "Y"
+        }
+        model=FakeDjangoModel()
+        pe.save_as(array=data2, dest_model=(model, mapdict, None, 0))
+        print model.objects.objs
+        assert model.objects.objs == self.result
 
 
 class TestBook:
@@ -146,3 +232,10 @@ class TestBook:
         model._meta.update(["X", "Y", "Z"])
         book2 = pe.get_book(models=[model])
         assert book2[0].to_array() == book[0].to_array()
+        
+    def test_more_sheets_than__models(self):
+        self.content.update({"IgnoreMe":[[1,2,3]]})
+        model=FakeDjangoModel()
+        pe.save_book_as(dest_models=[(model, None, None, 0)], bookdict=self.content)
+        assert model.objects.objs == self.result
+

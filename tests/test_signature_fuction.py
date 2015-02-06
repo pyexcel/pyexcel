@@ -379,7 +379,9 @@ class TestSavingToDatabase:
             "sheet1": data1
         }
         book = pe.Book(sheet_dict)
-        book.save_to_database(self.session, [(Signature, None, None, -1, 2), (Signature2, None, None, -1, 2)])
+        book.save_to_database(self.session,
+                              [(Signature, None, None, -1, 2),
+                               (Signature2, None, None, -1, 2)])
         result = pe.get_dict(session=self.session, table=Signature)
         assert result == {
             "X": [1, 4],

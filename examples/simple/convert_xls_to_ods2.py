@@ -1,6 +1,6 @@
 """
 convert_xls_to_ods2.py
-:copyright: (c) 2014 by C. W.
+:copyright: (c) 2015 by C. W.
 :license: GPL v3
 
 This shows how to use **pyexcel.save_as** and **BookWriter** class to convert
