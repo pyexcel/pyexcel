@@ -16,12 +16,12 @@
 
     This is used by `pyexcel.ext`.
 
-    :copyright: (c) 2014 by Armin Ronacher.
+    :copyright: (c) 2014-2015 by Armin Ronacher.
     :license: BSD, see LICENSE for more details
 """
 """
 LICENSE
-Copyright (c) 2014 by Armin Ronacher and contributors. See AUTHORS
+Copyright (c) 2014-2015 by Armin Ronacher and contributors. See AUTHORS
 for more details.
 Some rights reserved.
 Redistribution and use in source and binary forms of the software as well

@@ -4,7 +4,7 @@
 
     Building on top of formattablesheet, adding filtering feature
 
-    :copyright: (c) 2014 by C. W.
+    :copyright: (c) 2014-2015 by C. W.
     :license: GPL v3
 """
 import copy

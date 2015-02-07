@@ -4,7 +4,7 @@
 
     Uniform interface for describing a excel book
 
-    :copyright: (c) 2014 by C. W.
+    :copyright: (c) 2014-2015 by C. W.
     :license: GPL v3
 """
 import os

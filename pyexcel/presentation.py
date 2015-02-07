@@ -4,7 +4,7 @@
 
     Provide readable string prestation
 
-    :copyright: (c) 2014 by C. W.
+    :copyright: (c) 2014-2015 by C. W.
     :license: GPL v3
 """
 """External presentation plugin register"""

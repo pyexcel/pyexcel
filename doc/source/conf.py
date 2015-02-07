@@ -277,7 +277,7 @@ texinfo_documents = [
 epub_title = u'pyexcel'
 epub_author = u'C. W.'
 epub_publisher = u'C. W.'
-epub_copyright = u'2014, C. W.'
+epub_copyright = u'2014-2015, C. W.'
 
 # The language of the text. It defaults to the language option
 # or en if the language is not set.

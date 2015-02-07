@@ -6,7 +6,7 @@
     write data in different excel formats: csv, ods, xls, xlsx
     and xlsm. It does not support styling, charts.
 
-    :copyright: (c) 2014 by C. W.
+    :copyright: (c) 2014-2015 by C. W.
     :license: GPL v3
 """
 from .book import (

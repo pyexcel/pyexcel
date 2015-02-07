@@ -5,7 +5,7 @@
     Matrix, a data model that accepts any types, spread sheet style
 of lookup.
 
-    :copyright: (c) 2014 by C. W.
+    :copyright: (c) 2014-2015 by C. W.
     :license: GPL v3
 """
 import re

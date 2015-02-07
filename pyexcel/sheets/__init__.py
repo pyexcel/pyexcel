@@ -4,7 +4,7 @@
 
     Core functionality of pyexcel, data model
 
-    :copyright: (c) 2014 by C. W.
+    :copyright: (c) 2014-2015 by C. W.
     :license: GPL v3
 """
 from .sheet import (
