@@ -56,5 +56,4 @@ class TestBugFixes:
         sheet2 = pe.Sheet(sheet=[[1,2]])
         merged += sheet1
         merged += sheet2
-        print merged[1].name
         assert merged[1].name == "pyexcel_1"
