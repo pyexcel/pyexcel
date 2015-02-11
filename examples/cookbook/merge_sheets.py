@@ -8,9 +8,11 @@ a directory into one excel book
 
 """
 import pyexcel as pe
+import pyexcel.ext.xls
 import glob
+import os
 
 merged = pe.Book()
-for file in glob.glob("*.csv"):
+for file in glob.glob(os.path.join("scattered-csv-files","*.csv")):
     merged += pe.load(file)
-merged.save_as("merged.ods")
+merged.save_as("merged.xls")
