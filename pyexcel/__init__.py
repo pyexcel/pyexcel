@@ -6,7 +6,7 @@
     write data in different excel formats: csv, ods, xls, xlsx
     and xlsm. It does not support styling, charts.
 
-    :copyright: (c) 2014 by C. W.
+    :copyright: (c) 2014-2015 by C. W.
     :license: GPL v3
 """
 from .book import (
@@ -227,7 +227,7 @@ def save_as(out_file=None, dest_file_type=None,
         return save_to_database(dest_session, dest_table, **keywords)
     elif dest_model:
         return save_to_django_model(dest_model, **keywords)
-    return ValueError("No valid parameters found!")
+    raise ValueError("No valid parameters found!")
 
 
 def save_book_as(out_file=None, dest_file_type=None,

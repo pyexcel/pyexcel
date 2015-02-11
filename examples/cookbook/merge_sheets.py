@@ -1,6 +1,6 @@
 """
 pyexcel_server.py
-:copyright: (c) 2014 by C. W.
+:copyright: (c) 2014-2015 by C. W.
 :license: GPL v3
 
 This code snippet shows you how to merge files that are scattered in

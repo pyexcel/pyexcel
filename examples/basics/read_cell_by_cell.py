@@ -1,6 +1,6 @@
 """
 read_cell_by_cell.py
-:copyright: (c) 2014 by C. W.
+:copyright: (c) 2014-2015 by C. W.
 :license: GPL v3
 
 This shows how to use **Reader** class to go through a single

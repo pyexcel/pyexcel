@@ -53,7 +53,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'pyexcel'
-copyright = u'2014, C. W.'
+copyright = u'2014-2015, C. W.'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -277,7 +277,7 @@ texinfo_documents = [
 epub_title = u'pyexcel'
 epub_author = u'C. W.'
 epub_publisher = u'C. W.'
-epub_copyright = u'2014, C. W.'
+epub_copyright = u'2014-2015, C. W.'
 
 # The language of the text. It defaults to the language option
 # or en if the language is not set.

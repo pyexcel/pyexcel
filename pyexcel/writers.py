@@ -4,7 +4,7 @@
 
     Uniform interface for writing different excel file formats
 
-    :copyright: (c) 2014 by C. W.
+    :copyright: (c) 2014-2015 by C. W.
     :license: GPL v3
 """
 from .utils import to_array, from_records, dict_to_array
