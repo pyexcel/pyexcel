@@ -10,6 +10,12 @@
 from .sheets import NominableSheet, Sheet
 from ._compact import OrderedDict, PY2
 
+LOCAL_UUID = 0
+
+def local_uuid():
+    global LOCAL_UUID
+    LOCAL_UUID = LOCAL_UUID + 1
+    return LOCAL_UUID
 
 def to_array(o):
     """convert a reader iterator to an array"""

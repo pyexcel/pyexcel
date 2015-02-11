@@ -8,10 +8,9 @@
     :license: GPL v3
 """
 import os
-import uuid
 from .iterators import SheetIterator
 from .sheets import Sheet, load_from_sql, load_from_django_model
-from .utils import to_dict
+from .utils import to_dict, local_uuid
 from .io import load_file
 from ._compact import OrderedDict
 from .presentation import outsource
@@ -208,13 +207,13 @@ class Book(object):
                 if len(b.keys()) == 1:
                     new_key = other.filename
                 if new_key in content:
-                    uid = uuid.uuid4().hex
+                    uid = local_uuid()
                     new_key = "%s_%s" % (l, uid)
                 content[new_key] = b[l]
         elif isinstance(other, Sheet):
             new_key = other.name
             if new_key in content:
-                uid = uuid.uuid4().hex
+                uid = local_uuid()
                 new_key = "%s_%s" % (other.name, uid)
             content[new_key] = other.to_array()
         else:
@@ -239,14 +238,14 @@ class Book(object):
                 if len(names) == 1:
                     new_key = other.filename
                 if new_key in self.name_array:
-                    uid = uuid.uuid4().hex
+                    uid = local_uuid()
                     new_key = "%s_%s" % (name, uid)
                 self.sheets[new_key] = self.get_sheet(other[name].to_array(),
                                                       new_key)
         elif isinstance(other, Sheet):
             new_key = other.name
             if new_key in self.name_array:
-                uid = uuid.uuid4().hex
+                uid = local_uuid()
                 new_key = "%s_%s" % (other.name, uid)
             self.sheets[new_key] = self.get_sheet(other.to_array(), new_key)
         else:

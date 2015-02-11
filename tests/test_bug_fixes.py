@@ -48,3 +48,13 @@ class TestBugFixes:
         book.save_to_memory('csv', output)
         logger.debug(output.getvalue())
         assert 1==1
+
+    def test_issue_09(self):
+        pe.utils.LOCAL_UUID = 0
+        merged = pe.Book()
+        sheet1 = pe.Sheet(sheet=[[1,2]])
+        sheet2 = pe.Sheet(sheet=[[1,2]])
+        merged += sheet1
+        merged += sheet2
+        print merged[1].name
+        assert merged[1].name == "pyexcel_1"

@@ -7,7 +7,6 @@
     :copyright: (c) 2014 by C. W.
     :license: GPL v3
 """
-import uuid
 from .matrix import Matrix
 from ..formatters import (
     ColumnFormatter,
@@ -276,7 +275,7 @@ class FormattableSheet(Matrix):
         :returns: a new book
         """
         from ..book import Book
-        from ..utils import to_dict
+        from ..utils import to_dict, local_uuid
         content = {}
         content[self.name] = self.array
         if isinstance(other, Book):
@@ -286,13 +285,13 @@ class FormattableSheet(Matrix):
                 if len(b.keys()) == 1:
                     new_key = other.filename
                 if new_key in content:
-                    uid = uuid.uuid4().hex
+                    uid = local_uuid()
                     new_key = "%s_%s" % (l, uid)
                 content[new_key] = b[l]
         elif isinstance(other, Matrix):
             new_key = other.name
             if new_key in content:
-                uid = uuid.uuid4().hex
+                uid = local_uuid()
                 new_key = "%s_%s" % (other.name, uid)
             content[new_key] = other.array
         else:
