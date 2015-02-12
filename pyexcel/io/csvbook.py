@@ -8,6 +8,7 @@
     :license: GPL v3
 """
 import re
+import os
 import csv
 import codecs
 from abc import abstractmethod
@@ -123,7 +124,8 @@ class CSVBook(BookReader):
                                        names[1])
         filelist = glob.glob(filepattern)
         if len(filelist) == 0:
-            return [NamedContent("csv", filename)]
+            file_parts = os.path.split(filename)
+            return [NamedContent(file_parts[-1], filename)]
         else:
             matcher = "%s%s(.*)%s(.*).%s" % (names[0],
                                              DEFAULT_SEPARATOR,

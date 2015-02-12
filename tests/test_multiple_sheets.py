@@ -128,7 +128,7 @@ class TestReader:
     def test_csv_book_reader(self):
         r = pe.BookReader(self.testfile)
         assert r.number_of_sheets() == 1
-        assert r.sheet_names() == ["csv"]
+        assert r.sheet_names() == [self.testfile]
 
     def tearDown(self):
         if os.path.exists(self.testfile):
