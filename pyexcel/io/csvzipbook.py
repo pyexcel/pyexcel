@@ -27,20 +27,26 @@ class CSVZipBook(BookReader):
     """
     def __init__(self, filename,
                  file_content=None,
+                 load_sheet_with_name=None,
+                 load_sheet_at_index=None,
                  **keywords):
-        BookReader.__init__(self, filename, file_content, **keywords)
+        BookReader.__init__(self, filename,
+                            file_content=file_content,
+                            load_sheet_with_name=load_sheet_with_name,
+                            load_sheet_at_index=load_sheet_at_index,
+                            **keywords)
         self.native_book.close()
 
-    def load_from_memory(self, file_content):
+    def load_from_memory(self, file_content, **keywords):
         io = BytesIO(file_content)
         return zipfile.ZipFile(io, 'r')
 
-    def load_from_file(self, filename):
+    def load_from_file(self, filename, **keywords):
         return zipfile.ZipFile(filename, 'r')
 
     def sheetIterator(self):
-        if self.sheetname:
-            return [sheet for sheet in self.native_book.namelist() if self._get_sheet_name(sheet) == self.sheetname]
+        if self.sheet_name:
+            return [sheet for sheet in self.native_book.namelist() if self._get_sheet_name(sheet) == self.sheet_name]
         else:
             return self.native_book.namelist()
 

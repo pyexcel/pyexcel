@@ -375,7 +375,7 @@ def Reader(file=None, sheetname=None, **keywords):
     use as class would fail though
     changed since 0.0.7
     """
-    return load(file, sheetname, **keywords)
+    return load(file, sheetname=sheetname, **keywords)
 
 
 def SeriesReader(file=None, sheetname=None, series=0, **keywords):
@@ -384,7 +384,7 @@ def SeriesReader(file=None, sheetname=None, series=0, **keywords):
     use as class would fail
     changed since 0.0.7
     """
-    return load(file, sheetname, name_columns_by_row=series, **keywords)
+    return load(file, sheetname=sheetname, name_columns_by_row=series, **keywords)
 
 
 def ColumnSeriesReader(file=None, sheetname=None, series=0, **keywords):
@@ -393,4 +393,4 @@ def ColumnSeriesReader(file=None, sheetname=None, series=0, **keywords):
     use as class would fail
     changed since 0.0.7
     """
-    return load(file, sheetname, name_rows_by_column=series, **keywords)
+    return load(file, sheetname=sheetname, name_rows_by_column=series, **keywords)

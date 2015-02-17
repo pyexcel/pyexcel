@@ -436,7 +436,7 @@ class TestSeriesReader5:
         assert actual == self.content
 
     def test_get_item_operator(self):
-        r = pe.SeriesReader(self.testfile, series_row=4)
+        r = pe.SeriesReader(self.testfile, series=4)
         value = r[0,1]
         assert value == 2
 

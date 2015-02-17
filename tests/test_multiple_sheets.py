@@ -158,7 +158,7 @@ class TestCSVSingleSheet:
         self._write_test_file(self.testfile, self.content)
 
     def test_load_a_single_sheet(self):
-        b1 = pe.load_book(self.testfile, sheetname="Sheet1")
+        b1 = pe.load_book(self.testfile, sheet_name="Sheet1")
         b1['Sheet1'].format(int)
         assert len(b1.sheet_names()) == 1
         assert b1['Sheet1'].to_array() == self.content['Sheet1']
@@ -194,7 +194,7 @@ class TestCSVZSingleSheet:
         self._write_test_file(self.testfile, self.content)
 
     def test_load_a_single_sheet(self):
-        b1 = pe.load_book(self.testfile, sheetname="Sheet1")
+        b1 = pe.load_book(self.testfile, sheet_name="Sheet1")
         b1['Sheet1'].format(int)
         assert len(b1.sheet_names()) == 1
         assert b1['Sheet1'].to_array() == self.content['Sheet1']
