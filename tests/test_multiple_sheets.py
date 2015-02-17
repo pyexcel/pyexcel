@@ -1,7 +1,7 @@
 from base import PyexcelMultipleSheetBase
 import pyexcel as pe
 import os
-from base import create_sample_file1
+from base import create_sample_file1, clean_up_files
 from _compact import OrderedDict
 from nose.tools import raises
 
@@ -133,6 +133,76 @@ class TestReader:
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
+
+
+class TestCSVSingleSheet:
+    def _write_test_file(self, file, content):
+        """
+        Make a test file as:
+
+        1,1,1,1
+        2,2,2,2
+        3,3,3,3
+        """
+        w = pe.BookWriter(file)
+        w.write_book_from_dict(content)
+        w.close()
+
+    def setUp(self):
+        self.testfile = "multiple1.csv"
+        self.content = {
+            "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
+            "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
+            "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
+        }
+        self._write_test_file(self.testfile, self.content)
+
+    def test_load_a_single_sheet(self):
+        b1 = pe.load_book(self.testfile, sheetname="Sheet1")
+        b1['Sheet1'].format(int)
+        assert len(b1.sheet_names()) == 1
+        assert b1['Sheet1'].to_array() == self.content['Sheet1']
+
+    def tearDown(self):
+        clean_up_files([
+            "multiple1__Sheet1__0.csv",
+            "multiple1__Sheet2__1.csv",
+            "multiple1__Sheet3__2.csv",
+        ])
+
+
+class TestCSVZSingleSheet:
+    def _write_test_file(self, file, content):
+        """
+        Make a test file as:
+
+        1,1,1,1
+        2,2,2,2
+        3,3,3,3
+        """
+        w = pe.BookWriter(file)
+        w.write_book_from_dict(content)
+        w.close()
+
+    def setUp(self):
+        self.testfile = "multiple1.csvz"
+        self.content = {
+            "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
+            "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
+            "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
+        }
+        self._write_test_file(self.testfile, self.content)
+
+    def test_load_a_single_sheet(self):
+        b1 = pe.load_book(self.testfile, sheetname="Sheet1")
+        b1['Sheet1'].format(int)
+        assert len(b1.sheet_names()) == 1
+        assert b1['Sheet1'].to_array() == self.content['Sheet1']
+
+    def tearDown(self):
+        clean_up_files([
+            self.testfile
+        ])
 
 
 class TestAddBooks:

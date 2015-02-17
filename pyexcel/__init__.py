@@ -258,4 +258,4 @@ def save_book_as(out_file=None, dest_file_type=None,
     raise ValueError("No valid parameters found!")
 
 
-__VERSION__ = '0.1.3'
+__VERSION__ = '0.1.4'

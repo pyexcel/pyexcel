@@ -39,12 +39,18 @@ class CSVZipBook(BookReader):
         return zipfile.ZipFile(filename, 'r')
 
     def sheetIterator(self):
-        return self.native_book.namelist()
+        if self.sheetname:
+            return [sheet for sheet in self.native_book.namelist() if self._get_sheet_name(sheet) == self.sheetname]
+        else:
+            return self.native_book.namelist()
+
+    def _get_sheet_name(self, filename):
+        name_len = len(filename) - 4
+        return filename[:name_len]
 
     def getSheet(self, native_sheet):
-        name_len = len(native_sheet) - 4
         return CSVinMemoryReader(
-            NamedContent(native_sheet[:name_len],
+            NamedContent(self._get_sheet_name(native_sheet),
                          self.native_book.read(native_sheet)),
             **self.keywords)
 

@@ -30,12 +30,14 @@ def load(file, sheetname=None,
     :param int name_rows_by_column: which column to give row names
     :param dict keywords: other parameters
     """
-    book = load_file(file, **keywords)
-    sheets = book.sheets()
     if sheetname:
+        book = load_file(file, sheet_name=sheetname, **keywords)
+        sheets = book.sheets()
         if sheetname not in sheets:
             raise KeyError("%s is not found" % sheetname)
     else:
+        book = load_file(file, sheet_index=0, **keywords)
+        sheets = book.sheets()
         keys = list(sheets.keys())
         sheetname = keys[0]
     return Sheet(sheets[sheetname],

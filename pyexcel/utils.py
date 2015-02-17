@@ -24,7 +24,6 @@ def to_array(o):
         array.append(i)
     return array
 
-
 def to_dict(o):
     """convert a reader iterator to a dictionary"""
     the_dict = OrderedDict()

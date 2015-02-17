@@ -113,10 +113,10 @@ class CSVBook(BookReader):
         else:
             BookReader.__init__(self, filename, file_content, **keywords)
 
-    def load_from_memory(self, file_content):
+    def load_from_memory(self, file_content, **keywords):
         return [NamedContent('csv', file_content)]
 
-    def load_from_file(self, filename):
+    def load_from_file(self, filename, sheetname=None, **keywords):
         names = filename.split('.')
         filepattern = "%s%s*%s*.%s" % (names[0],
                                        DEFAULT_SEPARATOR,
@@ -136,9 +136,13 @@ class CSVBook(BookReader):
                 result = re.match(matcher, filen)
                 tmp_file_list.append((result.group(1), result.group(2), filen))
             ret = []
-            for sheetname, index, filen in sorted(tmp_file_list,
-                                                  key=lambda row: row[1]):
-                ret.append(NamedContent(sheetname, filen))
+            for lsheetname, index, filen in sorted(tmp_file_list,
+                                                   key=lambda row: row[1]):
+                if self.sheetname:
+                    if self.sheetname == lsheetname:
+                        ret.append(NamedContent(lsheetname, filen))
+                else:
+                    ret.append(NamedContent(lsheetname, filen))
             return ret
 
     def sheetIterator(self):

@@ -66,7 +66,7 @@ def resolve_missing_extensions(extension, available_list):
             message = ERROR_MESSAGE % (extension, merged)
         raise NotImplementedError(message)
 
-def load_file(filename, **keywords):
+def load_file(filename, sheet_name=None, sheet_index=None, **keywords):
     """Load data from any supported excel formats
 
     Tests:
@@ -105,9 +105,15 @@ def load_file(filename, **keywords):
     if extension in READERS:
         book_class = READERS[extension]
         if from_memory: 
-            book = book_class(None, file_content=content, **keywords)
+            book = book_class(None, file_content=content,
+                              load_sheet_with_name=sheet_name,
+                              load_sheet_at_index=sheet_index,
+                              **keywords)
         else:
-            book = book_class(filename, **keywords)
+            book = book_class(filename,
+                              load_sheet_with_name=sheet_name,
+                              load_sheet_at_index=sheet_index,
+                              **keywords)
     else:
         resolve_missing_extensions(extension, AVAILABLE_READERS)
         if from_memory:
