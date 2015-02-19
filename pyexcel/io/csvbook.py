@@ -159,10 +159,10 @@ class CSVBook(BookReader):
                                                                     len(filelist)))
             return ret
 
-    def sheetIterator(self):
+    def sheet_iterator(self):
         return self.native_book
 
-    def getSheet(self, native_sheet):
+    def get_sheet(self, native_sheet):
         if self.load_from_memory_flag:
             return CSVinMemoryReader(native_sheet, **self.keywords)
         else:

@@ -176,7 +176,7 @@ class TestXLSReader(PyexcelBase):
         self.testfile = "test.xls"
         self._write_test_file(self.testfile)
 
-    @raises(KeyError)
+    @raises(ValueError)
     def test_wrong_sheet(self):
         pe.load(self.testfile, "Noexistent Sheet")
 
