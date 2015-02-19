@@ -143,11 +143,20 @@ class CSVBook(BookReader):
             ret = []
             for lsheetname, index, filen in sorted(tmp_file_list,
                                                    key=lambda row: row[1]):
-                if self.sheet_name:
+                if self.sheet_name is not None:
                     if self.sheet_name == lsheetname:
+                        ret.append(NamedContent(lsheetname, filen))
+                elif self.sheet_index is not None:
+                    if self.sheet_index == int(index):
                         ret.append(NamedContent(lsheetname, filen))
                 else:
                     ret.append(NamedContent(lsheetname, filen))
+            if len(ret) == 0:
+                if self.sheet_name is not None:
+                    raise ValueError("%s cannot be found" % self.sheet_name)
+                elif self.sheet_index is not None:
+                    raise IndexError("Index %d of out bound %d." % (self.sheet_index,
+                                                                    len(filelist)))
             return ret
 
     def sheetIterator(self):

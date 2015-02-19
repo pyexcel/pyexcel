@@ -150,11 +150,10 @@ class TestCSVSingleSheet:
 
     def setUp(self):
         self.testfile = "multiple1.csv"
-        self.content = {
-            "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
-            "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
-            "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
-        }
+        self.content = OrderedDict()
+        self.content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
+        self.content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
+        self.content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
         self._write_test_file(self.testfile, self.content)
 
     def test_load_a_single_sheet(self):
@@ -162,6 +161,21 @@ class TestCSVSingleSheet:
         b1['Sheet1'].format(int)
         assert len(b1.sheet_names()) == 1
         assert b1['Sheet1'].to_array() == self.content['Sheet1']
+        
+    def test_load_a_single_sheet2(self):
+        b1 = pe.load_book(self.testfile, sheet_index=1)
+        b1['Sheet2'].format(int)
+        assert len(b1.sheet_names()) == 1
+        assert b1['Sheet2'].to_array() == self.content['Sheet2']
+        
+    @raises(IndexError)
+    def test_load_a_single_sheet3(self):
+        pe.load_book(self.testfile, sheet_index=10000)
+        
+    @raises(ValueError)
+    def test_load_a_single_sheet4(self):
+        pe.load_book(self.testfile, sheet_name="Not exist")
+
 
     def tearDown(self):
         clean_up_files([
@@ -186,11 +200,10 @@ class TestCSVZSingleSheet:
 
     def setUp(self):
         self.testfile = "multiple1.csvz"
-        self.content = {
-            "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
-            "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
-            "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
-        }
+        self.content = OrderedDict()
+        self.content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
+        self.content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
+        self.content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
         self._write_test_file(self.testfile, self.content)
 
     def test_load_a_single_sheet(self):
@@ -198,6 +211,20 @@ class TestCSVZSingleSheet:
         b1['Sheet1'].format(int)
         assert len(b1.sheet_names()) == 1
         assert b1['Sheet1'].to_array() == self.content['Sheet1']
+
+    def test_load_a_single_sheet2(self):
+        b1 = pe.load_book(self.testfile, sheet_index=1)
+        b1['Sheet2'].format(int)
+        assert len(b1.sheet_names()) == 1
+        assert b1['Sheet2'].to_array() == self.content['Sheet2']
+
+    @raises(IndexError)
+    def test_load_a_single_sheet3(self):
+        pe.load_book(self.testfile, sheet_index=10000)
+        
+    @raises(ValueError)
+    def test_load_a_single_sheet4(self):
+        pe.load_book(self.testfile, sheet_name="Not exist")
 
     def tearDown(self):
         clean_up_files([
