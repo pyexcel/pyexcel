@@ -23,7 +23,7 @@ setup(
     version='0.1.4',
     author_email="wangc_2011@hotmail.com",
     url="https://github.com/chfw/pyexcel",
-    description='A wrapper library to read, manipulate and write data in different excel formats: csv, tsv, csvz, tsvz, ods, xls, xlsx and xlsm.',
+    description='A wrapper library that provides one API to read, manipulate and write data in different excel formats',
     install_requires=dependencies,
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     include_package_data=True,

@@ -29,7 +29,14 @@ pyexcel - Let you focus on data, instead of file formats
 Known constraints
 ==================
 
-Fonts, colors and charts are not supported. 
+Fonts, colors and charts are not supported.
+
+Feature Highlights
+===================
+
+1. One API to handle various excel file formats
+2. Export data from and import into database. SQLAlchemy and Django Model are supported
+3. Read from and write into a memory file. Especially useful in handling file upload and download in web development
 
 
 Available Plugins

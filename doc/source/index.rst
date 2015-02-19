@@ -16,7 +16,7 @@
 Introduction
 -------------
 
-**pyexcel** is a wrapper library to read, manipulate and write data in different excel formats. This library makes information processing involving excel files an enjoyable task. The data in excel files can be turned into :ref:`array or dict<a-list-of-data-structures>` with least code, vice versa. And ready-made custom :ref:`filters<filters>` and :ref:`formatters<formatters>` can be applied. This library focuses on data processing using excel files as storage media hence fonts, colors and charts were not and will not be considered.
+**pyexcel** is a wrapper library that provides **one** application programming interface to read, manipulate and write data in different excel formats. This library makes information processing involving excel files an enjoyable task. The data in excel files can be turned into :ref:`array or dict<a-list-of-data-structures>` with least code, vice versa. And ready-made custom :ref:`filters<filters>` and :ref:`formatters<formatters>` can be applied. This library focuses on data processing using excel files as storage media hence fonts, colors and charts were not and will not be considered.
 
 It was created due to the lack of uniform programming interface to access data in different excel formats. A developer needs to use different methods of different libraries to read the same data in different excel formats, hence the resulting code is cluttered and unmaintainable. This is a challenge posed by users who do not know or care about the differences in excel file formats.Instead of educating the users about the specific excel format a data processing application supports, the library takes up the challenge and promises to support all known excel formats.
 
@@ -75,7 +75,8 @@ or::
     ======= ========== =========== ============ ============ ============ ============
     pyexcel pyexcel-io xls         xlsx         ods          ods3         text  
     ======= ========== =========== ============ ============ ============ ============
-    v0.1.3  0.0.2      0.0.3+      0.0.2+       0.0.4        0.0.5        0.0.2
+	v0.1.4  0.0.3      0.0.6+      0.0.5+       0.0.5+       0.0.7+       0.0.2
+    v0.1.3  0.0.2      0.0.3+      0.0.2+       0.0.4        0.0.5+       0.0.2
     v0.1.2  0.0.2      0.0.3+      0.0.2+       0.0.4        0.0.5        0.0.2
     v0.1.1  0.0.2      0.0.3+      0.0.2+       0.0.4        0.0.5        0.0.2
     v0.0.10 0.0.2      0.0.3+      0.0.2+       0.0.4        0.0.5        0.0.2
