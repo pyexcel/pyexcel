@@ -109,7 +109,7 @@ Documentation is hosted at `read the docs <https://pyexcel.readthedocs.org/en/la
 Dependencies
 ==============
 
-* pyexcel-io >= 0.0.2
+* pyexcel-io >= 0.0.3
 * texttable >= 0.8.2
 
 Acknowledgement
