@@ -2,7 +2,7 @@
 Work with excel files in memory
 ===============================
 
-Excel files in memory can be manipulated directly without saving it to physical disk and vice versa. This is useful in excel file handling at file upload or in excel file download. The way to enable it is to pass a tuple instead of file name to an excel reader or writer class. For example::
+Excel files in memory can be manipulated directly without saving it to physical disk and vice versa. This is useful in excel file handling at file upload or in excel file download. For example::
 
     import pyexcel
 

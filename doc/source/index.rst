@@ -50,7 +50,7 @@ For individual excel file formats, please install them as you wish:
    `xls`_           xls, xlsx(read only), xlsm(read only)                        xlrd, xlwt    2.6, 2.7, 3.3, 3.4, pypy writing xls only
    `xlsx`_          xlsx                                                         openpyxl      2.6, 2.7, 3.3, 3.4, pypy 								
    `ods`_           ods (python 2.6, 2.7)                                        odfpy         2.6, 2.7				 								
-   `ods3`_          ods (python 2.7, 3.3, 3.4)                                   ezodf, lxml   3.3, 3.4				 								
+   `ods3`_          ods (python 2.7, 3.3, 3.4)                                   ezodf, lxml   2.7,3.3, 3.4				 								
    `text`_          json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple tabulate      2.6, 2.7, 3.3, 3.4, pypy writing to files only
    ================ ============================================================ ============= ======================== =============================
 
@@ -151,11 +151,10 @@ Design
 
    design
    csvz
-
+   capability
 
 Tutorial
 ----------
-
 .. toctree::
 
    tutorial

@@ -31,13 +31,11 @@ def load(file, sheetname=None,
     :param dict keywords: other parameters
     """
     if sheetname:
-        book = load_file(file, sheet_name=sheetname, **keywords)
-        sheets = book.sheets()
-        if sheetname not in sheets:
-            raise KeyError("%s is not found" % sheetname)
+        io_book = load_file(file, sheet_name=sheetname, **keywords)
+        sheets = io_book.sheets()
     else:
-        book = load_file(file, sheet_index=0, **keywords)
-        sheets = book.sheets()
+        io_book = load_file(file, sheet_index=0, **keywords)
+        sheets = io_book.sheets()
         keys = list(sheets.keys())
         sheetname = keys[0]
     return Sheet(sheets[sheetname],
@@ -156,7 +154,8 @@ def get_sheet(file_name=None, content=None, file_type=None,
     :param records: a list of dictionaries that have the same keys
     :param array: a two dimensional array, a list of lists
     :param keywords: additional parameters, see :meth:`Sheet.__init__`
-    :param sheet_name: sheet name
+    :param sheet_name: sheet name. if sheet_name is not given, the default sheet
+                       at index 0 is loaded
 
     Not all parameters are needed. Here is a table
 

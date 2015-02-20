@@ -34,9 +34,13 @@ Fonts, colors and charts are not supported.
 Feature Highlights
 ===================
 
-1. One API to handle various excel file formats
-2. Export data from and import into database. SQLAlchemy and Django Model are supported
-3. Read from and write into a memory file. Especially useful in handling file upload and download in web development
+1. One application programming interface(API) to read and write data in various excel file formats.
+2. One API to handle multiple data sources:
+   * physical file
+   * memory file
+   * SQLAlchemy table
+   * Django Model
+   * Python data stuctures: dictionary, records and array
 
 
 Available Plugins
