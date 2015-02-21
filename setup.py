@@ -20,7 +20,7 @@ if sys.version_info[0] == 2 and sys.version_info[1] < 7:
 setup(
     name='pyexcel',
     author="C. W.",
-    version='0.1.4',
+    version='0.1.5',
     author_email="wangc_2011@hotmail.com",
     url="https://github.com/chfw/pyexcel",
     description='A wrapper library that provides one API to read, manipulate and write data in different excel formats',
