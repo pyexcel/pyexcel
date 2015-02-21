@@ -1,7 +1,7 @@
 """
 read_row_by_row.py
-:copyright: (c) 2014-2015 by C. W.
-:license: GPL v3
+:copyright: (c) 2014-2015 by Onni Software Ltd.
+:license: New BSD License, see LICENSE for more details
 
 This shows a pythonic way to use **Reader** class to go through a single
 page spreadsheet column by column. The output is::

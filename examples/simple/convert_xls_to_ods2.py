@@ -1,7 +1,7 @@
 """
 convert_xls_to_ods2.py
-:copyright: (c) 2015 by C. W.
-:license: GPL v3
+:copyright: (c) 2015 by Onni Software Ltd.
+:license: New BSD License, see LICENSE for more details
 
 This shows how to use **pyexcel.save_as** and **BookWriter** class to convert
 xls file to ods file.

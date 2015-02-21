@@ -4,8 +4,8 @@
 
     Uniform interface for reading/writing different excel file formats
 
-    :copyright: (c) 2014-2015 by C. W.
-    :license: GPL v3
+    :copyright: (c) 2014-2015 by Onni Software Ltd.
+    :license: New BSD License, see LICENSE for more details
 """
 from functools import partial
 from .csvbook import CSVBook, CSVWriter

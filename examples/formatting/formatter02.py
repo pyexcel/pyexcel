@@ -1,7 +1,7 @@
 """
 pyexcel_server.py
-:copyright: (c) 2014-2015 by C. W.
-:license: GPL v3
+:copyright: (c) 2014-2015 by Onni Software Ltd.
+:license: New BSD License, see LICENSE for more details
 
 This example shows you how to use custom formatter function
 

@@ -4,8 +4,8 @@
 
     Filtering functions for pyexcel readers
 
-    :copyright: (c) 2014-2015 by C. W.
-    :license: GPL v3
+    :copyright: (c) 2014-2015 by Onni Software Ltd.
+    :license: New BSD License, see LICENSE for more details
 
     Design note for filter algorithm::
 

@@ -1,7 +1,7 @@
 """
 series.py
-:copyright: (c) 2014-2015 by C. W.
-:license: GPL v3
+:copyright: (c) 2014-2015 by Onni Software Ltd.
+:license: New BSD License, see LICENSE for more details
 
 This shows how to use **SeriesReader** to get the data in various ways
 But you can use them with **Reader** class as well

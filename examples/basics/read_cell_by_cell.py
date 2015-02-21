@@ -1,7 +1,7 @@
 """
 read_cell_by_cell.py
-:copyright: (c) 2014-2015 by C. W.
-:license: GPL v3
+:copyright: (c) 2014-2015 by Onni Software Ltd.
+:license: New BSD License, see LICENSE for more details
 
 This shows how to use **Reader** class to go through a single
 page spreadsheet, The output is::

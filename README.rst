@@ -110,6 +110,11 @@ Documentation
 
 Documentation is hosted at `read the docs <https://pyexcel.readthedocs.org/en/latest>`_ and `pyhosted <https://pythonhosted.org/pyexcel/>`_
 
+License
+==========
+
+New BSD License
+
 Dependencies
 ==============
 

@@ -53,7 +53,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'pyexcel'
-copyright = u'2014-2015, C. W.'
+copyright = u'2014-2015, Onni Software Ltd.'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -210,7 +210,7 @@ latex_elements = {
 #  author, documentclass [howto/manual]).
 latex_documents = [
   ('pyexcel', 'pyexcel.tex', u'pyexcel Documentation',
-   u'C. W.', 'manual'),
+   u'Onni Software Ltd.', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -240,7 +240,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('pyexcel', 'pyexcel', u'pyexcel Documentation',
-     [u'C. W.'], 1)
+     [u'Onni Software Ltd.'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -254,7 +254,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('pyexcel', 'pyexcel', u'pyexcel Documentation',
-   u'C. W.', 'pyexcel', 'One line description of project.',
+   u'Onni Software Ltd.', 'pyexcel', 'One line description of project.',
    'Miscellaneous'),
 ]
 
@@ -275,9 +275,9 @@ texinfo_documents = [
 
 # Bibliographic Dublin Core info.
 epub_title = u'pyexcel'
-epub_author = u'C. W.'
-epub_publisher = u'C. W.'
-epub_copyright = u'2014-2015, C. W.'
+epub_author = u'Onni Software Ltd.'
+epub_publisher = u'Onni Software Ltd.'
+epub_copyright = u'2014-2015, Onni Software Ltd.'
 
 # The language of the text. It defaults to the language option
 # or en if the language is not set.
