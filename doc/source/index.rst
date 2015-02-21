@@ -9,7 +9,7 @@
 :Author: C.W.
 :Source code: http://github.com/chfw/pyexcel
 :Issues: http://github.com/chfw/pyexcel/issues
-:License: GPL v3
+:License: New BSD License
 :Version: |version|
 :Generated: |today|
 

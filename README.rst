@@ -36,6 +36,7 @@ Feature Highlights
 
 1. One application programming interface(API) to read and write data in various excel file formats.
 2. One API to handle multiple data sources:
+
    * physical file
    * memory file
    * SQLAlchemy table
