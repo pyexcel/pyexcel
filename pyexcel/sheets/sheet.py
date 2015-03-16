@@ -8,9 +8,12 @@
     :license: New BSD License, see LICENSE for more details
 """
 import datetime
-from ..io import load_file
 from .nominablesheet import NominableSheet
-
+from ..source import (SingleSheetFile,
+                      SingleSheetRecrodsSource,
+                      SingleSheetDictSource,
+                      SingleSheetSQLAlchemySource,
+                      SingleSheetDjangoSource)
 
 def load(file, sheetname=None,
          name_columns_by_row=-1,
@@ -30,16 +33,11 @@ def load(file, sheetname=None,
     :param int name_rows_by_column: which column to give row names
     :param dict keywords: other parameters
     """
-    if sheetname:
-        io_book = load_file(file, sheet_name=sheetname, **keywords)
-        sheets = io_book.sheets()
-    else:
-        io_book = load_file(file, sheet_index=0, **keywords)
-        sheets = io_book.sheets()
-        keys = list(sheets.keys())
-        sheetname = keys[0]
-    return Sheet(sheets[sheetname],
-                 sheetname,
+    ssf = SingleSheetFile(file, sheet_name=sheetname)
+    sheets = ssf.get_data(**keywords)
+    keys = sheets.keys()
+    return Sheet(sheets[keys[0]],
+                 keys[0],
                  name_columns_by_row=name_columns_by_row,
                  name_rows_by_column=name_rows_by_column,
                  colnames=colnames,
@@ -62,18 +60,18 @@ def load_from_memory(file_type,
     return load((file_type, file_content), sheetname, **keywords)
 
 
-def load_from_query_sets(column_names, querysets, sheet_name=None):
-    array = []
-    array.append(column_names)
-    for o in querysets:
-        new_array = []
-        for column in column_names:
-            value = getattr(o, column)
-            if isinstance(value, (datetime.date, datetime.time)):
-                value = value.isoformat()
-            new_array.append(value)
-        array.append(new_array)
-    return Sheet(array, name=sheet_name, name_columns_by_row=0)
+#def load_from_query_sets(column_names, querysets, sheet_name=None):
+#    array = []
+#    array.append(column_names)
+#    for o in querysets:
+#        new_array = []
+#        for column in column_names:
+#            value = getattr(o, column)
+#            if isinstance(value, (datetime.date, datetime.time)):
+#                value = value.isoformat()
+#            new_array.append(value)
+#        array.append(new_array)
+#    return Sheet(array, name=sheet_name, name_columns_by_row=0)
 
 
 def load_from_sql(session, table):
@@ -83,14 +81,15 @@ def load_from_sql(session, table):
     :param table: SQLAlchemy database table
     :returns: :class:`Sheet`
     """
-    sheet_name = getattr(table, '__tablename__', None)
-    objects = session.query(table).all()
-    if len(objects) == 0:
-        return None
+    sssqls = SingleSheetSQLAlchemySource(session, table)
+    sheets = sssqls.get_data()
+    if sheets:
+        keys = sheets.keys()
+        return Sheet(sheets[keys[0]],
+                     keys[0],
+                     name_columns_by_row=0)
     else:
-        column_names = sorted([column for column in objects[0].__dict__
-                               if column != '_sa_instance_state'])
-        return load_from_query_sets(column_names, objects, sheet_name)
+        return None
 
 
 def load_from_django_model(model):
@@ -99,10 +98,13 @@ def load_from_django_model(model):
     :param model: Django model
     :returns: :class:`Sheet`
     """
-    sheet_name = model._meta.model_name
-    objects = model.objects.all()
-    column_names = sorted([field.attname for field in model._meta.concrete_fields])
-    return load_from_query_sets(column_names, objects, sheet_name)
+    ssds = SingleSheetDjangoSource(model)
+    sheets = ssds.get_data()
+    keys = sheets.keys()
+    return Sheet(sheets[keys[0]],
+                 keys[0],
+                 name_columns_by_row=0
+    )
 
 
 def load_from_dict(the_dict, with_keys=True):
@@ -111,9 +113,10 @@ def load_from_dict(the_dict, with_keys=True):
     :param dict the_dict: its value should be one dimensional array
     :param bool with_keys: indicate if dictionary keys should be appended or not
     """
-    from ..utils import dict_to_array
-    tmp_array = dict_to_array(the_dict, with_keys)
-    sheet = Sheet(tmp_array)
+    ssds = SingleSheetDictSource(the_dict)
+    sheets = ssds.get_data()
+    keys = sheets.keys()
+    sheet = Sheet(sheets[keys[0]], keys[0])
     if with_keys:
         sheet.name_columns_by_row(0)
     return sheet
@@ -127,10 +130,10 @@ def load_from_records(records):
     :params list records: records are likely to be produced by Sheet.to_records()
     method.
     """
-    from ..utils import from_records
-    tmp_array = from_records(records)
-    sheet = Sheet(tmp_array, name_columns_by_row=0)
-    return sheet
+    ssrs = SingleSheetRecrodsSource(records)
+    sheets = ssrs.get_data()
+    keys = sheets.keys()
+    return Sheet(sheets[keys[0]], keys[0], name_columns_by_row=0)
 
 
 def get_sheet(file_name=None, content=None, file_type=None,
