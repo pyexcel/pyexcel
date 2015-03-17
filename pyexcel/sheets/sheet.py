@@ -7,7 +7,6 @@
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-import datetime
 from .nominablesheet import NominableSheet
 from ..source import (SingleSheetFile,
                       SingleSheetRecrodsSource,
@@ -34,10 +33,9 @@ def load(file, sheetname=None,
     :param dict keywords: other parameters
     """
     ssf = SingleSheetFile(file, sheet_name=sheetname)
-    sheets = ssf.get_data(**keywords)
-    keys = sheets.keys()
-    return Sheet(sheets[keys[0]],
-                 keys[0],
+    sheet_name, content = ssf.get_data(**keywords)
+    return Sheet(content,
+                 sheet_name,
                  name_columns_by_row=name_columns_by_row,
                  name_rows_by_column=name_rows_by_column,
                  colnames=colnames,
@@ -60,20 +58,6 @@ def load_from_memory(file_type,
     return load((file_type, file_content), sheetname, **keywords)
 
 
-#def load_from_query_sets(column_names, querysets, sheet_name=None):
-#    array = []
-#    array.append(column_names)
-#    for o in querysets:
-#        new_array = []
-#        for column in column_names:
-#            value = getattr(o, column)
-#            if isinstance(value, (datetime.date, datetime.time)):
-#                value = value.isoformat()
-#            new_array.append(value)
-#        array.append(new_array)
-#    return Sheet(array, name=sheet_name, name_columns_by_row=0)
-
-
 def load_from_sql(session, table):
     """Constructs an instance :class:`Sheet` from database table
 
@@ -82,11 +66,10 @@ def load_from_sql(session, table):
     :returns: :class:`Sheet`
     """
     sssqls = SingleSheetSQLAlchemySource(session, table)
-    sheets = sssqls.get_data()
-    if sheets:
-        keys = sheets.keys()
-        return Sheet(sheets[keys[0]],
-                     keys[0],
+    sheet_name, content = sssqls.get_data()
+    if sheet_name:
+        return Sheet(content,
+                     sheet_name,
                      name_columns_by_row=0)
     else:
         return None
@@ -99,10 +82,9 @@ def load_from_django_model(model):
     :returns: :class:`Sheet`
     """
     ssds = SingleSheetDjangoSource(model)
-    sheets = ssds.get_data()
-    keys = sheets.keys()
-    return Sheet(sheets[keys[0]],
-                 keys[0],
+    sheet_name, content = ssds.get_data()
+    return Sheet(content,
+                 sheet_name,
                  name_columns_by_row=0
     )
 
@@ -114,9 +96,8 @@ def load_from_dict(the_dict, with_keys=True):
     :param bool with_keys: indicate if dictionary keys should be appended or not
     """
     ssds = SingleSheetDictSource(the_dict)
-    sheets = ssds.get_data()
-    keys = sheets.keys()
-    sheet = Sheet(sheets[keys[0]], keys[0])
+    sheet_name, content = ssds.get_data()
+    sheet = Sheet(content, sheet_name)
     if with_keys:
         sheet.name_columns_by_row(0)
     return sheet
@@ -131,9 +112,8 @@ def load_from_records(records):
     method.
     """
     ssrs = SingleSheetRecrodsSource(records)
-    sheets = ssrs.get_data()
-    keys = sheets.keys()
-    return Sheet(sheets[keys[0]], keys[0], name_columns_by_row=0)
+    sheet_name, content = ssrs.get_data()
+    return Sheet(content, sheet_name, name_columns_by_row=0)
 
 
 def get_sheet(file_name=None, content=None, file_type=None,
@@ -216,6 +196,7 @@ class Sheet(NominableSheet):
         w = Writer(filename, sheet_name=self.name, **keywords)
         w.write_reader(self)
         w.close()
+
 
     def save_to_memory(self, file_type, stream, **keywords):
         """Save the content to memory
