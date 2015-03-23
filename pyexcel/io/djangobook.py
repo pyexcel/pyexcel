@@ -1,3 +1,12 @@
+"""
+    pyexcel.io.djangobook
+    ~~~~~~~~~~~~~~~~~~~
+
+    The lower level handler for django import and export
+
+    :copyright: (c) 2014-2015 by Onni Software Ltd.
+    :license: New BSD License, see LICENSE for more details
+"""
 from pyexcel_io import (BookReaderBase, SheetReaderBase, BookWriter, SheetWriter)
 from .._compact import OrderedDict
 import datetime
@@ -5,6 +14,8 @@ from .sqlbook import to_array_from_query_sets
     
 
 class DjangoModelReader(SheetReaderBase):
+    """Read from django model
+    """
     def __init__(self, model):
         self.model = model
 
@@ -22,6 +33,8 @@ class DjangoModelReader(SheetReaderBase):
 
 
 class DjangoBookReader(BookReaderBase):
+    """Read from a list of django models
+    """
     def __init__(self, models):
         self.my_sheets = OrderedDict()
         for model in models:

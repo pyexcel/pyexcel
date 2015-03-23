@@ -1,3 +1,12 @@
+"""
+    pyexcel.io.sqlbook
+    ~~~~~~~~~~~~~~~~~~~
+
+    The lower level handler for database import and export
+
+    :copyright: (c) 2014-2015 by Onni Software Ltd.
+    :license: New BSD License, see LICENSE for more details
+"""
 from pyexcel_io import (BookReaderBase, SheetReaderBase, BookWriter, SheetWriter)
 from .._compact import OrderedDict
 import datetime
@@ -18,6 +27,8 @@ def to_array_from_query_sets(column_names, query_sets):
     
 
 class SQLTableReader(SheetReaderBase):
+    """Read a table
+    """
     def __init__(self, session, table):
         self.session = session
         self.table = table
@@ -38,6 +49,8 @@ class SQLTableReader(SheetReaderBase):
 
 
 class SQLBookReader(BookReaderBase):
+    """Read a list of tables
+    """
     def __init__(self, session=None, tables=None):
         self.my_sheets = OrderedDict()
         for table in tables:
@@ -49,6 +62,8 @@ class SQLBookReader(BookReaderBase):
 
         
 class SQLTableWriter(SheetWriter):
+    """Write to a table
+    """
     def __init__(self, session, table_params):
         self.session = session
         self.table = None
@@ -91,6 +106,8 @@ class SQLTableWriter(SheetWriter):
 
         
 class SQLBookWriter(BookWriter):
+    """Write to alist of tables
+    """
     def __init__(self, file, session=None, tables=None, **keywords):
         BookWriter.__init__(self, file, **keywords)
         self.session = session

@@ -7,7 +7,7 @@
     :copyright: (c) 2015 by Onni Software Ltd.
     :license: New BSD License
 """
-from io import load_file
+from .io import load_file
 import datetime
 
 class SingleSheetDataSource:
