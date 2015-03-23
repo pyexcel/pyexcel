@@ -11,6 +11,7 @@ from functools import partial
 from .csvbook import CSVBook, CSVWriter
 from .csvzipbook import CSVZipWriter, CSVZipBook
 from .sqlbook import SQLBookReader, SQLBookWriter
+from .djangobook import DjangoBookReader
 from .._compact import is_string
 
 
@@ -20,7 +21,8 @@ READERS = {
     "tsv": partial(CSVBook, dialect="excel-tab"),
     "csvz": CSVZipBook,
     "tsvz": partial(CSVZipBook, dialect="excel-tab"),
-    "sql": SQLBookReader
+    "sql": SQLBookReader,
+    "django": DjangoBookReader
 }
 
 ERROR_MESSAGE = "The plugin for file type %s is not installed. Please install %s"

@@ -99,9 +99,11 @@ class SingleSheetDjangoSource(SingleSheetDataSource):
         self.model = model
 
     def get_data(self, **keywords):
-        sheet_name = self.model._meta.model_name
-        objects = self.model.objects.all()
-        column_names = sorted([field.attname for field in self.model._meta.concrete_fields])
-        ssqss = SingleSheetQuerySetSource(sheet_name, column_names, objects)
-        return ssqss.get_data()
+        sql_book = load_file('django', models=[self.model])
+        sheets = sql_book.sheets()
+        keys = sheets.keys()
+        if len(sheets[keys[0]]) == 0:
+            return None, None
+        else:
+            return keys[0], sheets[keys[0]]
 
