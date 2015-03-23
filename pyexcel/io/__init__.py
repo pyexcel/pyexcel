@@ -10,6 +10,7 @@
 from functools import partial
 from .csvbook import CSVBook, CSVWriter
 from .csvzipbook import CSVZipWriter, CSVZipBook
+from .sqlbook import SQLBookReader, SQLBookWriter
 from .._compact import is_string
 
 
@@ -18,7 +19,8 @@ READERS = {
     "csv": CSVBook,
     "tsv": partial(CSVBook, dialect="excel-tab"),
     "csvz": CSVZipBook,
-    "tsvz": partial(CSVZipBook, dialect="excel-tab")
+    "tsvz": partial(CSVZipBook, dialect="excel-tab"),
+    "sql": SQLBookReader
 }
 
 ERROR_MESSAGE = "The plugin for file type %s is not installed. Please install %s"
@@ -35,7 +37,8 @@ WRITERS = {
     "csv": CSVWriter,
     "tsv": partial(CSVWriter, dialect="excel-tab"),
     "csvz": CSVZipWriter,
-    "tsvz": partial(CSVZipWriter, dialect="excel-tab")
+    "tsvz": partial(CSVZipWriter, dialect="excel-tab"),
+    "sql": SQLBookWriter
 }
 
 AVAILABLE_WRITERS = {
@@ -94,32 +97,36 @@ def load_file(filename, sheet_name=None, sheet_index=None, **keywords):
     book = None
     from_memory = False
     content = None
-    if isinstance(filename, tuple):
-        from_memory = True
-        extension = filename[0]
-        content = filename[1]
-    elif is_string(type(filename)):
-        extension = filename.split(".")[-1]
+    if filename in READERS:
+        book_class = READERS[filename]
+        book = book_class(**keywords)
     else:
-        raise IOError("cannot handle unknown content")
-    if extension in READERS:
-        book_class = READERS[extension]
-        if from_memory: 
-            book = book_class(None, file_content=content,
-                              load_sheet_with_name=sheet_name,
-                              load_sheet_at_index=sheet_index,
-                              **keywords)
+        if isinstance(filename, tuple):
+            from_memory = True
+            extension = filename[0]
+            content = filename[1]
+        elif is_string(type(filename)):
+            extension = filename.split(".")[-1]
         else:
-            book = book_class(filename,
-                              load_sheet_with_name=sheet_name,
-                              load_sheet_at_index=sheet_index,
-                              **keywords)
-    else:
-        resolve_missing_extensions(extension, AVAILABLE_READERS)
-        if from_memory:
-            raise NotImplementedError("Cannot read content of file type %s from stream" % filename[0])
+            raise IOError("cannot handle unknown content")
+        if extension in READERS:
+            book_class = READERS[extension]
+            if from_memory: 
+                book = book_class(None, file_content=content,
+                                  load_sheet_with_name=sheet_name,
+                                  load_sheet_at_index=sheet_index,
+                                  **keywords)
+            else:
+                book = book_class(filename,
+                                  load_sheet_with_name=sheet_name,
+                                  load_sheet_at_index=sheet_index,
+                                  **keywords)
         else:
-            raise NotImplementedError("Cannot read content of file type %s from file %s" % (extension, filename))
+            resolve_missing_extensions(extension, AVAILABLE_READERS)
+            if from_memory:
+                raise NotImplementedError("Cannot read content of file type %s from stream" % filename[0])
+            else:
+                raise NotImplementedError("Cannot read content of file type %s from file %s" % (extension, filename))
     return book
 
 
@@ -152,24 +159,28 @@ def get_writer(filename, **keywords):
     extension = None
     writer = None
     to_memory = False
-    if isinstance(filename, tuple):
-        extension = filename[0]
-        to_memory = True
-    elif is_string(type(filename)):
-        extension = filename.split(".")[-1]
+    if filename in WRITERS:
+        writer_class = WRITERS[filename]
+        writer = writer_class(filename, **keywords)
     else:
-        raise IOError("cannot handle unknown content")
-    if extension in WRITERS:
-        writer_class = WRITERS[extension]
-        if to_memory:
-            writer = writer_class(filename[1], **keywords)
+        if isinstance(filename, tuple):
+            extension = filename[0]
+            to_memory = True
+        elif is_string(type(filename)):
+            extension = filename.split(".")[-1]
         else:
-            writer = writer_class(filename, **keywords)
-    else:
-        resolve_missing_extensions(extension, AVAILABLE_WRITERS)
-        if to_memory:
-            raise NotImplementedError("Cannot write content of file type %s to stream" % filename[0])
+            raise IOError("cannot handle unknown content")
+        if extension in WRITERS:
+            writer_class = WRITERS[extension]
+            if to_memory:
+                writer = writer_class(filename[1], **keywords)
+            else:
+                writer = writer_class(filename, **keywords)
         else:
-            raise NotImplementedError("Cannot write content of file type %s to file %s" % (extension, filename))
+            resolve_missing_extensions(extension, AVAILABLE_WRITERS)
+            if to_memory:
+                raise NotImplementedError("Cannot write content of file type %s to stream" % filename[0])
+            else:
+                raise NotImplementedError("Cannot write content of file type %s to file %s" % (extension, filename))
     return writer
 

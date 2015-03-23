@@ -161,6 +161,20 @@ class BookWriter:
             sheet.write_reader(bookreader[name])
             sheet.close()
 
+    def write_book_reader_to_db(self, bookreader):
+        """
+        Write a book reader
+
+        Easy implementiation. Dump a book into a dictionary of
+        two dimensional arrays. Then write book from this dictionary
+        :param Book bookreader: a book object to be written
+        """
+        keys = bookreader.sheet_names()
+        for name in keys:
+            sheet = self.create_sheet(name)
+            sheet.write_array(bookreader[name].array)
+            sheet.close()
+
     def close(self):
         """close the writer"""
         self.writer.close()

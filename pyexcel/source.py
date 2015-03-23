@@ -1,10 +1,10 @@
 """
-    pyexcel.sheets
+    pyexcel.source
     ~~~~~~~~~~~~~~~~~~~
 
-    Representation of data sheets
+    Representation of incoming data source
 
-    :copyright: (c) 2014-2015 by Onni Software Ltd.
+    :copyright: (c) 2015 by Onni Software Ltd.
     :license: New BSD License
 """
 from io import load_file
@@ -85,15 +85,13 @@ class SingleSheetSQLAlchemySource(SingleSheetDataSource):
         self.table = table
 
     def get_data(self, **keywords):
-        sheet_name = getattr(self.table, '__tablename__', None)
-        objects = self.session.query(self.table).all()
-        if len(objects) == 0:
+        sql_book = load_file('sql', session=self.session, tables=[self.table])
+        sheets = sql_book.sheets()
+        keys = sheets.keys()
+        if len(sheets[keys[0]]) == 0:
             return None, None
         else:
-            column_names = sorted([column for column in objects[0].__dict__
-                                   if column != '_sa_instance_state'])
-            ssqss = SingleSheetQuerySetSource(sheet_name, column_names, objects)
-            return ssqss.get_data()
+            return keys[0], sheets[keys[0]]
 
 
 class SingleSheetDjangoSource(SingleSheetDataSource):

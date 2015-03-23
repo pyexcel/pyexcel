@@ -274,7 +274,7 @@ class Sheet(NominableSheet):
             raise NameError("No column names or row names found!")
       
 
-    def save_to_database(self, session, table):
+    def save_to_database(self, session, table, table_init_func=None, mapdict=None):
         """Save data in sheet to database table
 
         :param session: database session
@@ -283,68 +283,10 @@ class Sheet(NominableSheet):
                       mapdict is needed when the column headers of your sheet does not match the column names of the supplied table.
                       name_column_by_row indicates which row has column headers and by default it is the first row of the supplied sheet
         """
-        mytable = None
-        table_init_func = None
-        mapdict = None
-        name_columns_by_row = -1
-        name_rows_by_column = -1
-        if isinstance(table, tuple):
-            if len(table) == 1:
-                mytable = table[0]
-            elif len(table) == 2:
-                mytable, table_init_func = table
-            elif len(table) == 3:
-                mytable, table_init_func, mapdict = table
-            elif len(table) == 4:
-                mytable, table_init_func, mapdict, name_columns_by_row = table
-            else:
-                mytable, table_init_func, mapdict, name_columns_by_row, name_rows_by_column = table
-        else:
-            mytable = table
-        if name_columns_by_row != -1:
-            self.name_columns_by_row(name_columns_by_row)
-        if name_rows_by_column != -1:
-            self.name_rows_by_column(name_rows_by_column)
-
-        if isinstance(mapdict, dict):
-            if len(self.colnames) > 0:
-                self._save_to_database(session, mytable, table_init_func, mapdict,
-                                       self.named_rows(), self.colnames)
-            elif len(self.rownames) > 0:
-                self._save_to_database(session, mytable, table_init_func, mapdict,
-                                       self.named_columns(), self.rownames)
-            else:
-                raise ValueError("No column names!")
-        elif isinstance(mapdict, list):
-            self._save_to_database(session, mytable, table_init_func, None,
-                                   self.to_records(mapdict), mapdict)
-        else:
-            if len(self.colnames) > 0:
-                self._save_to_database(session, mytable, table_init_func, mapdict,
-                                       self.named_rows(), self.colnames)
-            elif len(self.rownames) > 0:
-                self._save_to_database(session, mytable, table_init_func, mapdict,
-                                       self.named_columns(), self.rownames)
-            else:
-                self.name_columns_by_row(0)
-                self._save_to_database(session, mytable, table_init_func, mapdict,
-                                       self.named_rows(), self.colnames)
-
-    def _save_to_database(self, session, table, table_init_func,
-                          mapdict, iterator, keys):
-        for row in iterator:
-            if table_init_func:
-                o = table_init_func(row)
-            else:
-                o = table()
-                for name in keys:
-                    if mapdict:
-                        key = mapdict[name]
-                    else:
-                        key = name
-                    setattr(o, key, row[name])
-            session.add(o)
-        session.commit()
+        from ..writers import Writer
+        w = Writer('sql', sheet_name=self.name, session=session, tables={self.name: (table, self.colnames, table_init_func, mapdict)})
+        w.write_array(self.array)
+        w.close()
 
 
 def Reader(file=None, sheetname=None, **keywords):

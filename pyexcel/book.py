@@ -286,19 +286,27 @@ class Book(object):
             sheet = self.sheet_by_index(i)
             sheet.save_to_django_model(models[i])
 
-    def save_to_database(self, session, tables):
+    def save_to_database(self, session, tables, table_init_funcs=None, mapdicts=None):
         """Save data in sheets to database tables
 
         :param session: database session
         :param tables: a list of database tables, that is accepted by :meth:`Sheet.save_to_database`. The sequence of tables matters when there is dependencies
                        in between the tables. For example, **Car** is made by **Car Maker**. **Car Maker** table should be specified before **Car** table.
         """
-        for i in range(0, self.number_of_sheets()):
-            if i >= len(tables):
-                print("Warning: the number of sheets is greater than the number of tables")
-                continue
-            sheet = self.sheet_by_index(i)
-            sheet.save_to_database(session, tables[i])
+        from .writers import BookWriter
+        for sheet in self:
+            if len(sheet.colnames)  == 0:
+                sheet.name_columns_by_row(0)
+        colnames_array = [sheet.colnames for sheet in self]
+        if table_init_funcs is None:
+            table_init_funcs = [None] * len(tables)
+        if mapdicts is None:
+            mapdicts = [None] * len(tables)
+        x = zip(tables, colnames_array, table_init_funcs, mapdicts)
+        table_dict = dict(zip(self.name_array, x))
+        w = BookWriter('sql', session=session, tables=table_dict)
+        w.write_book_reader_to_db(self)
+        w.close()
 
     def to_dict(self):
         """Convert the book to a dictionary"""
