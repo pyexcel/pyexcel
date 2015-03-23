@@ -35,8 +35,8 @@ class SingleSheetFile(SingleSheetDataSource):
                 sheet_index = 0
             io_book = load_file(self.file_name, sheet_index=sheet_index, **keywords)
             sheets = io_book.sheets()
-        keys = sheets.keys()
-        return keys[0], sheets[keys[0]]
+        items = sheets.items()
+        return items[0][0], items[0][1]
 
 
 class SingleSheetRecrodsSource(SingleSheetDataSource):
@@ -87,11 +87,11 @@ class SingleSheetSQLAlchemySource(SingleSheetDataSource):
     def get_data(self, **keywords):
         sql_book = load_file('sql', session=self.session, tables=[self.table])
         sheets = sql_book.sheets()
-        keys = sheets.keys()
-        if len(sheets[keys[0]]) == 0:
+        items = sheets.items()
+        if len(items[0][1]) == 0:
             return None, None
         else:
-            return keys[0], sheets[keys[0]]
+            return items[0][0], items[0][1]
 
 
 class SingleSheetDjangoSource(SingleSheetDataSource):
@@ -101,9 +101,9 @@ class SingleSheetDjangoSource(SingleSheetDataSource):
     def get_data(self, **keywords):
         sql_book = load_file('django', models=[self.model])
         sheets = sql_book.sheets()
-        keys = sheets.keys()
-        if len(sheets[keys[0]]) == 0:
+        items = sheets.items()
+        if len(items[0][1]) == 0:
             return None, None
         else:
-            return keys[0], sheets[keys[0]]
+            return items[0][0], items[0][1]
 
