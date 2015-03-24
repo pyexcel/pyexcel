@@ -9,12 +9,23 @@
 """
 from .io import load_file
 import datetime
+from ._compact import PY2
+
 
 class SingleSheetDataSource:
     def get_data(self):
         return []
 
 
+def one_sheet_tuple(items):
+    if not PY2:
+        items = list(items)
+    if len(items[0][1]) == 0:
+        return None, None
+    else:
+        return items[0][0], items[0][1]
+    
+        
 class SingleSheetFile(SingleSheetDataSource):
     def __init__(self, file_name, sheet_name=None, sheet_index=None):
         self.file_name = file_name
@@ -35,8 +46,7 @@ class SingleSheetFile(SingleSheetDataSource):
                 sheet_index = 0
             io_book = load_file(self.file_name, sheet_index=sheet_index, **keywords)
             sheets = io_book.sheets()
-        items = sheets.items()
-        return items[0][0], items[0][1]
+        return one_sheet_tuple(sheets.items())
 
 
 class SingleSheetRecrodsSource(SingleSheetDataSource):
@@ -79,31 +89,28 @@ class SingleSheetQuerySetSource(SingleSheetDataSource):
         return self.sheet_name, array
 
 
-class SingleSheetSQLAlchemySource(SingleSheetDataSource):
+class SingleSheetDatabaseSourceMixin(SingleSheetDataSource):
+    def get_sql_book():
+        pass
+        
+    def get_data(self, **keywords):
+        sql_book = self.get_sql_book()
+        sheets = sql_book.sheets()
+        return one_sheet_tuple(sheets.items())
+
+
+class SingleSheetSQLAlchemySource(SingleSheetDatabaseSourceMixin):
     def __init__(self, session, table):
         self.session = session
         self.table = table
 
-    def get_data(self, **keywords):
-        sql_book = load_file('sql', session=self.session, tables=[self.table])
-        sheets = sql_book.sheets()
-        items = sheets.items()
-        if len(items[0][1]) == 0:
-            return None, None
-        else:
-            return items[0][0], items[0][1]
+    def get_sql_book(self):
+        return load_file('sql', session=self.session, tables=[self.table])
 
 
-class SingleSheetDjangoSource(SingleSheetDataSource):
+class SingleSheetDjangoSource(SingleSheetDatabaseSourceMixin):
     def __init__(self, model):
         self.model = model
 
-    def get_data(self, **keywords):
-        sql_book = load_file('django', models=[self.model])
-        sheets = sql_book.sheets()
-        items = sheets.items()
-        if len(items[0][1]) == 0:
-            return None, None
-        else:
-            return items[0][0], items[0][1]
-
+    def get_sql_book(self):
+        return load_file('django', models=[self.model])
