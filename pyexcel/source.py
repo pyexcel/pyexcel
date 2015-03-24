@@ -54,7 +54,7 @@ class SingleSheetRecrodsSource(SingleSheetDataSource):
         self.records = records
 
     def get_data(self, **keywords):
-        from utils import from_records
+        from .utils import from_records
         return 'pyexcel_sheet1', from_records(self.records)
 
 
@@ -64,7 +64,7 @@ class SingleSheetDictSource(SingleSheetDataSource):
         self.with_keys = with_keys
 
     def get_data(self, **keywords):
-        from utils import dict_to_array
+        from .utils import dict_to_array
         tmp_array = dict_to_array(self.adict, self.with_keys)
         return 'pyexcel_sheet1', tmp_array
 
