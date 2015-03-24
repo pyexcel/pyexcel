@@ -365,7 +365,6 @@ class TestSavingToDatabase:
         }
         sheet.save_to_database(self.session, Signature, mapdict=mapdict)
         result = pe.get_dict(session=self.session, table=Signature)
-        print result
         assert result == {
             "X": [1, 4],
             "Y": [2, 5],
