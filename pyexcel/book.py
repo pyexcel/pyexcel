@@ -273,18 +273,26 @@ class Book(object):
         writer.write_book_reader(self)
         writer.close()
 
-    def save_to_django_models(self, models):
+    def save_to_django_models(self, models, data_wrappers=None, mapdicts=None, batch_size=None):
         """Save to database table through django model
         
         :param models: a list of database models, that is accepted by :meth:`Sheet.save_to_django_model`. The sequence of tables matters when there is dependencies
                        in between the tables. For example, **Car** is made by **Car Maker**. **Car Maker** table should be specified before **Car** table.
         """
-        for i in range(0, self.number_of_sheets()):
-            if i >= len(models):
-                print("Warning: the number of sheets is greater than the number of tables")
-                continue
-            sheet = self.sheet_by_index(i)
-            sheet.save_to_django_model(models[i])
+        from .writers import BookWriter
+        for sheet in self:
+            if len(sheet.colnames)  == 0:
+                sheet.name_columns_by_row(0)
+        colnames_array = [sheet.colnames for sheet in self]
+        if data_wrappers is None:
+            data_wrappers= [None] * len(models)
+        if mapdicts is None:
+            mapdicts = [None] * len(models)
+        x = zip(models, colnames_array, data_wrappers, mapdicts)
+        table_dict = dict(zip(self.name_array, x))
+        w = BookWriter('django', models=table_dict, batch_size=batch_size)
+        w.write_book_reader_to_db(self)
+        w.close()
 
     def save_to_database(self, session, tables, table_init_funcs=None, mapdicts=None):
         """Save data in sheets to database tables

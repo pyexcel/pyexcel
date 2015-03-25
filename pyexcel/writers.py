@@ -171,9 +171,12 @@ class BookWriter:
         """
         keys = bookreader.sheet_names()
         for name in keys:
-            sheet = self.create_sheet(name)
-            sheet.write_array(bookreader[name].array)
-            sheet.close()
+            try:
+                sheet = self.create_sheet(name)
+                sheet.write_array(bookreader[name].array)
+                sheet.close()
+            except:
+                print("Cannot write sheet %s" % name)
 
     def close(self):
         """close the writer"""

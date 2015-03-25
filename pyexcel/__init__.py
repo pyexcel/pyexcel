@@ -142,7 +142,7 @@ def save_book_to_database(session, tables, **keywords):
     return None
 
 
-def save_to_django_model(dest_model, **keywords):
+def save_to_django_model(dest_model, data_wrapper=None, mapdict=None, batch_size=None, **keywords):
     """Save a sheet to database
     
     :param session: database session
@@ -151,7 +151,7 @@ def save_to_django_model(dest_model, **keywords):
     see also :meth:`~pyexcel.Sheet.save_to_database`
     """
     sheet = get_sheet(**keywords)
-    sheet.save_to_django_model(dest_model)
+    sheet.save_to_django_model(dest_model, data_wrapper=data_wrapper, mapdict=mapdict, batch_size=batch_size)
     return None
 
 def save_book_to_django_models(dest_models, **keywords):

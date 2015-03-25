@@ -11,7 +11,7 @@ from functools import partial
 from .csvbook import CSVBook, CSVWriter
 from .csvzipbook import CSVZipWriter, CSVZipBook
 from .sqlbook import SQLBookReader, SQLBookWriter
-from .djangobook import DjangoBookReader
+from .djangobook import DjangoBookReader, DjangoBookWriter
 from .._compact import is_string
 
 
@@ -40,7 +40,8 @@ WRITERS = {
     "tsv": partial(CSVWriter, dialect="excel-tab"),
     "csvz": CSVZipWriter,
     "tsvz": partial(CSVZipWriter, dialect="excel-tab"),
-    "sql": SQLBookWriter
+    "sql": SQLBookWriter,
+    "django": DjangoBookWriter
 }
 
 AVAILABLE_WRITERS = {

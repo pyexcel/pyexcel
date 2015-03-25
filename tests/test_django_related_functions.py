@@ -43,81 +43,6 @@ class FakeDjangoModel:
         return keywords
 
 
-class TestExceptions:
-    @raises(NameError)
-    def test_sheet_save_to_django_model(self):
-        model=FakeDjangoModel()
-        data = [
-            ["X", "Y", "Z"],
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
-        sheet = pe.Sheet(data)
-        sheet.save_to_django_model(model)
-
-    @raises(NameError)
-    def test_module_save_to_django_model(self):
-        model=FakeDjangoModel()
-        data = [
-            ["X", "Y", "Z"],
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
-        pe.save_as(array=data, dest_model=model)
-
-    @raises(NameError)
-    def test_book_save_to_models(self):
-        model=FakeDjangoModel()
-        content = OrderedDict()
-        content.update({"Sheet1": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
-        book = pe.Book(content)
-        book.save_to_django_models([model])
-
-
-class TestHorizontalSheet:
-    def setUp(self):
-        self.data = [
-            ["X", 1, 4],
-            ["Y", 2, 5],
-            ["Z", 3, 6]
-        ]
-        self.result = [
-            {'Y': 2, 'X': 1, 'Z': 3},
-            {'Y': 5, 'X': 4, 'Z': 6}
-        ]
-        
-    def test_model_save_to_django_model(self):
-        model=FakeDjangoModel()
-        pe.save_as(array=self.data, dest_model=(model, None, None, -1, 0))
-        assert model.objects.objs == self.result
-
-    def test_mapping_array(self):
-        data2 = [
-            ["A", 1, 4],
-            ["B", 2, 5],
-            ["C", 3, 6]
-        ]
-        mapdict = ["X", "Y", "Z"]
-        model=FakeDjangoModel()
-        pe.save_as(array=data2, dest_model=(model, mapdict, None, -1, 0))
-        assert model.objects.objs == self.result
-
-    def test_mapping_dict(self):
-        data2 = [
-            ["A", 1, 4],
-            ["B", 2, 5],
-            ["C", 3, 6]
-        ]
-        mapdict = {
-            "C": "Z",
-            "A": "X",
-            "B": "Y"
-        }
-        model=FakeDjangoModel()
-        pe.save_as(array=data2, dest_model=(model, mapdict, None, -1, 0))
-        assert model.objects.objs == self.result
-
-
 class TestSheet:
     def setUp(self):
         self.data  = [
@@ -136,37 +61,15 @@ class TestSheet:
         sheet.save_to_django_model(model)
         assert model.objects.objs == self.result
 
-    def test_sheet_save_to_django_model2(self):
-        model=FakeDjangoModel()
-        sheet = pe.Sheet(self.data, name_columns_by_row=0)
-        sheet.save_to_django_model((model,))
-        assert model.objects.objs == self.result
-
-    def test_sheet_save_to_django_model3(self):
-        model=FakeDjangoModel()
-        sheet = pe.Sheet(self.data, name_columns_by_row=0)
-        sheet.save_to_django_model((model,None))
-        assert model.objects.objs == self.result
-
-    def test_sheet_save_to_django_model4(self):
-        model=FakeDjangoModel()
-        sheet = pe.Sheet(self.data, name_columns_by_row=0)
-        sheet.save_to_django_model((model,None,None))
-        assert model.objects.objs == self.result
-
-    def test_sheet_save_to_django_model_2(self):
-        model=FakeDjangoModel()
-        sheet = pe.Sheet(self.data)
-        sheet.save_to_django_model((model, None, None, 0))
-        assert model.objects.objs == self.result
-        
     def test_sheet_save_to_django_model_3(self):
         model=FakeDjangoModel()
         sheet = pe.Sheet(self.data)
+        sheet.name_columns_by_row(0)
         def wrapper(row):
             row[0] = row[0] + 1
             return row
-        sheet.save_to_django_model((model, None, wrapper, 0))
+        sheet.save_to_django_model(model, data_wrapper=wrapper)
+        print model.objects.objs
         assert model.objects.objs == [
             {'Y': 2, 'X': 2, 'Z': 3},
             {'Y': 5, 'X': 5, 'Z': 6}
@@ -179,7 +82,7 @@ class TestSheet:
 
     def test_model_save_to_django_model_2(self):
         model=FakeDjangoModel()
-        pe.save_as(array=self.data, dest_model=(model, None, None, 0))
+        pe.save_as(array=self.data, dest_model=model)
         assert model.objects.objs == self.result
 
     def test_load_sheet_from_django_model(self):
@@ -199,7 +102,7 @@ class TestSheet:
         ]
         mapdict = ["X", "Y", "Z"]
         model=FakeDjangoModel()
-        pe.save_as(array=data2, dest_model=(model, mapdict, None, 0))
+        pe.save_as(array=data2, dest_model=model, mapdict=mapdict)
         assert model.objects.objs == self.result
 
     def test_mapping_dict(self):
@@ -214,7 +117,8 @@ class TestSheet:
             "B": "Y"
         }
         model=FakeDjangoModel()
-        pe.save_as(array=data2, dest_model=(model, mapdict, None, 0))
+        pe.save_as(array=data2, dest_model=model, mapdict=mapdict)
+        print(model.objects.objs)
         assert model.objects.objs == self.result
 
 
@@ -227,26 +131,26 @@ class TestBook:
     def test_book_save_to_models(self):
         model=FakeDjangoModel()
         book = pe.Book(self.content)
-        book.save_to_django_models([(model, None, None, 0)])
+        book.save_to_django_models([model])
         assert model.objects.objs == self.result
 
     def test_module_save_to_models(self):
         model=FakeDjangoModel()
-        pe.save_book_as(dest_models=[(model, None, None, 0)], bookdict=self.content)
+        pe.save_book_as(dest_models=[model, None, None], bookdict=self.content)
         assert model.objects.objs == self.result
 
     def test_load_book_from_django_model(self):
         model=FakeDjangoModel()
         book = pe.Book(self.content)
-        book.save_to_django_models([(model, None, None, 0)])
+        book.save_to_django_models([model])
         assert model.objects.objs == self.result
         model._meta.update(["X", "Y", "Z"])
         book2 = pe.get_book(models=[model])
         assert book2[0].to_array() == book[0].to_array()
         
-    def test_more_sheets_than__models(self):
+    def test_more_sheets_than_models(self):
         self.content.update({"IgnoreMe":[[1,2,3]]})
         model=FakeDjangoModel()
-        pe.save_book_as(dest_models=[(model, None, None, 0)], bookdict=self.content)
+        pe.save_book_as(dest_models=[model], bookdict=self.content)
         assert model.objects.objs == self.result
 

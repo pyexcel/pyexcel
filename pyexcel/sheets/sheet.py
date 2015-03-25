@@ -208,7 +208,7 @@ class Sheet(NominableSheet):
         self.save_as((file_type, stream), **keywords)
 
 
-    def save_to_django_model(self, model, batch_size=None):
+    def save_to_django_model(self, model, data_wrapper=None, mapdict=None, batch_size=None):
         """Save to database table through django model
         
         :param table: a database model or a tuple of (model, column_names, name_columns_by_row, name_rows_by_column).
@@ -216,63 +216,12 @@ class Sheet(NominableSheet):
                       mapdict is needed when the column headers of your sheet does not match the column names of the supplied table.
                       name_column_by_row indicates which row has column headers and by default it is the first row of the supplied sheet
         """
-        mymodel = None
-        column_names = None
-        mapdict = None
-        data_wrapper = None
-        name_columns_by_row = -1
-        name_rows_by_column = -1
-        objs = None
-        using_rows = False
-
-        if isinstance(model, tuple):
-            if len(model) == 1:
-                mymodel = model[0]
-            elif len(model) == 2:
-                mymodel, mapdict = model
-            elif len(model) == 3:
-                mymodel, mapdict, data_wrapper = model
-            elif len(model) == 4:
-                mymodel, mapdict, data_wrapper, name_columns_by_row = model
-            else:
-                mymodel, mapdict, data_wrapper, name_columns_by_row, name_rows_by_column = model
-        else:
-            mymodel = model
-
-        if data_wrapper is None:
-            data_wrapper = lambda row: row
-        if name_columns_by_row != -1:
-            self.name_columns_by_row(name_columns_by_row)
-        if name_rows_by_column != -1:
-            self.name_rows_by_column(name_rows_by_column)
-
-        if isinstance(mapdict, list):
-            if len(self.colnames) == 0 and len(self.rownames) > 0:
-                using_rows = True
-            column_names = mapdict
-        elif isinstance(mapdict, dict):
-            if len(self.colnames) > 0:
-                column_names = [mapdict[name] for name in self.colnames]
-            elif len(self.rownames) > 0:
-                column_names = [mapdict[name] for name in self.rownames]
-                using_rows = True
-        elif mapdict is None:
-            if len(self.colnames) > 0:
-                column_names = self.colnames
-            elif len(self.rownames) > 0:
-                column_names = self.rownames
-                using_rows = True
-
-        if column_names is not None:
-            # by default, assume column_names for rows.
-            if using_rows:
-                objs = [ mymodel(**dict(zip(column_names, data_wrapper(row)))) for row in self.columns()]
-            else:
-                objs = [ mymodel(**dict(zip(column_names, data_wrapper(row)))) for row in self.rows()]
-            mymodel.objects.bulk_create(objs, batch_size=batch_size)
-        else:
-            raise NameError("No column names or row names found!")
-      
+        from ..writers import Writer
+        if len(self.colnames) == 0:
+            self.name_columns_by_row(0)
+        w = Writer('django', sheet_name=self.name, models={self.name:(model, self.colnames, mapdict, data_wrapper)}, batch_size=batch_size)
+        w.write_array(self.array)
+        w.close()
 
     def save_to_database(self, session, table, table_init_func=None, mapdict=None):
         """Save data in sheet to database table
