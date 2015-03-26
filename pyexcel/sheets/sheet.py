@@ -126,15 +126,16 @@ def load_from_records(records):
     return Sheet(content, sheet_name, name_columns_by_row=0)
 
 
-def get_sheet(file_name=None, content=None, file_type=None,
-              session=None, table=None,
-              model=None,
-              adict=None, with_keys=True,
-              column_names=None, query_sets=None,
-              records=None,
-              array=None,
-              sheet_name=None,
-              **keywords):
+#def get_sheet(file_name=None, content=None, file_type=None,
+#              session=None, table=None,
+#              model=None,
+#              adict=None, with_keys=True,
+#              column_names=None, query_sets=None,
+#              records=None,
+#              array=None,
+#              sheet_name=None,
+    #              **keywords):
+def get_sheet(**keywords):
     """Get an instance of :class:`Sheet` from an excel source
 
     :param file_name: a file with supported file extension
@@ -167,22 +168,29 @@ def get_sheet(file_name=None, content=None, file_type=None,
     see also :ref:`a-list-of-data-structures`
     """
     sheet = None
-    if file_name:
-        sheet = load(file_name, sheet_name, **keywords)
-    elif content and file_type:
-        sheet = load_from_memory(file_type, content, sheet_name, **keywords)
-    elif session and table:
-        sheet = load_from_sql(session, table)
-    elif column_names and query_sets:
-        sheet = load_from_query_sets(column_names, query_sets, **keywords)
-    elif model:
-        sheet = load_from_django_model(model)
-    elif adict:
-        sheet = load_from_dict(adict, with_keys)
-    elif records:
-        sheet = load_from_records(records)
-    elif array:
-        sheet = Sheet(array, **keywords)
+    sheet_name = keywords.get('sheet_name', None)
+    def has_field(field, keywords):
+        return field in keywords and keywords[field]
+    if has_field('file_name', keywords):
+        if sheet_name is not None:
+            keywords.pop('sheet_name')
+        sheet = load(keywords.pop('file_name'), sheet_name, **keywords)
+    elif has_field('content', keywords) and has_field('file_type', keywords):
+        if sheet_name is not None:
+            keywords.pop('sheet_name')
+        sheet = load_from_memory(keywords.pop('file_type'), keywords.pop('content'), sheet_name, **keywords)
+    elif has_field('session', keywords) and has_field('table', keywords):
+        sheet = load_from_sql(keywords.pop('session'), keywords.pop('table'))
+    elif has_field('column_names', keywords) and has_field('query_sets', keywords):
+        sheet = load_from_query_sets(keywords.pop('column_names'), keywords.pop('query_sets'), **keywords)
+    elif has_field('model', keywords):
+        sheet = load_from_django_model(keywords.pop('model'))
+    elif has_field('adict', keywords):
+        sheet = load_from_dict(keywords.pop('adict'), keywords.get('with_key', True))
+    elif has_field('records', keywords):
+        sheet = load_from_records(keywords.pop('records'))
+    elif has_field('array', keywords):
+        sheet = Sheet(keywords.pop('array'), **keywords)
     return sheet
 
 
