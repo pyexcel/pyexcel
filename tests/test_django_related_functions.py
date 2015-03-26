@@ -69,7 +69,6 @@ class TestSheet:
             row[0] = row[0] + 1
             return row
         sheet.save_to_django_model(model, data_wrapper=wrapper)
-        print model.objects.objs
         assert model.objects.objs == [
             {'Y': 2, 'X': 2, 'Z': 3},
             {'Y': 5, 'X': 5, 'Z': 6}
@@ -118,7 +117,6 @@ class TestSheet:
         }
         model=FakeDjangoModel()
         pe.save_as(array=data2, dest_model=model, mapdict=mapdict)
-        print(model.objects.objs)
         assert model.objects.objs == self.result
 
 
