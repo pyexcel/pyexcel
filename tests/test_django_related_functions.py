@@ -42,6 +42,49 @@ class FakeDjangoModel:
     def __call__(self, **keywords):
         return keywords
 
+class TestVerticalSheet:
+    def setUp(self):
+        self.data = [
+            ["X", 1, 4],
+            ["Y", 2, 5],
+            ["Z", 3, 6]
+        ]
+        self.result = [
+            {'Y': 2, 'X': 1, 'Z': 3},
+            {'Y': 5, 'X': 4, 'Z': 6}
+        ]
+
+    def test_model_save_to_django_model(self):
+        model=FakeDjangoModel()
+        pe.save_as(array=self.data, dest_model=model, transpose_before=True)
+        assert model.objects.objs == self.result
+
+    def test_mapping_array(self):
+        data2 = [
+            ["A", 1, 4],
+            ["B", 2, 5],
+            ["C", 3, 6]
+        ]
+        mapdict = ["X", "Y", "Z"]
+        model=FakeDjangoModel()
+        pe.save_as(array=data2, dest_model=model, mapdict=mapdict, transpose_before=True)
+        assert model.objects.objs == self.result
+
+    def test_mapping_dict(self):
+        data2 = [
+            ["A", 1, 4],
+            ["B", 2, 5],
+            ["C", 3, 6]
+        ]
+        mapdict = {
+            "C": "Z",
+            "A": "X",
+            "B": "Y"
+        }
+        model=FakeDjangoModel()
+        pe.save_as(array=data2, dest_model=model, mapdict=mapdict, transpose_after=True)
+        assert model.objects.objs == self.result
+
 
 class TestSheet:
     def setUp(self):

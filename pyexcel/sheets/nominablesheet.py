@@ -411,7 +411,9 @@ class NominableSheet(FilterableSheet):
                  name_columns_by_row=-1,
                  name_rows_by_column=-1,
                  colnames=None,
-                 rownames=None):
+                 rownames=None,
+                 transpose_before=False,
+                 transpose_after=False):
         """Constructor
 
         :param sheet: two dimensional array
@@ -425,6 +427,8 @@ class NominableSheet(FilterableSheet):
         if sheet is None:
             sheet = []
         FilterableSheet.__init__(self, sheet)
+        if transpose_before:
+            self.transpose()
         self.name = name
         self._column_names = []
         self._row_names = []
@@ -446,6 +450,8 @@ class NominableSheet(FilterableSheet):
         else:
             if rownames:
                 self._row_names = rownames
+        if transpose_after:
+            self.transpose()
 
     @property
     def row(self):
