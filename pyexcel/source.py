@@ -70,23 +70,16 @@ class SingleSheetDictSource(SingleSheetDataSource):
 
 
 class SingleSheetQuerySetSource(SingleSheetDataSource):
-    def __init__(self, sheet_name, column_names, query_sets):
+    def __init__(self, column_names, query_sets, sheet_name=None):
         self.sheet_name = sheet_name
+        if self.sheet_name is None:
+            self.sheet_name = 'pyexcel_sheet1'
         self.column_names = column_names
         self.query_sets = query_sets
 
     def get_data(self, **keywords):
-        array = []
-        array.append(self.column_names)
-        for o in self.query_sets:
-            new_array = []
-            for column in self.column_names:
-                value = getattr(o, column)
-                if isinstance(value, (datetime.date, datetime.time)):
-                    value = value.isoformat()
-                new_array.append(value)
-            array.append(new_array)
-        return self.sheet_name, array
+        from .utils import from_query_sets
+        return self.sheet_name, from_query_sets(self.column_names, self.query_sets)
 
 
 class SingleSheetDatabaseSourceMixin(SingleSheetDataSource):

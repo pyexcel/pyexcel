@@ -11,6 +11,7 @@ from .nominablesheet import NominableSheet
 from ..source import (SingleSheetFile,
                       SingleSheetRecrodsSource,
                       SingleSheetDictSource,
+                      SingleSheetQuerySetSource,
                       SingleSheetSQLAlchemySource,
                       SingleSheetDjangoSource)
 
@@ -57,6 +58,15 @@ def load_from_memory(file_type,
     """
     return load((file_type, file_content), sheetname, **keywords)
 
+def load_from_query_sets(column_names, query_sets):
+    """Constructs an instance :class:`Sheet` from a database query sets
+    :param column_names: the field names
+    :param query_sets: the values
+    :returns: :class:`Sheet`
+    """
+    ssqss = SingleSheetQuerySetSource(column_names, query_sets)
+    sheet_name, content = ssqss.get_data()
+    return Sheet(content, sheet_name, name_columns_by_row=0)
 
 def load_from_sql(session, table):
     """Constructs an instance :class:`Sheet` from database table
@@ -120,6 +130,7 @@ def get_sheet(file_name=None, content=None, file_type=None,
               session=None, table=None,
               model=None,
               adict=None, with_keys=True,
+              column_names=None, query_sets=None,
               records=None,
               array=None,
               sheet_name=None,
@@ -147,6 +158,7 @@ def get_sheet(file_name=None, content=None, file_type=None,
     loading from memory        file_type, content, sheet_name, keywords
     loading from sql           session ,table
     loading from sql in django django model
+    loading from query sets    any query sets(sqlalchemy or django)
     loading from dictionary    adict, with_keys
     loading from records       records
     loading from array         array
@@ -161,6 +173,8 @@ def get_sheet(file_name=None, content=None, file_type=None,
         sheet = load_from_memory(file_type, content, sheet_name, **keywords)
     elif session and table:
         sheet = load_from_sql(session, table)
+    elif column_names and query_sets:
+        sheet = load_from_query_sets(column_names, query_sets, **keywords)
     elif model:
         sheet = load_from_django_model(model)
     elif adict:

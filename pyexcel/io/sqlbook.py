@@ -9,22 +9,7 @@
 """
 from pyexcel_io import (BookReaderBase, SheetReaderBase, BookWriter, SheetWriter)
 from .._compact import OrderedDict
-import datetime
 
-
-def to_array_from_query_sets(column_names, query_sets):
-    array = []
-    array.append(column_names)
-    for o in query_sets:
-        new_array = []
-        for column in column_names:
-            value = getattr(o, column)
-            if isinstance(value, (datetime.date, datetime.time)):
-                value = value.isoformat()
-            new_array.append(value)
-        array.append(new_array)
-    return array
-    
 
 class SQLTableReader(SheetReaderBase):
     """Read a table
@@ -38,6 +23,7 @@ class SQLTableReader(SheetReaderBase):
         return getattr(self.table, '__tablename__', None)
 
     def to_array(self):
+        from ..utils import from_query_sets
         objects = self.session.query(self.table).all()
         if len(objects) == 0:
             return []
@@ -45,7 +31,7 @@ class SQLTableReader(SheetReaderBase):
             column_names = sorted([column for column in objects[0].__dict__
                                    if column != '_sa_instance_state'])
             
-            return to_array_from_query_sets(column_names, objects)
+            return from_query_sets(column_names, objects)
 
 
 class SQLBookReader(BookReaderBase):

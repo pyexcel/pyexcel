@@ -9,7 +9,6 @@
 """
 from pyexcel_io import (BookReaderBase, SheetReaderBase, BookWriter, SheetWriter)
 from .._compact import OrderedDict
-from .sqlbook import to_array_from_query_sets
     
 
 class DjangoModelReader(SheetReaderBase):
@@ -23,12 +22,13 @@ class DjangoModelReader(SheetReaderBase):
         return self.model._meta.model_name
 
     def to_array(self):
+        from ..utils import from_query_sets
         objects = self.model.objects.all()
         if len(objects) == 0:
             return []
         else:
             column_names = sorted([field.attname for field in self.model._meta.concrete_fields])
-            return to_array_from_query_sets(column_names, objects)
+            return from_query_sets(column_names, objects)
 
 
 class DjangoBookReader(BookReaderBase):

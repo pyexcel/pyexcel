@@ -544,6 +544,18 @@ class TestSQL:
         session.add(row3)
         session.add(row4)
         session.commit()
+
+    def test_get_sheet_from_query_sets(self):
+        session=Session()
+        objects = session.query(Signature).all()
+        column_names = ["X", "Y", "Z"]
+        sheet = pe.get_sheet(column_names=column_names, query_sets=objects)
+        assert sheet.to_array() == [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        
         
     def test_get_sheet_from_sql(self):
         sheet = pe.get_sheet(session=Session(), table=Signature)
