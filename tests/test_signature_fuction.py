@@ -365,7 +365,6 @@ class TestSavingToDatabase:
         }
         sheet.save_to_database(self.session, Signature, mapdict=mapdict)
         result = pe.get_dict(session=self.session, table=Signature)
-        print result
         assert result == {
             "X": [1, 4],
             "Y": [2, 5],
@@ -497,7 +496,6 @@ class TestSavingToDatabase:
         }
         pe.save_as(adict=adict, dest_session=self.session, dest_table=Signature)
         result = pe.get_dict(session=self.session, table=Signature)
-        print result
         assert adict == result
 
     def test_save_book_as_to_database(self):
@@ -519,7 +517,6 @@ class TestSavingToDatabase:
                         dest_session=self.session,
                         dest_tables=[Signature, Signature2])
         result = pe.get_dict(session=self.session, table=Signature)
-        print result
         assert result == {
             "X": [1, 4],
             "Y": [2, 5],
