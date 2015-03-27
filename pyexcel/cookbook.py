@@ -8,8 +8,8 @@
     :license: New BSD License, see LICENSE for more details
 """
 import os
-from .book import Book, load_book
-from .source import load
+from .book import Book
+from .source import load, load_book
 from .utils import to_dict, to_array
 from .writers import Writer, BookWriter
 from ._compact import OrderedDict

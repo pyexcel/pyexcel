@@ -7,93 +7,12 @@
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-import os
 from .iterators import SheetIterator
 from .sheets import Sheet
-from .source import load_from_sql, load_from_django_model
 from .utils import to_dict, local_uuid
-from .io import load_file
 from ._compact import OrderedDict
 from .presentation import outsource
 
-
-def load_book(file, **keywords):
-    """Load content from physical file
-
-    :param str file: the file name
-    :param any keywords: additional parameters
-    """
-    path, filename = os.path.split(file)
-    book = load_file(file, **keywords)
-    sheets = book.sheets()
-    return Book(sheets, filename, path, **keywords)
-
-
-def load_book_from_memory(file_type, file_content, **keywords):
-    """Load content from memory content
-
-    :param tuple the_tuple: first element should be file extension,
-    second element should be file content
-    :param any keywords: additional parameters
-    """
-    book = load_file((file_type, file_content), **keywords)
-    sheets = book.sheets()
-    return Book(sheets, **keywords)
-
-
-def load_book_from_sql(session, tables):
-    """Get an instance of :class:`Book` from a list of tables
-
-    :param session: sqlalchemy session
-    :param tables: a list of database tables
-    """
-    book = Book()
-    for table in tables:
-        sheet = load_from_sql(session, table)
-        book += sheet
-    return book
-
-def load_book_from_django_models(models):
-    """Get an instance of :class:`Book` from a list of tables
-
-    :param session: sqlalchemy session
-    :param tables: a list of database tables
-    """
-    book = Book()
-    for model in models:
-        sheet = load_from_django_model(model)
-        book += sheet
-    return book
-
-
-def get_book(file_name=None, content=None, file_type=None,
-             session=None, tables=None,
-             models=None,
-             bookdict=None, **keywords):
-    """Get an instance of :class:`Book` from an excel source
-
-    :param file_name: a file with supported file extension
-    :param content: the file content
-    :param file_type: the file type in *content*
-    :param session: database session
-    :param tables: a list of database table
-    :param models: a list of django models
-    :param bookdict: a dictionary of two dimensional arrays
-    see also :ref:`a-list-of-data-structures`
-    """
-    book = None
-    if file_name:
-        book = load_book(file_name, **keywords)
-    elif content and file_type:
-        book = load_book_from_memory(file_type, content, **keywords)
-    elif session and tables:
-        book = load_book_from_sql(session, tables)
-    elif models:
-        book = load_book_from_django_models(models)
-    elif bookdict:
-        book = Book(bookdict)
-    return book
-    
 
 class Book(object):
     """Read an excel book that has one or more sheets
@@ -332,9 +251,3 @@ class Book(object):
             ret += str(self.sheets[sheet])
             ret += "\n"
         return ret.strip('\n')
-
-
-def BookReader(file, **keywords):
-    """For backward compatibility
-    """
-    return load_book(file, **keywords)

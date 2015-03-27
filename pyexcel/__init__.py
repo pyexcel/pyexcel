@@ -9,13 +9,7 @@
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-from .book import (
-    BookReader,
-    Book,
-    get_book,
-    load_book,
-    load_book_from_memory,
-    load_book_from_sql)
+from .book import Book
 from .writers import Writer, BookWriter
 from .sheets import (
     Sheet,
@@ -48,9 +42,6 @@ from .cookbook import (
     split_a_book,
     extract_a_sheet_from_a_book)
 from .source import (
-    Reader,
-    SeriesReader,
-    ColumnSeriesReader,
     SingleSheetFile,
     SingleSheetRecrodsSource,
     SingleSheetDictSource,
@@ -62,7 +53,17 @@ from .source import (
     load_from_memory,
     load_from_dict,
     load_from_sql,
-    load_from_records)
+    load_from_records,
+    get_book,
+    load_book,
+    load_book_from_memory,
+    load_book_from_sql)
+from .deprecated import (
+    Reader,
+    SeriesReader,
+    ColumnSeriesReader,
+    BookReader
+)
 from ._compact import BytesIO, StringIO
 
 
