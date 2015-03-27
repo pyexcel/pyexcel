@@ -78,7 +78,7 @@ class NamedRow(Row):
 
     Now let's verify what we had::
 
-        >>> r=pe.Reader("merged.csv")
+        >>> r=pe.load("merged.csv")
 
     this is added to overcome doctest's inability to handle
     python 3's unicode::

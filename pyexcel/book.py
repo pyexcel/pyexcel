@@ -9,7 +9,8 @@
 """
 import os
 from .iterators import SheetIterator
-from .sheets import Sheet, load_from_sql, load_from_django_model
+from .sheets import Sheet
+from .source import load_from_sql, load_from_django_model
 from .utils import to_dict, local_uuid
 from .io import load_file
 from ._compact import OrderedDict

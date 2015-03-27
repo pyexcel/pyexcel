@@ -9,7 +9,7 @@
 """
 import os
 from .book import Book, load_book
-from .sheets import load, Reader
+from .source import load
 from .utils import to_dict, to_array
 from .writers import Writer, BookWriter
 from ._compact import OrderedDict
@@ -75,7 +75,7 @@ def merge_files(file_array, outfilename="pyexcel_merged.csv"):
         raise NotImplementedError(__WARNING_TEXT__)
     content = []
     for f in file_array:
-        r = Reader(f)
+        r = load(f)
         content.extend(to_array(r.columns()))
     w = Writer(outfilename)
     w.write_columns(content)
@@ -132,7 +132,7 @@ def merge_csv_to_a_book(filelist, outfilename="merged.xls"):
     """
     w = BookWriter(outfilename)
     for file in filelist:
-        r = Reader(file)
+        r = load(file)
         head, tail = os.path.split(file)
         sheet = w.create_sheet(tail)
         sheet.write_reader(r)

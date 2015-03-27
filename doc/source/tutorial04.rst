@@ -53,12 +53,12 @@ merge sheets into a single sheet
 
 Suppose you want to merge many csv files row by row into a new sheet.
 
-   >>> import pyexcel
+   >>> import pyexcel as pe 
    >>> import glob
    >>> merged = pyexcel.Sheet()
    >>> for file in glob.glob("*.csv"):
-   ...     merged.row += pyexcel.Reader(file)
-   >>> writer = pyexcel.Writer("merged.csv")
+   ...     merged.row += pe.load(file)
+   >>> writer = pe.Writer("merged.csv")
    >>> writer.write_reader(merged)
    >>> writer.close()
 
