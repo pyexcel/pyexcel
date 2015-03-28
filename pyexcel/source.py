@@ -10,8 +10,8 @@
 import os
 from .io import load_file
 from ._compact import PY2
-from sheets import Sheet
-from book import Book
+from .sheets import Sheet
+from .book import Book
 
 
 class SingleSheetDataSource:
