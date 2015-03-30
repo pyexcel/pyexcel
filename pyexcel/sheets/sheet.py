@@ -71,6 +71,8 @@ class Sheet(NominableSheet):
                       name_column_by_row indicates which row has column headers and by default it is the first row of the supplied sheet
         """
         from ..writers import Writer
+        if(len(self.colnames)) == 0:
+            self.name_columns_by_row(0)
         w = Writer('sql', sheet_name=self.name, session=session, tables={self.name: (table, self.colnames, table_init_func, mapdict)})
         w.write_array(self.array)
         w.close()

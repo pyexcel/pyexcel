@@ -290,6 +290,7 @@ class TestGetRecords:
             {"X": 4, "Y": 5, "Z": 6}
         ]
 
+
 class TestSavingToDatabase:
     def setUp(self):
         Base.metadata.drop_all(engine)
@@ -307,6 +308,7 @@ class TestSavingToDatabase:
         }
         sheet = pe.get_sheet(adict=adict)
         sheet.save_to_database(self.session, Signature)
+        sheet2 = pe.get_sheet(session=self.session, table=Signature)
         result = pe.get_dict(session=self.session, table=Signature)
         assert adict == result
 

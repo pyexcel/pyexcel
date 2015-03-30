@@ -15,9 +15,32 @@ from .book import Book
 
 
 class SingleSheetDataSource:
+    field = []
+    optional_fields = {}
     def get_data(self):
         return []
 
+    @classmethod
+    def is_my_business(self, **keywords):
+        """
+        If all required keys are present, this source is OK
+        """
+        statuses = [has_field(field, keywords) for field in self.fields]
+        return len(filter(lambda status: status==False, statuses)) == 0
+
+    @classmethod
+    def make_params(self, **keywords):
+        params = {}
+        for field in self.fields:
+            params[field] = keywords.pop(field)
+
+        for field in self.optional_fields.keys():
+            if field in keywords:
+                params[field] = keywords.pop(field)
+            else:
+                params[field] = self.optional_fields[field]
+        return params, keywords
+        
 
 def one_sheet_tuple(items):
     if not PY2:
@@ -26,14 +49,19 @@ def one_sheet_tuple(items):
         return None, None
     else:
         return items[0][0], items[0][1]
-    
-        
+
+
+def has_field(field, keywords):
+    return field in keywords and keywords[field]
+
 class SingleSheetFile(SingleSheetDataSource):
+    fields = ['file_name']
+
     def __init__(self, file_name, sheet_name=None, sheet_index=None):
         self.file_name = file_name
         self.sheet_name = sheet_name
         self.sheet_index = sheet_index
-
+        
     def get_data(self, **keywords):
         """
         Return a dictionary with only one key and one value
@@ -52,6 +80,7 @@ class SingleSheetFile(SingleSheetDataSource):
 
 
 class SingleSheetRecrodsSource(SingleSheetDataSource):
+    fields= ['records']
     def __init__(self, records):
         self.records = records
 
@@ -61,6 +90,9 @@ class SingleSheetRecrodsSource(SingleSheetDataSource):
 
 
 class SingleSheetDictSource(SingleSheetDataSource):
+    fields = ['adict']
+    optional_fields = {'with_keys': True}
+
     def __init__(self, adict, with_keys=True):
         self.adict = adict
         self.with_keys = with_keys
@@ -110,6 +142,22 @@ class SingleSheetDjangoSource(SingleSheetDatabaseSourceMixin):
     def get_sql_book(self):
         return load_file('django', models=[self.model])
 
+
+SOURCES = [
+    SingleSheetFile,
+    SingleSheetRecrodsSource,
+    SingleSheetDictSource
+]
+
+class SourceFactory:
+    @classmethod
+    def get_source(self, **keywords):
+        for source in SOURCES:
+            if source.is_my_business(**keywords):
+                params, new_keywords = source.make_params(**keywords)
+                s = source(**params)
+                return s, new_keywords
+        return None, keywords
 
 def load(file, sheetname=None,
          name_columns_by_row=-1,
@@ -258,10 +306,10 @@ def get_sheet(**keywords):
     sheet_name = keywords.get('sheet_name', None)
     def has_field(field, keywords):
         return field in keywords and keywords[field]
-    if has_field('file_name', keywords):
-        if sheet_name is not None:
-            keywords.pop('sheet_name')
-        sheet = load(keywords.pop('file_name'), sheet_name, **keywords)
+    source, keywords = SourceFactory.get_source(**keywords)
+    if source is not None:
+        sheet_name, data = source.get_data()
+        sheet = Sheet(data, sheet_name, **keywords)
     elif has_field('content', keywords) and has_field('file_type', keywords):
         if sheet_name is not None:
             keywords.pop('sheet_name')
@@ -272,10 +320,6 @@ def get_sheet(**keywords):
         sheet = load_from_query_sets(keywords.pop('column_names'), keywords.pop('query_sets'), **keywords)
     elif has_field('model', keywords):
         sheet = load_from_django_model(keywords.pop('model'))
-    elif has_field('adict', keywords):
-        sheet = load_from_dict(keywords.pop('adict'), keywords.get('with_key', True))
-    elif has_field('records', keywords):
-        sheet = load_from_records(keywords.pop('records'))
     elif has_field('array', keywords):
         sheet = Sheet(keywords.pop('array'), **keywords)
     return sheet
