@@ -45,6 +45,7 @@ Here is the code::
     >>> import pyexcel as pe
     >>> import pyexcel.ext.xls
     >>> sheet = pe.get_sheet(file_name="example.xls")
+    >>> sheet
     >>> sheet.row += [12, 11, 10]
     >>> sheet.save_as("new_example.xls")
     >>> pe.get_sheet(file_name="new_example.xls")
@@ -166,9 +167,9 @@ following kind of data
 row_example.xls
 
 ========= ==== ==== ====
-Row 1     1	   2    3
-Row 2     4	   5    6
-Row 3     7	   8    9
+Row 1     1    2    3
+Row 2     4    5    6
+Row 3     7    8    9
 ========= ==== ==== ====
 
 .. testcode::
