@@ -160,6 +160,53 @@ Alternatively, you could have done like this::
     | 3        | 6        | 300      |
     +----------+----------+----------+
 
+How about the same alternative solution to previous row based example? Well, you'd better to have the 
+following kind of data
+
+row_example.xls
+
+========= ==== ==== ====
+Row 1     1	   2    3
+Row 2     4	   5    6
+Row 3     7	   8    9
+========= ==== ==== ====
+
+.. testcode::
+   :hide:
+
+   >>> import os
+   >>> import pyexcel
+   >>> import pyexcel.ext.xls
+   >>> data = [
+   ...      ["Row 1", 1, 2, 3],
+   ...      ["Row 2", 4, 5, 6],
+   ...      ["Row 3", 7, 8, 9],
+   ...  ]
+   >>> s = pyexcel.Sheet(data)
+   >>> s.save_as("row_example.xls")
+
+And then you want to update "Row 3" with for example::
+
+    [100, 200, 300]
+
+These code would do the job::
+
+    >>> import pyexcel as pe
+    >>> import pyexcel.ext.xls
+    >>> sheet = pe.get_sheet(file_name="row_example.xls", name_rows_by_column=0)
+    >>> sheet.row["Row 3"] = [100, 200, 300]
+    >>> sheet.save_as("new_example5.xls")
+    >>> pe.get_sheet(file_name="new_example5.xls")
+    Sheet Name: pyexcel
+    +-------+-----+-----+-----+
+    | Row 1 | 1   | 2   | 3   |
+    +-------+-----+-----+-----+
+    | Row 2 | 4   | 5   | 6   |
+    +-------+-----+-----+-----+
+    | Row 3 | 100 | 200 | 300 |
+    +-------+-----+-----+-----+
+
+
 .. testcode::
    :hide:
 
@@ -168,6 +215,7 @@ Alternatively, you could have done like this::
    >>> os.unlink("new_example2.xls")
    >>> os.unlink("new_example3.xls")
    >>> os.unlink("new_example4.xls")
+   >>> os.unlink("new_example5.xls")
    >>> os.unlink("example.xls")
 
 
