@@ -5,12 +5,14 @@ Recipies
 
     The pyexcel DOES NOT consider Fonts, Styles and Charts at all. In the resulting excel files, fonts, styles and charts will not be transferred.
 
+These recipies give a one-stop utility functions for known use cases. Simliar functionality can be achieved using other application interfaces.
+
 Update one column of a data file
 ---------------------------------
 
-Suppose have one data file as the following:
+Suppose you have one data file as the following:
 
-example1.csv
+example.xls
 
 ======== ======== ========
 Column 1 Column 2 Column 3
@@ -27,9 +29,9 @@ Column 1 Column 2 Column 3
    >>> import pyexcel.ext.xls
    >>> data = [
    ...      ["Column 1", "Column 2", "Column 3"],
-   ...      [1, 2, 3],
-   ...      [4, 5, 6],
-   ...      [7, 8, 9]
+   ...      [1, 4, 7],
+   ...      [2, 5, 8],
+   ...      [3, 6, 9]
    ...  ]
    >>> s = pyexcel.Sheet(data)
    >>> s.save_as("example.xls")

@@ -46,7 +46,7 @@ def update_columns(infilename, column_dicts, outfilename=None):
 
 
 def update_rows(infilename, row_dicts, outfilename=None):
-    """Update one or more columns of a data file with series
+    """Update one or more rows of a data file with series
 
     datastucture: key should an integer of the row to be updated
     value should be an array of the data

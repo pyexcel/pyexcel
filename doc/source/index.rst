@@ -162,6 +162,7 @@ Tutorial
    tutorial02
    tutorial03
    tutorial04
+   tutorial_file
    tutorial06
 
 Cook book
