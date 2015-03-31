@@ -178,74 +178,6 @@ class SourceFactory:
         return None
 
 
-def load_from_query_sets(column_names, query_sets):
-    """Constructs an instance :class:`Sheet` from a database query sets
-    :param column_names: the field names
-    :param query_sets: the values
-    :returns: :class:`Sheet`
-    """
-    ssqss = SingleSheetQuerySetSource(column_names, query_sets)
-    sheet_name, content = ssqss.get_data()
-    return Sheet(content, sheet_name, name_columns_by_row=0)
-
-def load_from_sql(session, table):
-    """Constructs an instance :class:`Sheet` from database table
-
-    :param session: SQLAlchemy session object
-    :param table: SQLAlchemy database table
-    :returns: :class:`Sheet`
-    """
-    sssqls = SingleSheetSQLAlchemySource(session, table)
-    sheet_name, content = sssqls.get_data()
-    if sheet_name:
-        return Sheet(content,
-                     sheet_name,
-                     name_columns_by_row=0)
-    else:
-        return None
-
-
-def load_from_django_model(model):
-    """Constructs an instance :class:`Sheet` from a django model
-
-    :param model: Django model
-    :returns: :class:`Sheet`
-    """
-    ssds = SingleSheetDjangoSource(model)
-    sheet_name, content = ssds.get_data()
-    return Sheet(content,
-                 sheet_name,
-                 name_columns_by_row=0
-    )
-
-
-def load_from_dict(the_dict, with_keys=True):
-    """Return a sheet from a dictionary of one dimensional arrays
-
-    :param dict the_dict: its value should be one dimensional array
-    :param bool with_keys: indicate if dictionary keys should be appended or not
-    """
-    ssds = SingleSheetDictSource(the_dict)
-    sheet_name, content = ssds.get_data()
-    sheet = Sheet(content, sheet_name)
-    if with_keys:
-        sheet.name_columns_by_row(0)
-    return sheet
-
-
-def load_from_records(records):
-    """Return a sheet from a list of records
-
-    Sheet.to_records() would produce a list of dictionaries. All dictionaries
-    share the same keys.
-    :params list records: records are likely to be produced by Sheet.to_records()
-    method.
-    """
-    ssrs = SingleSheetRecrodsSource(records)
-    sheet_name, content = ssrs.get_data()
-    return Sheet(content, sheet_name, name_columns_by_row=0)
-
-
 def get_sheet(**keywords):
     """Get an instance of :class:`Sheet` from an excel source
 
@@ -323,6 +255,7 @@ def load_book_from_sql(session, tables):
     :param session: sqlalchemy session
     :param tables: a list of database tables
     """
+    from .deprecated import load_from_sql
     book = Book()
     for table in tables:
         sheet = load_from_sql(session, table)
@@ -335,6 +268,7 @@ def load_book_from_django_models(models):
     :param session: sqlalchemy session
     :param tables: a list of database tables
     """
+    from .deprecated import load_from_django_model
     book = Book()
     for model in models:
         sheet = load_from_django_model(model)

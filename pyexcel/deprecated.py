@@ -8,8 +8,21 @@
     :license: New BSD License
 """
 from .source import get_sheet, load_book
+from functools import partial
 
 
+def deprecated(func, message="Deprecated!"):
+    def inner(*arg, **keywords):
+        print(message)
+        return func(*arg, **keywords)
+    return inner
+
+
+deprecated_loader = partial(deprecated, message="Deprecated! Please use get_sheet instead.")
+deprecated_reader = partial(deprecated, message="Deprecated! Please use class Sheet instead")
+
+
+@deprecated_loader
 def load(file, sheetname=None, **keywords):
     """Constructs an instance :class:`Sheet` from a sheet of an excel file
 
@@ -27,6 +40,7 @@ def load(file, sheetname=None, **keywords):
     return sheet
 
 
+@deprecated_loader
 def load_from_memory(file_type,
                      file_content,
                      sheetname=None,
@@ -42,6 +56,60 @@ def load_from_memory(file_type,
     return load((file_type, file_content), sheetname, **keywords)
 
 
+@deprecated_loader
+def load_from_query_sets(column_names, query_sets, **keywords):
+    """Constructs an instance :class:`Sheet` from a database query sets
+    :param column_names: the field names
+    :param query_sets: the values
+    :returns: :class:`Sheet`
+    """
+    return get_sheet(column_names=column_names, query_sets=query_sets)
+
+    
+@deprecated_loader
+def load_from_sql(session, table, **keywords):
+    """Constructs an instance :class:`Sheet` from database table
+
+    :param session: SQLAlchemy session object
+    :param table: SQLAlchemy database table
+    :returns: :class:`Sheet`
+    """
+    return get_sheet(session=session, table=table, **keywords)
+
+    
+@deprecated_loader
+def load_from_django_model(model, **keywords):
+    """Constructs an instance :class:`Sheet` from a django model
+
+    :param model: Django model
+    :returns: :class:`Sheet`
+    """
+    return get_sheet(model=model, **keywords)
+
+
+@deprecated_loader
+def load_from_dict(the_dict, with_keys=True, **keywords):
+    """Return a sheet from a dictionary of one dimensional arrays
+
+    :param dict the_dict: its value should be one dimensional array
+    :param bool with_keys: indicate if dictionary keys should be appended or not
+    """
+    return get_sheet(adict=the_dict, with_keys=with_keys, **keywords)
+
+
+@deprecated_loader
+def load_from_records(records, **keywords):
+    """Return a sheet from a list of records
+
+    Sheet.to_records() would produce a list of dictionaries. All dictionaries
+    share the same keys.
+    :params list records: records are likely to be produced by Sheet.to_records()
+    method.
+    """
+    return get_sheet(records=records, **keywords)
+
+
+@deprecated_reader
 def Reader(file=None, sheetname=None, **keywords):
     """
     A single sheet excel file reader
@@ -53,30 +121,30 @@ def Reader(file=None, sheetname=None, **keywords):
     use as class would fail though
     changed since 0.0.7
     """
-    print("Deprecated. Please use class Sheet instead")
     return load(file, sheetname=sheetname, **keywords)
 
 
+@partial(deprecated, message="Please use class Sheet(..., name_columns_by_row=0,..) instead")
 def SeriesReader(file=None, sheetname=None, series=0, **keywords):
     """A single sheet excel file reader and it has column headers in a selected row
 
     use as class would fail
     changed since 0.0.7
     """
-    print("Deprecated. Please use class Sheet(..., name_columns_by_row=0,..) instead")
     return load(file, sheetname=sheetname, name_columns_by_row=series, **keywords)
 
 
+@partial(deprecated, message="Please use class Sheet(..., name_rows_by_column=0..) instead")
 def ColumnSeriesReader(file=None, sheetname=None, series=0, **keywords):
     """A single sheet excel file reader and it has row headers in a selected column
 
     use as class would fail
     changed since 0.0.7
     """
-    print("Deprecated. Please use class Sheet(..., name_rows_by_column=0..) instead")
     return load(file, sheetname=sheetname, name_rows_by_column=series, **keywords)
 
 
+@partial(deprecated, message="Please use class Book instead")
 def BookReader(file, **keywords):
     """For backward compatibility
     """

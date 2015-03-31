@@ -25,13 +25,14 @@ class TestSQL:
         content = dedent("""
 Sheet Name: pyexcel
 +------------+----+-------+--------+
-|   birth    | id | name  | weight |
-+============+====+=======+========+
+| birth      | id | name  | weight |
++------------+----+-------+--------+
 | 2014-11-11 | 0  | Adam  | 11.250 |
 +------------+----+-------+--------+
 | 2014-11-12 | 1  | Smith | 12.250 |
 +------------+----+-------+--------+""").strip('\n')
         print(str(sheet))
+        print content
         assert str(sheet) == content
 
 class TestEmptyTable:
@@ -41,4 +42,4 @@ class TestEmptyTable:
 
     def test_empty_table(self):
         sheet = pe.load_from_sql(Session(), Pyexcel)
-        assert sheet == None
+        assert sheet is not None

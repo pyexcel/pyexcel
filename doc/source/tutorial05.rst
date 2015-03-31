@@ -22,7 +22,7 @@ Column manipulation
 
 Suppose have one data file as the following:
 
-   >>> sheet = pyexcel.load("example.xls", name_columns_by_row=0)
+   >>> sheet = pyexcel.get_sheet(file_name="example.xls", name_columns_by_row=0)
    >>> sheet
    Sheet Name: pyexcel
    +----------+----------+----------+

@@ -230,8 +230,8 @@ The following code will do the job::
 
    >>> from pyexcel.cookbook import merge_two_readers
    >>> from pyexcel.filters import EvenColumnFilter, ColumnFilter
-   >>> sheet1 = pyexcel.load("example.csv", name_columns_by_row=0)
-   >>> sheet2 = pyexcel.load("example.xls", name_columns_by_row=0)
+   >>> sheet1 = pyexcel.get_sheet(file_name="example.csv", name_columns_by_row=0)
+   >>> sheet2 = pyexcel.get_sheet(file_name="example.xls", name_columns_by_row=0)
    >>> sheet1.filter(pyexcel.EvenColumnFilter())
    >>> sheet2.filter(pyexcel.ColumnFilter([0, 1]))
    >>> merge_two_readers(sheet1, sheet2, "output.xls")
@@ -239,7 +239,7 @@ The following code will do the job::
 .. testcode::
    :hide:
 
-   >>> sheet3 = pyexcel.load("output.xls", name_columns_by_row=0)
+   >>> sheet3 = pyexcel.get_sheet(file_name="output.xls", name_columns_by_row=0)
    >>> [str(name) for name in sheet3.colnames]
    ['Column 1', 'Column 3', 'Column 5', 'Column 8', 'Column 9', 'Column 10']
    >>> sheet3.column["Column 8"]

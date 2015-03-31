@@ -479,7 +479,7 @@ class TestLoadingFunction:
             "a": [1,2,3,5],
             "b": [4,5,6,7,8]
         }
-        sheet = pe.load_from_dict(content)
+        sheet = pe.load_from_dict(content, name_columns_by_row=0)
         assert sorted(sheet.colnames) == sorted(content.keys())
 
     def test_load_from_records(self):
@@ -487,7 +487,7 @@ class TestLoadingFunction:
             {"a": 1, "b": 2},
             {"a": 3, "b": 4}
         ]
-        sheet = pe.load_from_records(content)
+        sheet = pe.load_from_records(content, name_columns_by_row=0)
         expected = {
             "a": [1, 3],
             "b": [2, 4]

@@ -43,7 +43,7 @@ Let's read it out first::
 
 .. testcode::
    
-   >>> sheet = pyexcel.load("example.xls", name_columns_by_row=0)
+   >>> sheet = pyexcel.get_sheet(file_name="example.xls", name_columns_by_row=0)
    >>> sheet.column["userid"]
    [10120.0, 10121.0, 10122.0]
 
@@ -84,7 +84,7 @@ Sometimes, the data in a spreadsheet may have unwanted strings in all or some ce
 
 First, let's read the content and see what do we have::
 
-   >>> sheet = pyexcel.load("example.xls")
+   >>> sheet = pyexcel.get_sheet(file_name="example.xls")
 
 .. testcode::
    :hide:

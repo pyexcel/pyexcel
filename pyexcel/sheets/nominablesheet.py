@@ -72,13 +72,13 @@ class NamedRow(Row):
 
         >>> merged = pe.Sheet()
         >>> for file in ["1.csv", "2.csv", "3.csv"]:
-        ...     r = pe.load(file)
+        ...     r = pe.get_sheet(file_name=file)
         ...     merged.row += r
         >>> merged.save_as("merged.csv")
 
     Now let's verify what we had::
 
-        >>> r=pe.load("merged.csv")
+        >>> r=pe.get_sheet(file_name="merged.csv")
 
     this is added to overcome doctest's inability to handle
     python 3's unicode::

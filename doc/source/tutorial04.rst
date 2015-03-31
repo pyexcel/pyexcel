@@ -1,3 +1,4 @@
+
 Book: Sheet operations
 =========================
 
@@ -57,7 +58,7 @@ Suppose you want to merge many csv files row by row into a new sheet.
    >>> import glob
    >>> merged = pyexcel.Sheet()
    >>> for file in glob.glob("*.csv"):
-   ...     merged.row += pe.load(file)
+   ...     merged.row += pe.get_sheet(file_name=file)
    >>> writer = pe.Writer("merged.csv")
    >>> writer.write_reader(merged)
    >>> writer.close()
@@ -68,3 +69,4 @@ Suppose you want to merge many csv files row by row into a new sheet.
    >>> import os
    >>> os.unlink("book1.xls")
    >>> os.unlink("book2.xlsx")
+   >>> os.unlink("merged.csv")

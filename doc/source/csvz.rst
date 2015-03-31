@@ -28,7 +28,7 @@ When a single sheet is to be saved, the resulting csvz file will be a zip file t
 
 And it can be read out as well and can be saved in any other supported format.
 
-    >>> sheet2 = pe.load("myfile.csvz")
+    >>> sheet2 = pe.get_sheet(file_name="myfile.csvz")
     >>> sheet2
     Sheet Name: pyexcel
     +---+---+---+

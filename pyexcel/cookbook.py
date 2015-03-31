@@ -9,8 +9,7 @@
 """
 import os
 from .book import Book
-from .source import load_book
-from .deprecated import load
+from .source import load_book, get_sheet
 from .utils import to_dict, to_array
 from .writers import Writer, BookWriter
 from ._compact import OrderedDict
@@ -36,7 +35,7 @@ def update_columns(infilename, column_dicts, outfilename=None):
         default_out_file = outfilename
     if os.path.exists(default_out_file):
         raise NotImplementedError(__WARNING_TEXT__)
-    r = load(infilename, name_columns_by_row=0)
+    r = get_sheet(file_name=infilename, name_columns_by_row=0)
     series = r.colnames
     for k in column_dicts.keys():
         index = series.index(str(k))
@@ -60,7 +59,7 @@ def update_rows(infilename, row_dicts, outfilename=None):
         default_out_file = outfilename
     if os.path.exists(default_out_file):
         raise NotImplementedError(__WARNING_TEXT__)
-    r = load(infilename, name_rows_by_column=0)
+    r = get_sheet(file_name=infilename, name_rows_by_column=0)
     series = r.rownames
     for k in row_dicts.keys():
         index = series.index(str(k))
@@ -76,7 +75,7 @@ def merge_files(file_array, outfilename="pyexcel_merged.csv"):
         raise NotImplementedError(__WARNING_TEXT__)
     content = []
     for f in file_array:
-        r = load(f)
+        r = get_sheet(file_name=f)
         content.extend(to_array(r.columns()))
     w = Writer(outfilename)
     w.write_columns(content)
@@ -133,7 +132,7 @@ def merge_csv_to_a_book(filelist, outfilename="merged.xls"):
     """
     w = BookWriter(outfilename)
     for file in filelist:
-        r = load(file)
+        r = get_sheet(file_name=file)
         head, tail = os.path.split(file)
         sheet = w.create_sheet(tail)
         sheet.write_reader(r)

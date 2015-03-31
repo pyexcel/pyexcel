@@ -39,7 +39,7 @@ Here is the example code showing how you can randomly access a cell::
 
 .. testcode::
 
-   >>> sheet = pyexcel.load("example.xls""")
+   >>> sheet = pyexcel.get_sheet(file_name="example.xls")
    >>> print(sheet[2, 2])
    5.0
    >>> print(sheet["C3"])
@@ -192,7 +192,7 @@ The following code will give you the data in json::
 
     >>> import json
     >>> # "example.csv","example.xlsx","example.xlsm"
-    >>> sheet = pyexcel.load("example.xls")
+    >>> sheet = pyexcel.get_sheet(file_name="example.xls")
     >>> print(json.dumps(sheet.to_array()))
     [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]]
 
@@ -226,7 +226,7 @@ The following code will give you data series in a dictionary:
 .. testcode::
     
    >>> # "example.xls","example.xlsx","example.xlsm"
-   >>> sheet = pyexcel.load("example_series.xls", name_columns_by_row=0)
+   >>> sheet = pyexcel.get_sheet(file_name="example_series.xls", name_columns_by_row=0)
 
 .. testcode::
    :hide:
@@ -260,7 +260,7 @@ X Y Z
 The following code will produce what you want::
 
     >>> # "example.csv","example.xlsx","example.xlsm"
-    >>> sheet = pyexcel.load("example.xls", name_columns_by_row=0)
+    >>> sheet = pyexcel.get_sheet(file_name="example.xls", name_columns_by_row=0)
     >>> records = sheet.to_records()
     >>> for record in records:
     ...     keys = sorted(record.keys())

@@ -41,7 +41,7 @@ You can read it use a SeriesReader::
 
 .. testcode::
 
-   >>> sheet = pyexcel.load("example_series.xls", name_columns_by_row=0)
+   >>> sheet = pyexcel.get_sheet(file_name="example_series.xls", name_columns_by_row=0)
 
 .. testcode::
    :hide:
@@ -128,7 +128,7 @@ The complete code is::
 
     import pyexcel
 
-    sheet = pyexcel.load("example_series.xls")
+    sheet = pyexcel.get_sheet(file_name="example_series.xls")
     sheet.add_filter(pyexcel.OddRowFilter())
     sheet.add_filter(pyexcel.EvenColumnFilter())
     sheet.save_as("example_series_filter.xls")
@@ -151,7 +151,7 @@ Yes, you can do that. The code looks like this::
 
    import pyexcel
 
-   book = pyexcel.load("yourfile.xls")
+   book = pyexcel.load_book("yourfile.xls")
    for sheet in book:
        # do you processing with sheet
        # do filtering?
