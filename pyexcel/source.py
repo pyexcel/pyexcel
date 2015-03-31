@@ -17,6 +17,7 @@ from .book import Book
 class SingleSheetDataSource:
     field = []
     optional_fields = {}
+
     def get_data(self):
         return []
 
@@ -26,20 +27,10 @@ class SingleSheetDataSource:
         If all required keys are present, this source is OK
         """
         statuses = [has_field(field, keywords) for field in self.fields]
-        return len(filter(lambda status: status==False, statuses)) == 0
-
-    @classmethod
-    def make_params(self, **keywords):
-        params = {}
-        for field in self.fields:
-            params[field] = keywords.pop(field)
-
-        for field in self.optional_fields.keys():
-            if field in keywords:
-                params[field] = keywords.pop(field)
-            else:
-                params[field] = self.optional_fields[field]
-        return params, keywords
+        results = filter(lambda status: status==False, statuses)
+        if not PY2:
+            results = list(results)
+        return len(results) == 0
         
 
 def one_sheet_tuple(items):
@@ -57,26 +48,34 @@ def has_field(field, keywords):
 class SingleSheetFile(SingleSheetDataSource):
     fields = ['file_name']
 
-    def __init__(self, file_name, sheet_name=None, sheet_index=None):
+    def __init__(self, file_name=None, sheet_name=None, sheet_index=None, **keywords):
         self.file_name = file_name
         self.sheet_name = sheet_name
         self.sheet_index = sheet_index
+        self.keywords = keywords
         
-    def get_data(self, **keywords):
+    def get_data(self):
         """
         Return a dictionary with only one key and one value
         """
         if self.sheet_name:
-            io_book = load_file(self.file_name, sheet_name=self.sheet_name, **keywords)
+            io_book = load_file(self.file_name, sheet_name=self.sheet_name, **self.keywords)
             sheets = io_book.sheets()
         else:
             if self.sheet_index:
                 sheet_index = self.sheet_index
             else:
                 sheet_index = 0
-            io_book = load_file(self.file_name, sheet_index=sheet_index, **keywords)
+            io_book = load_file(self.file_name, sheet_index=sheet_index, **self.keywords)
             sheets = io_book.sheets()
         return one_sheet_tuple(sheets.items())
+
+
+class SingleSheetFileInMemory(SingleSheetFile):
+    fields = ['content', 'file_type']
+
+    def __init__(self, content=None, file_type=None, **keywords):
+        SingleSheetFile.__init__(self, file_name=(file_type, content),**keywords)
 
 
 class SingleSheetRecrodsSource(SingleSheetDataSource):
@@ -84,26 +83,37 @@ class SingleSheetRecrodsSource(SingleSheetDataSource):
     def __init__(self, records):
         self.records = records
 
-    def get_data(self, **keywords):
+    def get_data(self):
         from .utils import from_records
         return 'pyexcel_sheet1', from_records(self.records)
 
 
 class SingleSheetDictSource(SingleSheetDataSource):
     fields = ['adict']
-    optional_fields = {'with_keys': True}
 
     def __init__(self, adict, with_keys=True):
         self.adict = adict
         self.with_keys = with_keys
 
-    def get_data(self, **keywords):
+    def get_data(self):
         from .utils import dict_to_array
         tmp_array = dict_to_array(self.adict, self.with_keys)
         return 'pyexcel_sheet1', tmp_array
 
 
+class SingleSheetArraySource(SingleSheetDataSource):
+    fields = ['array']
+
+    def __init__(self, array):
+        self.array = array
+
+    def get_data(self):
+        return 'pyexcel_sheet1', self.array
+
+
 class SingleSheetQuerySetSource(SingleSheetDataSource):
+    fields = ['column_names', 'query_sets']
+
     def __init__(self, column_names, query_sets, sheet_name=None):
         self.sheet_name = sheet_name
         if self.sheet_name is None:
@@ -111,7 +121,7 @@ class SingleSheetQuerySetSource(SingleSheetDataSource):
         self.column_names = column_names
         self.query_sets = query_sets
 
-    def get_data(self, **keywords):
+    def get_data(self):
         from .utils import from_query_sets
         return self.sheet_name, from_query_sets(self.column_names, self.query_sets)
 
@@ -120,13 +130,15 @@ class SingleSheetDatabaseSourceMixin(SingleSheetDataSource):
     def get_sql_book():
         pass
         
-    def get_data(self, **keywords):
+    def get_data(self):
         sql_book = self.get_sql_book()
         sheets = sql_book.sheets()
         return one_sheet_tuple(sheets.items())
 
 
 class SingleSheetSQLAlchemySource(SingleSheetDatabaseSourceMixin):
+    fields = ['session', 'table']
+
     def __init__(self, session, table):
         self.session = session
         self.table = table
@@ -136,6 +148,8 @@ class SingleSheetSQLAlchemySource(SingleSheetDatabaseSourceMixin):
 
 
 class SingleSheetDjangoSource(SingleSheetDatabaseSourceMixin):
+    fields = ['model']
+
     def __init__(self, model):
         self.model = model
 
@@ -146,7 +160,12 @@ class SingleSheetDjangoSource(SingleSheetDatabaseSourceMixin):
 SOURCES = [
     SingleSheetFile,
     SingleSheetRecrodsSource,
-    SingleSheetDictSource
+    SingleSheetDictSource,
+    SingleSheetSQLAlchemySource,
+    SingleSheetDjangoSource,
+    SingleSheetQuerySetSource,
+    SingleSheetFileInMemory,
+    SingleSheetArraySource
 ]
 
 class SourceFactory:
@@ -154,53 +173,10 @@ class SourceFactory:
     def get_source(self, **keywords):
         for source in SOURCES:
             if source.is_my_business(**keywords):
-                params, new_keywords = source.make_params(**keywords)
-                s = source(**params)
-                return s, new_keywords
-        return None, keywords
+                s = source(**keywords)
+                return s
+        return None
 
-def load(file, sheetname=None,
-         name_columns_by_row=-1,
-         name_rows_by_column=-1,
-         colnames=None,
-         rownames=None,
-         **keywords):
-    """Constructs an instance :class:`Sheet` from a sheet of an excel file
-
-    except csv, most excel files has more than one sheet.
-    Hence sheetname is required here to indicate from which sheet the instance
-    should be constructed. If this parameter is omitted, the first sheet, which
-    is indexed at 0, is used. For csv, sheetname is always omitted because csv
-    file contains always one sheet.
-    :param str sheetname: which sheet to be used for construction
-    :param int name_colmns_by_row: which row to give column names
-    :param int name_rows_by_column: which column to give row names
-    :param dict keywords: other parameters
-    """
-    ssf = SingleSheetFile(file, sheet_name=sheetname)
-    sheet_name, content = ssf.get_data(**keywords)
-    return Sheet(content,
-                 sheet_name,
-                 name_columns_by_row=name_columns_by_row,
-                 name_rows_by_column=name_rows_by_column,
-                 colnames=colnames,
-                 rownames=rownames
-             )
-
-
-def load_from_memory(file_type,
-                     file_content,
-                     sheetname=None,
-                     **keywords):
-    """Constructs an instance :class:`Sheet` from memory
-
-    :param str file_type: one value of these: 'csv', 'tsv', 'csvz',
-    'tsvz', 'xls', 'xlsm', 'xslm', 'ods'
-    :param iostream file_content: file content
-    :param str sheetname: which sheet to be used for construction
-    :param dict keywords: any other parameters
-    """
-    return load((file_type, file_content), sheetname, **keywords)
 
 def load_from_query_sets(column_names, query_sets):
     """Constructs an instance :class:`Sheet` from a database query sets
@@ -303,26 +279,17 @@ def get_sheet(**keywords):
     see also :ref:`a-list-of-data-structures`
     """
     sheet = None
-    sheet_name = keywords.get('sheet_name', None)
-    def has_field(field, keywords):
-        return field in keywords and keywords[field]
-    source, keywords = SourceFactory.get_source(**keywords)
+    sheet_params = {}
+    for field in ['name_columns_by_row', 'name_rows_by_column', 'colnames', 'rownames', 'transpose_before', 'transpose_after']:
+        if field in keywords:
+            sheet_params[field] = keywords.pop(field)    
+    source = SourceFactory.get_source(**keywords)
     if source is not None:
         sheet_name, data = source.get_data()
-        sheet = Sheet(data, sheet_name, **keywords)
-    elif has_field('content', keywords) and has_field('file_type', keywords):
-        if sheet_name is not None:
-            keywords.pop('sheet_name')
-        sheet = load_from_memory(keywords.pop('file_type'), keywords.pop('content'), sheet_name, **keywords)
-    elif has_field('session', keywords) and has_field('table', keywords):
-        sheet = load_from_sql(keywords.pop('session'), keywords.pop('table'))
-    elif has_field('column_names', keywords) and has_field('query_sets', keywords):
-        sheet = load_from_query_sets(keywords.pop('column_names'), keywords.pop('query_sets'), **keywords)
-    elif has_field('model', keywords):
-        sheet = load_from_django_model(keywords.pop('model'))
-    elif has_field('array', keywords):
-        sheet = Sheet(keywords.pop('array'), **keywords)
-    return sheet
+        sheet = Sheet(data, sheet_name, **sheet_params)
+        return sheet
+    else:
+        return None
 
 
 #### BOOK #########

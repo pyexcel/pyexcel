@@ -49,8 +49,6 @@ from .source import (
     SingleSheetSQLAlchemySource,
     SingleSheetDjangoSource,
     get_sheet,
-    load,
-    load_from_memory,
     load_from_dict,
     load_from_sql,
     load_from_records,
@@ -59,6 +57,8 @@ from .source import (
     load_book_from_memory,
     load_book_from_sql)
 from .deprecated import (
+    load,
+    load_from_memory,
     Reader,
     SeriesReader,
     ColumnSeriesReader,

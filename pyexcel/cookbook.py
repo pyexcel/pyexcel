@@ -9,7 +9,8 @@
 """
 import os
 from .book import Book
-from .source import load, load_book
+from .source import load_book
+from .deprecated import load
 from .utils import to_dict, to_array
 from .writers import Writer, BookWriter
 from ._compact import OrderedDict

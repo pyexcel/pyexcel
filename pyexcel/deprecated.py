@@ -7,7 +7,39 @@
     :copyright: (c) 2015 by Onni Software Ltd.
     :license: New BSD License
 """
-from .source import load, load_book
+from .source import get_sheet, load_book
+
+
+def load(file, sheetname=None, **keywords):
+    """Constructs an instance :class:`Sheet` from a sheet of an excel file
+
+    except csv, most excel files has more than one sheet.
+    Hence sheetname is required here to indicate from which sheet the instance
+    should be constructed. If this parameter is omitted, the first sheet, which
+    is indexed at 0, is used. For csv, sheetname is always omitted because csv
+    file contains always one sheet.
+    :param str sheetname: which sheet to be used for construction
+    :param int name_colmns_by_row: which row to give column names
+    :param int name_rows_by_column: which column to give row names
+    :param dict keywords: other parameters
+    """
+    sheet = get_sheet(file_name=file, sheet_name=sheetname, **keywords)
+    return sheet
+
+
+def load_from_memory(file_type,
+                     file_content,
+                     sheetname=None,
+                     **keywords):
+    """Constructs an instance :class:`Sheet` from memory
+
+    :param str file_type: one value of these: 'csv', 'tsv', 'csvz',
+    'tsvz', 'xls', 'xlsm', 'xslm', 'ods'
+    :param iostream file_content: file content
+    :param str sheetname: which sheet to be used for construction
+    :param dict keywords: any other parameters
+    """
+    return load((file_type, file_content), sheetname, **keywords)
 
 
 def Reader(file=None, sheetname=None, **keywords):
