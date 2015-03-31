@@ -31,8 +31,6 @@ Sheet Name: pyexcel
 +------------+----+-------+--------+
 | 2014-11-12 | 1  | Smith | 12.250 |
 +------------+----+-------+--------+""").strip('\n')
-        print(str(sheet))
-        print content
         assert str(sheet) == content
 
 class TestEmptyTable:
