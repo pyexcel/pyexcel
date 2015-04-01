@@ -158,20 +158,9 @@ class SingleSheetDjangoSource(SingleSheetDatabaseSourceMixin):
         return load_file('django', models=[self.model])
 
 
-SOURCES = [
-    SingleSheetFile,
-    SingleSheetRecrodsSource,
-    SingleSheetDictSource,
-    SingleSheetSQLAlchemySource,
-    SingleSheetDjangoSource,
-    SingleSheetQuerySetSource,
-    SingleSheetFileInMemory,
-    SingleSheetArraySource
-]
-
-#### BOOK #########
 class BookFile(DataSource):
     fields = ['file_name']
+    
     def __init__(self, file_name, **keywords):
         self.file_name = file_name
         self.keywords = keywords
@@ -181,8 +170,10 @@ class BookFile(DataSource):
         path, filename_alone = os.path.split(self.file_name)
         return book.sheets(), filename_alone, path
 
+
 class BookInMemory(DataSource):
     fields = ['file_type', 'content']
+    
     def __init__(self, file_type, content, **keywords):
         self.file_type = file_type
         self.content = content
@@ -192,8 +183,10 @@ class BookInMemory(DataSource):
         book = load_file((self.file_type, self.content), **self.keywords)
         return book.sheets(), 'memory', None
 
+
 class BookInDict(DataSource):
     fields = ['bookdict']
+    
     def __init__(self, bookdict, **keywords):
         self.bookdict = bookdict
 
@@ -202,6 +195,7 @@ class BookInDict(DataSource):
 
 class BookFromSQLTables(DataSource):
     fields = ['session', 'tables']
+    
     def __init__(self, session, tables, **keywords):
         self.session = session
         self.tables = tables
@@ -213,6 +207,7 @@ class BookFromSQLTables(DataSource):
         
 class BookFromDjangoModels(DataSource):
     fields = ['models']
+    
     def __init__(self, models, **keywords):
         self.models = models
         self.keywords = keywords
@@ -220,6 +215,19 @@ class BookFromDjangoModels(DataSource):
     def get_data(self):
         book = load_file('django', models=self.models)
         return book.sheets(), 'django', None
+
+
+
+SOURCES = [
+    SingleSheetFile,
+    SingleSheetRecrodsSource,
+    SingleSheetDictSource,
+    SingleSheetSQLAlchemySource,
+    SingleSheetDjangoSource,
+    SingleSheetQuerySetSource,
+    SingleSheetFileInMemory,
+    SingleSheetArraySource
+]
 
 
 BOOK_SOURCES = [

@@ -18,9 +18,8 @@ def deprecated(func, message="Deprecated!"):
     return inner
 
 
-deprecated_loader = partial(deprecated, message="Deprecated! Please use get_sheet instead.")
-deprecated_book_loader = partial(deprecated, message="Deprecated! Please use get_book instead.")
-deprecated_reader = partial(deprecated, message="Deprecated! Please use class Sheet instead")
+deprecated_loader = partial(deprecated, message="Deprecated since v0.1.4! Please use get_sheet instead.")
+deprecated_book_loader = partial(deprecated, message="Deprecated since v0.1.4! Please use get_book instead.")
 
 
 @deprecated_book_loader
@@ -150,7 +149,7 @@ def load_from_records(records, **keywords):
     return get_sheet(records=records, **keywords)
 
 
-@deprecated_reader
+@partial(deprecated, message="Deprecated since v0.0.7! Please use class Sheet instead")
 def Reader(file=None, sheetname=None, **keywords):
     """
     A single sheet excel file reader
@@ -165,7 +164,7 @@ def Reader(file=None, sheetname=None, **keywords):
     return load(file, sheetname=sheetname, **keywords)
 
 
-@partial(deprecated, message="Please use class Sheet(..., name_columns_by_row=0,..) instead")
+@partial(deprecated, message="Deprecated since v0.0.7! Please use class Sheet(..., name_columns_by_row=0,..) instead")
 def SeriesReader(file=None, sheetname=None, series=0, **keywords):
     """A single sheet excel file reader and it has column headers in a selected row
 
@@ -185,7 +184,7 @@ def ColumnSeriesReader(file=None, sheetname=None, series=0, **keywords):
     return load(file, sheetname=sheetname, name_rows_by_column=series, **keywords)
 
 
-@partial(deprecated, message="Please use class Book instead")
+@partial(deprecated, message="Deprecated since v0.0.7! Please use class Book instead")
 def BookReader(file, **keywords):
     """For backward compatibility
     """
