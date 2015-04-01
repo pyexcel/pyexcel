@@ -19,7 +19,7 @@ class Book(object):
 
     For csv file, there will be just one sheet
     """
-    def __init__(self, sheets={}, filename="memory", path=None, **keywords):
+    def __init__(self, sheets={}, filename="memory", path=None):
         """Book constructor
 
         Selecting a specific book according to filename extension

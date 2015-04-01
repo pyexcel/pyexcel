@@ -71,7 +71,7 @@ When multiple sheets are to be saved as a book, the resulting csvz file will be 
 
 The csvz book can be read back with two lines of code. And once it is read out, it can be saved in any other supported format.
 
-    >>> book2 = pe.load_book("mybook.csvz")
+    >>> book2 = pe.get_book(file_name="mybook.csvz")
     >>> book2
     Sheet Name: Sheet 1
     +---+---+---+

@@ -14,7 +14,11 @@ from .sheets import Sheet
 from .book import Book
 
 
-class SingleSheetDataSource:
+def has_field(field, keywords):
+    return field in keywords and keywords[field]
+
+
+class DataSource:
     field = []
     optional_fields = {}
 
@@ -42,10 +46,7 @@ def one_sheet_tuple(items):
         return items[0][0], items[0][1]
 
 
-def has_field(field, keywords):
-    return field in keywords and keywords[field]
-
-class SingleSheetFile(SingleSheetDataSource):
+class SingleSheetFile(DataSource):
     fields = ['file_name']
 
     def __init__(self, file_name=None, sheet_name=None, sheet_index=None, **keywords):
@@ -78,7 +79,7 @@ class SingleSheetFileInMemory(SingleSheetFile):
         SingleSheetFile.__init__(self, file_name=(file_type, content),**keywords)
 
 
-class SingleSheetRecrodsSource(SingleSheetDataSource):
+class SingleSheetRecrodsSource(DataSource):
     fields= ['records']
     def __init__(self, records):
         self.records = records
@@ -88,7 +89,7 @@ class SingleSheetRecrodsSource(SingleSheetDataSource):
         return 'pyexcel_sheet1', from_records(self.records)
 
 
-class SingleSheetDictSource(SingleSheetDataSource):
+class SingleSheetDictSource(DataSource):
     fields = ['adict']
 
     def __init__(self, adict, with_keys=True):
@@ -101,7 +102,7 @@ class SingleSheetDictSource(SingleSheetDataSource):
         return 'pyexcel_sheet1', tmp_array
 
 
-class SingleSheetArraySource(SingleSheetDataSource):
+class SingleSheetArraySource(DataSource):
     fields = ['array']
 
     def __init__(self, array):
@@ -111,7 +112,7 @@ class SingleSheetArraySource(SingleSheetDataSource):
         return 'pyexcel_sheet1', self.array
 
 
-class SingleSheetQuerySetSource(SingleSheetDataSource):
+class SingleSheetQuerySetSource(DataSource):
     fields = ['column_names', 'query_sets']
 
     def __init__(self, column_names, query_sets, sheet_name=None):
@@ -126,7 +127,7 @@ class SingleSheetQuerySetSource(SingleSheetDataSource):
         return self.sheet_name, from_query_sets(self.column_names, self.query_sets)
 
 
-class SingleSheetDatabaseSourceMixin(SingleSheetDataSource):
+class SingleSheetDatabaseSourceMixin(DataSource):
     def get_sql_book():
         pass
         
@@ -168,14 +169,84 @@ SOURCES = [
     SingleSheetArraySource
 ]
 
+#### BOOK #########
+class BookFile(DataSource):
+    fields = ['file_name']
+    def __init__(self, file_name, **keywords):
+        self.file_name = file_name
+        self.keywords = keywords
+
+    def get_data(self):
+        book = load_file(self.file_name, **self.keywords)
+        path, filename_alone = os.path.split(self.file_name)
+        return book.sheets(), filename_alone, path
+
+class BookInMemory(DataSource):
+    fields = ['file_type', 'content']
+    def __init__(self, file_type, content, **keywords):
+        self.file_type = file_type
+        self.content = content
+        self.keywords = keywords
+
+    def get_data(self):
+        book = load_file((self.file_type, self.content), **self.keywords)
+        return book.sheets(), 'memory', None
+
+class BookInDict(DataSource):
+    fields = ['bookdict']
+    def __init__(self, bookdict, **keywords):
+        self.bookdict = bookdict
+
+    def get_data(self):
+        return self.bookdict, 'bookdict', None
+
+class BookFromSQLTables(DataSource):
+    fields = ['session', 'tables']
+    def __init__(self, session, tables, **keywords):
+        self.session = session
+        self.tables = tables
+        self.keywords = keywords
+
+    def get_data(self):
+        book = load_file('sql', session=self.session, tables=self.tables)
+        return book.sheets(), 'sql', None
+        
+class BookFromDjangoModels(DataSource):
+    fields = ['models']
+    def __init__(self, models, **keywords):
+        self.models = models
+        self.keywords = keywords
+
+    def get_data(self):
+        book = load_file('django', models=self.models)
+        return book.sheets(), 'django', None
+
+
+BOOK_SOURCES = [
+    BookFile,
+    BookInMemory,
+    BookInDict,
+    BookFromSQLTables,
+    BookFromDjangoModels
+]
+
+
 class SourceFactory:
     @classmethod
-    def get_source(self, **keywords):
-        for source in SOURCES:
+    def get_generic_source(self, registry, **keywords):
+        for source in registry:
             if source.is_my_business(**keywords):
                 s = source(**keywords)
                 return s
         return None
+
+    @classmethod
+    def get_source(self, **keywords):
+        return self.get_generic_source(SOURCES, **keywords)
+        
+    @classmethod
+    def get_book_source(self, **keywords):
+        return self.get_generic_source(BOOK_SOURCES, **keywords)
 
 
 def get_sheet(**keywords):
@@ -224,62 +295,7 @@ def get_sheet(**keywords):
         return None
 
 
-#### BOOK #########
-def load_book(file, **keywords):
-    """Load content from physical file
-
-    :param str file: the file name
-    :param any keywords: additional parameters
-    """
-    path, filename = os.path.split(file)
-    book = load_file(file, **keywords)
-    sheets = book.sheets()
-    return Book(sheets, filename, path, **keywords)
-
-
-def load_book_from_memory(file_type, file_content, **keywords):
-    """Load content from memory content
-
-    :param tuple the_tuple: first element should be file extension,
-    second element should be file content
-    :param any keywords: additional parameters
-    """
-    book = load_file((file_type, file_content), **keywords)
-    sheets = book.sheets()
-    return Book(sheets, **keywords)
-
-
-def load_book_from_sql(session, tables):
-    """Get an instance of :class:`Book` from a list of tables
-
-    :param session: sqlalchemy session
-    :param tables: a list of database tables
-    """
-    from .deprecated import load_from_sql
-    book = Book()
-    for table in tables:
-        sheet = load_from_sql(session, table)
-        book += sheet
-    return book
-
-def load_book_from_django_models(models):
-    """Get an instance of :class:`Book` from a list of tables
-
-    :param session: sqlalchemy session
-    :param tables: a list of database tables
-    """
-    from .deprecated import load_from_django_model
-    book = Book()
-    for model in models:
-        sheet = load_from_django_model(model)
-        book += sheet
-    return book
-
-
-def get_book(file_name=None, content=None, file_type=None,
-             session=None, tables=None,
-             models=None,
-             bookdict=None, **keywords):
+def get_book(**keywords):
     """Get an instance of :class:`Book` from an excel source
 
     :param file_name: a file with supported file extension
@@ -291,15 +307,9 @@ def get_book(file_name=None, content=None, file_type=None,
     :param bookdict: a dictionary of two dimensional arrays
     see also :ref:`a-list-of-data-structures`
     """
-    book = None
-    if file_name:
-        book = load_book(file_name, **keywords)
-    elif content and file_type:
-        book = load_book_from_memory(file_type, content, **keywords)
-    elif session and tables:
-        book = load_book_from_sql(session, tables)
-    elif models:
-        book = load_book_from_django_models(models)
-    elif bookdict:
-        book = Book(bookdict)
-    return book
+    source = SourceFactory.get_book_source(**keywords)
+    if source is not None:
+        sheets, filename, path = source.get_data()
+        book = Book(sheets, filename=filename, path=path)
+        return book
+    return None

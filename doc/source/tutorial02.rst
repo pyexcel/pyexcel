@@ -151,7 +151,7 @@ Yes, you can do that. The code looks like this::
 
    import pyexcel
 
-   book = pyexcel.load_book("yourfile.xls")
+   book = pyexcel.get_book(file_name="yourfile.xls")
    for sheet in book:
        # do you processing with sheet
        # do filtering?
@@ -203,10 +203,10 @@ and their content is the value of the dictionary at the corresponding key
 After I have saved my multiple sheet book in csv format, how do I get them back in pyexcel
 *******************************************************************************************
 
-First of all, you can read them back individual as csv file using pyexcel.load method. Secondly, the pyexcel can do
+First of all, you can read them back individual as csv file using `meth:~pyexcel.get_sheet` method. Secondly, the pyexcel can do
 the magic to load all of them back into a book. You will just need to provide the common name before the separator "__"::
 
-    >>> book2 = pyexcel.load_book("myfile.csv")
+    >>> book2 = pyexcel.get_book(file_name="myfile.csv")
     >>> book2
     Sheet Name: Sheet 1
     +---+---+---+

@@ -49,11 +49,12 @@ from .source import (
     SingleSheetSQLAlchemySource,
     SingleSheetDjangoSource,
     get_sheet,
-    get_book,
+    get_book
+)
+from .deprecated import (
     load_book,
     load_book_from_memory,
-    load_book_from_sql)
-from .deprecated import (
+    load_book_from_sql,
     load,
     load_from_memory,
     load_from_dict,

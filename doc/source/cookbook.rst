@@ -319,7 +319,7 @@ Column 4 Column 5
 .. testcode::
    :hide:
 
-   >>> book = pyexcel.load_book("output.xls")
+   >>> book = pyexcel.get_book(file_name="output.xls")
    >>> [str(name) for name in book.sheet_names()]
    ['example.csv', 'example.xls']
    >>> os.unlink("example.csv")

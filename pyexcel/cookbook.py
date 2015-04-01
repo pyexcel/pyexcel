@@ -9,7 +9,7 @@
 """
 import os
 from .book import Book
-from .source import load_book, get_sheet
+from .source import get_book, get_sheet
 from .utils import to_dict, to_array
 from .writers import Writer, BookWriter
 from ._compact import OrderedDict
@@ -148,7 +148,7 @@ def merge_all_to_a_book(filelist, outfilename="merged.xls"):
     """
     merged = Book()
     for file in filelist:
-        merged += load_book(file)
+        merged += get_book(file_name=file)
     w = BookWriter(outfilename)
     w.write_book_reader(merged)
     w.close()
@@ -160,7 +160,7 @@ def split_a_book(file, outfilename=None):
     :param str file: an accessible file name
     :param str outfilename: save the sheets with file suffix
     """
-    r = load_book(file)
+    r = get_book(file_name=file)
     if outfilename:
         saveas = outfilename
     else:
@@ -178,7 +178,7 @@ def extract_a_sheet_from_a_book(file, sheetname, outfilename=None):
     :param str sheetname: a valid sheet name
     :param str outfilename: save the sheet as
     """
-    r = load_book(file)
+    r = get_book(file_name=file)
     if outfilename:
         saveas = outfilename
     else:

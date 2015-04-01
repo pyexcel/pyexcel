@@ -7,7 +7,7 @@
     :copyright: (c) 2015 by Onni Software Ltd.
     :license: New BSD License
 """
-from .source import get_sheet, load_book
+from .source import get_sheet, get_book
 from functools import partial
 
 
@@ -19,7 +19,48 @@ def deprecated(func, message="Deprecated!"):
 
 
 deprecated_loader = partial(deprecated, message="Deprecated! Please use get_sheet instead.")
+deprecated_book_loader = partial(deprecated, message="Deprecated! Please use get_book instead.")
 deprecated_reader = partial(deprecated, message="Deprecated! Please use class Sheet instead")
+
+
+@deprecated_book_loader
+def load_book(file, **keywords):
+    """Load content from physical file
+
+    :param str file: the file name
+    :param any keywords: additional parameters
+    """
+    return get_book(file_name=file, **keywords)
+
+
+@deprecated_book_loader
+def load_book_from_memory(file_type, file_content, **keywords):
+    """Load content from memory content
+
+    :param tuple the_tuple: first element should be file extension,
+    second element should be file content
+    :param any keywords: additional parameters
+    """
+    return get_book(file_type=file_type, content=file_content, **keywords)
+
+@deprecated_book_loader
+def load_book_from_sql(session, tables):
+    """Get an instance of :class:`Book` from a list of tables
+
+    :param session: sqlalchemy session
+    :param tables: a list of database tables
+    """
+    return get_book(session=session, tables=tables)
+
+
+@deprecated_book_loader
+def load_book_from_django_models(models):
+    """Get an instance of :class:`Book` from a list of tables
+
+    :param session: sqlalchemy session
+    :param tables: a list of database tables
+    """
+    return get_book(models=models)
 
 
 @deprecated_loader

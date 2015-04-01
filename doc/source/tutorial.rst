@@ -161,7 +161,7 @@ Suppose you have the following sheets:
 
 And you can randomly access a cell in a sheet::
 
-    >>> book = pyexcel.load_book("example.xls")
+    >>> book = pyexcel.get_book(file_name="example.xls")
     >>> print(book["Sheet 1"][0,0])
     1.0
     >>> print(book[0][0,0]) # the same cell
@@ -366,7 +366,7 @@ Read multiple sheet excel file
 
 Let's read the previous file back:
     
-    >>> book = pyexcel.load_book("output.xls")
+    >>> book = pyexcel.get_book(file_name="output.xls")
     >>> sheets = book.to_dict()
     >>> for name in sheets.keys():
     ...     print(name)

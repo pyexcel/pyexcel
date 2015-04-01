@@ -38,8 +38,8 @@ Suppose you have two excel books and each had three sheets. You can merge them a
 
 You also can merge indivdual sheets::
 
-   >>> book1 = pyexcel.load_book("book1.xls")
-   >>> book2 = pyexcel.load_book("book2.xlsx")
+   >>> book1 = pyexcel.get_book(file_name="book1.xls")
+   >>> book2 = pyexcel.get_book(file_name="book2.xlsx")
    >>> merged_book = book1 + book2
    >>> merged_book = book1["Sheet 1"] + book2["Sheet 2"]
    >>> merged_book = book1["Sheet 1"] + book2
