@@ -28,12 +28,14 @@ class Sheet(NominableSheet):
     Filtering functions are used to reduce the information contained in the
     array.
     """
+    def save_to(self, source):
+        source.write_data(self)
+
     def save_as(self, filename, **keywords):
         """Save the content to a named file"""
-        from ..writers import Writer
-        w = Writer(filename, sheet_name=self.name, **keywords)
-        w.write_reader(self)
-        w.close()
+        from ..source import SingleSheetOutFile
+        source = SingleSheetOutFile(file_name=filename, **keywords)
+        self.save_to(source)
 
 
     def save_to_memory(self, file_type, stream, **keywords):
@@ -54,12 +56,9 @@ class Sheet(NominableSheet):
                       mapdict is needed when the column headers of your sheet does not match the column names of the supplied table.
                       name_column_by_row indicates which row has column headers and by default it is the first row of the supplied sheet
         """
-        from ..writers import Writer
-        if len(self.colnames) == 0:
-            self.name_columns_by_row(0)
-        w = Writer('django', sheet_name=self.name, models={self.name:(model, self.colnames, mapdict, data_wrapper)}, batch_size=batch_size)
-        w.write_array(self.array)
-        w.close()
+        from ..source import SingleSheetOutDjangoModel
+        source = SingleSheetOutDjangoModel(model=model, data_wrapper=data_wrapper, mapdict=mapdict, batch_size=batch_size)
+        self.save_to(source)
 
     def save_to_database(self, session, table, table_init_func=None, mapdict=None):
         """Save data in sheet to database table
@@ -70,9 +69,14 @@ class Sheet(NominableSheet):
                       mapdict is needed when the column headers of your sheet does not match the column names of the supplied table.
                       name_column_by_row indicates which row has column headers and by default it is the first row of the supplied sheet
         """
-        from ..writers import Writer
-        if(len(self.colnames)) == 0:
-            self.name_columns_by_row(0)
-        w = Writer('sql', sheet_name=self.name, session=session, tables={self.name: (table, self.colnames, table_init_func, mapdict)})
-        w.write_array(self.array)
-        w.close()
+        from ..source import SingleSheetOutSQLTable        
+        source = SingleSheetOutSQLTable(
+            session=session,
+            table=table,
+            table_init_func=table_init_func,
+            mapdict=mapdict
+        )
+        self.save_to(source)
+
+
+

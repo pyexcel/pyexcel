@@ -18,12 +18,8 @@ def has_field(field, keywords):
     return field in keywords and keywords[field]
 
 
-class DataSource:
+class Pluggible:
     field = []
-    optional_fields = {}
-
-    def get_data(self):
-        return []
 
     @classmethod
     def is_my_business(self, **keywords):
@@ -46,7 +42,17 @@ def one_sheet_tuple(items):
         return items[0][0], items[0][1]
 
 
-class SingleSheetFile(DataSource):
+class ReadableSource(Pluggible):
+    fields = ['source']
+
+    def __init__(self, source=None, **keywords):
+        self.source = source
+
+    def get_data(self):
+        return self.source.get_data()
+
+        
+class SingleSheetFile(ReadableSource):
     fields = ['file_name']
 
     def __init__(self, file_name=None, sheet_name=None, sheet_index=None, **keywords):
@@ -79,7 +85,7 @@ class SingleSheetFileInMemory(SingleSheetFile):
         SingleSheetFile.__init__(self, file_name=(file_type, content),**keywords)
 
 
-class SingleSheetRecrodsSource(DataSource):
+class SingleSheetRecrodsSource(ReadableSource):
     fields= ['records']
     def __init__(self, records):
         self.records = records
@@ -89,7 +95,7 @@ class SingleSheetRecrodsSource(DataSource):
         return 'pyexcel_sheet1', from_records(self.records)
 
 
-class SingleSheetDictSource(DataSource):
+class SingleSheetDictSource(ReadableSource):
     fields = ['adict']
 
     def __init__(self, adict, with_keys=True):
@@ -102,7 +108,7 @@ class SingleSheetDictSource(DataSource):
         return 'pyexcel_sheet1', tmp_array
 
 
-class SingleSheetArraySource(DataSource):
+class SingleSheetArraySource(ReadableSource):
     fields = ['array']
 
     def __init__(self, array):
@@ -112,7 +118,7 @@ class SingleSheetArraySource(DataSource):
         return 'pyexcel_sheet1', self.array
 
 
-class SingleSheetQuerySetSource(DataSource):
+class SingleSheetQuerySetSource(ReadableSource):
     fields = ['column_names', 'query_sets']
 
     def __init__(self, column_names, query_sets, sheet_name=None):
@@ -127,7 +133,7 @@ class SingleSheetQuerySetSource(DataSource):
         return self.sheet_name, from_query_sets(self.column_names, self.query_sets)
 
 
-class SingleSheetDatabaseSourceMixin(DataSource):
+class SingleSheetDatabaseSourceMixin(ReadableSource):
     def get_sql_book():
         pass
         
@@ -158,7 +164,7 @@ class SingleSheetDjangoSource(SingleSheetDatabaseSourceMixin):
         return load_file('django', models=[self.model])
 
 
-class BookFile(DataSource):
+class BookFile(ReadableSource):
     fields = ['file_name']
     
     def __init__(self, file_name, **keywords):
@@ -171,7 +177,7 @@ class BookFile(DataSource):
         return book.sheets(), filename_alone, path
 
 
-class BookInMemory(DataSource):
+class BookInMemory(ReadableSource):
     fields = ['file_type', 'content']
     
     def __init__(self, file_type, content, **keywords):
@@ -184,7 +190,7 @@ class BookInMemory(DataSource):
         return book.sheets(), 'memory', None
 
 
-class BookInDict(DataSource):
+class BookInDict(ReadableSource):
     fields = ['bookdict']
     
     def __init__(self, bookdict, **keywords):
@@ -193,7 +199,7 @@ class BookInDict(DataSource):
     def get_data(self):
         return self.bookdict, 'bookdict', None
 
-class BookFromSQLTables(DataSource):
+class BookFromSQLTables(ReadableSource):
     fields = ['session', 'tables']
     
     def __init__(self, session, tables, **keywords):
@@ -205,7 +211,7 @@ class BookFromSQLTables(DataSource):
         book = load_file('sql', session=self.session, tables=self.tables)
         return book.sheets(), 'sql', None
         
-class BookFromDjangoModels(DataSource):
+class BookFromDjangoModels(ReadableSource):
     fields = ['models']
     
     def __init__(self, models, **keywords):
@@ -217,8 +223,93 @@ class BookFromDjangoModels(DataSource):
         return book.sheets(), 'django', None
 
 
+class WriteableSource(Pluggible):
+    fields = ['source']
+    def __init__(self, source=None, **keywords):
+        self.source = source
+        
+    def write_data(self, content):
+        self.source.write_data(content)
+
+
+class SingleSheetOutFile(WriteableSource):
+    fields = ['file_name']
+
+    def __init__(self, file_name=None, **keywords):
+        self.file_name = file_name
+        self.keywords = keywords
+
+    def write_data(self, sheet):
+        from .writers import Writer
+        w = Writer(self.file_name, sheet_name=sheet.name, **self.keywords)
+        w.write_reader(sheet)
+        w.close()
+
+class SingleSheetOutMemory(SingleSheetOutFile):
+    fields = ['file_type', 'content']
+
+    def __init__(self, file_type=None, content=None, **keywords):
+        self.file_name = (file_type, content)
+        self.keywords = keywords
+
+
+class SingleSheetOutSQLTable(WriteableSource):
+    fiels = ['session', 'table']
+
+    def __init__(self, session=None, table=None, **keywords):
+        self.session = session
+        self.table = table
+        self.keywords = keywords
+
+    def write_data(self, sheet):
+        from .writers import Writer
+        if(len(sheet.colnames)) == 0:
+            sheet.name_columns_by_row(0)
+        w = Writer(
+            'sql',
+            sheet_name=sheet.name,
+            session=self.session,
+            tables={
+                sheet.name: (self.table,
+                             sheet.colnames,
+                             self.keywords.get('table_init_func', None),
+                             self.keywords.get('mapdict', None)
+                         )
+            }
+        )
+        w.write_array(sheet.array)
+        w.close()
+
+
+class SingleSheetOutDjangoModel(WriteableSource):
+    fiels = ['model']
+
+    def __init__(self, model=None, **keywords):
+        self.model = model 
+        self.keywords = keywords
+
+    def write_data(self, sheet):
+        from .writers import Writer
+        if len(sheet.colnames) == 0:
+            sheet.name_columns_by_row(0)
+        w = Writer(
+            'django',
+            sheet_name=sheet.name,
+            models={
+                sheet.name:(
+                    self.model,
+                    sheet.colnames,
+                    self.keywords.get('mapdict', None),
+                    self.keywords.get('data_wrapper', None)
+                )
+            },
+            batch_size=self.keywords.get('batch_size', None)
+        )
+        w.write_array(sheet.array)
+        w.close()
 
 SOURCES = [
+    ReadableSource,
     SingleSheetFile,
     SingleSheetRecrodsSource,
     SingleSheetDictSource,
@@ -231,6 +322,7 @@ SOURCES = [
 
 
 BOOK_SOURCES = [
+    ReadableSource,
     BookFile,
     BookInMemory,
     BookInDict,
@@ -321,3 +413,5 @@ def get_book(**keywords):
         book = Book(sheets, filename=filename, path=path)
         return book
     return None
+
+
