@@ -36,7 +36,7 @@ And it can be read out as well and can be saved in any other supported format.
     +---+---+---+
 
 
-Mitiple Sheet Book
+Multiple Sheet Book
 -------------------
 
 When multiple sheets are to be saved as a book, the resulting csvz file will be a zip file that contains each sheet as a csv file named after corresponding sheet name.
