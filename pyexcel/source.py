@@ -448,20 +448,21 @@ def save_as(**keywords):
     :returns: IO stream if saving to memory. None otherwise
     """
     dest_keywords = {}
+    source_keywords = {}
     for key in keywords.keys():
         result = re.match('^dest_(.*)', key)
         if result:
-            dest_keywords[result.group(1)]= keywords.pop(key)
+            dest_keywords[result.group(1)]= keywords[key]
+        else:
+            source_keywords[key] = keywords[key]
     if 'out_file' in keywords:
         print('depreciated. please use dest_file_name')
         dest_keywords['file_name'] = keywords.pop('out_file')
     dest_source = SourceFactory.get_writable_source(**dest_keywords)
     if dest_source is not None:
-        sheet = get_sheet(**keywords)
+        sheet = get_sheet(**source_keywords)
         sheet.save_to(dest_source)
         if 'file_type' in dest_source.fields:
             return dest_source.content
     else:
         raise ValueError("No valid parameters found!")
-
-
