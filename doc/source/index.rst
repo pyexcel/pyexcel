@@ -112,7 +112,7 @@ Usage
    ...         "Age": 26
    ...     }
    ... ]
-   >>> pyexcel.save_as(records=a_list_of_dictionaries, out_file="your_file.xls")
+   >>> pyexcel.save_as(records=a_list_of_dictionaries, dest_file_name="your_file.xls")
 
 Suppose you want to process the following excel data :
 

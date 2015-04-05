@@ -8,8 +8,9 @@
     :license: New BSD License
 """
 import os
+import re
 from .io import load_file
-from ._compact import PY2
+from ._compact import PY2, BytesIO, StringIO
 from .sheets import Sheet
 from .book import Book
 
@@ -238,7 +239,7 @@ class SingleSheetOutFile(WriteableSource):
     def __init__(self, file_name=None, **keywords):
         self.file_name = file_name
         self.keywords = keywords
-
+        
     def write_data(self, sheet):
         from .writers import Writer
         w = Writer(self.file_name, sheet_name=sheet.name, **self.keywords)
@@ -246,15 +247,22 @@ class SingleSheetOutFile(WriteableSource):
         w.close()
 
 class SingleSheetOutMemory(SingleSheetOutFile):
-    fields = ['file_type', 'content']
+    fields = ['file_type']
 
-    def __init__(self, file_type=None, content=None, **keywords):
-        self.file_name = (file_type, content)
+    def _get_io(self, file_type):
+        if file_type in ['csv', 'tsv']:
+            return StringIO()
+        else:
+            return BytesIO()
+
+    def __init__(self, file_type=None, **keywords):
+        self.content = self._get_io(file_type)
+        self.file_name = (file_type, self.content)
         self.keywords = keywords
 
 
 class SingleSheetOutSQLTable(WriteableSource):
-    fiels = ['session', 'table']
+    fields = ['session', 'table']
 
     def __init__(self, session=None, table=None, **keywords):
         self.session = session
@@ -282,7 +290,7 @@ class SingleSheetOutSQLTable(WriteableSource):
 
 
 class SingleSheetOutDjangoModel(WriteableSource):
-    fiels = ['model']
+    fields = ['model']
 
     def __init__(self, model=None, **keywords):
         self.model = model 
@@ -330,6 +338,13 @@ BOOK_SOURCES = [
     BookFromDjangoModels
 ]
 
+DEST_SOURCES = [
+    SingleSheetOutFile,
+    SingleSheetOutMemory,
+    SingleSheetOutSQLTable,
+    SingleSheetOutDjangoModel
+]
+
 
 class SourceFactory:
     @classmethod
@@ -347,6 +362,10 @@ class SourceFactory:
     @classmethod
     def get_book_source(self, **keywords):
         return self.get_generic_source(BOOK_SOURCES, **keywords)
+
+    @classmethod
+    def get_writable_source(self, **keywords):
+        return self.get_generic_source(DEST_SOURCES, **keywords)
 
 
 def get_sheet(**keywords):
@@ -413,5 +432,36 @@ def get_book(**keywords):
         book = Book(sheets, filename=filename, path=path)
         return book
     return None
+
+
+def save_as(**keywords):
+    """Save a sheet of an excel source separately
+
+    :param dest_file_name: another file name.
+    :param out_file: depreciated. please use dest_file_name
+    :param dest_file_type: this is needed if you want to save to memory
+    :param keywords: see :meth:`~pyexcel.get_sheet`
+    :param dest_session: the target database session
+    :param dest_table: the target destination table
+    :param dest_model: the target django model
+    :param dest_mapdict: a mapping dictionary, see :meth:`~pyexcel.Sheet.save_to_memory`
+    :returns: IO stream if saving to memory. None otherwise
+    """
+    dest_keywords = {}
+    for key in keywords.keys():
+        result = re.match('^dest_(.*)', key)
+        if result:
+            dest_keywords[result.group(1)]= keywords.pop(key)
+    if 'out_file' in keywords:
+        print('depreciated. please use dest_file_name')
+        dest_keywords['file_name'] = keywords.pop('out_file')
+    dest_source = SourceFactory.get_writable_source(**dest_keywords)
+    if dest_source is not None:
+        sheet = get_sheet(**keywords)
+        sheet.save_to(dest_source)
+        if 'file_type' in dest_source.fields:
+            return dest_source.content
+    else:
+        raise ValueError("No valid parameters found!")
 
 

@@ -49,7 +49,8 @@ from .source import (
     SingleSheetSQLAlchemySource,
     SingleSheetDjangoSource,
     get_sheet,
-    get_book
+    get_book,
+    save_as
 )
 from .deprecated import (
     load_book,
@@ -209,34 +210,6 @@ def save_book_to_memory(dest_file_type, **keywords):
     book.save_to_memory(dest_file_type, io)
     io.seek(0)
     return io
-
-
-def save_as(out_file=None, dest_file_type=None,
-            dest_session=None, dest_table=None,
-            dest_model=None,
-            **keywords):
-    """Save a sheet of an excel source separately
-
-    :param out_file: another file name.
-    :param dest_file_type: this is needed if you want to save to memory
-    :param keywords: see :meth:`~pyexcel.get_sheet`
-    :param dest_session: the target database session
-    :param dest_table: the target destination table
-    :param dest_model: the target django model
-    :param mapdicts: a mapping dictionary, see :meth:`~pyexcel.Sheet.save_to_memory`
-    :returns: IO stream if saving to memory. None otherwise
-    """
-    if out_file:
-        sheet = get_sheet(**keywords)
-        sheet.save_as(out_file)
-        return None
-    elif dest_file_type:
-        return save_to_memory(dest_file_type, **keywords)
-    elif dest_session and dest_table:
-        return save_to_database(dest_session, dest_table, **keywords)
-    elif dest_model:
-        return save_to_django_model(dest_model, **keywords)
-    raise ValueError("No valid parameters found!")
 
 
 def save_book_as(out_file=None, dest_file_type=None,

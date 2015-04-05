@@ -35,8 +35,7 @@ class Sheet(NominableSheet):
         """Save the content to a named file"""
         from ..source import SingleSheetOutFile
         source = SingleSheetOutFile(file_name=filename, **keywords)
-        self.save_to(source)
-
+        return self.save_to(source)
 
     def save_to_memory(self, file_type, stream, **keywords):
         """Save the content to memory
@@ -46,7 +45,7 @@ class Sheet(NominableSheet):
         :param iostream stream: the memory stream to be written to
         """
         self.save_as((file_type, stream), **keywords)
-
+        return stream
 
     def save_to_django_model(self, model, data_wrapper=None, mapdict=None, batch_size=None):
         """Save to database table through django model

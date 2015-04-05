@@ -67,7 +67,7 @@ class TestVerticalSheet:
         ]
         mapdict = ["X", "Y", "Z"]
         model=FakeDjangoModel()
-        pe.save_as(array=data2, dest_model=model, mapdict=mapdict, transpose_before=True)
+        pe.save_as(array=data2, dest_model=model, dest_mapdict=mapdict, transpose_before=True)
         assert model.objects.objs == self.result
 
     def test_mapping_dict(self):
@@ -82,7 +82,7 @@ class TestVerticalSheet:
             "B": "Y"
         }
         model=FakeDjangoModel()
-        pe.save_as(array=data2, dest_model=model, mapdict=mapdict, transpose_after=True)
+        pe.save_as(array=data2, dest_model=model, dest_mapdict=mapdict, transpose_after=True)
         assert model.objects.objs == self.result
 
 
@@ -145,7 +145,7 @@ class TestSheet:
         ]
         mapdict = ["X", "Y", "Z"]
         model=FakeDjangoModel()
-        pe.save_as(array=data2, dest_model=model, mapdict=mapdict)
+        pe.save_as(array=data2, dest_model=model, dest_mapdict=mapdict)
         assert model.objects.objs == self.result
 
     def test_mapping_dict(self):
@@ -160,7 +160,7 @@ class TestSheet:
             "B": "Y"
         }
         model=FakeDjangoModel()
-        pe.save_as(array=data2, dest_model=model, mapdict=mapdict)
+        pe.save_as(array=data2, dest_model=model, dest_mapdict=mapdict)
         assert model.objects.objs == self.result
 
 
