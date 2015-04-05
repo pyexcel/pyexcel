@@ -126,19 +126,6 @@ def get_book_dict(**keywords):
     else:
         return None
 
-def save_to_database(session, table, **keywords):
-    """Save a sheet to database
-    
-    :param session: database session
-    :param table: a database table
-    :param mapdict: provide key mapping if default ones are different
-    see also :meth:`~pyexcel.Sheet.save_to_database`
-    """
-    sheet = get_sheet(**keywords)
-    sheet.save_to_database(session, table)
-    return None
-
-
 def save_book_to_database(session, tables, **keywords):
     """Save a book to database
 
@@ -151,18 +138,6 @@ def save_book_to_database(session, tables, **keywords):
     book.save_to_database(session, tables)
     return None
 
-
-def save_to_django_model(dest_model, data_wrapper=None, mapdict=None, batch_size=None, **keywords):
-    """Save a sheet to database
-    
-    :param session: database session
-    :param table: a database table
-    :param mapdict: provide key mapping if default ones are different
-    see also :meth:`~pyexcel.Sheet.save_to_database`
-    """
-    sheet = get_sheet(**keywords)
-    sheet.save_to_django_model(dest_model, data_wrapper=data_wrapper, mapdict=mapdict, batch_size=batch_size)
-    return None
 
 def save_book_to_django_models(dest_models, **keywords):
     """Save a book to database
@@ -182,20 +157,6 @@ def _get_io(file_type):
         return StringIO()
     else:
         return BytesIO()
-
-
-def save_to_memory(dest_file_type, **keywords):
-    """Save a sheet of an excel source separately to memory
-
-    :param file_type: indicate the file type
-    :param keywords: see :meth:`~pyexcel.get_sheet`
-    :returns: IO stream
-    """
-    io = _get_io(dest_file_type)
-    sheet = get_sheet(**keywords)
-    sheet.save_to_memory(dest_file_type, io)
-    io.seek(0)
-    return io
 
 
 def save_book_to_memory(dest_file_type, **keywords):
