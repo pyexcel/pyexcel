@@ -173,25 +173,29 @@ class Book(object):
         self.name_array = list(self.sheets.keys())
         return self
 
+    def save_to(self, source):
+        source.write_data(self)
+        
     def save_as(self, filename):
         """Save the content to a new file
 
         :param str filename: a file path
         """
-        from .writers import BookWriter
-        writer = BookWriter(filename)
-        writer.write_book_reader(self)
-        writer.close()
+        from .source import BookSource
+        out_source = BookSource(file_name=filename)
+        self.save_to(out_source)
 
-    def save_to_memory(self, file_type, stream):
+    def save_to_memory(self, file_type, stream, **keywords):
         """Save the content to a memory stream
 
         :param iostream stream: a memory stream
         """
-        from .writers import BookWriter
-        writer = BookWriter((file_type, stream))
-        writer.write_book_reader(self)
-        writer.close()
+        self.save_as((file_type, stream), **keywords)
+        return stream
+        #from .writers import BookWriter
+        #writer = BookWriter((file_type, stream))
+        #writer.write_book_reader(self)
+        #writer.close()
 
     def save_to_django_models(self, models, data_wrappers=None, mapdicts=None, batch_size=None):
         """Save to database table through django model
@@ -199,20 +203,14 @@ class Book(object):
         :param models: a list of database models, that is accepted by :meth:`Sheet.save_to_django_model`. The sequence of tables matters when there is dependencies
                        in between the tables. For example, **Car** is made by **Car Maker**. **Car Maker** table should be specified before **Car** table.
         """
-        from .writers import BookWriter
-        for sheet in self:
-            if len(sheet.colnames)  == 0:
-                sheet.name_columns_by_row(0)
-        colnames_array = [sheet.colnames for sheet in self]
-        if data_wrappers is None:
-            data_wrappers= [None] * len(models)
-        if mapdicts is None:
-            mapdicts = [None] * len(models)
-        x = zip(models, colnames_array, data_wrappers, mapdicts)
-        table_dict = dict(zip(self.name_array, x))
-        w = BookWriter('django', models=table_dict, batch_size=batch_size)
-        w.write_book_reader_to_db(self)
-        w.close()
+        from .source import BookOutDjangoModels
+        out_source = BookOutDjangoModels(
+            models=models,
+            data_wrappers=data_wrappers,
+            mapdicts=mapdicts,
+            batch_size=batch_size
+        )
+        self.save_to(out_source)
 
     def save_to_database(self, session, tables, table_init_funcs=None, mapdicts=None):
         """Save data in sheets to database tables
@@ -221,20 +219,14 @@ class Book(object):
         :param tables: a list of database tables, that is accepted by :meth:`Sheet.save_to_database`. The sequence of tables matters when there is dependencies
                        in between the tables. For example, **Car** is made by **Car Maker**. **Car Maker** table should be specified before **Car** table.
         """
-        from .writers import BookWriter
-        for sheet in self:
-            if len(sheet.colnames)  == 0:
-                sheet.name_columns_by_row(0)
-        colnames_array = [sheet.colnames for sheet in self]
-        if table_init_funcs is None:
-            table_init_funcs = [None] * len(tables)
-        if mapdicts is None:
-            mapdicts = [None] * len(tables)
-        x = zip(tables, colnames_array, table_init_funcs, mapdicts)
-        table_dict = dict(zip(self.name_array, x))
-        w = BookWriter('sql', session=session, tables=table_dict)
-        w.write_book_reader_to_db(self)
-        w.close()
+        from .source import BookOutSQLTables
+        out_source = BookOutSQLTables(
+            session=session,
+            tables=tables,
+            table_init_funcs=table_init_funcs,
+            mapdicts=mapdicts
+        )
+        self.save_to(out_source)
 
     def to_dict(self):
         """Convert the book to a dictionary"""

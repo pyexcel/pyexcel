@@ -50,7 +50,8 @@ from .source import (
     SingleSheetDjangoSource,
     get_sheet,
     get_book,
-    save_as
+    save_as,
+    save_book_as
 )
 from .deprecated import (
     load_book,
@@ -66,7 +67,6 @@ from .deprecated import (
     ColumnSeriesReader,
     BookReader
 )
-from ._compact import BytesIO, StringIO
 
 
 def get_array(**keywords):
@@ -125,80 +125,6 @@ def get_book_dict(**keywords):
         return book.to_dict()
     else:
         return None
-
-def save_book_to_database(session, tables, **keywords):
-    """Save a book to database
-
-    :param session: the database session
-    :param tables: a list of database tables
-    :param mapdicts: a list of mapping dictionaries
-    see also :meth:`~pyexcel.Book.save_to_database`
-    """
-    book = get_book(**keywords)
-    book.save_to_database(session, tables)
-    return None
-
-
-def save_book_to_django_models(dest_models, **keywords):
-    """Save a book to database
-
-    :param session: the database session
-    :param tables: a list of database tables
-    :param mapdicts: a list of mapping dictionaries
-    see also :meth:`~pyexcel.Book.save_to_database`
-    """
-    book = get_book(**keywords)
-    book.save_to_django_models(dest_models)
-    return None
-
-
-def _get_io(file_type):
-    if file_type in ['csv', 'tsv']:
-        return StringIO()
-    else:
-        return BytesIO()
-
-
-def save_book_to_memory(dest_file_type, **keywords):
-    """Save a sheet of an excel source to memory
-
-    :param file_type: indicate the file type
-    :param keywords: see :meth:`~pyexcel.get_book`
-    :returns: IO stream
-    """
-    io = _get_io(dest_file_type)
-    book = get_book(**keywords)
-    book.save_to_memory(dest_file_type, io)
-    io.seek(0)
-    return io
-
-
-def save_book_as(out_file=None, dest_file_type=None,
-                 dest_session=None, dest_tables=None,
-                 dest_models=None,
-                 **keywords):
-    """Save a copy of an excel source
-
-    :param out_file: another file name.
-    :param dest_file_type: this is needed if you want to save to memory
-    :param dest_session: the target database session
-    :param dest_tables: the list of target destination tables
-    :param dest_models: the list of target destination django models
-    :param mapdicts: a list of mapping dictionaries, see :methd:`~pyexcel.Book.save_to_memory`
-    :param keywords: see :meth:`~pyexcel.get_book`
-    :returns: IO stream if saving to memory. None otherwise
-    """
-    if out_file:
-        book = get_book(**keywords)
-        book.save_as(out_file)
-        return None
-    elif dest_file_type:
-        return save_book_to_memory(dest_file_type, **keywords)
-    elif dest_session and dest_tables:
-        return save_book_to_database(dest_session, dest_tables, **keywords)
-    elif dest_models:
-        return save_book_to_django_models(dest_models, **keywords)
-    raise ValueError("No valid parameters found!")
 
 
 __VERSION__ = '0.1.5'

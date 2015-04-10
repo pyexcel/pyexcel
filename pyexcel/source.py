@@ -19,6 +19,12 @@ def has_field(field, keywords):
     return field in keywords and keywords[field]
 
 
+def _get_io(file_type):
+    if file_type in ['csv', 'tsv']:
+        return StringIO()
+    else:
+        return BytesIO()
+
 class Pluggible:
     field = []
 
@@ -249,14 +255,8 @@ class SingleSheetOutFile(WriteableSource):
 class SingleSheetOutMemory(SingleSheetOutFile):
     fields = ['file_type']
 
-    def _get_io(self, file_type):
-        if file_type in ['csv', 'tsv']:
-            return StringIO()
-        else:
-            return BytesIO()
-
     def __init__(self, file_type=None, **keywords):
-        self.content = self._get_io(file_type)
+        self.content = _get_io(file_type)
         self.file_name = (file_type, self.content)
         self.keywords = keywords
 
@@ -316,6 +316,75 @@ class SingleSheetOutDjangoModel(WriteableSource):
         w.write_array(sheet.array)
         w.close()
 
+
+class BookSource(SingleSheetOutFile):
+    def write_data(self, book):
+        from .writers import BookWriter
+        writer = BookWriter(self.file_name, **self.keywords)
+        writer.write_book_reader(book)
+        writer.close()
+
+
+class BookSourceInMemory(BookSource):
+    fields = ['file_type']
+
+    def __init__(self, file_type=None, **keywords):
+        self.content = _get_io(file_type)
+        self.file_name = (file_type, self.content)
+        self.keywords = keywords
+
+
+class BookOutSQLTables(WriteableSource):
+    fields = ['session', 'tables']
+    def __init__(self, session=None, tables=None, table_init_funcs=None, mapdicts=None):
+        self.session = session
+        self.tables = tables
+        self.table_init_funcs = table_init_funcs
+        if self.table_init_funcs is None:
+            self.table_init_funcs = [None] * len(self.tables)
+        self.mapdicts = mapdicts
+        if self.mapdicts is None:
+            self.mapdicts = [None] * len(self.tables)
+
+    def write_data(self, book):
+        from .writers import BookWriter
+        for sheet in book:
+            if len(sheet.colnames)  == 0:
+                sheet.name_columns_by_row(0)
+        colnames_array = [sheet.colnames for sheet in book]
+        x = zip(self.tables, colnames_array, self.table_init_funcs,self. mapdicts)
+        table_dict = dict(zip(book.name_array, x))
+        w = BookWriter('sql', session=self.session, tables=table_dict)
+        w.write_book_reader_to_db(book)
+        w.close()
+        
+        
+class BookOutDjangoModels(WriteableSource):
+    fields = ['models']
+
+    def __init__(self, models=None, data_wrappers=None, mapdicts=None, batch_size=None):
+        self.models = models
+        self.data_wrappers = data_wrappers
+        self.batch_size = batch_size
+        if self.data_wrappers is None:
+            self.data_wrappers= [None] * len(models)
+        self.mapdicts = mapdicts
+        if self.mapdicts is None:
+            self.mapdicts = [None] * len(models)
+
+    def write_data(self, book):
+        from .writers import BookWriter
+        for sheet in book:
+            if len(sheet.colnames)  == 0:
+                sheet.name_columns_by_row(0)
+        colnames_array = [sheet.colnames for sheet in book]
+        x = zip(self.models, colnames_array, self.data_wrappers, self.mapdicts)
+        table_dict = dict(zip(book.name_array, x))
+        w = BookWriter('django', models=table_dict, batch_size=self.batch_size)
+        w.write_book_reader_to_db(book)
+        w.close()
+
+
 SOURCES = [
     ReadableSource,
     SingleSheetFile,
@@ -345,6 +414,13 @@ DEST_SOURCES = [
     SingleSheetOutDjangoModel
 ]
 
+DEST_BOOK_SOURCES = [
+    BookSource,
+    BookSourceInMemory,
+    BookOutSQLTables,
+    BookOutDjangoModels
+]
+
 
 class SourceFactory:
     @classmethod
@@ -366,6 +442,10 @@ class SourceFactory:
     @classmethod
     def get_writable_source(self, **keywords):
         return self.get_generic_source(DEST_SOURCES, **keywords)
+
+    @classmethod
+    def get_writable_book_source(self, **keywords):
+        return self.get_generic_source(DEST_BOOK_SOURCES, **keywords)
 
 
 def get_sheet(**keywords):
@@ -466,3 +546,37 @@ def save_as(**keywords):
             return dest_source.content
     else:
         raise ValueError("No valid parameters found!")
+
+
+def save_book_as(**keywords):
+    """Save a copy of an excel source
+
+    :param out_file: another file name.
+    :param dest_file_type: this is needed if you want to save to memory
+    :param dest_session: the target database session
+    :param dest_tables: the list of target destination tables
+    :param dest_models: the list of target destination django models
+    :param dest_mapdicts: a list of mapping dictionaries, see :methd:`~pyexcel.Book.save_to_memory`
+    :param keywords: see :meth:`~pyexcel.get_book`
+    :returns: IO stream if saving to memory. None otherwise
+    """
+    dest_keywords = {}
+    source_keywords = {}
+    for key in keywords.keys():
+        result = re.match('^dest_(.*)', key)
+        if result:
+            dest_keywords[result.group(1)]= keywords[key]
+        else:
+            source_keywords[key] = keywords[key]
+    if 'out_file' in keywords:
+        print('depreciated. please use dest_file_name')
+        dest_keywords['file_name'] = keywords.pop('out_file')
+    dest_source = SourceFactory.get_writable_book_source(**dest_keywords)
+    if dest_source is not None:
+        book = get_book(**source_keywords)
+        book.save_to(dest_source)
+        if 'file_type' in dest_source.fields:
+            return dest_source.content
+    else:
+        raise ValueError("No valid parameters found!")
+

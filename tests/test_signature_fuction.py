@@ -649,7 +649,7 @@ class TestGetBook:
         content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
         content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
         content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
-        io = pe.save_book_to_memory("xls", bookdict=content)
+        io = pe.save_book_as(dest_file_type="xls", bookdict=content)
         book2 = pe.get_book(content=io.getvalue(), file_type="xls")
         assert book2.to_dict() == content
 
@@ -658,7 +658,7 @@ class TestGetBook:
         content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
         content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
         content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
-        io = pe.save_book_to_memory("xls", bookdict=content)
+        io = pe.save_book_as(dest_file_type="xls", bookdict=content)
         adict = pe.get_book_dict(content=io.getvalue(), file_type="xls")
         assert adict == content
 
