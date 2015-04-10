@@ -59,6 +59,7 @@ pyexcel.sheets.Sheet
       ~Sheet.rrows
       ~Sheet.rvertical
       ~Sheet.save_as
+      ~Sheet.save_to
       ~Sheet.save_to_database
       ~Sheet.save_to_django_model
       ~Sheet.save_to_memory

@@ -29,6 +29,7 @@ class Sheet(NominableSheet):
     array.
     """
     def save_to(self, source):
+        """Save to a writeable data source"""
         source.write_data(self)
 
     def save_as(self, filename, **keywords):

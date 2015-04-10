@@ -65,10 +65,6 @@ Constructor
    :toctree: generated
 
    Book
-   load_book
-   load_book_from_memory
-   load_book_from_sql
-
 
 Attribute
 ------------
@@ -93,6 +89,7 @@ Save changes
 .. autosummary::
    :toctree: generated
 
+   Book.save_to
    Book.save_as
    Book.save_to_memory
    Book.save_to_database
@@ -108,9 +105,6 @@ Constructor
    :toctree: generated/
 
    Sheet
-   load
-   load_from_memory
-   load_from_sql
 
 Save changes
 --------------
@@ -118,6 +112,7 @@ Save changes
 .. autosummary::
    :toctree: generated/
 
+   Sheet.save_to
    Sheet.save_as
    Sheet.save_to_memory
    Sheet.save_to_database

@@ -174,6 +174,7 @@ class Book(object):
         return self
 
     def save_to(self, source):
+        """Save to a writeable data source"""
         source.write_data(self)
         
     def save_as(self, filename):

@@ -468,10 +468,12 @@ def get_sheet(**keywords):
     Not all parameters are needed. Here is a table
 
     ========================== =========================================
+    source                     parameters
+    ========================== =========================================
     loading from file          file_name, sheet_name, keywords
     loading from memory        file_type, content, sheet_name, keywords
-    loading from sql           session ,table
-    loading from sql in django django model
+    loading from sql           session, table
+    loading from sql in django model
     loading from query sets    any query sets(sqlalchemy or django)
     loading from dictionary    adict, with_keys
     loading from records       records
@@ -482,7 +484,13 @@ def get_sheet(**keywords):
     """
     sheet = None
     sheet_params = {}
-    for field in ['name_columns_by_row', 'name_rows_by_column', 'colnames', 'rownames', 'transpose_before', 'transpose_after']:
+    valid_sheet_params = ['name_columns_by_row',
+                          'name_rows_by_column',
+                          'colnames',
+                          'rownames',
+                          'transpose_before',
+                          'transpose_after']
+    for field in valid_sheet_params:
         if field in keywords:
             sheet_params[field] = keywords.pop(field)    
     source = SourceFactory.get_source(**keywords)
@@ -505,6 +513,21 @@ def get_book(**keywords):
     :param models: a list of django models
     :param bookdict: a dictionary of two dimensional arrays
     see also :ref:`a-list-of-data-structures`
+
+    Here is a table of parameters:
+
+    ========================== ============================================
+    source                     parameters
+    ========================== ============================================
+    loading from file          file_name, keywords
+    loading from memory        file_type, content, keywords
+    loading from sql           session, tables
+    loading from django modles models
+    loading from dictionary    bookdict
+    ========================== ============================================
+
+    Where the dictionary should have text as keys and two dimensional
+    array as values.
     """
     source = SourceFactory.get_book_source(**keywords)
     if source is not None:
@@ -515,17 +538,29 @@ def get_book(**keywords):
 
 
 def save_as(**keywords):
-    """Save a sheet of an excel source separately
+    """Save a sheet from a data srouce to another one
 
-    :param dest_file_name: another file name.
-    :param out_file: depreciated. please use dest_file_name
+    :param dest_file_name: another file name. **out_file** is deprecated though is still accepted.
     :param dest_file_type: this is needed if you want to save to memory
-    :param keywords: see :meth:`~pyexcel.get_sheet`
     :param dest_session: the target database session
     :param dest_table: the target destination table
+    :param dest_table_init_func: custom table initialization function
     :param dest_model: the target django model
     :param dest_mapdict: a mapping dictionary, see :meth:`~pyexcel.Sheet.save_to_memory`
+    :param dest_data_wrapper: a custom django model initialization function
+    :param dest_mapdict: nominate headers
+    :param dest_batch_size: object creation batch size. Django specific
+    :param keywords: additional keywords can be found at :meth:`pyexcel.get_sheet`
     :returns: IO stream if saving to memory. None otherwise
+
+    ========================== =============================================================================
+    Saving to source           parameters
+    ========================== =============================================================================
+    file                       dest_file_name, dest_sheet_name, keywords with prefix 'dest_'
+    memory                     dest_file_type, dest_content, dest_sheet_name, keywords with prefix 'dest_'
+    sql                        dest_session, table, dest_table_init_func, dest_mapdict
+    django model               dest_model, dest_data_wrapper, dest_mapdict, dest_batch_size
+    ========================== =============================================================================
     """
     dest_keywords = {}
     source_keywords = {}
@@ -549,16 +584,29 @@ def save_as(**keywords):
 
 
 def save_book_as(**keywords):
-    """Save a copy of an excel source
+    """Save a book from a data source to another one
 
-    :param out_file: another file name.
+    :param dest_file_name: another file name. **out_file** is deprecated though is still accepted.
     :param dest_file_type: this is needed if you want to save to memory
     :param dest_session: the target database session
     :param dest_tables: the list of target destination tables
     :param dest_models: the list of target destination django models
-    :param dest_mapdicts: a list of mapping dictionaries, see :methd:`~pyexcel.Book.save_to_memory`
-    :param keywords: see :meth:`~pyexcel.get_book`
+    :param dest_mapdicts: a list of mapping dictionaries
+    :param dest_table_init_funcs: table initialization fuctions
+    :param dest_data_wrappers: to initialize a model. Optional
+    :param dest_mapdicts: to nominate a model or table fields. Optional
+    :param dest_batch_size: batch creation size. Optional
+    :param keywords: additional keywords can be found at :meth:`pyexcel.get_sheet`
     :returns: IO stream if saving to memory. None otherwise
+
+    ========================== =============================================================================
+    Saving to source           parameters
+    ========================== =============================================================================
+    file                       dest_file_name, dest_sheet_name, keywords with prefix 'dest_'
+    memory                     dest_file_type, dest_content, dest_sheet_name, keywords with prefix 'dest_'
+    sql                        dest_session, dest_tables, dest_table_init_func, dest_mapdict
+    django model               dest_models, dest_data_wrappers, dest_mapdict, dest_batch_size
+    ========================== =============================================================================
     """
     dest_keywords = {}
     source_keywords = {}
