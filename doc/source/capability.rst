@@ -35,7 +35,7 @@ the first three functions operates on any one sheet from an excel book and the f
    Functions                       Psudo name                              Python name                      
    =============================== ======================================= ================================ 
    :meth:`~pyexcel.get_array`      two dimensional array                   a list of lists                 
-   :meth:`~pyexcel.get_dict`       a dictionary of one dimensional arrays  a dictionary of lists           
+   :meth:`~pyexcel.get_dict`       a dictionary of one dimensional arrays  an ordered dictionary of lists           
    :meth:`~pyexcel.get_records`    a list of dictionaries                  a list of dictionaries           
    :meth:`~pyexcel.get_book_dict`  a dictionary of two dimensional arrays  a dictionary of lists of lists      
    =============================== ======================================= ================================ 
@@ -59,7 +59,7 @@ Export data from Python
 This library provides one application programming interface to transform them into one of the data structures:
 
    * two dimensinal array
-   * a dictionary of one dimensional arrays
+   * a (ordered) dictionary of one dimensional arrays
    * a list of dictionaries
    * a dictionary of two dimensional arrays
    * a :class:`~pyexcel.Sheet`

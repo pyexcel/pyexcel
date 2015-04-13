@@ -1,7 +1,7 @@
 import pyexcel as pe
 import pyexcel.ext.xls
 import os
-from _compact import StringIO
+from _compact import StringIO, OrderedDict
 
 
 class TestBugFixes:
@@ -57,3 +57,13 @@ class TestBugFixes:
         merged += sheet1
         merged += sheet2
         assert merged[1].name == "pyexcel_1"
+
+    def test_issue_10(self):
+        thedict = OrderedDict()
+        thedict.update({"Column 1": [1,2,3]})
+        thedict.update({"Column 2": [1,2,3]})
+        thedict.update({"Column 3": [1,2,3]})
+        pe.save_as(adict=thedict, dest_file_name="issue10.xls")
+        newdict = pe.get_dict(file_name="issue10.xls")
+        assert isinstance(newdict, OrderedDict) == True
+        assert thedict == newdict
