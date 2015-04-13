@@ -9,6 +9,7 @@
 """
 from .sheets import NominableSheet, Sheet
 from ._compact import OrderedDict, PY2
+from .constants import MESSAGE_DATA_ERROR_NO_SERIES
 import datetime
 
 
@@ -72,7 +73,7 @@ def to_records(reader, custom_headers=None):
             the_dict = dict(zip(headers, row))
             ret.append(the_dict)
     else:
-        raise ValueError("No series found")
+        raise ValueError(MESSAGE_DATA_ERROR_NO_SERIES)
     return ret
 
 

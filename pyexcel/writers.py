@@ -10,6 +10,7 @@
 from .utils import to_array, from_records, dict_to_array
 from .sheets import Matrix, transpose
 from .io import get_writer
+from .constants import MESSAGE_WRITE_ERROR
 
 
 class SheetWriter:
@@ -176,7 +177,7 @@ class BookWriter:
                 sheet.write_array(bookreader[name].array)
                 sheet.close()
             except:
-                print("Cannot write sheet %s" % name)
+                print("%s %s" %(MESSAGE_WRITE_ERROR, name))
 
     def close(self):
         """close the writer"""

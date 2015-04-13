@@ -122,7 +122,7 @@ class TestMatrixColumn:
         r.delete_columns([0,2])
         assert r.row[0] == [2, 4, 5, 6]
 
-    @raises(ValueError)
+    @raises(TypeError)
     def test_delete_wrong_type(self):
         r = pe.sheets.Matrix(self.data)
         r.delete_columns("hi")  # bang, cannot delete columns named as string

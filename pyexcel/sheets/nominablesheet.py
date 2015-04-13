@@ -25,6 +25,7 @@ from ..iterators import (
     NamedColumnIterator
 )
 from ..presentation import outsource
+from ..constants import MESSAGE_NOT_IMPLEMENTED_02, MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED
 
 
 def names_to_indices(names, series):
@@ -436,16 +437,14 @@ class NominableSheet(FilterableSheet):
         self.named_column = NamedColumn(self)
         if name_columns_by_row != -1:
             if colnames:
-                raise NotImplementedError(
-                    "Confused! What do you want to put as column names")
+                raise NotImplementedError(MESSAGE_NOT_IMPLEMENTED_02)
             self.name_columns_by_row(name_columns_by_row)
         else:
             if colnames:
                 self._column_names = colnames
         if name_rows_by_column != -1:
             if rownames:
-                raise NotImplementedError(
-                    "Confused! What do you want to put as column names")
+                raise NotImplementedError(MESSAGE_NOT_IMPLEMENTED_02)
             self.name_rows_by_column(name_rows_by_column)
         else:
             if rownames:
@@ -704,7 +703,7 @@ class NominableSheet(FilterableSheet):
                 incoming_data.append(rows[k])
             FilterableSheet.extend_rows(self, incoming_data)
         elif len(self.rownames) > 0:
-            raise TypeError("Please give a ordered list")
+            raise TypeError(MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED)
         else:
             FilterableSheet.extend_rows(self, rows)
 
@@ -728,7 +727,7 @@ class NominableSheet(FilterableSheet):
                 incoming_data.append(columns[k])
             FilterableSheet.extend_columns(self, incoming_data)
         elif len(self.colnames) > 0:
-            raise TypeError("Please give a ordered list")
+            raise TypeError(MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED)
         else:
             FilterableSheet.extend_columns(self, columns)
 

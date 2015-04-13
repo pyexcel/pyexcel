@@ -13,6 +13,7 @@ from ..formatters import (
     RowFormatter,
     SheetFormatter
 )
+from ..constants import MESSAGE_NOT_IMPLEMENTED_01
 
 
 class FormattableSheet(Matrix):
@@ -305,4 +306,4 @@ class FormattableSheet(Matrix):
 
         :return: self
         """
-        raise NotImplementedError("Please .row or .column to extendsheet")
+        raise NotImplementedError(MESSAGE_NOT_IMPLEMENTED_01)

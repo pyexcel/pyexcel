@@ -24,6 +24,12 @@ from ..iterators import (
 )
 from ..filters import RowFilter, ColumnFilter
 from ..presentation import outsource
+from ..constants import (
+    MESSAGE_INDEX_OUT_OF_RANGE,
+    MESSAGE_DATA_ERROR_EMPTY_CONTENT,
+    MESSAGE_DATA_ERROR_DATA_TYPE_MISMATCH,
+    MESSAGE_DEPRECATED_ROW_COLUMN
+)
 
 
 def _unique(seq):
@@ -747,7 +753,7 @@ class Matrix(object):
                 cell_array.append(self.cell_value(index, i))
             return cell_array
         else:
-            raise IndexError("Out of range")
+            raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)
 
     def column_at(self, index):
         """
@@ -759,7 +765,7 @@ class Matrix(object):
                 cell_array.append(self.cell_value(i, index))
             return cell_array
         else:
-            raise IndexError("Out of range")
+            raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)
 
     def set_column_at(self, column_index, data_array, starting=0):
         """Updates a column data range
@@ -794,7 +800,7 @@ class Matrix(object):
                     self.array.append(new_row)
             self.width, self.array = uniform(self.array)
         else:
-            raise IndexError
+            raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)
 
     def set_row_at(self, row_index, data_array, starting=0):
         """Update a row data range
@@ -826,7 +832,7 @@ class Matrix(object):
                 self.array[row_index] = self.array[row_index] + data_array[left:]
             self.width, self.array = uniform(self.array)
         else:
-            raise IndexError
+            raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)
 
     def _extend_row(self, row):
         array = copy.deepcopy(row)
@@ -869,7 +875,7 @@ class Matrix(object):
             s s s  +  t t
         """
         if not isinstance(columns, list):
-            raise TypeError("Cannot extend using type %s" % type(columns))
+            raise TypeError(MESSAGE_DATA_ERROR_DATA_TYPE_MISMATCH)
         incoming_data = columns
         if not is_array_type(columns, list):
             incoming_data = [columns]
@@ -1016,13 +1022,13 @@ class Matrix(object):
                     self.extend_columns([real_column])
             self.width, self.array = uniform(self.array)
         else:
-            raise ValueError("Nothing to be pasted!")
+            raise ValueError(MESSAGE_DATA_ERROR_EMPTY_CONTENT)
 
     def delete_columns(self, column_indices):
         """Delete columns by specified list of indices
         """
         if isinstance(column_indices, list) is False:
-            raise ValueError
+            raise TypeError(MESSAGE_DATA_ERROR_DATA_TYPE_MISMATCH)
         if len(column_indices) > 0:
             unique_list = _unique(column_indices)
             sorted_list = sorted(unique_list, reverse=True)
@@ -1050,7 +1056,7 @@ class Matrix(object):
             row, column = _excel_cell_position(aset)
             return self.cell_value(row, column)
         elif isinstance(aset, int):
-            print("Deprecated usage. Please use [row, column]")
+            print(MESSAGE_DEPRECATED_ROW_COLUMN)
             return self.row_at(aset)
         else:
             raise IndexError
