@@ -15,40 +15,52 @@ from .djangobook import DjangoBookReader, DjangoBookWriter
 from .._compact import is_string
 
 
+FILE_FORMAT_CSV = 'csv'
+FILE_FORMAT_TSV = 'tsv'
+FILE_FORMAT_CSVZ = 'csvz'
+FILE_FORMAT_TSVZ = 'tsvz'
+FILE_FORMAT_ODS = 'ods'
+FILE_FORMAT_XLS = 'xls'
+FILE_FORMAT_XLSX = 'xlsx'
+FILE_FORMAT_XLSM = 'xlsm'
+FILE_FORMAT_SQL = 'sql'
+FILE_FORMAT_DJANGO = 'django'
+
+
 # A list of registered readers
 READERS = {
-    "csv": CSVBook,
-    "tsv": partial(CSVBook, dialect="excel-tab"),
-    "csvz": CSVZipBook,
-    "tsvz": partial(CSVZipBook, dialect="excel-tab"),
-    "sql": SQLBookReader,
-    "django": DjangoBookReader
+    FILE_FORMAT_CSV: CSVBook,
+    FILE_FORMAT_TSV: partial(CSVBook, dialect="excel-tab"),
+    FILE_FORMAT_CSVZ: CSVZipBook,
+    FILE_FORMAT_TSVZ: partial(CSVZipBook, dialect="excel-tab"),
+    FILE_FORMAT_SQL: SQLBookReader,
+    FILE_FORMAT_DJANGO: DjangoBookReader
 }
 
 ERROR_MESSAGE = "The plugin for file type %s is not installed. Please install %s"
 
 AVAILABLE_READERS = {
-    'xls': 'pyexcel-xls',
-    'xlsx': ('pyexcel-xls', 'pyexcel-xlsx'),
-    'xlsm': ('pyexcel-xls', 'pyexcel-xlsx'),
-    'ods': ('pyexcel-ods', 'pyexcel-ods3')
+    FILE_FORMAT_XLS: 'pyexcel-xls',
+    FILE_FORMAT_XLSX: ('pyexcel-xls', 'pyexcel-xlsx'),
+    FILE_FORMAT_XLSM: ('pyexcel-xls', 'pyexcel-xlsx'),
+    FILE_FORMAT_ODS: ('pyexcel-ods', 'pyexcel-ods3')
 }
 
 # A list of registered writers
 WRITERS = {
-    "csv": CSVWriter,
-    "tsv": partial(CSVWriter, dialect="excel-tab"),
-    "csvz": CSVZipWriter,
-    "tsvz": partial(CSVZipWriter, dialect="excel-tab"),
-    "sql": SQLBookWriter,
-    "django": DjangoBookWriter
+    FILE_FORMAT_CSV: CSVWriter,
+    FILE_FORMAT_TSV: partial(CSVWriter, dialect="excel-tab"),
+    FILE_FORMAT_CSVZ: CSVZipWriter,
+    FILE_FORMAT_TSVZ: partial(CSVZipWriter, dialect="excel-tab"),
+    FILE_FORMAT_SQL: SQLBookWriter,
+    FILE_FORMAT_DJANGO: DjangoBookWriter
 }
 
 AVAILABLE_WRITERS = {
-    'xls': 'pyexcel-xls',
-    'xlsx': 'pyexcel-xlsx',
-    'xlsm': 'pyexcel-xlsx',
-    'ods': ('pyexcel-ods', 'pyexcel-ods3')
+    FILE_FORMAT_XLS: 'pyexcel-xls',
+    FILE_FORMAT_XLSX: 'pyexcel-xlsx',
+    FILE_FORMAT_XLSM: 'pyexcel-xlsx',
+    FILE_FORMAT_ODS: ('pyexcel-ods', 'pyexcel-ods3')
 }
 
 def list_readers():

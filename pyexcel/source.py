@@ -2,31 +2,50 @@
     pyexcel.source
     ~~~~~~~~~~~~~~~~~~~
 
-    Representation of incoming data source
+    Representation of excel data sources
 
     :copyright: (c) 2015 by Onni Software Ltd.
     :license: New BSD License
 """
 import os
 import re
-from .io import load_file
+from .io import load_file, FILE_FORMAT_DJANGO, FILE_FORMAT_SQL, FILE_FORMAT_CSV, FILE_FORMAT_TSV
 from ._compact import PY2, BytesIO, StringIO
 from .sheets import Sheet
 from .book import Book
+from .constants import DEFAULT_SHEET_NAME
+
+
+LABEL_SOURCE = 'source'
+LABEL_FILE_TYPE = 'file_type'
+LABEL_FILE_NAME = 'file_name'
+LABEL_SESSION = 'session'
+LABEL_TABLE = 'table'
+LABEL_MODEL = 'model'
+LABEL_TABLES = 'tables'
+LABEL_MODELS = 'models'
+LABEL_CONTENT = 'content'
+LABEL_ADICT = 'adict'
+LABEL_RECORDS = 'records'
+LABEL_ARRAY = 'array'
+LABEL_COLUMN_NAMES = 'column_names'
+LABEL_QUERY_SETS = 'query_sets'
+LABEL_OUT_FILE = 'out_file'
+LABEL_BOOKDICT = 'bookdict'
 
 
 def has_field(field, keywords):
-    return field in keywords and keywords[field]
+    return field in keywords and keywords[field] is not None
 
 
 def _get_io(file_type):
-    if file_type in ['csv', 'tsv']:
+    if file_type in [FILE_FORMAT_CSV, FILE_FORMAT_TSV]:
         return StringIO()
     else:
         return BytesIO()
 
 class Pluggible:
-    field = []
+    fields = []
 
     @classmethod
     def is_my_business(self, **keywords):
@@ -50,7 +69,7 @@ def one_sheet_tuple(items):
 
 
 class ReadableSource(Pluggible):
-    fields = ['source']
+    fields = [LABEL_SOURCE]
 
     def __init__(self, source=None, **keywords):
         self.source = source
@@ -59,8 +78,17 @@ class ReadableSource(Pluggible):
         return self.source.get_data()
 
         
+class WriteableSource(Pluggible):
+    fields = [LABEL_SOURCE]
+    def __init__(self, source=None, **keywords):
+        self.source = source
+        
+    def write_data(self, content):
+        self.source.write_data(content)
+
+
 class SingleSheetFile(ReadableSource):
-    fields = ['file_name']
+    fields = [LABEL_FILE_NAME]
 
     def __init__(self, file_name=None, sheet_name=None, sheet_index=None, **keywords):
         self.file_name = file_name
@@ -86,24 +114,24 @@ class SingleSheetFile(ReadableSource):
 
 
 class SingleSheetFileInMemory(SingleSheetFile):
-    fields = ['content', 'file_type']
+    fields = [LABEL_CONTENT, LABEL_FILE_TYPE]
 
     def __init__(self, content=None, file_type=None, **keywords):
         SingleSheetFile.__init__(self, file_name=(file_type, content),**keywords)
 
 
 class SingleSheetRecrodsSource(ReadableSource):
-    fields= ['records']
+    fields= [LABEL_RECORDS]
     def __init__(self, records):
         self.records = records
 
     def get_data(self):
         from .utils import from_records
-        return 'pyexcel_sheet1', from_records(self.records)
+        return DEFAULT_SHEET_NAME, from_records(self.records)
 
 
 class SingleSheetDictSource(ReadableSource):
-    fields = ['adict']
+    fields = [LABEL_ADICT]
 
     def __init__(self, adict, with_keys=True):
         self.adict = adict
@@ -112,26 +140,26 @@ class SingleSheetDictSource(ReadableSource):
     def get_data(self):
         from .utils import dict_to_array
         tmp_array = dict_to_array(self.adict, self.with_keys)
-        return 'pyexcel_sheet1', tmp_array
+        return DEFAULT_SHEET_NAME, tmp_array
 
 
 class SingleSheetArraySource(ReadableSource):
-    fields = ['array']
+    fields = [LABEL_ARRAY]
 
     def __init__(self, array):
         self.array = array
 
     def get_data(self):
-        return 'pyexcel_sheet1', self.array
+        return DEFAULT_SHEET_NAME, self.array
 
 
 class SingleSheetQuerySetSource(ReadableSource):
-    fields = ['column_names', 'query_sets']
+    fields = [LABEL_COLUMN_NAMES, LABEL_QUERY_SETS]
 
     def __init__(self, column_names, query_sets, sheet_name=None):
         self.sheet_name = sheet_name
         if self.sheet_name is None:
-            self.sheet_name = 'pyexcel_sheet1'
+            self.sheet_name = DEFAULT_SHEET_NAME
         self.column_names = column_names
         self.query_sets = query_sets
 
@@ -151,28 +179,28 @@ class SingleSheetDatabaseSourceMixin(ReadableSource):
 
 
 class SingleSheetSQLAlchemySource(SingleSheetDatabaseSourceMixin):
-    fields = ['session', 'table']
+    fields = [LABEL_SESSION, LABEL_TABLE]
 
     def __init__(self, session, table):
         self.session = session
         self.table = table
 
     def get_sql_book(self):
-        return load_file('sql', session=self.session, tables=[self.table])
+        return load_file(FILE_FORMAT_SQL, session=self.session, tables=[self.table])
 
 
 class SingleSheetDjangoSource(SingleSheetDatabaseSourceMixin):
-    fields = ['model']
+    fields = [LABEL_MODEL]
 
     def __init__(self, model):
         self.model = model
 
     def get_sql_book(self):
-        return load_file('django', models=[self.model])
+        return load_file(FILE_FORMAT_DJANGO, models=[self.model])
 
 
 class BookFile(ReadableSource):
-    fields = ['file_name']
+    fields = [LABEL_FILE_NAME]
     
     def __init__(self, file_name, **keywords):
         self.file_name = file_name
@@ -185,7 +213,7 @@ class BookFile(ReadableSource):
 
 
 class BookInMemory(ReadableSource):
-    fields = ['file_type', 'content']
+    fields = [LABEL_FILE_TYPE, LABEL_CONTENT]
     
     def __init__(self, file_type, content, **keywords):
         self.file_type = file_type
@@ -198,16 +226,17 @@ class BookInMemory(ReadableSource):
 
 
 class BookInDict(ReadableSource):
-    fields = ['bookdict']
+    fields = [LABEL_BOOKDICT]
     
     def __init__(self, bookdict, **keywords):
         self.bookdict = bookdict
 
     def get_data(self):
-        return self.bookdict, 'bookdict', None
+        return self.bookdict, LABEL_BOOKDICT, None
+
 
 class BookFromSQLTables(ReadableSource):
-    fields = ['session', 'tables']
+    fields = [LABEL_SESSION, LABEL_TABLES]
     
     def __init__(self, session, tables, **keywords):
         self.session = session
@@ -215,32 +244,23 @@ class BookFromSQLTables(ReadableSource):
         self.keywords = keywords
 
     def get_data(self):
-        book = load_file('sql', session=self.session, tables=self.tables)
-        return book.sheets(), 'sql', None
+        book = load_file(FILE_FORMAT_SQL, session=self.session, tables=self.tables)
+        return book.sheets(), FILE_FORMAT_SQL, None
         
 class BookFromDjangoModels(ReadableSource):
-    fields = ['models']
+    fields = [LABEL_MODELS]
     
     def __init__(self, models, **keywords):
         self.models = models
         self.keywords = keywords
 
     def get_data(self):
-        book = load_file('django', models=self.models)
-        return book.sheets(), 'django', None
-
-
-class WriteableSource(Pluggible):
-    fields = ['source']
-    def __init__(self, source=None, **keywords):
-        self.source = source
-        
-    def write_data(self, content):
-        self.source.write_data(content)
+        book = load_file(FILE_FORMAT_DJANGO, models=self.models)
+        return book.sheets(), FILE_FORMAT_DJANGO, None
 
 
 class SingleSheetOutFile(WriteableSource):
-    fields = ['file_name']
+    fields = [LABEL_FILE_NAME]
 
     def __init__(self, file_name=None, **keywords):
         self.file_name = file_name
@@ -253,7 +273,7 @@ class SingleSheetOutFile(WriteableSource):
         w.close()
 
 class SingleSheetOutMemory(SingleSheetOutFile):
-    fields = ['file_type']
+    fields = [LABEL_FILE_TYPE]
 
     def __init__(self, file_type=None, **keywords):
         self.content = _get_io(file_type)
@@ -262,7 +282,7 @@ class SingleSheetOutMemory(SingleSheetOutFile):
 
 
 class SingleSheetOutSQLTable(WriteableSource):
-    fields = ['session', 'table']
+    fields = [LABEL_SESSION, LABEL_TABLE]
 
     def __init__(self, session=None, table=None, **keywords):
         self.session = session
@@ -274,7 +294,7 @@ class SingleSheetOutSQLTable(WriteableSource):
         if(len(sheet.colnames)) == 0:
             sheet.name_columns_by_row(0)
         w = Writer(
-            'sql',
+            FILE_FORMAT_SQL,
             sheet_name=sheet.name,
             session=self.session,
             tables={
@@ -290,7 +310,7 @@ class SingleSheetOutSQLTable(WriteableSource):
 
 
 class SingleSheetOutDjangoModel(WriteableSource):
-    fields = ['model']
+    fields = [LABEL_MODEL]
 
     def __init__(self, model=None, **keywords):
         self.model = model 
@@ -301,7 +321,7 @@ class SingleSheetOutDjangoModel(WriteableSource):
         if len(sheet.colnames) == 0:
             sheet.name_columns_by_row(0)
         w = Writer(
-            'django',
+            FILE_FORMAT_DJANGO,
             sheet_name=sheet.name,
             models={
                 sheet.name:(
@@ -326,7 +346,7 @@ class BookSource(SingleSheetOutFile):
 
 
 class BookSourceInMemory(BookSource):
-    fields = ['file_type']
+    fields = [LABEL_FILE_TYPE]
 
     def __init__(self, file_type=None, **keywords):
         self.content = _get_io(file_type)
@@ -335,7 +355,7 @@ class BookSourceInMemory(BookSource):
 
 
 class BookOutSQLTables(WriteableSource):
-    fields = ['session', 'tables']
+    fields = [LABEL_SESSION, LABEL_TABLES]
     def __init__(self, session=None, tables=None, table_init_funcs=None, mapdicts=None):
         self.session = session
         self.tables = tables
@@ -354,13 +374,13 @@ class BookOutSQLTables(WriteableSource):
         colnames_array = [sheet.colnames for sheet in book]
         x = zip(self.tables, colnames_array, self.table_init_funcs,self. mapdicts)
         table_dict = dict(zip(book.name_array, x))
-        w = BookWriter('sql', session=self.session, tables=table_dict)
+        w = BookWriter(FILE_FORMAT_SQL, session=self.session, tables=table_dict)
         w.write_book_reader_to_db(book)
         w.close()
         
         
 class BookOutDjangoModels(WriteableSource):
-    fields = ['models']
+    fields = [LABEL_MODELS]
 
     def __init__(self, models=None, data_wrappers=None, mapdicts=None, batch_size=None):
         self.models = models
@@ -380,7 +400,7 @@ class BookOutDjangoModels(WriteableSource):
         colnames_array = [sheet.colnames for sheet in book]
         x = zip(self.models, colnames_array, self.data_wrappers, self.mapdicts)
         table_dict = dict(zip(book.name_array, x))
-        w = BookWriter('django', models=table_dict, batch_size=self.batch_size)
+        w = BookWriter(FILE_FORMAT_DJANGO, models=table_dict, batch_size=self.batch_size)
         w.write_book_reader_to_db(book)
         w.close()
 
@@ -408,6 +428,7 @@ BOOK_SOURCES = [
 ]
 
 DEST_SOURCES = [
+    WriteableSource,
     SingleSheetOutFile,
     SingleSheetOutMemory,
     SingleSheetOutSQLTable,
@@ -415,6 +436,7 @@ DEST_SOURCES = [
 ]
 
 DEST_BOOK_SOURCES = [
+    WriteableSource,
     BookSource,
     BookSourceInMemory,
     BookOutSQLTables,
@@ -440,11 +462,11 @@ class SourceFactory:
         return self.get_generic_source(BOOK_SOURCES, **keywords)
 
     @classmethod
-    def get_writable_source(self, **keywords):
+    def get_writeable_source(self, **keywords):
         return self.get_generic_source(DEST_SOURCES, **keywords)
 
     @classmethod
-    def get_writable_book_source(self, **keywords):
+    def get_writeable_book_source(self, **keywords):
         return self.get_generic_source(DEST_BOOK_SOURCES, **keywords)
 
 
@@ -570,14 +592,14 @@ def save_as(**keywords):
             dest_keywords[result.group(1)]= keywords[key]
         else:
             source_keywords[key] = keywords[key]
-    if 'out_file' in keywords:
+    if LABEL_OUT_FILE in keywords:
         print('depreciated. please use dest_file_name')
-        dest_keywords['file_name'] = keywords.pop('out_file')
-    dest_source = SourceFactory.get_writable_source(**dest_keywords)
+        dest_keywords[LABEL_FILE_NAME] = keywords.pop(LABEL_OUT_FILE)
+    dest_source = SourceFactory.get_writeable_source(**dest_keywords)
     if dest_source is not None:
         sheet = get_sheet(**source_keywords)
         sheet.save_to(dest_source)
-        if 'file_type' in dest_source.fields:
+        if LABEL_FILE_TYPE in dest_source.fields:
             return dest_source.content
     else:
         raise ValueError("No valid parameters found!")
@@ -616,14 +638,14 @@ def save_book_as(**keywords):
             dest_keywords[result.group(1)]= keywords[key]
         else:
             source_keywords[key] = keywords[key]
-    if 'out_file' in keywords:
+    if LABEL_OUT_FILE in keywords:
         print('depreciated. please use dest_file_name')
-        dest_keywords['file_name'] = keywords.pop('out_file')
-    dest_source = SourceFactory.get_writable_book_source(**dest_keywords)
+        dest_keywords[LABEL_FILE_NAME] = keywords.pop(LABEL_OUT_FILE)
+    dest_source = SourceFactory.get_writeable_book_source(**dest_keywords)
     if dest_source is not None:
         book = get_book(**source_keywords)
         book.save_to(dest_source)
-        if 'file_type' in dest_source.fields:
+        if LABEL_FILE_TYPE in dest_source.fields:
             return dest_source.content
     else:
         raise ValueError("No valid parameters found!")

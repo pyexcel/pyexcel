@@ -193,10 +193,6 @@ class Book(object):
         """
         self.save_as((file_type, stream), **keywords)
         return stream
-        #from .writers import BookWriter
-        #writer = BookWriter((file_type, stream))
-        #writer.write_book_reader(self)
-        #writer.close()
 
     def save_to_django_models(self, models, data_wrappers=None, mapdicts=None, batch_size=None):
         """Save to database table through django model

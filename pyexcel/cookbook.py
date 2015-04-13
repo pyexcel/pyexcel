@@ -16,7 +16,9 @@ from ._compact import OrderedDict
 
 
 __WARNING_TEXT__ = "We do not overwrite files"
-
+DEFAULT_OUT_FILE = 'pyexcel_merged.csv'
+DEFAULT_OUT_XLS_FILE = 'merged.xls'
+OUT_FILE_FORMATTER = 'pyexcel_%s'
 
 def update_columns(infilename, column_dicts, outfilename=None):
     """Update one or more columns of a data file with series
@@ -30,7 +32,7 @@ def update_columns(infilename, column_dicts, outfilename=None):
 
 
     """
-    default_out_file = "pyexcel_%s" % infilename
+    default_out_file = OUT_FILE_FORMATTER % infilename
     if outfilename:
         default_out_file = outfilename
     if os.path.exists(default_out_file):
@@ -54,7 +56,7 @@ def update_rows(infilename, row_dicts, outfilename=None):
     :param dict row_dicts: dictionaries of rows
     :param str outfilename: save the sheet as
     """
-    default_out_file = "pyexcel_%s" % infilename
+    default_out_file = OUT_FILE_FORMATTER % infilename
     if outfilename:
         default_out_file = outfilename
     if os.path.exists(default_out_file):
@@ -67,7 +69,7 @@ def update_rows(infilename, row_dicts, outfilename=None):
     r.save_as(default_out_file)
 
 
-def merge_files(file_array, outfilename="pyexcel_merged.csv"):
+def merge_files(file_array, outfilename=DEFAULT_OUT_FILE):
     """merge many files horizontally column after column
     :param str outfilename: save the sheet as
     """
@@ -83,7 +85,7 @@ def merge_files(file_array, outfilename="pyexcel_merged.csv"):
     return outfilename
 
 
-def merge_two_files(file1, file2, outfilename="pyexcel_merged.csv"):
+def merge_two_files(file1, file2, outfilename=DEFAULT_OUT_FILE):
     """merge two files
     
     :param str file1: an accessible file name
@@ -96,7 +98,7 @@ def merge_two_files(file1, file2, outfilename="pyexcel_merged.csv"):
     merge_files(files, outfilename)
 
 
-def merge_readers(reader_array, outfilename="pyexcel_merged.csv"):
+def merge_readers(reader_array, outfilename=DEFAULT_OUT_FILE):
     """merge many readers
 
     With FilterableReader and SeriesReader, you can do custom filtering
@@ -112,7 +114,7 @@ def merge_readers(reader_array, outfilename="pyexcel_merged.csv"):
     w.close()
 
 
-def merge_two_readers(reader1, reader2, outfilename="pyexcel_merged.csv"):
+def merge_two_readers(reader1, reader2, outfilename=DEFAULT_OUT_FILE):
     """merge two readers
 
     :param str outfilename: save the sheet as
@@ -124,7 +126,7 @@ def merge_two_readers(reader1, reader2, outfilename="pyexcel_merged.csv"):
     merge_readers(reader_array, outfilename)
 
 
-def merge_csv_to_a_book(filelist, outfilename="merged.xls"):
+def merge_csv_to_a_book(filelist, outfilename=DEFAULT_OUT_XLS_FILE):
     """merge a list of csv files into a excel book
 
     :param list filelist: a list of accessible file path
@@ -140,7 +142,7 @@ def merge_csv_to_a_book(filelist, outfilename="merged.xls"):
     w.close()
 
 
-def merge_all_to_a_book(filelist, outfilename="merged.xls"):
+def merge_all_to_a_book(filelist, outfilename=DEFAULT_OUT_XLS_FILE):
     """merge a list of excel files into a excel book
 
     :param list filelist: a list of accessible file path
