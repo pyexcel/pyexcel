@@ -405,6 +405,13 @@ class NamedColumn(Column):
                                          None, on_demand)
 
 
+VALID_SHEET_PARAMETERS = ['name_columns_by_row',
+                          'name_rows_by_column',
+                          'colnames',
+                          'rownames',
+                          'transpose_before',
+                          'transpose_after']
+                    
 class NominableSheet(FilterableSheet):
     """Allow dictionary group of the content
     """

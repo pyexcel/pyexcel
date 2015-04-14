@@ -111,7 +111,7 @@ class TestSheet:
         def wrapper(row):
             row[0] = row[0] + 1
             return row
-        sheet.save_to_django_model(model, data_wrapper=wrapper)
+        sheet.save_to_django_model(model, initializer=wrapper)
         assert model.objects.objs == [
             {'Y': 2, 'X': 2, 'Z': 3},
             {'Y': 5, 'X': 5, 'Z': 6}

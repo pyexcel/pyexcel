@@ -425,7 +425,7 @@ class TestSavingToDatabase:
         sheet.name_columns_by_row(0)
         def make_signature(row):
             return Signature(X=row["X"], Y=row["Y"], Z=row["Z"])
-        sheet.save_to_database(self.session, Signature, table_init_func=make_signature)
+        sheet.save_to_database(self.session, Signature, initializer=make_signature)
         result = pe.get_dict(session=self.session, table=Signature)
         assert result == {
             "X": [1, 4],

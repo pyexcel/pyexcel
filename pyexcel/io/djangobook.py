@@ -50,12 +50,12 @@ class DjangoModelWriter(SheetWriter):
         self.mymodel = None
         self.column_names = None
         self.mapdict = None
-        self.data_wrapper = None
+        self.initializer = None
 
-        self.mymodel, self.column_names, self.mapdict, self.data_wrapper = model
+        self.mymodel, self.column_names, self.mapdict, self.initializer = model
 
-        if self.data_wrapper is None:
-            self.data_wrapper = lambda row: row
+        if self.initializer is None:
+            self.initializer = lambda row: row
         if isinstance(self.mapdict, list):
             self.column_names = self.mapdict
             self.mapdict = None
@@ -68,7 +68,7 @@ class DjangoModelWriter(SheetWriter):
         pass
         
     def write_row(self, array):
-        self.objs.append(self.mymodel(**dict(zip(self.column_names, self.data_wrapper(array)))))
+        self.objs.append(self.mymodel(**dict(zip(self.column_names, self.initializer(array)))))
 
     def close(self):
         self.mymodel.objects.bulk_create(self.objs, batch_size=self.batch_size)

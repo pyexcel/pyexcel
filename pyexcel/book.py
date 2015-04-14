@@ -194,7 +194,7 @@ class Book(object):
         self.save_as((file_type, stream), **keywords)
         return stream
 
-    def save_to_django_models(self, models, data_wrappers=None, mapdicts=None, batch_size=None):
+    def save_to_django_models(self, models, initializers=None, mapdicts=None, batch_size=None):
         """Save to database table through django model
         
         :param models: a list of database models, that is accepted by :meth:`Sheet.save_to_django_model`. The sequence of tables matters when there is dependencies
@@ -203,13 +203,13 @@ class Book(object):
         from .source import BookOutDjangoModels
         out_source = BookOutDjangoModels(
             models=models,
-            data_wrappers=data_wrappers,
+            initializers=initializers,
             mapdicts=mapdicts,
             batch_size=batch_size
         )
         self.save_to(out_source)
 
-    def save_to_database(self, session, tables, table_init_funcs=None, mapdicts=None):
+    def save_to_database(self, session, tables, initializers=None, mapdicts=None):
         """Save data in sheets to database tables
 
         :param session: database session
@@ -220,7 +220,7 @@ class Book(object):
         out_source = BookOutSQLTables(
             session=session,
             tables=tables,
-            table_init_funcs=table_init_funcs,
+            initializers=initializers,
             mapdicts=mapdicts
         )
         self.save_to(out_source)

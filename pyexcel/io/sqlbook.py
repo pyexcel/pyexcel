@@ -53,15 +53,11 @@ class SQLTableWriter(SheetWriter):
     def __init__(self, session, table_params):
         self.session = session
         self.table = None
-        self.table_init_func = None
+        self.initializer = None
         self.mapdict = None
         self.column_names = None
-        if len(table_params) == 2:
-            self.table, self.column_names = table_params
-        elif len(table_params) == 3:
-            self.table, self.column_names, self.table_init_func = table_params
-        elif len(table_params) == 4:
-            self.table, self.column_names, self.table_init_func, self.mapdict = table_params
+        if len(table_params) == 4:
+            self.table, self.column_names, self.mapdict, self.initializer = table_params
         else:
             raise ValueError("Invalid params")
 
@@ -74,8 +70,8 @@ class SQLTableWriter(SheetWriter):
 
     def write_row(self, array):
         row = dict(zip(self.column_names, array))
-        if self.table_init_func:
-            o = self.table_init_func(row)
+        if self.initializer:
+            o = self.initializer(row)
         else:
             o = self.table()
             for name in self.column_names:
