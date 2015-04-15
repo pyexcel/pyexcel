@@ -25,7 +25,7 @@ from ..iterators import (
     NamedColumnIterator
 )
 from ..presentation import outsource
-from ..constants import MESSAGE_NOT_IMPLEMENTED_02, MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED
+from ..constants import MESSAGE_NOT_IMPLEMENTED_02, MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED, DEFAULT_NAME
 
 
 def names_to_indices(names, series):
@@ -415,7 +415,7 @@ VALID_SHEET_PARAMETERS = ['name_columns_by_row',
 class NominableSheet(FilterableSheet):
     """Allow dictionary group of the content
     """
-    def __init__(self, sheet=None, name="pyexcel",
+    def __init__(self, sheet=None, name=DEFAULT_NAME,
                  name_columns_by_row=-1,
                  name_rows_by_column=-1,
                  colnames=None,

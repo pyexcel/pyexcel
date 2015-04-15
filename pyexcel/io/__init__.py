@@ -13,6 +13,14 @@ from .csvzipbook import CSVZipWriter, CSVZipBook
 from .sqlbook import SQLBookReader, SQLBookWriter
 from .djangobook import DjangoBookReader, DjangoBookWriter
 from .._compact import is_string
+from ..constants import (
+    MESSAGE_LOADING_FORMATTER,
+    MESSAGE_ERROR_03,
+    MESSAGE_CANNOT_WRITE_STREAM_FORMATTER,
+    MESSAGE_CANNOT_READ_STREAM_FORMATTER,
+    MESSAGE_CANNOT_WRITE_FILE_TYPE_FORMATTER,
+    MESSAGE_CANNOT_READ_FILE_TYPE_FORMATTER
+)
 
 
 FILE_FORMAT_CSV = 'csv'
@@ -36,8 +44,6 @@ READERS = {
     FILE_FORMAT_SQL: SQLBookReader,
     FILE_FORMAT_DJANGO: DjangoBookReader
 }
-
-ERROR_MESSAGE = "The plugin for file type %s is not installed. Please install %s"
 
 AVAILABLE_READERS = {
     FILE_FORMAT_XLS: 'pyexcel-xls',
@@ -78,10 +84,10 @@ def resolve_missing_extensions(extension, available_list):
     message = ""
     if handler:
         if is_string(type(handler)):
-            message = ERROR_MESSAGE % (extension, handler)
+            message = MESSAGE_LOADING_FORMATTER % (extension, handler)
         else:
             merged = "%s or %s" % (handler[0], handler[1])
-            message = ERROR_MESSAGE % (extension, merged)
+            message = MESSAGE_LOADING_FORMATTER % (extension, merged)
         raise NotImplementedError(message)
 
 def load_file(filename, sheet_name=None, sheet_index=None, **keywords):
@@ -123,7 +129,7 @@ def load_file(filename, sheet_name=None, sheet_index=None, **keywords):
         elif is_string(type(filename)):
             extension = filename.split(".")[-1]
         else:
-            raise IOError("cannot handle unknown content")
+            raise IOError(MESSAGE_ERROR_03)
         if extension in READERS:
             book_class = READERS[extension]
             if from_memory: 
@@ -139,9 +145,9 @@ def load_file(filename, sheet_name=None, sheet_index=None, **keywords):
         else:
             resolve_missing_extensions(extension, AVAILABLE_READERS)
             if from_memory:
-                raise NotImplementedError("Cannot read content of file type %s from stream" % filename[0])
+                raise NotImplementedError(MESSAGE_CANNOT_READ_STREAM_FORMATTER % filename[0])
             else:
-                raise NotImplementedError("Cannot read content of file type %s from file %s" % (extension, filename))
+                raise NotImplementedError(MESSAGE_CANNOT_READ_FILE_TYPE_FORMATTER% (extension, filename))
     return book
 
 
@@ -184,7 +190,7 @@ def get_writer(filename, **keywords):
         elif is_string(type(filename)):
             extension = filename.split(".")[-1]
         else:
-            raise IOError("cannot handle unknown content")
+            raise IOError(MESSAGE_ERROR_03)
         if extension in WRITERS:
             writer_class = WRITERS[extension]
             if to_memory:
@@ -194,8 +200,8 @@ def get_writer(filename, **keywords):
         else:
             resolve_missing_extensions(extension, AVAILABLE_WRITERS)
             if to_memory:
-                raise NotImplementedError("Cannot write content of file type %s to stream" % filename[0])
+                raise NotImplementedError(MESSAGE_CANNOT_WRITE_STREAM_FORMATTER % filename[0])
             else:
-                raise NotImplementedError("Cannot write content of file type %s to file %s" % (extension, filename))
+                raise NotImplementedError(MESSAGE_CANNOT_WRITE_FILE_TYPE_FORMATTER % (extension, filename))
     return writer
 

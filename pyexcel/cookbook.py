@@ -13,9 +13,9 @@ from .source import get_book, get_sheet
 from .utils import to_dict, to_array
 from .writers import Writer, BookWriter
 from ._compact import OrderedDict
+from .constants import MESSAGE_WARNING
 
 
-__WARNING_TEXT__ = "We do not overwrite files"
 DEFAULT_OUT_FILE = 'pyexcel_merged.csv'
 DEFAULT_OUT_XLS_FILE = 'merged.xls'
 OUT_FILE_FORMATTER = 'pyexcel_%s'
@@ -36,7 +36,7 @@ def update_columns(infilename, column_dicts, outfilename=None):
     if outfilename:
         default_out_file = outfilename
     if os.path.exists(default_out_file):
-        raise NotImplementedError(__WARNING_TEXT__)
+        raise NotImplementedError(MESSAGE_WARNING)
     r = get_sheet(file_name=infilename, name_columns_by_row=0)
     series = r.colnames
     for k in column_dicts.keys():
@@ -60,7 +60,7 @@ def update_rows(infilename, row_dicts, outfilename=None):
     if outfilename:
         default_out_file = outfilename
     if os.path.exists(default_out_file):
-        raise NotImplementedError(__WARNING_TEXT__)
+        raise NotImplementedError(MESSAGE_WARNING)
     r = get_sheet(file_name=infilename, name_rows_by_column=0)
     series = r.rownames
     for k in row_dicts.keys():
@@ -74,7 +74,7 @@ def merge_files(file_array, outfilename=DEFAULT_OUT_FILE):
     :param str outfilename: save the sheet as
     """
     if os.path.exists(outfilename):
-        raise NotImplementedError(__WARNING_TEXT__)
+        raise NotImplementedError(MESSAGE_WARNING)
     content = []
     for f in file_array:
         r = get_sheet(file_name=f)
@@ -93,7 +93,7 @@ def merge_two_files(file1, file2, outfilename=DEFAULT_OUT_FILE):
     :param str outfilename: save the sheet as
     """
     if os.path.exists(outfilename):
-        raise NotImplementedError(__WARNING_TEXT__)
+        raise NotImplementedError(MESSAGE_WARNING)
     files = [file1, file2]
     merge_files(files, outfilename)
 
@@ -105,7 +105,7 @@ def merge_readers(reader_array, outfilename=DEFAULT_OUT_FILE):
     :param str outfilename: save the sheet as
     """
     if os.path.exists(outfilename):
-        raise NotImplementedError(__WARNING_TEXT__)
+        raise NotImplementedError(MESSAGE_WARNING)
     content = OrderedDict()
     for r in reader_array:
         content.update(to_dict(r))
@@ -121,7 +121,7 @@ def merge_two_readers(reader1, reader2, outfilename=DEFAULT_OUT_FILE):
 
     """
     if os.path.exists(outfilename):
-        raise NotImplementedError(__WARNING_TEXT__)
+        raise NotImplementedError(MESSAGE_WARNING)
     reader_array = [reader1, reader2]
     merge_readers(reader_array, outfilename)
 
