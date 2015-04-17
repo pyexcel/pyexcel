@@ -34,7 +34,9 @@ KEYWORD_QUERY_SETS = 'query_sets'
 KEYWORD_OUT_FILE = 'out_file'
 KEYWORD_BOOKDICT = 'bookdict'
 KEYWORD_MAPDICT = 'mapdict'
+KEYWORD_MAPDICTS = 'mapdicts'
 KEYWORD_INITIALIZER = 'initializer'
+KEYWORD_INITIALIZERS = 'initializers'
 KEYWORD_BATCH_SIZE = 'batch_size'
 
 KEYWORD_STARTS_WITH_DEST = '^dest_(.*)'
@@ -180,26 +182,65 @@ class SingleSheetDatabaseSourceMixin(ReadableSource):
         return one_sheet_tuple(sheets.items())
 
 
-class SingleSheetSQLAlchemySource(SingleSheetDatabaseSourceMixin):
+class SingleSheetSQLAlchemySource(SingleSheetDatabaseSourceMixin, WriteableSource):
     fields = [KEYWORD_SESSION, KEYWORD_TABLE]
 
-    def __init__(self, session, table):
+    def __init__(self, session, table, **keywords):
         self.session = session
         self.table = table
+        self.keywords = keywords
 
     def get_sql_book(self):
         return load_file(FILE_FORMAT_SQL, session=self.session, tables=[self.table])
 
+    def write_data(self, sheet):
+        from .writers import Writer
+        if(len(sheet.colnames)) == 0:
+            sheet.name_columns_by_row(0)
+        w = Writer(
+            FILE_FORMAT_SQL,
+            sheet_name=sheet.name,
+            session=self.session,
+            tables={
+                sheet.name: (self.table,
+                             sheet.colnames,
+                             self.keywords.get(KEYWORD_MAPDICT, None),
+                             self.keywords.get(KEYWORD_INITIALIZER, None)
+                         )
+            }
+        )
+        w.write_array(sheet.array)
+        w.close()
 
-class SingleSheetDjangoSource(SingleSheetDatabaseSourceMixin):
+class SingleSheetDjangoSource(SingleSheetDatabaseSourceMixin, WriteableSource):
     fields = [KEYWORD_MODEL]
 
-    def __init__(self, model=None):
+    def __init__(self, model=None, **keywords):
         self.model = model
+        self.keywords = keywords
 
     def get_sql_book(self):
         return load_file(FILE_FORMAT_DJANGO, models=[self.model])
 
+    def write_data(self, sheet):
+        from .writers import Writer
+        if len(sheet.colnames) == 0:
+            sheet.name_columns_by_row(0)
+        w = Writer(
+            FILE_FORMAT_DJANGO,
+            sheet_name=sheet.name,
+            models={
+                sheet.name:(
+                    self.model,
+                    sheet.colnames,
+                    self.keywords.get(KEYWORD_MAPDICT, None),
+                    self.keywords.get(KEYWORD_INITIALIZER, None)
+                )
+            },
+            batch_size=self.keywords.get(KEYWORD_BATCH_SIZE, None)
+        )
+        w.write_array(sheet.array)
+        w.close()
 
 class BookInMemory(ReadableSource):
     fields = [KEYWORD_FILE_TYPE, KEYWORD_CONTENT]
@@ -224,7 +265,7 @@ class BookInDict(ReadableSource):
         return self.bookdict, KEYWORD_BOOKDICT, None
 
 
-class BookFromSQLTables(ReadableSource):
+class BookSQLSource(ReadableSource, WriteableSource):
     fields = [KEYWORD_SESSION, KEYWORD_TABLES]
     
     def __init__(self, session, tables, **keywords):
@@ -236,7 +277,26 @@ class BookFromSQLTables(ReadableSource):
         book = load_file(FILE_FORMAT_SQL, session=self.session, tables=self.tables)
         return book.sheets(), FILE_FORMAT_SQL, None
         
-class BookFromDjangoModels(ReadableSource):
+    def write_data(self, book):
+        from .writers import BookWriter
+        initializers = self.keywords.get(KEYWORD_INITIALIZERS, None)
+        if initializers is None:
+            initializers = [None] * len(self.tables)
+        mapdicts = self.keywords.get(KEYWORD_MAPDICTS, None)
+        if mapdicts is None:
+            mapdicts = [None] * len(self.tables)
+        for sheet in book:
+            if len(sheet.colnames)  == 0:
+                sheet.name_columns_by_row(0)
+        colnames_array = [sheet.colnames for sheet in book]
+        x = zip(self.tables, colnames_array, mapdicts, initializers)
+        table_dict = dict(zip(book.name_array, x))
+        w = BookWriter(FILE_FORMAT_SQL, session=self.session, tables=table_dict)
+        w.write_book_reader_to_db(book)
+        w.close()
+
+
+class BookDjangoSource(ReadableSource, WriteableSource):
     fields = [KEYWORD_MODELS]
     
     def __init__(self, models, **keywords):
@@ -247,6 +307,25 @@ class BookFromDjangoModels(ReadableSource):
         book = load_file(FILE_FORMAT_DJANGO, models=self.models)
         return book.sheets(), FILE_FORMAT_DJANGO, None
 
+    def write_data(self, book):
+        from .writers import BookWriter
+        batch_size = self.keywords.get(KEYWORD_BATCH_SIZE, None)
+        initializers = self.keywords.get(KEYWORD_INITIALIZERS, None)
+        if initializers is None:
+            initializers= [None] * len(self.models)
+        mapdicts = self.keywords.get(KEYWORD_MAPDICTS, None)
+        if mapdicts is None:
+            mapdicts = [None] * len(self.models)
+        for sheet in book:
+            if len(sheet.colnames)  == 0:
+                sheet.name_columns_by_row(0)
+        colnames_array = [sheet.colnames for sheet in book]
+        x = zip(self.models, colnames_array, initializers, mapdicts)
+        table_dict = dict(zip(book.name_array, x))
+        w = BookWriter(FILE_FORMAT_DJANGO, models=table_dict, batch_size=batch_size)
+        w.write_book_reader_to_db(book)
+        w.close()
+
 
 class SingleSheetOutMemory(SingleSheetFileInMemorySource):
     fields = [KEYWORD_FILE_TYPE]
@@ -255,62 +334,6 @@ class SingleSheetOutMemory(SingleSheetFileInMemorySource):
         self.content = _get_io(file_type)
         self.file_name = (file_type, self.content)
         self.keywords = keywords
-
-
-class SingleSheetOutSQLTable(WriteableSource):
-    fields = [KEYWORD_SESSION, KEYWORD_TABLE]
-
-    def __init__(self, session=None, table=None, **keywords):
-        self.session = session
-        self.table = table
-        self.keywords = keywords
-
-    def write_data(self, sheet):
-        from .writers import Writer
-        if(len(sheet.colnames)) == 0:
-            sheet.name_columns_by_row(0)
-        w = Writer(
-            FILE_FORMAT_SQL,
-            sheet_name=sheet.name,
-            session=self.session,
-            tables={
-                sheet.name: (self.table,
-                             sheet.colnames,
-                             self.keywords.get(KEYWORD_MAPDICT, None),
-                             self.keywords.get(KEYWORD_INITIALIZER, None)
-                         )
-            }
-        )
-        w.write_array(sheet.array)
-        w.close()
-
-
-class SingleSheetOutDjangoModel(WriteableSource):
-    fields = [KEYWORD_MODEL]
-
-    def __init__(self, model=None, **keywords):
-        self.model = model 
-        self.keywords = keywords
-
-    def write_data(self, sheet):
-        from .writers import Writer
-        if len(sheet.colnames) == 0:
-            sheet.name_columns_by_row(0)
-        w = Writer(
-            FILE_FORMAT_DJANGO,
-            sheet_name=sheet.name,
-            models={
-                sheet.name:(
-                    self.model,
-                    sheet.colnames,
-                    self.keywords.get(KEYWORD_MAPDICT, None),
-                    self.keywords.get(KEYWORD_INITIALIZER, None)
-                )
-            },
-            batch_size=self.keywords.get(KEYWORD_BATCH_SIZE, None)
-        )
-        w.write_array(sheet.array)
-        w.close()
 
 
 class BookSource(SingleSheetFileSource):
@@ -335,57 +358,6 @@ class BookSourceInMemory(BookSource):
         self.keywords = keywords
 
 
-class BookOutSQLTables(WriteableSource):
-    fields = [KEYWORD_SESSION, KEYWORD_TABLES]
-    def __init__(self, session=None, tables=None, initializers=None, mapdicts=None):
-        self.session = session
-        self.tables = tables
-        self.initializers = initializers
-        if self.initializers is None:
-            self.initializers = [None] * len(self.tables)
-        self.mapdicts = mapdicts
-        if self.mapdicts is None:
-            self.mapdicts = [None] * len(self.tables)
-
-    def write_data(self, book):
-        from .writers import BookWriter
-        for sheet in book:
-            if len(sheet.colnames)  == 0:
-                sheet.name_columns_by_row(0)
-        colnames_array = [sheet.colnames for sheet in book]
-        x = zip(self.tables, colnames_array, self.mapdicts, self.initializers)
-        table_dict = dict(zip(book.name_array, x))
-        w = BookWriter(FILE_FORMAT_SQL, session=self.session, tables=table_dict)
-        w.write_book_reader_to_db(book)
-        w.close()
-        
-        
-class BookOutDjangoModels(WriteableSource):
-    fields = [KEYWORD_MODELS]
-
-    def __init__(self, models=None, initializers=None, mapdicts=None, batch_size=None):
-        self.models = models
-        self.initializers = initializers
-        self.batch_size = batch_size
-        if self.initializers is None:
-            self.initializers= [None] * len(models)
-        self.mapdicts = mapdicts
-        if self.mapdicts is None:
-            self.mapdicts = [None] * len(models)
-
-    def write_data(self, book):
-        from .writers import BookWriter
-        for sheet in book:
-            if len(sheet.colnames)  == 0:
-                sheet.name_columns_by_row(0)
-        colnames_array = [sheet.colnames for sheet in book]
-        x = zip(self.models, colnames_array, self.initializers, self.mapdicts)
-        table_dict = dict(zip(book.name_array, x))
-        w = BookWriter(FILE_FORMAT_DJANGO, models=table_dict, batch_size=self.batch_size)
-        w.write_book_reader_to_db(book)
-        w.close()
-
-
 SOURCES = [
     ReadableSource,
     SingleSheetFileSource,
@@ -404,24 +376,24 @@ BOOK_SOURCES = [
     BookSource,
     BookInMemory,
     BookInDict,
-    BookFromSQLTables,
-    BookFromDjangoModels
+    BookSQLSource,
+    BookDjangoSource
 ]
 
 DEST_SOURCES = [
     WriteableSource,
     SingleSheetFileSource,
     SingleSheetOutMemory,
-    SingleSheetOutSQLTable,
-    SingleSheetOutDjangoModel
+    SingleSheetSQLAlchemySource,
+    SingleSheetDjangoSource
 ]
 
 DEST_BOOK_SOURCES = [
     WriteableSource,
     BookSource,
     BookSourceInMemory,
-    BookOutSQLTables,
-    BookOutDjangoModels
+    BookDjangoSource,
+    BookSQLSource
 ]
 
 

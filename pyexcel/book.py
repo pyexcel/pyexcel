@@ -200,8 +200,8 @@ class Book(object):
         :param models: a list of database models, that is accepted by :meth:`Sheet.save_to_django_model`. The sequence of tables matters when there is dependencies
                        in between the tables. For example, **Car** is made by **Car Maker**. **Car Maker** table should be specified before **Car** table.
         """
-        from .source import BookOutDjangoModels
-        out_source = BookOutDjangoModels(
+        from .source import BookDjangoSource
+        out_source = BookDjangoSource(
             models=models,
             initializers=initializers,
             mapdicts=mapdicts,
@@ -216,8 +216,8 @@ class Book(object):
         :param tables: a list of database tables, that is accepted by :meth:`Sheet.save_to_database`. The sequence of tables matters when there is dependencies
                        in between the tables. For example, **Car** is made by **Car Maker**. **Car Maker** table should be specified before **Car** table.
         """
-        from .source import BookOutSQLTables
-        out_source = BookOutSQLTables(
+        from .source import BookSQLSource
+        out_source = BookSQLSource(
             session=session,
             tables=tables,
             initializers=initializers,
