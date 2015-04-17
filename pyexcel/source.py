@@ -121,7 +121,113 @@ class SingleSheetFileInMemorySource(SingleSheetFileSource):
     fields = [KEYWORD_CONTENT, KEYWORD_FILE_TYPE]
 
     def __init__(self, content=None, file_type=None, **keywords):
-        SingleSheetFileSource.__init__(self, file_name=(file_type, content),**keywords)
+        SingleSheetFileSource.__init__(self,
+                                       file_name=(file_type, content),
+                                       **keywords)
+
+
+class SingleSheetOutMemory(SingleSheetFileInMemorySource):
+    fields = [KEYWORD_FILE_TYPE]
+
+    def __init__(self, file_type=None, **keywords):
+        self.content = _get_io(file_type)
+        self.file_name = (file_type, self.content)
+        self.keywords = keywords
+
+
+class SingleSheetQuerySetSource(ReadableSource):
+    fields = [KEYWORD_COLUMN_NAMES, KEYWORD_QUERY_SETS]
+
+    def __init__(self, column_names, query_sets, sheet_name=None):
+        self.sheet_name = sheet_name
+        if self.sheet_name is None:
+            self.sheet_name = DEFAULT_SHEET_NAME
+        self.column_names = column_names
+        self.query_sets = query_sets
+
+    def get_data(self):
+        from .utils import from_query_sets
+        return self.sheet_name, from_query_sets(self.column_names, self.query_sets)
+
+
+class SingleSheetDatabaseSourceMixin(ReadableSource, WriteableSource):
+    def get_sql_book():
+        pass
+
+    def get_writer(self, sheet):
+        pass
+        
+    def get_data(self):
+        sql_book = self.get_sql_book()
+        sheets = sql_book.sheets()
+        return one_sheet_tuple(sheets.items())
+
+    def write_data(self, sheet):
+        if(len(sheet.colnames)) == 0:
+            sheet.name_columns_by_row(0)
+        w = self.get_writer(sheet)
+        w.write_array(sheet.array)
+        w.close()
+
+
+class SingleSheetSQLAlchemySource(SingleSheetDatabaseSourceMixin):
+    fields = [KEYWORD_SESSION, KEYWORD_TABLE]
+
+    def __init__(self, session, table, **keywords):
+        self.session = session
+        self.table = table
+        self.keywords = keywords
+
+    def get_sql_book(self):
+        return load_file(FILE_FORMAT_SQL,
+                         session=self.session,
+                         tables=[self.table])
+
+    def get_writer(self, sheet):
+        from .writers import Writer
+        tables = {
+            sheet.name: (self.table,
+                         sheet.colnames,
+                         self.keywords.get(KEYWORD_MAPDICT, None),
+                         self.keywords.get(KEYWORD_INITIALIZER, None)
+                     )
+        }
+        w = Writer(
+            FILE_FORMAT_SQL,
+            sheet_name=sheet.name,
+            session=self.session,
+            tables=tables
+        )
+        return w
+
+
+class SingleSheetDjangoSource(SingleSheetDatabaseSourceMixin):
+    fields = [KEYWORD_MODEL]
+
+    def __init__(self, model=None, **keywords):
+        self.model = model
+        self.keywords = keywords
+
+    def get_sql_book(self):
+        return load_file(FILE_FORMAT_DJANGO, models=[self.model])
+
+    def get_writer(self, sheet):
+        from .writers import Writer
+        models = {
+            sheet.name:(
+                self.model,
+                sheet.colnames,
+                self.keywords.get(KEYWORD_MAPDICT, None),
+                self.keywords.get(KEYWORD_INITIALIZER, None)
+            )
+        }
+        w = Writer(
+            FILE_FORMAT_DJANGO,
+            sheet_name=sheet.name,
+            models=models,
+            batch_size=self.keywords.get(KEYWORD_BATCH_SIZE, None)
+        )
+        return w
 
 
 class SingleSheetRecrodsSource(ReadableSource):
@@ -157,90 +263,6 @@ class SingleSheetArraySource(ReadableSource):
         return DEFAULT_SHEET_NAME, self.array
 
 
-class SingleSheetQuerySetSource(ReadableSource):
-    fields = [KEYWORD_COLUMN_NAMES, KEYWORD_QUERY_SETS]
-
-    def __init__(self, column_names, query_sets, sheet_name=None):
-        self.sheet_name = sheet_name
-        if self.sheet_name is None:
-            self.sheet_name = DEFAULT_SHEET_NAME
-        self.column_names = column_names
-        self.query_sets = query_sets
-
-    def get_data(self):
-        from .utils import from_query_sets
-        return self.sheet_name, from_query_sets(self.column_names, self.query_sets)
-
-
-class SingleSheetDatabaseSourceMixin(ReadableSource):
-    def get_sql_book():
-        pass
-        
-    def get_data(self):
-        sql_book = self.get_sql_book()
-        sheets = sql_book.sheets()
-        return one_sheet_tuple(sheets.items())
-
-
-class SingleSheetSQLAlchemySource(SingleSheetDatabaseSourceMixin, WriteableSource):
-    fields = [KEYWORD_SESSION, KEYWORD_TABLE]
-
-    def __init__(self, session, table, **keywords):
-        self.session = session
-        self.table = table
-        self.keywords = keywords
-
-    def get_sql_book(self):
-        return load_file(FILE_FORMAT_SQL, session=self.session, tables=[self.table])
-
-    def write_data(self, sheet):
-        from .writers import Writer
-        if(len(sheet.colnames)) == 0:
-            sheet.name_columns_by_row(0)
-        w = Writer(
-            FILE_FORMAT_SQL,
-            sheet_name=sheet.name,
-            session=self.session,
-            tables={
-                sheet.name: (self.table,
-                             sheet.colnames,
-                             self.keywords.get(KEYWORD_MAPDICT, None),
-                             self.keywords.get(KEYWORD_INITIALIZER, None)
-                         )
-            }
-        )
-        w.write_array(sheet.array)
-        w.close()
-
-class SingleSheetDjangoSource(SingleSheetDatabaseSourceMixin, WriteableSource):
-    fields = [KEYWORD_MODEL]
-
-    def __init__(self, model=None, **keywords):
-        self.model = model
-        self.keywords = keywords
-
-    def get_sql_book(self):
-        return load_file(FILE_FORMAT_DJANGO, models=[self.model])
-
-    def write_data(self, sheet):
-        from .writers import Writer
-        if len(sheet.colnames) == 0:
-            sheet.name_columns_by_row(0)
-        w = Writer(
-            FILE_FORMAT_DJANGO,
-            sheet_name=sheet.name,
-            models={
-                sheet.name:(
-                    self.model,
-                    sheet.colnames,
-                    self.keywords.get(KEYWORD_MAPDICT, None),
-                    self.keywords.get(KEYWORD_INITIALIZER, None)
-                )
-            },
-            batch_size=self.keywords.get(KEYWORD_BATCH_SIZE, None)
-        )
-        w.write_array(sheet.array)
-        w.close()
 
 class BookInMemory(ReadableSource):
     fields = [KEYWORD_FILE_TYPE, KEYWORD_CONTENT]
@@ -327,15 +349,6 @@ class BookDjangoSource(ReadableSource, WriteableSource):
         w.close()
 
 
-class SingleSheetOutMemory(SingleSheetFileInMemorySource):
-    fields = [KEYWORD_FILE_TYPE]
-
-    def __init__(self, file_type=None, **keywords):
-        self.content = _get_io(file_type)
-        self.file_name = (file_type, self.content)
-        self.keywords = keywords
-
-
 class BookSource(SingleSheetFileSource):
     def get_data(self):
         book = load_file(self.file_name, **self.keywords)
@@ -362,22 +375,12 @@ SOURCES = [
     ReadableSource,
     SingleSheetFileSource,
     SingleSheetFileInMemorySource,
-    SingleSheetRecrodsSource,
-    SingleSheetDictSource,
     SingleSheetSQLAlchemySource,
     SingleSheetDjangoSource,
+    SingleSheetRecrodsSource,
+    SingleSheetDictSource,
     SingleSheetQuerySetSource,
     SingleSheetArraySource
-]
-
-
-BOOK_SOURCES = [
-    ReadableSource,
-    BookSource,
-    BookInMemory,
-    BookInDict,
-    BookSQLSource,
-    BookDjangoSource
 ]
 
 DEST_SOURCES = [
@@ -386,6 +389,15 @@ DEST_SOURCES = [
     SingleSheetOutMemory,
     SingleSheetSQLAlchemySource,
     SingleSheetDjangoSource
+]
+
+BOOK_SOURCES = [
+    ReadableSource,
+    BookSource,
+    BookInMemory,
+    BookSQLSource,
+    BookDjangoSource,
+    BookInDict
 ]
 
 DEST_BOOK_SOURCES = [
