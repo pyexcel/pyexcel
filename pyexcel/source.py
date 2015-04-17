@@ -93,37 +93,33 @@ class WriteableSource(Pluggible):
         self.source.write_data(content)
 
 
-class SingleSheetFile(ReadableSource):
+class SingleSheetFileSource(ReadableSource, WriteableSource):
     fields = [KEYWORD_FILE_NAME]
 
-    def __init__(self, file_name=None, sheet_name=None, sheet_index=None, **keywords):
+    def __init__(self, file_name=None, **keywords):
         self.file_name = file_name
-        self.sheet_name = sheet_name
-        self.sheet_index = sheet_index
         self.keywords = keywords
         
     def get_data(self):
         """
         Return a dictionary with only one key and one value
         """
-        if self.sheet_name:
-            io_book = load_file(self.file_name, sheet_name=self.sheet_name, **self.keywords)
-            sheets = io_book.sheets()
-        else:
-            if self.sheet_index:
-                sheet_index = self.sheet_index
-            else:
-                sheet_index = 0
-            io_book = load_file(self.file_name, sheet_index=sheet_index, **self.keywords)
-            sheets = io_book.sheets()
+        io_book = load_file(self.file_name, **self.keywords)
+        sheets = io_book.sheets()
         return one_sheet_tuple(sheets.items())
 
+    def write_data(self, sheet):
+        from .writers import Writer
+        w = Writer(self.file_name, sheet_name=sheet.name, **self.keywords)
+        w.write_reader(sheet)
+        w.close()
 
-class SingleSheetFileInMemory(SingleSheetFile):
+
+class SingleSheetFileInMemorySource(SingleSheetFileSource):
     fields = [KEYWORD_CONTENT, KEYWORD_FILE_TYPE]
 
     def __init__(self, content=None, file_type=None, **keywords):
-        SingleSheetFile.__init__(self, file_name=(file_type, content),**keywords)
+        SingleSheetFileSource.__init__(self, file_name=(file_type, content),**keywords)
 
 
 class SingleSheetRecrodsSource(ReadableSource):
@@ -198,24 +194,11 @@ class SingleSheetSQLAlchemySource(SingleSheetDatabaseSourceMixin):
 class SingleSheetDjangoSource(SingleSheetDatabaseSourceMixin):
     fields = [KEYWORD_MODEL]
 
-    def __init__(self, model):
+    def __init__(self, model=None):
         self.model = model
 
     def get_sql_book(self):
         return load_file(FILE_FORMAT_DJANGO, models=[self.model])
-
-
-class BookFile(ReadableSource):
-    fields = [KEYWORD_FILE_NAME]
-    
-    def __init__(self, file_name, **keywords):
-        self.file_name = file_name
-        self.keywords = keywords
-
-    def get_data(self):
-        book = load_file(self.file_name, **self.keywords)
-        path, filename_alone = os.path.split(self.file_name)
-        return book.sheets(), filename_alone, path
 
 
 class BookInMemory(ReadableSource):
@@ -265,20 +248,7 @@ class BookFromDjangoModels(ReadableSource):
         return book.sheets(), FILE_FORMAT_DJANGO, None
 
 
-class SingleSheetOutFile(WriteableSource):
-    fields = [KEYWORD_FILE_NAME]
-
-    def __init__(self, file_name=None, **keywords):
-        self.file_name = file_name
-        self.keywords = keywords
-        
-    def write_data(self, sheet):
-        from .writers import Writer
-        w = Writer(self.file_name, sheet_name=sheet.name, **self.keywords)
-        w.write_reader(sheet)
-        w.close()
-
-class SingleSheetOutMemory(SingleSheetOutFile):
+class SingleSheetOutMemory(SingleSheetFileInMemorySource):
     fields = [KEYWORD_FILE_TYPE]
 
     def __init__(self, file_type=None, **keywords):
@@ -343,7 +313,12 @@ class SingleSheetOutDjangoModel(WriteableSource):
         w.close()
 
 
-class BookSource(SingleSheetOutFile):
+class BookSource(SingleSheetFileSource):
+    def get_data(self):
+        book = load_file(self.file_name, **self.keywords)
+        path, filename_alone = os.path.split(self.file_name)
+        return book.sheets(), filename_alone, path
+
     def write_data(self, book):
         from .writers import BookWriter
         writer = BookWriter(self.file_name, **self.keywords)
@@ -413,20 +388,20 @@ class BookOutDjangoModels(WriteableSource):
 
 SOURCES = [
     ReadableSource,
-    SingleSheetFile,
+    SingleSheetFileSource,
+    SingleSheetFileInMemorySource,
     SingleSheetRecrodsSource,
     SingleSheetDictSource,
     SingleSheetSQLAlchemySource,
     SingleSheetDjangoSource,
     SingleSheetQuerySetSource,
-    SingleSheetFileInMemory,
     SingleSheetArraySource
 ]
 
 
 BOOK_SOURCES = [
     ReadableSource,
-    BookFile,
+    BookSource,
     BookInMemory,
     BookInDict,
     BookFromSQLTables,
@@ -435,7 +410,7 @@ BOOK_SOURCES = [
 
 DEST_SOURCES = [
     WriteableSource,
-    SingleSheetOutFile,
+    SingleSheetFileSource,
     SingleSheetOutMemory,
     SingleSheetOutSQLTable,
     SingleSheetOutDjangoModel
@@ -559,6 +534,21 @@ def get_book(**keywords):
     return None
 
 
+def split_keywords(**keywords):
+    dest_keywords = {}
+    source_keywords = {}
+    for key in keywords.keys():
+        result = re.match(KEYWORD_STARTS_WITH_DEST, key)
+        if result:
+            dest_keywords[result.group(1)]= keywords[key]
+        else:
+            source_keywords[key] = keywords[key]
+    if KEYWORD_OUT_FILE in keywords:
+        print(MESSAGE_DEPRECATED_02)
+        dest_keywords[KEYWORD_FILE_NAME] = keywords.pop(KEYWORD_OUT_FILE)
+    return dest_keywords, source_keywords
+
+
 def save_as(**keywords):
     """Save a sheet from a data srouce to another one
 
@@ -583,17 +573,7 @@ def save_as(**keywords):
     django model               dest_model, dest_initializer, dest_mapdict, dest_batch_size
     ========================== =============================================================================
     """
-    dest_keywords = {}
-    source_keywords = {}
-    for key in keywords.keys():
-        result = re.match(KEYWORD_STARTS_WITH_DEST, key)
-        if result:
-            dest_keywords[result.group(1)]= keywords[key]
-        else:
-            source_keywords[key] = keywords[key]
-    if KEYWORD_OUT_FILE in keywords:
-        print(MESSAGE_DEPRECATED_02)
-        dest_keywords[KEYWORD_FILE_NAME] = keywords.pop(KEYWORD_OUT_FILE)
+    dest_keywords, source_keywords = split_keywords(**keywords)
     dest_source = SourceFactory.get_writeable_source(**dest_keywords)
     if dest_source is not None:
         sheet = get_sheet(**source_keywords)
@@ -628,17 +608,7 @@ def save_book_as(**keywords):
     django model               dest_models, dest_initializers, dest_mapdict, dest_batch_size
     ========================== =============================================================================
     """
-    dest_keywords = {}
-    source_keywords = {}
-    for key in keywords.keys():
-        result = re.match(KEYWORD_STARTS_WITH_DEST, key)
-        if result:
-            dest_keywords[result.group(1)]= keywords[key]
-        else:
-            source_keywords[key] = keywords[key]
-    if KEYWORD_OUT_FILE in keywords:
-        print(MESSAGE_DEPRECATED_02)
-        dest_keywords[KEYWORD_FILE_NAME] = keywords.pop(KEYWORD_OUT_FILE)
+    dest_keywords, source_keywords = split_keywords(**keywords)
     dest_source = SourceFactory.get_writeable_book_source(**dest_keywords)
     if dest_source is not None:
         book = get_book(**source_keywords)

@@ -138,7 +138,7 @@ class TestToRecord():
         pe.to_records(s)
     
     def test_index_sheet2(self):
-        s = pe.ColumnSeriesReader(self.testfile, 0)
+        s = pe.ColumnSeriesReader(self.testfile, series=0)
         actual = pe.to_records(s)
         result = [
             {'1.0': 4.0, 'X': 'Y', '3.0': 6.0, '2.0': 5.0},
@@ -147,7 +147,7 @@ class TestToRecord():
         assert actual == result
         
     def test_index_sheet3(self):
-        s = pe.ColumnSeriesReader(self.testfile, 0)
+        s = pe.ColumnSeriesReader(self.testfile, series=0)
         headers = ["Row 1", "Row 2", "Row 3", "Row 4"]
         actual = pe.to_records(s, headers)
         print(actual)

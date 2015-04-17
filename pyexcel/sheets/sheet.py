@@ -34,8 +34,8 @@ class Sheet(NominableSheet):
 
     def save_as(self, filename, **keywords):
         """Save the content to a named file"""
-        from ..source import SingleSheetOutFile
-        source = SingleSheetOutFile(file_name=filename, **keywords)
+        from ..source import SingleSheetFileSource
+        source = SingleSheetFileSource(file_name=filename, **keywords)
         return self.save_to(source)
 
     def save_to_memory(self, file_type, stream, **keywords):

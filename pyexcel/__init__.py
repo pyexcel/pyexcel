@@ -42,7 +42,6 @@ from .cookbook import (
     split_a_book,
     extract_a_sheet_from_a_book)
 from .source import (
-    SingleSheetFile,
     SingleSheetRecrodsSource,
     SingleSheetDictSource,
     SingleSheetQuerySetSource,
