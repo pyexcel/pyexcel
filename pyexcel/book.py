@@ -182,7 +182,7 @@ class Book(object):
 
         :param str filename: a file path
         """
-        from .source import BookSource
+        from .sources import BookSource
         out_source = BookSource(file_name=filename)
         self.save_to(out_source)
 
@@ -200,7 +200,7 @@ class Book(object):
         :param models: a list of database models, that is accepted by :meth:`Sheet.save_to_django_model`. The sequence of tables matters when there is dependencies
                        in between the tables. For example, **Car** is made by **Car Maker**. **Car Maker** table should be specified before **Car** table.
         """
-        from .source import BookDjangoSource
+        from .sources import BookDjangoSource
         out_source = BookDjangoSource(
             models=models,
             initializers=initializers,
@@ -216,7 +216,7 @@ class Book(object):
         :param tables: a list of database tables, that is accepted by :meth:`Sheet.save_to_database`. The sequence of tables matters when there is dependencies
                        in between the tables. For example, **Car** is made by **Car Maker**. **Car Maker** table should be specified before **Car** table.
         """
-        from .source import BookSQLSource
+        from .sources import BookSQLSource
         out_source = BookSQLSource(
             session=session,
             tables=tables,

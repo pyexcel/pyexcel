@@ -9,7 +9,7 @@
 """
 import os
 from .book import Book
-from .source import get_book, get_sheet
+from .sources import get_book, get_sheet
 from .utils import to_dict, to_array
 from .writers import Writer, BookWriter
 from ._compact import OrderedDict

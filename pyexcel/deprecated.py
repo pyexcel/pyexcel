@@ -7,7 +7,7 @@
     :copyright: (c) 2015 by Onni Software Ltd.
     :license: New BSD License
 """
-from .source import get_sheet, get_book
+from .sources import get_sheet, get_book
 from functools import partial
 
 

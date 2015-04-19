@@ -33,3 +33,30 @@ MESSAGE_CANNOT_READ_STREAM_FORMATTER = "Cannot read content of file type %s from
 MESSAGE_CANNOT_WRITE_FILE_TYPE_FORMATTER = "Cannot write content of file type %s to file %s"
 MESSAGE_CANNOT_READ_FILE_TYPE_FORMATTER = "Cannot read content of file type %s from file %s"
 MESSAGE_LOADING_FORMATTER = "The plugin for file type %s is not installed. Please install %s"
+
+
+# Used by sources
+KEYWORD_MEMORY = 'memory'
+KEYWORD_SOURCE = 'source'
+KEYWORD_FILE_TYPE = 'file_type'
+KEYWORD_FILE_NAME = 'file_name'
+KEYWORD_SESSION = 'session'
+KEYWORD_TABLE = 'table'
+KEYWORD_MODEL = 'model'
+KEYWORD_TABLES = 'tables'
+KEYWORD_MODELS = 'models'
+KEYWORD_CONTENT = 'content'
+KEYWORD_ADICT = 'adict'
+KEYWORD_RECORDS = 'records'
+KEYWORD_ARRAY = 'array'
+KEYWORD_COLUMN_NAMES = 'column_names'
+KEYWORD_QUERY_SETS = 'query_sets'
+KEYWORD_OUT_FILE = 'out_file'
+KEYWORD_BOOKDICT = 'bookdict'
+KEYWORD_MAPDICT = 'mapdict'
+KEYWORD_MAPDICTS = 'mapdicts'
+KEYWORD_INITIALIZER = 'initializer'
+KEYWORD_INITIALIZERS = 'initializers'
+KEYWORD_BATCH_SIZE = 'batch_size'
+
+KEYWORD_STARTS_WITH_DEST = '^dest_(.*)'

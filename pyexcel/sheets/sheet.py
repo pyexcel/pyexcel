@@ -34,7 +34,7 @@ class Sheet(NominableSheet):
 
     def save_as(self, filename, **keywords):
         """Save the content to a named file"""
-        from ..source import SingleSheetFileSource
+        from ..sources import SingleSheetFileSource
         source = SingleSheetFileSource(file_name=filename, **keywords)
         return self.save_to(source)
 
@@ -56,7 +56,7 @@ class Sheet(NominableSheet):
                       mapdict is needed when the column headers of your sheet does not match the column names of the supplied table.
                       name_column_by_row indicates which row has column headers and by default it is the first row of the supplied sheet
         """
-        from ..source import SingleSheetDjangoSource
+        from ..sources import SingleSheetDjangoSource
         source = SingleSheetDjangoSource(model=model, initializer=initializer, mapdict=mapdict, batch_size=batch_size)
         self.save_to(source)
 
@@ -69,7 +69,7 @@ class Sheet(NominableSheet):
                       mapdict is needed when the column headers of your sheet does not match the column names of the supplied table.
                       name_column_by_row indicates which row has column headers and by default it is the first row of the supplied sheet
         """
-        from ..source import SingleSheetSQLAlchemySource
+        from ..sources import SingleSheetSQLAlchemySource
         source = SingleSheetSQLAlchemySource(
             session=session,
             table=table,
