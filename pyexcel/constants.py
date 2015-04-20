@@ -12,6 +12,7 @@ DEFAULT_SHEET_NAME = 'pyexcel_sheet1'
 
 MESSAGE_WARNING = "We do not overwrite files"
 MESSAGE_WRITE_ERROR = "Cannot write sheet"
+MESSAGE_INVALID_PARAMETERS = "Invalid parameters"
 MESSAGE_ERROR_02 = "No valid parameters found!"
 MESSAGE_ERROR_03 = "cannot handle unknown content"
 MESSAGE_DATA_ERROR_NO_SERIES = "No column names or row names found"
@@ -26,7 +27,7 @@ MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED = "Please give a ordered list"
 MESSAGE_DEPRECATED_ROW_COLUMN = "Deprecated usage. Please use [row, column]"
 MESSAGE_DEPRECATED_02 = "Depreciated usage. please use dest_file_name"
 
-MESSAGE_NOT_IMPLEMENTED_01 = "Please .row or .column to extendsheet"
+MESSAGE_NOT_IMPLEMENTED_01 = "Please use attribute row or column to extend sheet"
 MESSAGE_NOT_IMPLEMENTED_02 = "Confused! What do you want to put as column names"
 MESSAGE_CANNOT_WRITE_STREAM_FORMATTER = "Cannot write content of file type %s to stream"
 MESSAGE_CANNOT_READ_STREAM_FORMATTER = "Cannot read content of file type %s from stream"

@@ -154,17 +154,3 @@ def dict_to_array(the_dict, with_keys=True):
                 row_data.append('')
         content.append(row_data)
     return content
-
-
-def from_query_sets(column_names, query_sets):
-    array = []
-    array.append(column_names)
-    for o in query_sets:
-        new_array = []
-        for column in column_names:
-            value = getattr(o, column)
-            if isinstance(value, (datetime.date, datetime.time)):
-                value = value.isoformat()
-            new_array.append(value)
-        array.append(new_array)
-    return array

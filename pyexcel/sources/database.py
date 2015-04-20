@@ -7,6 +7,7 @@
     :copyright: (c) 2015 by Onni Software Ltd.
     :license: New BSD License
 """
+import datetime
 from .base import ReadOnlySource, Source, one_sheet_tuple
 from ..io import FILE_FORMAT_SQL, FILE_FORMAT_DJANGO, load_file
 from ..constants import (
@@ -26,6 +27,193 @@ from ..constants import (
 )
 
 
+def from_query_sets(column_names, query_sets):
+    array = []
+    array.append(column_names)
+    for o in query_sets:
+        new_array = []
+        for column in column_names:
+            value = getattr(o, column)
+            if isinstance(value, (datetime.date, datetime.time)):
+                value = value.isoformat()
+            new_array.append(value)
+        array.append(new_array)
+    return array
+        
+from pyexcel_io import (BookReaderBase, SheetReaderBase, BookWriter, SheetWriter)
+from .._compact import OrderedDict
+from ..constants import MESSAGE_INVALID_PARAMETERS
+
+
+class SQLTableReader(SheetReaderBase):
+    """Read a table
+    """
+    def __init__(self, session, table):
+        self.session = session
+        self.table = table
+
+    @property
+    def name(self):
+        return getattr(self.table, '__tablename__', None)
+
+    def to_array(self):
+        from ..utils import from_query_sets
+        objects = self.session.query(self.table).all()
+        if len(objects) == 0:
+            return []
+        else:
+            column_names = sorted([column for column in objects[0].__dict__
+                                   if column != '_sa_instance_state'])
+            
+            return from_query_sets(column_names, objects)
+
+
+class SQLBookReader(BookReaderBase):
+    """Read a list of tables
+    """
+    def __init__(self, session=None, tables=None):
+        self.my_sheets = OrderedDict()
+        for table in tables:
+            sqltablereader = SQLTableReader(session, table)
+            self.my_sheets[sqltablereader.name]=sqltablereader.to_array()
+            
+    def sheets(self):
+        return self.my_sheets
+
+        
+class SQLTableWriter(SheetWriter):
+    """Write to a table
+    """
+    def __init__(self, session, table_params):
+        self.session = session
+        self.table = None
+        self.initializer = None
+        self.mapdict = None
+        self.column_names = None
+        if len(table_params) == 4:
+            self.table, self.column_names, self.mapdict, self.initializer = table_params
+        else:
+            raise ValueError(MESSAGE_INVALID_PARAMETERS)
+
+        if isinstance(self.mapdict, list):
+            self.column_names = self.mapdict
+            self.mapdict = None
+
+    def set_sheet_name(self, name):
+        pass
+
+    def write_row(self, array):
+        row = dict(zip(self.column_names, array))
+        if self.initializer:
+            o = self.initializer(row)
+        else:
+            o = self.table()
+            for name in self.column_names:
+                if self.mapdict is not None:
+                    key = self.mapdict[name]
+                else:
+                    key = name
+                setattr(o, key, row[name])
+        self.session.add(o)
+
+    def write_array(self, table):
+        SheetWriter.write_array(self, table)
+        self.session.commit()
+
+        
+class SQLBookWriter(BookWriter):
+    """Write to alist of tables
+    """
+    def __init__(self, file, session=None, tables=None, **keywords):
+        BookWriter.__init__(self, file, **keywords)
+        self.session = session
+        self.tables = tables
+
+    def create_sheet(self, name):
+        table_params = self.tables[name]
+        return SQLTableWriter(self.session, table_params)
+
+    def close(self):
+        pass
+
+class DjangoModelReader(SheetReaderBase):
+    """Read from django model
+    """
+    def __init__(self, model):
+        self.model = model
+
+    @property
+    def name(self):
+        return self.model._meta.model_name
+
+    def to_array(self):
+        from ..utils import from_query_sets
+        objects = self.model.objects.all()
+        if len(objects) == 0:
+            return []
+        else:
+            column_names = sorted([field.attname for field in self.model._meta.concrete_fields])
+            return from_query_sets(column_names, objects)
+
+
+class DjangoBookReader(BookReaderBase):
+    """Read from a list of django models
+    """
+    def __init__(self, models):
+        self.my_sheets = OrderedDict()
+        for model in models:
+            djangomodelreader = DjangoModelReader(model)
+            self.my_sheets[djangomodelreader.name]=djangomodelreader.to_array()
+            
+    def sheets(self):
+        return self.my_sheets
+
+
+class DjangoModelWriter(SheetWriter):
+    def __init__(self, model, batch_size=None):
+        self.batch_size = batch_size
+        self.mymodel = None
+        self.column_names = None
+        self.mapdict = None
+        self.initializer = None
+
+        self.mymodel, self.column_names, self.mapdict, self.initializer = model
+
+        if self.initializer is None:
+            self.initializer = lambda row: row
+        if isinstance(self.mapdict, list):
+            self.column_names = self.mapdict
+            self.mapdict = None
+        elif isinstance(self.mapdict, dict):
+            self.column_names = [self.mapdict[name] for name in self.column_names]
+
+        self.objs = []
+
+    def set_sheet_name(self, name):
+        pass
+        
+    def write_row(self, array):
+        self.objs.append(self.mymodel(**dict(zip(self.column_names, self.initializer(array)))))
+
+    def close(self):
+        self.mymodel.objects.bulk_create(self.objs, batch_size=self.batch_size)
+
+
+class DjangoBookWriter(BookWriter):
+    """Write to alist of tables
+    """
+    def __init__(self, file, models=None, batch_size=None, **keywords):
+        BookWriter.__init__(self, file, **keywords)
+        self.models = models
+        self.batch_size = batch_size
+
+    def create_sheet(self, name):
+        model_params = self.models[name]
+        return DjangoModelWriter(model_params, batch_size=self.batch_size)
+
+    def close(self):
+        pass
+
 class SingleSheetQuerySetSource(ReadOnlySource):
     fields = [KEYWORD_COLUMN_NAMES, KEYWORD_QUERY_SETS]
 
@@ -37,7 +225,6 @@ class SingleSheetQuerySetSource(ReadOnlySource):
         self.query_sets = query_sets
 
     def get_data(self):
-        from ..utils import from_query_sets
         return self.sheet_name, from_query_sets(self.column_names, self.query_sets)
 
 

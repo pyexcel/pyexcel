@@ -10,8 +10,6 @@
 from functools import partial
 from .csvbook import CSVBook, CSVWriter
 from .csvzipbook import CSVZipWriter, CSVZipBook
-from .sqlbook import SQLBookReader, SQLBookWriter
-from .djangobook import DjangoBookReader, DjangoBookWriter
 from .._compact import is_string
 from ..constants import (
     MESSAGE_LOADING_FORMATTER,
@@ -31,8 +29,6 @@ FILE_FORMAT_ODS = 'ods'
 FILE_FORMAT_XLS = 'xls'
 FILE_FORMAT_XLSX = 'xlsx'
 FILE_FORMAT_XLSM = 'xlsm'
-FILE_FORMAT_SQL = 'sql'
-FILE_FORMAT_DJANGO = 'django'
 
 
 # A list of registered readers
@@ -41,8 +37,6 @@ READERS = {
     FILE_FORMAT_TSV: partial(CSVBook, dialect="excel-tab"),
     FILE_FORMAT_CSVZ: CSVZipBook,
     FILE_FORMAT_TSVZ: partial(CSVZipBook, dialect="excel-tab"),
-    FILE_FORMAT_SQL: SQLBookReader,
-    FILE_FORMAT_DJANGO: DjangoBookReader
 }
 
 AVAILABLE_READERS = {
@@ -58,8 +52,6 @@ WRITERS = {
     FILE_FORMAT_TSV: partial(CSVWriter, dialect="excel-tab"),
     FILE_FORMAT_CSVZ: CSVZipWriter,
     FILE_FORMAT_TSVZ: partial(CSVZipWriter, dialect="excel-tab"),
-    FILE_FORMAT_SQL: SQLBookWriter,
-    FILE_FORMAT_DJANGO: DjangoBookWriter
 }
 
 AVAILABLE_WRITERS = {

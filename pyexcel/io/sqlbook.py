@@ -9,6 +9,7 @@
 """
 from pyexcel_io import (BookReaderBase, SheetReaderBase, BookWriter, SheetWriter)
 from .._compact import OrderedDict
+from ..constants import MESSAGE_INVALID_PARAMETERS
 
 
 class SQLTableReader(SheetReaderBase):
@@ -59,7 +60,7 @@ class SQLTableWriter(SheetWriter):
         if len(table_params) == 4:
             self.table, self.column_names, self.mapdict, self.initializer = table_params
         else:
-            raise ValueError("Invalid params")
+            raise ValueError(MESSAGE_INVALID_PARAMETERS)
 
         if isinstance(self.mapdict, list):
             self.column_names = self.mapdict
