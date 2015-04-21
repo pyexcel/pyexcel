@@ -46,7 +46,6 @@ class Sheet(NominableSheet):
         :param iostream stream: the memory stream to be written to
         """
         self.save_as((file_type, stream), **keywords)
-        return stream
 
     def save_to_django_model(self, model, initializer=None, mapdict=None, batch_size=None):
         """Save to database table through django model
