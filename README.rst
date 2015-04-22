@@ -53,8 +53,8 @@ Plugins          Supported file formats
 pyexcel          csv, csvz, tsv, tsvz                                        
 `pyexcel-xls`_   xls, xlsx(r), xlsm(r)
 `pyexcel-xlsx`_  xlsx
-`pyexcel-ods`_   ods (python 2.6, 2.7)                                       
-`pyexcel-ods3`_  ods (python 2.7, 3.3, 3.4)                                  
+`pyexcel-ods`_   ods (python 2.6, 2.7 only)                                       
+`pyexcel-ods3`_  ods
 `pyexcel-text`_  (write only)json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple
 ================ ========================================================================
 
