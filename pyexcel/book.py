@@ -192,7 +192,6 @@ class Book(object):
         :param iostream stream: a memory stream
         """
         self.save_as((file_type, stream), **keywords)
-        return stream
 
     def save_to_django_models(self, models, initializers=None, mapdicts=None, batch_size=None):
         """Save to database table through django model
