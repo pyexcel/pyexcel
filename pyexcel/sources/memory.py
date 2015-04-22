@@ -9,7 +9,7 @@
 """
 from .base import ReadOnlySource, _get_io
 from .file import SingleSheetFileSource, BookSource
-from ..io import load_file
+from ..io import load_data
 from ..constants import (
     KEYWORD_CONTENT,
     KEYWORD_FILE_TYPE,
@@ -82,7 +82,7 @@ class BookInMemory(ReadOnlySource):
         self.keywords = keywords
 
     def get_data(self):
-        book = load_file((self.file_type, self.content), **self.keywords)
+        book = load_data((self.file_type, self.content), **self.keywords)
         return book.sheets(), KEYWORD_MEMORY, None
 
 

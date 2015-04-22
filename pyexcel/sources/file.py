@@ -10,7 +10,7 @@
 import os
 from .base import Source, one_sheet_tuple
 from ..constants import KEYWORD_FILE_NAME
-from ..io import load_file
+from ..io import load_data
 
 
 class SingleSheetFileSource(Source):
@@ -24,7 +24,7 @@ class SingleSheetFileSource(Source):
         """
         Return a dictionary with only one key and one value
         """
-        io_book = load_file(self.file_name, **self.keywords)
+        io_book = load_data(self.file_name, **self.keywords)
         sheets = io_book.sheets()
         return one_sheet_tuple(sheets.items())
 
@@ -37,7 +37,7 @@ class SingleSheetFileSource(Source):
         
 class BookSource(SingleSheetFileSource):
     def get_data(self):
-        book = load_file(self.file_name, **self.keywords)
+        book = load_data(self.file_name, **self.keywords)
         path, filename_alone = os.path.split(self.file_name)
         return book.sheets(), filename_alone, path
 

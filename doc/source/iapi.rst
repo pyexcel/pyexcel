@@ -52,5 +52,5 @@ New file type handlers are registered via two internal static dictionaries: READ
 .. autosummary::
    :toctree: iapi/
 
-   load_file
+   load_data
    get_writer

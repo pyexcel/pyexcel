@@ -1,6 +1,6 @@
-pyexcel.io.load_file
+pyexcel.io.load_data
 ====================
 
 .. currentmodule:: pyexcel.io
 
-.. autofunction:: load_file
+.. autofunction:: load_data

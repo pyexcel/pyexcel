@@ -8,7 +8,7 @@
     :license: New BSD License
 """
 from .base import ReadOnlySource, Source, one_sheet_tuple
-from ..io import FILE_FORMAT_SQL, FILE_FORMAT_DJANGO, load_file
+from ..io import DB_SQL, DB_DJANGO, load_data
 from ..constants import (
     KEYWORD_TABLES,
     KEYWORD_MODELS,
@@ -70,7 +70,7 @@ class SingleSheetSQLAlchemySource(SingleSheetDatabaseSourceMixin):
         self.keywords = keywords
 
     def get_sql_book(self):
-        return load_file(FILE_FORMAT_SQL,
+        return load_data(DB_SQL,
                          session=self.session,
                          tables=[self.table])
 
@@ -84,7 +84,7 @@ class SingleSheetSQLAlchemySource(SingleSheetDatabaseSourceMixin):
                      )
         }
         w = Writer(
-            FILE_FORMAT_SQL,
+            DB_SQL,
             sheet_name=sheet.name,
             session=self.session,
             tables=tables
@@ -100,7 +100,7 @@ class SingleSheetDjangoSource(SingleSheetDatabaseSourceMixin):
         self.keywords = keywords
 
     def get_sql_book(self):
-        return load_file(FILE_FORMAT_DJANGO, models=[self.model])
+        return load_data(DB_DJANGO, models=[self.model])
 
     def get_writer(self, sheet):
         from ..writers import Writer
@@ -113,7 +113,7 @@ class SingleSheetDjangoSource(SingleSheetDatabaseSourceMixin):
             )
         }
         w = Writer(
-            FILE_FORMAT_DJANGO,
+            DB_DJANGO,
             sheet_name=sheet.name,
             models=models,
             batch_size=self.keywords.get(KEYWORD_BATCH_SIZE, None)
@@ -129,8 +129,8 @@ class BookSQLSource(Source):
         self.keywords = keywords
 
     def get_data(self):
-        book = load_file(FILE_FORMAT_SQL, session=self.session, tables=self.tables)
-        return book.sheets(), FILE_FORMAT_SQL, None
+        book = load_data(DB_SQL, session=self.session, tables=self.tables)
+        return book.sheets(), DB_SQL, None
         
     def write_data(self, book):
         from ..writers import BookWriter
@@ -146,7 +146,7 @@ class BookSQLSource(Source):
         colnames_array = [sheet.colnames for sheet in book]
         x = zip(self.tables, colnames_array, mapdicts, initializers)
         table_dict = dict(zip(book.name_array, x))
-        w = BookWriter(FILE_FORMAT_SQL, session=self.session, tables=table_dict)
+        w = BookWriter(DB_SQL, session=self.session, tables=table_dict)
         w.write_book_reader_to_db(book)
         w.close()
 
@@ -159,8 +159,8 @@ class BookDjangoSource(Source):
         self.keywords = keywords
 
     def get_data(self):
-        book = load_file(FILE_FORMAT_DJANGO, models=self.models)
-        return book.sheets(), FILE_FORMAT_DJANGO, None
+        book = load_data(DB_DJANGO, models=self.models)
+        return book.sheets(), DB_DJANGO, None
 
     def write_data(self, book):
         from ..writers import BookWriter
@@ -177,6 +177,6 @@ class BookDjangoSource(Source):
         colnames_array = [sheet.colnames for sheet in book]
         x = zip(self.models, colnames_array, initializers, mapdicts)
         table_dict = dict(zip(book.name_array, x))
-        w = BookWriter(FILE_FORMAT_DJANGO, models=table_dict, batch_size=batch_size)
+        w = BookWriter(DB_DJANGO, models=table_dict, batch_size=batch_size)
         w.write_book_reader_to_db(book)
         w.close()

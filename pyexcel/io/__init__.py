@@ -31,8 +31,8 @@ FILE_FORMAT_ODS = 'ods'
 FILE_FORMAT_XLS = 'xls'
 FILE_FORMAT_XLSX = 'xlsx'
 FILE_FORMAT_XLSM = 'xlsm'
-FILE_FORMAT_SQL = 'sql'
-FILE_FORMAT_DJANGO = 'django'
+DB_SQL = 'sql'
+DB_DJANGO = 'django'
 
 
 # A list of registered readers
@@ -41,8 +41,8 @@ READERS = {
     FILE_FORMAT_TSV: partial(CSVBook, dialect="excel-tab"),
     FILE_FORMAT_CSVZ: CSVZipBook,
     FILE_FORMAT_TSVZ: partial(CSVZipBook, dialect="excel-tab"),
-    FILE_FORMAT_SQL: SQLBookReader,
-    FILE_FORMAT_DJANGO: DjangoBookReader
+    DB_SQL: SQLBookReader,
+    DB_DJANGO: DjangoBookReader
 }
 
 AVAILABLE_READERS = {
@@ -58,8 +58,8 @@ WRITERS = {
     FILE_FORMAT_TSV: partial(CSVWriter, dialect="excel-tab"),
     FILE_FORMAT_CSVZ: CSVZipWriter,
     FILE_FORMAT_TSVZ: partial(CSVZipWriter, dialect="excel-tab"),
-    FILE_FORMAT_SQL: SQLBookWriter,
-    FILE_FORMAT_DJANGO: DjangoBookWriter
+    DB_SQL: SQLBookWriter,
+    DB_DJANGO: DjangoBookWriter
 }
 
 AVAILABLE_WRITERS = {
@@ -90,7 +90,7 @@ def resolve_missing_extensions(extension, available_list):
             message = MESSAGE_LOADING_FORMATTER % (extension, merged)
         raise NotImplementedError(message)
 
-def load_file(filename, sheet_name=None, sheet_index=None, **keywords):
+def load_data(filename, sheet_name=None, sheet_index=None, **keywords):
     """Load data from any supported excel formats
 
     Tests:
