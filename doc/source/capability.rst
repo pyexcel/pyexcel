@@ -232,15 +232,16 @@ Suppose you have a multiple sheet book as the following:
 Here is the code to obtain those sheets as a single dictionary::
 
    >>> import pyexcel
+   >>> import json
    >>> import pyexcel.ext.xls # import it to handle xls file
    >>> book_dict = pyexcel.get_book_dict(file_name="book.xls")
    >>> isinstance(book_dict, OrderedDict)
    True
-   >>> for key, values in book_dict.items():
-   ...     print("{%s:%s}" % (key, values))
-   {Sheet 1:[[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]]}
-   {Sheet 2:[[u'X', u'Y', u'Z'], [1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]}
-   {Sheet 3:[[u'O', u'P', u'Q'], [3.0, 2.0, 1.0], [4.0, 3.0, 2.0]]}
+   >>> for key, item in book_dict.items():
+   ...     print(json.dumps({key: item}))
+   {"Sheet 1": [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]]}
+   {"Sheet 2": [["X", "Y", "Z"], [1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]}
+   {"Sheet 3": [["O", "P", "Q"], [3.0, 2.0, 1.0], [4.0, 3.0, 2.0]]}
 
 .. testcode::
    :hide:
