@@ -389,6 +389,10 @@ Please notice that "Sheet 2" is the first item in the *book_dict*, meaning the o
 How to an excel sheet to a database using SQLAlchemy
 ----------------------------------------------------
 
+.. NOTE::
+
+   You can find the complete code of this example in examples folder on github
+
 Before going ahead, let's import the needed components and initialize sql
 engine and table base::
 
