@@ -13,7 +13,7 @@ from ..constants import KEYWORD_FILE_NAME
 from ..io import load_data
 
 
-class SingleSheetFileSource(Source):
+class SheetSource(Source):
     fields = [KEYWORD_FILE_NAME]
 
     def __init__(self, file_name=None, **keywords):
@@ -35,7 +35,7 @@ class SingleSheetFileSource(Source):
         w.close()
 
         
-class BookSource(SingleSheetFileSource):
+class BookSource(SheetSource):
     def get_data(self):
         book = load_data(self.file_name, **self.keywords)
         path, filename_alone = os.path.split(self.file_name)

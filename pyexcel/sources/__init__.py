@@ -20,60 +20,60 @@ from ..constants import (
     MESSAGE_ERROR_02
 )
 from .file import (
-    SingleSheetFileSource,
+    SheetSource,
     BookSource
 )
 from .memory import (
-    SingleSheetFileInMemorySource,
-    SingleSheetOutMemory,
-    SingleSheetDictSource,
-    SingleSheetRecrodsSource,
-    SingleSheetArraySource,
-    BookInMemory,
-    BookInDict,
-    BookSourceInMemory
+    ReadOnlySheetSource,
+    WriteOnlySheetSource,
+    DictSource,
+    RecrodsSource,
+    ArraySource,
+    ReadOnlyBookSource,
+    BookDictSource,
+    WriteOnlyBookSource
 )
 from .database import (
-    SingleSheetSQLAlchemySource,
-    SingleSheetDjangoSource,
-    SingleSheetQuerySetSource,
+    SheetSQLAlchemySource,
+    SheetDjangoSource,
+    SheetQuerySetSource,
     BookSQLSource,
     BookDjangoSource
 )
 
 SOURCES = [
     ReadOnlySource,
-    SingleSheetFileSource,
-    SingleSheetFileInMemorySource,
-    SingleSheetSQLAlchemySource,
-    SingleSheetDjangoSource,
-    SingleSheetRecrodsSource,
-    SingleSheetDictSource,
-    SingleSheetQuerySetSource,
-    SingleSheetArraySource
+    SheetSource,
+    ReadOnlySheetSource,
+    SheetSQLAlchemySource,
+    SheetDjangoSource,
+    RecrodsSource,
+    DictSource,
+    SheetQuerySetSource,
+    ArraySource
 ]
 
 DEST_SOURCES = [
     WriteOnlySource,
-    SingleSheetFileSource,
-    SingleSheetOutMemory,
-    SingleSheetSQLAlchemySource,
-    SingleSheetDjangoSource
+    SheetSource,
+    WriteOnlySheetSource,
+    SheetSQLAlchemySource,
+    SheetDjangoSource
 ]
 
 BOOK_SOURCES = [
     ReadOnlySource,
     BookSource,
-    BookInMemory,
+    ReadOnlyBookSource,
     BookSQLSource,
     BookDjangoSource,
-    BookInDict
+    BookDictSource
 ]
 
 DEST_BOOK_SOURCES = [
     WriteOnlySource,
     BookSource,
-    BookSourceInMemory,
+    WriteOnlyBookSource,
     BookDjangoSource,
     BookSQLSource
 ]

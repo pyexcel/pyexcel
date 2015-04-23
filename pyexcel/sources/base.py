@@ -11,7 +11,8 @@ from ..constants import KEYWORD_SOURCE
 from ..io import FILE_FORMAT_CSV, FILE_FORMAT_TSV
 from .._compact import PY2, BytesIO, StringIO
 
-def has_field(field, keywords):
+
+def _has_field(field, keywords):
     return field in keywords and keywords[field] is not None
 
 
@@ -26,7 +27,7 @@ class Source:
         """
         If all required keys are present, this source is OK
         """
-        statuses = [has_field(field, keywords) for field in self.fields]
+        statuses = [_has_field(field, keywords) for field in self.fields]
         results = filter(lambda status: status==False, statuses)
         if not PY2:
             results = list(results)

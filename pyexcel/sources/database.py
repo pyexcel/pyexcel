@@ -26,7 +26,7 @@ from ..constants import (
 )
 
 
-class SingleSheetQuerySetSource(ReadOnlySource):
+class SheetQuerySetSource(ReadOnlySource):
     fields = [KEYWORD_COLUMN_NAMES, KEYWORD_QUERY_SETS]
 
     def __init__(self, column_names, query_sets, sheet_name=None):
@@ -41,7 +41,7 @@ class SingleSheetQuerySetSource(ReadOnlySource):
         return self.sheet_name, from_query_sets(self.column_names, self.query_sets)
 
 
-class SingleSheetDatabaseSourceMixin(Source):
+class SheetDatabaseSourceMixin(Source):
     def get_sql_book():
         pass
 
@@ -61,7 +61,7 @@ class SingleSheetDatabaseSourceMixin(Source):
         w.close()
 
 
-class SingleSheetSQLAlchemySource(SingleSheetDatabaseSourceMixin):
+class SheetSQLAlchemySource(SheetDatabaseSourceMixin):
     fields = [KEYWORD_SESSION, KEYWORD_TABLE]
 
     def __init__(self, session, table, **keywords):
@@ -92,7 +92,7 @@ class SingleSheetSQLAlchemySource(SingleSheetDatabaseSourceMixin):
         return w
 
 
-class SingleSheetDjangoSource(SingleSheetDatabaseSourceMixin):
+class SheetDjangoSource(SheetDatabaseSourceMixin):
     fields = [KEYWORD_MODEL]
 
     def __init__(self, model=None, **keywords):
@@ -119,6 +119,7 @@ class SingleSheetDjangoSource(SingleSheetDatabaseSourceMixin):
             batch_size=self.keywords.get(KEYWORD_BATCH_SIZE, None)
         )
         return w
+
 
 class BookSQLSource(Source):
     fields = [KEYWORD_SESSION, KEYWORD_TABLES]
