@@ -283,6 +283,16 @@ and write to one of the following data sources:
    * Django Model
    * Python data stuctures: dictionary, records and array
 
+   
+Here are the two functions:
+
+=============================== ================================ 
+Functions                       Python name                      
+=============================== ================================ 
+:meth:`~pyexcel.save_as`        :class:`~pyexcel.Sheet`
+:meth:`~pyexcel.save_book_as`   :class:`~pyexcel.Book`
+=============================== ================================ 
+
 How to save an python array as an excel file
 ---------------------------------------------
 
@@ -316,20 +326,136 @@ Let's verify it::
    >>> os.unlink("example.xls")
 
 
-
 How to save a dictionary of two dimensional array as an excel file
 --------------------------------------------------------------------
 
+Suppose you want to save the below dictionary to an excel file ::
+  
+   >>> a_dictionary_of_two_dimensional_arrays = {
+   ...      'Sheet 1':
+   ...          [
+   ...              [1.0, 2.0, 3.0],
+   ...              [4.0, 5.0, 6.0],
+   ...              [7.0, 8.0, 9.0]
+   ...          ],
+   ...      'Sheet 2':
+   ...          [
+   ...              ['X', 'Y', 'Z'],
+   ...              [1.0, 2.0, 3.0],
+   ...              [4.0, 5.0, 6.0]
+   ...          ],
+   ...      'Sheet 3':
+   ...          [
+   ...              ['O', 'P', 'Q'],
+   ...              [3.0, 2.0, 1.0],
+   ...              [4.0, 3.0, 2.0]
+   ...          ]
+   ...  }
 
-Here are the two functions:
+Here is the code::
 
-=============================== ================================ 
-Functions                       Python name                      
-=============================== ================================ 
-:meth:`~pyexcel.save_as`        :class:`~pyexcel.Sheet`
-:meth:`~pyexcel.save_book_as`   :class:`~pyexcel.Book`
-=============================== ================================ 
+   >>> pyexcel.save_book_as(
+   ...    bookdict=a_dictionary_of_two_dimensional_arrays,
+   ...    dest_file_name="book.xls"
+   ... )
 
+If you want to preserve the order of sheets in your dictionary, you have to
+pass on an ordered dictionary to the function itself. For example::
+
+   >>> data = OrderedDict()
+   >>> data.update({"Sheet 2": a_dictionary_of_two_dimensional_arrays['Sheet 2']})
+   >>> data.update({"Sheet 1": a_dictionary_of_two_dimensional_arrays['Sheet 1']})
+   >>> data.update({"Sheet 3": a_dictionary_of_two_dimensional_arrays['Sheet 3']})
+   >>> pyexcel.save_book_as(bookdict=data, dest_file_name="book.xls")
+
+Let's verify its order::
+
+   >>> book_dict = pyexcel.get_book_dict(file_name="book.xls")
+   >>> for key, item in book_dict.items():
+   ...     print(json.dumps({key: item}))
+   {"Sheet 2": [["X", "Y", "Z"], [1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]}
+   {"Sheet 1": [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]]}
+   {"Sheet 3": [["O", "P", "Q"], [3.0, 2.0, 1.0], [4.0, 3.0, 2.0]]}
+
+Please notice that "Sheet 2" is the first item in the *book_dict*, meaning the order of sheets are preserved.
+
+.. testcode::
+   :hide:
+
+   >>> import os
+   >>> os.unlink("book.xls")
+
+
+How to an excel sheet to a database using SQLAlchemy
+----------------------------------------------------
+
+Before going ahead, let's import the needed components and initialize sql
+engine and table base::
+
+   >>> from sqlalchemy import create_engine
+   >>> from sqlalchemy.ext.declarative import declarative_base
+   >>> from sqlalchemy import Column , Integer, String, Float, Date
+   >>> from sqlalchemy.orm import sessionmaker
+   >>> engine = create_engine("sqlite:///birth.db")
+   >>> Base = declarative_base()
+   >>> Session = sessionmaker(bind=engine)
+
+Let's suppose we have the following database model:
+
+   >>> class BirthRegister(Base):
+   ...     __tablename__='birth'
+   ...     id=Column(Integer, primary_key=True)
+   ...     name=Column(String)
+   ...     weight=Column(Float)
+   ...     birth=Column(Date)
+
+Let's create the table::
+  
+   >>> Base.metadata.create_all(engine)
+
+Now here is a sample excel file to be saved to the table:
+
+===== ====== ===========
+name  weight  birth     
+===== ====== ===========
+Adam  3.4    2015-02-03
+Smith 4.2    2014-11-12
+===== ====== ===========
+
+.. testcode::
+   :hide:
+
+   >>> import datetime
+   >>> data = [
+   ...    ["name", "weight", "birth"],
+   ...    ["Adam", 3.4, datetime.date(2015, 2, 3)],
+   ...    ["Smith", 4.2, datetime.date(2014, 11, 12)]
+   ... ]
+   >>> pyexcel.save_as(array=data, dest_file_name="birth.xls")
+
+Here is the code to import it:
+
+   >>> session = Session() # obtain a sql session
+   >>> pyexcel.save_as(file_name="birth.xls", dest_session=session, dest_table=BirthRegister)
+
+Done it. It is that simple. Let's verify what has been imported to make sure.
+
+   >>> sheet = pyexcel.get_sheet(session=session, table=BirthRegister)
+   >>> sheet
+   Sheet Name: birth
+   +------------+----+-------+--------+
+   | birth      | id | name  | weight |
+   +------------+----+-------+--------+
+   | 2015-02-03 | 1  | Adam  | 3.400  |
+   +------------+----+-------+--------+
+   | 2014-11-12 | 2  | Smith | 4.200  |
+   +------------+----+-------+--------+
+
+.. testcode::
+   :hide:
+
+   >>> session.close()
+   >>> os.unlink('birth.db')
 
 Data transportation/transcoding
 ----------------------------------
