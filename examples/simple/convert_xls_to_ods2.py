@@ -3,7 +3,7 @@ convert_xls_to_ods2.py
 :copyright: (c) 2015 by Onni Software Ltd.
 :license: New BSD License, see LICENSE for more details
 
-This shows how to use **pyexcel.save_as** and **BookWriter** class to convert
+This shows how to use **pyexcel.save_book_as** to convert
 xls file to ods file.
 
 What this example implies is that you can do the conversion in
@@ -26,7 +26,7 @@ import pyexcel.ext.xls
 import pyexcel.ext.ods
 
 # Simple open the file using Book
-pe.save_as(file_name="multiple-sheets.xls",
-           out_file="multiple-sheets.ods")
+pe.save_book_as(file_name="multiple-sheets.xls",
+                dest_file_name="multiple-sheets.ods")
 
 # then you will have the book in ods
