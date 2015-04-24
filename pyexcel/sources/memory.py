@@ -7,9 +7,9 @@
     :copyright: (c) 2015 by Onni Software Ltd.
     :license: New BSD License
 """
-from .base import ReadOnlySource, _get_io
+from .base import ReadOnlySource
 from .file import SheetSource, BookSource
-from ..io import load_data
+from ..io import load_data, get_io
 from ..constants import (
     KEYWORD_CONTENT,
     KEYWORD_FILE_TYPE,
@@ -37,7 +37,7 @@ class WriteOnlySheetSource(SheetSource):
     fields = [KEYWORD_FILE_TYPE]
 
     def __init__(self, file_type=None, **keywords):
-        self.content = _get_io(file_type)
+        self.content = get_io(file_type)
         self.file_name = (file_type, self.content)
         self.keywords = keywords
 
@@ -105,7 +105,7 @@ class WriteOnlyBookSource(BookSource):
     fields = [KEYWORD_FILE_TYPE]
 
     def __init__(self, file_type=None, **keywords):
-        self.content = _get_io(file_type)
+        self.content = get_io(file_type)
         self.file_name = (file_type, self.content)
         self.keywords = keywords
 

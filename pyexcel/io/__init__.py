@@ -12,7 +12,7 @@ from .csvbook import CSVBook, CSVWriter
 from .csvzipbook import CSVZipWriter, CSVZipBook
 from .sqlbook import SQLBookReader, SQLBookWriter
 from .djangobook import DjangoBookReader, DjangoBookWriter
-from .._compact import is_string
+from .._compact import is_string, BytesIO, StringIO
 from ..constants import (
     MESSAGE_LOADING_FORMATTER,
     MESSAGE_ERROR_03,
@@ -205,3 +205,9 @@ def get_writer(filename, **keywords):
                 raise NotImplementedError(MESSAGE_CANNOT_WRITE_FILE_TYPE_FORMATTER % (extension, filename))
     return writer
 
+
+def get_io(file_type):
+    if file_type in [FILE_FORMAT_CSV, FILE_FORMAT_TSV]:
+        return StringIO()
+    else:
+        return BytesIO()

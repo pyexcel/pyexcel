@@ -155,7 +155,6 @@ def dict_to_array(the_dict, with_keys=True):
         content.append(row_data)
     return content
 
-
 def from_query_sets(column_names, query_sets):
     array = []
     array.append(column_names)

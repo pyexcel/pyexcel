@@ -11,6 +11,7 @@
 """
 from .book import Book
 from .writers import Writer, BookWriter
+from .io import get_io
 from .sheets import (
     Sheet,
     transpose)

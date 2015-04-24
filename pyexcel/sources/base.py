@@ -8,8 +8,7 @@
     :license: New BSD License
 """
 from ..constants import KEYWORD_SOURCE
-from ..io import FILE_FORMAT_CSV, FILE_FORMAT_TSV
-from .._compact import PY2, BytesIO, StringIO
+from .._compact import PY2
 
 
 def _has_field(field, keywords):
@@ -44,13 +43,6 @@ class WriteOnlySource(Source):
         
     def get_data(self):
         return None
-
-
-def _get_io(file_type):
-    if file_type in [FILE_FORMAT_CSV, FILE_FORMAT_TSV]:
-        return StringIO()
-    else:
-        return BytesIO()
 
 
 def one_sheet_tuple(items):
