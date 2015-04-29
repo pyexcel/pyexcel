@@ -168,24 +168,28 @@ class TestBook:
     def setUp(self):
         self.content = OrderedDict()
         self.content.update({"Sheet1": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
-        self.result = [{'Y': 4, 'X': 1, 'Z': 7}, {'Y': 5, 'X': 2, 'Z': 8}, {'Y': 6, 'X': 3, 'Z': 9}]
+        self.content.update({"Sheet2": [[u'A', u'B', u'C'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
+        self.result1 = [{'Y': 4, 'X': 1, 'Z': 7}, {'Y': 5, 'X': 2, 'Z': 8}, {'Y': 6, 'X': 3, 'Z': 9}]
+        self.result2 = [{'B': 4, 'A': 1, 'C': 7}, {'B': 5, 'A': 2, 'C': 8}, {'B': 6, 'A': 3, 'C': 9}]
 
     def test_book_save_to_models(self):
-        model=FakeDjangoModel()
+        model1=FakeDjangoModel()
+        model2=FakeDjangoModel()
         book = pe.Book(self.content)
-        book.save_to_django_models([model])
-        assert model.objects.objs == self.result
+        book.save_to_django_models([model1, model2])
+        assert model1.objects.objs == self.result1
+        assert model2.objects.objs == self.result2
 
     def test_module_save_to_models(self):
         model=FakeDjangoModel()
         pe.save_book_as(dest_models=[model, None, None], bookdict=self.content)
-        assert model.objects.objs == self.result
+        assert model.objects.objs == self.result1
 
     def test_load_book_from_django_model(self):
         model=FakeDjangoModel()
         book = pe.Book(self.content)
         book.save_to_django_models([model])
-        assert model.objects.objs == self.result
+        assert model.objects.objs == self.result1
         model._meta.update(["X", "Y", "Z"])
         book2 = pe.get_book(models=[model])
         assert book2[0].to_array() == book[0].to_array()
@@ -194,5 +198,5 @@ class TestBook:
         self.content.update({"IgnoreMe":[[1,2,3]]})
         model=FakeDjangoModel()
         pe.save_book_as(dest_models=[model], bookdict=self.content)
-        assert model.objects.objs == self.result
+        assert model.objects.objs == self.result1
 

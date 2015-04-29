@@ -176,7 +176,7 @@ class BookDjangoSource(Source):
             if len(sheet.colnames)  == 0:
                 sheet.name_columns_by_row(0)
         colnames_array = [sheet.colnames for sheet in book]
-        x = zip(self.models, colnames_array, initializers, mapdicts)
+        x = zip(self.models, colnames_array, mapdicts, initializers)
         table_dict = dict(zip(book.name_array, x))
         w = BookWriter(DB_DJANGO, models=table_dict, batch_size=batch_size)
         w.write_book_reader_to_db(book)

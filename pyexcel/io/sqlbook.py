@@ -83,11 +83,10 @@ class SQLTableWriter(SheetWriter):
                 setattr(o, key, row[name])
         self.session.add(o)
 
-    def write_array(self, table):
-        SheetWriter.write_array(self, table)
+    def close(self):
         self.session.commit()
 
-        
+
 class SQLBookWriter(BookWriter):
     """Write to alist of tables
     """
