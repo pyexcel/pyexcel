@@ -8,7 +8,7 @@
     :license: New BSD License
 """
 from .base import ReadOnlySource, Source, one_sheet_tuple
-from ..io import DB_SQL, DB_DJANGO, load_data
+from pyexcel_io import DB_SQL, DB_DJANGO, load_data
 from ..constants import (
     KEYWORD_TABLES,
     KEYWORD_MODELS,

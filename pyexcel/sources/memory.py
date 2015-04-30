@@ -9,7 +9,7 @@
 """
 from .base import ReadOnlySource
 from .file import SheetSource, BookSource
-from ..io import load_data, get_io
+from pyexcel_io import load_data, get_io
 from ..constants import (
     KEYWORD_CONTENT,
     KEYWORD_FILE_TYPE,

@@ -1,6 +1,8 @@
+
 # -*- coding: utf-8 -*-
 import os
 import pyexcel
+import pyexcel_io
 
 
 class TestCSVUTF:
@@ -21,7 +23,7 @@ class TestCSVUTF:
         assert expected == data
 
     def test_csv_book(self):
-        b = pyexcel.io.CSVBook(None, None)
+        b = pyexcel_io.CSVBook(None, None)
         assert b.sheets() == {"csv":[]}
 
     def tearDown(self):

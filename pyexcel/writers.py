@@ -7,9 +7,9 @@
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
+from pyexcel_io import get_writer
 from .utils import to_array, from_records, dict_to_array
 from .sheets import Matrix, transpose
-from .io import get_writer
 from .constants import MESSAGE_WRITE_ERROR
 
 

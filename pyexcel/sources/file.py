@@ -10,7 +10,7 @@
 import os
 from .base import Source, one_sheet_tuple
 from ..constants import KEYWORD_FILE_NAME
-from ..io import load_data
+from pyexcel_io import load_data
 
 
 class SheetSource(Source):

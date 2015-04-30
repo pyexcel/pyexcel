@@ -31,7 +31,7 @@ setup(
     keywords=['excel', 'csv', 'tsv', 'csvz', 'tsvz', 'xls', 'ods', 'xlsx'],
     zip_safe=False,
     tests_require=['nose'],
-    license='GNU GPLv3',
+    license='New BSD',
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Topic :: Office/Business',
