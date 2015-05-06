@@ -24,8 +24,7 @@ class SheetSource(Source):
         """
         Return a dictionary with only one key and one value
         """
-        io_book = load_data(self.file_name, **self.keywords)
-        sheets = io_book.sheets()
+        sheets = load_data(self.file_name, **self.keywords)
         return one_sheet_tuple(sheets.items())
 
     def write_data(self, sheet):
@@ -37,9 +36,9 @@ class SheetSource(Source):
         
 class BookSource(SheetSource):
     def get_data(self):
-        book = load_data(self.file_name, **self.keywords)
+        sheets = load_data(self.file_name, **self.keywords)
         path, filename_alone = os.path.split(self.file_name)
-        return book.sheets(), filename_alone, path
+        return sheets, filename_alone, path
 
     def write_data(self, book):
         from ..writers import BookWriter

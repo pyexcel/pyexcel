@@ -21,7 +21,7 @@ class TestIO:
 
     @raises(NotImplementedError)
     def test_not_supported_output_stream(self):
-        io = StringIO
+        io = StringIO()
         pe.Writer(("sylk", io))
         
     def test_csv_stringio(self):

@@ -7,7 +7,7 @@
     :copyright: (c) 2015 by Onni Software Ltd.
     :license: New BSD License
 """
-from .base import ReadOnlySource
+from .base import ReadOnlySource, one_sheet_tuple
 from .file import SheetSource, BookSource
 from pyexcel_io import load_data, get_io
 from ..constants import (
@@ -23,12 +23,21 @@ from ..constants import (
 
 
 class ReadOnlySheetSource(SheetSource):
-    fields = [KEYWORD_CONTENT, KEYWORD_FILE_TYPE]
+    fields = [KEYWORD_FILE_TYPE]
 
-    def __init__(self, content=None, file_type=None, **keywords):
-        SheetSource.__init__(self,
-                             file_name=(file_type, content),
-                             **keywords)
+    def __init__(self, file_content=None, file_type=None, file_stream=None, **keywords):
+        self.file_type = file_type
+        self.file_stream = file_stream
+        self.file_content = file_content
+        self.keywords = keywords
+
+    def get_data(self):
+        if self.file_stream is not None:
+            sheets = load_data(self.file_stream, file_type=self.file_type, **self.keywords)
+        else:
+            sheets = load_data(self.file_content, file_type=self.file_type, **self.keywords)
+        return one_sheet_tuple(sheets.items())
+            
     def write_data(self, content):
         pass
 
@@ -79,16 +88,20 @@ class ArraySource(ReadOnlySource):
 
 
 class ReadOnlyBookSource(ReadOnlySource):
-    fields = [KEYWORD_FILE_TYPE, KEYWORD_CONTENT]
+    fields = [KEYWORD_FILE_TYPE]
     
-    def __init__(self, file_type, content, **keywords):
+    def __init__(self, file_content=None, file_type=None, file_stream=None, **keywords):
         self.file_type = file_type
-        self.content = content
+        self.file_content = file_content
+        self.file_stream = file_stream
         self.keywords = keywords
 
     def get_data(self):
-        book = load_data((self.file_type, self.content), **self.keywords)
-        return book.sheets(), KEYWORD_MEMORY, None
+        if self.file_stream is not None:
+            sheets = load_data(self.file_stream, file_type=self.file_type, **self.keywords)
+        else:
+            sheets = load_data(self.file_content, file_type=self.file_type, **self.keywords)
+        return sheets, KEYWORD_MEMORY, None
 
 
 class BookDictSource(ReadOnlySource):

@@ -109,7 +109,8 @@ def get_sheet(**keywords):
     """Get an instance of :class:`Sheet` from an excel source
 
     :param file_name: a file with supported file extension
-    :param content: the file content
+    :param file_content: the file content
+    :param file_stream: the file stream
     :param file_type: the file type in *content*
     :param session: database session
     :param table: database table
@@ -157,7 +158,8 @@ def get_book(**keywords):
     """Get an instance of :class:`Book` from an excel source
 
     :param file_name: a file with supported file extension
-    :param content: the file content
+    :param file_content: the file content
+    :param file_stream: the file stream
     :param file_type: the file type in *content*
     :param session: database session
     :param tables: a list of database table

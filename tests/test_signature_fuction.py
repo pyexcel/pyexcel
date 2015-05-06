@@ -53,7 +53,7 @@ class TestGetSheet:
             [4, 5, 6]
         ]
         content = pe.save_as(dest_file_type="xls", array=data)
-        sheet = pe.get_sheet(content=content.getvalue(), file_type="xls")
+        sheet = pe.get_sheet(file_content=content.getvalue(), file_type="xls")
         assert sheet.to_array() == data
         
     def test_get_sheet_from_array(self):
@@ -114,7 +114,7 @@ class TestGetArray:
             [4, 5, 6]
         ]
         content = pe.save_as(dest_file_type="xls", array=data)
-        array = pe.get_array(content=content.getvalue(), file_type="xls")
+        array = pe.get_array(file_content=content.getvalue(), file_type="xls")
         assert array == [
             ["X", "Y", "Z"],
             [1, 2, 3],
@@ -182,7 +182,7 @@ class TestGetDict:
             [4, 5, 6]
         ]
         content = pe.save_as(dest_file_type="xls", array=data)
-        adict = pe.get_dict(content=content.getvalue(), file_type="xls")
+        adict = pe.get_dict(file_content=content.getvalue(), file_type="xls")
         assert adict == {
             "X": [1, 4],
             "Y": [2, 5],
@@ -249,7 +249,7 @@ class TestGetRecords:
             [4, 5, 6]
         ]
         content = pe.save_as(dest_file_type="xls", array=data)
-        records = pe.get_records(content=content.getvalue(), file_type="xls")
+        records = pe.get_records(file_content=content.getvalue(), file_type="xls")
         assert records == [
             {"X": 1, "Y": 2, "Z": 3},
             {"X": 4, "Y": 5, "Z": 6}
@@ -614,7 +614,7 @@ class TestSQL:
                                     session=Session(),
                                     tables=[Signature, Signature2])
         book_dict = pe.get_book_dict(
-            content=test_file.getvalue(),
+            file_content=test_file.getvalue(),
             file_type="xls"
         )
         expected = OrderedDict()
@@ -650,7 +650,7 @@ class TestGetBook:
         content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
         content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
         io = pe.save_book_as(dest_file_type="xls", bookdict=content)
-        book2 = pe.get_book(content=io.getvalue(), file_type="xls")
+        book2 = pe.get_book(file_content=io.getvalue(), file_type="xls")
         assert book2.to_dict() == content
 
     def test_get_book_dict(self):
@@ -659,7 +659,7 @@ class TestGetBook:
         content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
         content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
         io = pe.save_book_as(dest_file_type="xls", bookdict=content)
-        adict = pe.get_book_dict(content=io.getvalue(), file_type="xls")
+        adict = pe.get_book_dict(file_content=io.getvalue(), file_type="xls")
         assert adict == content
 
 

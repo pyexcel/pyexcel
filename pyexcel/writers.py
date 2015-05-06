@@ -120,7 +120,10 @@ class BookWriter:
         :param str file: file name
         :param dict keywords: extra parameters for format specific writer
         """
-        self.writer = get_writer(file, **keywords)
+        if isinstance(file, tuple):
+            self.writer = get_writer(file[1], file[0], **keywords)
+        else:
+            self.writer = get_writer(file, **keywords)
 
     def create_sheet(self, sheet_name):
         """Create a new sheet
@@ -206,3 +209,4 @@ class Writer(SheetWriter):
         """
         SheetWriter.close(self)
         self.bookwriter.close()
+    

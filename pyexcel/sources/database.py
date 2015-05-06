@@ -49,8 +49,7 @@ class SheetDatabaseSourceMixin(Source):
         pass
         
     def get_data(self):
-        sql_book = self.get_sql_book()
-        sheets = sql_book.sheets()
+        sheets = self.get_sql_book()
         return one_sheet_tuple(sheets.items())
 
     def write_data(self, sheet):
@@ -130,8 +129,8 @@ class BookSQLSource(Source):
         self.keywords = keywords
 
     def get_data(self):
-        book = load_data(DB_SQL, session=self.session, tables=self.tables)
-        return book.sheets(), DB_SQL, None
+        sheets = load_data(DB_SQL, session=self.session, tables=self.tables)
+        return sheets, DB_SQL, None
         
     def write_data(self, book):
         from ..writers import BookWriter
@@ -160,8 +159,8 @@ class BookDjangoSource(Source):
         self.keywords = keywords
 
     def get_data(self):
-        book = load_data(DB_DJANGO, models=self.models)
-        return book.sheets(), DB_DJANGO, None
+        sheets = load_data(DB_DJANGO, models=self.models)
+        return sheets, DB_DJANGO, None
 
     def write_data(self, book):
         from ..writers import BookWriter
