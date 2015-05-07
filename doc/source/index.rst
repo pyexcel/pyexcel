@@ -47,10 +47,10 @@ For individual excel file formats, please install them as you wish:
    Plugin           Supported file formats                                       Dependencies  Python versions			 Comments						
    ================ ============================================================ ============= ======================== =============================	
    pyexcel          csv, csvz [#f1]_, tsv, tsvz [#f2]_                           `pyexcel-io`_ 2.6, 2.7, 3.3, 3.4, pypy 								
-   `xls`_           xls, xlsx(read only), xlsm(read only)                        xlrd, xlwt    2.6, 2.7, 3.3, 3.4, pypy writing xls only
+   `xls`_           xls, xlsx(read only), xlsm(read only)                        xlrd, xlwt    2.6, 2.7, 3.3, 3.4, pypy supports reading xlsx as well
    `xlsx`_          xlsx                                                         openpyxl      2.6, 2.7, 3.3, 3.4, pypy 								
+   `ods3`_          ods                                                          ezodf, lxml   2.6, 2.7, 3.3, 3.4				 								
    `ods`_           ods (python 2.6, 2.7)                                        odfpy         2.6, 2.7				 								
-   `ods3`_          ods                                                          ezodf, lxml   2.6, 2.7,3.3, 3.4				 								
    `text`_          json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple tabulate      2.6, 2.7, 3.3, 3.4, pypy writing to files only
    ================ ============================================================ ============= ======================== =============================
 
@@ -75,8 +75,8 @@ or::
     ======= ========== =========== ============ ============ ============ ============
     pyexcel pyexcel-io xls         xlsx         ods          ods3         text  
     ======= ========== =========== ============ ============ ============ ============
-    v0.1.5  0.0.3      0.0.6+      0.0.5+       0.0.5+       0.0.7+       0.0.2
-    v0.1.4  0.0.3      0.0.6+      0.0.5+       0.0.5+       0.0.7+       0.0.2
+    v0.1.5  0.0.4      0.0.7       0.0.6        0.0.6        0.0.8        0.0.2
+    v0.1.4  0.0.3      0.0.6       0.0.5        0.0.5        0.0.7        0.0.2
     v0.1.3  0.0.2      0.0.3-0.0.5 0.0.2-0.0.4  0.0.4        0.0.5-0.0.6  0.0.2
     v0.1.2  0.0.2      0.0.3-0.0.5 0.0.2-0.0.4  0.0.4        0.0.5-0.0.6  0.0.2
     v0.1.1  0.0.2      0.0.3-0.0.5 0.0.2-0.0.4  0.0.4        0.0.5-0.0.6  0.0.2
