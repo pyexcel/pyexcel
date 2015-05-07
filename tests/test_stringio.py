@@ -27,7 +27,7 @@ class TestIO:
     def test_csv_stringio(self):
         csvfile = "cute.csv"
         create_sample_file1(csvfile)
-        with open(csvfile, "rb") as f:
+        with open(csvfile, "r") as f:
             content = f.read()
             r = pe.load_from_memory("csv", content)
             result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', '1.1', '1']
