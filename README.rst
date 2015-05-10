@@ -34,14 +34,14 @@ Fonts, colors and charts are not supported.
 Feature Highlights
 ===================
 
-1. One application programming interface(API) to read and write data in various excel file formats.
-2. One API to handle multiple data sources:
+1. One API to handle multiple data sources:
 
    * physical file
    * memory file
    * SQLAlchemy table
    * Django Model
    * Python data stuctures: dictionary, records and array
+2. One application programming interface(API) to read and write data in various excel file formats.
 
 
 Available Plugins
@@ -119,7 +119,7 @@ New BSD License
 Dependencies
 ==============
 
-* pyexcel-io >= 0.0.3
+* pyexcel-io >= 0.0.4
 * texttable >= 0.8.2
 
 Acknowledgement

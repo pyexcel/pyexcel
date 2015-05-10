@@ -10,7 +10,7 @@
 :Source code: http://github.com/chfw/pyexcel
 :Issues: http://github.com/chfw/pyexcel/issues
 :License: New BSD License
-:Version: |version|
+:Version: |version| unreleased yet
 :Generated: |today|
 
 Introduction
@@ -21,8 +21,6 @@ Introduction
 It was created due to the lack of uniform programming interface to access data in different excel formats. A developer needs to use different methods of different libraries to read the same data in different excel formats, hence the resulting code is cluttered and unmaintainable. This is a challenge posed by users who do not know or care about the differences in excel file formats.Instead of educating the users about the specific excel format a data processing application supports, the library takes up the challenge and promises to support all known excel formats.
 
 Excel files are de-facto file format for information sharing in non-software centric organisations. Excel files are not only used for mathematical computation in financial institutions but also used for many other purposes in an office work environment. This is largely casued by wide adoption of Microsoft Office. Comparing the existing, mathematics savvy Pandas library, this library intends to help data processing job where data extraction is more important than data analysis. In such context, ease of use, and low overhead is preferred, while Pandas is as big as 4MB and contains hundreds of potentially useful functions.
-
-All great work have done by individual library developers. This library unites only the data access code. With that said, pyexcel also bring something new on the table: :ref:`"csvz" and "tsvz"<csvz>` format, new format names as of 2014. They are invented and supported by pyexcel.
 
 Getting the source
 -------------------
@@ -151,7 +149,6 @@ Design
 .. toctree::
 
    design
-   csvz
    capability
 
 Tutorial
