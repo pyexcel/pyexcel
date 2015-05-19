@@ -13,16 +13,6 @@ class TestIO:
     @raises(IOError)
     def test_wrong_io_output(self):
         pe.Writer(1000)
-
-    @raises(NotImplementedError)
-    def test_not_supported_input_stream(self):
-        content = "11\n11"
-        pe.Reader(("sylk", content))
-
-    @raises(NotImplementedError)
-    def test_not_supported_output_stream(self):
-        io = StringIO()
-        pe.Writer(("sylk", io))
         
     def test_csv_stringio(self):
         csvfile = "cute.csv"

@@ -11,7 +11,6 @@ from .base import ReadOnlySource, one_sheet_tuple
 from .file import SheetSource, BookSource
 from pyexcel_io import load_data, get_io
 from ..constants import (
-    KEYWORD_CONTENT,
     KEYWORD_FILE_TYPE,
     KEYWORD_RECORDS,
     KEYWORD_ADICT,
