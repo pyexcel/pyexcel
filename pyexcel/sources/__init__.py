@@ -187,10 +187,10 @@ def get_book(**keywords):
     Where the dictionary should have text as keys and two dimensional
     array as values.
     """
-    source = SourceFactory.get_book_source(**keywords)
     if DEPRECATED_KEYWORD_CONTENT in keywords:
         print(MESSAGE_DEPRECATED_02)
         keywords[KEYWORD_FILE_CONTENT] = keywords.pop(DEPRECATED_KEYWORD_CONTENT)        
+    source = SourceFactory.get_book_source(**keywords)
     if source is not None:
         sheets, filename, path = source.get_data()
         book = Book(sheets, filename=filename, path=path)

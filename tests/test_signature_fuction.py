@@ -56,6 +56,16 @@ class TestGetSheet:
         sheet = pe.get_sheet(file_content=content.getvalue(), file_type="xls")
         assert sheet.to_array() == data
         
+    def test_get_sheet_from_memory_compatibility(self):
+        data = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        content = pe.save_as(dest_file_type="xls", array=data)
+        sheet = pe.get_sheet(content=content.getvalue(), file_type="xls")
+        assert sheet.to_array() == data
+        
     def test_get_sheet_from_array(self):
         data = [
             ["X", "Y", "Z"],
@@ -622,7 +632,6 @@ class TestSQL:
         expected.update({'signature2': [['A', 'B', 'C'], [1, 2, 3], [4, 5, 6]]})
         assert book_dict == expected
 
-
 class TestGetBook:
     def test_get_book_from_book_dict(self):
         content = OrderedDict()
@@ -651,6 +660,15 @@ class TestGetBook:
         content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
         io = pe.save_book_as(dest_file_type="xls", bookdict=content)
         book2 = pe.get_book(file_content=io.getvalue(), file_type="xls")
+        assert book2.to_dict() == content
+
+    def test_get_book_from_memory_compatibility(self):
+        content = OrderedDict()
+        content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
+        content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
+        content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
+        io = pe.save_book_as(dest_file_type="xls", bookdict=content)
+        book2 = pe.get_book(content=io.getvalue(), file_type="xls")
         assert book2.to_dict() == content
 
     def test_get_book_dict(self):
