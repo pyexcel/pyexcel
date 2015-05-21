@@ -22,9 +22,14 @@ from ..constants import (
 
 
 class ReadOnlySheetSource(SheetSource):
+    """Pick up 'file_type' and read a sheet from memory"""
     fields = [KEYWORD_FILE_TYPE]
 
-    def __init__(self, file_content=None, file_type=None, file_stream=None, **keywords):
+    def __init__(self,
+                 file_content=None,
+                 file_type=None,
+                 file_stream=None,
+                 **keywords):
         self.file_type = file_type
         self.file_stream = file_stream
         self.file_content = file_content
@@ -32,12 +37,17 @@ class ReadOnlySheetSource(SheetSource):
 
     def get_data(self):
         if self.file_stream is not None:
-            sheets = load_data(self.file_stream, file_type=self.file_type, **self.keywords)
+            sheets = load_data(self.file_stream,
+                               file_type=self.file_type,
+                               **self.keywords)
         else:
-            sheets = load_data(self.file_content, file_type=self.file_type, **self.keywords)
+            sheets = load_data(self.file_content,
+                               file_type=self.file_type,
+                               **self.keywords)
         return one_sheet_tuple(sheets.items())
-            
+
     def write_data(self, content):
+        """Disable write"""
         pass
 
 
@@ -55,6 +65,7 @@ class WriteOnlySheetSource(SheetSource):
 
 class RecrodsSource(ReadOnlySource):
     fields= [KEYWORD_RECORDS]
+
     def __init__(self, records):
         self.records = records
 
@@ -88,7 +99,7 @@ class ArraySource(ReadOnlySource):
 
 class ReadOnlyBookSource(ReadOnlySource):
     fields = [KEYWORD_FILE_TYPE]
-    
+
     def __init__(self, file_content=None, file_type=None, file_stream=None, **keywords):
         self.file_type = file_type
         self.file_content = file_content

@@ -16,7 +16,13 @@ def _has_field(field, keywords):
 
 
 class Source:
+    """ A command source for get_sheet, get_book, save_as and save_book_as
+
+    This can be used to extend the function parameters once the custom
+    class inherit this and register it with corresponding source registry
+    """
     fields = [KEYWORD_SOURCE]
+
     def __init__(self, source=None, **keywords):
         self.source = source
         self.keywords = keywords
@@ -27,21 +33,24 @@ class Source:
         If all required keys are present, this source is OK
         """
         statuses = [_has_field(field, keywords) for field in self.fields]
-        results = filter(lambda status: status==False, statuses)
+        results = filter(lambda status: status is False, statuses)
         if not PY2:
             results = list(results)
         return len(results) == 0
-        
+
 
 class ReadOnlySource(Source):
-
+    """Read Only Data Source"""
     def write_data(self, content):
+        """This function does nothing """
         pass
 
 
 class WriteOnlySource(Source):
-        
+    """Write Only Data Source"""
+
     def get_data(self):
+        """This function does nothing"""
         return None
 
 
