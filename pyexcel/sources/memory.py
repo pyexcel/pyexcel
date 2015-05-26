@@ -64,7 +64,8 @@ class WriteOnlySheetSource(SheetSource):
 
 
 class RecrodsSource(ReadOnlySource):
-    fields= [KEYWORD_RECORDS]
+
+    fields = [KEYWORD_RECORDS]
 
     def __init__(self, records):
         self.records = records
@@ -100,7 +101,11 @@ class ArraySource(ReadOnlySource):
 class ReadOnlyBookSource(ReadOnlySource):
     fields = [KEYWORD_FILE_TYPE]
 
-    def __init__(self, file_content=None, file_type=None, file_stream=None, **keywords):
+    def __init__(self,
+                 file_content=None,
+                 file_type=None,
+                 file_stream=None,
+                 **keywords):
         self.file_type = file_type
         self.file_content = file_content
         self.file_stream = file_stream
@@ -108,15 +113,20 @@ class ReadOnlyBookSource(ReadOnlySource):
 
     def get_data(self):
         if self.file_stream is not None:
-            sheets = load_data(self.file_stream, file_type=self.file_type, **self.keywords)
+            sheets = load_data(self.file_stream,
+                               file_type=self.file_type,
+                               **self.keywords)
         else:
-            sheets = load_data(self.file_content, file_type=self.file_type, **self.keywords)
+            sheets = load_data(self.file_content,
+                               file_type=self.file_type,
+                               **self.keywords)
         return sheets, KEYWORD_MEMORY, None
 
 
 class BookDictSource(ReadOnlySource):
+
     fields = [KEYWORD_BOOKDICT]
-    
+
     def __init__(self, bookdict, **keywords):
         self.bookdict = bookdict
 
@@ -131,4 +141,3 @@ class WriteOnlyBookSource(BookSource):
         self.content = get_io(file_type)
         self.file_name = (file_type, self.content)
         self.keywords = keywords
-

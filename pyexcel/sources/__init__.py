@@ -93,7 +93,7 @@ class SourceFactory:
     @classmethod
     def get_source(self, **keywords):
         return self.get_generic_source(SOURCES, **keywords)
-        
+
     @classmethod
     def get_book_source(self, **keywords):
         return self.get_generic_source(BOOK_SOURCES, **keywords)
@@ -122,8 +122,8 @@ def get_sheet(**keywords):
     :param records: a list of dictionaries that have the same keys
     :param array: a two dimensional array, a list of lists
     :param keywords: additional parameters, see :meth:`Sheet.__init__`
-    :param sheet_name: sheet name. if sheet_name is not given, the default sheet
-                       at index 0 is loaded
+    :param sheet_name: sheet name. if sheet_name is not given,
+                       the default sheet at index 0 is loaded
 
     Not all parameters are needed. Here is a table
 
@@ -146,10 +146,11 @@ def get_sheet(**keywords):
     sheet_params = {}
     for field in VALID_SHEET_PARAMETERS:
         if field in keywords:
-            sheet_params[field] = keywords.pop(field)    
+            sheet_params[field] = keywords.pop(field)
     if DEPRECATED_KEYWORD_CONTENT in keywords:
         print(MESSAGE_DEPRECATED_02)
-        keywords[KEYWORD_FILE_CONTENT] = keywords.pop(DEPRECATED_KEYWORD_CONTENT)        
+        keywords[KEYWORD_FILE_CONTENT] = keywords.pop(
+            DEPRECATED_KEYWORD_CONTENT)
     source = SourceFactory.get_source(**keywords)
     if source is not None:
         sheet_name, data = source.get_data()
@@ -189,7 +190,8 @@ def get_book(**keywords):
     """
     if DEPRECATED_KEYWORD_CONTENT in keywords:
         print(MESSAGE_DEPRECATED_02)
-        keywords[KEYWORD_FILE_CONTENT] = keywords.pop(DEPRECATED_KEYWORD_CONTENT)        
+        keywords[KEYWORD_FILE_CONTENT] = keywords.pop(
+            DEPRECATED_KEYWORD_CONTENT)
     source = SourceFactory.get_book_source(**keywords)
     if source is not None:
         sheets, filename, path = source.get_data()
@@ -204,22 +206,25 @@ def split_keywords(**keywords):
     for key in keywords.keys():
         result = re.match(KEYWORD_STARTS_WITH_DEST, key)
         if result:
-            dest_keywords[result.group(1)]= keywords[key]
+            dest_keywords[result.group(1)] = keywords[key]
         else:
             source_keywords[key] = keywords[key]
     if DEPRECATED_KEYWORD_OUT_FILE in keywords:
         print(MESSAGE_DEPRECATED_02)
-        dest_keywords[KEYWORD_FILE_NAME] = keywords.pop(DEPRECATED_KEYWORD_OUT_FILE)
+        dest_keywords[KEYWORD_FILE_NAME] = keywords.pop(
+            DEPRECATED_KEYWORD_OUT_FILE)
     if DEPRECATED_KEYWORD_CONTENT in keywords:
         print(MESSAGE_DEPRECATED_02)
-        dest_keywords[KEYWORD_FILE_CONTENT] = keywords.pop(DEPRECATED_KEYWORD_CONTENT)        
+        dest_keywords[KEYWORD_FILE_CONTENT] = keywords.pop(
+            DEPRECATED_KEYWORD_CONTENT)
     return dest_keywords, source_keywords
 
 
 def save_as(**keywords):
     """Save a sheet from a data srouce to another one
 
-    :param dest_file_name: another file name. **out_file** is deprecated though is still accepted.
+    :param dest_file_name: another file name. **out_file** is deprecated
+                           though is still accepted.
     :param dest_file_type: this is needed if you want to save to memory
     :param dest_session: the target database session
     :param dest_table: the target destination table

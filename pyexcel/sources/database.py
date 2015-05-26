@@ -38,7 +38,8 @@ class SheetQuerySetSource(ReadOnlySource):
 
     def get_data(self):
         from ..utils import from_query_sets
-        return self.sheet_name, from_query_sets(self.column_names, self.query_sets)
+        return (self.sheet_name,
+                from_query_sets(self.column_names, self.query_sets))
 
 
 class SheetDatabaseSourceMixin(Source):
@@ -47,7 +48,7 @@ class SheetDatabaseSourceMixin(Source):
 
     def get_writer(self, sheet):
         pass
-        
+
     def get_data(self):
         sheets = self.get_sql_book()
         return one_sheet_tuple(sheets.items())
@@ -76,11 +77,12 @@ class SheetSQLAlchemySource(SheetDatabaseSourceMixin):
     def get_writer(self, sheet):
         from ..writers import Writer
         tables = {
-            sheet.name: (self.table,
-                         sheet.colnames,
-                         self.keywords.get(KEYWORD_MAPDICT, None),
-                         self.keywords.get(KEYWORD_INITIALIZER, None)
-                     )
+            sheet.name: (
+                self.table,
+                sheet.colnames,
+                self.keywords.get(KEYWORD_MAPDICT, None),
+                self.keywords.get(KEYWORD_INITIALIZER, None)
+            )
         }
         w = Writer(
             DB_SQL,
@@ -104,7 +106,7 @@ class SheetDjangoSource(SheetDatabaseSourceMixin):
     def get_writer(self, sheet):
         from ..writers import Writer
         models = {
-            sheet.name:(
+            sheet.name: (
                 self.model,
                 sheet.colnames,
                 self.keywords.get(KEYWORD_MAPDICT, None),
@@ -122,7 +124,7 @@ class SheetDjangoSource(SheetDatabaseSourceMixin):
 
 class BookSQLSource(Source):
     fields = [KEYWORD_SESSION, KEYWORD_TABLES]
-    
+
     def __init__(self, session, tables, **keywords):
         self.session = session
         self.tables = tables
@@ -131,7 +133,7 @@ class BookSQLSource(Source):
     def get_data(self):
         sheets = load_data(DB_SQL, session=self.session, tables=self.tables)
         return sheets, DB_SQL, None
-        
+
     def write_data(self, book):
         from ..writers import BookWriter
         initializers = self.keywords.get(KEYWORD_INITIALIZERS, None)
@@ -141,7 +143,7 @@ class BookSQLSource(Source):
         if mapdicts is None:
             mapdicts = [None] * len(self.tables)
         for sheet in book:
-            if len(sheet.colnames)  == 0:
+            if len(sheet.colnames) == 0:
                 sheet.name_columns_by_row(0)
         colnames_array = [sheet.colnames for sheet in book]
         x = zip(self.tables, colnames_array, mapdicts, initializers)
@@ -153,7 +155,7 @@ class BookSQLSource(Source):
 
 class BookDjangoSource(Source):
     fields = [KEYWORD_MODELS]
-    
+
     def __init__(self, models, **keywords):
         self.models = models
         self.keywords = keywords
@@ -167,12 +169,12 @@ class BookDjangoSource(Source):
         batch_size = self.keywords.get(KEYWORD_BATCH_SIZE, None)
         initializers = self.keywords.get(KEYWORD_INITIALIZERS, None)
         if initializers is None:
-            initializers= [None] * len(self.models)
+            initializers = [None] * len(self.models)
         mapdicts = self.keywords.get(KEYWORD_MAPDICTS, None)
         if mapdicts is None:
             mapdicts = [None] * len(self.models)
         for sheet in book:
-            if len(sheet.colnames)  == 0:
+            if len(sheet.colnames) == 0:
                 sheet.name_columns_by_row(0)
         colnames_array = [sheet.colnames for sheet in book]
         x = zip(self.models, colnames_array, mapdicts, initializers)

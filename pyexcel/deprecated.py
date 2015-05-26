@@ -18,8 +18,12 @@ def deprecated(func, message="Deprecated!"):
     return inner
 
 
-deprecated_loader = partial(deprecated, message="Deprecated since v0.1.5! Please use get_sheet instead.")
-deprecated_book_loader = partial(deprecated, message="Deprecated since v0.1.5! Please use get_book instead.")
+deprecated_loader = partial(
+    deprecated,
+    message="Deprecated since v0.1.5! Please use get_sheet instead.")
+deprecated_book_loader = partial(
+    deprecated,
+    message="Deprecated since v0.1.5! Please use get_book instead.")
 
 
 @deprecated_book_loader
@@ -41,6 +45,7 @@ def load_book_from_memory(file_type, file_content, **keywords):
     :param any keywords: additional parameters
     """
     return get_book(file_type=file_type, file_content=file_content, **keywords)
+
 
 @deprecated_book_loader
 def load_book_from_sql(session, tables):
@@ -77,7 +82,10 @@ def load(file, sheetname=None, **keywords):
     :param dict keywords: other parameters
     """
     if isinstance(file, tuple):
-        sheet = get_sheet(file_type=file[0], file_content=file[1], sheet_name=sheetname, **keywords)      
+        sheet = get_sheet(file_type=file[0],
+                          file_content=file[1],
+                          sheet_name=sheetname,
+                          **keywords)
     else:
         sheet = get_sheet(file_name=file, sheet_name=sheetname, **keywords)
     return sheet
@@ -96,7 +104,10 @@ def load_from_memory(file_type,
     :param str sheetname: which sheet to be used for construction
     :param dict keywords: any other parameters
     """
-    return get_sheet(file_type=file_type, file_content=file_content, sheet_name=sheetname, **keywords)
+    return get_sheet(file_type=file_type,
+                     file_content=file_content,
+                     sheet_name=sheetname,
+                     **keywords)
 
 
 @deprecated_loader
@@ -108,7 +119,7 @@ def load_from_query_sets(column_names, query_sets, **keywords):
     """
     return get_sheet(column_names=column_names, query_sets=query_sets)
 
-    
+
 @deprecated_loader
 def load_from_sql(session, table, **keywords):
     """Constructs an instance :class:`Sheet` from database table
@@ -119,7 +130,7 @@ def load_from_sql(session, table, **keywords):
     """
     return get_sheet(session=session, table=table, **keywords)
 
-    
+
 @deprecated_loader
 def load_from_django_model(model, **keywords):
     """Constructs an instance :class:`Sheet` from a django model
@@ -135,7 +146,8 @@ def load_from_dict(the_dict, with_keys=True, **keywords):
     """Return a sheet from a dictionary of one dimensional arrays
 
     :param dict the_dict: its value should be one dimensional array
-    :param bool with_keys: indicate if dictionary keys should be appended or not
+    :param bool with_keys: indicate if dictionary keys should be
+                           appended or not
     """
     return get_sheet(adict=the_dict, with_keys=with_keys, **keywords)
 
@@ -146,13 +158,14 @@ def load_from_records(records, **keywords):
 
     Sheet.to_records() would produce a list of dictionaries. All dictionaries
     share the same keys.
-    :params list records: records are likely to be produced by Sheet.to_records()
-    method.
+    :params list records: records are likely to be produced by
+                          Sheet.to_records() method.
     """
     return get_sheet(records=records, **keywords)
 
 
-@partial(deprecated, message="Deprecated since v0.0.7! Please use class Sheet instead")
+@partial(deprecated,
+         message="Deprecated since v0.0.7! Please use class Sheet instead")
 def Reader(file=None, sheetname=None, **keywords):
     """
     A single sheet excel file reader
@@ -165,12 +178,16 @@ def Reader(file=None, sheetname=None, **keywords):
     changed since 0.0.7
     """
     if isinstance(file, tuple):
-        return get_sheet(file_type=file[0], file_content=file[1], sheet_name=sheetname, **keywords)
+        return get_sheet(file_type=file[0],
+                         file_content=file[1],
+                         sheet_name=sheetname,
+                         **keywords)
     else:
         return get_sheet(file_name=file, sheet_name=sheetname, **keywords)
 
 
-@partial(deprecated, message="Deprecated since v0.0.7! Please use class Sheet(..., name_columns_by_row=0,..) instead")
+@partial(deprecated,
+         message="Deprecated since v0.0.7! Please use class Sheet(..., name_columns_by_row=0,..) instead")
 def SeriesReader(file=None, sheetname=None, series=0, **keywords):
     """A single sheet excel file reader and it has column headers in a selected row
 
@@ -178,12 +195,19 @@ def SeriesReader(file=None, sheetname=None, series=0, **keywords):
     changed since 0.0.7
     """
     if isinstance(file, tuple):
-        return get_sheet(file_type=file[0], file_content=file[1], name_columns_by_row=series, **keywords)
+        return get_sheet(file_type=file[0],
+                         file_content=file[1],
+                         name_columns_by_row=series,
+                         **keywords)
     else:
-        return load(file, sheetname=sheetname, name_columns_by_row=series, **keywords)
+        return load(file,
+                    sheetname=sheetname,
+                    name_columns_by_row=series,
+                    **keywords)
 
 
-@partial(deprecated, message="Please use class Sheet(..., name_rows_by_column=0..) instead")
+@partial(deprecated,
+         message="Please use class Sheet(..., name_rows_by_column=0..) instead")
 def ColumnSeriesReader(file=None, sheetname=None, series=0, **keywords):
     """A single sheet excel file reader and it has row headers in a selected column
 
@@ -191,12 +215,19 @@ def ColumnSeriesReader(file=None, sheetname=None, series=0, **keywords):
     changed since 0.0.7
     """
     if isinstance(file, tuple):
-        return get_sheet(file_type=file[0], file_content=file[1], name_rows_by_column=series, **keywords)
+        return get_sheet(file_type=file[0],
+                         file_content=file[1],
+                         name_rows_by_column=series,
+                         **keywords)
     else:
-        return load(file, sheetname=sheetname, name_rows_by_column=series, **keywords)
+        return load(file,
+                    sheetname=sheetname,
+                    name_rows_by_column=series,
+                    **keywords)
 
 
-@partial(deprecated, message="Deprecated since v0.0.7! Please use class Book instead")
+@partial(deprecated,
+         message="Deprecated since v0.0.7! Please use class Book instead")
 def BookReader(file, **keywords):
     """For backward compatibility
     """

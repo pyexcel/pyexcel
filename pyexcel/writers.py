@@ -180,7 +180,7 @@ class BookWriter:
                 sheet.write_array(bookreader[name].array)
                 sheet.close()
             except:
-                print("%s %s" %(MESSAGE_WRITE_ERROR, name))
+                print("%s %s" % (MESSAGE_WRITE_ERROR, name))
 
     def close(self):
         """close the writer"""
@@ -200,7 +200,9 @@ class Writer(SheetWriter):
 
         This class creates only one sheet writer and stick with it
         """
-        self.bookwriter = BookWriter(file, single_sheet_in_book=True, **keywords)
+        self.bookwriter = BookWriter(file,
+                                     single_sheet_in_book=True,
+                                     **keywords)
         self.writer = self.bookwriter.create_sheet(sheet_name).writer
 
     def close(self):
@@ -209,4 +211,3 @@ class Writer(SheetWriter):
         """
         SheetWriter.close(self)
         self.bookwriter.close()
-    

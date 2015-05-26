@@ -15,10 +15,12 @@ import datetime
 
 LOCAL_UUID = 0
 
+
 def local_uuid():
     global LOCAL_UUID
     LOCAL_UUID = LOCAL_UUID + 1
     return LOCAL_UUID
+
 
 def to_array(o):
     """convert a reader iterator to an array"""
@@ -26,6 +28,7 @@ def to_array(o):
     for i in o:
         array.append(i)
     return array
+
 
 def to_dict(o):
     """convert a reader iterator to a dictionary"""
@@ -154,6 +157,7 @@ def dict_to_array(the_dict, with_keys=True):
                 row_data.append('')
         content.append(row_data)
     return content
+
 
 def from_query_sets(column_names, query_sets):
     array = []

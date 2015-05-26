@@ -79,10 +79,13 @@ def get_array(**keywords):
 def get_dict(name_columns_by_row=0, **keywords):
     """Obtain a dictionary from an excel source
 
-    :param name_columns_by_row: specify a row to be a dictionary key. It is default to 0 or first row. If you would use a column index 0 instead, you should do::
+    :param name_columns_by_row: specify a row to be a dictionary key.
+                                It is default to 0 or first row. If
+                                you would use a column index 0 instead,
+                                you should do::
 
         get_dict(name_columns_by_row=-1, name_rows_by_column=0)
-    
+
     :param keywords: see :meth:`~pyexcel.get_sheet`
     """
     sheet = get_sheet(name_columns_by_row=name_columns_by_row,
@@ -96,10 +99,13 @@ def get_dict(name_columns_by_row=0, **keywords):
 def get_records(name_columns_by_row=0, **keywords):
     """Obtain a list of records from an excel source
 
-    :param name_columns_by_row: specify a row to be a dictionary key. It is default to 0 or first row. If you would use a column index 0 instead, you should do::
+    :param name_columns_by_row: specify a row to be a dictionary key.
+                                It is default to 0 or first row.
+                                If you would use a column index 0
+                                instead, you should do::
 
         get_dict(name_columns_by_row=-1, name_rows_by_column=0)
-    
+
     :param keywords: see :meth:`~pyexcel.get_sheet`
     """
     sheet = get_sheet(name_columns_by_row=name_columns_by_row,
