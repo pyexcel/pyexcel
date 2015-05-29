@@ -42,6 +42,7 @@ from .database import (
     BookSQLSource,
     BookDjangoSource
 )
+from .http import HttpBookSource
 
 SOURCES = [
     ReadOnlySource,
@@ -69,7 +70,8 @@ BOOK_SOURCES = [
     ReadOnlyBookSource,
     BookSQLSource,
     BookDjangoSource,
-    BookDictSource
+    BookDictSource,
+    HttpBookSource
 ]
 
 DEST_BOOK_SOURCES = [

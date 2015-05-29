@@ -7,3 +7,4 @@ sphinx_rtd_theme
 SQLAlchemy
 pyexcel-xls
 pyexcel-xlsx
+mock

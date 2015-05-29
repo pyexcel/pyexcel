@@ -54,5 +54,5 @@ KEYWORD_MAPDICTS = 'mapdicts'
 KEYWORD_INITIALIZER = 'initializer'
 KEYWORD_INITIALIZERS = 'initializers'
 KEYWORD_BATCH_SIZE = 'batch_size'
-
+KEYWORD_URL = 'url'
 KEYWORD_STARTS_WITH_DEST = '^dest_(.*)'
