@@ -4,7 +4,7 @@ from textwrap import dedent
 
 
 class TestHttpBookSource:
-    @patch('urllib2.urlopen')
+    @patch('pyexcel._compact.request.urlopen')
     def test_url_source_via_content_type(self, mock_open):
         m = MagicMock()
         x = MagicMock()
@@ -21,7 +21,7 @@ class TestHttpBookSource:
         assert str(book) == content
         
 
-    @patch('urllib2.urlopen')
+    @patch('pyexcel._compact.request.urlopen')
     def test_url_source_via_file_suffix(self, mock_open):
         m = MagicMock()
         x = MagicMock()

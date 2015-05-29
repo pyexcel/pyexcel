@@ -25,6 +25,7 @@ if PY2:
     class Iterator(object):
         def next(self):
             return type(self).__next__(self)
+    import urllib2 as request
 else:
     from io import StringIO, BytesIO
     text_type = str
@@ -33,7 +34,7 @@ else:
             raise value.with_traceback(tb)
         raise value
     Iterator = object
-
+    import urllib.request as request
 
 def is_array_type(an_array, atype):
     tmp = [i for i in an_array if not isinstance(i, atype)]

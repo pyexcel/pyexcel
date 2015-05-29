@@ -11,7 +11,7 @@ import os
 from .base import ReadOnlySource, one_sheet_tuple
 from ..constants import KEYWORD_URL
 from pyexcel_io import load_data
-import urllib2
+from .._compact import request, PY2
 
 
 FILE_TYPE_MIME_TABLE = {
@@ -37,9 +37,12 @@ class HttpBookSource(ReadOnlySource):
         self.keywords = keywords
 
     def get_data(self):
-        f = urllib2.urlopen(self.url)
+        f = request.urlopen(self.url)
         info = f.info()
-        mime_type = info.type
+        if PY2:
+            mime_type = info.type
+        else:
+            mime_type = info.get_content_type()
         file_type = FILE_TYPE_MIME_TABLE.get(mime_type, None)
         if file_type is None:
             file_type = get_file_type_from_url(self.url)
