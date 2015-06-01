@@ -51,3 +51,17 @@ class HttpBookSource(ReadOnlySource):
                            file_type=file_type,
                            **self.keywords)
         return sheets, KEYWORD_URL, None
+
+
+class HttpSheetSource(HttpBookSource):
+    fields = [KEYWORD_URL]
+
+    def __init__(self, url=None, **keywords):
+        self.url = url
+        self.keywords = keywords
+
+    def get_data(self):
+        sheets, unused1, unused2 = HttpBookSource.get_data(self)
+        return one_sheet_tuple(sheets.items())
+
+

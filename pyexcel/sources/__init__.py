@@ -42,7 +42,7 @@ from .database import (
     BookSQLSource,
     BookDjangoSource
 )
-from .http import HttpBookSource
+from .http import HttpBookSource, HttpSheetSource
 
 SOURCES = [
     ReadOnlySource,
@@ -53,7 +53,8 @@ SOURCES = [
     RecrodsSource,
     DictSource,
     SheetQuerySetSource,
-    ArraySource
+    ArraySource,
+    HttpSheetSource
 ]
 
 DEST_SOURCES = [
@@ -120,6 +121,7 @@ def get_sheet(**keywords):
     :param table: database table
     :param model: a django model
     :param adict: a dictionary of one dimensional arrays
+    :param url: a download http url for your excel file
     :param with_keys: load with previous dictionary's keys, default is True
     :param records: a list of dictionaries that have the same keys
     :param array: a two dimensional array, a list of lists
@@ -173,6 +175,7 @@ def get_book(**keywords):
     :param tables: a list of database table
     :param models: a list of django models
     :param bookdict: a dictionary of two dimensional arrays
+    :param url: a download http url for your excel file
    
     see also :ref:`a-list-of-data-structures`
 
