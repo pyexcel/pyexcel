@@ -173,6 +173,7 @@ def get_book(**keywords):
     :param tables: a list of database table
     :param models: a list of django models
     :param bookdict: a dictionary of two dimensional arrays
+   
     see also :ref:`a-list-of-data-structures`
 
     Here is a table of parameters:
@@ -241,8 +242,8 @@ def save_as(**keywords):
     ========================== =============================================================================
     Saving to source           parameters
     ========================== =============================================================================
-    file                       dest_file_name, dest_sheet_name, keywords with prefix 'dest_'
-    memory                     dest_file_type, dest_content, dest_sheet_name, keywords with prefix 'dest_'
+    file                       dest_file_name, dest_sheet_name, keywords with prefix 'dest'
+    memory                     dest_file_type, dest_content, dest_sheet_name, keywords with prefix 'dest'
     sql                        dest_session, table, dest_initializer, dest_mapdict
     django model               dest_model, dest_initializer, dest_mapdict, dest_batch_size
     ========================== =============================================================================
@@ -277,8 +278,8 @@ def save_book_as(**keywords):
     ========================== =============================================================================
     Saving to source           parameters
     ========================== =============================================================================
-    file                       dest_file_name, dest_sheet_name, keywords with prefix 'dest_'
-    memory                     dest_file_type, dest_content, dest_sheet_name, keywords with prefix 'dest_'
+    file                       dest_file_name, dest_sheet_name, keywords with prefix 'dest'
+    memory                     dest_file_type, dest_content, dest_sheet_name, keywords with prefix 'dest'
     sql                        dest_session, dest_tables, dest_table_init_func, dest_mapdict
     django model               dest_models, dest_initializers, dest_mapdict, dest_batch_size
     ========================== =============================================================================

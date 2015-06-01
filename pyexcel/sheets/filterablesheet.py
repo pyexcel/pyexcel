@@ -1,6 +1,6 @@
 """
     pyexcel.sheets.filterablesheet
-    ~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     Building on top of formattablesheet, adding filtering feature
 
@@ -203,7 +203,7 @@ class FilterableSheet(FormattableSheet):
 
         :param slice topleft_corner: the top left corner of the rectangle
         :param slice bottomright_corner: the bottom right
-        corner of the rectangle
+                                         corner of the rectangle
 
         example::
 
@@ -228,6 +228,7 @@ class FilterableSheet(FormattableSheet):
             +----+----+----+----+
             | 42 | 43 | 44 | 45 |
             +----+----+----+----+
+
         """
         row_slice = slice(topleft_corner[0], bottomright_corner[0], 1)
         column_slice = slice(topleft_corner[1], bottomright_corner[1], 1)
@@ -242,7 +243,7 @@ class FilterableSheet(FormattableSheet):
 
         :param slice topleft_corner: the top left corner of the rectangle
         :param slice bottomright_corner: the bottom right
-        corner of the rectangle
+                                         corner of the rectangle
 
         example::
 

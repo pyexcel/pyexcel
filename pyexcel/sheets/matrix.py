@@ -1,6 +1,6 @@
 """
     pyexcel.sheets.matrix
-    ~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~
 
     Matrix, a data model that accepts any types, spread sheet style
 of lookup.
@@ -785,7 +785,7 @@ class Matrix(object):
         :param list data_array: one dimensional array
         :param int staring: from which index, the update happens
         :raises IndexError: if column_index exceeds column range
-        or starting exceeds row range
+                            or starting exceeds row range
         """
         nrows = self.number_of_rows()
         ncolumns = self.number_of_columns()
@@ -818,7 +818,7 @@ class Matrix(object):
         :param list data_array: one dimensional array
         :param int starting: from which index, the update happens
         :raises IndexError: if row_index exceeds row range or starting
-        exceeds column range
+                            exceeds column range
         """
         nrows = self.number_of_rows()
         ncolumns = self.number_of_columns()
@@ -939,6 +939,7 @@ class Matrix(object):
         """Paste a rectangle shaped data after a position
 
         :param slice topleft_corner: the top left corner of the rectangle
+
         example::
 
             >>> import pyexcel as pe

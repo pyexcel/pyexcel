@@ -42,15 +42,3 @@ Column represetation
    :toctree: iapi/
 
    Column
-
-File type handlers
-==================
-
-New file type handlers are registered via two internal static dictionaries: READERS for file readers, and WRITERS for file writers
-
-.. currentmodule:: pyexcel.io
-.. autosummary::
-   :toctree: iapi/
-
-   load_data
-   get_writer

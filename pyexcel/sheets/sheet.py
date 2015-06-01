@@ -42,7 +42,7 @@ class Sheet(NominableSheet):
         """Save the content to memory
 
         :param str file_type: any value of 'csv', 'tsv', 'csvz',
-        'tsvz', 'xls', 'xlsm', 'xslm', 'ods'
+                              'tsvz', 'xls', 'xlsm', 'xslm', 'ods'
         :param iostream stream: the memory stream to be written to
         """
         self.save_as((file_type, stream), **keywords)
