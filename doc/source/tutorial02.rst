@@ -25,7 +25,7 @@ Read an excel file
 You can read it use a SeriesReader::
 
     >>> import pyexcel
-	>>> import pyexcel.ext.xls
+    >>> import pyexcel.ext.xls
 
 .. testcode::
    :hide:
@@ -72,12 +72,12 @@ You can get data from the bottom to the top one by calling :meth:`~pyexcel.Sheet
     [[7.0, 8.0, 9.0], [4.0, 5.0, 6.0], [1.0, 2.0, 3.0]]
 
 You might want the data arranged vertically. You can call :meth:`~pyexcel.Sheet.columns()` instead::
-	
+        
     >>> pyexcel.utils.to_array(sheet.columns())
     [[1.0, 4.0, 7.0], [2.0, 5.0, 8.0], [3.0, 6.0, 9.0]]
 
 You can get columns in reverse sequence as well by calling :meth:`~pyexcel.Sheet.rcolumns()` instead::
-	
+        
     >>> pyexcel.utils.to_array(sheet.rcolumns())
     [[3.0, 6.0, 9.0], [2.0, 5.0, 8.0], [1.0, 4.0, 7.0]]
 
@@ -139,7 +139,7 @@ The complete code is::
 
    >>> import os
    >>> os.unlink("example_series_filter.xls")
-	
+        
 
 Work with multi-sheet file
 --------------------------

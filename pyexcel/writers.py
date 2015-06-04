@@ -179,7 +179,8 @@ class BookWriter:
                 sheet = self.create_sheet(name)
                 sheet.write_array(bookreader[name].array)
                 sheet.close()
-            except:
+            except Exception as e:
+                print(e)
                 print("%s %s" % (MESSAGE_WRITE_ERROR, name))
 
     def close(self):

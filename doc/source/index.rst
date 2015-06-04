@@ -185,6 +185,7 @@ Cook book
 .. toctree::
 
    cookbook
+   sources
 
 Real world cases
 -------------------
