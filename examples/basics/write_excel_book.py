@@ -1,5 +1,5 @@
 """
-read_excel_book.py
+write_excel_book.py
 :copyright: (c) 2014-2015 by Onni Software Ltd.
 :license: New BSD License, see LICENSE for more details
 
@@ -7,6 +7,7 @@ This shows how to use **Book** class to write a dictionary
 to sheet spreadsheet.
 """
 import pyexcel as pe
+import pyexcel.ext.xls # import xls to support xls format
 
 # the dictionary should look like the following:
 #  * key: a string typed key
@@ -16,6 +17,7 @@ data={
     "Sheet 2": [['X', 'Y', 'Z'], [1,2,3],[4,5,6]],
     "Sheet 3": [['O', 'P', 'Q'], [3,2,1],[4,3,2]]
 }
+# In order to keep the order of the sheets, please use OrderedDict
 
 # Now simply choose the filename and format you want to save
 # file format is decided by the file extension
