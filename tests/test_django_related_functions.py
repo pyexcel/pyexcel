@@ -180,7 +180,7 @@ class TestBook:
         assert model1.objects.objs == self.result1
         assert model2.objects.objs == self.result2
 
-    def test_module_save_to_models(self):
+    def test_model_save_to_models(self):
         model=FakeDjangoModel()
         pe.save_book_as(dest_models=[model, None, None], bookdict=self.content)
         assert model.objects.objs == self.result1

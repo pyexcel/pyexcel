@@ -166,18 +166,19 @@ class BookDjangoSource(Source):
 
     def write_data(self, book):
         from ..writers import BookWriter
+        new_models = [ model for model in self.models if model is not None ]
         batch_size = self.keywords.get(KEYWORD_BATCH_SIZE, None)
         initializers = self.keywords.get(KEYWORD_INITIALIZERS, None)
         if initializers is None:
-            initializers = [None] * len(self.models)
+            initializers = [None] * len(new_models)
         mapdicts = self.keywords.get(KEYWORD_MAPDICTS, None)
         if mapdicts is None:
-            mapdicts = [None] * len(self.models)
+            mapdicts = [None] * len(new_models)
         for sheet in book:
             if len(sheet.colnames) == 0:
                 sheet.name_columns_by_row(0)
         colnames_array = [sheet.colnames for sheet in book]
-        x = zip(self.models, colnames_array, mapdicts, initializers)
+        x = zip(new_models, colnames_array, mapdicts, initializers)
         table_dict = dict(zip(book.name_array, x))
         w = BookWriter(DB_DJANGO, models=table_dict, batch_size=batch_size)
         w.write_book_reader_to_db(book)

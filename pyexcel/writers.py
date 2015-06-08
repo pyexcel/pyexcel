@@ -11,7 +11,7 @@ from pyexcel_io import get_writer
 from .utils import to_array, from_records, dict_to_array
 from .sheets import Matrix, transpose
 from .constants import MESSAGE_WRITE_ERROR
-
+from ._compact import OrderedDict
 
 class SheetWriter:
     """Single sheet writer for the excel book writer"""
@@ -42,8 +42,7 @@ class SheetWriter:
         rows = len(table)
         columns = len(table[0])
         self.writer.set_size((rows, columns))
-        for row in table:
-            self.writer.write_row(row)
+        self.writer.write_array(table)
 
     def write_dict(self, the_dict):
         """Write a dictionary
@@ -145,11 +144,7 @@ class BookWriter:
                 "Sheet2": [[7, 8, 9], [10, 11, 12]]
             }
         """
-        keys = sheet_dicts.keys()
-        for name in keys:
-            sheet = self.create_sheet(name)
-            sheet.write_array(sheet_dicts[name])
-            sheet.close()
+        self.writer.write(sheet_dicts)
 
     def write_book_reader(self, bookreader):
         """
@@ -159,11 +154,7 @@ class BookWriter:
         two dimensional arrays. Then write book from this dictionary
         :param Book bookreader: a book object to be written
         """
-        keys = bookreader.sheet_names()
-        for name in keys:
-            sheet = self.create_sheet(name)
-            sheet.write_reader(bookreader[name])
-            sheet.close()
+        self.writer.write(bookreader.to_dict())
 
     def write_book_reader_to_db(self, bookreader):
         """
@@ -173,15 +164,11 @@ class BookWriter:
         two dimensional arrays. Then write book from this dictionary
         :param Book bookreader: a book object to be written
         """
+        the_dict = OrderedDict()
         keys = bookreader.sheet_names()
         for name in keys:
-            try:
-                sheet = self.create_sheet(name)
-                sheet.write_array(bookreader[name].array)
-                sheet.close()
-            except Exception as e:
-                print(e)
-                print("%s %s" % (MESSAGE_WRITE_ERROR, name))
+            the_dict.update({name: bookreader[name].array})
+        self.writer.write(the_dict)
 
     def close(self):
         """close the writer"""
