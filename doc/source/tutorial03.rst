@@ -32,6 +32,7 @@ Let's read it out first::
 .. testcode::
    :hide:
 
+   >>> import pyexcel.ext.xls
    >>> data = [
    ...     ["userid","name"],
    ...     [10120,"Adam"],  
@@ -89,7 +90,7 @@ First, let's read the content and see what do we have::
 .. testcode::
    :hide:
 
-   >>> sheet.format(str, lambda v: str(v))
+   >>> sheet.format(lambda v: str(v))
 
 .. testcode::
   
@@ -107,7 +108,7 @@ Now try to create a custom cleanse function::
 
 Then let's create a :class:`~pyexcel.SheetFormatter` and apply it::
 
-    >>> sf = pyexcel.formatters.SheetFormatter(str, cleanse_func)
+    >>> sf = pyexcel.formatters.SheetFormatter(cleanse_func)
     >>> sheet.add_formatter(sf)
     >>> sheet.to_array()
     [['Version', 'Comments', 'Author'], ['v0.0.1', 'Release versions', 'Eda'], ['v0.0.2', 'Useful updates', 'Freud']]

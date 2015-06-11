@@ -243,7 +243,7 @@ class TestColumnFormatter:
 
     def test_column_format_specs_on_demand(self):
         r = pe.Reader(self.test_tuple)
-        r.column.format(format_specs=[[0, float, lambda v: int(v)+1], [[2,3,4], float]])
+        r.column.format(format_specs=[[0, lambda v: int(v)+1], [[2,3,4], float]])
         c1 = r.column_at(0)[1:]
         c2 = self.data["5"]
         for i in range(0, len(c1)):
@@ -303,7 +303,6 @@ class TestColumnFormatter:
         f = lambda x: int(x) + 1
         r.add_formatter(pe.formatters.ColumnFormatter(
             0,
-            int,
             f))
         c1 = r.column_at(0)[1:]
         c2 = self.data["5"]
@@ -315,7 +314,6 @@ class TestColumnFormatter:
         f = lambda x: int(x) + 1
         r.add_formatter(pe.formatters.ColumnFormatter(
             0,
-            int,
             f))
         c1 = r.column_at(0)[1:]
         c2 = self.data["5"]
@@ -469,7 +467,7 @@ class TestRowFormatter:
         c2 = [1, "1", 1.1, "1.1", 2, "2"]
         for i in range(0, len(c1)):
             assert c1[i] == c2[i]
-        r.row.format(format_specs=[[1, int, lambda v: float(v)+1],[1,str]])
+        r.row.format(format_specs=[[1, lambda v: float(v)+1],[1,str]])
         c1 = r.row_at(1)
         c2 = ['2.0', '2.0', '2.1', '2.1', '3.0', '3.0']
         for i in range(0, len(c1)):
@@ -480,7 +478,6 @@ class TestRowFormatter:
         f = lambda x: float(x) + 1
         r.add_formatter(pe.formatters.RowFormatter(
             1,
-            float,
             f))
         c1 = r.row_at(1)
         c2 = [2.0, 2.0, 2.1, 2.1, 3.0, 3.0]
@@ -492,7 +489,6 @@ class TestRowFormatter:
         f = lambda x: float(x) + 1
         r.add_formatter(pe.formatters.RowFormatter(
             1,
-            float,
             f))
         c1 = r.row_at(1)
         c2 = [2.0, 2.0, 2.1, 2.1, 3.0, 3.0]
@@ -509,10 +505,7 @@ class TestRowFormatter:
     def test_remove_formatter2(self):
         r = pe.Reader(self.testfile)
         f = lambda x: float(x) + 1
-        ft = pe.formatters.RowFormatter(
-            1,
-            float,
-            f)
+        ft = pe.formatters.RowFormatter(1, f)
         r.add_formatter(ft)
         c1 = r.row_at(1)
         c2 = [2.0, 2.0, 2.1, 2.1, 3.0, 3.0]
@@ -569,10 +562,8 @@ class TestSheetFormatter:
 
     def test_two_formatters(self):
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.formatters.SheetFormatter(
-            str))
-        r.add_formatter(pe.formatters.SheetFormatter(
-            int))
+        r.add_formatter(pe.formatters.SheetFormatter(str))
+        r.add_formatter(pe.formatters.SheetFormatter(int))
         c1 = r.row_at(0)
         c2 = [1, 3, 5, 7]
         for i in range(0, len(c1)):
@@ -582,11 +573,8 @@ class TestSheetFormatter:
     def test_custom_func(self):
         r = pe.Reader(self.testfile)
         f = lambda x: float(x) + 1
-        r.add_formatter(pe.formatters.SheetFormatter(
-            float))
-        r.add_formatter(pe.formatters.SheetFormatter(
-            float,
-            f))
+        r.add_formatter(pe.formatters.SheetFormatter(float))
+        r.add_formatter(pe.formatters.SheetFormatter(f))
         c1 = r.row_at(1)
         c2 = [2.0, 2.1, 3.0, 2.0]
         for i in range(0, len(c1)):
@@ -613,13 +601,9 @@ class TestSheetFormatter:
     def test_custom_func_with_a_general_converter(self):
         r = pe.Reader(self.testfile)
         f = lambda x: float(x) + 1
-        r.add_formatter(pe.formatters.SheetFormatter(
-            float))
-        r.add_formatter(pe.formatters.SheetFormatter(
-            float,
-            f))
-        r.add_formatter(pe.formatters.SheetFormatter(
-            str))
+        r.add_formatter(pe.formatters.SheetFormatter(float))
+        r.add_formatter(pe.formatters.SheetFormatter(f))
+        r.add_formatter(pe.formatters.SheetFormatter(str))
         c1 = r.row_at(1)
         c2 = ["2.0", "2.1", "3.0", "2.0"]
         for i in range(0, len(c1)):
@@ -636,19 +620,14 @@ class TestSheetFormatter:
         """
         r = pe.Reader(self.testfile)
         f = lambda x: float(x) + 1
-        r.add_formatter(pe.formatters.SheetFormatter(
-            float,
-            f))
+        r.add_formatter(pe.formatters.SheetFormatter(f))
         c1 = r.row_at(2) # bang
 
     def test_clear_formatters(self):
         r = pe.Reader(self.testfile)
         f = lambda x: float(x) + 1
-        r.add_formatter(pe.formatters.SheetFormatter(
-            float,
-            f))
-        r.add_formatter(pe.formatters.SheetFormatter(
-            str))
+        r.add_formatter(pe.formatters.SheetFormatter(f))
+        r.add_formatter(pe.formatters.SheetFormatter(str))
         r.clear_formatters()
         r.name_columns_by_row(0)
         mydata = r.to_dict()
@@ -674,8 +653,7 @@ class TestSheetFormatterInXLS:
 
     def test_general_usage(self):
         r = pe.SeriesReader(self.testfile)
-        r.add_formatter(pe.formatters.SheetFormatter(
-            str))
+        r.add_formatter(pe.formatters.SheetFormatter(str))
         self.data = [
             ["1.0", "2.0", "3.0", "4.0", "5.0", "6.0", "7.0", "8.0"],
             ["1.1", "2.2", "3.3", "4.4", "5.5", "6.6", "7.7", "8.8"],
@@ -690,10 +668,8 @@ class TestSheetFormatterInXLS:
 
     def test_two_formatters(self):
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.formatters.SheetFormatter(
-            str))
-        r.add_formatter(pe.formatters.SheetFormatter(
-            int))
+        r.add_formatter(pe.formatters.SheetFormatter(str))
+        r.add_formatter(pe.formatters.SheetFormatter(int))
         c1 = r.row_at(0)
         c2 = [1, 3, 5]
         for i in range(0, len(c1)):
@@ -703,9 +679,7 @@ class TestSheetFormatterInXLS:
     def test_custom_func(self):
         r = pe.Reader(self.testfile)
         f = lambda x: float(x) + 1
-        r.add_formatter(pe.formatters.SheetFormatter(
-            float,
-            f))
+        r.add_formatter(pe.formatters.SheetFormatter(f))
         c1 = r.row_at(1)
         c2 = [2.0, 2.1, 3.0]
         for i in range(0, len(c1)):
@@ -718,11 +692,8 @@ class TestSheetFormatterInXLS:
     def test_custom_func_with_a_general_converter(self):
         r = pe.Reader(self.testfile)
         f = lambda x: float(x) + 1
-        r.add_formatter(pe.formatters.SheetFormatter(
-            float,
-            f))
-        r.add_formatter(pe.formatters.SheetFormatter(
-            str))
+        r.add_formatter(pe.formatters.SheetFormatter(f))
+        r.add_formatter(pe.formatters.SheetFormatter(str))
         c1 = r.row_at(1)
         c2 = ["2.0", "2.1", "3.0"]
         for i in range(0, len(c1)):
@@ -735,11 +706,8 @@ class TestSheetFormatterInXLS:
     def test_clear_formatters(self):
         r = pe.Reader(self.testfile)
         f = lambda x: float(x) + 1
-        r.add_formatter(pe.formatters.SheetFormatter(
-            float,
-            f))
-        r.add_formatter(pe.formatters.SheetFormatter(
-            str))
+        r.add_formatter(pe.formatters.SheetFormatter(f))
+        r.add_formatter(pe.formatters.SheetFormatter(str))
         r.clear_formatters()
         r.name_columns_by_row(0)
         mydata = r.to_dict()

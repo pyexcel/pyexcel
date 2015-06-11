@@ -84,7 +84,7 @@ class NamedRow(Row):
     this is added to overcome doctest's inability to handle
     python 3's unicode::
 
-        >>> r.format(str, lambda v: str(v))
+        >>> r.format(lambda v: str(v))
         >>> print(pe.utils.to_array(r))
         [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9'], ['a', 'b', 'c'], ['d', 'e', 'f'], ['g', 'h', 'i'], ['1.1', '2.2', '3.3'], ['4.4', '5.5', '6.6'], ['7.7', '8.8', '9.9']]
 
@@ -218,30 +218,29 @@ class NamedRow(Row):
         return self.ref
 
     def format(self,
-               row_index=None, format=None, custom_converter=None,
+               row_index=None, formatter=None,
                format_specs=None, on_demand=False):
         """Format a row
         """
-        def handle_one_formatter(rows, aformat, aconverter, on_demand):
+        def handle_one_formatter(rows, theformatter, on_demand):
             new_indices = rows
             if len(self.ref.rownames) > 0:
                 new_indices = names_to_indices(rows, self.ref.rownames)
-            formatter = RowFormatter(new_indices, aformat, aconverter)
+            aformatter = RowFormatter(new_indices, theformatter)
             if on_demand:
-                self.ref.add_formatter(formatter)
+                self.ref.add_formatter(aformatter)
             else:
-                self.ref.apply_formatter(formatter)
+                self.ref.apply_formatter(aformatter)
         if row_index is not None:
-            handle_one_formatter(row_index, format,
-                                 custom_converter, on_demand)
+            handle_one_formatter(row_index, formatter, on_demand)
         elif format_specs:
             for spec in format_specs:
                 if len(spec) == 3:
                     handle_one_formatter(spec[0], spec[1],
-                                         spec[2], on_demand)
+                                         on_demand)
                 else:
                     handle_one_formatter(spec[0], spec[1],
-                                         None, on_demand)
+                                         on_demand)
 
 
 class NamedColumn(Column):
@@ -379,30 +378,29 @@ class NamedColumn(Column):
         return self.ref
 
     def format(self,
-               column_index=None, format=None, custom_converter=None,
+               column_index=None, formatter=None,
                format_specs=None, on_demand=False):
         """Format a column
         """
-        def handle_one_formatter(columns, aformat, aconverter, on_demand):
+        def handle_one_formatter(columns, aformatter, on_demand):
             new_indices = columns
             if len(self.ref.colnames) > 0:
                 new_indices = names_to_indices(columns, self.ref.colnames)
-            formatter = ColumnFormatter(new_indices, aformat, aconverter)
+            theformatter = ColumnFormatter(new_indices, aformatter)
             if on_demand:
-                self.ref.add_formatter(formatter)
+                self.ref.add_formatter(theformatter)
             else:
-                self.ref.apply_formatter(formatter)
+                self.ref.apply_formatter(theformatter)
         if column_index is not None:
-            handle_one_formatter(column_index, format,
-                                 custom_converter, on_demand)
+            handle_one_formatter(column_index, formatter, on_demand)
         elif format_specs:
             for spec in format_specs:
                 if len(spec) == 3:
                     handle_one_formatter(spec[0], spec[1],
-                                         spec[2], on_demand)
+                                         on_demand)
                 else:
                     handle_one_formatter(spec[0], spec[1],
-                                         None, on_demand)
+                                         on_demand)
 
 
 VALID_SHEET_PARAMETERS = ['name_columns_by_row',

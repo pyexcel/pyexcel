@@ -136,9 +136,9 @@ class Formatter:
     Formatter starts when the quanlifying functions returns true
     cell's row, column and value are fed to the quanlifying functions
     """
-    def __init__(self, quanlify_func, FORMAT, custom_converter=None):
+    def __init__(self, quanlify_func, formatter, custom_converter=None):
         self.quanlify_func = quanlify_func
-        self.desired_format = FORMAT
+        self.formatter = formatter
         self.converter = custom_converter
 
     def is_my_business(self, row, column, value):
@@ -158,15 +158,15 @@ class Formatter:
         new_value = value
         if value == "":
             new_value = None
-        if self.converter is not None and isinstance(self.converter, types.FunctionType):
-            return self.converter(new_value)
+        if isinstance(self.formatter, types.FunctionType):
+            return self.formatter(new_value)
         else:
-            return to_format(self.desired_format, new_value)
+            return to_format(self.formatter, new_value)
 
 
 class ColumnFormatter(Formatter):
     """Apply formatting on columns"""
-    def __init__(self, column_index, FORMAT, custom_converter=None):
+    def __init__(self, column_index, formatter):
         """Constructor
         
         :param int or list column_index: to which column or what columns to apply the formatter
@@ -186,12 +186,12 @@ class ColumnFormatter(Formatter):
                 raise IndexError(MESSAGE_DATA_ERROR_COLUMN_LIST_INTEGER_TYPE)
         else:
             raise NotImplementedError("%s is not supported" % type(column_index))
-        Formatter.__init__(self, func, FORMAT, custom_converter)
+        Formatter.__init__(self, func, formatter)
 
 
 class NamedColumnFormatter(ColumnFormatter):
     """Apply formatting using named columns"""
-    def __init__(self, column_index, FORMAT, custom_converter=None):
+    def __init__(self, column_index, formatter):
         """Constructor
         
         :param int or list column_index: to which column or what columns to apply the formatter
@@ -211,7 +211,7 @@ class NamedColumnFormatter(ColumnFormatter):
                 raise IndexError(MESSAGE_DATA_ERROR_COLUMN_LIST_STRING_TYPE)
         else:
             raise NotImplementedError("%s is not supported" % type(column_index))
-        Formatter.__init__(self, func, FORMAT, custom_converter)
+        Formatter.__init__(self, func, formatter)
 
     def update_index(self, new_indices):
         self.indices = new_indices
@@ -224,7 +224,7 @@ class NamedColumnFormatter(ColumnFormatter):
 
 class RowFormatter(Formatter):
     """Row Formatter"""    
-    def __init__(self, row_index, FORMAT, custom_converter=None):
+    def __init__(self, row_index, formatter):
         """Constructor
 
         :param int or list row_index: to which row or what rows to apply the formatter
@@ -244,12 +244,12 @@ class RowFormatter(Formatter):
                 raise IndexError(MESSAGE_DATA_ERROR_COLUMN_LIST_INTEGER_TYPE)
         else:
             raise NotImplementedError("%s is not supported" % type(row_index))
-        Formatter.__init__(self, func, FORMAT, custom_converter)
+        Formatter.__init__(self, func, formatter)
 
 
 class NamedRowFormatter(RowFormatter):
     """Formatting rows using named rows"""    
-    def __init__(self, row_index, FORMAT, custom_converter=None):
+    def __init__(self, row_index, formatter):
         """Constructor
 
         :param int or list row_index: to which row or what rows to apply the formatter
@@ -268,7 +268,7 @@ class NamedRowFormatter(RowFormatter):
                 raise IndexError(MESSAGE_DATA_ERROR_COLUMN_LIST_STRING_TYPE)
         else:
             raise NotImplementedError("%s is not supported" % type(row_index))
-        Formatter.__init__(self, func, FORMAT, custom_converter)
+        Formatter.__init__(self, func, formatter)
             
     def update_index(self, new_indices):
         if isinstance(new_indices, int):
@@ -282,8 +282,8 @@ class NamedRowFormatter(RowFormatter):
 class SheetFormatter(Formatter):
     """Apply the formatter to all cells in the sheet
     """
-    def __init__(self, FORMAT, custom_converter=None):
-        Formatter.__init__(self, None, FORMAT, custom_converter)
+    def __init__(self, formatter):
+        Formatter.__init__(self, None, formatter)
 
     def is_my_business(self, row, column, value):
         return True

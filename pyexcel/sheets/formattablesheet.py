@@ -39,7 +39,7 @@ class FormattableSheet(Matrix):
         Matrix.__init__(self, array)
         self._formatters = []
 
-    def format(self, FORMAT, custom_converter=None, on_demand=False):
+    def format(self, formatter, on_demand=False):
         """Apply a formatting action for the whole sheet
 
         Example::
@@ -63,7 +63,7 @@ class FormattableSheet(Matrix):
             [1, 1, 2, 1]
 
         """
-        sf = SheetFormatter(FORMAT, custom_converter)
+        sf = SheetFormatter(formatter)
         if on_demand:
             self.add_formatter(sf)
         else:
@@ -90,7 +90,7 @@ class FormattableSheet(Matrix):
             [2.0, 2.25, 3.0, 2.0]
 
         """
-        sf = SheetFormatter(None, custom_function)
+        sf = SheetFormatter(custom_function)
         self.apply_formatter(sf)
 
     def apply_formatter(self, aformatter):
@@ -109,7 +109,7 @@ class FormattableSheet(Matrix):
             >>> sheet = pe.Sheet(pe.dict_to_array(data))
             >>> sheet.row[1]
             [1, 1.25, 2, 1]
-            >>> aformatter = pe.SheetFormatter(None, lambda value: (float(value) if value != None else 0)+1 )
+            >>> aformatter = pe.SheetFormatter(lambda value: (float(value) if value != None else 0)+1 )
             >>> sheet.apply_formatter(aformatter)
             >>> sheet.row[1]
             [2.0, 2.25, 3.0, 2.0]
@@ -172,14 +172,14 @@ class FormattableSheet(Matrix):
             >>> sheet = pe.Sheet(pe.dict_to_array(data))
             >>> sheet.row[1]
             [1, 1.25, 2, 1]
-            >>> aformatter = pe.SheetFormatter(None, lambda value: (float(value) if value != None else 0)+1 )
+            >>> aformatter = pe.SheetFormatter(lambda value: (float(value) if value != None else 0)+1 )
             >>> sheet.add_formatter(aformatter)
             >>> sheet.row[1]
             [2.0, 2.25, 3.0, 2.0]
             >>> sheet.clear_formatters()
             >>> sheet.row[1]
             [1, 1.25, 2, 1]
-            >>> aformatter = pe.SheetFormatter(None, lambda value: (float(value) if value != None else 0)+1 )
+            >>> aformatter = pe.SheetFormatter(lambda value: (float(value) if value != None else 0)+1 )
             >>> sheet.apply_formatter(aformatter)
             >>> sheet.row[1]
             [2.0, 2.25, 3.0, 2.0]
@@ -213,7 +213,7 @@ class FormattableSheet(Matrix):
             >>> sheet = pe.Sheet(pe.dict_to_array(data))
             >>> sheet.row[1]
             [1, 1.25, 2, 1]
-            >>> aformatter = pe.SheetFormatter(None, lambda value: (float(value) if value != None else 0)+1)
+            >>> aformatter = pe.SheetFormatter(lambda value: (float(value) if value != None else 0)+1)
             >>> sheet.add_formatter(aformatter)
             >>> sheet.row[1]
             [2.0, 2.25, 3.0, 2.0]
