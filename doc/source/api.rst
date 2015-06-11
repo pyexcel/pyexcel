@@ -11,6 +11,7 @@ This is intended for users of pyexcel.
 
 
 .. _signature-functions:
+
 Signature functions
 ====================
 
@@ -30,6 +31,7 @@ Obtaining data from excel file
    get_sheet
 
 .. _conversion-to:
+
 Saving data to excel file
 --------------------------
 
@@ -62,7 +64,7 @@ Constructor
 ------------
 
 .. autosummary::
-   :toctree: generated
+   :toctree: generated/
 
    Book
 
@@ -70,7 +72,7 @@ Attribute
 ------------
 
 .. autosummary::
-   :toctree: generated
+   :toctree: generated/
 
    Book.number_of_sheets
    Book.sheet_names
@@ -79,7 +81,7 @@ Conversions
 -------------
 
 .. autosummary::
-   :toctree: generated
+   :toctree: generated/
 
    Book.to_dict
 
@@ -87,7 +89,7 @@ Save changes
 -------------
 
 .. autosummary::
-   :toctree: generated
+   :toctree: generated/
 
    Book.save_to
    Book.save_as
@@ -288,6 +290,7 @@ Column access
    NamedColumn.select
 
 .. _formatters:
+
 Data formatters
 ================
 
@@ -303,6 +306,7 @@ Data formatters
    SheetFormatter
    
 .. _filters:
+
 Data Filters
 ===============
 
