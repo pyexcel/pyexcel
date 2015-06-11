@@ -8,7 +8,6 @@ Internal API reference
 
 This is intended for developers and hackers of pyexcel. 
 
-
 Data sheet representation
 =========================
 
