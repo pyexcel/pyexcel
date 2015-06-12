@@ -105,7 +105,7 @@ New BSD License
 Dependencies
 ==============
 
-* pyexcel-io >= 0.0.4
+* pyexcel-io >= 0.0.5
 * texttable >= 0.8.2
 
 Acknowledgement

@@ -14,12 +14,12 @@ Data sheet representation
 In inheritance order from parent to child
 
 .. autosummary::
-   :toctree: iapi/
+   :toctree: iapi
 
    Matrix
    
 .. autosummary::
-   :toctree: iapi/
+   :toctree: iapi
 
    FormattableSheet
    FilterableSheet
@@ -30,7 +30,7 @@ Row represetation
 ===================
 
 .. autosummary::
-   :toctree: iapi/
+   :toctree: iapi
 
    Row
 
@@ -38,6 +38,6 @@ Column represetation
 =====================
 
 .. autosummary::
-   :toctree: iapi/
+   :toctree: iapi
 
    Column
