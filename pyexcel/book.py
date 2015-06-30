@@ -208,7 +208,8 @@ class Book(object):
         )
         self.save_to(out_source)
 
-    def save_to_database(self, session, tables, initializers=None, mapdicts=None):
+    def save_to_database(self, session, tables, initializers=None, mapdicts=None,
+                         auto_commit=True):
         """Save data in sheets to database tables
 
         :param session: database session
@@ -220,7 +221,8 @@ class Book(object):
             session=session,
             tables=tables,
             initializers=initializers,
-            mapdicts=mapdicts
+            mapdicts=mapdicts,
+            auto_commit=auto_commit
         )
         self.save_to(out_source)
 

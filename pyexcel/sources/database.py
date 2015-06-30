@@ -88,7 +88,8 @@ class SheetSQLAlchemySource(SheetDatabaseSourceMixin):
             DB_SQL,
             sheet_name=sheet.name,
             session=self.session,
-            tables=tables
+            tables=tables,
+            **self.keywords
         )
         return w
 
@@ -148,7 +149,7 @@ class BookSQLSource(Source):
         colnames_array = [sheet.colnames for sheet in book]
         x = zip(self.tables, colnames_array, mapdicts, initializers)
         table_dict = dict(zip(book.name_array, x))
-        w = BookWriter(DB_SQL, session=self.session, tables=table_dict)
+        w = BookWriter(DB_SQL, session=self.session, tables=table_dict, **self.keywords)
         w.write_book_reader_to_db(book)
         w.close()
 

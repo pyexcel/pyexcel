@@ -59,7 +59,8 @@ class Sheet(NominableSheet):
         source = SheetDjangoSource(model=model, initializer=initializer, mapdict=mapdict, batch_size=batch_size)
         self.save_to(source)
 
-    def save_to_database(self, session, table, initializer=None, mapdict=None):
+    def save_to_database(self, session, table,
+                         initializer=None, mapdict=None, auto_commit=True):
         """Save data in sheet to database table
 
         :param session: database session
@@ -73,7 +74,8 @@ class Sheet(NominableSheet):
             session=session,
             table=table,
             initializer=initializer,
-            mapdict=mapdict
+            mapdict=mapdict,
+            auto_commit=auto_commit
         )
         self.save_to(source)
 
