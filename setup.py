@@ -10,7 +10,7 @@ with open("README.rst", 'r') as readme:
     README_txt = readme.read()
 
 dependencies = [
-    'pyexcel-io>=0.0.5',
+    'pyexcel-io>=0.0.6',
     'texttable>=0.8.2'
 ]
 
