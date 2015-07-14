@@ -128,4 +128,4 @@ def get_book_dict(**keywords):
         return None
 
 
-__VERSION__ = '0.1.7'
+__VERSION__ = '0.1.8'

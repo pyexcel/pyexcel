@@ -193,11 +193,19 @@ class Book(object):
         """
         self.save_as((file_type, stream), **keywords)
 
-    def save_to_django_models(self, models, initializers=None, mapdicts=None, batch_size=None):
+    def save_to_django_models(self, models,
+                              initializers=None, mapdicts=None, batch_size=None):
         """Save to database table through django model
         
-        :param models: a list of database models, that is accepted by :meth:`Sheet.save_to_django_model`. The sequence of tables matters when there is dependencies
-                       in between the tables. For example, **Car** is made by **Car Maker**. **Car Maker** table should be specified before **Car** table.
+        :param models: a list of database models, that is accepted by
+                       :meth:`Sheet.save_to_django_model`. The sequence of tables
+                       matters when there is dependencies in between the tables.
+                       For example, **Car** is made by **Car Maker**. **Car Maker**
+                       table should be specified before **Car** table.
+        :param initializers: a list of intialization functions for your talbes and
+                             the sequence should match tables,
+        :mapdicts: custom map dictionary for your data columns and the sequence should
+                   match tables        
         """
         from .sources import BookDjangoSource
         out_source = BookDjangoSource(
@@ -213,8 +221,17 @@ class Book(object):
         """Save data in sheets to database tables
 
         :param session: database session
-        :param tables: a list of database tables, that is accepted by :meth:`Sheet.save_to_database`. The sequence of tables matters when there is dependencies
-                       in between the tables. For example, **Car** is made by **Car Maker**. **Car Maker** table should be specified before **Car** table.
+        :param tables: a list of database tables, that is accepted by
+                       :meth:`Sheet.save_to_database`. The sequence of tables matters
+                       when there is dependencies in between the tables. For example,
+                       **Car** is made by **Car Maker**. **Car Maker** table should
+                       be specified before **Car** table.
+        :param initializers: a list of intialization functions for your talbes and
+                             the sequence should match tables,
+        :mapdicts: custom map dictionary for your data columns and the sequence should
+                   match tables
+        :auto_commit: by default, data is committed.
+        
         """
         from .sources import BookSQLSource
         out_source = BookSQLSource(
