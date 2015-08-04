@@ -20,7 +20,7 @@ for sheet in book:
     # a Reader instance. You can iterate its member in the way
     # you wanted it
     for row in sheet:
-        print row
+        print(row)
 
 #Here's the output
 #sheet: Sheet 2

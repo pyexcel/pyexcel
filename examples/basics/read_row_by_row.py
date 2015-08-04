@@ -19,7 +19,7 @@ spreadsheet = pyexcel.Reader("example.xls")
 
 # rows() returns row based iterator, meaning it can be iterated row by row
 for row in spreadsheet.rows():
-    print row
+    print(row)
 
 # Alternatively, you can use::
 #   for row in spreadsheet:

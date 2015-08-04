@@ -18,23 +18,23 @@ import json
 # 2        5        8
 # 3        6        9
 sheet = pe.load("example_series.ods", name_columns_by_row=0)
-print json.dumps(sheet.to_dict())
+print(json.dumps(sheet.to_dict()))
 # output:
 # {"Column 2": [4.0, 5.0, 6.0], "Column 3": [7.0, 8.0, 9.0], "Column 1": [1.0, 2.0, 3.0]}
 
 # get the column headers
-print sheet.colnames
+print(sheet.colnames)
 # [u'Column 1', u'Column 2', u'Column 3']
 
 # get the content in one dimensional array
 data = pe.to_array(sheet.enumerate())
-print data
+print(data)
 # [1.0, 4.0, 7.0, 2.0, 5.0, 8.0, 3.0, 6.0, 9.0]
 
 # get the content in one dimensional array
 # in reverse order
 data = pe.to_array(sheet.reverse())
-print data
+print(data)
 
 # get the content in one dimensional array
 # but iterate it vertically 
@@ -46,36 +46,36 @@ print data
 # but iterate it vertically in revserse
 # order
 data = pe.to_array(sheet.rvertical())
-print data
+print(data)
 #[9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0]
 
 # get a two dimensional array
 data = pe.to_array(sheet.rows())
-print data
+print(data)
 #[[1.0, 4.0, 7.0], [2.0, 5.0, 8.0], [3.0, 6.0, 9.0]]
 
 # get a two dimensional array in reverse
 # order
 data = pe.to_array(sheet.rrows())
-print data
+print(data)
 # [[3.0, 6.0, 9.0], [2.0, 5.0, 8.0], [1.0, 4.0, 7.0]]
 
 # get a two dimensional array but stack columns 
 data = pe.to_array(sheet.columns())
-print data
+print(data)
 # [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]]
 
 # get a two dimensional array but stack columns
 # in reverse order
 data = pe.to_array(sheet.rcolumns())
-print data
+print(data)
 #[[7.0, 8.0, 9.0], [4.0, 5.0, 6.0], [1.0, 2.0, 3.0]]
 
 # filter out odd rows and even columns
 sheet.filter(pe.OddRowFilter())
 sheet.filter(pe.EvenColumnFilter())
 data = sheet.to_dict()
-print data
+print(data)
 # {u'Column 3': [8.0], u'Column 1': [2.0]}
 
 # and you can write the filtered results
