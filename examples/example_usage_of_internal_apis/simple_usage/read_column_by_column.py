@@ -19,4 +19,4 @@ spreadsheet = pyexcel.Reader("example.xlsx")
 # columns() returns column based iterator, meaning it can be iterated
 # column by column 
 for value in spreadsheet.columns():
-    print value
+    print(value)
