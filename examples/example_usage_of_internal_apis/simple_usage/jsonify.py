@@ -5,4 +5,4 @@ import json
 # "example.xls","example.xlsx","example.ods", "example.xlsm"
 reader = Reader("example.csv")
 data = to_array(reader.rows())
-print json.dumps(data)
+print(json.dumps(data))

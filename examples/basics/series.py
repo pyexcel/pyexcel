@@ -39,7 +39,7 @@ print(data)
 # get the content in one dimensional array
 # but iterate it vertically 
 data = pe.to_array(sheet.vertical())
-print data
+print(data)
 # [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
 
 # get the content in one dimensional array
