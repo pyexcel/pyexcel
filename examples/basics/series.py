@@ -17,13 +17,13 @@ import json
 # 1        4        7
 # 2        5        8
 # 3        6        9
-sheet = pe.load("example_series.ods", name_colmns_by_row=0)
+sheet = pe.load("example_series.ods", name_columns_by_row=0)
 print json.dumps(sheet.to_dict())
 # output:
 # {"Column 2": [4.0, 5.0, 6.0], "Column 3": [7.0, 8.0, 9.0], "Column 1": [1.0, 2.0, 3.0]}
 
 # get the column headers
-print sheet.colnames()
+print sheet.colnames
 # [u'Column 1', u'Column 2', u'Column 3']
 
 # get the content in one dimensional array

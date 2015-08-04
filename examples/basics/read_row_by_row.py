@@ -12,6 +12,7 @@ page spreadsheet row by row. The output is::
 
 """
 import pyexcel
+import pyexcel.ext.xls
 
 # "example.csv","example.xlsx","example.ods", "example.xlsm"
 spreadsheet = pyexcel.Reader("example.xls") 

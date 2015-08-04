@@ -21,10 +21,10 @@ xlsm y   y   y   y    y
 import pyexcel as pe
 # you will need to install pyexcel-ods or pyexcel-ods3
 # depending on your python version
-from pyexcel.ext import ods
+from pyexcel.ext import ods3
 
 # Simple open the file using Book
-book = pe.Book("multiple-sheets.xls")
+book = pe.Book(filename="multiple-sheets.xls")
 
 # Create a new book by creating a BookWriter instance
 newbook = pe.BookWriter("multiple-sheets.ods")

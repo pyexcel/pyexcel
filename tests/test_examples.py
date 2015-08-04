@@ -1,30 +1,30 @@
 import pyexcel as pe
-from _compact import OrderedDict
+from _compact import OrderedDict, execfile
 from nose.tools import raises
+import glob2
+import os
 
 
-class TestTutorial05:
-    def test_tutorial05_example1(self):
-        content="Column 1,Column 2,Column 3\n1,4,7\n2,5,8\n3,6,9"
-        reader = pe.SeriesReader(("csv", content))
-        reader.column["Column 2"] = [11, 12, 13]
-        assert reader.column["Column 2"] == [11, 12, 13]
+class TestAllExamples:
+    def test_them(self):
+        base = os.getcwd()
+        example_files = glob2.glob(os.path.join('examples', '**', '*.py'))
+        file_registry = {}
+        for abs_file_path in example_files:
+            if 'pyexcel_server' in abs_file_path:
+                continue
+            path, file_name = os.path.split(abs_file_path)
+            if path not in file_registry:
+                file_registry[path] = [file_name]
+            else:
+                file_registry[path].append(file_name)
 
-    @raises(ValueError)
-    def test_tutorial05_example2(self):
-        content="Column 1,Column 2,Column 3\n1,4,7\n2,5,8\n3,6,9"
-        reader = pe.SeriesReader(("csv", content))
-        del reader.column["Column 2"]
-        reader.column["Column 2"]  # already deleted, bang
- 
-    def test_tutorial05_example3(self):
-        content="Column 1,Column 2,Column 3\n1,4,7\n2,5,8\n3,6,9"
-        reader = pe.SeriesReader(("csv", content))
-        print(reader.column["Column 3"]) 
-        extra_data = OrderedDict()
-        extra_data.update({"Column 4":[10, 11, 12]})
-        extra_data.update({"Column 5":[13, 14, 15]})
-        reader.column += extra_data
-        print(pe.utils.to_dict(reader))
-        assert reader.column["Column 4"] == [10, 11, 12]
-        assert reader.column["Column 5"] == [13, 14, 15]
+        for path in file_registry:
+            test_directory = os.path.join(base, path)
+            os.chdir(test_directory)
+            for file_name in file_registry[path]:
+                try:
+                    execfile(file_name)
+                except:
+                    os.system('python '+ file_name)
+        os.chdir(base)

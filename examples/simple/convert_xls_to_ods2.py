@@ -23,7 +23,7 @@ import pyexcel as pe
 # you will need to install pyexcel-ods or pyexcel-ods3
 # depending on your python version
 import pyexcel.ext.xls
-import pyexcel.ext.ods
+import pyexcel.ext.ods3
 
 # Simple open the file using Book
 pe.save_book_as(file_name="multiple-sheets.xls",

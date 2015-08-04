@@ -8,7 +8,7 @@ But you can use them with **Reader** class as well
 """
 # please install pyexcel-ods
 from pyexcel.ext import ods3
-from pyexcel import SeriesReader, FilterableReader
+from pyexcel import SeriesReader
 from pyexcel.utils import to_dict, to_array
 from pyexcel.filters import OddRowFilter, EvenColumnFilter
 from pyexcel import Writer
@@ -27,7 +27,7 @@ print json.dumps(data)
 # {"Column 2": [4.0, 5.0, 6.0], "Column 3": [7.0, 8.0, 9.0], "Column 1": [1.0, 2.0, 3.0]}
 
 # get the column headers
-print reader.series()
+print reader.colnames
 # [u'Column 1', u'Column 2', u'Column 3']
 
 # get the content in one dimensional array

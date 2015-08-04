@@ -7,4 +7,7 @@ sphinx_rtd_theme
 SQLAlchemy
 pyexcel-xls
 pyexcel-xlsx
+pyexcel-ods3
+lxml
 mock
+glob2

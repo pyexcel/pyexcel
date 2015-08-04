@@ -23,10 +23,10 @@ import pyexcel as pe
 # you will need to install pyexcel-ods or pyexcel-ods3
 # depending on your python version
 import pyexcel.ext.xls
-import pyexcel.ext.ods
+import pyexcel.ext.ods3
 
 # Simple open the file using Book
-book = pe.Book("multiple-sheets.xls")
+book = pe.Book(filename="multiple-sheets.xls")
 
 # Create a new book by creating a BookWriter instance
 book.save_as("multiple-sheets.ods")

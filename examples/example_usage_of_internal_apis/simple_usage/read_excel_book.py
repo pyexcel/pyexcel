@@ -10,7 +10,7 @@ import pyexcel as pe
 
 
 # Simply give a name to the Book class
-book = pe.Book("multiple-sheets.ods")
+book = pe.Book(filename="multiple-sheets.ods")
 
 # the default iterator for a **Book* instance is a SheetIterator
 for sheet in book:
