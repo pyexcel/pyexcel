@@ -30,7 +30,7 @@ class Source:
     @classmethod
     def is_my_business(self, **keywords):
         """
-        If all required keys are present, this source is OK
+        If all required keys are present, this source is activated
         """
         statuses = [_has_field(field, keywords) for field in self.fields]
         results = filter(lambda status: status is False, statuses)

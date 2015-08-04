@@ -39,14 +39,18 @@ Getting the source
 --------------------------------------------------------------------------------
 
 
-Source code is hosted in github. You can get it using git client::
+Source code is hosted in github. You can get it using git client:
+
+.. code-block:: bash
 
     $ git clone http://github.com/chfw/pyexcel.git
 
 Installation
 -------------
 
-You can install it via pip::
+You can install it via pip:
+
+.. code-block:: bash
 
     $ pip install pyexcel
 
@@ -141,7 +145,9 @@ Ceri      30
 Dean      26
 ========= ====
 
-Here are the example usages::
+Here are the example usages:
+
+.. code-block:: python
    
    >>> import pyexcel as pe
    >>> import pyexcel.ext.xls # import it to handle xls file

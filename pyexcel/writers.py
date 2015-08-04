@@ -10,7 +10,6 @@
 from pyexcel_io import get_writer
 from .utils import to_array, from_records, dict_to_array
 from .sheets import Matrix, transpose
-from .constants import MESSAGE_WRITE_ERROR
 from ._compact import OrderedDict
 
 class SheetWriter:

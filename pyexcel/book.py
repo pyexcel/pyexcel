@@ -46,7 +46,11 @@ class Book(object):
             # we put alphatical order
             keys = sorted(keys)
         for name in keys:
-            self.sheets.update({name: self.get_sheet(sheets[name], name)})
+            sheet = self.get_sheet(sheets[name], name)
+            # this sheets keep sheet order
+            self.sheets.update({name: sheet})
+            # this provide the convenience of access the sheet
+            self.__dict__[name] = sheet
         self.name_array = list(self.sheets.keys())
 
     def get_sheet(self, array, name):
@@ -189,6 +193,7 @@ class Book(object):
     def save_to_memory(self, file_type, stream, **keywords):
         """Save the content to a memory stream
 
+        :param file_type: what format the stream is in
         :param iostream stream: a memory stream
         """
         self.save_as((file_type, stream), **keywords)
@@ -204,7 +209,7 @@ class Book(object):
                        table should be specified before **Car** table.
         :param initializers: a list of intialization functions for your talbes and
                              the sequence should match tables,
-        :mapdicts: custom map dictionary for your data columns and the sequence should
+        :param mapdicts: custom map dictionary for your data columns and the sequence should
                    match tables        
         """
         from .sources import BookDjangoSource
@@ -226,11 +231,11 @@ class Book(object):
                        when there is dependencies in between the tables. For example,
                        **Car** is made by **Car Maker**. **Car Maker** table should
                        be specified before **Car** table.
-        :param initializers: a list of intialization functions for your talbes and
+        :param initializers: a list of intialization functions for your tables and
                              the sequence should match tables,
-        :mapdicts: custom map dictionary for your data columns and the sequence should
+        :param mapdicts: custom map dictionary for your data columns and the sequence should
                    match tables
-        :auto_commit: by default, data is committed.
+        :param auto_commit: by default, data is committed.
         
         """
         from .sources import BookSQLSource

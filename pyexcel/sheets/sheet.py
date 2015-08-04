@@ -47,27 +47,35 @@ class Sheet(NominableSheet):
         """
         self.save_as((file_type, stream), **keywords)
 
-    def save_to_django_model(self, model, initializer=None, mapdict=None, batch_size=None):
+    def save_to_django_model(self,
+                             model,
+                             initializer=None,
+                             mapdict=None,
+                             batch_size=None):
         """Save to database table through django model
         
-        :param table: a database model or a tuple of (model, column_names, name_columns_by_row, name_rows_by_column).
-                      initializer is needed when the supplied table had a custom initialization function.
-                      mapdict is needed when the column headers of your sheet does not match the column names of the supplied table.
-                      name_column_by_row indicates which row has column headers and by default it is the first row of the supplied sheet
+        :param model: a database model
+        :param initializer: a intialization functions for your model
+        :param mapdict: custom map dictionary for your data columns
+        :param batch_size: a parameter to Django concerning the size of data base
+                           set
         """
         from ..sources import SheetDjangoSource
         source = SheetDjangoSource(model=model, initializer=initializer, mapdict=mapdict, batch_size=batch_size)
         self.save_to(source)
 
     def save_to_database(self, session, table,
-                         initializer=None, mapdict=None, auto_commit=True):
+                         initializer=None,
+                         mapdict=None,
+                         auto_commit=True):
         """Save data in sheet to database table
 
         :param session: database session
-        :param table: a database table or a tuple of (table, initializer, mapdict, name_columns_by_row, name_rows_by_column).
-                      initializer is needed when the supplied table had a custom initialization function.
-                      mapdict is needed when the column headers of your sheet does not match the column names of the supplied table.
-                      name_column_by_row indicates which row has column headers and by default it is the first row of the supplied sheet
+        :param table: a database table
+        :param initializer: a intialization functions for your table
+        :param mapdict: custom map dictionary for your data columns
+        :param auto_commit: by default, data is committed.
+
         """
         from ..sources import SheetSQLAlchemySource
         source = SheetSQLAlchemySource(

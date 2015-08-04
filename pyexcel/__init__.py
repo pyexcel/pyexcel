@@ -4,7 +4,7 @@
 
     **pyexcel** is a wrapper library to read, manipulate and
     write data in different excel formats: csv, ods, xls, xlsx
-    and xlsm. It does not support styling, charts.
+    and xlsm. It does not support formulas, styles and charts.
 
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
@@ -15,7 +15,12 @@ from .writers import Writer, BookWriter
 from .sheets import (
     Sheet,
     transpose)
-from .utils import to_dict, to_array, to_records, dict_to_array, from_records
+from .utils import (
+    to_dict,
+    to_array,
+    to_records,
+    dict_to_array,
+    from_records)
 from .formatters import (
     ColumnFormatter,
     RowFormatter,
@@ -46,8 +51,7 @@ from .sources import (
     get_sheet,
     get_book,
     save_as,
-    save_book_as
-)
+    save_book_as)
 from .deprecated import (
     load_book,
     load_book_from_memory,
@@ -60,8 +64,7 @@ from .deprecated import (
     Reader,
     SeriesReader,
     ColumnSeriesReader,
-    BookReader
-)
+    BookReader)
 
 
 def get_array(**keywords):

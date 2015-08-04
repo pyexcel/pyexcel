@@ -7,7 +7,7 @@ This shows how to use pyexcel to handle excel file upload. In order
 to evaluate it, please install Flask::
 
     pip install Flask
-    python flaskserver.py
+    python pyexcel_server.py
 
 Then visit http://localhost:5000/upload
 

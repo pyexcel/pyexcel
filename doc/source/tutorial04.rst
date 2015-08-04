@@ -2,12 +2,67 @@
 Book: Sheet operations
 =========================
 
+Access to individual sheets
+-----------------------------
+
+.. testcode::
+   :hide:
+
+   >>> import pyexcel
+   >>> import pyexcel.ext.xls
+   >>> import pyexcel.ext.xlsx
+   >>> data = {
+   ...      'sheet 1':
+   ...          [
+   ...              [1.0, 2.0, 3.0],
+   ...              [1.0, 2.0, 3.0],
+   ...              [4.0, 5.0, 6.0]
+   ...          ],
+   ...      'sheet2':
+   ...          [
+   ...              ['O', 'P', 'Q'],
+   ...              [3.0, 2.0, 1.0],
+   ...              [4.0, 3.0, 2.0]
+   ...          ],
+   ...      'sheet3':
+   ...          [
+   ...              [1.0, 2.0, 3.0],
+   ...              [4.0, 5.0, 6.0],
+   ...              [7.0, 8.0, 9.0]
+   ...          ]
+   ...  }
+   >>> pyexcel.save_book_as(bookdict=data, dest_file_name="book.xls")
+
+You can access individual sheet of a book via attribute:
+
+    >>> book = pyexcel.get_book(file_name="book.xls")
+    >>> book.sheet3
+    Sheet Name: sheet3
+    +---+---+---+
+    | 1 | 2 | 3 |
+    +---+---+---+
+    | 4 | 5 | 6 |
+    +---+---+---+
+    | 7 | 8 | 9 |
+    +---+---+---+
+
+or via array notations:
+
+    >>> book["sheet 1"] # there is a space in the sheet name
+    Sheet Name: sheet 1
+    +---+---+---+
+    | 1 | 2 | 3 |
+    +---+---+---+
+    | 1 | 2 | 3 |
+    +---+---+---+
+    | 4 | 5 | 6 |
+    +---+---+---+
+
+
 Merge excel books
 ----------------------
 
 Suppose you have two excel books and each had three sheets. You can merge them and get a new book::
-
-   >>> import pyexcel
 
 .. testcode::
    :hide:
@@ -67,6 +122,7 @@ Suppose you want to merge many csv files row by row into a new sheet.
    :hide:
 
    >>> import os
+   >>> os.unlink("book.xls")
    >>> os.unlink("book1.xls")
    >>> os.unlink("book2.xlsx")
    >>> os.unlink("merged.csv")

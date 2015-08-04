@@ -17,4 +17,21 @@ After that, you can launch the mini server::
 
 Then visit http://localhost:5000/upload or http://localhost:5000/download
 
+Relevant packages
+=================
 
+Readily made plugins have been made on top of this example. Here is a list of them:
+
+============== ============================
+framework      plugin/middleware/extension
+============== ============================
+Flask          `Flask-Excel`_
+Django         `django-excel`_
+Pyramid        `pyramid-excel`_
+============== ============================
+
+.. _Flask-Excel: https://github.com/chfw/Flask-Excel
+.. _django-excel: https://github.com/chfw/django-excel
+.. _pyramid-excel: https://github.com/chfw/pyramid-excel
+
+And you may make your own by using `pyexcel-webio <https://github.com/chfw/pyexcel-webio>`_

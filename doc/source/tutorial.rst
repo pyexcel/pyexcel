@@ -29,6 +29,7 @@ c       7 8 9
 Here is the example code showing how you can randomly access a cell::
 
    >>> import pyexcel
+   >>> import pyexcel.ext.xls
 
 .. testcode::
    :hide:
@@ -373,6 +374,75 @@ Let's read the previous file back:
     Sheet 1
     Sheet 2
     Sheet 3
+
+Work with data series in a single sheet
+---------------------------------------
+
+Suppose you have the following data in any of the supported excel formats again:
+
+======== ======== ========
+Column 1 Column 2 Column 3
+======== ======== ========
+1        4        7
+2        5        8
+3        6        9
+======== ======== ========
+
+
+.. testcode::
+
+   >>> sheet = pyexcel.get_sheet(file_name="example_series.xls", name_columns_by_row=0)
+
+.. testcode::
+   :hide:
+
+   >>> sheet._column_names = [ str(name) for name in sheet._column_names]
+
+Play with data
+**************
+
+You can get headers::
+
+    >>> print(list(sheet.colnames))
+    ['Column 1', 'Column 2', 'Column 3']
+
+You can use a utility function to get all in a dictionary::
+
+    >>> sheet.to_dict()
+    OrderedDict([('Column 1', [1.0, 4.0, 7.0]), ('Column 2', [2.0, 5.0, 8.0]), ('Column 3', [3.0, 6.0, 9.0])])
+
+Maybe you want to get only the data without the column headers. You can call :meth:`~pyexcel.Sheet.rows()` instead::
+
+    >>> pyexcel.to_array(sheet.rows())
+    [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]]
+
+You can get data from the bottom to the top one by calling :meth:`~pyexcel.Sheet.rrows()` instead::
+
+    >>> pyexcel.utils.to_array(sheet.rrows())
+    [[7.0, 8.0, 9.0], [4.0, 5.0, 6.0], [1.0, 2.0, 3.0]]
+
+You might want the data arranged vertically. You can call :meth:`~pyexcel.Sheet.columns()` instead::
+        
+    >>> pyexcel.utils.to_array(sheet.columns())
+    [[1.0, 4.0, 7.0], [2.0, 5.0, 8.0], [3.0, 6.0, 9.0]]
+
+You can get columns in reverse sequence as well by calling :meth:`~pyexcel.Sheet.rcolumns()` instead::
+        
+    >>> pyexcel.utils.to_array(sheet.rcolumns())
+    [[3.0, 6.0, 9.0], [2.0, 5.0, 8.0], [1.0, 4.0, 7.0]]
+
+Do you want to flatten the data? you can get the content in one dimensional array. If you are interested in playing with one dimensional enurmation, you can check out these functions :meth:`~pyexcel.Sheet.enumerate`, :meth:`~pyexcel.Sheet.reverse`, :meth:`~pyexcel.Sheet.vertical`, and :meth:`~pyexcel.Sheet.rvertical()`::
+
+    >>> pyexcel.to_array(sheet.enumerate())
+    [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
+    >>> pyexcel.to_array(sheet.reverse())
+    [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0]
+    >>> pyexcel.to_array(sheet.vertical())
+    [1.0, 4.0, 7.0, 2.0, 5.0, 8.0, 3.0, 6.0, 9.0]
+    >>> pyexcel.to_array(sheet.rvertical())
+    [9.0, 6.0, 3.0, 8.0, 5.0, 2.0, 7.0, 4.0, 1.0]
+
+
 
 .. testcode::
    :hide:

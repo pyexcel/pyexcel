@@ -400,6 +400,26 @@ class TestAddBooks:
             elif "Sheet1" in name:
                 assert content[name] == self.content["Sheet1"]
 
+    def test_add_book4_2(self):
+        """
+        test this scenario: book3 = sheet1 + book
+
+        use . notation
+        """
+        b1 = pe.BookReader(self.testfile)
+        b2 = pe.BookReader(self.testfile2)
+        b3 = b1.Sheet1 + b2
+        content = pe.utils.to_dict(b3)
+        sheet_names = content.keys()
+        assert len(sheet_names) == 4
+        for name in sheet_names:
+            if "Sheet3" in name:
+                assert content[name] == self.content["Sheet3"]
+            elif "Sheet2" in name:
+                assert content[name] == self.content["Sheet2"]
+            elif "Sheet1" in name:
+                assert content[name] == self.content["Sheet1"]
+
     def test_add_book5(self):
         """
         test this scenario: book3 = single_sheet_book + book

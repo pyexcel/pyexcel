@@ -85,6 +85,9 @@ DEST_BOOK_SOURCES = [
 
 
 class SourceFactory:
+    """
+    The factory method to support multiple datasources in getters and savers
+    """
     @classmethod
     def get_generic_source(self, registry, **keywords):
         for source in registry:

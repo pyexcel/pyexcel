@@ -7,7 +7,6 @@
     :copyright: (c) 2015 by Onni Software Ltd.
     :license: New BSD License
 """
-import os
 from .base import ReadOnlySource, one_sheet_tuple
 from ..constants import KEYWORD_URL
 from pyexcel_io import load_data
@@ -30,6 +29,9 @@ def get_file_type_from_url(url):
 
 
 class HttpBookSource(ReadOnlySource):
+    """
+    Multiple sheet data source via http protocol
+    """
     fields = [KEYWORD_URL]
 
     def __init__(self, url=None, **keywords):
@@ -54,6 +56,10 @@ class HttpBookSource(ReadOnlySource):
 
 
 class HttpSheetSource(HttpBookSource):
+    """
+    Single sheet data source via http protocol
+    """
+
     fields = [KEYWORD_URL]
 
     def __init__(self, url=None, **keywords):

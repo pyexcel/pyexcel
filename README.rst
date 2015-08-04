@@ -33,17 +33,19 @@ Feature Highlights
 Available Plugins
 =================
 
-================ ========================================================================
-Plugins          Supported file formats                                      
-================ ========================================================================
-pyexcel          csv, csvz, tsv, tsvz                                        
+================ ========================================
+Plugins          Supported file formats                  
+================ ========================================
+`pyexcel-io`_    csv, csvz, tsv, tsvz
 `pyexcel-xls`_   xls, xlsx(r), xlsm(r)
 `pyexcel-xlsx`_  xlsx
-`pyexcel-ods`_   ods (python 2.6, 2.7 only)                                       
+`pyexcel-ods`_   ods (python 2.6, 2.7 only)              
 `pyexcel-ods3`_  ods
-`pyexcel-text`_  (write only)json, rst, mediawiki,latex, grid, pipe, orgtbl, plain simple
-================ ========================================================================
+`pyexcel-text`_  (write only)json, rst, mediawiki,latex,
+                 grid, pipe, orgtbl, plain simple
+================ ========================================
 
+.. _pyexcel-io: https://github.com/chfw/pyexcel-io
 .. _pyexcel-xls: https://github.com/chfw/pyexcel-xls
 .. _pyexcel-xlsx: https://github.com/chfw/pyexcel-xlsx
 .. _pyexcel-ods: https://github.com/chfw/pyexcel-ods
@@ -52,12 +54,16 @@ pyexcel          csv, csvz, tsv, tsvz
 
 Installation
 ============
-You can install it via pip::
+You can install it via pip:
+
+.. code-block:: bash
 
     $ pip install pyexcel
 
 
-or clone it and install it::
+or clone it and install it:
+
+.. code-block:: bash
 
     $ git clone http://github.com/chfw/pyexcel.git
     $ cd pyexcel
@@ -79,7 +85,9 @@ Ceri      30
 Dean      26
 ========= ====
 
-Here are the example code::
+Here are the example code:
+
+.. code-block:: python
    
    >>> import pyexcel as pe
    >>> import pyexcel.ext.xls # import it to handle xls file
@@ -113,4 +121,4 @@ Acknowledgement
 
 All great work have done by odf, ezodf(2), xlrd, xlwt, tabulate and other individual developers. This library unites only the data access code.
 
-Extension management code was copied from `flask <https://github.com/mitsuhiko/flask>`_. 
+Extension management code was reused from `flask <https://github.com/mitsuhiko/flask>`_. 

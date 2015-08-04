@@ -64,7 +64,11 @@ class WriteOnlySheetSource(SheetSource):
 
 
 class RecrodsSource(ReadOnlySource):
+    """
+    A list of dictionaries as data source
 
+    The dictionaries should have identical fields.
+    """
     fields = [KEYWORD_RECORDS]
 
     def __init__(self, records):
@@ -76,6 +80,9 @@ class RecrodsSource(ReadOnlySource):
 
 
 class DictSource(ReadOnlySource):
+    """
+    A dictionary of one dimensional array as sheet source
+    """
     fields = [KEYWORD_ADICT]
 
     def __init__(self, adict, with_keys=True):
@@ -89,6 +96,9 @@ class DictSource(ReadOnlySource):
 
 
 class ArraySource(ReadOnlySource):
+    """
+    A two dimensional array as sheet source
+    """
     fields = [KEYWORD_ARRAY]
 
     def __init__(self, array):
@@ -99,6 +109,9 @@ class ArraySource(ReadOnlySource):
 
 
 class ReadOnlyBookSource(ReadOnlySource):
+    """
+    Multiple sheet data source via memory
+    """
     fields = [KEYWORD_FILE_TYPE]
 
     def __init__(self,
@@ -124,7 +137,9 @@ class ReadOnlyBookSource(ReadOnlySource):
 
 
 class BookDictSource(ReadOnlySource):
-
+    """
+    Multiple sheet data source via a dictionary of two dimensional arrays
+    """
     fields = [KEYWORD_BOOKDICT]
 
     def __init__(self, bookdict, **keywords):
@@ -135,6 +150,9 @@ class BookDictSource(ReadOnlySource):
 
 
 class WriteOnlyBookSource(BookSource):
+    """
+    Multiple sheet data source for writting back to memory
+    """
     fields = [KEYWORD_FILE_TYPE]
 
     def __init__(self, file_type=None, **keywords):

@@ -27,7 +27,7 @@ MESSAGE_DEPRECATED_02 = "Depreciated usage. please use dest_file_name"
 
 MESSAGE_NOT_IMPLEMENTED_01 = "Please use attribute row or column to extend sheet"
 MESSAGE_NOT_IMPLEMENTED_02 = "Confused! What do you want to put as column names"
-
+MESSAGE_READONLY = "This attribute is readonly"
 
 # Used by sources
 KEYWORD_MEMORY = 'memory'

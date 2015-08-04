@@ -27,6 +27,11 @@ from ..constants import (
 
 
 class SheetQuerySetSource(ReadOnlySource):
+    """
+    Database query set as data source
+
+    SQLAlchemy and Django query sets are supported
+    """
     fields = [KEYWORD_COLUMN_NAMES, KEYWORD_QUERY_SETS]
 
     def __init__(self, column_names, query_sets, sheet_name=None):
@@ -43,6 +48,11 @@ class SheetQuerySetSource(ReadOnlySource):
 
 
 class SheetDatabaseSourceMixin(Source):
+    """
+    Generic database source
+
+    It does the general data import and export. 
+    """
     def get_sql_book():
         pass
 
@@ -62,6 +72,9 @@ class SheetDatabaseSourceMixin(Source):
 
 
 class SheetSQLAlchemySource(SheetDatabaseSourceMixin):
+    """
+    SQLAlchemy channeled sql database as data source
+    """
     fields = [KEYWORD_SESSION, KEYWORD_TABLE]
 
     def __init__(self, session, table, **keywords):
@@ -95,6 +108,9 @@ class SheetSQLAlchemySource(SheetDatabaseSourceMixin):
 
 
 class SheetDjangoSource(SheetDatabaseSourceMixin):
+    """
+    Django model as data source
+    """
     fields = [KEYWORD_MODEL]
 
     def __init__(self, model=None, **keywords):
@@ -124,6 +140,9 @@ class SheetDjangoSource(SheetDatabaseSourceMixin):
 
 
 class BookSQLSource(Source):
+    """
+    SQLAlchemy bridged multiple table data source
+    """
     fields = [KEYWORD_SESSION, KEYWORD_TABLES]
 
     def __init__(self, session, tables, **keywords):
@@ -155,6 +174,9 @@ class BookSQLSource(Source):
 
 
 class BookDjangoSource(Source):
+    """
+    multiple Django table as data source
+    """
     fields = [KEYWORD_MODELS]
 
     def __init__(self, models, **keywords):
