@@ -1,5 +1,5 @@
 """
-read_row_by_row.py
+read_column_by_column.py
 :copyright: (c) 2014-2015 by Onni Software Ltd.
 :license: New BSD License, see LICENSE for more details
 
@@ -11,12 +11,19 @@ page spreadsheet column by column. The output is::
     [3.0, 6.0, 9.0]
 
 """
+import os
 import pyexcel as pe
 
-# "example.csv","example.ods","example.xls", "example.xlsm"
-spreadsheet = pe.load("example.xlsx") 
 
-# columns() returns column based iterator, meaning it can be iterated
-# column by column 
-for value in spreadsheet.columns():
-    print(value)
+def main(base_dir):
+    # "example.csv","example.ods","example.xls", "example.xlsm"
+    spreadsheet = pe.load(os.path.join(base_dir,"example.xlsx"))
+    
+    # columns() returns column based iterator, meaning it can be iterated
+    # column by column 
+    for value in spreadsheet.columns():
+        print(value)
+
+
+if __name__ == '__main__':
+    main(os.getcwd())

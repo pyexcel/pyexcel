@@ -18,22 +18,29 @@ xlsx y   y   y   y    y
 xlsm y   y   y   y    y   
 ---- --- --- --- ---- ----
 """
+import os
 import pyexcel as pe
 # you will need to install pyexcel-ods or pyexcel-ods3
 # depending on your python version
-from pyexcel.ext import ods3
+import pyexcel.ext.xls
+import pyexcel.ext.ods3
 
-# Simple open the file using Book
-book = pe.Book(filename="multiple-sheets.xls")
 
-# Create a new book by creating a BookWriter instance
-newbook = pe.BookWriter("multiple-sheets.ods")
+def main(base_dir):
+    # Simple open the file using Book
+    book = pe.Book(filename="multiple-sheets.xls")
+    
+    # Create a new book by creating a BookWriter instance
+    newbook = pe.BookWriter("multiple-sheets.ods")
+    
+    # Now simple state you want to save the content of
+    # book to newbook
+    newbook.write_book_reader(book)
+    
+    # Close the writer
+    newbook.close()
+    
+    # then you will have the book in ods
 
-# Now simple state you want to save the content of
-# book to newbook
-newbook.write_book_reader(book)
-
-# Close the writer
-newbook.close()
-
-# then you will have the book in ods
+if __name__ == '__main__':
+    main(os.getcwd())

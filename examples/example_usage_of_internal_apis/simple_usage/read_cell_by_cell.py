@@ -17,20 +17,24 @@ page spreadsheet, The output is::
     9.0
 
 """
-
+import os
 import pyexcel
 
-# Simple give the file name to **Reader**
-# "example.xls","example.xlsx","example.ods", "example.xlsm"
-spreadsheet = pyexcel.Reader("example.csv") 
+def main(base_dir):
+    # Simple give the file name to **Reader**
+    # "example.xls","example.xlsx","example.ods", "example.xlsm"
+    spreadsheet = pyexcel.Reader(os.path.join(base_dir, "example.csv"))
+    
+    # row_range() gives [0 .. number of rows]
+    for r in spreadsheet.row_range():
+        # column_range() gives [0 .. number of ranges]
+        for c in spreadsheet.column_range():
+            # cell_value(row_index, column_index)
+            # return the value at the specified
+            # position
+            # please note that both row_index
+            # and column_index starts from 0
+            print(spreadsheet.cell_value(r, c))
 
-# row_range() gives [0 .. number of rows]
-for r in spreadsheet.row_range():
-    # column_range() gives [0 .. number of ranges]
-    for c in spreadsheet.column_range():
-        # cell_value(row_index, column_index)
-        # return the value at the specified
-        # position
-        # please note that both row_index
-        # and column_index starts from 0
-        print(spreadsheet.cell_value(r, c))
+if __name__ == '__main__':
+    main(os.getcwd())
