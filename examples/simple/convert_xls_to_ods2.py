@@ -19,14 +19,19 @@ xlsx y   y   y   y   y    y
 xlsm y   y   y   y   y    y   
 ---- --- --- --- --- ---- ----
 """
+import os
 import pyexcel as pe
 # you will need to install pyexcel-ods or pyexcel-ods3
 # depending on your python version
 import pyexcel.ext.xls
 import pyexcel.ext.ods3
 
-# Simple open the file using Book
-pe.save_book_as(file_name="multiple-sheets.xls",
-                dest_file_name="multiple-sheets.ods")
+def main(base_dir):
+    # Simple open the file using Book
+    pe.save_book_as(file_name=os.path.join(base_dir, "multiple-sheets.xls"),
+                    dest_file_name="multiple-sheets.ods")
+    
+    # then you will have the book in ods
 
-# then you will have the book in ods
+if __name__ == '__main__':
+    main(os.getcwd())
