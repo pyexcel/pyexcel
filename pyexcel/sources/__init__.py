@@ -190,7 +190,7 @@ def get_book(**keywords):
     loading from file          file_name, keywords
     loading from memory        file_type, content, keywords
     loading from sql           session, tables
-    loading from django modles models
+    loading from django models models
     loading from dictionary    bookdict
     ========================== ============================================
 
