@@ -32,7 +32,12 @@ def upload():
         extension = filename.split(".")[1]
         # Obtain the file extension and content
         # pass a tuple instead of a file name
-        sheet = pe.load_from_memory(extension, request.files['excel'].read())
+        content = request.files['excel'].read()
+        if sys.version_info[0] > 2:
+            # in order to support python
+            # have to decode bytes to str
+            content = content.decode('utf-8')
+        sheet = pe.get_sheet(file_type=extension, file_content=content)
         # then use it as usual
         sheet.name_columns_by_row(0)
         data = sheet.to_dict()
