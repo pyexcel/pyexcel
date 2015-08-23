@@ -34,6 +34,7 @@ def upload():
         # pass a tuple instead of a file name
         sheet = pe.load_from_memory(extension, request.files['excel'].read())
         # then use it as usual
+        sheet.name_columns_by_row(0)
         data = sheet.to_dict()
         # respond with a json
         return jsonify({"result":data})
