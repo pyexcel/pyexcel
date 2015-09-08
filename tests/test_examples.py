@@ -3,6 +3,9 @@ import os
 import imp
 import json
 import pyexcel as pe
+import sys
+
+PY2 = sys.version_info[0] == 2
 
 
 def load_from_file(mod_name, file_ext, expected_main='main'):
@@ -37,8 +40,14 @@ class TestAllExamples:
                     fn(path)
 
 class TestPyexcelServer:
+    """
+    This test tells how difficult to test unicode vs bytes when
+    dealing with csv files in relation to pyexcel. and this
+    demonstrates how to deal with bytes vs unicode problem
+    """
     def setUp(self):
-        app = load_from_file(os.path.join('examples', 'memoryfile'), 'pyexcel_server.py', 'app')
+        app = load_from_file(os.path.join('examples', 'memoryfile'),
+                             'pyexcel_server.py', 'app')
         self.app = app.test_client()
 
     def test_upload(self):
@@ -64,10 +73,25 @@ class TestPyexcelServer:
             }
         }
         io = pe.save_as(dest_file_type='csv', array=data)
+        io.seek(0)
+        if not PY2:
+            # have to convert it to bytesio
+            # because python 3 socket sends only bytes
+            from io import BytesIO
+            nio = BytesIO()
+            # to convert str to bytes is to do a encode
+            nio.write(io.getvalue().encode('utf-8'))
+            io = nio
+            io.seek(0)
         response = self.app.post('/upload', buffered=True,
                                  data = {"excel": (io, "test.csv")},
                                  content_type="multipart/form-data")
-        assert json.loads(response.data) == expected
+        if PY2:
+            assert json.loads(response.data) == expected            
+        else:
+            # for the same reason, python 3 socket receve bytes
+            # to convert bytes to str is to do a decode
+            assert json.loads(response.data.decode('utf-8')) == expected
 
     def test_download(self):
         response = self.app.get('/download')
@@ -80,4 +104,3 @@ class TestPyexcelServer:
             ["1999/12/03","Richard Friedman",'0060630353','5.95'],
             ["2004/10/04","Randel Helms",'0879755725','4.5']
         ]
-

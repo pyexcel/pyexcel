@@ -5,7 +5,7 @@ python setup.py install
 cd ../pyexcel-presentation
 python setup.py install
 cd ../../
-nosetests --rednose --with-cov --cov pyexcel --cov tests --with-doctest --doctest-extension=.rst doc/source pyexcel tests
+nosetests --rednose --with-cov --cov examples --cov pyexcel --cov tests --with-doctest --doctest-extension=.rst doc/source pyexcel tests
 if [ $? == 0 ] ; then
 	rm tmp.db
 else
