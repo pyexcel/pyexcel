@@ -43,7 +43,10 @@ class Sheet(NominableSheet):
 
         :param str file_type: any value of 'csv', 'tsv', 'csvz',
                               'tsvz', 'xls', 'xlsm', 'xslm', 'ods'
-        :param iostream stream: the memory stream to be written to
+        :param iostream stream: the memory stream to be written to. Note in
+                                Python 3, for csv  and tsv format, please
+                                pass an instance of StringIO. For xls, xlsx,
+                                and ods, an instance of BytesIO.
         """
         self.save_as((file_type, stream), **keywords)
 

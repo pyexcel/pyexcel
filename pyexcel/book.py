@@ -194,7 +194,9 @@ class Book(object):
         """Save the content to a memory stream
 
         :param file_type: what format the stream is in
-        :param iostream stream: a memory stream
+        :param stream: a memory stream.  Note in Python 3, for csv and tsv
+                       format, please pass an instance of StringIO. For xls,
+                       xlsx, and ods, an instance of BytesIO.
         """
         self.save_as((file_type, stream), **keywords)
 

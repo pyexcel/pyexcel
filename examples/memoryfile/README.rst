@@ -20,7 +20,7 @@ Then visit http://localhost:5000/upload or http://localhost:5000/download
 Relevant packages
 =================
 
-Readily made plugins have been made on top of this example. Here is a list of them:
+Ready made plugins have been made on top of this example. Here is a list of them:
 
 ============== ============================
 framework      plugin/middleware/extension
