@@ -9,6 +9,10 @@ API Reference
 
 This is intended for users of pyexcel.
 
+.. note::
+
+   sphinx on ReadTheDocs cannot produce api docs. 
+
 
 .. _signature-functions:
 
