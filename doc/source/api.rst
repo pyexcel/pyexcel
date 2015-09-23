@@ -11,7 +11,8 @@ This is intended for users of pyexcel.
 
 .. note::
 
-   sphinx on ReadTheDocs cannot produce api docs. 
+   sphinx on ReadTheDocs cannot produce api docs. Please read it
+   from [pypi](http://pythonhosted.org/pyexcel/api.html)
 
 
 .. _signature-functions:
