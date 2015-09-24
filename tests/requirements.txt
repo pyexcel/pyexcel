@@ -2,7 +2,7 @@ nose
 rednose
 nose-cov
 python-coveralls
-coverage
+coverage==3.7.1
 sphinx_rtd_theme
 SQLAlchemy
 pyexcel-xls
