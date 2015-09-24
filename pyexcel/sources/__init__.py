@@ -93,25 +93,38 @@ class SourceFactory:
     def get_generic_source(self, registry, **keywords):
         for source in registry:
             if source.is_my_business(**keywords):
+                keywords.pop('purpose')
                 s = source(**keywords)
                 return s
         return None
 
     @classmethod
     def get_source(self, **keywords):
-        return self.get_generic_source(SOURCES, **keywords)
+        return self.get_generic_source(
+            SOURCES,
+            purpose='read',
+            **keywords)
 
     @classmethod
     def get_book_source(self, **keywords):
-        return self.get_generic_source(BOOK_SOURCES, **keywords)
+        return self.get_generic_source(
+            BOOK_SOURCES,
+            purpose='read',
+            **keywords)
 
     @classmethod
     def get_writeable_source(self, **keywords):
-        return self.get_generic_source(DEST_SOURCES, **keywords)
+        return self.get_generic_source(
+            DEST_SOURCES,
+            purpose='write',
+            **keywords)
 
     @classmethod
     def get_writeable_book_source(self, **keywords):
-        return self.get_generic_source(DEST_BOOK_SOURCES, **keywords)
+        return self.get_generic_source(
+            DEST_BOOK_SOURCES,
+            purpose='write',
+            **keywords)
 
 
 def get_sheet(**keywords):
@@ -164,8 +177,7 @@ def get_sheet(**keywords):
         sheet_name, data = source.get_data()
         sheet = Sheet(data, sheet_name, **sheet_params)
         return sheet
-    else:
-        return None
+    raise NotImplementedError("No suitable handler")
 
 
 def get_book(**keywords):
@@ -207,7 +219,8 @@ def get_book(**keywords):
         sheets, filename, path = source.get_data()
         book = Book(sheets, filename=filename, path=path)
         return book
-    return None
+    raise NotImplementedError("No suitable handler")
+
 
 
 def split_keywords(**keywords):

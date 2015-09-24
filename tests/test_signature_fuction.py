@@ -7,29 +7,30 @@ from nose.tools import raises
 
 
 class TestNone:
+    @raises(NotImplementedError)
     def test_get_array(self):
-        expected = pe.get_array(x="something")
-        assert expected == None
+        pe.get_array(x="something")
         
+    @raises(NotImplementedError)
     def test_get_dict(self):
-        expected = pe.get_dict(x="something")
-        assert expected == None
+        pe.get_dict(x="something")
         
+    @raises(NotImplementedError)
     def test_get_records(self):
-        expected = pe.get_records("something")
-        assert expected == None
+        pe.get_records("something")
         
+    @raises(NotImplementedError)
     def test_get_sheet(self):
-        expected = pe.get_sheet(x="something")
-        assert expected == None
+        pe.get_sheet(x="something")
         
+    @raises(NotImplementedError)
     def test_get_book(self):
-        expected = pe.get_book(x="something")
-        assert expected == None
+        pe.get_book(x="something")
         
+    @raises(NotImplementedError)
     def test_get_book_dict(self):
-        expected = pe.get_book_dict(x="something")
-        assert expected == None
+        pe.get_book_dict(x="something")
+
         
 
 class TestGetSheet:

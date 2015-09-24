@@ -8,12 +8,12 @@
     :license: New BSD License
 """
 import os
-from .base import Source, one_sheet_tuple
+from .base import FileSource, one_sheet_tuple
 from ..constants import KEYWORD_FILE_NAME
 from pyexcel_io import load_data
 
 
-class SheetSource(Source):
+class SheetSource(FileSource):
     """Pick up 'file_name' field and do single sheet based read and write
     """
     fields = [KEYWORD_FILE_NAME]

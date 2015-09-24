@@ -7,7 +7,7 @@
     :copyright: (c) 2015 by Onni Software Ltd.
     :license: New BSD License
 """
-from .base import ReadOnlySource, one_sheet_tuple
+from .base import ReadOnlySource, FileSource, one_sheet_tuple
 from .file import SheetSource, BookSource
 from pyexcel_io import load_data, get_io
 from ..constants import (
@@ -108,7 +108,7 @@ class ArraySource(ReadOnlySource):
         return DEFAULT_SHEET_NAME, self.array
 
 
-class ReadOnlyBookSource(ReadOnlySource):
+class ReadOnlyBookSource(ReadOnlySource, FileSource):
     """
     Multiple sheet data source via memory
     """

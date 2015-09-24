@@ -7,8 +7,10 @@
     :copyright: (c) 2015 by Onni Software Ltd.
     :license: New BSD License
 """
-from ..constants import KEYWORD_SOURCE
-from .._compact import PY2
+from ..constants import (
+    KEYWORD_SOURCE, KEYWORD_FILE_NAME, KEYWORD_FILE_TYPE)
+from .._compact import PY2, is_string
+from pyexcel_io import READERS, WRITERS
 
 
 def _has_field(field, keywords):
@@ -28,16 +30,40 @@ class Source:
         self.keywords = keywords
 
     @classmethod
-    def is_my_business(self, **keywords):
+    def is_my_business(cls, **keywords):
         """
         If all required keys are present, this source is activated
         """
-        statuses = [_has_field(field, keywords) for field in self.fields]
+        statuses = [_has_field(field, keywords) for field in cls.fields]
         results = filter(lambda status: status is False, statuses)
         if not PY2:
             results = list(results)
         return len(results) == 0
 
+
+class FileSource(Source):
+    @classmethod
+    def is_my_business(cls, **keywords):
+        statuses = [_has_field(field, keywords) for field in cls.fields]
+        results = filter(lambda status: status is False, statuses)
+        if not PY2:
+            results = list(results)
+        status = len(results) == 0
+        if status:
+            purpose = keywords['purpose']
+            file_name = keywords.get(KEYWORD_FILE_NAME, None)
+            if file_name:
+                if is_string(type(file_name)):
+                    file_type = file_name.split(".")[-1]
+                else:
+                    raise IOError("Wrong file name")
+            else:
+                file_type = keywords.get(KEYWORD_FILE_TYPE)
+            if purpose == 'read':
+                status = READERS.has_key(file_type)
+            elif purpose == 'write':
+                status = WRITERS.has_key(file_type)
+        return status
 
 class ReadOnlySource(Source):
     """Read Only Data Source"""
