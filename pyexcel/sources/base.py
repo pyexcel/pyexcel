@@ -60,9 +60,9 @@ class FileSource(Source):
             else:
                 file_type = keywords.get(KEYWORD_FILE_TYPE)
             if purpose == 'read':
-                status = READERS.has_key(file_type)
+                status = file_type in READERS
             elif purpose == 'write':
-                status = WRITERS.has_key(file_type)
+                status = file_type in WRITERS
         return status
 
 class ReadOnlySource(Source):
