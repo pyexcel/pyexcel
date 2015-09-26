@@ -24,11 +24,12 @@ MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED = "Please give a ordered list"
 
 MESSAGE_DEPRECATED_ROW_COLUMN = "Deprecated usage. Please use [row, column]"
 MESSAGE_DEPRECATED_OUT_FILE = "Depreciated usage of 'out_file'. please use dest_file_name"
-MESSAGE_DEPRECATED_CONTENT = "Depreciated usage of 'content''. please use file_content"
+MESSAGE_DEPRECATED_CONTENT = "Depreciated usage of 'content'. please use file_content"
 
 MESSAGE_NOT_IMPLEMENTED_01 = "Please use attribute row or column to extend sheet"
 MESSAGE_NOT_IMPLEMENTED_02 = "Confused! What do you want to put as column names"
 MESSAGE_READONLY = "This attribute is readonly"
+MESSAGE_ERROR_NO_HANDLER = "No suitable plugins imported or installed"
 
 # Used by sources
 KEYWORD_MEMORY = 'memory'

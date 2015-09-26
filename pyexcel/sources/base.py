@@ -30,7 +30,7 @@ class Source:
         self.keywords = keywords
 
     @classmethod
-    def is_my_business(cls, **keywords):
+    def is_my_business(cls, action, **keywords):
         """
         If all required keys are present, this source is activated
         """
@@ -43,14 +43,13 @@ class Source:
 
 class FileSource(Source):
     @classmethod
-    def is_my_business(cls, **keywords):
+    def is_my_business(cls, action, **keywords):
         statuses = [_has_field(field, keywords) for field in cls.fields]
         results = filter(lambda status: status is False, statuses)
         if not PY2:
             results = list(results)
         status = len(results) == 0
         if status:
-            purpose = keywords['purpose']
             file_name = keywords.get(KEYWORD_FILE_NAME, None)
             if file_name:
                 if is_string(type(file_name)):
@@ -59,11 +58,14 @@ class FileSource(Source):
                     raise IOError("Wrong file name")
             else:
                 file_type = keywords.get(KEYWORD_FILE_TYPE)
-            if purpose == 'read':
+            if action == 'read':
                 status = file_type in READERS
-            elif purpose == 'write':
+            elif action == 'write':
                 status = file_type in WRITERS
+            else:
+                raise Exception("Illegal IO operation")
         return status
+
 
 class ReadOnlySource(Source):
     """Read Only Data Source"""

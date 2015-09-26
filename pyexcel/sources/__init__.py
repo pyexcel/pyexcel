@@ -20,7 +20,8 @@ from ..constants import (
     KEYWORD_FILE_CONTENT,
     KEYWORD_FILE_NAME,
     KEYWORD_FILE_TYPE,
-    MESSAGE_ERROR_02
+    MESSAGE_ERROR_02,
+    MESSAGE_ERROR_NO_HANDLER
 )
 from .file import (
     SheetSource,
@@ -90,40 +91,39 @@ class SourceFactory:
     The factory method to support multiple datasources in getters and savers
     """
     @classmethod
-    def get_generic_source(self, registry, **keywords):
+    def _get_generic_source(self, registry, action, **keywords):
         for source in registry:
-            if source.is_my_business(**keywords):
-                keywords.pop('purpose')
+            if source.is_my_business(action, **keywords):
                 s = source(**keywords)
                 return s
         return None
 
     @classmethod
     def get_source(self, **keywords):
-        return self.get_generic_source(
+        return self._get_generic_source(
             SOURCES,
-            purpose='read',
+            action='read',
             **keywords)
 
     @classmethod
     def get_book_source(self, **keywords):
-        return self.get_generic_source(
+        return self._get_generic_source(
             BOOK_SOURCES,
-            purpose='read',
+            action='read',
             **keywords)
 
     @classmethod
     def get_writeable_source(self, **keywords):
-        return self.get_generic_source(
+        return self._get_generic_source(
             DEST_SOURCES,
-            purpose='write',
+            action='write',
             **keywords)
 
     @classmethod
     def get_writeable_book_source(self, **keywords):
-        return self.get_generic_source(
+        return self._get_generic_source(
             DEST_BOOK_SOURCES,
-            purpose='write',
+            action='write',
             **keywords)
 
 
@@ -177,7 +177,7 @@ def get_sheet(**keywords):
         sheet_name, data = source.get_data()
         sheet = Sheet(data, sheet_name, **sheet_params)
         return sheet
-    raise NotImplementedError("No suitable handler")
+    raise NotImplementedError(MESSAGE_ERROR_NO_HANDLER)
 
 
 def get_book(**keywords):
@@ -192,7 +192,7 @@ def get_book(**keywords):
     :param models: a list of django models
     :param bookdict: a dictionary of two dimensional arrays
     :param url: a download http url for your excel file
-   
+
     see also :ref:`a-list-of-data-structures`
 
     Here is a table of parameters:
@@ -219,8 +219,7 @@ def get_book(**keywords):
         sheets, filename, path = source.get_data()
         book = Book(sheets, filename=filename, path=path)
         return book
-    raise NotImplementedError("No suitable handler")
-
+    raise NotImplementedError(MESSAGE_ERROR_NO_HANDLER)
 
 
 def split_keywords(**keywords):
@@ -252,21 +251,28 @@ def save_as(**keywords):
     :param dest_session: the target database session
     :param dest_table: the target destination table
     :param dest_model: the target django model
-    :param dest_mapdict: a mapping dictionary, see :meth:`~pyexcel.Sheet.save_to_memory`
+    :param dest_mapdict: a mapping dictionary, see
+                         :meth:`~pyexcel.Sheet.save_to_memory`
     :param dest_initializer: a custom initializer function for table or model
     :param dest_mapdict: nominate headers
-    :param dest_batch_size: object creation batch size. Django specific
-    :param keywords: additional keywords can be found at :meth:`pyexcel.get_sheet`
+    :param dest_batch_size: object creation batch size.
+                            it is Django specific
+    :param keywords: additional keywords can be found at
+                     :meth:`pyexcel.get_sheet`
     :returns: IO stream if saving to memory. None otherwise
 
-    ========================== =============================================================================
-    Saving to source           parameters
-    ========================== =============================================================================
-    file                       dest_file_name, dest_sheet_name, keywords with prefix 'dest'
-    memory                     dest_file_type, dest_content, dest_sheet_name, keywords with prefix 'dest'
-    sql                        dest_session, table, dest_initializer, dest_mapdict
-    django model               dest_model, dest_initializer, dest_mapdict, dest_batch_size
-    ========================== =============================================================================
+    ================= =============================================
+    Saving to source  parameters
+    ================= =============================================
+    file              dest_file_name, dest_sheet_name,
+                      keywords with prefix 'dest'
+    memory            dest_file_type, dest_content,
+                      dest_sheet_name, keywords with prefix 'dest'
+    sql               dest_session, table,
+                      dest_initializer, dest_mapdict
+    django model      dest_model, dest_initializer,
+                      dest_mapdict, dest_batch_size
+    ================= =============================================
     """
     dest_keywords, source_keywords = split_keywords(**keywords)
     dest_source = SourceFactory.get_writeable_source(**dest_keywords)
@@ -274,7 +280,7 @@ def save_as(**keywords):
         sheet = get_sheet(**source_keywords)
         sheet.save_to(dest_source)
         if KEYWORD_FILE_TYPE in dest_source.fields:
-            dest_source.content.seek(0)            
+            dest_source.content.seek(0)
             return dest_source.content
     else:
         raise ValueError(MESSAGE_ERROR_02)
@@ -283,7 +289,8 @@ def save_as(**keywords):
 def save_book_as(**keywords):
     """Save a book from a data source to another one
 
-    :param dest_file_name: another file name. **out_file** is deprecated though is still accepted.
+    :param dest_file_name: another file name. **out_file** is
+                           deprecated though is still accepted.
     :param dest_file_type: this is needed if you want to save to memory
     :param dest_session: the target database session
     :param dest_tables: the list of target destination tables
@@ -292,17 +299,22 @@ def save_book_as(**keywords):
     :param dest_initializers: table initialization fuctions
     :param dest_mapdicts: to nominate a model or table fields. Optional
     :param dest_batch_size: batch creation size. Optional
-    :param keywords: additional keywords can be found at :meth:`pyexcel.get_sheet`
+    :param keywords: additional keywords can be found at
+                     :meth:`pyexcel.get_sheet`
     :returns: IO stream if saving to memory. None otherwise
 
-    ========================== =============================================================================
-    Saving to source           parameters
-    ========================== =============================================================================
-    file                       dest_file_name, dest_sheet_name, keywords with prefix 'dest'
-    memory                     dest_file_type, dest_content, dest_sheet_name, keywords with prefix 'dest'
-    sql                        dest_session, dest_tables, dest_table_init_func, dest_mapdict
-    django model               dest_models, dest_initializers, dest_mapdict, dest_batch_size
-    ========================== =============================================================================
+    ================ ============================================
+    Saving to source parameters
+    ================ ============================================
+    file             dest_file_name, dest_sheet_name,
+                     keywords with prefix 'dest'
+    memory           dest_file_type, dest_content,
+                     dest_sheet_name, keywords with prefix 'dest'
+    sql              dest_session, dest_tables,
+                     dest_table_init_func, dest_mapdict
+    django model     dest_models, dest_initializers,
+                     dest_mapdict, dest_batch_size
+    ================ ============================================
     """
     dest_keywords, source_keywords = split_keywords(**keywords)
     dest_source = SourceFactory.get_writeable_book_source(**dest_keywords)
