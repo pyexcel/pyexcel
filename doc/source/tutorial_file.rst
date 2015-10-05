@@ -61,7 +61,7 @@ Here is the code::
     | 12       | 11       | 10       |
     +----------+----------+----------+
 
-Update an exiting row to an existing file
+Update an existing row to an existing file
 -------------------------------------------
 
 Suppose you want to update the last row of the example file as:
