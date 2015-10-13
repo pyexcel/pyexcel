@@ -10,7 +10,7 @@
 import os
 from .base import FileSource, one_sheet_tuple
 from ..constants import KEYWORD_FILE_NAME
-from pyexcel_io import load_data
+from pyexcel_io import load_data, get_writer
 
 
 class SheetSource(FileSource):
@@ -30,10 +30,24 @@ class SheetSource(FileSource):
         return one_sheet_tuple(sheets.items())
 
     def write_data(self, sheet):
-        from ..writers import Writer
-        w = Writer(self.file_name, sheet_name=sheet.name, **self.keywords)
-        w.write_reader(sheet)
-        w.close()
+        if isinstance(self.file_name, tuple):
+            writer = get_writer(self.file_name[1],
+                                     self.file_name[0],
+                                     single_sheet_in_book=True,
+                                     **self.keywords)
+        else:
+            writer = get_writer(self.file_name,
+                                single_sheet_in_book=True,
+                                **self.keywords)
+
+        raw_sheet = writer.create_sheet(sheet.name)
+        data_table = sheet.to_array()
+        rows = len(data_table)
+        columns = len(data_table[0])
+        raw_sheet.set_size((rows, columns))
+        raw_sheet.write_array(data_table)
+        raw_sheet.close()
+        writer.close()
 
 
 class BookSource(SheetSource):
@@ -45,7 +59,13 @@ class BookSource(SheetSource):
         return sheets, filename_alone, path
 
     def write_data(self, book):
-        from ..writers import BookWriter
-        writer = BookWriter(self.file_name, **self.keywords)
-        writer.write_book_reader(book)
+        if isinstance(self.file_name, tuple):
+            writer = get_writer(self.file_name[1],
+                                     self.file_name[0],
+                                     **self.keywords)
+        else:
+            writer = get_writer(self.file_name,
+                                **self.keywords)
+
+        writer.write(book.to_dict())
         writer.close()

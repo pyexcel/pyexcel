@@ -8,7 +8,8 @@
     :license: New BSD License
 """
 from .base import ReadOnlySource, Source, one_sheet_tuple
-from pyexcel_io import DB_SQL, DB_DJANGO, load_data
+from pyexcel_io import DB_SQL, DB_DJANGO, load_data, get_writer
+from .._compact import OrderedDict
 from ..constants import (
     KEYWORD_TABLES,
     KEYWORD_MODELS,
@@ -51,7 +52,7 @@ class SheetDatabaseSourceMixin(Source):
     """
     Generic database source
 
-    It does the general data import and export. 
+    It does the general data import and export.
     """
     def get_sql_book():
         pass
@@ -67,7 +68,9 @@ class SheetDatabaseSourceMixin(Source):
         if(len(sheet.colnames)) == 0:
             sheet.name_columns_by_row(0)
         w = self.get_writer(sheet)
-        w.write_array(sheet.array)
+        raw_sheet = w.create_sheet(sheet.name)
+        raw_sheet.write_array(sheet.array)
+        raw_sheet.close()
         w.close()
 
 
@@ -88,7 +91,6 @@ class SheetSQLAlchemySource(SheetDatabaseSourceMixin):
                          tables=[self.table])
 
     def get_writer(self, sheet):
-        from ..writers import Writer
         tables = {
             sheet.name: (
                 self.table,
@@ -97,9 +99,9 @@ class SheetSQLAlchemySource(SheetDatabaseSourceMixin):
                 self.keywords.get(KEYWORD_INITIALIZER, None)
             )
         }
-        w = Writer(
+        w = get_writer(
             DB_SQL,
-            sheet_name=sheet.name,
+            single_sheet_in_book=True,
             session=self.session,
             tables=tables,
             **self.keywords
@@ -121,7 +123,6 @@ class SheetDjangoSource(SheetDatabaseSourceMixin):
         return load_data(DB_DJANGO, models=[self.model])
 
     def get_writer(self, sheet):
-        from ..writers import Writer
         models = {
             sheet.name: (
                 self.model,
@@ -130,13 +131,22 @@ class SheetDjangoSource(SheetDatabaseSourceMixin):
                 self.keywords.get(KEYWORD_INITIALIZER, None)
             )
         }
-        w = Writer(
+        w = get_writer(
             DB_DJANGO,
-            sheet_name=sheet.name,
+            single_sheet_in_book=True,
             models=models,
             batch_size=self.keywords.get(KEYWORD_BATCH_SIZE, None)
         )
         return w
+
+
+def _write_book(writer, book):
+    the_dict = OrderedDict()
+    keys = book.sheet_names()
+    for name in keys:
+        the_dict.update({name: book[name].array})
+    writer.write(the_dict)
+    writer.close()
 
 
 class BookSQLSource(Source):
@@ -151,7 +161,9 @@ class BookSQLSource(Source):
         self.keywords = keywords
 
     def get_data(self):
-        sheets = load_data(DB_SQL, session=self.session, tables=self.tables)
+        sheets = load_data(DB_SQL,
+                           session=self.session,
+                           tables=self.tables)
         return sheets, DB_SQL, None
 
     def write_data(self, book):
@@ -168,9 +180,11 @@ class BookSQLSource(Source):
         colnames_array = [sheet.colnames for sheet in book]
         x = zip(self.tables, colnames_array, mapdicts, initializers)
         table_dict = dict(zip(book.name_array, x))
-        w = BookWriter(DB_SQL, session=self.session, tables=table_dict, **self.keywords)
-        w.write_book_reader_to_db(book)
-        w.close()
+        writer = get_writer(DB_SQL,
+                            session=self.session,
+                            tables=table_dict,
+                            **self.keywords)
+        _write_book(writer, book)
 
 
 class BookDjangoSource(Source):
@@ -189,7 +203,7 @@ class BookDjangoSource(Source):
 
     def write_data(self, book):
         from ..writers import BookWriter
-        new_models = [ model for model in self.models if model is not None ]
+        new_models = [model for model in self.models if model is not None]
         batch_size = self.keywords.get(KEYWORD_BATCH_SIZE, None)
         initializers = self.keywords.get(KEYWORD_INITIALIZERS, None)
         if initializers is None:
@@ -203,6 +217,7 @@ class BookDjangoSource(Source):
         colnames_array = [sheet.colnames for sheet in book]
         x = zip(new_models, colnames_array, mapdicts, initializers)
         table_dict = dict(zip(book.name_array, x))
-        w = BookWriter(DB_DJANGO, models=table_dict, batch_size=batch_size)
-        w.write_book_reader_to_db(book)
-        w.close()
+        writer = get_writer(DB_DJANGO,
+                            models=table_dict,
+                            batch_size=batch_size)
+        _write_book(writer, book)
