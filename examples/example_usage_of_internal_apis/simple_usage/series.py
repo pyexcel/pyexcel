@@ -11,7 +11,6 @@ from pyexcel.ext import ods3
 from pyexcel import SeriesReader
 from pyexcel.utils import to_dict, to_array
 from pyexcel.filters import OddRowFilter, EvenColumnFilter
-from pyexcel import Writer
 import json
 
 
@@ -86,10 +85,7 @@ def main(base_dir):
     
     # and you can write the filtered results
     # into a file
-    w = Writer("example_series_filter.xls")
-    w.write_reader(reader)
-    w.close()
-
+    reader.save_as("example_series_filter.xls")
 
 if __name__ == '__main__':
     main(os.getcwd())

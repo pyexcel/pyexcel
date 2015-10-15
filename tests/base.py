@@ -18,41 +18,38 @@ def to_json(iterator):
     return json.dumps(array)
 
 
-def create_sample_file1(file):
-    w = pe.Writer(file)
-    data=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
-    table = []
-    table.append(data[:4])
-    table.append(data[4:8])
-    table.append(data[8:12])
-    w.write_array(table)
-    w.close()
+def create_generic_file(filename, array_content):
+    pe.save_as(dest_file_name=filename, array=array_content)
+
+def create_sample_file1(filename):
+    data=[
+        ['a', 'b', 'c', 'd'], 
+        ['e', 'f', 'g', 'h'], 
+        ['i', 'j', 1.1, 1]
+        ]
+    create_generic_file(filename, data)
 
 
-def create_sample_file1_series(file):
-    w = pe.Writer(file)
-    data=['c1', 'c2', 'c3', 'c4', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
-    table = []
-    table.append(data[:4])
-    table.append(data[4:8])
-    table.append(data[8:12])
-    table.append(data[12:16])
-    w.write_array(table)
-    w.close()
+def create_sample_file1_series(filename):
+    data=[
+        ['c1', 'c2', 'c3', 'c4'], 
+        ['a', 'b', 'c', 'd'], 
+        ['e', 'f', 'g', 'h'], 
+        ['i', 'j', 1.1, 1]
+        ]
+    create_generic_file(filename, data)
 
-def create_sample_file2(file):
+def create_sample_file2(filename):
     """
     1,2,3,4
     5,6,7,8
     9,10,11,12
     """    
-    w = pe.Writer(file)
     table = []
     for i in [0, 4, 8]:
         array = [i+1, i+2, i+3, i+4]
         table.append(array)
-    w.write_array(table)
-    w.close()
+    create_generic_file(filename, table)
 
 
 def create_sample_file2_in_memory(file_type):
@@ -61,91 +58,16 @@ def create_sample_file2_in_memory(file_type):
     5,6,7,8
     9,10,11,12
     """
-    io = BytesIO()
-    w = pe.Writer((file_type, io))
     table = []
     for i in [0, 4, 8]:
         array = [i+1, i+2, i+3, i+4]
         table.append(array)
-    w.write_array(table)
-    w.close()
+    io = pe.save_as(dest_file_type=file_type, array=table)
     return io
-    
 
-class PyexcelWriterBase:
-    """
-    Abstract functional test for writers
-
-    testfile and testfile2 have to be initialized before
-    it is used for testing
-    """
-    content = [
-        ['a', 'b', 'c'],
-        ['e', 'f', 'g']
-    ]
-
-    def _create_a_file(self, file):
-        w = pe.Writer(file)
-        w.write_array(self.content)
-        w.close()
-    
-    def test_write_array(self):
-        self._create_a_file(self.testfile)
-        r = pe.Reader(self.testfile)
-        actual = pe.utils.to_array(r.rows())
-        assert actual == self.content
-
-    def test_write_reader(self):
-        """
-        Use reader as data container
-
-        this test case shows the file written by pe
-        can be read back by itself
-        """
-        self._create_a_file(self.testfile)
-        r = pe.Reader(self.testfile)
-        w2 = pe.Writer(self.testfile2)
-        w2.write_reader(r)
-        w2.close()
-        r2 = pe.Reader(self.testfile2)
-        actual = pe.utils.to_array(r2.rows())
-        assert actual == self.content
-
-
-class PyexcelHatWriterBase:
-    """
-    Abstract functional test for hat writers
-    """
-    content = {
-        "X": [1,2,3,4,5],
-        "Y": [6,7,8,9,10],
-        "Z": [11,12,13,14,15],
-    }
-    
-    def test_series_table(self):
-        w = pe.Writer(self.testfile)
-        w.write_dict(self.content)
-        w.close()
-        r = pe.SeriesReader(self.testfile)
-        actual = pe.utils.to_dict(r)
-        assert actual == self.content
-        
-    def test_write_records(self):
-        w = pe.Writer(self.testfile)
-        w.write_dict(self.content)
-        w.close()
-        r = pe.SeriesReader(self.testfile)
-        records = pe.utils.to_records(r)
-        w2 = pe.Writer(self.testfile)
-        w2.write_records(records)
-        w2.close()
-        r2 = pe.SeriesReader(self.testfile)
-        actual = pe.utils.to_dict(r2)
-        assert actual == self.content
-    
 
 class PyexcelBase:
-    def _write_test_file(self, file):
+    def _write_test_file(self, filename):
         """
         Make a test csv file as:
 
@@ -154,15 +76,13 @@ class PyexcelBase:
         3,3,3,3
         """
         self.rows = 3
-        w = pe.Writer(file)
         table = []
         for i in range(0,self.rows):
             row = i + 1
             array = [str(row)] * 4
             table.append(array)
-        w.write_rows(table)
-        w.close()
-        
+        create_generic_file(filename, table)
+         
     def test_number_of_rows(self):
         r = pe.Reader(self.testfile)
         assert self.rows == r.number_of_rows()
@@ -204,9 +124,7 @@ class PyexcelBase:
 class PyexcelMultipleSheetBase:
 
     def _write_test_file(self, filename):
-        w = pe.BookWriter(filename)
-        w.write_book_from_dict(self.content)
-        w.close()
+        pe.save_book_as(dest_file_name=filename, bookdict=self.content)
         
     def _clean_up(self):
         if os.path.exists(self.testfile2):
@@ -249,13 +167,7 @@ class PyexcelMultipleSheetBase:
 
     def test_write_a_book_reader(self):
         b = pe.BookReader(self.testfile)
-        bw = pe.BookWriter(self.testfile2)
-        for s in b:
-            data = pe.utils.to_array(s)
-            sheet = bw.create_sheet(s.name)
-            sheet.write_array(data)
-            sheet.close()
-        bw.close()
+        b.save_as(self.testfile2)
         x = pe.BookReader(self.testfile2)
         for s in x:
             data = pe.utils.to_array(s)

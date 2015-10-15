@@ -3,7 +3,7 @@ convert_xls_to_ods.py
 :copyright: (c) 2014-2015 by Onni Software Ltd.
 :license: New BSD License, see LICENSE for more details
 
-This shows how to use **Book** and **BookWriter** class to convert
+This shows how to use **Book** to convert
 xls file to ods file.
 
 What this example implies is that you can do the conversion in

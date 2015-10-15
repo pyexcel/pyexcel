@@ -407,7 +407,6 @@ class TestComplexFilter:
         9, 10, 11, 12
         """
         self.testfile1 = "testcsv1.csv"
-        w = pe.Writer(self.testfile1)
         content = [
             [1, 'a'],
             [2, 'b'],
@@ -418,18 +417,17 @@ class TestComplexFilter:
             [7, 'g'],
             [8, 'h']
         ]
-        w.write_array(content)
-        w.close()
+        pe.save_as(dest_file_name=self.testfile1,
+                   array=content)
         self.testfile2 = "testcsv2.csv"
-        w = pe.Writer(self.testfile2)
         content = [
             [1, 'a', 'c'],
             [2, 'b', 'h'],
             [3, 'c', 'c'],
             [8, 'h', 'd']
         ]
-        w.write_array(content)
-        w.close()
+        pe.save_as(dest_file_name=self.testfile2,
+                   array=content)
 
     def test_row_value_filter(self):
         r1 = pe.load("testcsv1.csv")

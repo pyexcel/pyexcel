@@ -1,6 +1,7 @@
 import pyexcel as pe
 from base import PyexcelBase, clean_up_files
-from base import create_sample_file1
+from base import create_sample_file1, create_sample_file2
+from base import create_generic_file
 from _compact import BytesIO
 from nose.tools import raises
 
@@ -121,19 +122,6 @@ class TestCSVReader2:
 
 
 class TestCSVReaderDialect:
-    def create_sample_file(self, file):
-        """
-        1,2,3,4
-        5,6,7,8
-        9,10,11,12
-        """    
-        w = pe.Writer(file, delimiter=":")
-        table = []
-        for i in [0, 4, 8]:
-            array = [i+1, i+2, i+3, i+4]
-            table.append(array)
-        w.write_array(table)
-        w.close()
         
     def setUp(self):
         """
@@ -144,7 +132,11 @@ class TestCSVReaderDialect:
         i,j,k,l
         """
         self.testfile = "testcsv.csv"
-        self.create_sample_file(self.testfile)
+        table = []
+        for i in [0, 4, 8]:
+            array = [i+1, i+2, i+3, i+4]
+            table.append(array)
+        pe.save_as(dest_file_name=self.testfile, dest_delimiter=":", array=table)
     
     def test_delimiter(self):
         f = open(self.testfile)
@@ -158,7 +150,10 @@ class TestCSVReaderDialect:
     def test_read_delimiter(self):
         r = pe.Reader(self.testfile, delimiter=":")
         content = pe.utils.to_array(r)
-        assert content == [["1", "2", "3", "4"], ["5", "6", "7", "8"], ["9", "10", "11", "12"]]
+        assert content == [
+            ["1", "2", "3", "4"],
+            ["5", "6", "7", "8"],
+            ["9", "10", "11", "12"]]
         
     def tearDown(self):
         clean_up_files([self.testfile])
@@ -227,9 +222,8 @@ class TestSeriesReader3:
             [4, 41, 42],
             [5, 51, 52]
         ]
-        w = pe.Writer(self.testfile)
-        w.write_array(self.content)
-        w.close()
+        create_generic_file(self.testfile, self.content)
+
 
     def test_empty_series_reader(self):
         # debug this further
@@ -338,9 +332,7 @@ class TestSeriesReader4:
             [1, 2, 3],
             [1, 2, 3]
         ]
-        w = pe.Writer(self.testfile)
-        w.write_array(self.content)
-        w.close()
+        create_generic_file(self.testfile, self.content)
 
     def test_content_is_read(self):
         r = pe.SeriesReader(self.testfile)
@@ -397,9 +389,7 @@ class TestSeriesReader5:
             ["X", "Y", "Z"],
             [1, 2, 3]
         ]
-        w = pe.Writer(self.testfile)
-        w.write_array(self.content)
-        w.close()
+        create_generic_file(self.testfile, self.content)
 
     def test_content_is_read(self):
         r = pe.SeriesReader(self.testfile, series=4)

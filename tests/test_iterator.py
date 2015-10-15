@@ -413,9 +413,7 @@ class TestHatIterators:
             [1, 2, 3],
             [1, 2, 3]
         ]
-        w = pe.Writer(self.testfile)
-        w.write_array(self.content)
-        w.close()
+        pe.save_as(dest_file_name=self.testfile, array=self.content)
 
     def test_hat_column_iterator(self):
         r = pe.SeriesReader(self.testfile)

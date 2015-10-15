@@ -85,9 +85,8 @@ class TestUtils2():
             "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
             "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
         }
-        w = pe.BookWriter(self.testfile)
-        w.write_book_from_dict(self.content)
-        w.close()
+        pe.save_book_as(bookdict=self.content,
+                        dest_file_name=self.testfile)
 
     def test_book_reader_to_dict(self):
         r = pe.BookReader(self.testfile)
@@ -118,9 +117,8 @@ class TestToRecord():
             "Y": [4, 5, 6],
             "Z": [7, 8, 9]
         }
-        w = pe.Writer(self.testfile)
-        w.write_dict(self.content)
-        w.close()
+        pe.save_as(dest_file_name=self.testfile,
+                   adict=self.content)
 
     def test_book_reader_to_records(self):
         r = pe.SeriesReader(self.testfile)

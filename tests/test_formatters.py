@@ -188,10 +188,7 @@ class TestColumnFormatter:
             "5": [2, 3, 4, 5, 6, 7, 8, 9],
             "6": ["2", "3", "4", "5", "6", "7", "8", "9"]
         }
-        self.io = BytesIO()
-        w = pe.Writer(("xls", self.io))
-        w.write_dict(self.data)
-        w.close()
+        self.io = pe.save_as(dest_file_type="xls", adict=self.data)
         self.test_tuple = ("xls", self.io.getvalue())
 
     def test_general_usage(self):
@@ -345,9 +342,7 @@ class TestRowFormatter:
             "6": ["2", "3", "4", "5", "6", "7", "8", "9"]
         }
         self.testfile = "test.xls"
-        w = pe.Writer(self.testfile)
-        w.write_dict(self.data)
-        w.close()
+        pe.save_as(dest_file_name=self.testfile, adict=self.data)
 
     def test_general_usage(self):
         """format a row 
@@ -541,9 +536,7 @@ class TestSheetFormatter:
             "7": [1, '',]
         }
         self.testfile = "test.xls"
-        w = pe.Writer(self.testfile)
-        w.write_dict(self.data)
-        w.close()
+        pe.save_as(dest_file_name=self.testfile, adict=self.data)
 
     def test_general_usage(self):
         r = pe.SeriesReader(self.testfile)
@@ -647,9 +640,7 @@ class TestSheetFormatterInXLS:
             "5": [2, 3, 4, 5, 6, 7, 8, 9],
         }
         self.testfile = "test.xls"
-        w = pe.Writer(self.testfile)
-        w.write_dict(self.data)
-        w.close()
+        pe.save_as(dest_file_name=self.testfile, adict=self.data)
 
     def test_general_usage(self):
         r = pe.SeriesReader(self.testfile)

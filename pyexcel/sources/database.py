@@ -167,7 +167,6 @@ class BookSQLSource(Source):
         return sheets, DB_SQL, None
 
     def write_data(self, book):
-        from ..writers import BookWriter
         initializers = self.keywords.get(KEYWORD_INITIALIZERS, None)
         if initializers is None:
             initializers = [None] * len(self.tables)
@@ -202,7 +201,6 @@ class BookDjangoSource(Source):
         return sheets, DB_DJANGO, None
 
     def write_data(self, book):
-        from ..writers import BookWriter
         new_models = [model for model in self.models if model is not None]
         batch_size = self.keywords.get(KEYWORD_BATCH_SIZE, None)
         initializers = self.keywords.get(KEYWORD_INITIALIZERS, None)

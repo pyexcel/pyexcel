@@ -114,9 +114,7 @@ Suppose you want to merge many csv files row by row into a new sheet.
    >>> merged = pyexcel.Sheet()
    >>> for file in glob.glob("*.csv"):
    ...     merged.row += pe.get_sheet(file_name=file)
-   >>> writer = pe.Writer("merged.csv")
-   >>> writer.write_reader(merged)
-   >>> writer.close()
+   >>> merged.save_as("merged.csv")
 
 .. testcode::
    :hide:

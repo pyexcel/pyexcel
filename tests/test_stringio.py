@@ -10,9 +10,6 @@ class TestIO:
     def test_wrong_io_input(self):
         pe.Reader(1000)
 
-    @raises(IOError)
-    def test_wrong_io_output(self):
-        pe.Writer(1000)
         
     def test_csv_stringio(self):
         csvfile = "cute.csv"
@@ -55,10 +52,7 @@ class TestIO:
             [1, 2, 3],
             [4, 5, 6]
         ]
-        io = StringIO()
-        w = pe.Writer(("csv",io))
-        w.write_rows(data)
-        w.close()
+        io = pe.save_as(dest_file_type="csv", array=data)
         r = pe.Reader(("csv", io.getvalue()))
         result=['1', '2', '3', '4', '5', '6']
         actual = pe.utils.to_array(r.enumerate())
@@ -94,10 +88,7 @@ class TestIO:
             [1, 2, 3],
             [4, 5, 6]
         ]
-        io = BytesIO()
-        w = pe.Writer(("csvz",io))
-        w.write_rows(data)
-        w.close()
+        io = pe.save_as(dest_file_type="csvz", array=data)
         r = pe.Reader(("csvz", io.getvalue()))
         result=['1', '2', '3', '4', '5', '6']
         actual = pe.utils.to_array(r.enumerate())
@@ -133,10 +124,7 @@ class TestIO:
             [1, 2, 3],
             [4, 5, 6]
         ]
-        io = BytesIO()
-        w = pe.Writer(("tsvz",io))
-        w.write_rows(data)
-        w.close()
+        io = pe.save_as(dest_file_type="tsvz", array=data)
         r = pe.Reader(("tsvz", io.getvalue()))
         result=['1', '2', '3', '4', '5', '6']
         actual = pe.utils.to_array(r.enumerate())
@@ -160,10 +148,7 @@ class TestIO:
             [1, 2, 3],
             [4, 5, 6]
         ]
-        io = BytesIO()
-        w = pe.Writer(("xls",io))
-        w.write_rows(data)
-        w.close()
+        io = pe.save_as(dest_file_type="xls",array=data)
         r = pe.load_from_memory("xls", io.getvalue())
         result=[1, 2, 3, 4, 5, 6]
         actual = pe.utils.to_array(r.enumerate())
@@ -174,10 +159,7 @@ class TestIO:
             [1, 2, 3],
             [4, 5, 6]
         ]
-        io = BytesIO()
-        w = pe.Writer(("xlsm",io))
-        w.write_rows(data)
-        w.close()
+        io = pe.save_as(dest_file_type="xlsm",array=data)
         r = pe.load_from_memory("xlsm", io.getvalue())
         result=[1, 2, 3, 4, 5, 6]
         actual = pe.utils.to_array(r.enumerate())
@@ -190,10 +172,7 @@ class TestIO:
                 [4, 5, 6]
             ]
         }
-        io = BytesIO()
-        w = pe.BookWriter(("xlsm",io))
-        w.write_book_from_dict(data)
-        w.close()
+        io = pe.save_book_as(dest_file_type="xlsm",bookdict=data)
         b = pe.load_book_from_memory("xlsm", io.getvalue())
         result=[1, 2, 3, 4, 5, 6]
         actual = pe.utils.to_array(b[0].enumerate())

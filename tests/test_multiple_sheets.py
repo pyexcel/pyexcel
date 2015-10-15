@@ -27,9 +27,7 @@ class TestCSVNXlsMultipleSheets:
         self.content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
         self.content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
         self.content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
-        w = pe.BookWriter(self.testfile)
-        w.write_book_from_dict(self.content)
-        w.close()
+        pe.save_book_as(dest_file_name=self.testfile, bookdict=self.content)
 
     def test_read_multiple_csv_into_book(self):
         book = pe.load_book(self.testfile)
@@ -57,10 +55,8 @@ class TestCSVzMultipleSheets:
         self.content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
         self.content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
         self.content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
-        w = pe.BookWriter(self.testfile)
-        w.write_book_from_dict(self.content)
-        w.close()
-
+        pe.save_book_as(dest_file_name=self.testfile, bookdict=self.content)
+        
     def test_read_multiple_csv_into_book(self):
         book = pe.load_book(self.testfile)
         assert book.sheet_names() == ["Sheet1", "Sheet2", "Sheet3"]
@@ -83,9 +79,7 @@ class TestSingleSheetReaderForMulitpleSheetBook:
         self.content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
         self.content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
         self.content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
-        w = pe.BookWriter(self.testfile)
-        w.write_book_from_dict(self.content)
-        w.close()
+        pe.save_book_as(dest_file_name=self.testfile, bookdict=self.content)
 
     def test_non_default_sheet_as_single_sheet_reader(self):
         r = pe.Reader(self.testfile, "Sheet1")
@@ -136,7 +130,7 @@ class TestReader:
 
 
 class TestCSVSingleSheet:
-    def _write_test_file(self, file, content):
+    def _write_test_file(self, filename, content):
         """
         Make a test file as:
 
@@ -144,9 +138,7 @@ class TestCSVSingleSheet:
         2,2,2,2
         3,3,3,3
         """
-        w = pe.BookWriter(file)
-        w.write_book_from_dict(content)
-        w.close()
+        pe.save_book_as(dest_file_name=filename, bookdict=content)
 
     def setUp(self):
         self.testfile = "multiple1.csv"
@@ -186,7 +178,7 @@ class TestCSVSingleSheet:
 
 
 class TestCSVZSingleSheet:
-    def _write_test_file(self, file, content):
+    def _write_test_file(self, filename, content):
         """
         Make a test file as:
 
@@ -194,9 +186,7 @@ class TestCSVZSingleSheet:
         2,2,2,2
         3,3,3,3
         """
-        w = pe.BookWriter(file)
-        w.write_book_from_dict(content)
-        w.close()
+        pe.save_book_as(dest_file_name=filename, bookdict=content)
 
     def setUp(self):
         self.testfile = "multiple1.csvz"
@@ -233,7 +223,7 @@ class TestCSVZSingleSheet:
 
 
 class TestAddBooks:
-    def _write_test_file(self, file, content):
+    def _write_test_file(self, filename, content):
         """
         Make a test file as:
 
@@ -241,9 +231,7 @@ class TestAddBooks:
         2,2,2,2
         3,3,3,3
         """
-        w = pe.BookWriter(file)
-        w.write_book_from_dict(content)
-        w.close()
+        pe.save_book_as(dest_file_name=filename, bookdict=content)
 
     def setUp(self):
         self.testfile = "multiple1.xlsm"
@@ -529,27 +517,19 @@ class TestAddBooks:
 class TestMergeCSVsIntoOne:
     def test_merging(self):
         # set up
-        data = [[1,2,3],[4,5,6],[7,8,9]]
         import pyexcel as pe
-        w=pe.Writer("1.csv")
-        w.write_rows(data)
-        w.close()
+        data = [[1,2,3],[4,5,6],[7,8,9]]
         data2 = [['a','b','c'],['d','e','f'],['g','h','i']]
-        w=pe.Writer("2.csv")
-        w.write_rows(data2)
-        w.close()
         data3=[[1.1, 2.2, 3.3],[4.4, 5.5, 6.6],[7.7, 8.8, 9.9]]
-        w=pe.Writer("3.csv")
-        w.write_rows(data3)
-        w.close()
+        pe.save_as(dest_file_name="1.csv", array=data)
+        pe.save_as(dest_file_name="2.csv", array=data2)
+        pe.save_as(dest_file_name="3.csv", array=data3)
         # execute
         merged = pe.Sheet()
         for file in ["1.csv", "2.csv", "3.csv"]:
             r = pe.Reader(file)
             merged.row += r
-        writer = pe.Writer("merged.csv")
-        writer.write_reader(merged)
-        writer.close()
+        merged.save_as("merged.csv")
         r=pe.Reader("merged.csv")
         actual = pe.utils.to_array(r)
         result = [

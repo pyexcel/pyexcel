@@ -11,7 +11,6 @@
 """
 from pyexcel_io import get_io
 from .book import Book
-from .writers import Writer, BookWriter
 from .sheets import (
     Sheet,
     transpose)
@@ -64,7 +63,10 @@ from .deprecated import (
     Reader,
     SeriesReader,
     ColumnSeriesReader,
-    BookReader)
+    BookReader,
+    Writer,
+    BookWriter
+)
 
 
 def get_array(**keywords):

@@ -9,9 +9,8 @@
 """
 import os
 from .book import Book
-from .sources import get_book, get_sheet
+from .sources import get_book, get_sheet, save_as
 from .utils import to_dict, to_array
-from .writers import Writer, BookWriter
 from ._compact import OrderedDict
 from .constants import MESSAGE_WARNING
 
@@ -42,9 +41,7 @@ def update_columns(infilename, column_dicts, outfilename=None):
     for k in column_dicts.keys():
         index = series.index(str(k))
         r.set_column_at(index, column_dicts[k])
-    w = Writer(default_out_file)
-    w.write_reader(r)
-    w.close()
+    r.save_as(default_out_file)
 
 
 def update_rows(infilename, row_dicts, outfilename=None):
@@ -79,9 +76,9 @@ def merge_files(file_array, outfilename=DEFAULT_OUT_FILE):
     for f in file_array:
         r = get_sheet(file_name=f)
         content.extend(to_array(r.columns()))
-    w = Writer(outfilename)
-    w.write_columns(content)
-    w.close()
+    merged_sheet = get_sheet(array=content)
+    merged_sheet.transpose()
+    merged_sheet.save_as(outfilename)
     return outfilename
 
 
@@ -109,9 +106,7 @@ def merge_readers(reader_array, outfilename=DEFAULT_OUT_FILE):
     content = OrderedDict()
     for r in reader_array:
         content.update(to_dict(r))
-    w = Writer(outfilename)
-    w.write_dict(content)
-    w.close()
+    save_as(dest_file_name=outfilename, adict=content)
 
 
 def merge_two_readers(reader1, reader2, outfilename=DEFAULT_OUT_FILE):
@@ -132,14 +127,13 @@ def merge_csv_to_a_book(filelist, outfilename=DEFAULT_OUT_XLS_FILE):
     :param list filelist: a list of accessible file path
     :param str outfilename: save the sheet as
     """
-    w = BookWriter(outfilename)
+    merged = Book()
     for file in filelist:
-        r = get_sheet(file_name=file)
+        sheet = get_sheet(file_name=file)
         head, tail = os.path.split(file)
-        sheet = w.create_sheet(tail)
-        sheet.write_reader(r)
-        sheet.close()
-    w.close()
+        sheet.name = tail 
+        merged += sheet
+    merged.save_as(outfilename)
 
 
 def merge_all_to_a_book(filelist, outfilename=DEFAULT_OUT_XLS_FILE):
@@ -151,9 +145,7 @@ def merge_all_to_a_book(filelist, outfilename=DEFAULT_OUT_XLS_FILE):
     merged = Book()
     for file in filelist:
         merged += get_book(file_name=file)
-    w = BookWriter(outfilename)
-    w.write_book_reader(merged)
-    w.close()
+    merged.save_as(outfilename)
 
 
 def split_a_book(file, outfilename=None):
@@ -168,9 +160,8 @@ def split_a_book(file, outfilename=None):
     else:
         saveas = file
     for sheet in r:
-        w = Writer("%s_%s" % (sheet.name, saveas))
-        w.write_reader(sheet)
-        w.close()
+        filename = "%s_%s" % (sheet.name, saveas)
+        sheet.save_as(filename)
 
 
 def extract_a_sheet_from_a_book(file, sheetname, outfilename=None):
@@ -186,6 +177,6 @@ def extract_a_sheet_from_a_book(file, sheetname, outfilename=None):
     else:
         saveas = file
     sheet = r[sheetname]
-    w = Writer("%s_%s" % (sheetname, saveas))
-    w.write_reader(sheet)
-    w.close()
+    file_name = "%s_%s" % (sheetname, saveas)
+    sheet.save_as(file_name)
+

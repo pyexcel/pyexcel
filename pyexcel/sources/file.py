@@ -42,10 +42,11 @@ class SheetSource(FileSource):
 
         raw_sheet = writer.create_sheet(sheet.name)
         data_table = sheet.to_array()
-        rows = len(data_table)
-        columns = len(data_table[0])
-        raw_sheet.set_size((rows, columns))
-        raw_sheet.write_array(data_table)
+        if len(data_table) > 0:
+            rows = len(data_table)
+            columns = len(data_table[0])
+            raw_sheet.set_size((rows, columns))
+            raw_sheet.write_array(data_table)
         raw_sheet.close()
         writer.close()
 

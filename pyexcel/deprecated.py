@@ -232,3 +232,11 @@ def BookReader(file, **keywords):
     """For backward compatibility
     """
     return load_book(file, **keywords)
+
+
+def Writer(*args, **keywords):
+    raise DeprecationWarning("Since v0.0.18, please use module function save_as")
+
+
+def BookWriter(*args, **keywords):
+    raise DeprecationWarning("Since v0.0.18, please use module function save_book_as")
