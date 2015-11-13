@@ -8,9 +8,10 @@
     :license: New BSD License
 """
 from ..constants import (
+    MESSAGE_UNKNOWN_IO_OPERATION,
     KEYWORD_SOURCE, KEYWORD_FILE_NAME, KEYWORD_FILE_TYPE)
 from .._compact import PY2, is_string
-from pyexcel_io import READERS, WRITERS
+from pyexcel_io import AVAILABLE_READERS, AVAILABLE_WRITERS
 
 
 def _has_field(field, keywords):
@@ -59,11 +60,11 @@ class FileSource(Source):
             else:
                 file_type = keywords.get(KEYWORD_FILE_TYPE)
             if action == 'read':
-                status = file_type in READERS
+                status = file_type in AVAILABLE_READERS
             elif action == 'write':
-                status = file_type in WRITERS
+                status = file_type in AVAILABLE_WRITERS
             else:
-                raise Exception("Illegal IO operation")
+                raise Exception(MESSAGE_UNKNOWN_IO_OPERATION)
         return status
 
 

@@ -30,6 +30,7 @@ MESSAGE_NOT_IMPLEMENTED_01 = "Please use attribute row or column to extend sheet
 MESSAGE_NOT_IMPLEMENTED_02 = "Confused! What do you want to put as column names"
 MESSAGE_READONLY = "This attribute is readonly"
 MESSAGE_ERROR_NO_HANDLER = "No suitable plugins imported or installed"
+MESSAGE_UNKNOWN_IO_OPERATION = "Internal error: an illegal source action"
 
 # Used by sources
 KEYWORD_MEMORY = 'memory'
