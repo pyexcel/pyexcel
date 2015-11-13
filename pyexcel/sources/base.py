@@ -11,7 +11,7 @@ from ..constants import (
     MESSAGE_UNKNOWN_IO_OPERATION,
     KEYWORD_SOURCE, KEYWORD_FILE_NAME, KEYWORD_FILE_TYPE)
 from .._compact import PY2, is_string
-from pyexcel_io import AVAILABLE_READERS, AVAILABLE_WRITERS
+from pyexcel_io import READERS, AVAILABLE_READERS, WRITERS, AVAILABLE_WRITERS
 
 
 def _has_field(field, keywords):
@@ -60,9 +60,9 @@ class FileSource(Source):
             else:
                 file_type = keywords.get(KEYWORD_FILE_TYPE)
             if action == 'read':
-                status = file_type in AVAILABLE_READERS
+                status = file_type in READERS or file_type in AVAILABLE_READERS 
             elif action == 'write':
-                status = file_type in AVAILABLE_WRITERS
+                status = file_type in WRITERS or file_type in AVAILABLE_WRITERS
             else:
                 raise Exception(MESSAGE_UNKNOWN_IO_OPERATION)
         return status
