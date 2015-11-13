@@ -14,9 +14,9 @@ install:
   - if [[ $TRAVIS_PYTHON_VERSION == "2.6" ]]; then pip install weakrefset; fi
   - if [[ $TRAVIS_PYTHON_VERSION == "2.6" ]]; then pip install ordereddict; fi
   - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then rm tests/test_examples.py; fi
-  - pip install git+https://github.com/chfw/pyexcel-io.git  
-  - pip install git+https://github.com/chfw/pyexcel-xls.git  
-  - pip install git+https://github.com/chfw/pyexcel-xlsx.git
+  - pip install https://github.com/chfw/pyexcel-io/archive/master.zip
+  - pip install https://github.com/chfw/pyexcel-xls/archive/master.zip
+  - pip install https://github.com/chfw/pyexcel-xlsx/archive/master.zip
   - pip install -r tests/requirements.txt
   - pip install -r requirements.txt
 script:
