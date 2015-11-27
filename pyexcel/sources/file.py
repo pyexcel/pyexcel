@@ -8,9 +8,44 @@
     :license: New BSD License
 """
 import os
-from .base import FileSource, one_sheet_tuple
-from ..constants import KEYWORD_FILE_NAME
-from pyexcel_io import load_data, get_writer
+from .base import Source, one_sheet_tuple, _has_field
+from ..constants import (
+    DEFAULT_SHEET_NAME,
+    KEYWORD_FILE_NAME,
+    MESSAGE_UNKNOWN_IO_OPERATION,
+    KEYWORD_FILE_TYPE)
+from pyexcel_io import load_data, save_data
+from pyexcel_io import READERS, AVAILABLE_READERS, WRITERS, AVAILABLE_WRITERS
+from .._compact import PY2, is_string
+
+
+class FileSource(Source):
+    """
+    Get excel data from file source
+    """
+    @classmethod
+    def is_my_business(cls, action, **keywords):
+        statuses = [_has_field(field, keywords) for field in cls.fields]
+        results = filter(lambda status: status is False, statuses)
+        if not PY2:
+            results = list(results)
+        status = len(results) == 0
+        if status:
+            file_name = keywords.get(KEYWORD_FILE_NAME, None)
+            if file_name:
+                if is_string(type(file_name)):
+                    file_type = file_name.split(".")[-1]
+                else:
+                    raise IOError("Wrong file name")
+            else:
+                file_type = keywords.get(KEYWORD_FILE_TYPE)
+            if action == 'read':
+                status = file_type in READERS or file_type in AVAILABLE_READERS 
+            elif action == 'write':
+                status = file_type in WRITERS or file_type in AVAILABLE_WRITERS
+            else:
+                raise Exception(MESSAGE_UNKNOWN_IO_OPERATION)
+        return status
 
 
 class SheetSource(FileSource):
@@ -30,25 +65,19 @@ class SheetSource(FileSource):
         return one_sheet_tuple(sheets.items())
 
     def write_data(self, sheet):
+        sheet_name = DEFAULT_SHEET_NAME
+        if sheet.name:
+            sheet_name = sheet.name
+        data = {sheet_name: sheet.to_array()}
         if isinstance(self.file_name, tuple):
-            writer = get_writer(self.file_name[1],
-                                     self.file_name[0],
-                                     single_sheet_in_book=True,
-                                     **self.keywords)
+            save_data(self.file_name[1],
+                      data,
+                      file_type=self.file_name[0],
+                      **self.keywords)
         else:
-            writer = get_writer(self.file_name,
-                                single_sheet_in_book=True,
-                                **self.keywords)
-
-        raw_sheet = writer.create_sheet(sheet.name)
-        data_table = sheet.to_array()
-        if len(data_table) > 0:
-            rows = len(data_table)
-            columns = len(data_table[0])
-            raw_sheet.set_size((rows, columns))
-            raw_sheet.write_array(data_table)
-        raw_sheet.close()
-        writer.close()
+            save_data(self.file_name,
+                      data,
+                      **self.keywords)
 
 
 class BookSource(SheetSource):
@@ -60,13 +89,14 @@ class BookSource(SheetSource):
         return sheets, filename_alone, path
 
     def write_data(self, book):
+        book_dict = book.to_dict()
         if isinstance(self.file_name, tuple):
-            writer = get_writer(self.file_name[1],
-                                     self.file_name[0],
-                                     **self.keywords)
+            save_data(self.file_name[1],
+                      book_dict,
+                      file_type=self.file_name[0],
+                      **self.keywords)
         else:
-            writer = get_writer(self.file_name,
-                                **self.keywords)
+            save_data(self.file_name,
+                      book_dict,
+                      **self.keywords)
 
-        writer.write(book.to_dict())
-        writer.close()

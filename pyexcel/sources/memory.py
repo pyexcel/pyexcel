@@ -7,8 +7,8 @@
     :copyright: (c) 2015 by Onni Software Ltd.
     :license: New BSD License
 """
-from .base import ReadOnlySource, FileSource, one_sheet_tuple
-from .file import SheetSource, BookSource
+from .base import ReadOnlySource, one_sheet_tuple
+from .file import FileSource, SheetSource, BookSource
 from pyexcel_io import load_data, get_io
 from ..constants import (
     KEYWORD_FILE_TYPE,
