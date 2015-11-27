@@ -26,7 +26,7 @@ def main(base_dir):
             print(row)
 
 if __name__ == '__main__':
-    main(os.getpwd())
+    main(os.getcwd())
 #Here's the output
 #sheet: Sheet 2
 #[u'X', u'Y', u'Z']
