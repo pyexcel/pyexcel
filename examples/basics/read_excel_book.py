@@ -19,7 +19,6 @@ def main(base_dir):
     for sheet in book:
         # Each sheet has name
         print("sheet: %s" % sheet.name)
-        import pdb; pdb.set_trace()
         # Once you have a sheet instance, you can regard it as
         # a Reader instance. You can iterate its member in the way
         # you wanted it
