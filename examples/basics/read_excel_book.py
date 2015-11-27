@@ -8,7 +8,7 @@ sheet spreadsheet.
 """
 import os
 import pyexcel as pe
-import pyexcel.ext.ods
+import pyexcel.ext.ods3
 
 
 def main(base_dir):
