@@ -6,22 +6,27 @@ read_excel_book.py
 This shows how to use **Book** class to go through a multiple
 sheet spreadsheet.
 """
+import os
 import pyexcel as pe
 import pyexcel.ext.ods3
 
-# Simply give a name to the Book class
-book = pe.Book(filename="multiple-sheets.ods")
 
-# the default iterator for a **Book* instance is a SheetIterator
-for sheet in book:
-    # Each sheet has name
-    print("sheet: %s" % sheet.name)
-    # Once you have a sheet instance, you can regard it as
-    # a Reader instance. You can iterate its member in the way
-    # you wanted it
-    for row in sheet:
-        print(row)
+def main(base_dir):
+    # Simply give a name to the Book class
+    book = pe.Book(filename=os.path.join(base_dir,"multiple-sheets.ods"))
+    
+    # the default iterator for a **Book* instance is a SheetIterator
+    for sheet in book:
+        # Each sheet has name
+        print("sheet: %s" % sheet.name)
+        # Once you have a sheet instance, you can regard it as
+        # a Reader instance. You can iterate its member in the way
+        # you wanted it
+        for row in sheet:
+            print(row)
 
+if __name__ == '__main__':
+    main(os.getpwd())
 #Here's the output
 #sheet: Sheet 2
 #[u'X', u'Y', u'Z']
