@@ -489,7 +489,7 @@ class Matrix(object):
         copy every cell to a new memory area
         :param list array: a list of arrays
         """
-        self.width, self.array = uniform(array)
+        self.width, self.array = uniform(list(array))
 
     def number_of_rows(self):
         """The number of rows"""
