@@ -9,7 +9,7 @@
 """
 import re
 from .base import ReadOnlySource, WriteOnlySource
-from ..sheets import VALID_SHEET_PARAMETERS, Sheet
+from ..sheets import VALID_SHEET_PARAMETERS, Sheet, SheetStream
 from ..book import Book
 from ..constants import (
     KEYWORD_STARTS_WITH_DEST,
@@ -127,6 +127,18 @@ class SourceFactory:
             **keywords)
 
 
+def _get_content(**keywords):
+    if DEPRECATED_KEYWORD_CONTENT in keywords:
+        print(MESSAGE_DEPRECATED_CONTENT)
+        keywords[KEYWORD_FILE_CONTENT] = keywords.pop(
+            DEPRECATED_KEYWORD_CONTENT)
+    source = SourceFactory.get_source(**keywords)
+    if source is not None:
+        sheet_name, data = source.get_data()
+        return SheetStream(sheet_name, data)
+    raise NotImplementedError(MESSAGE_ERROR_NO_HANDLER)
+
+
 def get_sheet(**keywords):
     """Get an instance of :class:`Sheet` from an excel source
 
@@ -163,21 +175,13 @@ def get_sheet(**keywords):
 
     see also :ref:`a-list-of-data-structures`
     """
-    sheet = None
     sheet_params = {}
     for field in VALID_SHEET_PARAMETERS:
         if field in keywords:
             sheet_params[field] = keywords.pop(field)
-    if DEPRECATED_KEYWORD_CONTENT in keywords:
-        print(MESSAGE_DEPRECATED_CONTENT)
-        keywords[KEYWORD_FILE_CONTENT] = keywords.pop(
-            DEPRECATED_KEYWORD_CONTENT)
-    source = SourceFactory.get_source(**keywords)
-    if source is not None:
-        sheet_name, data = source.get_data()
-        sheet = Sheet(data, sheet_name, **sheet_params)
-        return sheet
-    raise NotImplementedError(MESSAGE_ERROR_NO_HANDLER)
+    named_content = _get_content(**keywords)
+    sheet = Sheet(named_content.payload, named_content.name, **sheet_params)
+    return sheet
 
 
 def get_book(**keywords):
