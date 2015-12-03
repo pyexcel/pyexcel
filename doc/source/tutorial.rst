@@ -418,17 +418,17 @@ Maybe you want to get only the data without the column headers. You can call :me
 
 You can get data from the bottom to the top one by calling :meth:`~pyexcel.Sheet.rrows()` instead::
 
-    >>> pyexcel.utils.to_array(sheet.rrows())
+    >>> pyexcel.to_array(sheet.rrows())
     [[7.0, 8.0, 9.0], [4.0, 5.0, 6.0], [1.0, 2.0, 3.0]]
 
 You might want the data arranged vertically. You can call :meth:`~pyexcel.Sheet.columns()` instead::
         
-    >>> pyexcel.utils.to_array(sheet.columns())
+    >>> pyexcel.to_array(sheet.columns())
     [[1.0, 4.0, 7.0], [2.0, 5.0, 8.0], [3.0, 6.0, 9.0]]
 
 You can get columns in reverse sequence as well by calling :meth:`~pyexcel.Sheet.rcolumns()` instead::
         
-    >>> pyexcel.utils.to_array(sheet.rcolumns())
+    >>> pyexcel.to_array(sheet.rcolumns())
     [[3.0, 6.0, 9.0], [2.0, 5.0, 8.0], [1.0, 4.0, 7.0]]
 
 Do you want to flatten the data? you can get the content in one dimensional array. If you are interested in playing with one dimensional enurmation, you can check out these functions :meth:`~pyexcel.Sheet.enumerate`, :meth:`~pyexcel.Sheet.reverse`, :meth:`~pyexcel.Sheet.vertical`, and :meth:`~pyexcel.Sheet.rvertical()`::
