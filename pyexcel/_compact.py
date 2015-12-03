@@ -51,3 +51,10 @@ def is_string(atype):
         elif atype == str:
             return True
     return False
+
+
+def deprecated(func, message="Deprecated!"):
+    def inner(*arg, **keywords):
+        print(message)
+        return func(*arg, **keywords)
+    return inner

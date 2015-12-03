@@ -325,9 +325,8 @@ The following code will write it as an excel file of your choice::
 
     
     >>> example_dict = {"Column 1": [1, 2, 3], "Column 2": [4, 5, 6], "Column 3": [7, 8, 9]}
-    >>> content = pyexcel.utils.dict_to_array(example_dict)
     >>> # "output.xls" "output.xlsx" "output.ods" "output.xlsm"
-    >>> sheet = pyexcel.Sheet(content)
+    >>> sheet = pyexcel.get_sheet(adict=example_dict)
     >>> sheet.save_as("output.csv")
 
 
@@ -356,7 +355,7 @@ Suppose you have previous data as a dictionary and you want to save it as multip
     ...             [4.0, 3.0, 2.0]
     ...         ] 
     ... }
-    >>> book = pyexcel.Book(content)
+    >>> book = pyexcel.get_book(bookdict=content)
     >>> book.save_as("output.xls")
 
 You shall get a xls file

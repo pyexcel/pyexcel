@@ -7,15 +7,9 @@
     :copyright: (c) 2015 by Onni Software Ltd.
     :license: New BSD License
 """
+from ._compact import deprecated
 from .sources import get_sheet, get_book
 from functools import partial
-
-
-def deprecated(func, message="Deprecated!"):
-    def inner(*arg, **keywords):
-        print(message)
-        return func(*arg, **keywords)
-    return inner
 
 
 deprecated_loader = partial(

@@ -23,18 +23,6 @@ class FormattableSheet(Matrix):
     def __init__(self, array):
         """Constructor
 
-        Example::
-
-            >>> import pyexcel as pe
-            >>> # Given a dictinoary as the following
-            >>> data = {
-            ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
-            ...     "3": [1.25, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
-            ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
-            ...     "7": [1, '',]
-            ...     }
-            >>> sheet = pe.Sheet(pe.dict_to_array(data))
-
         """
         Matrix.__init__(self, array)
         self._formatters = []
@@ -52,7 +40,7 @@ class FormattableSheet(Matrix):
             ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
             ...     "7": [1, '',]
             ...     }
-            >>> sheet = pe.Sheet(pe.dict_to_array(data))
+            >>> sheet = pe.get_sheet(adict=data)
             >>> sheet.row[1]
             [1, 1.25, 2, 1]
             >>> sheet.format(str)
@@ -82,7 +70,7 @@ class FormattableSheet(Matrix):
             ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
             ...     "7": [1, '',]
             ...     }
-            >>> sheet = pe.Sheet(pe.dict_to_array(data))
+            >>> sheet = pe.get_sheet(adict=data)
             >>> sheet.row[1]
             [1, 1.25, 2, 1]
             >>> sheet.map(lambda value: (float(value) if value != None else 0)+1 )
@@ -106,7 +94,7 @@ class FormattableSheet(Matrix):
             ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
             ...     "7": [1, '',]
             ...     }
-            >>> sheet = pe.Sheet(pe.dict_to_array(data))
+            >>> sheet = pe.get_sheet(adict=data)
             >>> sheet.row[1]
             [1, 1.25, 2, 1]
             >>> aformatter = pe.SheetFormatter(lambda value: (float(value) if value != None else 0)+1 )
@@ -169,7 +157,7 @@ class FormattableSheet(Matrix):
             ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
             ...     "7": [1, '',]
             ...     }
-            >>> sheet = pe.Sheet(pe.dict_to_array(data))
+            >>> sheet = pe.get_sheet(adict=data)
             >>> sheet.row[1]
             [1, 1.25, 2, 1]
             >>> aformatter = pe.SheetFormatter(lambda value: (float(value) if value != None else 0)+1 )
@@ -210,7 +198,7 @@ class FormattableSheet(Matrix):
             ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
             ...     "7": [1, '',]
             ...     }
-            >>> sheet = pe.Sheet(pe.dict_to_array(data))
+            >>> sheet = pe.get_sheet(adict=data)
             >>> sheet.row[1]
             [1, 1.25, 2, 1]
             >>> aformatter = pe.SheetFormatter(lambda value: (float(value) if value != None else 0)+1)
