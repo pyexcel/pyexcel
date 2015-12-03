@@ -19,6 +19,8 @@ Pyexcel v0.2.x is under way, the feature highlight will be performance optimizat
 by the usage of yield keyword. And v0.2.x will potentially enable streaming
 excel content over HTTP protocol.
 
+v0.1.8 may be released if potential bug fix is needed for v0.1.7.
+
 
 Known constraints
 ==================
