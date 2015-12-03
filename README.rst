@@ -12,6 +12,14 @@ pyexcel - Let you focus on data, instead of file formats
     :target: http://pyexcel.readthedocs.org/en/latest/
 
 
+Roadmap
+==================
+
+Pyexcel v0.2.x is under way, the feature highlight will be performance optimization
+by the usage of yield keyword. And v0.2.x will potentially enable streaming
+excel content over HTTP protocol.
+
+
 Known constraints
 ==================
 
