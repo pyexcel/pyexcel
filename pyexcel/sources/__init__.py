@@ -281,7 +281,14 @@ def save_as(**keywords):
     dest_keywords, source_keywords = split_keywords(**keywords)
     dest_source = SourceFactory.get_writeable_source(**dest_keywords)
     if dest_source is not None:
-        sheet = get_sheet(**source_keywords)
+        sheet_params = {}
+        for field in VALID_SHEET_PARAMETERS:
+            if field in source_keywords:
+                sheet_params[field] = source_keywords.pop(field)
+        sheet = _get_content(**source_keywords)
+        if sheet_params != {}:
+            sheet = Sheet(sheet.payload, sheet.name,
+                          **sheet_params)
         sheet.save_to(dest_source)
         if KEYWORD_FILE_TYPE in dest_source.fields:
             dest_source.content.seek(0)

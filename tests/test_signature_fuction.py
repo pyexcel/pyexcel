@@ -317,7 +317,7 @@ class TestSavingToDatabase:
             "Y": [2, 5],
             "Z": [3, 6]
         }
-        sheet = pe.get_sheet(adict=adict)
+        sheet = pe.get_sheet(adict=adict, name_columns_by_row=0)
         sheet.save_to_database(self.session, Signature)
         result = pe.get_dict(session=self.session, table=Signature)
         assert adict == result
@@ -328,9 +328,9 @@ class TestSavingToDatabase:
             "Y": [2, 5],
             "Z": [3, 6]
         }
-        sheet = pe.get_sheet(adict=adict)
+        sheet = pe.get_sheet(adict=adict, name_columns_by_row=0)
         sheet.save_to_database(self.session, Signature)
-        result = pe.get_dict(session=self.session, table=Signature)
+        result = pe.get_dict(session=self.session, table=Signature, name_columns_by_row=0)
         assert adict == result
 
     def test_save_a_dict3(self):
@@ -339,7 +339,7 @@ class TestSavingToDatabase:
             "Y": [2, 5],
             "Z": [3, 6]
         }
-        sheet = pe.get_sheet(adict=adict)
+        sheet = pe.get_sheet(adict=adict, name_columns_by_row=0)
         sheet.save_to_database(self.session, Signature)
         result = pe.get_dict(session=self.session, table=(Signature))
         assert adict == result
@@ -506,7 +506,8 @@ class TestSavingToDatabase:
             "Y": [2, 5],
             "Z": [3, 6]
         }
-        pe.save_as(adict=adict, dest_session=self.session, dest_table=Signature)
+        pe.save_as(adict=adict, dest_session=self.session, dest_table=Signature,
+                   name_columns_by_row=0)
         result = pe.get_dict(session=self.session, table=Signature)
         assert adict == result
 

@@ -53,6 +53,9 @@ class SheetDatabaseSourceMixin(Source):
     Generic database source
 
     It does the general data import and export.
+
+    Please note that name_columns_by_row, or name_rows_by_column
+    should be specified prior to writing
     """
     def get_sql_book():
         pass
@@ -65,8 +68,6 @@ class SheetDatabaseSourceMixin(Source):
         return one_sheet_tuple(sheets.items())
 
     def write_data(self, sheet):
-        if(len(sheet.colnames)) == 0:
-            sheet.name_columns_by_row(0)
         w = self.get_writer(sheet)
         raw_sheet = w.create_sheet(sheet.name)
         raw_sheet.write_array(sheet.array)
@@ -91,10 +92,13 @@ class SheetSQLAlchemySource(SheetDatabaseSourceMixin):
                          tables=[self.table])
 
     def get_writer(self, sheet):
+        headers = sheet.colnames
+        if len(headers) == 0:
+            headers = sheet.rownames
         tables = {
             sheet.name: (
                 self.table,
-                sheet.colnames,
+                headers,
                 self.keywords.get(KEYWORD_MAPDICT, None),
                 self.keywords.get(KEYWORD_INITIALIZER, None)
             )
@@ -123,10 +127,13 @@ class SheetDjangoSource(SheetDatabaseSourceMixin):
         return load_data(DB_DJANGO, models=[self.model])
 
     def get_writer(self, sheet):
+        headers = sheet.colnames
+        if len(headers) == 0:
+            headers = sheet.rownames
         models = {
             sheet.name: (
                 self.model,
-                sheet.colnames,
+                headers,
                 self.keywords.get(KEYWORD_MAPDICT, None),
                 self.keywords.get(KEYWORD_INITIALIZER, None)
             )

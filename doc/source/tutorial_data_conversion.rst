@@ -366,7 +366,7 @@ Smith 4.2    2014-11-12
 Here is the code to import it:
 
    >>> session = Session() # obtain a sql session
-   >>> pyexcel.save_as(file_name="birth.xls", dest_session=session, dest_table=BirthRegister)
+   >>> pyexcel.save_as(file_name="birth.xls", name_columns_by_row=0, dest_session=session, dest_table=BirthRegister)
 
 Done it. It is that simple. Let's verify what has been imported to make sure.
 

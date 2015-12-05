@@ -40,11 +40,13 @@ data = [
    ["Adam", 3.4, datetime.date(2015, 2, 3)],
    ["Smith", 4.2, datetime.date(2014, 11, 12)]
 ]
-pyexcel.save_as(array=data, dest_file_name="birth.xls")
+pyexcel.save_as(array=data,
+                dest_file_name="birth.xls")
 
 # import the xls file
 session = Session() # obtain a sql session
 pyexcel.save_as(file_name="birth.xls",
+                 name_columns_by_row=0,
                 dest_session=session,
                 dest_table=BirthRegister)
 

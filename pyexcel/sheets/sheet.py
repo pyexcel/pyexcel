@@ -16,6 +16,9 @@ class SheetStream(NamedContent):
         """Save to a writeable data source"""
         source.write_data(self)
 
+    def to_array(self):
+        return self.payload
+
 
 
 class Sheet(NominableSheet):
