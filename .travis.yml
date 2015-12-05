@@ -16,9 +16,7 @@ install:
   - if [[ $TRAVIS_PYTHON_VERSION == "2.6" ]]; then pip install ordereddict; fi
   - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then rm tests/test_examples.py; fi
   - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then pip install lxml==3.4.4; fi
-  - pip install https://github.com/chfw/pyexcel-io/archive/master.zip
-  - pip install https://github.com/chfw/pyexcel-xls/archive/master.zip
-  - pip install https://github.com/chfw/pyexcel-xlsx/archive/master.zip
+  - pip install https://github.com/chfw/pyexcel-io/archive/yield.zip
   - pip install -r tests/requirements.txt
   - pip install -r requirements.txt
 script:
