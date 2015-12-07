@@ -201,15 +201,15 @@ def get_book(**keywords):
 
     Here is a table of parameters:
 
-    ========================== ============================================
+    ========================== ===============================
     source                     parameters
-    ========================== ============================================
+    ========================== ===============================
     loading from file          file_name, keywords
     loading from memory        file_type, content, keywords
     loading from sql           session, tables
     loading from django models models
     loading from dictionary    bookdict
-    ========================== ============================================
+    ========================== ===============================
 
     Where the dictionary should have text as keys and two dimensional
     array as values.
