@@ -10,7 +10,7 @@
 import re
 from .base import ReadOnlySource, WriteOnlySource
 from ..sheets import VALID_SHEET_PARAMETERS, Sheet, SheetStream
-from ..book import Book
+from ..book import Book, BookStream
 from ..constants import (
     KEYWORD_STARTS_WITH_DEST,
     MESSAGE_DEPRECATED_OUT_FILE,
@@ -184,6 +184,24 @@ def get_sheet(**keywords):
     return sheet
 
 
+def _get_book(**keywords):
+    """Get an instance of :class:`Book` from an excel source
+
+    Where the dictionary should have text as keys and two dimensional
+    array as values.
+    """
+    if DEPRECATED_KEYWORD_CONTENT in keywords:
+        print(MESSAGE_DEPRECATED_CONTENT)
+        keywords[KEYWORD_FILE_CONTENT] = keywords.pop(
+            DEPRECATED_KEYWORD_CONTENT)
+    source = SourceFactory.get_book_source(**keywords)
+    if source is not None:
+        sheets, filename, path = source.get_data()
+        book = BookStream(sheets, filename=filename, path=path)
+        return book
+    raise NotImplementedError(MESSAGE_ERROR_NO_HANDLER)
+
+
 def get_book(**keywords):
     """Get an instance of :class:`Book` from an excel source
 
@@ -214,16 +232,11 @@ def get_book(**keywords):
     Where the dictionary should have text as keys and two dimensional
     array as values.
     """
-    if DEPRECATED_KEYWORD_CONTENT in keywords:
-        print(MESSAGE_DEPRECATED_CONTENT)
-        keywords[KEYWORD_FILE_CONTENT] = keywords.pop(
-            DEPRECATED_KEYWORD_CONTENT)
-    source = SourceFactory.get_book_source(**keywords)
-    if source is not None:
-        sheets, filename, path = source.get_data()
-        book = Book(sheets, filename=filename, path=path)
-        return book
-    raise NotImplementedError(MESSAGE_ERROR_NO_HANDLER)
+    book_stream = _get_book(**keywords)
+    book = Book(book_stream.sheets,
+                filename=book_stream.filename,
+                path=book_stream.path)
+    return book
 
 
 def split_keywords(**keywords):
@@ -330,7 +343,7 @@ def save_book_as(**keywords):
     dest_keywords, source_keywords = split_keywords(**keywords)
     dest_source = SourceFactory.get_writeable_book_source(**dest_keywords)
     if dest_source is not None:
-        book = get_book(**source_keywords)
+        book = _get_book(**source_keywords)
         book.save_to(dest_source)
         if KEYWORD_FILE_TYPE in dest_source.fields:
             dest_source.content.seek(0)

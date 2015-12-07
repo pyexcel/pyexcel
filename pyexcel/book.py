@@ -14,6 +14,53 @@ from ._compact import OrderedDict
 from .presentation import outsource
 
 
+class BookStream(object):
+    """Read an excel book that has one or more sheets
+
+    For csv file, there will be just one sheet
+    """
+    def __init__(self, sheets={}, filename="memory", path=None):
+        """Book constructor
+
+        Selecting a specific book according to filename extension
+        :param OrderedDict/dict sheets: a dictionary of data
+        :param str filename: the physical file
+        :param str path: the relative path or abosolute path
+        :param set keywords: additional parameters to be passed on
+        """
+        self.path = path
+        self.filename = filename
+        self.name_array = []
+        self.sheets = sheets
+        self.name_array = list(self.sheets.keys())
+
+    def save_to(self, source):
+        """Save to a writeable data source"""
+        from .sources import BookDjangoSource, BookSQLSource
+        if isinstance(source, BookDjangoSource) or isinstance(source, BookSQLSource):
+            book = Book(self.sheets,
+                filename=self.filename,
+                path=self.path)
+            source.write_data(book)
+        else:
+            source.write_data(self)
+
+    def to_dict(self):
+        return self.sheets
+        
+    def __iter__(self):
+        return SheetIterator(self)
+
+    def number_of_sheets(self):
+        """Return the number of sheets"""
+        return len(self.name_array)
+
+    def __getitem__(self, index):
+        if index < len(self.name_array):
+            sheet_name = self.name_array[index]
+            return self.sheets[sheet_name]
+
+
 class Book(object):
     """Read an excel book that has one or more sheets
 
