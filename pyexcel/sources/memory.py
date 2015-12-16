@@ -75,8 +75,8 @@ class RecrodsSource(ReadOnlySource):
         self.records = records
 
     def get_data(self):
-        from ..utils import from_records
-        return DEFAULT_SHEET_NAME, from_records(self.records)
+        from ..utils import yield_from_records
+        return DEFAULT_SHEET_NAME, yield_from_records(self.records)
 
 
 class DictSource(ReadOnlySource):
@@ -90,9 +90,9 @@ class DictSource(ReadOnlySource):
         self.with_keys = with_keys
 
     def get_data(self):
-        from ..utils import dict_to_array
-        tmp_array = dict_to_array(self.adict, self.with_keys)
-        return DEFAULT_SHEET_NAME, tmp_array
+        from ..utils import yield_dict_to_array
+        return DEFAULT_SHEET_NAME, yield_dict_to_array(self.adict,
+                                                       self.with_keys)
 
 
 class ArraySource(ReadOnlySource):

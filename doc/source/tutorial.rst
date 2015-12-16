@@ -325,9 +325,8 @@ The following code will write it as an excel file of your choice::
 
     
     >>> example_dict = {"Column 1": [1, 2, 3], "Column 2": [4, 5, 6], "Column 3": [7, 8, 9]}
-    >>> content = pyexcel.utils.dict_to_array(example_dict)
     >>> # "output.xls" "output.xlsx" "output.ods" "output.xlsm"
-    >>> sheet = pyexcel.Sheet(content)
+    >>> sheet = pyexcel.get_sheet(adict=example_dict)
     >>> sheet.save_as("output.csv")
 
 
@@ -356,7 +355,7 @@ Suppose you have previous data as a dictionary and you want to save it as multip
     ...             [4.0, 3.0, 2.0]
     ...         ] 
     ... }
-    >>> book = pyexcel.Book(content)
+    >>> book = pyexcel.get_book(bookdict=content)
     >>> book.save_as("output.xls")
 
 You shall get a xls file
@@ -418,17 +417,17 @@ Maybe you want to get only the data without the column headers. You can call :me
 
 You can get data from the bottom to the top one by calling :meth:`~pyexcel.Sheet.rrows()` instead::
 
-    >>> pyexcel.utils.to_array(sheet.rrows())
+    >>> pyexcel.to_array(sheet.rrows())
     [[7.0, 8.0, 9.0], [4.0, 5.0, 6.0], [1.0, 2.0, 3.0]]
 
 You might want the data arranged vertically. You can call :meth:`~pyexcel.Sheet.columns()` instead::
         
-    >>> pyexcel.utils.to_array(sheet.columns())
+    >>> pyexcel.to_array(sheet.columns())
     [[1.0, 4.0, 7.0], [2.0, 5.0, 8.0], [3.0, 6.0, 9.0]]
 
 You can get columns in reverse sequence as well by calling :meth:`~pyexcel.Sheet.rcolumns()` instead::
         
-    >>> pyexcel.utils.to_array(sheet.rcolumns())
+    >>> pyexcel.to_array(sheet.rcolumns())
     [[3.0, 6.0, 9.0], [2.0, 5.0, 8.0], [1.0, 4.0, 7.0]]
 
 Do you want to flatten the data? you can get the content in one dimensional array. If you are interested in playing with one dimensional enurmation, you can check out these functions :meth:`~pyexcel.Sheet.enumerate`, :meth:`~pyexcel.Sheet.reverse`, :meth:`~pyexcel.Sheet.vertical`, and :meth:`~pyexcel.Sheet.rvertical()`::

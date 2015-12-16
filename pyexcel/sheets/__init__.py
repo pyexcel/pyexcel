@@ -8,7 +8,7 @@
     :license: New BSD License, see LICENSE for more details
 """
 from .sheet import (
-    Sheet,
+    Sheet, SheetStream,
     NominableSheet)
 from .formattablesheet import FormattableSheet
 from .filterablesheet import FilterableSheet

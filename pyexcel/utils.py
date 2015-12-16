@@ -10,16 +10,21 @@
 from .sheets import NominableSheet, Sheet
 from ._compact import OrderedDict, PY2
 from .constants import MESSAGE_DATA_ERROR_NO_SERIES
+from functools import partial
+from ._compact import deprecated
 import datetime
 
 
 LOCAL_UUID = 0
 
-
 def local_uuid():
     global LOCAL_UUID
     LOCAL_UUID = LOCAL_UUID + 1
     return LOCAL_UUID
+
+
+deprecated_utls = partial(deprecated,
+                          message="Deprecated since v0.2.0!")
 
 
 def to_array(o):
@@ -80,21 +85,30 @@ def to_records(reader, custom_headers=None):
     return ret
 
 
+@deprecated_utls
 def from_records(records):
     """Reverse function of to_records
     """
-    if len(records) < 1:
+    content = list(yield_from_records(records))
+    if content == [[]]:
         return None
+    else:
+        return content
 
-    keys = sorted(records[0].keys())
-    data = []
-    data.append(list(keys))
-    for r in records:
-        row = []
-        for k in keys:
-            row.append(r[k])
-        data.append(row)
-    return data
+    
+def yield_from_records(records):
+    """Reverse function of to_records
+    """
+    if len(records) < 1:
+        yield []
+    else:
+        keys = sorted(records[0].keys())
+        yield list(keys)
+        for r in records:
+            row = []
+            for k in keys:
+                row.append(r[k])
+            yield row
 
 
 def to_one_dimensional_array(iterator):
@@ -108,7 +122,12 @@ def to_one_dimensional_array(iterator):
     return array
 
 
+@deprecated_utls
 def dict_to_array(the_dict, with_keys=True):
+    return list(yield_dict_to_array(the_dict, with_keys))
+
+
+def yield_dict_to_array(the_dict, with_keys=True):
     """Convert a dictionary of columns to an array
 
     The example dict is::
@@ -133,14 +152,13 @@ def dict_to_array(the_dict, with_keys=True):
     :param dict the_dict: the dictionary to be converted.
     :param bool with_keys: to write the keys as the first row or not
     """
-    content = []
     keys = the_dict.keys()
     if not PY2:
         keys = list(keys)
     if not isinstance(the_dict, OrderedDict):
         keys = sorted(keys)
     if with_keys:
-        content.append(keys)
+        yield keys
     max_length = -1
     for k in keys:
         column_length = len(the_dict[k])
@@ -155,8 +173,7 @@ def dict_to_array(the_dict, with_keys=True):
                 row_data.append(the_dict[k][i])
             else:
                 row_data.append('')
-        content.append(row_data)
-    return content
+        yield row_data
 
 
 def from_query_sets(column_names, query_sets):

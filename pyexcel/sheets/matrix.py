@@ -489,7 +489,7 @@ class Matrix(object):
         copy every cell to a new memory area
         :param list array: a list of arrays
         """
-        self.width, self.array = uniform(array)
+        self.width, self.array = uniform(list(array))
 
     def number_of_rows(self):
         """The number of rows"""
@@ -557,7 +557,7 @@ class Matrix(object):
             ...     [9, 10, 11, 12]
             ... ]
             >>> m = pe.sheets.Matrix(data)
-            >>> print(pe.utils.to_array(m.enumerate()))
+            >>> print(pe.to_array(m.enumerate()))
             [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
         More details see :class:`HTLBRIterator`
@@ -578,7 +578,7 @@ class Matrix(object):
             ...     [9, 10, 11, 12]
             ... ]
             >>> m = pe.sheets.Matrix(data)
-            >>> print(pe.utils.to_array(m.reverse()))
+            >>> print(pe.to_array(m.reverse()))
             [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
 
         More details see :class:`HBRTLIterator`

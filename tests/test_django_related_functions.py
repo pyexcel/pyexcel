@@ -56,7 +56,8 @@ class TestVerticalSheet:
 
     def test_model_save_to_django_model(self):
         model=FakeDjangoModel()
-        pe.save_as(array=self.data, dest_model=model, transpose_before=True)
+        pe.save_as(array=self.data, name_columns_by_row=0,
+                   dest_model=model, transpose_before=True)
         assert model.objects.objs == self.result
 
     def test_mapping_array(self):
@@ -67,10 +68,16 @@ class TestVerticalSheet:
         ]
         mapdict = ["X", "Y", "Z"]
         model=FakeDjangoModel()
-        pe.save_as(array=data2, dest_model=model, dest_mapdict=mapdict, transpose_before=True)
+        pe.save_as(array=data2, name_columns_by_row=0,
+                   dest_model=model, dest_mapdict=mapdict, transpose_before=True)
         assert model.objects.objs == self.result
 
     def test_mapping_dict(self):
+        """
+
+        for vertical sheet, first transpose it and then
+        name columns by row 0
+        """
         data2 = [
             ["A", 1, 4],
             ["B", 2, 5],
@@ -82,7 +89,8 @@ class TestVerticalSheet:
             "B": "Y"
         }
         model=FakeDjangoModel()
-        pe.save_as(array=data2, dest_model=model, dest_mapdict=mapdict, transpose_after=True)
+        pe.save_as(array=data2, dest_model=model, dest_mapdict=mapdict,
+                   name_columns_by_row=0, transpose_before=True)
         assert model.objects.objs == self.result
 
 
@@ -124,7 +132,7 @@ class TestSheet:
 
     def test_model_save_to_django_model_2(self):
         model=FakeDjangoModel()
-        pe.save_as(array=self.data, dest_model=model)
+        pe.save_as(array=self.data, dest_model=model, name_columns_by_row=0)
         assert model.objects.objs == self.result
 
     def test_load_sheet_from_django_model(self):
@@ -145,7 +153,8 @@ class TestSheet:
         ]
         mapdict = ["X", "Y", "Z"]
         model=FakeDjangoModel()
-        pe.save_as(array=data2, dest_model=model, dest_mapdict=mapdict)
+        pe.save_as(array=data2, name_columns_by_row=0,
+                   dest_model=model, dest_mapdict=mapdict)
         assert model.objects.objs == self.result
 
     def test_mapping_dict(self):
@@ -160,7 +169,8 @@ class TestSheet:
             "B": "Y"
         }
         model=FakeDjangoModel()
-        pe.save_as(array=data2, dest_model=model, dest_mapdict=mapdict)
+        pe.save_as(array=data2, name_columns_by_row=0,
+                   dest_model=model, dest_mapdict=mapdict)
         assert model.objects.objs == self.result
 
 

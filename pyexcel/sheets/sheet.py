@@ -8,6 +8,17 @@
     :license: New BSD License, see LICENSE for more details
 """
 from .nominablesheet import NominableSheet
+from pyexcel_io import NamedContent
+
+
+class SheetStream(NamedContent):
+    def save_to(self, source):
+        """Save to a writeable data source"""
+        source.write_data(self)
+
+    def to_array(self):
+        return self.payload
+
 
 
 class Sheet(NominableSheet):
@@ -89,6 +100,3 @@ class Sheet(NominableSheet):
             auto_commit=auto_commit
         )
         self.save_to(source)
-
-
-

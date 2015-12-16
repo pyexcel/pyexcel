@@ -57,7 +57,4 @@ class WriteOnlySource(Source):
 def one_sheet_tuple(items):
     if not PY2:
         items = list(items)
-    if len(items[0][1]) == 0:
-        return None, None
-    else:
-        return items[0][0], items[0][1]
+    return items[0][0], items[0][1]

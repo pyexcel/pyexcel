@@ -259,11 +259,11 @@ class TestCookbook:
         r[self.testfile3].name_columns_by_row(0)
         content3 = r[self.testfile3].to_dict()
         assert content3 == self.content3
-        content4 = pe.utils.to_array(r["Sheet1"])
+        content4 = r["Sheet1"].to_array()
         assert content4 == self.content4["Sheet1"]
-        content5 = pe.utils.to_array(r["Sheet2"])
+        content5 = r["Sheet2"].to_array()
         assert content5 == self.content4["Sheet2"]
-        content6 = pe.utils.to_array(r["Sheet3"])
+        content6 = r["Sheet3"].to_array()
         assert content6 == self.content4["Sheet3"]
 
     def test_merge_csv_files_to_a_book(self):
