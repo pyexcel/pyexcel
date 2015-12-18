@@ -262,6 +262,13 @@ def split_keywords(**keywords):
 def save_as(**keywords):
     """Save a sheet from a data srouce to another one
 
+    It accepts two sets of keywords. Why two sets? one set is
+    source, the other set is destination. In order to distiguish
+    the two sets, source set will be exactly the same
+    as the ones for :meth:`pyexcel.get_sheet`; destination
+    set are exactly the same as the ones for :class:`pyexcel.Sheet.save_as`
+    but require a 'dest' prefix.
+
     :param dest_file_name: another file name. **out_file** is deprecated
                            though is still accepted.
     :param dest_file_type: this is needed if you want to save to memory

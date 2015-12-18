@@ -1,3 +1,4 @@
+ezodf>=0.3.2
 SQLAlchemy
 mock
 glob2
