@@ -97,7 +97,7 @@ See also:
 
 * :ref:`save_an_array_to_an_excel_sheet`
 * :ref:`save_an_book_dict_to_an_excel_book`
-
+* :ref:`save_an_array_to_a_csv_with_custom_delimiter`
 
 Data transportation/transcoding
 ----------------------------------

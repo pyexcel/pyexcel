@@ -44,7 +44,16 @@ class Sheet(NominableSheet):
         source.write_data(self)
 
     def save_as(self, filename, **keywords):
-        """Save the content to a named file"""
+        """Save the content to a named file
+
+        Heywords may vary depending on your file type, because the associated
+        file type employs different library.
+
+        for csv, `fmtparams <https://docs.python.org/release/3.1.5/
+                  library/csv.html#dialects-and-formatting-parameters>`_
+                  are accepted
+        for xls, 'encoding' and 'style_compression' are supported
+        """
         from ..sources import SheetSource
         source = SheetSource(file_name=filename, **keywords)
         return self.save_to(source)

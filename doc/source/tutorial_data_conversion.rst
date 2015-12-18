@@ -113,7 +113,38 @@ Let's verify it::
    >>> import os
    >>> os.unlink("example.xls")
 
-   
+.. _save_an_array_to_a_csv_with_custom_delimiter:
+How to save an python array as a csv file with special delimiter
+--------------------------------------------------------------------
+
+Suppose you have the following array::
+
+   >>> data = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+And here is the code to save it as an excel file ::
+
+   >>> import pyexcel
+   >>> import pyexcel.ext.xls   
+   >>> pyexcel.save_as(array=data,
+   ...                 dest_file_name="example.csv",
+   ...                 dest_delimiter=' ')
+
+Let's verify it::
+
+   >>> with open("example.csv") as f:
+   ...     print f.read()
+   ...
+   1 2 3
+   4 5 6
+   7 8 9
+   <BLANKLINE>
+
+.. testcode::
+   :hide:
+
+   >>> import os
+   >>> os.unlink("example.csv")
+
 .. _get_a_dict_from_an_excel_sheet:
 
 How to get a dictionary from an excel sheet

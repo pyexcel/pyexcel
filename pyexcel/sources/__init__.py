@@ -269,6 +269,8 @@ def save_as(**keywords):
     set are exactly the same as the ones for :class:`pyexcel.Sheet.save_as`
     but require a 'dest' prefix.
 
+    :param keywords: additional keywords can be found at
+                     :meth:`pyexcel.get_sheet`
     :param dest_file_name: another file name. **out_file** is deprecated
                            though is still accepted.
     :param dest_file_type: this is needed if you want to save to memory
@@ -281,8 +283,12 @@ def save_as(**keywords):
     :param dest_mapdict: nominate headers
     :param dest_batch_size: object creation batch size.
                             it is Django specific
-    :param keywords: additional keywords can be found at
-                     :meth:`pyexcel.get_sheet`
+    if csv file is destination format, python csv
+    `fmtparams <https://docs.python.org/release/3.1.5/
+    library/csv.html#dialects-and-formatting-parameters>`_
+    are accepted
+    for example: dest_lineterminator will replace default '\r\n'
+    to the one you specified
     :returns: IO stream if saving to memory. None otherwise
 
     ================= =============================================
