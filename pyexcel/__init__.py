@@ -131,6 +131,3 @@ def get_book_dict(**keywords):
         return book.to_dict()
     else:
         return None
-
-
-__VERSION__ = '0.1.8'

@@ -127,16 +127,16 @@ And here is the code to save it as an excel file ::
    >>> import pyexcel.ext.xls   
    >>> pyexcel.save_as(array=data,
    ...                 dest_file_name="example.csv",
-   ...                 dest_delimiter=' ')
+   ...                 dest_delimiter=':')
 
 Let's verify it::
 
    >>> with open("example.csv") as f:
-   ...     print f.read()
+   ...     print(f.read())
    ...
-   1 2 3
-   4 5 6
-   7 8 9
+   1:2:3
+   4:5:6
+   7:8:9
    <BLANKLINE>
 
 .. testcode::
