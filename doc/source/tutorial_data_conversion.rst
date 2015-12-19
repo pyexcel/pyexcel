@@ -134,7 +134,7 @@ Let's verify it::
 
    >>> with open("example.csv") as f:
    ...     for line in f.readlines():
-   ...         print line.rstrip()
+   ...         print(line.rstrip())
    ...
    1:2:3
    4:5:6
