@@ -133,12 +133,12 @@ And here is the code to save it as an excel file ::
 Let's verify it::
 
    >>> with open("example.csv") as f:
-   ...     print(f.read())
+   ...     for line in f.readlines():
+   ...         print line.rstrip()
    ...
    1:2:3
    4:5:6
    7:8:9
-   <BLANKLINE>
 
 .. testcode::
    :hide:

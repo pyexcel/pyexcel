@@ -1,10 +1,8 @@
-ezodf>=0.3.2
 SQLAlchemy
 mock
 glob2
 flask
 lxml
-openpyxl
 pyexcel-xls
 pyexcel-xlsx
 pyexcel-ods3
