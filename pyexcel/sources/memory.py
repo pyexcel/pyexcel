@@ -19,6 +19,7 @@ from ..constants import (
     KEYWORD_BOOKDICT,
     DEFAULT_SHEET_NAME
 )
+from .._compact import OrderedDict
 
 
 class ReadOnlySheetSource(SheetSource):
@@ -146,7 +147,11 @@ class BookDictSource(ReadOnlySource):
         self.bookdict = bookdict
 
     def get_data(self):
-        return self.bookdict, KEYWORD_BOOKDICT, None
+        the_dict = self.bookdict
+        if not isinstance(self.bookdict, OrderedDict):
+            from ..utils import convert_dict_to_ordered_dict
+            the_dict = convert_dict_to_ordered_dict(self.bookdict)
+        return the_dict, KEYWORD_BOOKDICT, None
 
 
 class WriteOnlyBookSource(BookSource):

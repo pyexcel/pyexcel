@@ -188,3 +188,14 @@ def from_query_sets(column_names, query_sets):
             new_array.append(value)
         array.append(new_array)
     return array
+
+
+def convert_dict_to_ordered_dict(the_dict):
+    keys = the_dict.keys()
+    if not PY2:
+        keys = list(keys)
+    keys = sorted(keys)
+    ret = OrderedDict()
+    for key in keys:
+        ret[key] = the_dict[key]
+    return ret
