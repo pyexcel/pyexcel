@@ -10,7 +10,7 @@
 :Source code: http://github.com/chfw/pyexcel
 :Issues: http://github.com/chfw/pyexcel/issues
 :License: New BSD License
-:Version: |version| is the maintenance version of 0.1.x branch
+:Version: |version|
 :Generated: |today|
 
 Introduction
