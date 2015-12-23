@@ -183,6 +183,7 @@ Tutorial
    tutorial04
    tutorial_file
    tutorial06
+   migration_guide
 
 Cook book
 ----------

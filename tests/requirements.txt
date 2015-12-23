@@ -3,9 +3,9 @@ mock
 glob2
 flask
 lxml
-pyexcel-xls
-pyexcel-xlsx
-pyexcel-ods3
+https://github.com/chfw/pyexcel-xls/archive/master.zip
+https://github.com/chfw/pyexcel-xlsx/archive/master.zip
+https://github.com/chfw/pyexcel-ods3/archive/master.zip
 nose
 rednose
 nose-cov
