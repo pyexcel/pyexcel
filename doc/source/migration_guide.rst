@@ -85,7 +85,7 @@ The new code is:
     ... ]
     >>> io = pyexcel.save_as(dest_file_type='csv', array=data)
     >>> for line in io.readlines():
-    ...     print line.rstrip()
+    ...     print(line.rstrip())
     1,2,3
     4,5,6
     
