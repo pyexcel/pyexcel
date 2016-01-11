@@ -2,7 +2,7 @@
 pyexcel - Let you focus on data, instead of file formats
 ========================================================
 
-.. image:: https://api.travis-ci.org/chfw/pyexcel.svg?branch=master
+.. image:: https://api.travis-ci.org/pyexcel/pyexcel.svg?branch=master
     :target: http://travis-ci.org/chfw/pyexcel
 
 .. image:: https://coveralls.io/repos/chfw/pyexcel/badge.png?branch=master 
