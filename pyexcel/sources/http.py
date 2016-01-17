@@ -4,7 +4,7 @@
 
     Representation of http sources
 
-    :copyright: (c) 2015 by Onni Software Ltd.
+    :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
 from .base import ReadOnlySource, one_sheet_tuple

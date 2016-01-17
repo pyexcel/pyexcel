@@ -4,7 +4,7 @@
 
     Representation of database sources
 
-    :copyright: (c) 2015 by Onni Software Ltd.
+    :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
 from .base import ReadOnlySource, Source, one_sheet_tuple

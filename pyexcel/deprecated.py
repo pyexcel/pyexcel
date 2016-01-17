@@ -4,7 +4,7 @@
 
     List of apis that become deprecated but was kept for backward compatibility
 
-    :copyright: (c) 2015 by Onni Software Ltd.
+    :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
 from ._compact import deprecated
