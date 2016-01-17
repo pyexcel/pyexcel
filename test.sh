@@ -1,4 +1,5 @@
 #/bin/bash
+pip freeze
 
 cd tests/test_plugin
 python setup.py install
