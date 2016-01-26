@@ -1,0 +1,13 @@
+{% extends "travis.yml.jj2" %}
+
+{%block test_other_python_versions%}  - 2.6
+  - 3.3
+  - 3.4
+  - 3.5
+  - pypy
+{%endblock%}
+
+{%block custom_install%}  - if [[ $TRAVIS_PYTHON_VERSION == "2.6" ]]; then pip install ordereddict; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then rm tests/test_examples.py; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then pip install lxml==3.4.4; fi
+{%endblock%}

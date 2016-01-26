@@ -1,8 +1,5 @@
-nose
-rednose
-nose-cov
-codecov
-coverage
+{% extends 'tests/requirements.txt.jj2' %}
+{%block extras %}
 SQLAlchemy
 mock
 glob2
@@ -11,3 +8,4 @@ lxml
 pyexcel-xlsx>=0.1.0
 pyexcel-ods3>=0.1.0
 pyexcel-xls>=0.1.0
+{%endblock%}

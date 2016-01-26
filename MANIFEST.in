@@ -1,2 +1,1 @@
-include requirements.txt
-include VERSION
+include README.rst
