@@ -23,7 +23,7 @@ extras = {
 setup(
     name='pyexcel',
     author='C. W.',
-    version='0.1.0',
+    version='0.2.0',
     author_email='wangc_2011 (at) hotmail.com',
     url='https://github.com/pyexcel/pyexcel',
     description='A wrapper library that provides one API to read, manipulate and write data in different excel formats',
