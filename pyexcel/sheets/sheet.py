@@ -12,11 +12,17 @@ from pyexcel_io import NamedContent
 
 
 class SheetStream(NamedContent):
+    """
+    A container to hold generator as sheet content
+    """
     def save_to(self, source):
         """Save to a writeable data source"""
         source.write_data(self)
 
     def to_array(self):
+        """
+        Simply return the generator
+        """
         return self.payload
 
 

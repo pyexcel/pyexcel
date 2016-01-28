@@ -7,8 +7,8 @@
 ================================================================================
 
 :Author: C.W.
-:Source code: http://github.com/chfw/pyexcel
-:Issues: http://github.com/chfw/pyexcel/issues
+:Source code: http://github.com/pyexcel/pyexcel
+:Issues: http://github.com/pyexcel/pyexcel/issues
 :License: New BSD License
 :Version: |version|
 :Generated: |today|
@@ -49,7 +49,7 @@ Source code is hosted in github. You can get it using git client:
 
 .. code-block:: bash
 
-    $ git clone http://github.com/chfw/pyexcel.git
+    $ git clone http://github.com/pyexcel/pyexcel.git
 
 Installation
 -------------
@@ -79,12 +79,12 @@ For individual excel file formats, please install them as you wish:
              latex, grid, etc.
    ========= ======================= ============= ======================== =============================
 
-.. _pyexcel-io: https://github.com/chfw/pyexcel-io
-.. _xls: https://github.com/chfw/pyexcel-xls
-.. _xlsx: https://github.com/chfw/pyexcel-xlsx
-.. _ods: https://github.com/chfw/pyexcel-ods
-.. _ods3: https://github.com/chfw/pyexcel-ods3
-.. _text: https://github.com/chfw/pyexcel-text
+.. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
+.. _xls: https://github.com/pyexcel/pyexcel-xls
+.. _xlsx: https://github.com/pyexcel/pyexcel-xlsx
+.. _ods: https://github.com/pyexcel/pyexcel-ods
+.. _ods3: https://github.com/pyexcel/pyexcel-ods3
+.. _text: https://github.com/pyexcel/pyexcel-text
 
 
 Please import them before you start to access the desired file formats::

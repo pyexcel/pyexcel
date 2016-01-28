@@ -4,7 +4,7 @@
 
     Constants appeared in pyexcel
 
-    :copyright: (c) 2015 by Onni Software Ltd.
+    :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
 DEFAULT_NAME = 'pyexcel'

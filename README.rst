@@ -2,25 +2,14 @@
 pyexcel - Let you focus on data, instead of file formats
 ========================================================
 
-.. image:: https://api.travis-ci.org/chfw/pyexcel.svg?branch=master
-    :target: http://travis-ci.org/chfw/pyexcel
+.. image:: https://api.travis-ci.org/pyexcel/pyexcel.svg?branch=master
+    :target: http://travis-ci.org/pyexcel/pyexcel
 
-.. image:: https://coveralls.io/repos/chfw/pyexcel/badge.png?branch=master 
-    :target: https://coveralls.io/r/chfw/pyexcel?branch=master 
+.. image:: https://codecov.io/github/pyexcel/pyexcel/coverage.png
+    :target: https://codecov.io/github/pyexcel/pyexcel
 
 .. image:: https://readthedocs.org/projects/pyexcel/badge/?version=latest
     :target: http://pyexcel.readthedocs.org/en/latest/
-
-
-Roadmap
-==================
-
-Pyexcel v0.2.x is under way, the feature highlight will be performance optimization
-by the usage of yield keyword. And v0.2.x will potentially enable streaming
-excel content over HTTP protocol.
-
-v0.1.8 may be released if potential bug fix is needed for v0.1.7. Otherwise, the
-changes in v0.1.8 will be release along v0.2.x.
 
 
 Known constraints
@@ -56,12 +45,12 @@ Plugins          Supported file formats
                  grid, pipe, orgtbl, plain simple
 ================ ========================================
 
-.. _pyexcel-io: https://github.com/chfw/pyexcel-io
-.. _pyexcel-xls: https://github.com/chfw/pyexcel-xls
-.. _pyexcel-xlsx: https://github.com/chfw/pyexcel-xlsx
-.. _pyexcel-ods: https://github.com/chfw/pyexcel-ods
-.. _pyexcel-ods3: https://github.com/chfw/pyexcel-ods3
-.. _pyexcel-text: https://github.com/chfw/pyexcel-text
+.. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
+.. _pyexcel-xls: https://github.com/pyexcel/pyexcel-xls
+.. _pyexcel-xlsx: https://github.com/pyexcel/pyexcel-xlsx
+.. _pyexcel-ods: https://github.com/pyexcel/pyexcel-ods
+.. _pyexcel-ods3: https://github.com/pyexcel/pyexcel-ods3
+.. _pyexcel-text: https://github.com/pyexcel/pyexcel-text
 
 Installation
 ============
@@ -76,7 +65,7 @@ or clone it and install it:
 
 .. code-block:: bash
 
-    $ git clone http://github.com/chfw/pyexcel.git
+    $ git clone http://github.com/pyexcel/pyexcel.git
     $ cd pyexcel
     $ python setup.py install
 
@@ -121,11 +110,6 @@ License
 
 New BSD License
 
-Dependencies
-==============
-
-* pyexcel-io >= 0.0.6
-* texttable >= 0.8.2
 
 Acknowledgement
 ===============
