@@ -192,7 +192,7 @@ class Row:
 
     def select(self, indices):
         """Delete row indices other than specified
-        
+
         Examples:
 
             >>> import pyexcel as pe
@@ -232,10 +232,10 @@ class Row:
 
         """
         self.ref.filter(RowFilter(indices).invert())
-        
+
     def __delitem__(self, aslice):
         """Override the operator to delete items
-        
+
         Examples:
 
             >>> import pyexcel as pe
@@ -381,10 +381,10 @@ class Column:
             +---+---+---+---+
             | 2 | 3 | 4 | 6 |
             +---+---+---+---+
-        
+
         """
         self.ref.filter(ColumnFilter(indices).invert())
-        
+
     def __delitem__(self, aslice):
         """Override the operator to delete items
 
@@ -404,7 +404,7 @@ class Column:
             +---+---+---+---+
             | 1 | 5 | 7 | 9 |
             +---+---+---+---+
-        
+
         """
         if isinstance(aslice, slice):
             my_range = _analyse_slice(aslice, self.ref.number_of_columns())

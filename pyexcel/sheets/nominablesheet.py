@@ -98,7 +98,7 @@ class NamedRow(Row):
     """
     def select(self, names):
         """Delete row indices other than specified
-        
+
         Examples:
 
             >>> import pyexcel as pe
@@ -256,9 +256,9 @@ class NamedColumn(Column):
     """
     def select(self, names):
         """Delete columns other than specified
-        
+
         Examples:
-     
+
             >>> import pyexcel as pe
             >>> data = [[1,2,3,4,5,6,7,9]]
             >>> sheet = pe.Sheet(data)
@@ -409,7 +409,7 @@ VALID_SHEET_PARAMETERS = ['name_columns_by_row',
                           'rownames',
                           'transpose_before',
                           'transpose_after']
-                    
+
 class NominableSheet(FilterableSheet):
     """Allow dictionary group of the content
     """

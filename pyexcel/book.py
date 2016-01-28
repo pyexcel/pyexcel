@@ -19,7 +19,7 @@ class BookStream(object):
 
     For csv file, there will be just one sheet
     """
-    def __init__(self, sheets={}, filename="memory", path=None):
+    def __init__(self, sheets=None, filename="memory", path=None):
         """Book constructor
 
         Selecting a specific book according to filename extension
@@ -31,7 +31,10 @@ class BookStream(object):
         self.path = path
         self.filename = filename
         self.name_array = []
-        self.sheets = sheets
+        if sheets:
+            self.sheets = sheets
+        else:
+            self.sheets = {}
         self.name_array = list(self.sheets.keys())
 
     def save_to(self, source):
@@ -39,15 +42,18 @@ class BookStream(object):
         from .sources import BookDjangoSource, BookSQLSource
         if isinstance(source, BookDjangoSource) or isinstance(source, BookSQLSource):
             book = Book(self.sheets,
-                filename=self.filename,
-                path=self.path)
+                        filename=self.filename,
+                        path=self.path)
             source.write_data(book)
         else:
             source.write_data(self)
 
     def to_dict(self):
+        """
+        Get book data structure as a dictionary
+        """
         return self.sheets
-        
+
     def __iter__(self):
         return SheetIterator(self)
 
@@ -66,7 +72,7 @@ class Book(object):
 
     For csv file, there will be just one sheet
     """
-    def __init__(self, sheets={}, filename="memory", path=None):
+    def __init__(self, sheets=None, filename="memory", path=None):
         """Book constructor
 
         Selecting a specific book according to filename extension
@@ -87,6 +93,8 @@ class Book(object):
         a list of lists
         """
         self.sheets = OrderedDict()
+        if sheets is None:
+            return
         keys = sheets.keys()
         if not isinstance(sheets, OrderedDict):
             # if the end user does not care about the order
@@ -145,7 +153,7 @@ class Book(object):
 
     def __getitem__(self, key):
         """Override operator[]"""
-        if type(key) == int:
+        if isinstance(key, int):
             return self.sheet_by_index(key)
         else:
             return self.sheet_by_name(key)
@@ -165,22 +173,22 @@ class Book(object):
 
         """
         content = {}
-        a = to_dict(self)
-        for k in a.keys():
+        current_dict = to_dict(self)
+        for k in current_dict.keys():
             new_key = k
-            if len(a.keys()) == 1:
+            if len(current_dict.keys()) == 1:
                 new_key = "%s_%s" % (self.filename, k)
-            content[new_key] = a[k]
+            content[new_key] = current_dict[k]
         if isinstance(other, Book):
-            b = to_dict(other)
-            for l in b.keys():
+            other_dict = to_dict(other)
+            for l in other_dict.keys():
                 new_key = l
-                if len(b.keys()) == 1:
+                if len(other_dict.keys()) == 1:
                     new_key = other.filename
                 if new_key in content:
                     uid = local_uuid()
                     new_key = "%s_%s" % (l, uid)
-                content[new_key] = b[l]
+                content[new_key] = other_dict[l]
         elif isinstance(other, Sheet):
             new_key = other.name
             if new_key in content:
@@ -189,9 +197,9 @@ class Book(object):
             content[new_key] = other.to_array()
         else:
             raise TypeError
-        c = Book()
-        c.load_from_sheets(content)
-        return c
+        output = Book()
+        output.load_from_sheets(content)
+        return output
 
     def __iadd__(self, other):
         """Operator overloading +=
@@ -227,7 +235,7 @@ class Book(object):
     def save_to(self, source):
         """Save to a writeable data source"""
         source.write_data(self)
-        
+
     def save_as(self, filename):
         """Save the content to a new file
 
@@ -250,7 +258,7 @@ class Book(object):
     def save_to_django_models(self, models,
                               initializers=None, mapdicts=None, batch_size=None):
         """Save to database table through django model
-        
+
         :param models: a list of database models, that is accepted by
                        :meth:`Sheet.save_to_django_model`. The sequence of tables
                        matters when there is dependencies in between the tables.
@@ -259,7 +267,7 @@ class Book(object):
         :param initializers: a list of intialization functions for your talbes and
                              the sequence should match tables,
         :param mapdicts: custom map dictionary for your data columns and the sequence should
-                   match tables        
+                   match tables
         """
         from .sources import BookDjangoSource
         out_source = BookDjangoSource(
@@ -285,7 +293,7 @@ class Book(object):
         :param mapdicts: custom map dictionary for your data columns and the sequence should
                    match tables
         :param auto_commit: by default, data is committed.
-        
+
         """
         from .sources import BookSQLSource
         out_source = BookSQLSource(

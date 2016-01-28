@@ -16,7 +16,7 @@ else:
     from collections import OrderedDict
 
 PY2 = sys.version_info[0] == 2
-    
+
 if PY2:
     from StringIO import StringIO
     from StringIO import StringIO as BytesIO

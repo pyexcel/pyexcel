@@ -84,7 +84,7 @@ def merge_files(file_array, outfilename=DEFAULT_OUT_FILE):
 
 def merge_two_files(file1, file2, outfilename=DEFAULT_OUT_FILE):
     """merge two files
-    
+
     :param str file1: an accessible file name
     :param str file2: an accessible file name
     :param str outfilename: save the sheet as
@@ -131,7 +131,7 @@ def merge_csv_to_a_book(filelist, outfilename=DEFAULT_OUT_XLS_FILE):
     for file in filelist:
         sheet = get_sheet(file_name=file)
         head, tail = os.path.split(file)
-        sheet.name = tail 
+        sheet.name = tail
         merged += sheet
     merged.save_as(outfilename)
 
@@ -150,7 +150,7 @@ def merge_all_to_a_book(filelist, outfilename=DEFAULT_OUT_XLS_FILE):
 
 def split_a_book(file, outfilename=None):
     """Split a file into separate sheets
-    
+
     :param str file: an accessible file name
     :param str outfilename: save the sheets with file suffix
     """

@@ -150,7 +150,7 @@ class Formatter:
         :returns: True or False
             * True if the cell qualitifies
             * False if the cell does not
-        
+
         """
         return self.quanlify_func(row, column, value)
 
@@ -168,11 +168,11 @@ class ColumnFormatter(Formatter):
     """Apply formatting on columns"""
     def __init__(self, column_index, formatter):
         """Constructor
-        
+
         :param int or list column_index: to which column or what columns to apply the formatter
         :param type FORMAT: the target format
         :param func custom_converter: the custom functional formatter
-        
+
         """
         self.indices = column_index
         if isinstance(column_index, int):
@@ -193,11 +193,11 @@ class NamedColumnFormatter(ColumnFormatter):
     """Apply formatting using named columns"""
     def __init__(self, column_index, formatter):
         """Constructor
-        
+
         :param int or list column_index: to which column or what columns to apply the formatter
         :param type FORMAT: the target format
         :param func custom_converter: the custom functional formatter
-        
+
         """
         self.indices = column_index
         if isinstance(column_index, str):
@@ -223,14 +223,14 @@ class NamedColumnFormatter(ColumnFormatter):
             raise NotImplementedError("%s is not supported" % type(new_indices))
 
 class RowFormatter(Formatter):
-    """Row Formatter"""    
+    """Row Formatter"""
     def __init__(self, row_index, formatter):
         """Constructor
 
         :param int or list row_index: to which row or what rows to apply the formatter
         :param type FORMAT: the target format
         :param func custom_converter: the custom functional formatter
-        
+
         """
         self.indices = row_index
         if isinstance(row_index, int):
@@ -248,7 +248,7 @@ class RowFormatter(Formatter):
 
 
 class NamedRowFormatter(RowFormatter):
-    """Formatting rows using named rows"""    
+    """Formatting rows using named rows"""
     def __init__(self, row_index, formatter):
         """Constructor
 
@@ -269,7 +269,7 @@ class NamedRowFormatter(RowFormatter):
         else:
             raise NotImplementedError("%s is not supported" % type(row_index))
         Formatter.__init__(self, func, formatter)
-            
+
     def update_index(self, new_indices):
         if isinstance(new_indices, int):
             self.quanlify_func = lambda r, c, v: r == new_indices
@@ -277,7 +277,7 @@ class NamedRowFormatter(RowFormatter):
             self.quanlify_func = lambda r, c, v: r in new_indices
         else:
             raise NotImplementedError("%s is not supported" % type(new_indices))
-            
+
 
 class SheetFormatter(Formatter):
     """Apply the formatter to all cells in the sheet

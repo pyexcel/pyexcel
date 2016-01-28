@@ -12,15 +12,15 @@ from .sources import get_sheet, get_book
 from functools import partial
 
 
-deprecated_loader = partial(
+DEPRECATED_LOADER = partial(
     deprecated,
     message="Deprecated since v0.1.5! Please use get_sheet instead.")
-deprecated_book_loader = partial(
+DEPRECATED_BOOK_LOADER = partial(
     deprecated,
     message="Deprecated since v0.1.5! Please use get_book instead.")
 
 
-@deprecated_book_loader
+@DEPRECATED_BOOK_LOADER
 def load_book(file, **keywords):
     """Load content from physical file
 
@@ -30,7 +30,7 @@ def load_book(file, **keywords):
     return get_book(file_name=file, **keywords)
 
 
-@deprecated_book_loader
+@DEPRECATED_BOOK_LOADER
 def load_book_from_memory(file_type, file_content, **keywords):
     """Load content from memory content
 
@@ -41,7 +41,7 @@ def load_book_from_memory(file_type, file_content, **keywords):
     return get_book(file_type=file_type, file_content=file_content, **keywords)
 
 
-@deprecated_book_loader
+@DEPRECATED_BOOK_LOADER
 def load_book_from_sql(session, tables):
     """Get an instance of :class:`Book` from a list of tables
 
@@ -51,7 +51,7 @@ def load_book_from_sql(session, tables):
     return get_book(session=session, tables=tables)
 
 
-@deprecated_book_loader
+@DEPRECATED_BOOK_LOADER
 def load_book_from_django_models(models):
     """Get an instance of :class:`Book` from a list of tables
 
@@ -61,7 +61,7 @@ def load_book_from_django_models(models):
     return get_book(models=models)
 
 
-@deprecated_loader
+@DEPRECATED_LOADER
 def load(file, sheetname=None, **keywords):
     """Constructs an instance :class:`Sheet` from a sheet of an excel file
 
@@ -85,7 +85,7 @@ def load(file, sheetname=None, **keywords):
     return sheet
 
 
-@deprecated_loader
+@DEPRECATED_LOADER
 def load_from_memory(file_type,
                      file_content,
                      sheetname=None,
@@ -104,7 +104,7 @@ def load_from_memory(file_type,
                      **keywords)
 
 
-@deprecated_loader
+@DEPRECATED_LOADER
 def load_from_query_sets(column_names, query_sets, **keywords):
     """Constructs an instance :class:`Sheet` from a database query sets
     :param column_names: the field names
@@ -114,7 +114,7 @@ def load_from_query_sets(column_names, query_sets, **keywords):
     return get_sheet(column_names=column_names, query_sets=query_sets)
 
 
-@deprecated_loader
+@DEPRECATED_LOADER
 def load_from_sql(session, table, **keywords):
     """Constructs an instance :class:`Sheet` from database table
 
@@ -125,7 +125,7 @@ def load_from_sql(session, table, **keywords):
     return get_sheet(session=session, table=table, **keywords)
 
 
-@deprecated_loader
+@DEPRECATED_LOADER
 def load_from_django_model(model, **keywords):
     """Constructs an instance :class:`Sheet` from a django model
 
@@ -135,7 +135,7 @@ def load_from_django_model(model, **keywords):
     return get_sheet(model=model, **keywords)
 
 
-@deprecated_loader
+@DEPRECATED_LOADER
 def load_from_dict(the_dict, with_keys=True, **keywords):
     """Return a sheet from a dictionary of one dimensional arrays
 
@@ -146,7 +146,7 @@ def load_from_dict(the_dict, with_keys=True, **keywords):
     return get_sheet(adict=the_dict, with_keys=with_keys, **keywords)
 
 
-@deprecated_loader
+@DEPRECATED_LOADER
 def load_from_records(records, **keywords):
     """Return a sheet from a list of records
 

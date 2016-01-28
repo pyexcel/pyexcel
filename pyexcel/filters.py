@@ -47,7 +47,7 @@ class IndexFilter:
                 self.eval_func = self.shallow_eval_func
                 self.shallow_eval_func = None
         return self
-        
+
     def rows(self):
         """Rows that were filtered out
         """
