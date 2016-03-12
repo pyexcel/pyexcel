@@ -23,31 +23,32 @@ def local_uuid():
     return LOCAL_UUID
 
 
-deprecated_utls = partial(deprecated,
-                          message="Deprecated since v0.2.0!")
+DEPRECATED_UTILS = partial(
+    deprecated,
+    message="Deprecated since v0.2.0!")
 
 
-def to_array(o):
+def to_array(an_object):
     """convert a reader iterator to an array"""
     array = []
-    for i in o:
-        array.append(i)
+    for row in an_object:
+        array.append(row)
     return array
 
 
-def to_dict(o):
+def to_dict(an_object):
     """convert a reader iterator to a dictionary"""
     the_dict = OrderedDict()
     series = "Series_%d"
     count = 1
-    for c in o:
-        if type(c) == dict:
-            the_dict.update(c)
-        elif isinstance(c, Sheet):
-            the_dict.update({c.name: c.to_array()})
+    for row in an_object:
+        if type(row) == dict:
+            the_dict.update(row)
+        elif isinstance(row, Sheet):
+            the_dict.update({row.name: row.to_array()})
         else:
             key = series % count
-            the_dict.update({key: c})
+            the_dict.update({key: row})
             count += 1
     return the_dict
 
@@ -85,7 +86,7 @@ def to_records(reader, custom_headers=None):
     return ret
 
 
-@deprecated_utls
+@DEPRECATED_UTILS
 def from_records(records):
     """Reverse function of to_records
     """
@@ -95,7 +96,7 @@ def from_records(records):
     else:
         return content
 
-    
+
 def yield_from_records(records):
     """Reverse function of to_records
     """
@@ -122,7 +123,7 @@ def to_one_dimensional_array(iterator):
     return array
 
 
-@deprecated_utls
+@DEPRECATED_UTILS
 def dict_to_array(the_dict, with_keys=True):
     return list(yield_dict_to_array(the_dict, with_keys))
 

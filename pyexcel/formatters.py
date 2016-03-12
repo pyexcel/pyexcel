@@ -16,14 +16,14 @@ from .constants import (
     MESSAGE_DATA_ERROR_COLUMN_LIST_STRING_TYPE
 )
 
-def string_to_format(value, FORMAT):
+def string_to_format(value, target_format):
     """Convert string to specified format"""
-    if FORMAT == float:
+    if target_format == float:
         try:
             ret = float(value)
         except ValueError:
             ret = value
-    elif FORMAT == int:
+    elif target_format == int:
         try:
             ret = float(value)
             ret = int(ret)
@@ -35,11 +35,11 @@ def string_to_format(value, FORMAT):
     return ret
 
 
-def float_to_format(value, FORMAT):
+def float_to_format(value, target_format):
     """Convert float to specified format"""
-    if FORMAT == int:
+    if target_format == int:
         ret = int(value)
-    elif FORMAT == str:
+    elif target_format == str:
         ret = str(value)
     else:
         ret = value
@@ -47,20 +47,20 @@ def float_to_format(value, FORMAT):
     return ret
 
 
-def int_to_format(value, FORMAT):
+def int_to_format(value, target_format):
     """Convert int to specified format"""
-    if FORMAT == float:
+    if target_format == float:
         ret = float(value)
-    elif FORMAT == str:
+    elif target_format == str:
         ret = str(value)
     else:
         ret = value
     return ret
 
 
-def date_to_format(value, FORMAT):
+def date_to_format(value, target_format):
     """Convert date to specified format"""
-    if FORMAT == str:
+    if target_format == str:
         if isinstance(value, datetime.date):
             ret = value.strftime("%d/%m/%y")
         elif isinstance(value, datetime.datetime):
@@ -72,11 +72,11 @@ def date_to_format(value, FORMAT):
     return ret
 
 
-def boolean_to_format(value, FORMAT):
+def boolean_to_format(value, target_format):
     """Convert bool to specified format"""
-    if FORMAT == float:
+    if target_format == float:
         ret = float(value)
-    elif FORMAT == str:
+    elif target_format == str:
         if value == 1:
             ret = "true"
         else:
@@ -86,11 +86,11 @@ def boolean_to_format(value, FORMAT):
     return ret
 
 
-def empty_to_format(value, FORMAT):
+def empty_to_format(value, target_format):
     """Convert empty value to specified format"""
-    if FORMAT == float:
+    if target_format == float:
         ret = 0.0
-    elif FORMAT == int:
+    elif target_format == int:
         ret = 0
     else:
         ret = ""
@@ -130,7 +130,7 @@ def to_format(to_type, value):
     return func(value, to_type)
 
 
-class Formatter:
+class Formatter(object):
     """Generic formatter
 
     Formatter starts when the quanlifying functions returns true

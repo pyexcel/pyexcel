@@ -27,7 +27,7 @@
 from ._compact import PY2
 
 
-class IndexFilter:
+class IndexFilter(object):
     """A generic index filter"""
     def __init__(self, func):
         """Constructor

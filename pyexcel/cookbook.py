@@ -36,12 +36,12 @@ def update_columns(infilename, column_dicts, outfilename=None):
         default_out_file = outfilename
     if os.path.exists(default_out_file):
         raise NotImplementedError(MESSAGE_WARNING)
-    r = get_sheet(file_name=infilename, name_columns_by_row=0)
-    series = r.colnames
+    sheet = get_sheet(file_name=infilename, name_columns_by_row=0)
+    series = sheet.colnames
     for k in column_dicts.keys():
         index = series.index(str(k))
-        r.set_column_at(index, column_dicts[k])
-    r.save_as(default_out_file)
+        sheet.set_column_at(index, column_dicts[k])
+    sheet.save_as(default_out_file)
 
 
 def update_rows(infilename, row_dicts, outfilename=None):
@@ -58,12 +58,12 @@ def update_rows(infilename, row_dicts, outfilename=None):
         default_out_file = outfilename
     if os.path.exists(default_out_file):
         raise NotImplementedError(MESSAGE_WARNING)
-    r = get_sheet(file_name=infilename, name_rows_by_column=0)
-    series = r.rownames
+    sheet = get_sheet(file_name=infilename, name_rows_by_column=0)
+    series = sheet.rownames
     for k in row_dicts.keys():
         index = series.index(str(k))
-        r.set_row_at(index, row_dicts[k])
-    r.save_as(default_out_file)
+        sheet.set_row_at(index, row_dicts[k])
+    sheet.save_as(default_out_file)
 
 
 def merge_files(file_array, outfilename=DEFAULT_OUT_FILE):
@@ -74,8 +74,8 @@ def merge_files(file_array, outfilename=DEFAULT_OUT_FILE):
         raise NotImplementedError(MESSAGE_WARNING)
     content = []
     for f in file_array:
-        r = get_sheet(file_name=f)
-        content.extend(to_array(r.columns()))
+        sheet = get_sheet(file_name=f)
+        content.extend(to_array(sheet.columns()))
     merged_sheet = get_sheet(array=content)
     merged_sheet.transpose()
     merged_sheet.save_as(outfilename)
@@ -104,8 +104,8 @@ def merge_readers(reader_array, outfilename=DEFAULT_OUT_FILE):
     if os.path.exists(outfilename):
         raise NotImplementedError(MESSAGE_WARNING)
     content = OrderedDict()
-    for r in reader_array:
-        content.update(to_dict(r))
+    for reader in reader_array:
+        content.update(to_dict(reader))
     save_as(dest_file_name=outfilename, adict=content)
 
 
@@ -128,9 +128,9 @@ def merge_csv_to_a_book(filelist, outfilename=DEFAULT_OUT_XLS_FILE):
     :param str outfilename: save the sheet as
     """
     merged = Book()
-    for file in filelist:
-        sheet = get_sheet(file_name=file)
-        head, tail = os.path.split(file)
+    for file_name in filelist:
+        sheet = get_sheet(file_name=file_name)
+        head, tail = os.path.split(file_name)
         sheet.name = tail
         merged += sheet
     merged.save_as(outfilename)
@@ -143,40 +143,40 @@ def merge_all_to_a_book(filelist, outfilename=DEFAULT_OUT_XLS_FILE):
     :param str outfilename: save the sheet as
     """
     merged = Book()
-    for file in filelist:
-        merged += get_book(file_name=file)
+    for file_name in filelist:
+        merged += get_book(file_name=file_name)
     merged.save_as(outfilename)
 
 
-def split_a_book(file, outfilename=None):
+def split_a_book(file_name, outfilename=None):
     """Split a file into separate sheets
 
-    :param str file: an accessible file name
+    :param str file_name: an accessible file name
     :param str outfilename: save the sheets with file suffix
     """
-    r = get_book(file_name=file)
+    book = get_book(file_name=file_name)
     if outfilename:
         saveas = outfilename
     else:
-        saveas = file
-    for sheet in r:
+        saveas = file_name
+    for sheet in book:
         filename = "%s_%s" % (sheet.name, saveas)
         sheet.save_as(filename)
 
 
-def extract_a_sheet_from_a_book(file, sheetname, outfilename=None):
+def extract_a_sheet_from_a_book(file_name, sheetname, outfilename=None):
     """Extract a sheet from a excel book
 
-    :param str file: an accessible file
+    :param str file_name: an accessible file name
     :param str sheetname: a valid sheet name
     :param str outfilename: save the sheet as
     """
-    r = get_book(file_name=file)
+    book = get_book(file_name=file_name)
     if outfilename:
         saveas = outfilename
     else:
-        saveas = file
-    sheet = r[sheetname]
+        saveas = file_name
+    sheet = book[sheetname]
     file_name = "%s_%s" % (sheetname, saveas)
     sheet.save_as(file_name)
 
