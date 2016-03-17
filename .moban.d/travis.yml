@@ -11,4 +11,8 @@
   - if [[ $TRAVIS_PYTHON_VERSION == "2.6" ]]; then pip install weakrefset; fi
   - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then rm tests/test_examples.py; fi
   - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then pip install lxml==3.4.4; fi
+  - pip install https://github.com/pyexcel/pyexcel-io/archive/master.zip
+  - pip install https://github.com/pyexcel/pyexcel-xls/archive/master.zip
+  - pip install https://github.com/pyexcel/pyexcel-xlsx/archive/master.zip
+  - pip install https://github.com/pyexcel/pyexcel-ods3/archive/master.zip
 {%endblock%}
