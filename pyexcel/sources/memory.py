@@ -9,7 +9,7 @@
 """
 from .base import ReadOnlySource, one_sheet_tuple
 from .file import FileSource, SheetSource, BookSource
-from pyexcel_io import load_data, get_io
+from pyexcel_io import get_data, get_io
 from ..constants import (
     KEYWORD_FILE_TYPE,
     KEYWORD_RECORDS,
@@ -38,13 +38,13 @@ class ReadOnlySheetSource(SheetSource):
 
     def get_data(self):
         if self.file_stream is not None:
-            sheets = load_data(self.file_stream,
-                               file_type=self.file_type,
-                               **self.keywords)
+            sheets = get_data(self.file_stream,
+                              file_type=self.file_type,
+                              **self.keywords)
         else:
-            sheets = load_data(self.file_content,
-                               file_type=self.file_type,
-                               **self.keywords)
+            sheets = get_data(self.file_content,
+                              file_type=self.file_type,
+                              **self.keywords)
         return one_sheet_tuple(sheets.items())
 
     def write_data(self, content):
@@ -127,13 +127,13 @@ class ReadOnlyBookSource(ReadOnlySource, FileSource):
 
     def get_data(self):
         if self.file_stream is not None:
-            sheets = load_data(self.file_stream,
-                               file_type=self.file_type,
-                               **self.keywords)
+            sheets = get_data(self.file_stream,
+                              file_type=self.file_type,
+                              **self.keywords)
         else:
-            sheets = load_data(self.file_content,
-                               file_type=self.file_type,
-                               **self.keywords)
+            sheets = get_data(self.file_content,
+                              file_type=self.file_type,
+                              **self.keywords)
         return sheets, KEYWORD_MEMORY, None
 
 

@@ -26,18 +26,22 @@ class Field:
         self.attname = name
 
 class Meta:
+    instance = 1
     def __init__(self):
-        self.model_name = "test"
+        self.model_name = "Sheet%d" % Meta.instance
         self.concrete_fields = []
+        Meta.instance = Meta.instance + 1
 
     def update(self, data):
         for f in data:
             self.concrete_fields.append(Field(f))
 
 class FakeDjangoModel:
-    def __init__(self):
+    def __init__(self, model_name=None):
         self.objects = Objects()
         self._meta = Meta()
+        if model_name:
+            self._meta.model_name = model_name
 
     def __call__(self, **keywords):
         return keywords
@@ -183,20 +187,21 @@ class TestBook:
         self.result2 = [{'B': 4, 'A': 1, 'C': 7}, {'B': 5, 'A': 2, 'C': 8}, {'B': 6, 'A': 3, 'C': 9}]
 
     def test_book_save_to_models(self):
-        model1=FakeDjangoModel()
-        model2=FakeDjangoModel()
+        model1=FakeDjangoModel("Sheet1")
+        model2=FakeDjangoModel("Sheet2")
         book = pe.Book(self.content)
         book.save_to_django_models([model1, model2])
         assert model1.objects.objs == self.result1
         assert model2.objects.objs == self.result2
 
     def test_model_save_to_models(self):
-        model=FakeDjangoModel()
-        pe.save_book_as(dest_models=[model, None, None], bookdict=self.content)
+        model=FakeDjangoModel("Sheet1")
+        pe.save_book_as(dest_models=[model, None, None],
+                        bookdict=self.content)
         assert model.objects.objs == self.result1
 
     def test_load_book_from_django_model(self):
-        model=FakeDjangoModel()
+        model=FakeDjangoModel("Sheet1")
         book = pe.Book(self.content)
         book.save_to_django_models([model])
         assert model.objects.objs == self.result1
@@ -206,7 +211,7 @@ class TestBook:
         
     def test_more_sheets_than_models(self):
         self.content.update({"IgnoreMe":[[1,2,3]]})
-        model=FakeDjangoModel()
+        model=FakeDjangoModel("Sheet1")
         pe.save_book_as(dest_models=[model], bookdict=self.content)
         assert model.objects.objs == self.result1
 

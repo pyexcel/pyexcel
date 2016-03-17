@@ -1,5 +1,4 @@
 import pyexcel as pe
-import pyexcel.ext.xls
 import os
 from db import Session, Base, Signature, Signature2, engine
 from _compact import OrderedDict
@@ -330,7 +329,10 @@ class TestSavingToDatabase:
         }
         sheet = pe.get_sheet(adict=adict, name_columns_by_row=0)
         sheet.save_to_database(self.session, Signature)
-        result = pe.get_dict(session=self.session, table=Signature, name_columns_by_row=0)
+        result = pe.get_dict(session=self.session,
+                             table=Signature,
+                             name_columns_by_row=0)
+        print(result)
         assert adict == result
 
     def test_save_a_dict3(self):
@@ -450,12 +452,13 @@ class TestSavingToDatabase:
             [2, 5, 'Y'],
             [3, 6, 'Z']
         ]
+        sheet1 = Signature.__tablename__
         sheet_dict = {
-            "sheet": data
+            sheet1: data
         }
         book = pe.Book(sheet_dict)
-        book['sheet'].transpose()
-        book['sheet'].name_columns_by_row(2)
+        book[sheet1].transpose()
+        book[sheet1].name_columns_by_row(2)
         book.save_to_database(self.session, [Signature])
         result = pe.get_dict(session=self.session, table=Signature)
         assert result == {
@@ -475,15 +478,17 @@ class TestSavingToDatabase:
             [2, 5, 'B'],
             [3, 6, 'C']
         ]
+        sheet1 = Signature.__tablename__
+        sheet2 = Signature2.__tablename__
         sheet_dict = {
-            "sheet": data,
-            "sheet1": data1
+            sheet1: data,
+            sheet2: data1
         }
         book = pe.Book(sheet_dict)
-        book['sheet'].transpose()
-        book['sheet'].name_columns_by_row(2)
-        book['sheet1'].transpose()
-        book['sheet1'].name_columns_by_row(2)
+        book[sheet1].transpose()
+        book[sheet1].name_columns_by_row(2)
+        book[sheet2].transpose()
+        book[sheet2].name_columns_by_row(2)
         book.save_to_database(
             self.session,
             [Signature,Signature2])
@@ -523,8 +528,8 @@ class TestSavingToDatabase:
             [4, 5, 6]
         ]
         sheet_dict = {
-            "sheet": data,
-            "sheet1": data1
+            Signature.__tablename__: data,
+            Signature2.__tablename__: data1
         }
         pe.save_book_as(bookdict=sheet_dict,
                         dest_session=self.session,

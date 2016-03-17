@@ -9,7 +9,7 @@ with open("README.rst", 'r') as readme:
     README_txt = readme.read()
 
 dependencies = [
-    'pyexcel-io>=0.1.0',
+    'pyexcel-io>=0.2.0',
     'texttable>=0.8.2',
 ]
 
@@ -22,8 +22,8 @@ extras = {
 
 setup(
     name='pyexcel',
-    author='C. W.',
-    version='0.2.0',
+    author='C.W.',
+    version='0.2.1',
     author_email='wangc_2011 (at) hotmail.com',
     url='https://github.com/pyexcel/pyexcel',
     description='A wrapper library that provides one API to read, manipulate and write data in different excel formats',

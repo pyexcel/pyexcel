@@ -9,7 +9,7 @@
 """
 from .base import ReadOnlySource, one_sheet_tuple
 from ..constants import KEYWORD_URL
-from pyexcel_io import load_data
+from pyexcel_io import get_data
 from .._compact import request, PY2
 
 
@@ -49,9 +49,9 @@ class HttpBookSource(ReadOnlySource):
         if file_type is None:
             file_type = get_file_type_from_url(self.url)
         content = f.read()
-        sheets = load_data(content,
-                           file_type=file_type,
-                           **self.keywords)
+        sheets = get_data(content,
+                          file_type=file_type,
+                          **self.keywords)
         return sheets, KEYWORD_URL, None
 
 

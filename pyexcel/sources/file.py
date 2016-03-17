@@ -14,8 +14,9 @@ from ..constants import (
     KEYWORD_FILE_NAME,
     MESSAGE_UNKNOWN_IO_OPERATION,
     KEYWORD_FILE_TYPE)
-from pyexcel_io import load_data, save_data
-from pyexcel_io import READERS, AVAILABLE_READERS, WRITERS, AVAILABLE_WRITERS
+from pyexcel_io import get_data, save_data
+from pyexcel_io.book import AVAILABLE_READERS, AVAILABLE_WRITERS
+from pyexcel_io.book import ReaderFactory, WriterFactory
 from .._compact import PY2, is_string
 
 
@@ -40,9 +41,9 @@ class FileSource(Source):
             else:
                 file_type = keywords.get(KEYWORD_FILE_TYPE)
             if action == 'read':
-                status = file_type in READERS or file_type in AVAILABLE_READERS 
+                status = file_type in ReaderFactory.factories or file_type in AVAILABLE_READERS 
             elif action == 'write':
-                status = file_type in WRITERS or file_type in AVAILABLE_WRITERS
+                status = file_type in WriterFactory.factories or file_type in AVAILABLE_WRITERS
             else:
                 raise Exception(MESSAGE_UNKNOWN_IO_OPERATION)
         return status
@@ -61,7 +62,7 @@ class SheetSource(FileSource):
         """
         Return a dictionary with only one key and one value
         """
-        sheets = load_data(self.file_name, **self.keywords)
+        sheets = get_data(self.file_name, **self.keywords)
         return one_sheet_tuple(sheets.items())
 
     def write_data(self, sheet):
@@ -84,7 +85,7 @@ class BookSource(SheetSource):
     """Pick up 'file_name' field and do multiple sheet based read and write
     """
     def get_data(self):
-        sheets = load_data(self.file_name, **self.keywords)
+        sheets = get_data(self.file_name, **self.keywords)
         path, filename_alone = os.path.split(self.file_name)
         return sheets, filename_alone, path
 

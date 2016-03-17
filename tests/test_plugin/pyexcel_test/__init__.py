@@ -1,5 +1,5 @@
-from pyexcel_io import READERS, WRITERS
 
-READERS["test"] = "test"
-WRITERS["test"] = "test"
+def extend_pyexcel(ReaderFactory, WriterFactory):
+    ReaderFactory.add_factory("test", "test")
+    WriterFactory.add_factory("test", "test")
 

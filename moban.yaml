@@ -1,9 +1,9 @@
 overrides: "pyexcel.yaml"
 name: "pyexcel"
 nick_name: pyexcel
-version: 0.2.0
+version: 0.2.1
 dependencies:
-  - pyexcel-io>=0.1.0
+  - pyexcel-io>=0.2.0
   - texttable>=0.8.2
 extra_dependencies:
   - xls:

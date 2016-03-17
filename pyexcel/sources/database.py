@@ -8,7 +8,11 @@
     :license: New BSD License
 """
 from .base import ReadOnlySource, Source, one_sheet_tuple
-from pyexcel_io import DB_SQL, DB_DJANGO, load_data, get_writer
+from pyexcel_io import DB_SQL, DB_DJANGO, get_data, save_data
+from pyexcel_io.sqlbook import SQLTableImporter, SQLTableImportAdapter
+from pyexcel_io.sqlbook import SQLTableExporter, SQLTableExportAdapter
+from pyexcel_io.djangobook import DjangoModelExporter, DjangoModelExportAdapter
+from pyexcel_io.djangobook import DjangoModelImporter, DjangoModelImportAdapter
 from .._compact import OrderedDict
 from ..constants import (
     KEYWORD_TABLES,
@@ -48,34 +52,7 @@ class SheetQuerySetSource(ReadOnlySource):
                 from_query_sets(self.column_names, self.query_sets))
 
 
-class SheetDatabaseSourceMixin(Source):
-    """
-    Generic database source
-
-    It does the general data import and export.
-
-    Please note that name_columns_by_row, or name_rows_by_column
-    should be specified prior to writing
-    """
-    def get_sql_book():
-        pass
-
-    def get_writer(self, sheet):
-        pass
-
-    def get_data(self):
-        sheets = self.get_sql_book()
-        return one_sheet_tuple(sheets.items())
-
-    def write_data(self, sheet):
-        w = self.get_writer(sheet)
-        raw_sheet = w.create_sheet(sheet.name)
-        raw_sheet.write_array(sheet.array)
-        raw_sheet.close()
-        w.close()
-
-
-class SheetSQLAlchemySource(SheetDatabaseSourceMixin):
+class SheetSQLAlchemySource(Source):
     """
     SQLAlchemy channeled sql database as data source
     """
@@ -86,34 +63,28 @@ class SheetSQLAlchemySource(SheetDatabaseSourceMixin):
         self.table = table
         self.keywords = keywords
 
-    def get_sql_book(self):
-        return load_data(DB_SQL,
-                         session=self.session,
-                         tables=[self.table])
+    def get_data(self):
+        exporter = SQLTableExporter(self.session)
+        adapter = SQLTableExportAdapter(self.table)
+        exporter.append(adapter)
+        data = get_data(exporter, file_type=DB_SQL)
+        return one_sheet_tuple(data.items())
 
-    def get_writer(self, sheet):
+    def write_data(self, sheet):
         headers = sheet.colnames
         if len(headers) == 0:
             headers = sheet.rownames
-        tables = {
-            sheet.name: (
-                self.table,
-                headers,
-                self.keywords.get(KEYWORD_MAPDICT, None),
-                self.keywords.get(KEYWORD_INITIALIZER, None)
-            )
-        }
-        w = get_writer(
-            DB_SQL,
-            single_sheet_in_book=True,
-            session=self.session,
-            tables=tables,
-            **self.keywords
-        )
-        return w
+
+        importer = SQLTableImporter(self.session)
+        adapter = SQLTableImportAdapter(self.table)
+        adapter.column_names = headers
+        adapter.row_initializer = self.keywords.get(KEYWORD_INITIALIZER, None)
+        adapter.column_name_mapping_dict = self.keywords.get(KEYWORD_MAPDICT, None)
+        importer.append(adapter)
+        save_data(importer, {adapter.get_name(): sheet.array}, file_type=DB_SQL)
 
 
-class SheetDjangoSource(SheetDatabaseSourceMixin):
+class SheetDjangoSource(Source):
     """
     Django model as data source
     """
@@ -123,37 +94,25 @@ class SheetDjangoSource(SheetDatabaseSourceMixin):
         self.model = model
         self.keywords = keywords
 
-    def get_sql_book(self):
-        return load_data(DB_DJANGO, models=[self.model])
+    def get_data(self):
+        exporter = DjangoModelExporter()
+        adapter = DjangoModelExportAdapter(self.model)
+        exporter.append(adapter)
+        data = get_data(exporter, file_type=DB_DJANGO)
+        return one_sheet_tuple(data.items())
 
-    def get_writer(self, sheet):
+    def write_data(self, sheet):
         headers = sheet.colnames
         if len(headers) == 0:
             headers = sheet.rownames
-        models = {
-            sheet.name: (
-                self.model,
-                headers,
-                self.keywords.get(KEYWORD_MAPDICT, None),
-                self.keywords.get(KEYWORD_INITIALIZER, None)
-            )
-        }
-        w = get_writer(
-            DB_DJANGO,
-            single_sheet_in_book=True,
-            models=models,
-            batch_size=self.keywords.get(KEYWORD_BATCH_SIZE, None)
-        )
-        return w
 
-
-def _write_book(writer, book):
-    the_dict = OrderedDict()
-    keys = book.sheet_names()
-    for name in keys:
-        the_dict.update({name: book[name].array})
-    writer.write(the_dict)
-    writer.close()
+        importer = DjangoModelImporter()
+        adapter = DjangoModelImportAdapter(self.model)
+        adapter.set_column_names(headers)
+        adapter.set_column_name_mapping_dict(self.keywords.get(KEYWORD_MAPDICT, None))
+        adapter.set_row_initializer(self.keywords.get(KEYWORD_INITIALIZER, None))
+        importer.append(adapter)
+        save_data(importer, {adapter.get_name(): sheet.array}, file_type=DB_DJANGO)
 
 
 class BookSQLSource(Source):
@@ -168,10 +127,12 @@ class BookSQLSource(Source):
         self.keywords = keywords
 
     def get_data(self):
-        sheets = load_data(DB_SQL,
-                           session=self.session,
-                           tables=self.tables)
-        return sheets, DB_SQL, None
+        exporter = SQLTableExporter(self.session)
+        for table in self.tables:
+            adapter = SQLTableExportAdapter(table)
+            exporter.append(adapter)
+        data = get_data(exporter, file_type=DB_SQL)
+        return data, DB_SQL, None
 
     def write_data(self, book):
         initializers = self.keywords.get(KEYWORD_INITIALIZERS, None)
@@ -184,13 +145,21 @@ class BookSQLSource(Source):
             if len(sheet.colnames) == 0:
                 sheet.name_columns_by_row(0)
         colnames_array = [sheet.colnames for sheet in book]
-        x = zip(self.tables, colnames_array, mapdicts, initializers)
-        table_dict = dict(zip(book.name_array, x))
-        writer = get_writer(DB_SQL,
-                            session=self.session,
-                            tables=table_dict,
-                            **self.keywords)
-        _write_book(writer, book)
+        scattered = zip(self.tables, colnames_array, mapdicts, initializers)
+
+        importer = SQLTableImporter(self.session)
+        for each_table in scattered:
+            adapter = SQLTableImportAdapter(each_table[0])
+            adapter.column_names = each_table[1]
+            adapter.row_initializer = each_table[2]
+            adapter.column_name_mapping_dict = each_table[3]
+            importer.append(adapter)
+        to_store = OrderedDict()
+        for sheet_name in book.sheet_names():
+            # due book.to_dict() brings in column_names
+            # which corrupts the data
+            to_store[sheet_name] = book[sheet_name].array
+        save_data(importer, to_store, file_type=DB_SQL)
 
 
 class BookDjangoSource(Source):
@@ -204,8 +173,12 @@ class BookDjangoSource(Source):
         self.keywords = keywords
 
     def get_data(self):
-        sheets = load_data(DB_DJANGO, models=self.models)
-        return sheets, DB_DJANGO, None
+        exporter = DjangoModelExporter()
+        for model in self.models:
+            adapter = DjangoModelExportAdapter(model)
+            exporter.append(adapter)
+        data = get_data(exporter, file_type=DB_DJANGO)
+        return data, DB_DJANGO, None
 
     def write_data(self, book):
         new_models = [model for model in self.models if model is not None]
@@ -220,9 +193,19 @@ class BookDjangoSource(Source):
             if len(sheet.colnames) == 0:
                 sheet.name_columns_by_row(0)
         colnames_array = [sheet.colnames for sheet in book]
-        x = zip(new_models, colnames_array, mapdicts, initializers)
-        table_dict = dict(zip(book.name_array, x))
-        writer = get_writer(DB_DJANGO,
-                            models=table_dict,
-                            batch_size=batch_size)
-        _write_book(writer, book)
+        scattered = zip(new_models, colnames_array, mapdicts, initializers)
+
+        importer = DjangoModelImporter()
+        for each_model in scattered:
+            adapter = DjangoModelImportAdapter(each_model[0])
+            adapter.set_column_names(each_model[1])
+            adapter.set_column_name_mapping_dict(each_model[2])
+            adapter.set_row_initializer(each_model[3])
+            importer.append(adapter)
+        to_store = OrderedDict()
+        for sheet_name in book.sheet_names():
+            # due book.to_dict() brings in column_names
+            # which corrupts the data
+            to_store[sheet_name] = book[sheet_name].array
+        save_data(importer, to_store, file_type=DB_DJANGO,
+                  batch_size=batch_size)
