@@ -15,8 +15,8 @@ from ..constants import (
     MESSAGE_UNKNOWN_IO_OPERATION,
     KEYWORD_FILE_TYPE)
 from pyexcel_io import get_data, save_data
-from pyexcel_io.book import AVAILABLE_READERS, AVAILABLE_WRITERS
-from pyexcel_io.book import ReaderFactory, WriterFactory
+from pyexcel_io.base import AVAILABLE_READERS, AVAILABLE_WRITERS
+from pyexcel_io.base import ReaderFactory, WriterFactory
 from .._compact import PY2, is_string
 
 
