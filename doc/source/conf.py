@@ -20,6 +20,7 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.viewcode',
+    'sphinx.ext.autosummary'
 ]
 
 intersphinx_mapping = {'pyexcel': ('http://pyexcel.readthedocs.org/en/latest/', None)}
