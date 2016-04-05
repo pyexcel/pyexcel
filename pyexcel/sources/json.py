@@ -7,7 +7,7 @@ from .base import Source
 from .factory import SourceFactory
 
 
-class JsonSource(Source):
+class TextSource(Source):
     """
     Write into json file
     """
@@ -24,10 +24,26 @@ class JsonSource(Source):
             else:
                 file_type = keywords.get(KEYWORD_FILE_TYPE)
 
-            if action == 'write' and file_type == "json":
+            if cls.can_i_handle(action, file_type):
                 status = True
             else:
                 status = False
+        return status
+
+    @classmethod
+    def can_i_handle(cls, action, file_type):
+        return False
+
+        
+class JsonSource(Source):
+    """
+    Write into json file
+    """
+    @classmethod
+    def can_i_handle(cls, action, file_type):
+        status = False
+        if action == 'write' and file_type == "json":
+            status = True
         return status
 
 
