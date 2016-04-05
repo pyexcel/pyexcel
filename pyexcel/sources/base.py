@@ -15,7 +15,7 @@ def _has_field(field, keywords):
     return field in keywords and keywords[field] is not None
 
 
-class Source:
+class Source(object):
     """ A command source for get_sheet, get_book, save_as and save_book_as
 
     This can be used to extend the function parameters once the custom

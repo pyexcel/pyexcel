@@ -25,11 +25,7 @@ class FileSource(Source):
     """
     @classmethod
     def is_my_business(cls, action, **keywords):
-        statuses = [_has_field(field, keywords) for field in cls.fields]
-        results = filter(lambda status: status is False, statuses)
-        if not PY2:
-            results = list(results)
-        status = len(results) == 0
+        status = super(FileSource, cls).is_my_business(action, **keywords)
         if status:
             file_name = keywords.get(KEYWORD_FILE_NAME, None)
             if file_name:
