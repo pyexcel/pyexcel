@@ -1,7 +1,9 @@
 import json
-from .base import Source, _has_field
-from .._compact import PY2, is_string
+
+from .._compact import is_string
 from ..constants import KEYWORD_FILE_NAME, KEYWORD_FILE_TYPE
+
+from .base import Source
 from .factory import SourceFactory
 
 
@@ -11,11 +13,7 @@ class JsonSource(Source):
     """
     @classmethod
     def is_my_business(cls, action, **keywords):
-        statuses = [_has_field(field, keywords) for field in cls.fields]
-        results = filter(lambda status: status is False, statuses)
-        if not PY2:
-            results = list(results)
-        status = len(results) == 0
+        status = super(JsonSource, cls).is_my_business(action, **keywords)
         if status:
             file_name = keywords.get(KEYWORD_FILE_NAME, None)
             if file_name:

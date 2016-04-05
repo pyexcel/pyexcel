@@ -8,14 +8,18 @@
     :license: New BSD License
 """
 import os
-from .base import Source, one_sheet_tuple, _has_field
+
+from pyexcel_io import load_data, save_data
+from pyexcel_io import READERS, AVAILABLE_READERS, WRITERS, AVAILABLE_WRITERS
+
 from ..constants import (
     DEFAULT_SHEET_NAME,
     KEYWORD_FILE_NAME,
-    KEYWORD_FILE_TYPE)
-from pyexcel_io import load_data, save_data
-from pyexcel_io import READERS, AVAILABLE_READERS, WRITERS, AVAILABLE_WRITERS
-from .._compact import PY2, is_string
+    KEYWORD_FILE_TYPE
+)
+from .._compact import is_string
+
+from .base import Source, one_sheet_tuple
 from .factory import SourceFactory
 
 

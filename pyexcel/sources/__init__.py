@@ -8,6 +8,7 @@
     :license: New BSD License
 """
 import re
+
 from ..sheets import VALID_SHEET_PARAMETERS, Sheet, SheetStream
 from ..book import Book, BookStream
 from ..constants import (
@@ -22,8 +23,10 @@ from ..constants import (
     MESSAGE_ERROR_02,
     MESSAGE_ERROR_NO_HANDLER
 )
+
 from .factory import SourceFactory
 from . import memory, file, database, http, json
+
 
 def _get_content(**keywords):
     if DEPRECATED_KEYWORD_CONTENT in keywords:

@@ -7,8 +7,8 @@
     :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
-from .base import ReadOnlySource, Source, one_sheet_tuple
 from pyexcel_io import DB_SQL, DB_DJANGO, load_data, get_writer
+
 from .._compact import OrderedDict
 from ..constants import (
     KEYWORD_TABLES,
@@ -25,6 +25,8 @@ from ..constants import (
     KEYWORD_MODEL,
     DEFAULT_SHEET_NAME
 )
+
+from .base import ReadOnlySource, Source, one_sheet_tuple
 from .factory import SourceFactory
 
 
