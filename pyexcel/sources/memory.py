@@ -55,8 +55,11 @@ class ReadOnlySheetSource(SheetSource):
 class WriteOnlySheetSource(SheetSource):
     fields = [KEYWORD_FILE_TYPE]
 
-    def __init__(self, file_type=None, **keywords):
-        self.content = get_io(file_type)
+    def __init__(self, file_type=None, file_stream=None, **keywords):
+        if file_stream:
+            self.content = file_stream
+        else:
+            self.content = get_io(file_type)
         self.file_name = (file_type, self.content)
         self.keywords = keywords
 
@@ -160,7 +163,10 @@ class WriteOnlyBookSource(BookSource):
     """
     fields = [KEYWORD_FILE_TYPE]
 
-    def __init__(self, file_type=None, **keywords):
-        self.content = get_io(file_type)
+    def __init__(self, file_type=None, file_stream=None, **keywords):
+        if file_stream:
+            self.content = file_stream
+        else:
+            self.content = get_io(file_type)
         self.file_name = (file_type, self.content)
         self.keywords = keywords

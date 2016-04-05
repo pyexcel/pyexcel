@@ -60,9 +60,10 @@ class Sheet(NominableSheet):
                   are accepted
         for xls, 'encoding' and 'style_compression' are supported
         """
-        from ..sources import SheetSource
-        source = SheetSource(file_name=filename, **keywords)
-        return self.save_to(source)
+        from ..sources import SourceFactory
+        out_source = SourceFactory.get_writeable_source(file_name=filename,
+                                                        **keywords)
+        return self.save_to(out_source)
 
     def save_to_memory(self, file_type, stream, **keywords):
         """Save the content to memory
@@ -74,7 +75,11 @@ class Sheet(NominableSheet):
                                 pass an instance of StringIO. For xls, xlsx,
                                 and ods, an instance of BytesIO.
         """
-        self.save_as((file_type, stream), **keywords)
+        from ..sources import SourceFactory
+        out_source = SourceFactory.get_writeable_source(file_type=file_type,
+                                                        file_stream=stream,
+                                                        **keywords)
+        self.save_to(out_source)
 
     def save_to_django_model(self,
                              model,

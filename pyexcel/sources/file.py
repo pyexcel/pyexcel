@@ -44,7 +44,7 @@ class FileSource(Source):
             elif action == 'write':
                 status = file_type in WRITERS or file_type in AVAILABLE_WRITERS
             else:
-                raise Exception(MESSAGE_UNKNOWN_IO_OPERATION)
+                status = False
         return status
 
 

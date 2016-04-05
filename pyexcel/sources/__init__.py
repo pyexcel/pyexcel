@@ -45,6 +45,8 @@ from .database import (
     BookDjangoSource
 )
 from .http import HttpBookSource, HttpSheetSource
+from .json import JsonSheetSource, JsonBookSource
+
 
 SOURCES = [
     ReadOnlySource,
@@ -64,7 +66,8 @@ DEST_SOURCES = [
     SheetSource,
     WriteOnlySheetSource,
     SheetSQLAlchemySource,
-    SheetDjangoSource
+    SheetDjangoSource,
+    JsonSheetSource
 ]
 
 BOOK_SOURCES = [
@@ -82,7 +85,8 @@ DEST_BOOK_SOURCES = [
     BookSource,
     WriteOnlyBookSource,
     BookDjangoSource,
-    BookSQLSource
+    BookSQLSource,
+    JsonBookSource
 ]
 
 

@@ -241,8 +241,8 @@ class Book(object):
 
         :param str filename: a file path
         """
-        from .sources import BookSource
-        out_source = BookSource(file_name=filename)
+        from .sources import SourceFactory
+        out_source = SourceFactory.get_writeable_book_source(file_name=filename)
         self.save_to(out_source)
 
     def save_to_memory(self, file_type, stream, **keywords):
@@ -253,7 +253,12 @@ class Book(object):
                        format, please pass an instance of StringIO. For xls,
                        xlsx, and ods, an instance of BytesIO.
         """
-        self.save_as((file_type, stream), **keywords)
+        from .sources import SourceFactory
+        out_source = SourceFactory.get_writeable_book_source(
+            file_type=file_type,
+            file_stream=stream,
+            **keywords)
+        self.save_to(out_source)
 
     def save_to_django_models(self, models,
                               initializers=None, mapdicts=None, batch_size=None):
