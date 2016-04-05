@@ -1,7 +1,8 @@
 import json
-from .base import Source, one_sheet_tuple, _has_field
-from .._compact import PY2, is_string, is_generator
-from ..constants import KEYWORD_FILE_NAME, KEYWORD_FILE_TYPE, DEFAULT_SHEET_NAME
+from .base import Source, _has_field
+from .._compact import PY2, is_string
+from ..constants import KEYWORD_FILE_NAME, KEYWORD_FILE_TYPE
+from .factory import SourceFactory
 
 
 class JsonSource(Source):
@@ -33,6 +34,9 @@ class JsonSource(Source):
 
 
 class JsonSheetSource(JsonSource):
+    """
+    Write a two dimensional array into json format
+    """
     fields = [KEYWORD_FILE_NAME]
 
     def __init__(self, file_name=None, **keywords):
@@ -63,7 +67,9 @@ class JsonSheetSource(JsonSource):
 
 
 class JsonBookSource(JsonSheetSource):
-
+    """
+    Write a dictionary of two dimensional arrays into json format
+    """
     def write_data(self, book):
         if self.keywords.get('single_sheet_in_book', False):
             keys = list(book.keys())
@@ -71,3 +77,7 @@ class JsonBookSource(JsonSheetSource):
         else:
             with open(self.file_name, 'w') as jsonfile:
                 jsonfile.write(json.dumps(book.to_dict(), sort_keys=True))
+
+
+SourceFactory.register_a_source("sheet", "write", JsonSheetSource)
+SourceFactory.register_a_source("book", "write", JsonBookSource)

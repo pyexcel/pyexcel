@@ -11,6 +11,7 @@ from .base import ReadOnlySource, one_sheet_tuple
 from ..constants import KEYWORD_URL
 from pyexcel_io import load_data
 from .._compact import request, PY2
+from .factory import SourceFactory
 
 
 FILE_TYPE_MIME_TABLE = {
@@ -71,3 +72,5 @@ class HttpSheetSource(HttpBookSource):
         return one_sheet_tuple(sheets.items())
 
 
+SourceFactory.register_a_source("sheet", "read", HttpSheetSource)
+SourceFactory.register_a_source("book", "read", HttpBookSource)

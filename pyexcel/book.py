@@ -39,7 +39,7 @@ class BookStream(object):
 
     def save_to(self, source):
         """Save to a writeable data source"""
-        from .sources import BookDjangoSource, BookSQLSource
+        from .sources.database import BookDjangoSource, BookSQLSource
         if isinstance(source, BookDjangoSource) or isinstance(source, BookSQLSource):
             book = Book(self.sheets,
                         filename=self.filename,
@@ -274,8 +274,8 @@ class Book(object):
         :param mapdicts: custom map dictionary for your data columns and the sequence should
                    match tables
         """
-        from .sources import BookDjangoSource
-        out_source = BookDjangoSource(
+        from .sources import SourceFactory
+        out_source = SourceFactory.get_writeable_book_source(
             models=models,
             initializers=initializers,
             mapdicts=mapdicts,
@@ -301,8 +301,8 @@ class Book(object):
         :param auto_commit: by default, data is committed.
 
         """
-        from .sources import BookSQLSource
-        out_source = BookSQLSource(
+        from .sources import SourceFactory
+        out_source = SourceFactory.get_writeable_book_source(
             session=session,
             tables=tables,
             initializers=initializers,

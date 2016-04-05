@@ -20,6 +20,7 @@ from ..constants import (
     DEFAULT_SHEET_NAME
 )
 from .._compact import OrderedDict
+from .factory import SourceFactory
 
 
 class ReadOnlySheetSource(SheetSource):
@@ -67,7 +68,7 @@ class WriteOnlySheetSource(SheetSource):
         return None
 
 
-class RecrodsSource(ReadOnlySource):
+class RecordsSource(ReadOnlySource):
     """
     A list of dictionaries as data source
 
@@ -170,3 +171,14 @@ class WriteOnlyBookSource(BookSource):
             self.content = get_io(file_type)
         self.file_name = (file_type, self.content)
         self.keywords = keywords
+
+
+SourceFactory.register_a_source("sheet", "read", ReadOnlySheetSource)
+SourceFactory.register_a_source("sheet", "read", DictSource)
+SourceFactory.register_a_source("sheet", "read", RecordsSource)
+SourceFactory.register_a_source("sheet", "read", ArraySource)
+SourceFactory.register_a_source("sheet", "write", WriteOnlySheetSource)
+SourceFactory.register_a_source("book", "read", ReadOnlyBookSource)
+SourceFactory.register_a_source("book", "read", BookDictSource)
+SourceFactory.register_a_source("book", "write", WriteOnlyBookSource)
+

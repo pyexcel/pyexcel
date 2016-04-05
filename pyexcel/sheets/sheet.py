@@ -94,8 +94,8 @@ class Sheet(NominableSheet):
         :param batch_size: a parameter to Django concerning the size of data base
                            set
         """
-        from ..sources import SheetDjangoSource
-        source = SheetDjangoSource(model=model, initializer=initializer, mapdict=mapdict, batch_size=batch_size)
+        from ..sources import SourceFactory
+        source = SourceFactory.get_writeable_source(model=model, initializer=initializer, mapdict=mapdict, batch_size=batch_size)
         self.save_to(source)
 
     def save_to_database(self, session, table,
@@ -111,8 +111,8 @@ class Sheet(NominableSheet):
         :param auto_commit: by default, data is committed.
 
         """
-        from ..sources import SheetSQLAlchemySource
-        source = SheetSQLAlchemySource(
+        from ..sources import SourceFactory
+        source = SourceFactory.get_writeable_source(
             session=session,
             table=table,
             initializer=initializer,

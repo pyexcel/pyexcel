@@ -12,11 +12,11 @@ from .base import Source, one_sheet_tuple, _has_field
 from ..constants import (
     DEFAULT_SHEET_NAME,
     KEYWORD_FILE_NAME,
-    MESSAGE_UNKNOWN_IO_OPERATION,
     KEYWORD_FILE_TYPE)
 from pyexcel_io import load_data, save_data
 from pyexcel_io import READERS, AVAILABLE_READERS, WRITERS, AVAILABLE_WRITERS
 from .._compact import PY2, is_string
+from .factory import SourceFactory
 
 
 class FileSource(Source):
@@ -100,3 +100,8 @@ class BookSource(SheetSource):
                       book_dict,
                       **self.keywords)
 
+
+SourceFactory.register_a_source("sheet", "read", SheetSource)
+SourceFactory.register_a_source("book", "read", BookSource)
+SourceFactory.register_a_source("sheet", "write", SheetSource)
+SourceFactory.register_a_source("book", "write", BookSource)

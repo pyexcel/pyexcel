@@ -25,6 +25,7 @@ from ..constants import (
     KEYWORD_MODEL,
     DEFAULT_SHEET_NAME
 )
+from .factory import SourceFactory
 
 
 class SheetQuerySetSource(ReadOnlySource):
@@ -226,3 +227,16 @@ class BookDjangoSource(Source):
                             models=table_dict,
                             batch_size=batch_size)
         _write_book(writer, book)
+
+
+SourceFactory.register_a_source("sheet", "read", SheetSQLAlchemySource)
+SourceFactory.register_a_source("sheet", "write", SheetSQLAlchemySource)        
+SourceFactory.register_a_source("sheet", "read", SheetDjangoSource)
+SourceFactory.register_a_source("sheet", "write", SheetDjangoSource)
+SourceFactory.register_a_source("sheet", "read", SheetQuerySetSource)
+
+SourceFactory.register_a_source("book", "write", BookSQLSource)
+SourceFactory.register_a_source("book", "read", BookSQLSource)
+SourceFactory.register_a_source("book", "write", BookDjangoSource)
+SourceFactory.register_a_source("book", "read", BookDjangoSource)
+
