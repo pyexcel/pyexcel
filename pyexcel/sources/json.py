@@ -1,41 +1,12 @@
 import json
 
-from .._compact import is_string
-from ..constants import KEYWORD_FILE_NAME, KEYWORD_FILE_TYPE
+from ..constants import KEYWORD_FILE_NAME
 
-from .base import Source
+from .base import FileSource
 from .factory import SourceFactory
 
-
-class TextSource(Source):
-    """
-    Write into json file
-    """
-    @classmethod
-    def is_my_business(cls, action, **keywords):
-        status = super(JsonSource, cls).is_my_business(action, **keywords)
-        if status:
-            file_name = keywords.get(KEYWORD_FILE_NAME, None)
-            if file_name:
-                if is_string(type(file_name)):
-                    file_type = file_name.split(".")[-1]
-                else:
-                    raise IOError("Wrong file name")
-            else:
-                file_type = keywords.get(KEYWORD_FILE_TYPE)
-
-            if cls.can_i_handle(action, file_type):
-                status = True
-            else:
-                status = False
-        return status
-
-    @classmethod
-    def can_i_handle(cls, action, file_type):
-        return False
-
         
-class JsonSource(Source):
+class JsonSource(FileSource):
     """
     Write into json file
     """

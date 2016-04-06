@@ -21,7 +21,7 @@ from ..constants import (
 from .._compact import OrderedDict
 
 from .base import ReadOnlySource, one_sheet_tuple
-from .file import FileSource, SheetSource, BookSource
+from .file import IOSource, SheetSource, BookSource
 from .factory import SourceFactory
 
 
@@ -115,7 +115,7 @@ class ArraySource(ReadOnlySource):
         return DEFAULT_SHEET_NAME, self.array
 
 
-class ReadOnlyBookSource(ReadOnlySource, FileSource):
+class ReadOnlyBookSource(ReadOnlySource, IOSource):
     """
     Multiple sheet data source via memory
     """

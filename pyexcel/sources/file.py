@@ -14,41 +14,29 @@ from pyexcel_io import READERS, AVAILABLE_READERS, WRITERS, AVAILABLE_WRITERS
 
 from ..constants import (
     DEFAULT_SHEET_NAME,
-    KEYWORD_FILE_NAME,
-    KEYWORD_FILE_TYPE
+    KEYWORD_FILE_NAME
 )
-from .._compact import is_string
 
-from .base import Source, one_sheet_tuple
+from .base import FileSource, one_sheet_tuple
 from .factory import SourceFactory
 
 
-class FileSource(Source):
+class IOSource(FileSource):
     """
     Get excel data from file source
     """
     @classmethod
-    def is_my_business(cls, action, **keywords):
-        status = super(FileSource, cls).is_my_business(action, **keywords)
-        if status:
-            file_name = keywords.get(KEYWORD_FILE_NAME, None)
-            if file_name:
-                if is_string(type(file_name)):
-                    file_type = file_name.split(".")[-1]
-                else:
-                    raise IOError("Wrong file name")
-            else:
-                file_type = keywords.get(KEYWORD_FILE_TYPE)
-            if action == 'read':
-                status = file_type in READERS or file_type in AVAILABLE_READERS 
-            elif action == 'write':
-                status = file_type in WRITERS or file_type in AVAILABLE_WRITERS
-            else:
-                status = False
+    def can_i_handle(cls, action, file_type):
+        if action == 'read':
+            status = file_type in READERS or file_type in AVAILABLE_READERS 
+        elif action == 'write':
+            status = file_type in WRITERS or file_type in AVAILABLE_WRITERS
+        else:
+            status = False
         return status
 
 
-class SheetSource(FileSource):
+class SheetSource(IOSource):
     """Pick up 'file_name' field and do single sheet based read and write
     """
     fields = [KEYWORD_FILE_NAME]
