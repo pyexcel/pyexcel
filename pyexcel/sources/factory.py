@@ -3,23 +3,21 @@ class SourceFactory:
     The factory method to support multiple datasources in getters and savers
     """
     sources = {
-        "sheet": {
-            "read": [],
-            "write": []
-        },
-        "book":{
-            "read": [],
-            "write": []
-        }
+        "sheet-read": [],
+        "sheet-write": [],
+        "book-read": [],
+        "book-write": []
     }
 
     @classmethod
     def register_a_source(self, target, action, source):
-        self.sources[target][action].append(source)
+        key = "%s-%s" % (target, action)
+        self.sources[key].append(source)
 
     @classmethod
     def _get_generic_source(self, target, action, **keywords):
-        for source in self.sources[target][action]:
+        key = "%s-%s" % (target, action)
+        for source in self.sources[key]:
             if source.is_my_business(action, **keywords):
                 s = source(**keywords)
                 return s

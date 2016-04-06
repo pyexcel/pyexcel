@@ -13,7 +13,6 @@ from .._compact import is_string
 from ..constants import KEYWORD_FILE_NAME, KEYWORD_FILE_TYPE
 
 
-
 def _has_field(field, keywords):
     return field in keywords and keywords[field] is not None
 
