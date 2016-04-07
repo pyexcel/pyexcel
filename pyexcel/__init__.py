@@ -67,6 +67,7 @@ from .deprecated import (
     Writer,
     BookWriter
 )
+from .sources.factory import SourceFactory
 
 
 def get_array(**keywords):
@@ -131,3 +132,10 @@ def get_book_dict(**keywords):
         return book.to_dict()
     else:
         return None
+
+
+try:
+    import pyexcel.ext.text as text
+    text.extend_sources(SourceFactory)
+except ImportError:
+    pass
