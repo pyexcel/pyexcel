@@ -26,7 +26,7 @@ from ..constants import (
 
 from .base import FileSource
 from .factory import SourceFactory
-from . import memory, file, database, http, json
+from . import memory, file, database, http
 
 
 def _get_content(**keywords):
