@@ -12,7 +12,7 @@ with open("CHANGELOG.rst", 'r') as changelog:
     README_txt += changelog.read()
 
 dependencies = [
-    'pyexcel-io>=0.2.0',
+    'pyexcel-io>=0.1.0',
     'texttable>=0.8.2',
 ]
 
