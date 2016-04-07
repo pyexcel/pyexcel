@@ -15,8 +15,8 @@ from ..constants import (
     MESSAGE_UNKNOWN_IO_OPERATION,
     KEYWORD_FILE_TYPE)
 from pyexcel_io import get_data, save_data
-from pyexcel_io.base import AVAILABLE_READERS, AVAILABLE_WRITERS
-from pyexcel_io.base import ReaderFactory, WriterFactory
+from pyexcel_io.utils import AVAILABLE_READERS, AVAILABLE_WRITERS
+from pyexcel_io.manager import RWManager
 from .._compact import PY2, is_string
 
 
@@ -41,9 +41,9 @@ class FileSource(Source):
             else:
                 file_type = keywords.get(KEYWORD_FILE_TYPE)
             if action == 'read':
-                status = file_type in ReaderFactory.factories or file_type in AVAILABLE_READERS 
+                status = file_type in RWManager.reader_factories or file_type in AVAILABLE_READERS 
             elif action == 'write':
-                status = file_type in WriterFactory.factories or file_type in AVAILABLE_WRITERS
+                status = file_type in RWManager.writer_factories or file_type in AVAILABLE_WRITERS
             else:
                 raise Exception(MESSAGE_UNKNOWN_IO_OPERATION)
         return status

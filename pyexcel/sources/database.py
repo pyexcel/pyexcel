@@ -10,10 +10,10 @@
 from .base import ReadOnlySource, Source, one_sheet_tuple
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
 from pyexcel_io import get_data, save_data
-from pyexcel_io.sqlbook import SQLTableImporter, SQLTableImportAdapter
-from pyexcel_io.sqlbook import SQLTableExporter, SQLTableExportAdapter
-from pyexcel_io.djangobook import DjangoModelExporter, DjangoModelExportAdapter
-from pyexcel_io.djangobook import DjangoModelImporter, DjangoModelImportAdapter
+from pyexcel_io.database.sql import SQLTableImporter, SQLTableImportAdapter
+from pyexcel_io.database.sql import SQLTableExporter, SQLTableExportAdapter
+from pyexcel_io.database.django import DjangoModelExporter, DjangoModelExportAdapter
+from pyexcel_io.database.django import DjangoModelImporter, DjangoModelImportAdapter
 from .._compact import OrderedDict
 from ..constants import (
     KEYWORD_TABLES,

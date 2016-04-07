@@ -9,7 +9,8 @@
 """
 from .base import ReadOnlySource, one_sheet_tuple
 from .file import FileSource, SheetSource, BookSource
-from pyexcel_io import get_data, get_io
+from pyexcel_io import get_data
+from pyexcel_io.manager import RWManager
 from ..constants import (
     KEYWORD_FILE_TYPE,
     KEYWORD_RECORDS,
@@ -56,7 +57,7 @@ class WriteOnlySheetSource(SheetSource):
     fields = [KEYWORD_FILE_TYPE]
 
     def __init__(self, file_type=None, **keywords):
-        self.content = get_io(file_type)
+        self.content = RWManager.get_io(file_type)
         self.file_name = (file_type, self.content)
         self.keywords = keywords
 
@@ -161,6 +162,6 @@ class WriteOnlyBookSource(BookSource):
     fields = [KEYWORD_FILE_TYPE]
 
     def __init__(self, file_type=None, **keywords):
-        self.content = get_io(file_type)
+        self.content = RWManager.get_io(file_type)
         self.file_name = (file_type, self.content)
         self.keywords = keywords
