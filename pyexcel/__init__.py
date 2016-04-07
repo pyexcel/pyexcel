@@ -68,6 +68,7 @@ from .deprecated import (
     BookWriter
 )
 from .sources.factory import SourceFactory
+from .presentation import STRINGIFICATION
 
 
 def get_array(**keywords):
@@ -137,5 +138,6 @@ def get_book_dict(**keywords):
 try:
     import pyexcel.ext.text as text
     text.extend_sources(SourceFactory)
+    text.extend_presentation(STRINGIFICATION)
 except ImportError:
     pass
