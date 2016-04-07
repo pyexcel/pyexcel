@@ -24,6 +24,7 @@ from ..constants import (
     MESSAGE_ERROR_NO_HANDLER
 )
 
+from .base import FileSource
 from .factory import SourceFactory
 from . import memory, file, database, http, json
 
@@ -134,7 +135,7 @@ def get_book(**keywords):
     array as values.
     """
     book_stream = _get_book(**keywords)
-    book = Book(book_stream.sheets,
+    book = Book(book_stream.to_dict(),
                 filename=book_stream.filename,
                 path=book_stream.path)
     return book

@@ -8,7 +8,7 @@
     :license: New BSD License, see LICENSE for more details
 """
 from .iterators import SheetIterator
-from .sheets import Sheet
+from .sheets import Sheet, SheetStream
 from .utils import to_dict, local_uuid
 from ._compact import OrderedDict
 from .presentation import outsource
@@ -32,16 +32,41 @@ class BookStream(object):
         self.filename = filename
         self.name_array = []
         if sheets:
-            self.sheets = sheets
+            self.load_from_sheets(sheets)
         else:
             self.sheets = {}
+
+    def load_from_sheets(self, sheets):
+        """Load content from existing sheets
+
+        :param dict sheets: a dictionary of sheets. Each sheet is
+        a list of lists
+        """
+        self.sheets = OrderedDict()
+        if sheets is None:
+            return
+        keys = sheets.keys()
+        if not isinstance(sheets, OrderedDict):
+            # if the end user does not care about the order
+            # we put alphatical order
+            keys = sorted(keys)
+        for name in keys:
+            sheet = SheetStream(name, sheets[name])
+            # this sheets keep sheet order
+            self.sheets.update({name: sheet})
+            # this provide the convenience of access the sheet
+            self.__dict__[name] = sheet
         self.name_array = list(self.sheets.keys())
+
+    def get_sheet(self, array, name):
+        """Create a sheet from a list of lists"""
+        return Sheet(array, name)
 
     def save_to(self, source):
         """Save to a writeable data source"""
         from .sources.database import BookDjangoSource, BookSQLSource
         if isinstance(source, BookDjangoSource) or isinstance(source, BookSQLSource):
-            book = Book(self.sheets,
+            book = Book(self.to_dict(),
                         filename=self.filename,
                         path=self.path)
             source.write_data(book)
@@ -52,7 +77,10 @@ class BookStream(object):
         """
         Get book data structure as a dictionary
         """
-        return self.sheets
+        the_dict = OrderedDict()
+        for sheet in self:
+            the_dict.update({sheet.name:sheet.payload})
+        return the_dict
 
     def __iter__(self):
         return SheetIterator(self)
