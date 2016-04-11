@@ -1,7 +1,8 @@
-from pyexcel.sources import SheetSource
+from pyexcel.sources.file import SheetSource
 from pyexcel.sheets import SheetStream
 from pyexcel_io import get_io
 from textwrap import dedent
+
 
 def test_save_to():
     file_type = 'csv'

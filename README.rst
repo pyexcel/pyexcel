@@ -2,14 +2,14 @@
 pyexcel - Let you focus on data, instead of file formats
 ========================================================
 
-.. image:: https://api.travis-ci.org/pyexcel/pyexcel.svg?branch=master
+.. image:: https://api.travis-ci.org/pyexcel/pyexcel.svg?branch=v0.2.1
     :target: http://travis-ci.org/pyexcel/pyexcel
 
-.. image:: https://codecov.io/github/pyexcel/pyexcel/coverage.png
-    :target: https://codecov.io/github/pyexcel/pyexcel
+.. image:: https://codecov.io/github/pyexcel/pyexcel/coverage.svg?branch=v0.2.1
+    :target: https://codecov.io/github/pyexcel/pyexcel?branch=v0.2.1
 
-.. image:: https://readthedocs.org/projects/pyexcel/badge/?version=latest
-    :target: http://pyexcel.readthedocs.org/en/latest/
+.. image:: https://readthedocs.org/projects/pyexcel/badge/?version=v0.2.1
+    :target: http://pyexcel.readthedocs.org/en/v0.2.1/
 
 
 Known constraints

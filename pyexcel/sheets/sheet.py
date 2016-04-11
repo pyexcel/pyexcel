@@ -60,9 +60,10 @@ class Sheet(NominableSheet):
                   are accepted
         for xls, 'encoding' and 'style_compression' are supported
         """
-        from ..sources import SheetSource
-        source = SheetSource(file_name=filename, **keywords)
-        return self.save_to(source)
+        from ..sources import SourceFactory
+        out_source = SourceFactory.get_writeable_source(file_name=filename,
+                                                        **keywords)
+        return self.save_to(out_source)
 
     def save_to_memory(self, file_type, stream, **keywords):
         """Save the content to memory
@@ -74,7 +75,11 @@ class Sheet(NominableSheet):
                                 pass an instance of StringIO. For xls, xlsx,
                                 and ods, an instance of BytesIO.
         """
-        self.save_as((file_type, stream), **keywords)
+        from ..sources import SourceFactory
+        out_source = SourceFactory.get_writeable_source(file_type=file_type,
+                                                        file_stream=stream,
+                                                        **keywords)
+        self.save_to(out_source)
 
     def save_to_django_model(self,
                              model,
@@ -89,8 +94,8 @@ class Sheet(NominableSheet):
         :param batch_size: a parameter to Django concerning the size of data base
                            set
         """
-        from ..sources import SheetDjangoSource
-        source = SheetDjangoSource(model=model, initializer=initializer, mapdict=mapdict, batch_size=batch_size)
+        from ..sources import SourceFactory
+        source = SourceFactory.get_writeable_source(model=model, initializer=initializer, mapdict=mapdict, batch_size=batch_size)
         self.save_to(source)
 
     def save_to_database(self, session, table,
@@ -106,8 +111,8 @@ class Sheet(NominableSheet):
         :param auto_commit: by default, data is committed.
 
         """
-        from ..sources import SheetSQLAlchemySource
-        source = SheetSQLAlchemySource(
+        from ..sources import SourceFactory
+        source = SourceFactory.get_writeable_source(
             session=session,
             table=table,
             initializer=initializer,

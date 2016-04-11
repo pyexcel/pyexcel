@@ -8,48 +8,35 @@
     :license: New BSD License
 """
 import os
-from .base import Source, one_sheet_tuple, _has_field
+
+from pyexcel_io import get_data, save_data, RWManager
+from pyexcel_io.utils import AVAILABLE_READERS, AVAILABLE_WRITERS
+
 from ..constants import (
     DEFAULT_SHEET_NAME,
-    KEYWORD_FILE_NAME,
-    MESSAGE_UNKNOWN_IO_OPERATION,
-    KEYWORD_FILE_TYPE)
-from pyexcel_io import get_data, save_data
-from pyexcel_io.base import AVAILABLE_READERS, AVAILABLE_WRITERS
-from pyexcel_io.base import ReaderFactory, WriterFactory
-from .._compact import PY2, is_string
+    KEYWORD_FILE_NAME
+)
+
+from .base import FileSource, one_sheet_tuple
+from .factory import SourceFactory
 
 
-class FileSource(Source):
+class IOSource(FileSource):
     """
     Get excel data from file source
     """
     @classmethod
-    def is_my_business(cls, action, **keywords):
-        statuses = [_has_field(field, keywords) for field in cls.fields]
-        results = filter(lambda status: status is False, statuses)
-        if not PY2:
-            results = list(results)
-        status = len(results) == 0
-        if status:
-            file_name = keywords.get(KEYWORD_FILE_NAME, None)
-            if file_name:
-                if is_string(type(file_name)):
-                    file_type = file_name.split(".")[-1]
-                else:
-                    raise IOError("Wrong file name")
-            else:
-                file_type = keywords.get(KEYWORD_FILE_TYPE)
-            if action == 'read':
-                status = file_type in ReaderFactory.factories or file_type in AVAILABLE_READERS 
-            elif action == 'write':
-                status = file_type in WriterFactory.factories or file_type in AVAILABLE_WRITERS
-            else:
-                raise Exception(MESSAGE_UNKNOWN_IO_OPERATION)
+    def can_i_handle(cls, action, file_type):
+        if action == 'read':
+            status = file_type in RWManager.reader_factories or file_type in AVAILABLE_READERS 
+        elif action == 'write':
+            status = file_type in RWManager.writer_factories or file_type in AVAILABLE_WRITERS
+        else:
+            status = False
         return status
 
 
-class SheetSource(FileSource):
+class SheetSource(IOSource):
     """Pick up 'file_name' field and do single sheet based read and write
     """
     fields = [KEYWORD_FILE_NAME]
@@ -101,3 +88,8 @@ class BookSource(SheetSource):
                       book_dict,
                       **self.keywords)
 
+
+SourceFactory.register_a_source("sheet", "read", SheetSource)
+SourceFactory.register_a_source("book", "read", BookSource)
+SourceFactory.register_a_source("sheet", "write", SheetSource)
+SourceFactory.register_a_source("book", "write", BookSource)

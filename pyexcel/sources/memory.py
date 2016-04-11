@@ -7,9 +7,8 @@
     :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
-from .base import ReadOnlySource, one_sheet_tuple
-from .file import FileSource, SheetSource, BookSource
-from pyexcel_io import get_data, get_io
+from pyexcel_io import get_data, RWManager
+
 from ..constants import (
     KEYWORD_FILE_TYPE,
     KEYWORD_RECORDS,
@@ -20,6 +19,10 @@ from ..constants import (
     DEFAULT_SHEET_NAME
 )
 from .._compact import OrderedDict
+
+from .base import ReadOnlySource, one_sheet_tuple
+from .file import IOSource, SheetSource, BookSource
+from .factory import SourceFactory
 
 
 class ReadOnlySheetSource(SheetSource):
@@ -55,8 +58,11 @@ class ReadOnlySheetSource(SheetSource):
 class WriteOnlySheetSource(SheetSource):
     fields = [KEYWORD_FILE_TYPE]
 
-    def __init__(self, file_type=None, **keywords):
-        self.content = get_io(file_type)
+    def __init__(self, file_type=None, file_stream=None, **keywords):
+        if file_stream:
+            self.content = file_stream
+        else:
+            self.content = RWManager.get_io(file_type)
         self.file_name = (file_type, self.content)
         self.keywords = keywords
 
@@ -64,7 +70,7 @@ class WriteOnlySheetSource(SheetSource):
         return None
 
 
-class RecrodsSource(ReadOnlySource):
+class RecordsSource(ReadOnlySource):
     """
     A list of dictionaries as data source
 
@@ -109,7 +115,7 @@ class ArraySource(ReadOnlySource):
         return DEFAULT_SHEET_NAME, self.array
 
 
-class ReadOnlyBookSource(ReadOnlySource, FileSource):
+class ReadOnlyBookSource(ReadOnlySource, IOSource):
     """
     Multiple sheet data source via memory
     """
@@ -160,7 +166,20 @@ class WriteOnlyBookSource(BookSource):
     """
     fields = [KEYWORD_FILE_TYPE]
 
-    def __init__(self, file_type=None, **keywords):
-        self.content = get_io(file_type)
+    def __init__(self, file_type=None, file_stream=None, **keywords):
+        if file_stream:
+            self.content = file_stream
+        else:
+            self.content = RWManager.get_io(file_type)
         self.file_name = (file_type, self.content)
         self.keywords = keywords
+
+
+SourceFactory.register_a_source("sheet", "read", ReadOnlySheetSource)
+SourceFactory.register_a_source("sheet", "read", DictSource)
+SourceFactory.register_a_source("sheet", "read", RecordsSource)
+SourceFactory.register_a_source("sheet", "read", ArraySource)
+SourceFactory.register_a_source("sheet", "write", WriteOnlySheetSource)
+SourceFactory.register_a_source("book", "read", ReadOnlyBookSource)
+SourceFactory.register_a_source("book", "read", BookDictSource)
+SourceFactory.register_a_source("book", "write", WriteOnlyBookSource)

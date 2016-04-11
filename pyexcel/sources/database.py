@@ -7,13 +7,14 @@
     :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
-from .base import ReadOnlySource, Source, one_sheet_tuple
-from pyexcel_io.constants import DB_SQL, DB_DJANGO
 from pyexcel_io import get_data, save_data
 from pyexcel_io.sqlbook import SQLTableImporter, SQLTableImportAdapter
 from pyexcel_io.sqlbook import SQLTableExporter, SQLTableExportAdapter
 from pyexcel_io.djangobook import DjangoModelExporter, DjangoModelExportAdapter
+
 from pyexcel_io.djangobook import DjangoModelImporter, DjangoModelImportAdapter
+from pyexcel_io.constants import DB_SQL, DB_DJANGO
+
 from .._compact import OrderedDict
 from ..constants import (
     KEYWORD_TABLES,
@@ -30,6 +31,9 @@ from ..constants import (
     KEYWORD_MODEL,
     DEFAULT_SHEET_NAME
 )
+
+from .base import ReadOnlySource, Source, one_sheet_tuple
+from .factory import SourceFactory
 
 
 class SheetQuerySetSource(ReadOnlySource):
@@ -210,3 +214,15 @@ class BookDjangoSource(Source):
             to_store[sheet_name] = book[sheet_name].array
         save_data(importer, to_store, file_type=DB_DJANGO,
                   batch_size=batch_size)
+
+
+SourceFactory.register_a_source("sheet", "read", SheetSQLAlchemySource)
+SourceFactory.register_a_source("sheet", "write", SheetSQLAlchemySource)        
+SourceFactory.register_a_source("sheet", "read", SheetDjangoSource)
+SourceFactory.register_a_source("sheet", "write", SheetDjangoSource)
+SourceFactory.register_a_source("sheet", "read", SheetQuerySetSource)
+
+SourceFactory.register_a_source("book", "write", BookSQLSource)
+SourceFactory.register_a_source("book", "read", BookSQLSource)
+SourceFactory.register_a_source("book", "write", BookDjangoSource)
+SourceFactory.register_a_source("book", "read", BookDjangoSource)

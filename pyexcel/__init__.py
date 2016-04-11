@@ -9,7 +9,6 @@
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-from pyexcel_io import get_io
 from .book import Book
 from .sheets import (
     Sheet,
@@ -67,6 +66,8 @@ from .deprecated import (
     Writer,
     BookWriter
 )
+from .sources.factory import SourceFactory
+from .presentation import STRINGIFICATION
 
 
 def get_array(**keywords):
@@ -131,3 +132,11 @@ def get_book_dict(**keywords):
         return book.to_dict()
     else:
         return None
+
+
+try:
+    import pyexcel.ext.text as text
+    text.extend_sources(SourceFactory)
+    text.extend_presentation(STRINGIFICATION)
+except ImportError:
+    pass

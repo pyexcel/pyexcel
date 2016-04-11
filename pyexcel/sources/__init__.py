@@ -8,7 +8,7 @@
     :license: New BSD License
 """
 import re
-from .base import ReadOnlySource, WriteOnlySource
+
 from ..sheets import VALID_SHEET_PARAMETERS, Sheet, SheetStream
 from ..book import Book, BookStream
 from ..constants import (
@@ -23,108 +23,10 @@ from ..constants import (
     MESSAGE_ERROR_02,
     MESSAGE_ERROR_NO_HANDLER
 )
-from .file import (
-    SheetSource,
-    BookSource
-)
-from .memory import (
-    ReadOnlySheetSource,
-    WriteOnlySheetSource,
-    DictSource,
-    RecrodsSource,
-    ArraySource,
-    ReadOnlyBookSource,
-    BookDictSource,
-    WriteOnlyBookSource
-)
-from .database import (
-    SheetSQLAlchemySource,
-    SheetDjangoSource,
-    SheetQuerySetSource,
-    BookSQLSource,
-    BookDjangoSource
-)
-from .http import HttpBookSource, HttpSheetSource
 
-SOURCES = [
-    ReadOnlySource,
-    SheetSource,
-    ReadOnlySheetSource,
-    SheetSQLAlchemySource,
-    SheetDjangoSource,
-    RecrodsSource,
-    DictSource,
-    SheetQuerySetSource,
-    ArraySource,
-    HttpSheetSource
-]
-
-DEST_SOURCES = [
-    WriteOnlySource,
-    SheetSource,
-    WriteOnlySheetSource,
-    SheetSQLAlchemySource,
-    SheetDjangoSource
-]
-
-BOOK_SOURCES = [
-    ReadOnlySource,
-    BookSource,
-    ReadOnlyBookSource,
-    BookSQLSource,
-    BookDjangoSource,
-    BookDictSource,
-    HttpBookSource
-]
-
-DEST_BOOK_SOURCES = [
-    WriteOnlySource,
-    BookSource,
-    WriteOnlyBookSource,
-    BookDjangoSource,
-    BookSQLSource
-]
-
-
-class SourceFactory:
-    """
-    The factory method to support multiple datasources in getters and savers
-    """
-    @classmethod
-    def _get_generic_source(self, registry, action, **keywords):
-        for source in registry:
-            if source.is_my_business(action, **keywords):
-                s = source(**keywords)
-                return s
-        return None
-
-    @classmethod
-    def get_source(self, **keywords):
-        return self._get_generic_source(
-            SOURCES,
-            action='read',
-            **keywords)
-
-    @classmethod
-    def get_book_source(self, **keywords):
-        return self._get_generic_source(
-            BOOK_SOURCES,
-            action='read',
-            **keywords)
-
-    @classmethod
-    def get_writeable_source(self, **keywords):
-        return self._get_generic_source(
-            DEST_SOURCES,
-            action='write',
-            **keywords)
-
-    @classmethod
-    def get_writeable_book_source(self, **keywords):
-        return self._get_generic_source(
-            DEST_BOOK_SOURCES,
-            action='write',
-            **keywords)
+from .base import FileSource
+from .factory import SourceFactory
+from . import memory, file, database, http
 
 
 def _get_content(**keywords):
@@ -233,7 +135,7 @@ def get_book(**keywords):
     array as values.
     """
     book_stream = _get_book(**keywords)
-    book = Book(book_stream.sheets,
+    book = Book(book_stream.to_dict(),
                 filename=book_stream.filename,
                 path=book_stream.path)
     return book

@@ -35,11 +35,6 @@ important than data analysis. In such context, ease of use, and low overhead is
 preferred, while Pandas is as big as 4MB and contains hundreds of potentially
 useful functions.
 
-.. note::
-    Pyexcel v0.2.x is under way, the feature highlight will be performance optimization
-    by the usage of yield keyword. And v0.2.x will potentially enable streaming
-    excel content over HTTP protocol.
-
 
 Getting the source
 --------------------------------------------------------------------------------
