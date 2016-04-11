@@ -8,7 +8,7 @@
     :license: New BSD License, see LICENSE for more details
 """
 from .nominablesheet import NominableSheet
-from pyexcel_io.base import NamedContent
+from pyexcel_io.sheet import NamedContent
 
 
 class SheetStream(NamedContent):

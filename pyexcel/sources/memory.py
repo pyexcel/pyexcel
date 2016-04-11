@@ -7,8 +7,10 @@
     :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel_io import get_data, RWManager
-
+from .base import ReadOnlySource, one_sheet_tuple
+from .file import FileSource, SheetSource, BookSource
+from pyexcel_io import get_data
+from pyexcel_io.manager import RWManager
 from ..constants import (
     KEYWORD_FILE_TYPE,
     KEYWORD_RECORDS,
@@ -58,11 +60,8 @@ class ReadOnlySheetSource(SheetSource):
 class WriteOnlySheetSource(SheetSource):
     fields = [KEYWORD_FILE_TYPE]
 
-    def __init__(self, file_type=None, file_stream=None, **keywords):
-        if file_stream:
-            self.content = file_stream
-        else:
-            self.content = RWManager.get_io(file_type)
+    def __init__(self, file_type=None, **keywords):
+        self.content = RWManager.get_io(file_type)
         self.file_name = (file_type, self.content)
         self.keywords = keywords
 
@@ -166,11 +165,8 @@ class WriteOnlyBookSource(BookSource):
     """
     fields = [KEYWORD_FILE_TYPE]
 
-    def __init__(self, file_type=None, file_stream=None, **keywords):
-        if file_stream:
-            self.content = file_stream
-        else:
-            self.content = RWManager.get_io(file_type)
+    def __init__(self, file_type=None, **keywords):
+        self.content = RWManager.get_io(file_type)
         self.file_name = (file_type, self.content)
         self.keywords = keywords
 
