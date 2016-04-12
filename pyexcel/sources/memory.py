@@ -60,8 +60,11 @@ class ReadOnlySheetSource(SheetSource):
 class WriteOnlySheetSource(SheetSource):
     fields = [KEYWORD_FILE_TYPE]
 
-    def __init__(self, file_type=None, **keywords):
-        self.content = RWManager.get_io(file_type)
+    def __init__(self, file_type=None, file_stream=None, **keywords):
+        if file_stream is None:
+            self.content = RWManager.get_io(file_type)
+        else:
+            self.content = file_stream
         self.file_name = (file_type, self.content)
         self.keywords = keywords
 
