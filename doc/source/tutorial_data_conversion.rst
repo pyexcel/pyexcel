@@ -67,7 +67,7 @@ Suppose you have a csv, xls, xlsx file as the following:
 The following code will give you the data in json::
 
     >>> import pyexcel
-	>>> import pyexcel.ext.xls
+    >>> import pyexcel.ext.xls
     >>> # "example.csv","example.xlsx","example.xlsm"
     >>> my_array = pyexcel.get_array(file_name="example.xls")
     >>> my_array
@@ -98,14 +98,13 @@ Let's verify it::
 
    >>> pyexcel.get_sheet(file_name="example.xls")
    Sheet Name: pyexcel_sheet1
-   +---+---+---+
-   | 1 | 2 | 3 |
-   +---+---+---+
-   | 4 | 5 | 6 |
-   +---+---+---+
-   | 7 | 8 | 9 |
-   +---+---+---+
-
+   +-----+-----+-----+
+   | 1.0 | 2.0 | 3.0 |
+   +-----+-----+-----+
+   | 4.0 | 5.0 | 6.0 |
+   +-----+-----+-----+
+   | 7.0 | 8.0 | 9.0 |
+   +-----+-----+-----+
 
 .. testcode::
    :hide:
@@ -408,9 +407,9 @@ Done it. It is that simple. Let's verify what has been imported to make sure.
    +------------+----+-------+--------+
    | birth      | id | name  | weight |
    +------------+----+-------+--------+
-   | 2015-02-03 | 1  | Adam  | 3.400  |
+   | 2015-02-03 | 1  | Adam  | 3.4    |
    +------------+----+-------+--------+
-   | 2014-11-12 | 2  | Smith | 4.200  |
+   | 2014-11-12 | 2  | Smith | 4.2    |
    +------------+----+-------+--------+
 
 .. testcode::
@@ -450,9 +449,9 @@ Again it is really simple. Let's verify what we have gotten:
    +-------+--------+------------+
    | name  | weight | birth      |
    +-------+--------+------------+
-   | Adam  | 3.400  | 2015-02-03 |
+   | Adam  | 3.4    | 2015-02-03 |
    +-------+--------+------------+
-   | Smith | 4.200  | 2014-11-12 |
+   | Smith | 4.2    | 2014-11-12 |
    +-------+--------+------------+
 
 .. NOTE::
@@ -486,9 +485,9 @@ Again let's verify what we have gotten:
    +-------+--------+----------+
    | name  | weight | birth    |
    +-------+--------+----------+
-   | Adam  | 3.400  | 03/02/15 |
+   | Adam  | 3.4    | 03/02/15 |
    +-------+--------+----------+
-   | Smith | 4.200  | 12/11/14 |
+   | Smith | 4.2    | 12/11/14 |
    +-------+--------+----------+
 
 .. testcode::
