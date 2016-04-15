@@ -136,7 +136,5 @@ def get_book_dict(**keywords):
 
 try:
     import pyexcel.ext.text as text
-    text.extend_sources(SourceFactory)
-    text.extend_presentation(STRINGIFICATION)
 except ImportError:
     pass

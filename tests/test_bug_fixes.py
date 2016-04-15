@@ -1,6 +1,9 @@
+import os
+from textwrap import dedent
+
 import pyexcel as pe
 import pyexcel.ext.xls
-import os
+from datetime import datetime
 from _compact import StringIO, OrderedDict
 
 
@@ -67,3 +70,18 @@ class TestBugFixes:
         newdict = pe.get_dict(file_name="issue10.xls")
         assert isinstance(newdict, OrderedDict) == True
         assert thedict == newdict
+
+    def test_issue_29(self):
+        a=[
+            ['2016-03-31 10:59', '0123', 'XS360_EU', '04566651561653122'], # error case
+            [datetime(2016, 4, 15, 17, 52, 11), 123, False, 456193284757]  #  python types
+        ]
+        s=pe.get_sheet(array=a)
+        content = dedent("""
+        Sheet Name: pyexcel_sheet1
+        +------------------+------+----------+-------------------+
+        | 2016-03-31 10:59 | 0123 | XS360_EU | 04566651561653122 |
+        +------------------+------+----------+-------------------+
+        | 15/04/16         | 123  | false    | 456193284757      |
+        +------------------+------+----------+-------------------+""").strip('\n')
+        assert str(s) == content
