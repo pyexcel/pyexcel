@@ -1095,6 +1095,7 @@ class Matrix(object):
         table = Texttable(max_width=0)
         table.set_chars(self.__border__())
         data = self.to_array()
+        table.set_cols_dtype(['t'] * self.width)
         for sub_array in data:
             new_array = []
             for item in sub_array:

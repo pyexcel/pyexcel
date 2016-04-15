@@ -1,6 +1,8 @@
+import os
+from textwrap import dedent
+
 import pyexcel as pe
 import pyexcel.ext.xls
-import os
 from _compact import StringIO, OrderedDict
 
 
@@ -67,3 +69,15 @@ class TestBugFixes:
         newdict = pe.get_dict(file_name="issue10.xls")
         assert isinstance(newdict, OrderedDict) == True
         assert thedict == newdict
+
+    def test_issue_29(self):
+        a=[
+            ['2016-03-31 10:59', 'XS360_EU', 60.0, '0123', '04566651561653122', 'N/A', 'N/A']
+        ]
+        s=pe.get_sheet(array=a)
+        content = dedent("""
+        Sheet Name: pyexcel_sheet1
+        +------------------+----------+------+------+-------------------+-----+-----+
+        | 2016-03-31 10:59 | XS360_EU | 60.0 | 0123 | 04566651561653122 | N/A | N/A |
+        +------------------+----------+------+------+-------------------+-----+-----+""").strip('\n')
+        assert str(s) == content
