@@ -2,9 +2,9 @@ Questions and Answers
 =======================
 
 
-#. `Python flask writing to a csv file and reading it<http://stackoverflow.com/questions/27338891/python-flask-writing-to-a-csv-file-and-reading-it#27348717>`_
+#. `Python flask writing to a csv file and reading it <http://stackoverflow.com/questions/27338891/python-flask-writing-to-a-csv-file-and-reading-it#27348717>`_
 
-#. `PyQt: Import .xls file and populate QTableWidget?<http://stackoverflow.com/questions/11817161/pyqt-import-xls-file-and-populate-qtablewidget#25910499>`_
+#. `PyQt: Import .xls file and populate QTableWidget? <http://stackoverflow.com/questions/11817161/pyqt-import-xls-file-and-populate-qtablewidget#25910499>`_
 
 #. `How do I write data to csv file in columns and rows from a list in python? <http://stackoverflow.com/questions/7528801/how-do-i-write-data-to-csv-file-in-columns-and-rows-from-a-list-in-python/27108294#27108294>`_
 
