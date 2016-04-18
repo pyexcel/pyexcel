@@ -425,6 +425,17 @@ class TestHatIterators:
         }
         assert result == actual
 
+    def test_named_row_iterator(self):
+        sheet = pe.get_sheet(file_name=self.testfile, name_columns_by_row=0)
+        for row in sheet.named_rows():
+            assert row == {'Y': 2, 'Z': 3, 'X': 1}
+
+    def test_named_column_iterator(self):
+        sheet = pe.get_sheet(file_name=self.testfile, transpose_after=True)
+        sheet.name_rows_by_column(0)
+        for row in sheet.named_columns():
+            assert row == {'Y': 2, 'Z': 3, 'X': 1}
+
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)

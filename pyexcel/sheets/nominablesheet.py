@@ -805,6 +805,7 @@ class NominableSheet(FilterableSheet):
             table = Texttable(max_width=0)
             table.set_chars(self.__border__())
             data = self.to_array()
+            table.set_cols_dtype(['t'] * len(data[0]))
             new_data = []
             for sub_array in data:
                 new_array = []

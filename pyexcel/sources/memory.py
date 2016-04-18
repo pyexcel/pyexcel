@@ -54,7 +54,7 @@ class ReadOnlySheetSource(SheetSource):
 
     def write_data(self, content):
         """Disable write"""
-        pass
+        raise Exception("ReadOnlySource does not write")
 
 
 class WriteOnlySheetSource(SheetSource):
@@ -69,7 +69,7 @@ class WriteOnlySheetSource(SheetSource):
         self.keywords = keywords
 
     def get_data(self):
-        return None
+        raise Exception("WriteOnlySource does not read" )
 
 
 class RecordsSource(ReadOnlySource):

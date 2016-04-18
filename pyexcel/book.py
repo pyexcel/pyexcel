@@ -42,9 +42,9 @@ class BookStream(object):
         :param dict sheets: a dictionary of sheets. Each sheet is
         a list of lists
         """
-        self.sheets = OrderedDict()
         if sheets is None:
             return
+        self.sheets = OrderedDict()
         keys = sheets.keys()
         if not isinstance(sheets, OrderedDict):
             # if the end user does not care about the order
@@ -57,10 +57,6 @@ class BookStream(object):
             # this provide the convenience of access the sheet
             self.__dict__[name] = sheet
         self.name_array = list(self.sheets.keys())
-
-    def get_sheet(self, array, name):
-        """Create a sheet from a list of lists"""
-        return Sheet(array, name)
 
     def save_to(self, source):
         """Save to a writeable data source"""
