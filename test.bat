@@ -3,5 +3,5 @@ python setup.py install
 cd ..\pyexcel-presentation
 python setup.py install
 cd ..\..\
-nosetests --with-doctest --doctest-extension=.rst doc/source pyexcel tests --with-cov --cov examples --cov pyexcel --cov tests --cov-report html
+nosetests --with-doctest --doctest-extension=.rst doc/source pyexcel tests
 del tmp.db

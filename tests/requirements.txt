@@ -1,5 +1,4 @@
 nose
-rednose
 nose-cov
 codecov
 coverage
