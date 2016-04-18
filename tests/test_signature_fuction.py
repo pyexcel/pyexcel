@@ -30,7 +30,6 @@ class TestNone:
     @raises(NotImplementedError)
     def test_get_book_dict(self):
         pe.get_book_dict(x="something")
-
         
 
 class TestGetSheet:
@@ -46,6 +45,16 @@ class TestGetSheet:
         sheet = pe.get_sheet(file_name=testfile)
         assert sheet.to_array() == data
         os.unlink(testfile)
+        
+    def test_get_sheet_from_file_stream(self):
+        data = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        content = pe.save_as(dest_file_type="xls", array=data)
+        sheet = pe.get_sheet(file_stream=content, file_type="xls")
+        assert sheet.to_array() == data
         
     def test_get_sheet_from_memory(self):
         data = [
@@ -103,6 +112,7 @@ class TestGetSheet:
             [4, 5, 6]
         ]
         assert expected == sheet.to_array()
+
 
 class TestGetArray:
     def test_get_array_from_file(self):
@@ -167,6 +177,7 @@ class TestGetArray:
             [4, 5, 6]
         ]
         assert expected == result
+
 
 class TestGetDict:
     def test_get_dict_from_file(self):
@@ -634,6 +645,7 @@ class TestSQL:
         expected.update({'signature2': [['A', 'B', 'C'], [1, 2, 3], [4, 5, 6]]})
         assert book_dict == expected
 
+
 class TestGetBook:
     def test_get_book_from_book_dict(self):
         content = OrderedDict()
@@ -662,6 +674,15 @@ class TestGetBook:
         content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
         io = pe.save_book_as(dest_file_type="xls", bookdict=content)
         book2 = pe.get_book(file_content=io.getvalue(), file_type="xls")
+        assert book2.to_dict() == content
+
+    def test_get_book_from_file_stream(self):
+        content = OrderedDict()
+        content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
+        content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
+        content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
+        io = pe.save_book_as(dest_file_type="xls", bookdict=content)
+        book2 = pe.get_book(file_stream=io, file_type="xls")
         assert book2.to_dict() == content
 
     def test_get_book_from_memory_compatibility(self):

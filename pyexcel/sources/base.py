@@ -45,7 +45,7 @@ class ReadOnlySource(Source):
     """Read Only Data Source"""
     def write_data(self, content):
         """This function does nothing """
-        pass
+        raise Exception("ReadOnlySource does not write")
 
 
 class WriteOnlySource(Source):
@@ -53,7 +53,7 @@ class WriteOnlySource(Source):
 
     def get_data(self):
         """This function does nothing"""
-        return None
+        raise Exception("WriteOnlySource does not read")
 
 
 class FileSource(Source):
