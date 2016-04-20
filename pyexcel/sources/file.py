@@ -18,7 +18,6 @@ from ..constants import (
 )
 
 from .base import FileSource, one_sheet_tuple
-from .factory import SourceFactory
 
 
 class IOSource(FileSource):
@@ -40,6 +39,8 @@ class SheetSource(IOSource):
     """Pick up 'file_name' field and do single sheet based read and write
     """
     fields = [KEYWORD_FILE_NAME]
+    targets = ('sheet',)
+    actions = ('read', 'write')
 
     def __init__(self, file_name=None, **keywords):
         self.file_name = file_name
@@ -71,6 +72,8 @@ class SheetSource(IOSource):
 class BookSource(SheetSource):
     """Pick up 'file_name' field and do multiple sheet based read and write
     """
+    targets = ('book',)
+
     def get_data(self):
         sheets = get_data(self.file_name, **self.keywords)
         path, filename_alone = os.path.split(self.file_name)
@@ -89,7 +92,4 @@ class BookSource(SheetSource):
                       **self.keywords)
 
 
-SourceFactory.register_a_source("sheet", "read", SheetSource)
-SourceFactory.register_a_source("book", "read", BookSource)
-SourceFactory.register_a_source("sheet", "write", SheetSource)
-SourceFactory.register_a_source("book", "write", BookSource)
+sources = (SheetSource, BookSource)

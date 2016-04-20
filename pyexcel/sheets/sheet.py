@@ -7,8 +7,8 @@
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
+from pyexcel_io import NamedContent
 from .nominablesheet import NominableSheet
-from pyexcel_io.sheet import NamedContent
 
 
 class SheetStream(NamedContent):
@@ -45,6 +45,11 @@ class Sheet(NominableSheet):
     Filtering functions are used to reduce the information contained in the
     array.
     """
+    @classmethod
+    def register_presentation(cls, file_type):
+        setattr(cls, file_type, property(presenter(file_type)))
+        setattr(cls, 'get_%s' % file_type, presenter(file_type))
+
     def save_to(self, source):
         """Save to a writeable data source"""
         source.write_data(self)
@@ -123,3 +128,13 @@ class Sheet(NominableSheet):
             auto_commit=auto_commit
         )
         self.save_to(source)
+
+
+def presenter(file_type=None):
+    def custom_presenter(self, **keywords):
+        from ..sources import SourceFactory
+        memory_source = SourceFactory.get_writeable_source(file_type=file_type,
+                                                           **keywords)
+        self.save_to(memory_source)
+        return memory_source.content.getvalue()
+    return custom_presenter

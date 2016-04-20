@@ -24,9 +24,12 @@ from ..constants import (
     MESSAGE_ERROR_NO_HANDLER
 )
 
-from .base import FileSource
 from .factory import SourceFactory
 from . import memory, file, database, http
+
+sources = memory.sources + file.sources + database.sources + http.sources
+
+SourceFactory.register_sources(sources)
 
 
 def _get_content(**keywords):

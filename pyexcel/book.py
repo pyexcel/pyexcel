@@ -110,6 +110,12 @@ class Book(object):
         self.name_array = []
         self.load_from_sheets(sheets)
 
+    @classmethod
+    def register_presentation(cls, file_type):
+        setattr(cls, file_type, property(presenter(file_type)))
+        setattr(cls, 'get_%s' % file_type, presenter(file_type))
+        pass
+
     def load_from_sheets(self, sheets):
         """Load content from existing sheets
 
@@ -350,3 +356,14 @@ class Book(object):
             ret += str(self.sheets[sheet])
             ret += "\n"
         return ret.strip('\n')
+
+
+def presenter(file_type=None):
+    def custom_presenter(self, **keywords):
+        from .sources import SourceFactory
+        memory_source = SourceFactory.get_writeable_book_source(
+            file_type=file_type,
+            **keywords)
+        self.save_to(memory_source)
+        return memory_source.content.getvalue()
+    return custom_presenter

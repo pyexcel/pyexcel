@@ -31,7 +31,6 @@ from ..constants import (
 )
 
 from .base import ReadOnlySource, Source, one_sheet_tuple
-from .factory import SourceFactory
 
 
 class SheetQuerySetSource(ReadOnlySource):
@@ -41,6 +40,8 @@ class SheetQuerySetSource(ReadOnlySource):
     SQLAlchemy and Django query sets are supported
     """
     fields = [KEYWORD_COLUMN_NAMES, KEYWORD_QUERY_SETS]
+    targets = ('sheet',)
+    actions = ('read',)
 
     def __init__(self, column_names, query_sets, sheet_name=None):
         self.sheet_name = sheet_name
@@ -60,6 +61,8 @@ class SheetSQLAlchemySource(Source):
     SQLAlchemy channeled sql database as data source
     """
     fields = [KEYWORD_SESSION, KEYWORD_TABLE]
+    targets = ('sheet',)
+    actions = ('read', 'write')
 
     def __init__(self, session, table, **keywords):
         self.session = session
@@ -92,6 +95,8 @@ class SheetDjangoSource(Source):
     Django model as data source
     """
     fields = [KEYWORD_MODEL]
+    targets = ('sheet',)
+    actions = ('read', 'write')
 
     def __init__(self, model=None, **keywords):
         self.model = model
@@ -123,6 +128,8 @@ class BookSQLSource(Source):
     SQLAlchemy bridged multiple table data source
     """
     fields = [KEYWORD_SESSION, KEYWORD_TABLES]
+    targets = ('book',)
+    actions = ('read', 'write')
 
     def __init__(self, session, tables, **keywords):
         self.session = session
@@ -170,6 +177,8 @@ class BookDjangoSource(Source):
     multiple Django table as data source
     """
     fields = [KEYWORD_MODELS]
+    targets = ('book',)
+    actions = ('read', 'write')
 
     def __init__(self, models, **keywords):
         self.models = models
@@ -214,13 +223,8 @@ class BookDjangoSource(Source):
                   batch_size=batch_size)
 
 
-SourceFactory.register_a_source("sheet", "read", SheetSQLAlchemySource)
-SourceFactory.register_a_source("sheet", "write", SheetSQLAlchemySource)        
-SourceFactory.register_a_source("sheet", "read", SheetDjangoSource)
-SourceFactory.register_a_source("sheet", "write", SheetDjangoSource)
-SourceFactory.register_a_source("sheet", "read", SheetQuerySetSource)
+sources = (
+    SheetSQLAlchemySource, SheetDjangoSource, SheetQuerySetSource,
+    BookDjangoSource, BookSQLSource
+)
 
-SourceFactory.register_a_source("book", "write", BookSQLSource)
-SourceFactory.register_a_source("book", "read", BookSQLSource)
-SourceFactory.register_a_source("book", "write", BookDjangoSource)
-SourceFactory.register_a_source("book", "read", BookDjangoSource)
