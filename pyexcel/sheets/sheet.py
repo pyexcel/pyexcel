@@ -7,11 +7,30 @@
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-from .nominablesheet import NominableSheet
 from pyexcel_io import NamedContent
+from .nominablesheet import NominableSheet
 
 
-class SheetStream(NamedContent):
+def presenter(file_type=None):
+    def custom_presenter(self, **keywords):
+        from ..sources import SourceFactory
+        memory_source = SourceFactory.get_writeable_source(file_type=file_type,
+                                                           **keywords)
+        self.save_to(memory_source)
+        return memory_source.content.getvalue()
+    return custom_presenter
+
+
+class GenericSheet(object):
+
+    @classmethod
+    def register_presentation(cls, file_type):
+        setattr(cls, file_type, property(presenter(file_type)))
+        setattr(cls, 'get_%s' % file_type, presenter(file_type))
+        pass
+
+
+class SheetStream(NamedContent, GenericSheet):
     """
     A container to hold generator as sheet content
     """
@@ -27,7 +46,7 @@ class SheetStream(NamedContent):
 
 
 
-class Sheet(NominableSheet):
+class Sheet(NominableSheet, GenericSheet):
     """Two dimensional data container for filtering, formatting and iteration
 
     :class:`Sheet` is a container for a two dimensional array, where individual
