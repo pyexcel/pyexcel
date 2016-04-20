@@ -7,7 +7,7 @@
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-from pyexcel_io import NamedContent
+from pyexcel_io.sheet import NamedContent
 from .nominablesheet import NominableSheet
 
 
