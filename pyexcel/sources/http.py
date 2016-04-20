@@ -11,7 +11,6 @@ from .base import ReadOnlySource, one_sheet_tuple
 from ..constants import KEYWORD_URL
 from pyexcel_io import load_data
 from .._compact import request, PY2
-from .factory import SourceFactory
 
 
 FILE_TYPE_MIME_TABLE = {
@@ -34,6 +33,8 @@ class HttpBookSource(ReadOnlySource):
     Multiple sheet data source via http protocol
     """
     fields = [KEYWORD_URL]
+    targets = ('book',)
+    actions = ('read',)
 
     def __init__(self, url=None, **keywords):
         self.url = url
@@ -62,6 +63,7 @@ class HttpSheetSource(HttpBookSource):
     """
 
     fields = [KEYWORD_URL]
+    targets = ('sheet',)
 
     def __init__(self, url=None, **keywords):
         self.url = url
@@ -72,5 +74,4 @@ class HttpSheetSource(HttpBookSource):
         return one_sheet_tuple(sheets.items())
 
 
-SourceFactory.register_a_source("sheet", "read", HttpSheetSource)
-SourceFactory.register_a_source("book", "read", HttpBookSource)
+sources = (HttpBookSource, HttpSheetSource)

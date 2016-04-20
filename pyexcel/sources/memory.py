@@ -22,12 +22,13 @@ from .._compact import OrderedDict
 
 from .base import ReadOnlySource, one_sheet_tuple
 from .file import IOSource, SheetSource, BookSource
-from .factory import SourceFactory
 
 
 class ReadOnlySheetSource(SheetSource):
     """Pick up 'file_type' and read a sheet from memory"""
     fields = [KEYWORD_FILE_TYPE]
+    targets = ('sheet',)
+    actions = ('read',)
 
     def __init__(self,
                  file_content=None,
@@ -57,6 +58,8 @@ class ReadOnlySheetSource(SheetSource):
 
 class WriteOnlySheetSource(SheetSource):
     fields = [KEYWORD_FILE_TYPE]
+    targets = ('sheet',)
+    actions = ('write',)
 
     def __init__(self, file_type=None, file_stream=None, **keywords):
         if file_stream:
@@ -77,6 +80,8 @@ class RecordsSource(ReadOnlySource):
     The dictionaries should have identical fields.
     """
     fields = [KEYWORD_RECORDS]
+    targets = ('sheet',)
+    actions = ('read',)
 
     def __init__(self, records):
         self.records = records
@@ -91,6 +96,8 @@ class DictSource(ReadOnlySource):
     A dictionary of one dimensional array as sheet source
     """
     fields = [KEYWORD_ADICT]
+    targets = ('sheet',)
+    actions = ('read',)
 
     def __init__(self, adict, with_keys=True):
         self.adict = adict
@@ -107,6 +114,8 @@ class ArraySource(ReadOnlySource):
     A two dimensional array as sheet source
     """
     fields = [KEYWORD_ARRAY]
+    targets = ('sheet',)
+    actions = ('read',)
 
     def __init__(self, array):
         self.array = array
@@ -120,6 +129,8 @@ class ReadOnlyBookSource(ReadOnlySource, IOSource):
     Multiple sheet data source via memory
     """
     fields = [KEYWORD_FILE_TYPE]
+    targets = ('book',)
+    actions = ('read',)
 
     def __init__(self,
                  file_content=None,
@@ -148,6 +159,8 @@ class BookDictSource(ReadOnlySource):
     Multiple sheet data source via a dictionary of two dimensional arrays
     """
     fields = [KEYWORD_BOOKDICT]
+    targets = ('book',)
+    actions = ('read',)
 
     def __init__(self, bookdict, **keywords):
         self.bookdict = bookdict
@@ -165,6 +178,8 @@ class WriteOnlyBookSource(BookSource):
     Multiple sheet data source for writting back to memory
     """
     fields = [KEYWORD_FILE_TYPE]
+    targets = ('book',)
+    actions = ('write',)
 
     def __init__(self, file_type=None, file_stream=None, **keywords):
         if file_stream:
@@ -175,12 +190,13 @@ class WriteOnlyBookSource(BookSource):
         self.keywords = keywords
 
 
-SourceFactory.register_a_source("sheet", "read", ReadOnlySheetSource)
-SourceFactory.register_a_source("sheet", "read", DictSource)
-SourceFactory.register_a_source("sheet", "read", RecordsSource)
-SourceFactory.register_a_source("sheet", "read", ArraySource)
-SourceFactory.register_a_source("sheet", "write", WriteOnlySheetSource)
-SourceFactory.register_a_source("book", "read", ReadOnlyBookSource)
-SourceFactory.register_a_source("book", "read", BookDictSource)
-SourceFactory.register_a_source("book", "write", WriteOnlyBookSource)
-
+sources = (
+    ReadOnlySheetSource,
+    DictSource,
+    RecordsSource,
+    ArraySource,
+    WriteOnlySheetSource,
+    ReadOnlyBookSource,
+    BookDictSource,
+    WriteOnlyBookSource
+)
