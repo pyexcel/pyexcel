@@ -15,7 +15,6 @@ class SourceFactory:
         for source in sources:
             for target in source.targets:
                 for action in source.actions:
-                    print("%s %s" %(target, action))
                     self.register_a_source(target, action, source)
 
     @classmethod
@@ -28,7 +27,6 @@ class SourceFactory:
 
     @classmethod
     def register_a_source(self, target, action, source):
-        print(source)
         key = "%s-%s" % (target, action)
         self.sources[key].append(source)
 
