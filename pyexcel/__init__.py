@@ -68,7 +68,6 @@ from .deprecated import (
     BookWriter
 )
 from .sources.factory import SourceFactory
-from .presentation import STRINGIFICATION
 
 
 def get_array(**keywords):
