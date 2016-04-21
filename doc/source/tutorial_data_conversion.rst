@@ -11,7 +11,6 @@ How to obtain records from an excel sheet
 
    >>> import pyexcel as pe
    >>> from pyexcel._compact import OrderedDict
-   >>> import pyexcel.ext.xls
    >>> content = OrderedDict()
    >>> content.update({"Name": ["Adam", "Beatrice", "Ceri", "Dean"]})
    >>> content.update({"Age": [28, 29, 30, 26]})
@@ -32,7 +31,6 @@ Dean      26
 Here are the example code::
    
    >>> import pyexcel as pe
-   >>> import pyexcel.ext.xls # import it to handle xls file
    >>> records = pe.get_records(file_name="your_file.xls")
    >>> for record in records:
    ...     print("%s is aged at %d" % (record['Name'], record['Age']))
@@ -59,7 +57,6 @@ Suppose you have a csv, xls, xlsx file as the following:
    :hide:
 
    >>> import pyexcel as pe
-   >>> import pyexcel.ext.xls   
    >>> data = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
    >>> s = pe.Sheet(data)
    >>> s.save_as("example.xls")
@@ -67,7 +64,6 @@ Suppose you have a csv, xls, xlsx file as the following:
 The following code will give you the data in json::
 
     >>> import pyexcel
-    >>> import pyexcel.ext.xls
     >>> # "example.csv","example.xlsx","example.xlsm"
     >>> my_array = pyexcel.get_array(file_name="example.xls")
     >>> my_array
@@ -91,7 +87,6 @@ Suppose you have the following array::
 And here is the code to save it as an excel file ::
 
    >>> import pyexcel
-   >>> import pyexcel.ext.xls   
    >>> pyexcel.save_as(array=data, dest_file_name="example.xls")
 
 Let's verify it::
@@ -124,7 +119,6 @@ Suppose you have the following array::
 And here is the code to save it as an excel file ::
 
    >>> import pyexcel
-   >>> import pyexcel.ext.xls   
    >>> pyexcel.save_as(array=data,
    ...                 dest_file_name="example.csv",
    ...                 dest_delimiter=':')
@@ -178,7 +172,6 @@ The following code will give you data series in a dictionary:
 .. testcode::
     
    >>> import pyexcel
-   >>> import pyexcel.ext.xls
    >>> from pyexcel._compact import OrderedDict
    >>> my_dict = pyexcel.get_dict(file_name="example_series.xls", name_columns_by_row=0)
    >>> isinstance(my_dict, OrderedDict)
@@ -262,7 +255,6 @@ Here is the code to obtain those sheets as a single dictionary::
 
    >>> import pyexcel
    >>> import json
-   >>> import pyexcel.ext.xls # import it to handle xls file
    >>> book_dict = pyexcel.get_book_dict(file_name="book.xls")
    >>> isinstance(book_dict, OrderedDict)
    True
@@ -438,7 +430,6 @@ How to open an xls file and save it as csv
 Suppose we want to save previous used example 'birth.xls' as a csv file ::
 
    >>> import pyexcel
-   >>> import pyexcel.ext.xls
    >>> pyexcel.save_as(file_name="birth.xls", dest_file_name="birth.csv")
 
 Again it is really simple. Let's verify what we have gotten:
@@ -472,8 +463,6 @@ How to open an xls file and save it as xlsx
 Let use previous example and save it as ods instead
 
    >>> import pyexcel
-   >>> import pyexcel.ext.xls
-   >>> import pyexcel.ext.xlsx # this is the extra line
    >>> pyexcel.save_as(file_name="birth.xls",
    ...                 dest_file_name="birth.xlsx") # change the file extension
 

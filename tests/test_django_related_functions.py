@@ -1,7 +1,6 @@
 import pyexcel as pe
-import pyexcel.ext.xls
 from _compact import OrderedDict
-from nose.tools import raises
+
 
 class Attributable:
     def __init__(self, adict):

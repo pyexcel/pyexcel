@@ -88,13 +88,6 @@ For individual excel file formats, please install them as you wish:
 .. _text: https://github.com/pyexcel/pyexcel-text
 
 
-Please import them before you start to access the desired file formats::
-
-    from pyexcel.ext import plugin
-
-or::
-
-    import pyexcel.ext.plugin
 
 .. table:: Plugin compatibility table
 
@@ -149,8 +142,6 @@ Here are the example usages:
 .. code-block:: python
    
    >>> import pyexcel as pe
-   >>> import pyexcel.ext.xls # import it to handle xls file
-   >>> import pyexcel.ext.xlsx # import it to handle xlsx file
    >>> records = pe.get_records(file_name="your_file.xls")
    >>> for record in records:
    ...     print("%s is aged at %d" % (record['Name'], record['Age']))

@@ -2,7 +2,6 @@ import os
 from textwrap import dedent
 
 import pyexcel as pe
-import pyexcel.ext.xls
 from datetime import datetime
 from _compact import StringIO, OrderedDict
 

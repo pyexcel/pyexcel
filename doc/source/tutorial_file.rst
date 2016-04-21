@@ -42,7 +42,6 @@ And you want to add a new row:
 Here is the code::
 
     >>> import pyexcel as pe
-    >>> import pyexcel.ext.xls
     >>> sheet = pe.get_sheet(file_name="example.xls")
     >>> sheet.row += [12, 11, 10]
     >>> sheet.save_as("new_example.xls")
@@ -71,7 +70,6 @@ Suppose you want to update the last row of the example file as:
 Here is the sample code::
 
     >>> import pyexcel as pe
-    >>> import pyexcel.ext.xls
     >>> sheet = pe.get_sheet(file_name="example.xls")
     >>> sheet.row[3] = ['N/A', 'N/A', 'N/A']
     >>> sheet.save_as("new_example1.xls")
@@ -99,7 +97,6 @@ And you want to add a column instead:
 Here is the code::
 
     >>> import pyexcel as pe
-    >>> import pyexcel.ext.xls
     >>> sheet = pe.get_sheet(file_name="example.xls")
     >>> sheet.column += ["Column 4", 10, 11, 12]
     >>> sheet.save_as("new_example2.xls")
