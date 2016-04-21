@@ -7,7 +7,7 @@
     :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel_io import get_io
+from pyexcel_io.manager import RWManager
 
 from .._compact import PY2
 from .._compact import is_string
@@ -91,7 +91,7 @@ class WriteOnlyMemorySourceMixin(object):
         if file_stream:
             self.content = file_stream
         else:
-            self.content = get_io(file_type)
+            self.content = RWManager.get_io(file_type)
         self.file_type = file_type
         self.keywords = keywords
 

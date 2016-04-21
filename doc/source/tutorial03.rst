@@ -32,7 +32,6 @@ Let's read it out first::
 .. testcode::
    :hide:
 
-   >>> import pyexcel.ext.xls
    >>> data = [
    ...     ["userid","name"],
    ...     [10120,"Adam"],  

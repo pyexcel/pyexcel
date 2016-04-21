@@ -35,6 +35,12 @@ important than data analysis. In such context, ease of use, and low overhead is
 preferred, while Pandas is as big as 4MB and contains hundreds of potentially
 useful functions.
 
+.. note::
+
+   Since version `0.2.2`, no longer a plugin should be explicitly imported.
+   They are imported if they are installed. Please use pip to manage the
+   plugins.
+
 
 Getting the source
 --------------------------------------------------------------------------------
@@ -95,7 +101,8 @@ or::
     ======= ========== =========== ============ ============ ============ ============
     pyexcel pyexcel-io xls         xlsx         ods          ods3         text  
     ======= ========== =========== ============ ============ ============ ============
-    0.2.0   0.1.0  
+    0.2.2   0.2.0      0.2.0       0.2.0        0.2.0        0.2.0        0.2.0
+    0.2.0+  0.1.0      0.1.0       0.1.0        0.1.0+       0.1.0+       0.1.0+
     ======= ========== =========== ============ ============ ============ ============
 
 Usage
@@ -105,7 +112,7 @@ Usage
    :hide:
 
    >>> import pyexcel
-   >>> import pyexcel.ext.xls
+   >>> # make sure you had pyexcel-xls pip-installed
    >>> a_list_of_dictionaries = [
    ...     {
    ...         "Name": 'Adam',

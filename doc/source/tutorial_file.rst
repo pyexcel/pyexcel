@@ -26,7 +26,6 @@ Column 1 Column 2 Column 3
 
    >>> import os
    >>> import pyexcel
-   >>> import pyexcel.ext.xls
    >>> data = [
    ...      ["Column 1", "Column 2", "Column 3"],
    ...      [1, 4, 7],
@@ -127,7 +126,6 @@ Again let's update "Column 3" with:
 Here is the sample code::
 
     >>> import pyexcel as pe
-    >>> import pyexcel.ext.xls
     >>> sheet = pe.get_sheet(file_name="example.xls")
     >>> sheet.column[2] = ["Column 3", 100, 200, 300]
     >>> sheet.save_as("new_example3.xls")
@@ -147,7 +145,6 @@ Here is the sample code::
 Alternatively, you could have done like this::
 
     >>> import pyexcel as pe
-    >>> import pyexcel.ext.xls
     >>> sheet = pe.get_sheet(file_name="example.xls", name_columns_by_row=0)
     >>> sheet.column["Column 3"] = [100, 200, 300]
     >>> sheet.save_as("new_example4.xls")
@@ -179,7 +176,6 @@ Row 3     7    8    9
 
    >>> import os
    >>> import pyexcel
-   >>> import pyexcel.ext.xls
    >>> data = [
    ...      ["Row 1", 1, 2, 3],
    ...      ["Row 2", 4, 5, 6],
@@ -195,7 +191,6 @@ And then you want to update "Row 3" with for example::
 These code would do the job::
 
     >>> import pyexcel as pe
-    >>> import pyexcel.ext.xls
     >>> sheet = pe.get_sheet(file_name="row_example.xls", name_rows_by_column=0)
     >>> sheet.row["Row 3"] = [100, 200, 300]
     >>> sheet.save_as("new_example5.xls")

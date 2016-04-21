@@ -90,7 +90,7 @@ Here are the example code:
 .. code-block:: python
    
    >>> import pyexcel as pe
-   >>> import pyexcel.ext.xls # import it to handle xls file
+   >>> # make sure you had pyexcel-xls pip-installed
    >>> records = pe.get_records(url="http://your.domain.com/path/to/your_file.xls")
    >>> for record in records:
    ...     print("%s is aged at %d" % (record['Name'], record['Age']))

@@ -10,7 +10,6 @@ Column manipulation
    :hide:
 
    >>> import pyexcel
-   >>> import pyexcel.ext.xls
    >>> data = [
    ...      ["Column 1", "Column 2", "Column 3"],
    ...      [1, 4, 7],

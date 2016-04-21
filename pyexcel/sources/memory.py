@@ -8,7 +8,6 @@
     :license: New BSD License
 """
 from pyexcel_io import get_data
-from pyexcel_io.manager import RWManager
 
 
 from .._compact import OrderedDict
@@ -17,7 +16,6 @@ from ..constants import DEFAULT_SHEET_NAME
 from .base import ReadOnlySource, one_sheet_tuple
 from .base import WriteOnlyMemorySourceMixin
 from .file import IOSource, SheetSource, BookSource
-from .file import FileSource, SheetSource, BookSource
 from . import params
 
 

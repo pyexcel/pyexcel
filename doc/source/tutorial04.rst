@@ -9,8 +9,6 @@ Access to individual sheets
    :hide:
 
    >>> import pyexcel
-   >>> import pyexcel.ext.xls
-   >>> import pyexcel.ext.xlsx
    >>> data = {
    ...      'sheet 1':
    ...          [

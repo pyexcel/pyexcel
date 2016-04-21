@@ -29,7 +29,6 @@ c       7 8 9
 Here is the example code showing how you can randomly access a cell::
 
    >>> import pyexcel
-   >>> import pyexcel.ext.xls
 
 .. testcode::
    :hide:

@@ -19,7 +19,6 @@ Column 1 Column 2 Column 3
 ======== ======== ========
 
     >>> import pyexcel
-    >>> import pyexcel.ext.xls
 
 .. testcode::
    :hide:
