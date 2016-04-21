@@ -12,10 +12,8 @@ import os
 from pyexcel_io import load_data, save_data
 from pyexcel_io import READERS, AVAILABLE_READERS, WRITERS, AVAILABLE_WRITERS
 
-from ..constants import (
-    DEFAULT_SHEET_NAME,
-    KEYWORD_FILE_NAME
-)
+from ..constants import DEFAULT_SHEET_NAME
+from . import params
 
 from .base import FileSource, one_sheet_tuple
 
@@ -26,9 +24,9 @@ class IOSource(FileSource):
     """
     @classmethod
     def can_i_handle(cls, action, file_type):
-        if action == 'read':
+        if action == params.READ_ACTION:
             status = file_type in READERS or file_type in AVAILABLE_READERS 
-        elif action == 'write':
+        elif action == params.WRITE_ACTION:
             status = file_type in WRITERS or file_type in AVAILABLE_WRITERS
         else:
             status = False
@@ -38,9 +36,9 @@ class IOSource(FileSource):
 class SheetSource(IOSource):
     """Pick up 'file_name' field and do single sheet based read and write
     """
-    fields = [KEYWORD_FILE_NAME]
-    targets = ('sheet',)
-    actions = ('read', 'write')
+    fields = [params.FILE_NAME]
+    targets = (params.SHEET,)
+    actions = (params.READ_ACTION, params.WRITE_ACTION)
 
     def __init__(self, file_name=None, **keywords):
         self.file_name = file_name
@@ -72,7 +70,7 @@ class SheetSource(IOSource):
 class BookSource(SheetSource):
     """Pick up 'file_name' field and do multiple sheet based read and write
     """
-    targets = ('book',)
+    targets = (params.BOOK,)
 
     def get_data(self):
         sheets = load_data(self.file_name, **self.keywords)

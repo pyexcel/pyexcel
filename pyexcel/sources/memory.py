@@ -9,26 +9,18 @@
 """
 from pyexcel_io import load_data, get_io
 
-from ..constants import (
-    KEYWORD_FILE_TYPE,
-    KEYWORD_RECORDS,
-    KEYWORD_ADICT,
-    KEYWORD_ARRAY,
-    KEYWORD_MEMORY,
-    KEYWORD_BOOKDICT,
-    DEFAULT_SHEET_NAME
-)
 from .._compact import OrderedDict
+from ..constants import DEFAULT_SHEET_NAME
 
 from .base import ReadOnlySource, one_sheet_tuple
 from .file import IOSource, SheetSource, BookSource
+from . import params
 
 
 class ReadOnlySheetSource(SheetSource):
     """Pick up 'file_type' and read a sheet from memory"""
-    fields = [KEYWORD_FILE_TYPE]
-    targets = ('sheet',)
-    actions = ('read',)
+    fields = [params.FILE_TYPE]
+    actions = (params.READ_ACTION,)
 
     def __init__(self,
                  file_content=None,
@@ -57,9 +49,8 @@ class ReadOnlySheetSource(SheetSource):
 
 
 class WriteOnlySheetSource(SheetSource):
-    fields = [KEYWORD_FILE_TYPE]
-    targets = ('sheet',)
-    actions = ('write',)
+    fields = [params.FILE_TYPE]
+    actions = (params.WRITE_ACTION,)
 
     def __init__(self, file_type=None, file_stream=None, **keywords):
         if file_stream:
@@ -79,9 +70,9 @@ class RecordsSource(ReadOnlySource):
 
     The dictionaries should have identical fields.
     """
-    fields = [KEYWORD_RECORDS]
-    targets = ('sheet',)
-    actions = ('read',)
+    fields = [params.RECORDS]
+    targets = (params.SHEET,)
+    actions = (params.READ_ACTION,)
 
     def __init__(self, records):
         self.records = records
@@ -95,9 +86,9 @@ class DictSource(ReadOnlySource):
     """
     A dictionary of one dimensional array as sheet source
     """
-    fields = [KEYWORD_ADICT]
-    targets = ('sheet',)
-    actions = ('read',)
+    fields = [params.ADICT]
+    targets = (params.SHEET,)
+    actions = (params.READ_ACTION,)
 
     def __init__(self, adict, with_keys=True):
         self.adict = adict
@@ -113,9 +104,9 @@ class ArraySource(ReadOnlySource):
     """
     A two dimensional array as sheet source
     """
-    fields = [KEYWORD_ARRAY]
-    targets = ('sheet',)
-    actions = ('read',)
+    fields = [params.ARRAY]
+    targets = (params.SHEET,)
+    actions = (params.READ_ACTION,)
 
     def __init__(self, array):
         self.array = array
@@ -128,9 +119,9 @@ class ReadOnlyBookSource(ReadOnlySource, IOSource):
     """
     Multiple sheet data source via memory
     """
-    fields = [KEYWORD_FILE_TYPE]
-    targets = ('book',)
-    actions = ('read',)
+    fields = [params.FILE_TYPE]
+    targets = (params.BOOK,)
+    actions = (params.READ_ACTION,)
 
     def __init__(self,
                  file_content=None,
@@ -151,16 +142,16 @@ class ReadOnlyBookSource(ReadOnlySource, IOSource):
             sheets = load_data(self.file_content,
                                file_type=self.file_type,
                                **self.keywords)
-        return sheets, KEYWORD_MEMORY, None
+        return sheets, params.MEMORY, None
 
 
 class BookDictSource(ReadOnlySource):
     """
     Multiple sheet data source via a dictionary of two dimensional arrays
     """
-    fields = [KEYWORD_BOOKDICT]
-    targets = ('book',)
-    actions = ('read',)
+    fields = [params.BOOKDICT]
+    targets = (params.BOOK,)
+    actions = (params.READ_ACTION,)
 
     def __init__(self, bookdict, **keywords):
         self.bookdict = bookdict
@@ -170,16 +161,16 @@ class BookDictSource(ReadOnlySource):
         if not isinstance(self.bookdict, OrderedDict):
             from ..utils import convert_dict_to_ordered_dict
             the_dict = convert_dict_to_ordered_dict(self.bookdict)
-        return the_dict, KEYWORD_BOOKDICT, None
+        return the_dict, params.BOOKDICT, None
 
 
 class WriteOnlyBookSource(BookSource):
     """
     Multiple sheet data source for writting back to memory
     """
-    fields = [KEYWORD_FILE_TYPE]
-    targets = ('book',)
-    actions = ('write',)
+    fields = [params.FILE_TYPE]
+    targets = (params.BOOK,)
+    actions = (params.WRITE_ACTION,)
 
     def __init__(self, file_type=None, file_stream=None, **keywords):
         if file_stream:

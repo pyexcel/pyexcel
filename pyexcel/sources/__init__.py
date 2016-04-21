@@ -12,20 +12,15 @@ import re
 from ..sheets import VALID_SHEET_PARAMETERS, Sheet, SheetStream
 from ..book import Book, BookStream
 from ..constants import (
-    KEYWORD_STARTS_WITH_DEST,
     MESSAGE_DEPRECATED_OUT_FILE,
     MESSAGE_DEPRECATED_CONTENT,
-    DEPRECATED_KEYWORD_OUT_FILE,
-    DEPRECATED_KEYWORD_CONTENT,
-    KEYWORD_FILE_CONTENT,
-    KEYWORD_FILE_NAME,
-    KEYWORD_FILE_TYPE,
     MESSAGE_ERROR_02,
     MESSAGE_ERROR_NO_HANDLER
 )
 
 from .factory import SourceFactory
 from . import memory, file, database, http
+from . import params
 
 sources = memory.sources + file.sources + database.sources + http.sources
 
@@ -33,10 +28,10 @@ SourceFactory.register_sources(sources)
 
 
 def _get_content(**keywords):
-    if DEPRECATED_KEYWORD_CONTENT in keywords:
+    if params.DEPRECATED_CONTENT in keywords:
         print(MESSAGE_DEPRECATED_CONTENT)
-        keywords[KEYWORD_FILE_CONTENT] = keywords.pop(
-            DEPRECATED_KEYWORD_CONTENT)
+        keywords[params.FILE_CONTENT] = keywords.pop(
+            params.DEPRECATED_CONTENT)
     source = SourceFactory.get_source(**keywords)
     if source is not None:
         sheet_name, data = source.get_data()
@@ -95,10 +90,10 @@ def _get_book(**keywords):
     Where the dictionary should have text as keys and two dimensional
     array as values.
     """
-    if DEPRECATED_KEYWORD_CONTENT in keywords:
+    if params.DEPRECATED_CONTENT in keywords:
         print(MESSAGE_DEPRECATED_CONTENT)
-        keywords[KEYWORD_FILE_CONTENT] = keywords.pop(
-            DEPRECATED_KEYWORD_CONTENT)
+        keywords[params.FILE_CONTENT] = keywords.pop(
+            params.DEPRECATED_CONTENT)
     source = SourceFactory.get_book_source(**keywords)
     if source is not None:
         sheets, filename, path = source.get_data()
@@ -148,19 +143,19 @@ def split_keywords(**keywords):
     dest_keywords = {}
     source_keywords = {}
     for key in keywords.keys():
-        result = re.match(KEYWORD_STARTS_WITH_DEST, key)
+        result = re.match(params.STARTS_WITH_DEST, key)
         if result:
             dest_keywords[result.group(1)] = keywords[key]
         else:
             source_keywords[key] = keywords[key]
-    if DEPRECATED_KEYWORD_OUT_FILE in keywords:
+    if params.DEPRECATED_OUT_FILE in keywords:
         print(MESSAGE_DEPRECATED_OUT_FILE)
-        dest_keywords[KEYWORD_FILE_NAME] = keywords.pop(
-            DEPRECATED_KEYWORD_OUT_FILE)
-    if DEPRECATED_KEYWORD_CONTENT in keywords:
+        dest_keywords[params.FILE_NAME] = keywords.pop(
+            params.DEPRECATED_OUT_FILE)
+    if params.DEPRECATED_CONTENT in keywords:
         print(MESSAGE_DEPRECATED_CONTENT)
-        dest_keywords[KEYWORD_FILE_CONTENT] = keywords.pop(
-            DEPRECATED_KEYWORD_CONTENT)
+        dest_keywords[params.FILE_CONTENT] = keywords.pop(
+            params.DEPRECATED_CONTENT)
     return dest_keywords, source_keywords
 
 
@@ -221,7 +216,7 @@ def save_as(**keywords):
             sheet = Sheet(sheet.payload, sheet.name,
                           **sheet_params)
         sheet.save_to(dest_source)
-        if KEYWORD_FILE_TYPE in dest_source.fields:
+        if params.FILE_TYPE in dest_source.fields:
             dest_source.content.seek(0)
             return dest_source.content
     else:
@@ -263,7 +258,7 @@ def save_book_as(**keywords):
     if dest_source is not None:
         book = _get_book(**source_keywords)
         book.save_to(dest_source)
-        if KEYWORD_FILE_TYPE in dest_source.fields:
+        if params.FILE_TYPE in dest_source.fields:
             dest_source.content.seek(0)
             return dest_source.content
     else:

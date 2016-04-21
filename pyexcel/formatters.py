@@ -100,6 +100,7 @@ def empty_to_format(value, target_format):
 CONVERSION_FUNCTIONS = {
     str: string_to_format,
     float: float_to_format,
+    long: float_to_format,
     int: int_to_format,
     datetime.datetime: date_to_format,
     datetime.time: date_to_format,
