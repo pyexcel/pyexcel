@@ -7,6 +7,8 @@
     :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
+from pyexcel_io import get_io
+
 from .._compact import PY2
 from .._compact import is_string
 from .params import FILE_NAME, FILE_TYPE, SOURCE
@@ -82,6 +84,16 @@ class FileSource(Source):
     @classmethod
     def can_i_handle(cls, action, file_type):
         return False
+
+
+class WriteOnlyMemorySourceMixin(object):
+    def __init__(self, file_type=None, file_stream=None, **keywords):
+        if file_stream:
+            self.content = file_stream
+        else:
+            self.content = get_io(file_type)
+        self.file_type = file_type
+        self.keywords = keywords
 
 
 def one_sheet_tuple(items):

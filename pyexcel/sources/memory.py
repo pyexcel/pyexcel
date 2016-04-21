@@ -7,12 +7,13 @@
     :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel_io import load_data, get_io
+from pyexcel_io import load_data
 
 from .._compact import OrderedDict
 from ..constants import DEFAULT_SHEET_NAME
 
 from .base import ReadOnlySource, one_sheet_tuple
+from .base import WriteOnlyMemorySourceMixin
 from .file import IOSource, SheetSource, BookSource
 from . import params
 
@@ -48,17 +49,15 @@ class ReadOnlySheetSource(SheetSource):
         raise Exception("ReadOnlySource does not write")
 
 
-class WriteOnlySheetSource(SheetSource):
+class WriteOnlySheetSource(WriteOnlyMemorySourceMixin, SheetSource):
     fields = [params.FILE_TYPE]
     actions = (params.WRITE_ACTION,)
 
     def __init__(self, file_type=None, file_stream=None, **keywords):
-        if file_stream:
-            self.content = file_stream
-        else:
-            self.content = get_io(file_type)
+        WriteOnlyMemorySourceMixin.__init__(self, file_type=file_type,
+                                       file_stream=file_stream, **keywords)
         self.file_name = (file_type, self.content)
-        self.keywords = keywords
+
 
     def get_data(self):
         raise Exception("WriteOnlySource does not read" )
@@ -164,7 +163,7 @@ class BookDictSource(ReadOnlySource):
         return the_dict, params.BOOKDICT, None
 
 
-class WriteOnlyBookSource(BookSource):
+class WriteOnlyBookSource(WriteOnlyMemorySourceMixin, BookSource):
     """
     Multiple sheet data source for writting back to memory
     """
@@ -173,12 +172,10 @@ class WriteOnlyBookSource(BookSource):
     actions = (params.WRITE_ACTION,)
 
     def __init__(self, file_type=None, file_stream=None, **keywords):
-        if file_stream:
-            self.content = file_stream
-        else:
-            self.content = get_io(file_type)
+        WriteOnlyMemorySourceMixin.__init__(self, file_type=file_type,
+                                       file_stream=file_stream, **keywords)
         self.file_name = (file_type, self.content)
-        self.keywords = keywords
+
 
 
 sources = (
