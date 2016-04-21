@@ -110,6 +110,7 @@ CONVERSION_FUNCTIONS = {
 
 if PY2:
     CONVERSION_FUNCTIONS[unicode] = string_to_format
+    CONVERSION_FUNCTIONS[long] = float_to_format
 
 
 def to_format(to_type, value):

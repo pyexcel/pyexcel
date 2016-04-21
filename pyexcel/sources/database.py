@@ -14,23 +14,10 @@ from pyexcel_io.database.sql import SQLTableExporter, SQLTableExportAdapter
 from pyexcel_io.database.django import DjangoModelExporter, DjangoModelExportAdapter
 from pyexcel_io.database.django import DjangoModelImporter, DjangoModelImportAdapter
 from .._compact import OrderedDict
-from ..constants import (
-    KEYWORD_TABLES,
-    KEYWORD_MODELS,
-    KEYWORD_INITIALIZERS,
-    KEYWORD_MAPDICTS,
-    KEYWORD_COLUMN_NAMES,
-    KEYWORD_BATCH_SIZE,
-    KEYWORD_QUERY_SETS,
-    KEYWORD_SESSION,
-    KEYWORD_TABLE,
-    KEYWORD_MAPDICT,
-    KEYWORD_INITIALIZER,
-    KEYWORD_MODEL,
-    DEFAULT_SHEET_NAME
-)
+from ..constants import DEFAULT_SHEET_NAME
 
 from .base import ReadOnlySource, Source, one_sheet_tuple
+from . import params
 
 
 class SheetQuerySetSource(ReadOnlySource):
@@ -39,9 +26,9 @@ class SheetQuerySetSource(ReadOnlySource):
 
     SQLAlchemy and Django query sets are supported
     """
-    fields = [KEYWORD_COLUMN_NAMES, KEYWORD_QUERY_SETS]
-    targets = ('sheet',)
-    actions = ('read',)
+    fields = [params.COLUMN_NAMES, params.QUERY_SETS]
+    targets = (params.SHEET,)
+    actions = (params.READ_ACTION,)
 
     def __init__(self, column_names, query_sets, sheet_name=None):
         self.sheet_name = sheet_name
@@ -60,9 +47,9 @@ class SheetSQLAlchemySource(Source):
     """
     SQLAlchemy channeled sql database as data source
     """
-    fields = [KEYWORD_SESSION, KEYWORD_TABLE]
-    targets = ('sheet',)
-    actions = ('read', 'write')
+    fields = [params.SESSION, params.TABLE]
+    targets = (params.SHEET,)
+    actions = (params.READ_ACTION, params.WRITE_ACTION)
 
     def __init__(self, session, table, **keywords):
         self.session = session
@@ -80,12 +67,11 @@ class SheetSQLAlchemySource(Source):
         headers = sheet.colnames
         if len(headers) == 0:
             headers = sheet.rownames
-
         importer = SQLTableImporter(self.session)
         adapter = SQLTableImportAdapter(self.table)
         adapter.column_names = headers
-        adapter.row_initializer = self.keywords.get(KEYWORD_INITIALIZER, None)
-        adapter.column_name_mapping_dict = self.keywords.get(KEYWORD_MAPDICT, None)
+        adapter.row_initializer = self.keywords.get(params.INITIALIZER, None)
+        adapter.column_name_mapping_dict = self.keywords.get(params.MAPDICT, None)
         importer.append(adapter)
         save_data(importer, {adapter.get_name(): sheet.array}, file_type=DB_SQL)
 
@@ -94,9 +80,9 @@ class SheetDjangoSource(Source):
     """
     Django model as data source
     """
-    fields = [KEYWORD_MODEL]
-    targets = ('sheet',)
-    actions = ('read', 'write')
+    fields = [params.MODEL]
+    targets = (params.SHEET,)
+    actions = (params.READ_ACTION, params.WRITE_ACTION)
 
     def __init__(self, model=None, **keywords):
         self.model = model
@@ -113,12 +99,11 @@ class SheetDjangoSource(Source):
         headers = sheet.colnames
         if len(headers) == 0:
             headers = sheet.rownames
-
         importer = DjangoModelImporter()
         adapter = DjangoModelImportAdapter(self.model)
         adapter.set_column_names(headers)
-        adapter.set_column_name_mapping_dict(self.keywords.get(KEYWORD_MAPDICT, None))
-        adapter.set_row_initializer(self.keywords.get(KEYWORD_INITIALIZER, None))
+        adapter.set_column_name_mapping_dict(self.keywords.get(params.MAPDICT, None))
+        adapter.set_row_initializer(self.keywords.get(params.INITIALIZER, None))
         importer.append(adapter)
         save_data(importer, {adapter.get_name(): sheet.array}, file_type=DB_DJANGO)
 
@@ -127,9 +112,9 @@ class BookSQLSource(Source):
     """
     SQLAlchemy bridged multiple table data source
     """
-    fields = [KEYWORD_SESSION, KEYWORD_TABLES]
-    targets = ('book',)
-    actions = ('read', 'write')
+    fields = [params.SESSION, params.TABLES]
+    targets = (params.BOOK,)
+    actions = (params.READ_ACTION, params.WRITE_ACTION)
 
     def __init__(self, session, tables, **keywords):
         self.session = session
@@ -145,10 +130,10 @@ class BookSQLSource(Source):
         return data, DB_SQL, None
 
     def write_data(self, book):
-        initializers = self.keywords.get(KEYWORD_INITIALIZERS, None)
+        initializers = self.keywords.get(params.INITIALIZERS, None)
         if initializers is None:
             initializers = [None] * len(self.tables)
-        mapdicts = self.keywords.get(KEYWORD_MAPDICTS, None)
+        mapdicts = self.keywords.get(params.MAPDICTS, None)
         if mapdicts is None:
             mapdicts = [None] * len(self.tables)
         for sheet in book:
@@ -176,9 +161,9 @@ class BookDjangoSource(Source):
     """
     multiple Django table as data source
     """
-    fields = [KEYWORD_MODELS]
-    targets = ('book',)
-    actions = ('read', 'write')
+    fields = [params.MODELS]
+    targets = (params.BOOK,)
+    actions = (params.READ_ACTION, params.WRITE_ACTION)
 
     def __init__(self, models, **keywords):
         self.models = models
@@ -194,11 +179,11 @@ class BookDjangoSource(Source):
 
     def write_data(self, book):
         new_models = [model for model in self.models if model is not None]
-        batch_size = self.keywords.get(KEYWORD_BATCH_SIZE, None)
-        initializers = self.keywords.get(KEYWORD_INITIALIZERS, None)
+        batch_size = self.keywords.get(params.BATCH_SIZE, None)
+        initializers = self.keywords.get(params.INITIALIZERS, None)
         if initializers is None:
             initializers = [None] * len(new_models)
-        mapdicts = self.keywords.get(KEYWORD_MAPDICTS, None)
+        mapdicts = self.keywords.get(params.MAPDICTS, None)
         if mapdicts is None:
             mapdicts = [None] * len(new_models)
         for sheet in book:

@@ -7,10 +7,11 @@
     :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
-from .base import ReadOnlySource, one_sheet_tuple
-from ..constants import KEYWORD_URL
 from pyexcel_io import get_data
 from .._compact import request, PY2
+
+from .base import ReadOnlySource, one_sheet_tuple
+from . import params
 
 
 FILE_TYPE_MIME_TABLE = {
@@ -32,9 +33,9 @@ class HttpBookSource(ReadOnlySource):
     """
     Multiple sheet data source via http protocol
     """
-    fields = [KEYWORD_URL]
-    targets = ('book',)
-    actions = ('read',)
+    fields = [params.URL]
+    targets = (params.BOOK,)
+    actions = (params.READ_ACTION,)
 
     def __init__(self, url=None, **keywords):
         self.url = url
@@ -54,7 +55,7 @@ class HttpBookSource(ReadOnlySource):
         sheets = get_data(content,
                           file_type=file_type,
                           **self.keywords)
-        return sheets, KEYWORD_URL, None
+        return sheets, params.URL, None
 
 
 class HttpSheetSource(HttpBookSource):
@@ -62,8 +63,8 @@ class HttpSheetSource(HttpBookSource):
     Single sheet data source via http protocol
     """
 
-    fields = [KEYWORD_URL]
-    targets = ('sheet',)
+    fields = [params.URL]
+    targets = (params.SHEET,)
 
     def __init__(self, url=None, **keywords):
         self.url = url
