@@ -8,7 +8,6 @@ class SourceFactory:
         "book-read": [],
         "book-write": []
     }
-    formats = []
 
     @classmethod
     def register_sources(self, sources):
@@ -16,14 +15,6 @@ class SourceFactory:
             for target in source.targets:
                 for action in source.actions:
                     self.register_a_source(target, action, source)
-
-    @classmethod
-    def register_a_file_type(self, file_type):
-        self.formats.append(file_type)
-
-    @classmethod
-    def register_file_types(self, file_types):
-        self.formats += file_types
 
     @classmethod
     def register_a_source(self, target, action, source):

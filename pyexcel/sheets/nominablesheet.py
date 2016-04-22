@@ -24,7 +24,6 @@ from ..iterators import (
     NamedRowIterator,
     NamedColumnIterator
 )
-from ..presentation import outsource
 from ..constants import MESSAGE_NOT_IMPLEMENTED_02, MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED, DEFAULT_NAME
 
 
@@ -797,7 +796,6 @@ class NominableSheet(FilterableSheet):
         else:
             return ['-', '|', '+', '-']
 
-    @outsource
     def __str__(self):
         from ..formatters import to_format
         ret = "Sheet Name: %s\n" % self.name

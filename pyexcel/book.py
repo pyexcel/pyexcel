@@ -11,7 +11,6 @@ from .iterators import SheetIterator
 from .sheets import Sheet, SheetStream
 from .utils import to_dict, local_uuid
 from ._compact import OrderedDict
-from .presentation import outsource
 
 
 class BookStream(object):
@@ -349,7 +348,6 @@ class Book(object):
     def __repr__(self):
         return self.__str__()
 
-    @outsource
     def __str__(self):
         ret = ""
         for sheet in self.sheets:

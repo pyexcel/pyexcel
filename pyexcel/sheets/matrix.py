@@ -23,7 +23,6 @@ from ..iterators import (
     ColumnReverseIterator
 )
 from ..filters import RowFilter, ColumnFilter
-from ..presentation import outsource
 from ..constants import (
     MESSAGE_INDEX_OUT_OF_RANGE,
     MESSAGE_DATA_ERROR_EMPTY_CONTENT,
@@ -1089,7 +1088,6 @@ class Matrix(object):
     def __repr__(self):
         return self.__str__()
 
-    @outsource
     def __str__(self):
         from ..formatters import to_format
         table = Texttable(max_width=0)
