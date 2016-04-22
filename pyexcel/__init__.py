@@ -135,7 +135,7 @@ def get_book_dict(**keywords):
 
 
 try:
-    import pyexcel.ext.text as text
+    import pyexcel_text as text
     SourceFactory.register_sources(text.sources)
     for file_type in text.file_types:
         Sheet.register_presentation(file_type)
