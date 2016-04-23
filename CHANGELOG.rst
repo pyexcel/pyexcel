@@ -11,17 +11,14 @@ Unreleased 0.2.2
 
 Added:
 
-# add pyexcel-text file types as attributes of pyexcel.Sheet and pyexcel.Book,
-related to `issue 31 <https://github.com/pyexcel/pyexcel/issues/31>`_
-# auto import pyexcel-text if it is pip installed
+#. add pyexcel-text file types as attributes of pyexcel.Sheet and pyexcel.Book, related to `issue 31 <https://github.com/pyexcel/pyexcel/issues/31>`__
+#. auto import pyexcel-text if it is pip installed
 
 Updated:
 
-# code refactored sources for easy addition of sources.
-# bug fix `issue 29 <https://github.com/pyexcel/pyexcel/issues/29>`_, Even if
-the format is a string it is displayed as a float
-# pyexcel-text is no longer a plugin to pyexcel-io but to pyexcel.sources, see
-`pyexcel-text issue #22<https://github.com/pyexcel/pyexcel-text/issues/22>`_
+#. code refactored sources for easy addition of sources.
+#. bug fix `issue 29 <https://github.com/pyexcel/pyexcel/issues/29>`__, Even if the format is a string it is displayed as a float
+#. pyexcel-text is no longer a plugin to pyexcel-io but to pyexcel.sources, see `pyexcel-text issue #22 <https://github.com/pyexcel/pyexcel-text/issues/22>`__
 
 Removed:
 
