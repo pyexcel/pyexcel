@@ -1,11 +1,33 @@
 Change log
 ================================================================================
 
-Unreleased
+Unreleased 0.2.2
 --------------------------------------------------------------------------------
 
 #. support pyexcel-io 0.2.0, which would auto load its plugins
-#. improved source factory, opening the door to easy extension via source
+
+0.2.1 - 23.04.2016
+--------------------------------------------------------------------------------
+
+Added:
+
+# add pyexcel-text file types as attributes of pyexcel.Sheet and pyexcel.Book,
+related to `issue 31 <https://github.com/pyexcel/pyexcel/issues/31>`_
+# auto import pyexcel-text if it is pip installed
+
+Updated:
+
+# code refactored sources for easy addition of sources.
+# bug fix `issue 29 <https://github.com/pyexcel/pyexcel/issues/29>`_, Even if
+the format is a string it is displayed as a float
+# pyexcel-text is no longer a plugin to pyexcel-io but to pyexcel.sources, see
+`pyexcel-text issue #22<https://github.com/pyexcel/pyexcel-text/issues/22>`_
+
+Removed:
+
+# pyexcel.presentation is removed. No longer the internal decorate @outsource is
+used. related to `issue 31 <https://github.com/pyexcel/pyexcel/issues/31>`_
+
 
 0.2.0 - 17.01.2016
 --------------------------------------------------------------------------------
