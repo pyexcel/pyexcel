@@ -45,13 +45,13 @@ Let's read it out first::
    
    >>> sheet = pyexcel.get_sheet(file_name="example.xls", name_columns_by_row=0)
    >>> sheet.column["userid"]
-   [10120.0, 10121.0, 10122.0]
+   [10120, 10121, 10122]
 
 As you can see, `userid` column is of `float` type. Next, let's convert the column to string format::
 
     >>> sheet.column.format(0, str)
     >>> sheet.column["userid"]
-    ['10120.0', '10121.0', '10122.0']
+    ['10120', '10121', '10122']
 
 Now, they are in string format.
 

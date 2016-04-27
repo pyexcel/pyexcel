@@ -1,7 +1,7 @@
 import datetime
+from unittest import TestCase
 import pyexcel as pe
 from base import clean_up_files
-from _compact import BytesIO
 from nose.tools import raises
 
 
@@ -178,11 +178,11 @@ class TestToFormatFunction:
         assert d == n_d
 
 
-class TestColumnFormatter:
+class TestColumnFormatter(TestCase):
     def setUp(self):
         self.data = {
             "1": [1, 2, 3, 4, 5, 6, 7, 8],
-            "2": ["1.0", "2.0", "3.0", "4.0", "5.0", "6.0", "7.0", "8.0"],
+            "2": ["1", "2", "3", "4", "5", "6", "7", "8"],
             "3": [1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
             "4": ["1.1", "2.2", "3.3", "4.4", "5.5", "6.6", "7.7", "8.8"],
             "5": [2, 3, 4, 5, 6, 7, 8, 9],
@@ -197,9 +197,7 @@ class TestColumnFormatter:
             0,
             str))
         c1 = r.column_at(0)[1:]
-        c2 = self.data["2"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, self.data["2"])
 
     def test_column_format_general_usage(self):
         """Test column format function"""
@@ -208,11 +206,7 @@ class TestColumnFormatter:
             0,
             str)
         c1 = r.column_at(0)[1:]
-        c2 = self.data["2"]
-        print(c1)
-        print(c2)
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, self.data["2"])
             
     def test_column_format_general_usage2(self):
         """Test column format function on demand"""
@@ -222,33 +216,23 @@ class TestColumnFormatter:
             str,
             on_demand=True)
         c1 = r.column_at(0)[1:]
-        c2 = self.data["2"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, self.data['2'])
 
     def test_column_format_specs(self):
         r = pe.Reader(self.test_tuple)
         r.column.format(format_specs=[[0, str], [[2,3,4], float]])
         c1 = r.column_at(0)[1:]
-        c2 = self.data["2"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, self.data['2'])
         c1 = r.column_at(3)[1:]
-        c2 = self.data["3"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, self.data['3'])
 
     def test_column_format_specs_on_demand(self):
         r = pe.Reader(self.test_tuple)
         r.column.format(format_specs=[[0, lambda v: int(v)+1], [[2,3,4], float]])
         c1 = r.column_at(0)[1:]
-        c2 = self.data["5"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, self.data['5'])
         c1 = r.column_at(3)[1:]
-        c2 = self.data["3"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, self.data['3'])
 
     def test_one_formatter_for_two_columns(self):
         r = pe.Reader(self.test_tuple)
@@ -256,13 +240,9 @@ class TestColumnFormatter:
             [0,5],
             str))
         c1 = r.column_at(0)[1:]
-        c2 = self.data["2"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, self.data['2'])
         c1 = r.column_at(5)[1:]
-        c2 = self.data["6"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, self.data['6'])
 
     @raises(NotImplementedError)
     def test_invalid_input(self):
@@ -283,17 +263,12 @@ class TestColumnFormatter:
             0,
             str))
         c1 = r.column_at(0)[1:]
-        c2 = self.data["2"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, self.data['2'])
         r.add_formatter(pe.formatters.ColumnFormatter(
             0,
             int))
         c1 = r.column_at(0)[1:]
-        c2 = self.data["1"]
-        for i in range(0, len(c1)):
-            assert type(c1[i]) == int
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, self.data['1'])
 
     def test_custom_func(self):
         r = pe.Reader(self.test_tuple)
@@ -302,9 +277,7 @@ class TestColumnFormatter:
             0,
             f))
         c1 = r.column_at(0)[1:]
-        c2 = self.data["5"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, self.data['5'])
 
     def test_custom_func_with_a_general_converter(self):
         r = pe.Reader(self.test_tuple)
@@ -313,16 +286,12 @@ class TestColumnFormatter:
             0,
             f))
         c1 = r.column_at(0)[1:]
-        c2 = self.data["5"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, self.data['5'])
         r.add_formatter(pe.formatters.ColumnFormatter(
             0,
             str))
         c1 = r.column_at(0)[1:]
-        c2 = self.data["6"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, self.data['6'])
 
     @raises(NotImplementedError)
     def test_named_formatter(self):
@@ -331,7 +300,7 @@ class TestColumnFormatter:
         nrf.update_index("abc")
         
 
-class TestRowFormatter:
+class TestRowFormatter(TestCase):
     def setUp(self):
         self.data = {
             "1": [1, 2, 3, 4, 5, 6, 7, 8],
@@ -352,9 +321,8 @@ class TestRowFormatter:
             1,
             str))
         c1 = r.row_at(1)
-        c2 = ["1.0", "1", "1.1", "1.1", "2.0", "2"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        c2 = ["1", "1", "1.1", "1.1", "2", "2"]
+        self.assertEqual(c1, c2)
 
     def test_general_usage2(self):
         """format a row 
@@ -364,9 +332,8 @@ class TestRowFormatter:
             1,
             str)
         c1 = r.row_at(1)
-        c2 = ["1.0", "1", "1.1", "1.1", "2.0", "2"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        c2 = ["1", "1", "1.1", "1.1", "2", "2"]
+        self.assertEqual(c1, c2)
 
     def test_general_usage3(self):
         """format a row 
@@ -376,9 +343,8 @@ class TestRowFormatter:
             1,
             str, on_demand=True)
         c1 = r.row_at(1)
-        c2 = ["1.0", "1", "1.1", "1.1", "2.0", "2"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        c2 = ["1", "1", "1.1", "1.1", "2", "2"]
+        self.assertEqual(c1, c2)
 
     def test_one_formatter_for_two_rows(self):
         """format more than one row
@@ -388,13 +354,11 @@ class TestRowFormatter:
             [1,2],
             str))
         c1 = r.row_at(2)
-        c2 = ["2.0", "2", "2.2", "2.2", "3.0", "3"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        c2 = ["2", "2", "2.2", "2.2", "3", "3"]
+        self.assertEqual(c1, c2)
         c1 = r.row_at(1)
-        c2 = ['1.0', "1", '1.1', "1.1", '2.0', "2"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        c2 = ['1', "1", '1.1', "1.1", '2', "2"]
+        self.assertEqual(c1, c2)
 
     @raises(NotImplementedError)
     def test_unacceptable_index(self):
@@ -418,21 +382,18 @@ class TestRowFormatter:
             str)
         r.add_formatter(ft)
         c1 = r.row_at(1)
-        c2 = ["1.0", "1", "1.1", "1.1", "2.0", "2"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        c2 = ["1", "1", "1.1", "1.1", "2", "2"]
+        self.assertEqual(c1, c2)
         r.remove_formatter(ft)
         c1 = r.row_at(1)
         c2 = [1, "1", 1.1, "1.1", 2, "2"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
 
     def test_two_formatters(self):
         r = pe.Reader(self.testfile)
         c1 = r.row_at(1)
         c2 = [1, "1", 1.1, "1.1", 2, "2"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
         r.add_formatter(pe.formatters.RowFormatter(
             1,
             int))
@@ -441,32 +402,27 @@ class TestRowFormatter:
             str))
         c1 = r.row_at(1)
         c2 = ['1', '1', '1', '1', '2', '2']
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
 
     def test_two_formatters_with_row_fomat(self):
         r = pe.Reader(self.testfile)
         c1 = r.row_at(1)
         c2 = [1, "1", 1.1, "1.1", 2, "2"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
         r.row.format(format_specs=[[1, int],[1,str]])
         c1 = r.row_at(1)
         c2 = ['1', '1', '1', '1', '2', '2']
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
 
     def test_two_formatters_with_row_fomat_custom_func(self):
         r = pe.Reader(self.testfile)
         c1 = r.row_at(1)
         c2 = [1, "1", 1.1, "1.1", 2, "2"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
         r.row.format(format_specs=[[1, lambda v: float(v)+1],[1,str]])
         c1 = r.row_at(1)
         c2 = ['2.0', '2.0', '2.1', '2.1', '3.0', '3.0']
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
 
     def test_custom_func(self):
         r = pe.Reader(self.testfile)
@@ -476,8 +432,7 @@ class TestRowFormatter:
             f))
         c1 = r.row_at(1)
         c2 = [2.0, 2.0, 2.1, 2.1, 3.0, 3.0]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
 
     def test_custom_func_with_a_general_converter(self):
         r = pe.Reader(self.testfile)
@@ -487,15 +442,13 @@ class TestRowFormatter:
             f))
         c1 = r.row_at(1)
         c2 = [2.0, 2.0, 2.1, 2.1, 3.0, 3.0]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
         r.add_formatter(pe.formatters.RowFormatter(
             1,
             str))
         c1 = r.row_at(1)
         c2 = ["2.0", "2.0", "2.1", "2.1", "3.0", "3.0"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
 
     def test_remove_formatter2(self):
         r = pe.Reader(self.testfile)
@@ -504,18 +457,14 @@ class TestRowFormatter:
         r.add_formatter(ft)
         c1 = r.row_at(1)
         c2 = [2.0, 2.0, 2.1, 2.1, 3.0, 3.0]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
         c1 = r.row_at(1)
         c2 = [2.0, 2.0, 2.1, 2.1, 3.0, 3.0]
-        for i in range(0, len(c1)):
-            assert type(c1[i]) == type(c2[i])
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
         r.remove_formatter(ft)
         c1 = r.row_at(1)
         c2 = [1, "1", 1.1, "1.1", 2, "2"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
 
     @raises(NotImplementedError)
     def test_named_formatter(self):
@@ -527,7 +476,7 @@ class TestRowFormatter:
         clean_up_files([self.testfile])
 
 
-class TestSheetFormatter:
+class TestSheetFormatter(TestCase):
     def setUp(self):
         self.data = {
             "1": [1, 2, 3, 4, 5, 6, 7, 8],
@@ -543,15 +492,13 @@ class TestSheetFormatter:
         r.add_formatter(pe.formatters.SheetFormatter(
             str))
         data = [
-            ["1.0", "2.0", "3.0", "4.0", "5.0", "6.0", "7.0", "8.0"],
+            ["1", "2", "3", "4", "5", "6", "7", "8"],
             ["1.1", "2.2", "3.3", "4.4", "5.5", "6.6", "7.7", "8.8"]
         ]
         c1 = r.column_at(0)
-        for i in range(0, len(c1)):
-            assert c1[i] == data[0][i]
+        self.assertEqual(c1, data[0])
         c1 = r.column_at(1)
-        for i in range(0, len(c1)):
-            assert c1[i] == data[1][i]
+        self.assertEqual(c1, data[1])
 
     def test_two_formatters(self):
         r = pe.Reader(self.testfile)
@@ -559,9 +506,7 @@ class TestSheetFormatter:
         r.add_formatter(pe.formatters.SheetFormatter(int))
         c1 = r.row_at(0)
         c2 = [1, 3, 5, 7]
-        for i in range(0, len(c1)):
-            assert type(c1[i]) == int
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
 
     def test_custom_func(self):
         r = pe.Reader(self.testfile)
@@ -570,12 +515,10 @@ class TestSheetFormatter:
         r.add_formatter(pe.formatters.SheetFormatter(f))
         c1 = r.row_at(1)
         c2 = [2.0, 2.1, 3.0, 2.0]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
         c1 = r.row_at(2)
         c2 = [3, 3.2, 4, 1.0]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
 
     def test_custom_func2(self):
         r = pe.Reader(self.testfile)
@@ -584,12 +527,10 @@ class TestSheetFormatter:
         r.map(f)
         c1 = r.row_at(1)
         c2 = [2.0, 2.1, 3.0, 2.0]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
         c1 = r.row_at(2)
         c2 = [3, 3.2, 4, 1.0]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
 
     def test_custom_func_with_a_general_converter(self):
         r = pe.Reader(self.testfile)
@@ -599,12 +540,10 @@ class TestSheetFormatter:
         r.add_formatter(pe.formatters.SheetFormatter(str))
         c1 = r.row_at(1)
         c2 = ["2.0", "2.1", "3.0", "2.0"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
         c1 = r.row_at(2)
         c2 = ["3.0", "3.2", "4.0", "1.0"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
 
     @raises(TypeError)
     def test_custom_func_with_a_general_converter2(self):
@@ -614,7 +553,7 @@ class TestSheetFormatter:
         r = pe.Reader(self.testfile)
         f = lambda x: float(x) + 1
         r.add_formatter(pe.formatters.SheetFormatter(f))
-        c1 = r.row_at(2) # bang
+        r.row_at(2) # bang
 
     def test_clear_formatters(self):
         r = pe.Reader(self.testfile)
@@ -624,15 +563,15 @@ class TestSheetFormatter:
         r.clear_formatters()
         r.name_columns_by_row(0)
         mydata = r.to_dict()
-        assert mydata['1'] == self.data['1']
-        assert mydata['3'] == self.data['3']
-        assert mydata['5'] == self.data['5']
+        self.assertEqual(mydata['1'], self.data['1'])
+        self.assertEqual(mydata['3'], self.data['3'])
+        self.assertEqual(mydata['5'], self.data['5'])
 
     def tearDown(self):
         clean_up_files([self.testfile])
 
 
-class TestSheetFormatterInXLS:
+class TestSheetFormatterInXLS(TestCase):
     def setUp(self):
         self.data = {
             "1": [1, 2, 3, 4, 5, 6, 7, 8],
@@ -646,16 +585,14 @@ class TestSheetFormatterInXLS:
         r = pe.SeriesReader(self.testfile)
         r.add_formatter(pe.formatters.SheetFormatter(str))
         self.data = [
-            ["1.0", "2.0", "3.0", "4.0", "5.0", "6.0", "7.0", "8.0"],
+            ["1", "2", "3", "4", "5", "6", "7", "8"],
             ["1.1", "2.2", "3.3", "4.4", "5.5", "6.6", "7.7", "8.8"],
-            ["2.0", "3.0", "4.0", "5.0", "6.0", "7.0", "8.0", "9.0"]
+            ["2", "3", "4", "5", "6", "7", "8", "9"]
         ]
         c1 = r.column_at(0)
-        for i in range(0, len(c1)):
-            assert c1[i] == self.data[0][i]
+        self.assertEqual(c1, self.data[0])
         c1 = r.column_at(1)
-        for i in range(0, len(c1)):
-            assert c1[i] == self.data[1][i]
+        self.assertEqual(c1, self.data[1])
 
     def test_two_formatters(self):
         r = pe.Reader(self.testfile)
@@ -663,9 +600,7 @@ class TestSheetFormatterInXLS:
         r.add_formatter(pe.formatters.SheetFormatter(int))
         c1 = r.row_at(0)
         c2 = [1, 3, 5]
-        for i in range(0, len(c1)):
-            assert type(c1[i]) == int
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
 
     def test_custom_func(self):
         r = pe.Reader(self.testfile)
@@ -673,12 +608,10 @@ class TestSheetFormatterInXLS:
         r.add_formatter(pe.formatters.SheetFormatter(f))
         c1 = r.row_at(1)
         c2 = [2.0, 2.1, 3.0]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
         c1 = r.row_at(2)
         c2 = [3, 3.2, 4]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
 
     def test_custom_func_with_a_general_converter(self):
         r = pe.Reader(self.testfile)
@@ -687,12 +620,10 @@ class TestSheetFormatterInXLS:
         r.add_formatter(pe.formatters.SheetFormatter(str))
         c1 = r.row_at(1)
         c2 = ["2.0", "2.1", "3.0"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
         c1 = r.row_at(2)
         c2 = ["3.0", "3.2", "4.0"]
-        for i in range(0, len(c1)):
-            assert c1[i] == c2[i]
+        self.assertEqual(c1, c2)
 
     def test_clear_formatters(self):
         r = pe.Reader(self.testfile)
@@ -702,9 +633,9 @@ class TestSheetFormatterInXLS:
         r.clear_formatters()
         r.name_columns_by_row(0)
         mydata = r.to_dict()
-        assert mydata['1'] == self.data['1']
-        assert mydata['3'] == self.data['3']
-        assert mydata['5'] == self.data['5']
+        self.assertEqual(mydata['1'], self.data['1'])
+        self.assertEqual(mydata['3'], self.data['3'])
+        self.assertEqual(mydata['5'], self.data['5'])
 
     def tearDown(self):
         clean_up_files([self.testfile])

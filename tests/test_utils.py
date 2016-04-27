@@ -1,11 +1,12 @@
-import pyexcel as pe
 import os
+from unittest import TestCase
+import pyexcel as pe
 from base import create_sample_file2
 from _compact import OrderedDict
 from nose.tools import raises
 
 
-class TestUtils():
+class TestUtils(TestCase):
     def setUp(self):
         """
         Make a test csv file as:
@@ -21,9 +22,9 @@ class TestUtils():
         r = pe.Reader(self.testfile)
         result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         actual = pe.utils.to_one_dimensional_array(r)
-        assert result == actual
+        self.assertEqual(result, actual)
         actual2 = pe.utils.to_one_dimensional_array(result)
-        assert actual2 == result
+        self.assertEqual(actual2, result)
 
     def test_to_array(self):
         r = pe.Reader(self.testfile)
@@ -33,7 +34,7 @@ class TestUtils():
             [9, 10, 11, 12]
         ]
         actual = pe.utils.to_array(r)
-        assert result == actual
+        self.assertEqual(result, actual)
         
     def test_to_dict(self):
         """
@@ -47,7 +48,7 @@ class TestUtils():
         result.update({"Series_3": [9, 10, 11, 12]})
         actual = pe.to_dict(r.rows())
         assert actual.keys() == result.keys()
-        assert result == actual
+        self.assertEqual(result, actual)
         result = {
             "Series_1": 1,
             "Series_2": 2,
@@ -63,14 +64,14 @@ class TestUtils():
             "Series_12": 12
         }
         actual = pe.to_dict(r.enumerate())
-        assert result == actual
+        self.assertEqual(result, actual)
 
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
 
 
-class TestUtils2():
+class TestUtils2(TestCase):
     def setUp(self):
         """
         Make a test csv file as:
@@ -91,18 +92,18 @@ class TestUtils2():
     def test_book_reader_to_dict(self):
         r = pe.BookReader(self.testfile)
         actual = pe.to_dict(r)
-        assert actual == self.content
+        self.assertEqual(self.content, actual)
 
     def test_book_reader_to_dict2(self):
         r = pe.load_book(self.testfile)
         actual = r.to_dict()
-        assert actual == self.content
+        self.assertEqual(self.content, actual)
 
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
 
-class TestToRecord():
+class TestToRecord(TestCase):
     def setUp(self):
         """
         Make a test csv file as:
@@ -127,7 +128,7 @@ class TestToRecord():
             {u'Y': 5.0, u'X': 2.0, u'Z': 8.0},
             {u'Y': 6.0, u'X': 3.0, u'Z': 9.0}]
         actual = pe.to_records(r)
-        assert actual == result
+        self.assertEqual(result, actual)
 
     @raises(ValueError)
     def test_index_sheet1(self):
@@ -139,10 +140,10 @@ class TestToRecord():
         s = pe.ColumnSeriesReader(self.testfile, series=0)
         actual = pe.to_records(s)
         result = [
-            {'1.0': 4.0, 'X': 'Y', '3.0': 6.0, '2.0': 5.0},
-            {'1.0': 7.0, 'X': 'Z', '3.0': 9.0, '2.0': 8.0}
+            {'1': 4, 'X': 'Y', '3': 6, '2': 5},
+            {'1': 7, 'X': 'Z', '3': 9, '2': 8}
         ]
-        assert actual == result
+        self.assertEqual(result, actual)
         
     def test_index_sheet3(self):
         s = pe.ColumnSeriesReader(self.testfile, series=0)
@@ -153,7 +154,7 @@ class TestToRecord():
             {'Row 4': 6.0, 'Row 2': 4.0, 'Row 1': 'Y', 'Row 3': 5.0},
             {'Row 4': 9.0, 'Row 2': 7.0, 'Row 1': 'Z', 'Row 3': 8.0}
         ]
-        assert actual == result
+        self.assertEqual(result, actual)
 
     def test_book_reader_to_records_custom(self):
         """use custom header
@@ -165,7 +166,7 @@ class TestToRecord():
             {u'P': 5.0, u'O': 2.0, u'Q': 8.0},
             {u'P': 6.0, u'O': 3.0, u'Q': 9.0}]
         actual = pe.to_records(r, custom_headers)
-        assert actual == result
+        self.assertEqual(result, actual)
 
     @raises(NotImplementedError)
     def test_book_reader_to_records_with_wrong_args(self):

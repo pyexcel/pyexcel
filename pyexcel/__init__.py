@@ -133,11 +133,18 @@ def get_book_dict(**keywords):
         return None
 
 
+
+from pyexcel_io.manager import RWManager
+
+all_types = [] + RWManager.file_types
+
 try:
     import pyexcel_text as text
     SourceFactory.register_sources(text.sources)
-    for file_type in text.file_types:
-        Sheet.register_presentation(file_type)
-        Book.register_presentation(file_type)
+    all_types = all_types + text.file_types
 except ImportError:
     pass
+
+for file_type in all_types:
+    Sheet.register_presentation(file_type)
+    Book.register_presentation(file_type)

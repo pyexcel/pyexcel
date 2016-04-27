@@ -41,9 +41,9 @@ Here is the example code showing how you can randomly access a cell::
 
    >>> sheet = pyexcel.get_sheet(file_name="example.xls")
    >>> print(sheet[2, 2])
-   5.0
+   5
    >>> print(sheet["C3"])
-   5.0
+   5
 
 
 Random access to rows and columns
@@ -62,9 +62,9 @@ Random access to rows and columns
 Continue with previous excel file, you can access row and column separately::
 
     >>> sheet.row[1]
-    ['a', 1.0, 2.0, 3.0]
+    ['a', 1, 2, 3]
     >>> sheet.column[2]
-    ['Y', 2.0, 5.0, 8.0]
+    ['Y', 2, 5, 8]
 
 
 Use custom names instead of index
@@ -73,17 +73,17 @@ Alternatively, it is possible to use the first row to refer to each columns::
 
     >>> sheet.name_columns_by_row(0)
     >>> print(sheet[1, "Y"])
-    5.0
+    5
 
 You have noticed the row index has been changed. It is because first row is taken as the column names, hence all rows after the first row are shifted. Now accessing the columns are changed too::
 
     >>> sheet.column['Y']
-    [2.0, 5.0, 8.0]
+    [2, 5, 8]
 
 Hence access the same cell, this statement also works::
 
     >>> sheet.column['Y'][1]
-    5.0
+    5
   
 Further more, it is possible to use first column to refer to each rows::
 
@@ -92,12 +92,12 @@ Further more, it is possible to use first column to refer to each rows::
 To access the same cell, we can use this line::
 
     >>> sheet.row["b"][1]
-    5.0
+    5
 
 For the same reason, the row index has been reduced by 1. Since we have named columns and rows, it is possible to access the same cell like this::
 
     >>> print(sheet["b", "Y"])
-    5.0
+    5
 
 For multiple sheet file, you can regard it as three dimensional array if you use :class:`~pyexcel.Book`. So, you access each cell via this syntax::
 
@@ -163,9 +163,9 @@ And you can randomly access a cell in a sheet::
 
     >>> book = pyexcel.get_book(file_name="example.xls")
     >>> print(book["Sheet 1"][0,0])
-    1.0
+    1
     >>> print(book[0][0,0]) # the same cell
-    1.0
+    1
 
 .. TIP::
   With pyexcel, you can regard single sheet reader as an two dimensional array and multi-sheet excel book reader as a ordered dictionary of two dimensional arrays.
@@ -194,7 +194,7 @@ The following code will give you the data in json::
     >>> # "example.csv","example.xlsx","example.xlsm"
     >>> sheet = pyexcel.get_sheet(file_name="example.xls")
     >>> print(json.dumps(sheet.to_array()))
-    [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]]
+    [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
 Read the sheet as a dictionary
 ******************************
@@ -236,7 +236,7 @@ The following code will give you data series in a dictionary:
 .. testcode::
 
     >>> sheet.to_dict()
-    OrderedDict([('Column 1', [1.0, 4.0, 7.0]), ('Column 2', [2.0, 5.0, 8.0]), ('Column 3', [3.0, 6.0, 9.0])])
+    OrderedDict([('Column 1', [1, 4, 7]), ('Column 2', [2, 5, 8]), ('Column 3', [3, 6, 9])])
 
 Can I get an array of dictionaries per each row?
 *************************************************
@@ -284,7 +284,7 @@ The following code will produce what you want::
     'Z':9
     }
     >>> print(records[0]["X"]) # access first row and first item
-    1.0
+    1
 
 
 Writing a single sheet excel file
@@ -407,38 +407,38 @@ You can get headers::
 You can use a utility function to get all in a dictionary::
 
     >>> sheet.to_dict()
-    OrderedDict([('Column 1', [1.0, 4.0, 7.0]), ('Column 2', [2.0, 5.0, 8.0]), ('Column 3', [3.0, 6.0, 9.0])])
+    OrderedDict([('Column 1', [1, 4, 7]), ('Column 2', [2, 5, 8]), ('Column 3', [3, 6, 9])])
 
 Maybe you want to get only the data without the column headers. You can call :meth:`~pyexcel.Sheet.rows()` instead::
 
     >>> pyexcel.to_array(sheet.rows())
-    [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]]
+    [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
 You can get data from the bottom to the top one by calling :meth:`~pyexcel.Sheet.rrows()` instead::
 
     >>> pyexcel.to_array(sheet.rrows())
-    [[7.0, 8.0, 9.0], [4.0, 5.0, 6.0], [1.0, 2.0, 3.0]]
+    [[7, 8, 9], [4, 5, 6], [1, 2, 3]]
 
 You might want the data arranged vertically. You can call :meth:`~pyexcel.Sheet.columns()` instead::
         
     >>> pyexcel.to_array(sheet.columns())
-    [[1.0, 4.0, 7.0], [2.0, 5.0, 8.0], [3.0, 6.0, 9.0]]
+    [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
 
 You can get columns in reverse sequence as well by calling :meth:`~pyexcel.Sheet.rcolumns()` instead::
         
     >>> pyexcel.to_array(sheet.rcolumns())
-    [[3.0, 6.0, 9.0], [2.0, 5.0, 8.0], [1.0, 4.0, 7.0]]
+    [[3, 6, 9], [2, 5, 8], [1, 4, 7]]
 
 Do you want to flatten the data? You can get the content in one dimensional array. If you are interested in playing with one dimensional enumeration, you can check out these functions :meth:`~pyexcel.Sheet.enumerate`, :meth:`~pyexcel.Sheet.reverse`, :meth:`~pyexcel.Sheet.vertical`, and :meth:`~pyexcel.Sheet.rvertical()`::
 
     >>> pyexcel.to_array(sheet.enumerate())
-    [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
+    [1, 2, 3, 4, 5, 6, 7, 8, 9]
     >>> pyexcel.to_array(sheet.reverse())
-    [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0]
+    [9, 8, 7, 6, 5, 4, 3, 2, 1]
     >>> pyexcel.to_array(sheet.vertical())
-    [1.0, 4.0, 7.0, 2.0, 5.0, 8.0, 3.0, 6.0, 9.0]
+    [1, 4, 7, 2, 5, 8, 3, 6, 9]
     >>> pyexcel.to_array(sheet.rvertical())
-    [9.0, 6.0, 3.0, 8.0, 5.0, 2.0, 7.0, 4.0, 1.0]
+    [9, 6, 3, 8, 5, 2, 7, 4, 1]
 
 
 

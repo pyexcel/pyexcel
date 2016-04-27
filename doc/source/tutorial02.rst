@@ -43,13 +43,13 @@ You may want to filter odd rows and print them in an array of dictionaries::
 
     >>> sheet.add_filter(pyexcel.OddRowFilter())
     >>> sheet.to_array()
-    [['Column 1', 'Column 2', 'Column 3'], [4.0, 5.0, 6.0]]
+    [['Column 1', 'Column 2', 'Column 3'], [4, 5, 6]]
 
 Let's try to further filter out even columns::
 
     >>> sheet.add_filter(pyexcel.EvenColumnFilter())
     >>> sheet.to_dict()
-    OrderedDict([('Column 1', [4.0]), ('Column 3', [6.0])])
+    OrderedDict([('Column 1', [4]), ('Column 3', [6])])
 
 Save the data
 *************

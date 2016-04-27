@@ -89,15 +89,11 @@ Here are the example code:
 
 .. code-block:: python
    
-   >>> import pyexcel as pe
-   >>> # make sure you had pyexcel-xls pip-installed
-   >>> records = pe.get_records(url="http://your.domain.com/path/to/your_file.xls")
-   >>> for record in records:
-   ...     print("%s is aged at %d" % (record['Name'], record['Age']))
-   Adam is aged at 28
-   Beatrice is aged at 29
-   Ceri is aged at 30
-   Dean is aged at 26
+    >>> import pyexcel as pe
+    >>> an_array = [[1,2]]
+    >>> sheet = pe.Sheet(an_array)
+    >>> sheet.csv
+    '1,2\r\n'
 
 
 Documentation

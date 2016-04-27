@@ -243,7 +243,7 @@ The following code will do the job::
    >>> [str(name) for name in sheet3.colnames]
    ['Column 1', 'Column 3', 'Column 5', 'Column 8', 'Column 9', 'Column 10']
    >>> sheet3.column["Column 8"]
-   [18.0, '', '']
+   [18, '', '']
    >>> os.unlink("example.csv")
    >>> os.unlink("example.xls")
    >>> os.unlink("output.xls")

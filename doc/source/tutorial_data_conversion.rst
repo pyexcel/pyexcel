@@ -67,7 +67,7 @@ The following code will give you the data in json::
     >>> # "example.csv","example.xlsx","example.xlsm"
     >>> my_array = pyexcel.get_array(file_name="example.xls")
     >>> my_array
-    [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]]
+    [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
 .. testcode::
    :hide:
@@ -91,15 +91,15 @@ And here is the code to save it as an excel file ::
 
 Let's verify it::
 
-   >>> pyexcel.get_sheet(file_name="example.xls")
-   Sheet Name: pyexcel_sheet1
-   +-----+-----+-----+
-   | 1.0 | 2.0 | 3.0 |
-   +-----+-----+-----+
-   | 4.0 | 5.0 | 6.0 |
-   +-----+-----+-----+
-   | 7.0 | 8.0 | 9.0 |
-   +-----+-----+-----+
+    >>> pyexcel.get_sheet(file_name="example.xls")
+    Sheet Name: pyexcel_sheet1
+    +---+---+---+
+    | 1 | 2 | 3 |
+    +---+---+---+
+    | 4 | 5 | 6 |
+    +---+---+---+
+    | 7 | 8 | 9 |
+    +---+---+---+
 
 .. testcode::
    :hide:
@@ -178,9 +178,9 @@ The following code will give you data series in a dictionary:
    True
    >>> for key, values in my_dict.items():
    ...     print({key: values})
-   {'Column 1': [1.0, 4.0, 7.0]}
-   {'Column 2': [2.0, 5.0, 8.0]}
-   {'Column 3': [3.0, 6.0, 9.0]}
+   {'Column 1': [1, 4, 7]}
+   {'Column 2': [2, 5, 8]}
+   {'Column 3': [3, 6, 9]}
 
 Please note that my_dict is an OrderedDict.
 
@@ -260,9 +260,9 @@ Here is the code to obtain those sheets as a single dictionary::
    True
    >>> for key, item in book_dict.items():
    ...     print(json.dumps({key: item}))
-   {"Sheet 1": [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]]}
-   {"Sheet 2": [["X", "Y", "Z"], [1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]}
-   {"Sheet 3": [["O", "P", "Q"], [3.0, 2.0, 1.0], [4.0, 3.0, 2.0]]}
+   {"Sheet 1": [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}
+   {"Sheet 2": [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]}
+   {"Sheet 3": [["O", "P", "Q"], [3, 2, 1], [4, 3, 2]]}
 
 .. testcode::
    :hide:
@@ -320,9 +320,9 @@ Let's verify its order::
    >>> book_dict = pyexcel.get_book_dict(file_name="book.xls")
    >>> for key, item in book_dict.items():
    ...     print(json.dumps({key: item}))
-   {"Sheet 2": [["X", "Y", "Z"], [1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]}
-   {"Sheet 1": [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]]}
-   {"Sheet 3": [["O", "P", "Q"], [3.0, 2.0, 1.0], [4.0, 3.0, 2.0]]}
+   {"Sheet 2": [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]}
+   {"Sheet 1": [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}
+   {"Sheet 3": [["O", "P", "Q"], [3, 2, 1], [4, 3, 2]]}
 
 Please notice that "Sheet 2" is the first item in the *book_dict*, meaning the order of sheets are preserved.
 
