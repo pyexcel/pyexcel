@@ -12,10 +12,7 @@ pyexcel - Let you focus on data, instead of file formats
     :target: http://pyexcel.readthedocs.org/en/latest/
 
 
-Known constraints
-==================
-
-Fonts, colors and charts are not supported. 
+{%include "constraints.rst.jj2" %}
 
 
 Feature Highlights
@@ -56,20 +53,7 @@ Plugins          Supported file formats
 Installation
 ============
 
-You can install it via pip:
-
-.. code-block:: bash
-
-    $ pip install pyexcel
-
-
-or clone it and install it:
-
-.. code-block:: bash
-
-    $ git clone http://github.com/pyexcel/pyexcel.git
-    $ cd pyexcel
-    $ python setup.py install
+{%include "installation.rst.jj2" %}
 
 Installation of individual plugins , please refer to individual plugin page.
 
@@ -94,10 +78,7 @@ Documentation
 Documentation is hosted at `read the docs <https://pyexcel.readthedocs.org/en/latest>`_ and `pyhosted <https://pythonhosted.org/pyexcel/>`_
 
 
-License
-================================================================================
-
-New BSD License
+{%include "license.rst.jj2" %}
 
 
 Acknowledgement
