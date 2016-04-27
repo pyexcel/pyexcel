@@ -22,8 +22,7 @@ Updated:
 
 Removed:
 
-# pyexcel.presentation is removed. No longer the internal decorate @outsource is
-used. related to `issue 31 <https://github.com/pyexcel/pyexcel/issues/31>`_
+#. pyexcel.presentation is removed. No longer the internal decorate @outsource is used. related to `issue 31 <https://github.com/pyexcel/pyexcel/issues/31>`_
 
 
 0.2.0 - 17.01.2016
@@ -32,5 +31,5 @@ used. related to `issue 31 <https://github.com/pyexcel/pyexcel/issues/31>`_
 Updated
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-# adopt pyexcel-io yield key word to return generator as content
-# pyexcel.save_as and pyexcel.save_book_as get performance imporvements
+#. adopt pyexcel-io yield key word to return generator as content
+#. pyexcel.save_as and pyexcel.save_book_as get performance imporvements

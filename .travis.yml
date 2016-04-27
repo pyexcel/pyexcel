@@ -3,12 +3,13 @@ language: python
 notifications:
   email: false
 python:
-  - 2.7
+  - pypy
   - 2.6
+  - 2.7
+  - pypy3
   - 3.3
   - 3.4
   - 3.5
-  - pypy
 before_install:
   - if [[ $TRAVIS_PYTHON_VERSION == "2.6" ]]; then pip install ordereddict; fi
   - if [[ $TRAVIS_PYTHON_VERSION == "2.6" ]]; then pip install weakrefset; fi

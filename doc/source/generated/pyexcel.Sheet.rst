@@ -37,6 +37,16 @@ pyexcel.Sheet
       ~Sheet.format
       ~Sheet.freeze_filters
       ~Sheet.freeze_formatters
+      ~Sheet.get_csv
+      ~Sheet.get_csvz
+      ~Sheet.get_django
+      ~Sheet.get_ods
+      ~Sheet.get_sql
+      ~Sheet.get_tsv
+      ~Sheet.get_tsvz
+      ~Sheet.get_xls
+      ~Sheet.get_xlsm
+      ~Sheet.get_xlsx
       ~Sheet.insert
       ~Sheet.map
       ~Sheet.name_columns_by_row
@@ -50,6 +60,7 @@ pyexcel.Sheet
       ~Sheet.paste
       ~Sheet.rcolumns
       ~Sheet.region
+      ~Sheet.register_presentation
       ~Sheet.remove_filter
       ~Sheet.remove_formatter
       ~Sheet.reverse
@@ -84,7 +95,17 @@ pyexcel.Sheet
    
       ~Sheet.colnames
       ~Sheet.column
+      ~Sheet.csv
+      ~Sheet.csvz
+      ~Sheet.django
+      ~Sheet.ods
       ~Sheet.row
       ~Sheet.rownames
+      ~Sheet.sql
+      ~Sheet.tsv
+      ~Sheet.tsvz
+      ~Sheet.xls
+      ~Sheet.xlsm
+      ~Sheet.xlsx
    
    

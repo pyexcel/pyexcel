@@ -164,7 +164,7 @@ Design
 
    design
    capability
-
+   
 Tutorial
 ----------
 .. toctree::
@@ -210,6 +210,14 @@ Developer's guide
 .. toctree::
 
    guide
+
+Change log
+-------------------
+
+.. toctree::
+
+   changelog
+
 
 Indices and tables
 ==================
