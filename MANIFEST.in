@@ -1,3 +1,2 @@
 include README.rst
 include CHANGELOG.rst
-recursive-exclude examples *

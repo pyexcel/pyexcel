@@ -5,5 +5,4 @@
   - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then rm tests/test_examples.py; fi
   - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then pip install lxml==3.4.4; fi
   - if [[ $TRAVIS_PYTHON_VERSION == "pypy3" ]]; then rm tests/test_examples.py; fi
-  - if [[ $TRAVIS_PYTHON_VERSION == "pypy3" ]]; then pip install lxml==3.4.4; fi
 {%endblock%}
