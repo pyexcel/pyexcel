@@ -60,7 +60,7 @@ or via array notations:
 Merge excel books
 ----------------------
 
-Suppose you have two excel books and each had three sheets. You can merge them and get a new book::
+Suppose you have two excel books and each had three sheets. You can merge them and get a new book:
 
 .. testcode::
    :hide:
