@@ -95,7 +95,7 @@ HTML
 
 .. code-block:: python
 
-    >>> sheet.html # doctest: +ELLIPSIS
+    >>> sheet.html  # doctest: +ELLIPSIS
     ...'Sheet Name: pyexcel\n<table>\n<tr><td style="text-align: right;">1</td><td style="text-align: right;">2</td></tr>\n</table>\n'
 
 Note: It is available with pyexcel v0.2.1 and pyexcel-text 0.2.0
@@ -125,7 +125,7 @@ XLS
 .. code-block:: python
 
     >>> sheet.xls # doctest: +ELLIPSIS
-    '\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1\x00\x00\x00...\x00\x00\x00\x00\x00\x00'
+    ...'\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1\x00\x00\x00...\x00\x00\x00\x00\x00\x00'
 	
 XLSX
 ----------------------

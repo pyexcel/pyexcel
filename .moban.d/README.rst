@@ -79,7 +79,7 @@ HTML
 
 .. code-block:: python
 
-    >>> sheet.html
+    >>> sheet.html  # doctest: +ELLIPSIS
     ...'Sheet Name: pyexcel\n<table>\n<tr><td style="text-align: right;">1</td><td style="text-align: right;">2</td></tr>\n</table>\n'
 
 Note: It is available with pyexcel v0.2.1 and pyexcel-text 0.2.0
@@ -100,7 +100,7 @@ CSV
 .. code-block:: python
 
     >>> sheet.csv
-    ...'1,2\r\n'
+    '1,2\r\n'
 
 
 XLS
