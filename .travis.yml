@@ -6,7 +6,6 @@ python:
   - pypy
   - 2.6
   - 2.7
-  - pypy3
   - 3.3
   - 3.4
   - 3.5
@@ -15,7 +14,6 @@ before_install:
   - if [[ $TRAVIS_PYTHON_VERSION == "2.6" ]]; then pip install weakrefset; fi
   - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then rm tests/test_examples.py; fi
   - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then pip install lxml==3.4.4; fi
-  - if [[ $TRAVIS_PYTHON_VERSION == "pypy3" ]]; then rm tests/test_examples.py; fi
   - pip install -r rnd_requirements.txt
   - pip install -r tests/requirements.txt
 script:
