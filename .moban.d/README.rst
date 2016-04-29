@@ -61,15 +61,79 @@ Usage
 ===============
 
 
-Here is an example to get csv output
+JSON
+------------------
 
 .. code-block:: python
    
     >>> import pyexcel as pe
     >>> an_array = [[1,2]]
     >>> sheet = pe.Sheet(an_array)
+    >>> sheet.json
+    '{"pyexcel": [[1, 2]]}'
+
+Note: It is available with pyexcel v0.2.1 and pyexcel-text 0.2.0
+
+HTML
+---------------------
+
+.. code-block:: python
+
+    >>> sheet.html
+    u'Sheet Name: pyexcel\n<table>\n<tr><td style="text-align: right;">1</td><td style="text-align: right;">2</td></tr>\n</table>\n'
+
+Note: It is available with pyexcel v0.2.1 and pyexcel-text 0.2.0
+
+TSV
+---------------------
+
+.. code-block:: python
+
+    >>> sheet.tsv
+    '1\t2\r\n'
+
+Note: TSV and the rest of the formats are available with pyexcel v0.2.2 and its plugins at version 0.2.0+ only
+
+CSV
+---------------------
+
+.. code-block:: python
+
     >>> sheet.csv
     '1,2\r\n'
+
+
+XLS
+----------------------
+
+.. code-block:: python
+
+    >>> sheet.xls # doctest: +ELLIPSIS
+    '\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1\x00\x00\x00...\x00\x00\x00\x00\x00\x00'
+	
+XLSX
+----------------------
+
+.. code-block:: python
+
+    >>> sheet.xlsx # doctest: +ELLIPSIS
+    'PK\x03\x04\x14\x00\x00\x00\x08...\x11\x00\x00\x00\x00'
+	
+ODS
+----------------------
+
+.. code-block:: python
+
+    >>> sheet.ods # doctest: +ELLIPSIS
+    'PK\x03\x04\x14\x00\x00\x00\x00...\x07\x00\x00\x00\x00'
+
+Compressed csv (csvz)
+----------------------
+
+.. code-block:: python
+
+    >>> sheet.csvz # doctest: +ELLIPSIS
+    'PK\x03\x04\x14\x00\x00\x00\x00...x00\x00\x00\x00'
 
 
 Documentation
