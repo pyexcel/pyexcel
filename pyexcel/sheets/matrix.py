@@ -1103,3 +1103,28 @@ class Matrix(object):
                     new_array.append(to_format(str, item))
             table.add_row(new_array)
         return table.draw()
+
+    @property
+    def content(self):
+        class s:
+            def __init__(self, data):
+                self.data = data
+
+            def __repr__(self):
+                return self.__str__()
+
+            def __str__(self):
+                from ..formatters import to_format
+                table = Texttable(max_width=0)
+                table.set_cols_dtype(['t'] * len(self.data[0]))
+                for sub_array in self.data:
+                    new_array = []
+                    for item in sub_array:
+                        if item == "":
+                            new_array.append(" ")
+                        else:
+                            new_array.append(to_format(str, item))
+                            table.add_row(new_array)
+                return table.draw()
+        return s(self.to_array())
+                    
