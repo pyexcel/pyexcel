@@ -80,7 +80,7 @@ HTML
 .. code-block:: python
 
     >>> sheet.html
-    u'Sheet Name: pyexcel\n<table>\n<tr><td style="text-align: right;">1</td><td style="text-align: right;">2</td></tr>\n</table>\n'
+    ...'Sheet Name: pyexcel\n<table>\n<tr><td style="text-align: right;">1</td><td style="text-align: right;">2</td></tr>\n</table>\n'
 
 Note: It is available with pyexcel v0.2.1 and pyexcel-text 0.2.0
 
@@ -100,7 +100,7 @@ CSV
 .. code-block:: python
 
     >>> sheet.csv
-    '1,2\r\n'
+    ...'1,2\r\n'
 
 
 XLS
@@ -109,7 +109,7 @@ XLS
 .. code-block:: python
 
     >>> sheet.xls # doctest: +ELLIPSIS
-    '\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1\x00\x00\x00...\x00\x00\x00\x00\x00\x00'
+    ...'\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1\x00\x00\x00...\x00\x00\x00\x00\x00\x00'
 	
 XLSX
 ----------------------
@@ -117,7 +117,7 @@ XLSX
 .. code-block:: python
 
     >>> sheet.xlsx # doctest: +ELLIPSIS
-    'PK\x03\x04\x14\x00\x00\x00\x08...\x11\x00\x00\x00\x00'
+    ...'PK\x03\x04\x14\x00\x00\x00\x08...\x11\x00\x00\x00\x00'
 	
 ODS
 ----------------------
@@ -125,7 +125,7 @@ ODS
 .. code-block:: python
 
     >>> sheet.ods # doctest: +ELLIPSIS
-    'PK\x03\x04\x14\x00\x00\x00\x00...\x07\x00\x00\x00\x00'
+    ...'PK\x03\x04\x14\x00\x00\x00\x00...\x07\x00\x00\x00\x00'
 
 Compressed csv (csvz)
 ----------------------
@@ -133,7 +133,7 @@ Compressed csv (csvz)
 .. code-block:: python
 
     >>> sheet.csvz # doctest: +ELLIPSIS
-    'PK\x03\x04\x14\x00\x00\x00\x00...x00\x00\x00\x00'
+    ...'PK\x03\x04\x14\x00\x00\x00\x00...x00\x00\x00\x00'
 
 
 Documentation
