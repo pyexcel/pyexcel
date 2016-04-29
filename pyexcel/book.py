@@ -346,14 +346,10 @@ class Book(object):
         return to_dict(self)
 
     def __repr__(self):
-        return self.__str__()
+        return self.texttable
 
     def __str__(self):
-        ret = ""
-        for sheet in self.sheets:
-            ret += str(self.sheets[sheet])
-            ret += "\n"
-        return ret.strip('\n')
+        return self.texttable
 
 
 def presenter(file_type=None):

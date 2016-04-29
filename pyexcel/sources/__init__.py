@@ -19,10 +19,10 @@ from ..constants import (
 )
 
 from .factory import SourceFactory
-from . import memory, file, database, http
+from . import memory, file, database, http, txttable
 from . import params
 
-sources = memory.sources + file.sources + database.sources + http.sources
+sources = memory.sources + file.sources + database.sources + http.sources + txttable.sources
 
 SourceFactory.register_sources(sources)
 

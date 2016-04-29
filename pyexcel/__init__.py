@@ -135,8 +135,9 @@ def get_book_dict(**keywords):
 
 
 from pyexcel_io.manager import RWManager
+import pyexcel.sources.txttable as txttable
 
-all_types = RWManager.file_types
+all_types = RWManager.file_types + txttable.file_types
 
 try:
     import pyexcel_text as text

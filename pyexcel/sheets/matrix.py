@@ -909,8 +909,9 @@ class Matrix(object):
             ...     [2],
             ...     [3]
             ... ]
-            >>> matrix = pe.sheets.Matrix(data)
+            >>> matrix = pe.sheets.Sheet(data)
             >>> matrix
+            Sheet Name: pyexcel
             +---+
             | 1 |
             +---+
@@ -924,6 +925,7 @@ class Matrix(object):
             ... ]
             >>> matrix.extend_columns_with_rows(rows)
             >>> matrix
+            Sheet Name: pyexcel
             +---+----+----+
             | 1 | 11 | 11 |
             +---+----+----+
@@ -1081,50 +1083,3 @@ class Matrix(object):
         """Get an array out
         """
         return self.array
-
-    def __border__(self):
-        return ['-', '|', '+', '-']
-
-    def __repr__(self):
-        return self.__str__()
-
-    def __str__(self):
-        from ..formatters import to_format
-        table = Texttable(max_width=0)
-        table.set_chars(self.__border__())
-        data = self.to_array()
-        table.set_cols_dtype(['t'] * len(data[0]))
-        for sub_array in data:
-            new_array = []
-            for item in sub_array:
-                if item == "":
-                    new_array.append(" ")
-                else:
-                    new_array.append(to_format(str, item))
-            table.add_row(new_array)
-        return table.draw()
-
-    @property
-    def content(self):
-        class s:
-            def __init__(self, data):
-                self.data = data
-
-            def __repr__(self):
-                return self.__str__()
-
-            def __str__(self):
-                from ..formatters import to_format
-                table = Texttable(max_width=0)
-                table.set_cols_dtype(['t'] * len(self.data[0]))
-                for sub_array in self.data:
-                    new_array = []
-                    for item in sub_array:
-                        if item == "":
-                            new_array.append(" ")
-                        else:
-                            new_array.append(to_format(str, item))
-                            table.add_row(new_array)
-                return table.draw()
-        return s(self.to_array())
-                    

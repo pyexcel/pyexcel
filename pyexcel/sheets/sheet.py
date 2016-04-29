@@ -50,6 +50,12 @@ class Sheet(NominableSheet):
         setattr(cls, file_type, property(presenter(file_type)))
         setattr(cls, 'get_%s' % file_type, presenter(file_type))
 
+    def __repr__(self):
+        return self.texttable
+
+    def __str__(self):
+        return self.texttable
+
     def save_to(self, source):
         """Save to a writeable data source"""
         source.write_data(self)

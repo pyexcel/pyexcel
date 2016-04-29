@@ -1,12 +1,13 @@
 import os
 from textwrap import dedent
+from unittest import TestCase
 
 import pyexcel as pe
 from datetime import datetime
 from _compact import StringIO, OrderedDict
 
 
-class TestBugFixes:
+class TestBugFixes(TestCase):
     def test_bug_01(self):
         """
         if first row of csv is shorter than the rest of the rows,
@@ -83,7 +84,7 @@ class TestBugFixes:
         +------------------+------+----------+-------------------+
         | 15/04/16         | 123  | false    | 456193284757      |
         +------------------+------+----------+-------------------+""").strip('\n')
-        assert str(s) == content
+        self.assertEqual(str(s), content)
 
     def test_issue_29_nominablesheet(self):
         a=[
@@ -102,4 +103,4 @@ class TestBugFixes:
         +------------------+--------+----------+-------------------+
         | 15/04/16         | 123    | false    | 456193284757      |
         +------------------+--------+----------+-------------------+""").strip('\n')
-        assert str(s) == content
+        self.assertEqual(str(s), content)

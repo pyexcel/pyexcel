@@ -175,7 +175,6 @@ the magic to load all of them back into a book. You will just need to provide th
     +-----+-----+-----+
     | 4.0 | 3.0 | 2.0 |
     +-----+-----+-----+
-
     
 .. testcode::
    :hide:
