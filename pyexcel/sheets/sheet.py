@@ -26,7 +26,6 @@ class SheetStream(NamedContent):
         return self.payload
 
 
-
 class Sheet(NominableSheet):
     """Two dimensional data container for filtering, formatting and iteration
 
@@ -45,6 +44,16 @@ class Sheet(NominableSheet):
     Filtering functions are used to reduce the information contained in the
     array.
     """
+    class _RepresentedString:
+        def __init__(self, text):
+            self.text = text
+
+        def __repr__(self):
+            return self.text
+
+        def __str__(self):
+            return self.text
+
     @classmethod
     def register_presentation(cls, file_type):
         setattr(cls, file_type, property(presenter(file_type)))
@@ -56,6 +65,11 @@ class Sheet(NominableSheet):
     def __str__(self):
         return self.texttable
 
+    @property
+    def content(self):
+        content = self.get_texttable(write_title=False)
+        return self._RepresentedString(content)
+        
     def save_to(self, source):
         """Save to a writeable data source"""
         source.write_data(self)

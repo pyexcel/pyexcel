@@ -40,6 +40,16 @@ Here is the example code showing how you can randomly access a cell::
 .. testcode::
 
    >>> sheet = pyexcel.get_sheet(file_name="example.xls")
+   >>> sheet.content
+   +---------+---+---+---+
+   | Example | X | Y | Z |
+   +---------+---+---+---+
+   | a       | 1 | 2 | 3 |
+   +---------+---+---+---+
+   | b       | 4 | 5 | 6 |
+   +---------+---+---+---+
+   | c       | 7 | 8 | 9 |
+   +---------+---+---+---+
    >>> print(sheet[2, 2])
    5
    >>> print(sheet["C3"])
