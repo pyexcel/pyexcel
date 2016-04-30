@@ -177,20 +177,6 @@ def yield_dict_to_array(the_dict, with_keys=True):
         yield row_data
 
 
-def from_query_sets(column_names, query_sets):
-    array = []
-    array.append(column_names)
-    for o in query_sets:
-        new_array = []
-        for column in column_names:
-            value = getattr(o, column)
-            if isinstance(value, (datetime.date, datetime.time)):
-                value = value.isoformat()
-            new_array.append(value)
-        array.append(new_array)
-    return array
-
-
 def convert_dict_to_ordered_dict(the_dict):
     keys = the_dict.keys()
     if not PY2:

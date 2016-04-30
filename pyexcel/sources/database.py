@@ -13,6 +13,8 @@ from pyexcel_io.database.sql import SQLTableImporter, SQLTableImportAdapter
 from pyexcel_io.database.sql import SQLTableExporter, SQLTableExportAdapter
 from pyexcel_io.database.django import DjangoModelExporter, DjangoModelExportAdapter
 from pyexcel_io.database.django import DjangoModelImporter, DjangoModelImportAdapter
+from pyexcel_io.utils import from_query_sets
+
 from .._compact import OrderedDict
 from ..constants import DEFAULT_SHEET_NAME
 
@@ -38,7 +40,6 @@ class SheetQuerySetSource(ReadOnlySource):
         self.query_sets = query_sets
 
     def get_data(self):
-        from ..utils import from_query_sets
         return (self.sheet_name,
                 from_query_sets(self.column_names, self.query_sets))
 
