@@ -23,7 +23,7 @@ Suppose you have excel file somewhere hosted::
 
    >>> sheet = pe.get_sheet(url='http://yourdomain.com/test.csv')
    >>> sheet
-   Sheet Name: csv
+   csv:
    +---+---+---+
    | 1 | 2 | 3 |
    +---+---+---+

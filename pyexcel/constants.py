@@ -7,7 +7,7 @@
     :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
-DEFAULT_NAME = 'pyexcel'
+DEFAULT_NAME = 'pyexcel sheet'
 DEFAULT_SHEET_NAME = 'pyexcel_sheet1'
 
 MESSAGE_WARNING = "We do not overwrite files"

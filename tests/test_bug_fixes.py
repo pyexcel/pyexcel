@@ -59,7 +59,7 @@ class TestBugFixes(TestCase):
         sheet2 = pe.Sheet(sheet=[[1,2]])
         merged += sheet1
         merged += sheet2
-        assert merged[1].name == "pyexcel_1"
+        self.assertEqual(merged[1].name, "pyexcel sheet_1")
 
     def test_issue_10(self):
         thedict = OrderedDict()
@@ -78,7 +78,7 @@ class TestBugFixes(TestCase):
         ]
         s=pe.get_sheet(array=a)
         content = dedent("""
-        Sheet Name: pyexcel_sheet1
+        pyexcel_sheet1:
         +------------------+------+----------+-------------------+
         | 2016-03-31 10:59 | 0123 | XS360_EU | 04566651561653122 |
         +------------------+------+----------+-------------------+
@@ -95,7 +95,7 @@ class TestBugFixes(TestCase):
         s=pe.get_sheet(array=a)
         s.name_columns_by_row(0)
         content = dedent("""
-        Sheet Name: pyexcel_sheet1
+        pyexcel_sheet1:
         +------------------+--------+----------+-------------------+
         |       date       | number |   misc   |    long number    |
         +==================+========+==========+===================+

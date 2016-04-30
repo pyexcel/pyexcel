@@ -104,7 +104,7 @@ class NamedRow(Row):
             >>> data = [[1],[2],[3],[4],[5],[6],[7],[9]]
             >>> sheet = pe.Sheet(data)
             >>> sheet
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+
             | 1 |
             +---+
@@ -124,7 +124,7 @@ class NamedRow(Row):
             +---+
             >>> sheet.row.select([1,2,3,5])
             >>> sheet
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+
             | 2 |
             +---+
@@ -142,7 +142,7 @@ class NamedRow(Row):
             >>> sheet = pe.Sheet(data, name_rows_by_column=0)
             >>> sheet.row.select(['a', 'b'])
             >>> sheet
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+---+
             | a | 1 |
             +---+---+
@@ -170,7 +170,7 @@ class NamedRow(Row):
             >>> sheet = pe.Sheet(data, name_rows_by_column=0)
             >>> del sheet.row['a', 'b']
             >>> sheet
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+---+
             | c | 1 |
             +---+---+
@@ -262,13 +262,13 @@ class NamedColumn(Column):
             >>> data = [[1,2,3,4,5,6,7,9]]
             >>> sheet = pe.Sheet(data)
             >>> sheet
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+---+---+---+---+---+---+---+
             | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 |
             +---+---+---+---+---+---+---+---+
             >>> sheet.column.select([1,2,3,5])
             >>> sheet
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+---+---+---+
             | 2 | 3 | 4 | 6 |
             +---+---+---+---+
@@ -278,7 +278,7 @@ class NamedColumn(Column):
             ... ]
             >>> sheet = pe.Sheet(data, name_columns_by_row=0)
             >>> sheet
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+---+---+---+---+---+---+---+
             | a | b | c | d | e | f | g | h |
             +===+===+===+===+===+===+===+===+
@@ -290,7 +290,7 @@ class NamedColumn(Column):
             ValueError: ...
             >>> sheet.column.select(['a', 'c', 'e', 'h'])
             >>> sheet
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+---+---+---+
             | a | c | e | h |
             +===+===+===+===+
@@ -316,7 +316,7 @@ class NamedColumn(Column):
             ... ]
             >>> sheet = pe.Sheet(data, name_columns_by_row=0)
             >>> sheet
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+---+---+---+---+---+---+---+
             | a | b | c | d | e | f | g | h |
             +===+===+===+===+===+===+===+===+
@@ -328,7 +328,7 @@ class NamedColumn(Column):
             ValueError: ...
             >>> del sheet.column['a', 'c', 'e', 'h']
             >>> sheet
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+---+---+---+
             | b | d | f | g |
             +===+===+===+===+

@@ -151,7 +151,7 @@ the magic to load all of them back into a book. You will just need to provide th
 
     >>> book2 = pyexcel.get_book(file_name="myfile.csv")
     >>> book2
-    Sheet Name: Sheet 1
+    Sheet 1:
     +-----+-----+-----+
     | 1.0 | 2.0 | 3.0 |
     +-----+-----+-----+
@@ -159,7 +159,7 @@ the magic to load all of them back into a book. You will just need to provide th
     +-----+-----+-----+
     | 7.0 | 8.0 | 9.0 |
     +-----+-----+-----+
-    Sheet Name: Sheet 2
+    Sheet 2:
     +-----+-----+-----+
     | X   | Y   | Z   |
     +-----+-----+-----+
@@ -167,7 +167,7 @@ the magic to load all of them back into a book. You will just need to provide th
     +-----+-----+-----+
     | 4.0 | 5.0 | 6.0 |
     +-----+-----+-----+
-    Sheet Name: Sheet 3
+    Sheet 3:
     +-----+-----+-----+
     | O   | P   | Q   |
     +-----+-----+-----+

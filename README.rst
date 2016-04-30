@@ -86,7 +86,7 @@ JSON
     >>> an_array = [[1,2]]
     >>> sheet = pe.Sheet(an_array)
     >>> sheet.json
-    '{"pyexcel": [[1, 2]]}'
+    '{"pyexcel sheet": [[1, 2]]}'
 
 Note: It is available with pyexcel v0.2.1 and pyexcel-text 0.2.0
 

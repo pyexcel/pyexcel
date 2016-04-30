@@ -23,7 +23,7 @@ Suppose have one data file as the following:
 
     >>> sheet = pyexcel.get_sheet(file_name="example.xls", name_columns_by_row=0)
     >>> sheet
-    Sheet Name: pyexcel
+    pyexcel sheet:
     +----------+----------+----------+
     | Column 1 | Column 2 | Column 3 |
     +==========+==========+==========+
@@ -40,7 +40,7 @@ And you want to update ``Column 2`` with these data: [11, 12, 13]
     >>> sheet.column[1]
     [11, 12, 13]
     >>> sheet
-    Sheet Name: pyexcel
+    pyexcel sheet:
     +----------+----------+----------+
     | Column 1 | Column 2 | Column 3 |
     +==========+==========+==========+
@@ -63,7 +63,7 @@ If you want to remove ``Column 2``, you can just call::
 The sheet content will become:
 
     >>> sheet
-    Sheet Name: pyexcel
+    pyexcel sheet:
     +----------+----------+
     | Column 1 | Column 3 |
     +==========+==========+
@@ -106,7 +106,7 @@ Here is the example code to append two extra columns::
 Here is what you will get:
 
     >>> sheet
-    Sheet Name: pyexcel
+    pyexcel sheet:
     +----------+----------+----------+----------+
     | Column 1 | Column 3 | Column 4 | Column 5 |
     +==========+==========+==========+==========+
@@ -129,7 +129,7 @@ Suppose you have the following data::
      ... ]
      >>> sheet = pyexcel.Sheet(data, name_columns_by_row=0)
      >>> sheet
-     Sheet Name: pyexcel
+     pyexcel sheet:
      +---+---+---+---+---+---+---+---+
      | a | b | c | d | e | f | g | h |
      +===+===+===+===+===+===+===+===+
@@ -140,7 +140,7 @@ And you want to remove columns named as: 'a', 'c, 'e', 'h'. This is how you do i
 
      >>> del sheet.column['a', 'c', 'e', 'h']
      >>> sheet
-     Sheet Name: pyexcel
+     pyexcel sheet:
      +---+---+---+---+
      | b | d | f | g |
      +===+===+===+===+
@@ -163,7 +163,7 @@ What if the headers are in a different row
 Suppose you have the following data::
 
    >>> sheet
-   Sheet Name: pyexcel
+   pyexcel sheet:
    +----------+----------+----------+
    | 1        | 2        | 3        |
    +----------+----------+----------+
@@ -179,7 +179,7 @@ The way to name your columns is to use index 1:
 Here is what you get:
 
    >>> sheet
-   Sheet Name: pyexcel
+   pyexcel sheet:
    +----------+----------+----------+
    | Column 1 | Column 2 | Column 3 |
    +==========+==========+==========+
@@ -205,7 +205,7 @@ Row manipulation
 Suppose you have the following data:
 
    >>> sheet
-   Sheet Name: pyexcel
+   pyexcel sheet:
    +---+---+---+-------+
    | a | b | c | Row 1 |
    +---+---+---+-------+

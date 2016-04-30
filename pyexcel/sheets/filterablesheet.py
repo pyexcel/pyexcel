@@ -220,7 +220,7 @@ class FilterableSheet(FormattableSheet):
             >>> data = s.cut([1, 1], [4, 5])
             >>> s2 = pe.Sheet(data) #  let's present the result
             >>> s2
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +----+----+----+----+
             | 22 | 23 | 24 | 25 |
             +----+----+----+----+
@@ -258,7 +258,7 @@ class FilterableSheet(FormattableSheet):
             ... ]
             >>> s = pe.Sheet(data)
             >>> s
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +----+----+----+----+----+----+----+
             | 1  | 2  | 3  | 4  | 5  | 6  | 7  |
             +----+----+----+----+----+----+----+
@@ -273,7 +273,7 @@ class FilterableSheet(FormattableSheet):
             >>> # cut  1<= row < 4, 1<= column < 5
             >>> data = s.cut([1, 1], [4, 5])
             >>> s
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +----+----+----+----+----+----+----+
             | 1  | 2  | 3  | 4  | 5  | 6  | 7  |
             +----+----+----+----+----+----+----+
@@ -323,7 +323,7 @@ class FilterableSheet(FormattableSheet):
             ... ]
             >>> s.insert([1, 1], rows=data_to_be_inserted)
             >>> s
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +----+----+----+----+----+----+----+
             | 1  | 2  | 3  | 4  | 5  | 6  | 7  |
             +----+----+----+----+----+----+----+
@@ -354,7 +354,7 @@ class FilterableSheet(FormattableSheet):
             ... ]
             >>> s.insert([1, 1], columns=data_to_be_inserted2)
             >>> s
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +----+----+----+----+----+----+----+
             | 1  | 2  | 3  | 4  | 5  | 6  | 7  |
             +----+----+----+----+----+----+----+

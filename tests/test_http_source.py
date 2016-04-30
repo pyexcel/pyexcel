@@ -15,7 +15,7 @@ class TestHttpBookSource(TestCase):
         mock_open.return_value = m 
         book = pe.get_book(url="xx.csv")
         content = dedent("""
-        Sheet Name: csv
+        csv:
         +---+---+---+
         | 1 | 2 | 3 |
         +---+---+---+""").strip('\n')
@@ -32,7 +32,7 @@ class TestHttpBookSource(TestCase):
         mock_open.return_value = m 
         book = pe.get_book(url="xx.csv")
         content = dedent("""
-        Sheet Name: csv
+        csv:
         +---+---+---+
         | 1 | 2 | 3 |
         +---+---+---+""").strip('\n')
@@ -48,7 +48,7 @@ class TestHttpBookSource(TestCase):
         mock_open.return_value = m 
         sheet = pe.get_sheet(url="xx.csv")
         content = dedent("""
-        Sheet Name: csv
+        csv:
         +---+---+---+
         | 1 | 2 | 3 |
         +---+---+---+""").strip('\n')

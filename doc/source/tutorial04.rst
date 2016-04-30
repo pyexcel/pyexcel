@@ -35,7 +35,7 @@ You can access individual sheet of a book via attribute:
 
     >>> book = pyexcel.get_book(file_name="book.xls")
     >>> book.sheet3
-    Sheet Name: sheet3
+    sheet3:
     +---+---+---+
     | 1 | 2 | 3 |
     +---+---+---+
@@ -47,7 +47,7 @@ You can access individual sheet of a book via attribute:
 or via array notations:
 
     >>> book["sheet 1"] # there is a space in the sheet name
-    Sheet Name: sheet 1
+    sheet 1:
     +---+---+---+
     | 1 | 2 | 3 |
     +---+---+---+

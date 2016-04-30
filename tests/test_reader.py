@@ -1,6 +1,6 @@
 import pyexcel as pe
 from base import PyexcelBase, clean_up_files
-from base import create_sample_file1, create_sample_file2
+from base import create_sample_file1
 from base import create_generic_file
 from _compact import BytesIO
 from nose.tools import raises
@@ -228,7 +228,7 @@ class TestSeriesReader3:
     def test_empty_series_reader(self):
         # debug this further
         s = pe.Sheet()  # seriesreader is gone since v0.0.7
-        assert s.name == "pyexcel"
+        assert s.name == "pyexcel sheet"
         test_data = [
             [1, 2, 3],
             [4, 5, 6],

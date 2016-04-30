@@ -42,7 +42,7 @@ class SheetSourceInMemory(TextTableSource):
     def write_sheet(self, stream, sheet):
         texts = render_text_table(sheet)
         if self.write_title:
-            stream.write("Sheet Name: %s\n" % sheet.name)
+            stream.write("%s:\n" % sheet.name)
         stream.write(texts)
 
 

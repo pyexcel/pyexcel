@@ -12,5 +12,5 @@ class TestAttributes(TestCase):
         +---+---+
         | 1 | 2 |
         +---+---+""").strip('\n')
-        self.assertEqual(sheet.content, expected)
+        self.assertEqual(str(sheet.content), expected)
         

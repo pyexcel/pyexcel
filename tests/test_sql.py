@@ -1,9 +1,11 @@
+from unittest import TestCase
 import pyexcel as pe
 import datetime
 from textwrap import dedent
 from db import Session, Base, Pyexcel, engine
 
-class TestSQL:
+
+class TestSQL(TestCase):
     def setUp(self):
         Base.metadata.drop_all(engine)
         Base.metadata.create_all(engine)
@@ -23,15 +25,15 @@ class TestSQL:
     def test_sql(self):
         sheet = pe.load_from_sql(Session(), Pyexcel)
         content = dedent("""
-Sheet Name: pyexcel
-+------------+----+-------+--------+
-| birth      | id | name  | weight |
-+------------+----+-------+--------+
-| 2014-11-11 | 0  | Adam  | 11.25  |
-+------------+----+-------+--------+
-| 2014-11-12 | 1  | Smith | 12.25  |
-+------------+----+-------+--------+""").strip('\n')
-        assert str(sheet) == content
+        pyexcel:
+        +------------+----+-------+--------+
+        | birth      | id | name  | weight |
+        +------------+----+-------+--------+
+        | 2014-11-11 | 0  | Adam  | 11.25  |
+        +------------+----+-------+--------+
+        | 2014-11-12 | 1  | Smith | 12.25  |
+        +------------+----+-------+--------+""").strip('\n')
+        self.assertEqual(str(sheet), content)
 
 class TestEmptyTable:
     def setUp(self):

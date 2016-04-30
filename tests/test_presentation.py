@@ -1,8 +1,9 @@
+from unittest import TestCase
 from textwrap import dedent
 import pyexcel as pe
 
 
-class TestPresentation:
+class TestPresentation(TestCase):
     def test_normal_usage(self):
         content = [
             [1, 2, 3],
@@ -11,7 +12,7 @@ class TestPresentation:
         ]
         s = pe.Sheet(content)
         content = dedent("""
-           Sheet Name: pyexcel
+           pyexcel sheet:
            +---+-----+-----+
            | 1 | 2   | 3   |
            +---+-----+-----+
@@ -19,7 +20,7 @@ class TestPresentation:
            +---+-----+-----+
            | 7 | 8   | 999 |
            +---+-----+-----+""").strip('\n')
-        assert str(s) == content
+        self.assertEqual(str(s), content)
         
     def test_irregular_usage(self):
         """textable doesn't like empty string """
@@ -30,7 +31,7 @@ class TestPresentation:
         ]
         s = pe.Sheet(content)
         content = dedent("""
-           Sheet Name: pyexcel
+           pyexcel sheet:
            +---+-----+---+
            | 1 | 2   | 3 |
            +---+-----+---+
@@ -38,7 +39,7 @@ class TestPresentation:
            +---+-----+---+
            | 7 | 8   |   |
            +---+-----+---+""").strip('\n')
-        assert str(s) == content
+        self.assertEqual(str(s), content)
     
 
     def test_column_series(self):
@@ -51,7 +52,7 @@ class TestPresentation:
         s = pe.Sheet(content, name_columns_by_row=0)
         print(s)
         content = dedent("""
-           Sheet Name: pyexcel
+           pyexcel sheet:
            +----------+----------+----------+
            | Column 1 | Column 2 | Column 3 |
            +==========+==========+==========+
@@ -61,7 +62,7 @@ class TestPresentation:
            +----------+----------+----------+
            | 7        | 8        | 9        |
            +----------+----------+----------+""").strip('\n')
-        assert str(s) == content
+        self.assertEqual(str(s), content)
 
     def test_data_frame(self):
         content = [
@@ -73,7 +74,7 @@ class TestPresentation:
         s = pe.Sheet(content, name_rows_by_column=0, name_columns_by_row=0)
         print(str(s))
         content = dedent("""
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +-------+----------+----------+----------+
             |       | Column 1 | Column 2 | Column 3 |
             +=======+==========+==========+==========+
@@ -83,7 +84,7 @@ class TestPresentation:
             +-------+----------+----------+----------+
             | Row 3 | 7        | 8        | 9        |
             +-------+----------+----------+----------+""").strip('\n')
-        assert str(s) == content
+        self.assertEqual(str(s), content)
 
     def test_row_series(self):
         content = [
@@ -93,7 +94,7 @@ class TestPresentation:
         ]
         s = pe.Sheet(content, name_rows_by_column=0)
         content = dedent("""
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +-------+---+---+---+
             | Row 1 | 1 | 2 | 3 |
             +-------+---+---+---+
@@ -101,7 +102,7 @@ class TestPresentation:
             +-------+---+---+---+
             | Row 3 | 7 | 8 | 9 |
             +-------+---+---+---+""").strip('\n')
-        assert str(s) == content
+        self.assertEqual(str(s), content)
 
     def test_book_presentation(self):
         data = {
@@ -126,7 +127,7 @@ class TestPresentation:
         }
         book = pe.Book(data)
         content = dedent("""
-        Sheet Name: Sheet 1
+        Sheet 1:
         +-----+-----+-----+
         | 1.0 | 2.0 | 3.0 |
         +-----+-----+-----+
@@ -134,7 +135,7 @@ class TestPresentation:
         +-----+-----+-----+
         | 7.0 | 8.0 | 9.0 |
         +-----+-----+-----+
-        Sheet Name: Sheet 2
+        Sheet 2:
         +---+---+---+
         | X | Y | Z |
         +---+---+---+
@@ -142,7 +143,7 @@ class TestPresentation:
         +---+---+---+
         | 4 | 5 | 6 |
         +---+---+---+
-        Sheet Name: Sheet 3
+        Sheet 3:
         +-----+-----+-----+
         | O   | P   | Q   |
         +-----+-----+-----+
@@ -150,4 +151,4 @@ class TestPresentation:
         +-----+-----+-----+
         | 4.0 | 3.0 | 2.0 |
         +-----+-----+-----+""").strip("\n")
-        assert str(book) == content
+        self.assertEqual(str(book), content)

@@ -92,7 +92,7 @@ And here is the code to save it as an excel file ::
 Let's verify it::
 
     >>> pyexcel.get_sheet(file_name="example.xls")
-    Sheet Name: pyexcel_sheet1
+    pyexcel_sheet1:
     +---+---+---+
     | 1 | 2 | 3 |
     +---+---+---+
@@ -395,7 +395,7 @@ Done it. It is that simple. Let's verify what has been imported to make sure.
 
    >>> sheet = pyexcel.get_sheet(session=session, table=BirthRegister)
    >>> sheet
-   Sheet Name: birth
+   birth:
    +------------+----+-------+--------+
    | birth      | id | name  | weight |
    +------------+----+-------+--------+
@@ -436,7 +436,7 @@ Again it is really simple. Let's verify what we have gotten:
 
    >>> sheet = pyexcel.get_sheet(file_name="birth.csv")
    >>> sheet
-   Sheet Name: birth.csv
+   birth.csv:
    +-------+--------+------------+
    | name  | weight | birth      |
    +-------+--------+------------+
@@ -470,7 +470,7 @@ Again let's verify what we have gotten:
 
    >>> sheet = pyexcel.get_sheet(file_name="birth.xlsx")
    >>> sheet
-   Sheet Name: pyexcel_sheet1
+   pyexcel_sheet1:
    +-------+--------+----------+
    | name  | weight | birth    |
    +-------+--------+----------+

@@ -198,7 +198,7 @@ class Row:
             >>> data = [[1],[2],[3],[4],[5],[6],[7],[9]]
             >>> sheet = pe.Sheet(data)
             >>> sheet
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+
             | 1 |
             +---+
@@ -218,7 +218,7 @@ class Row:
             +---+
             >>> sheet.row.select([1,2,3,5])
             >>> sheet
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+
             | 2 |
             +---+
@@ -241,7 +241,7 @@ class Row:
             >>> data = [[1],[2],[3],[4],[5],[6],[7],[9]]
             >>> sheet = pe.Sheet(data)
             >>> sheet
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+
             | 1 |
             +---+
@@ -261,7 +261,7 @@ class Row:
             +---+
             >>> del sheet.row[1,2,3,5]
             >>> sheet
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+
             | 1 |
             +---+
@@ -370,13 +370,13 @@ class Column:
             >>> data = [[1,2,3,4,5,6,7,9]]
             >>> sheet = pe.Sheet(data)
             >>> sheet
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+---+---+---+---+---+---+---+
             | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 |
             +---+---+---+---+---+---+---+---+
             >>> sheet.column.select([1,2,3,5])
             >>> sheet
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+---+---+---+
             | 2 | 3 | 4 | 6 |
             +---+---+---+---+
@@ -393,13 +393,13 @@ class Column:
             >>> data = [[1,2,3,4,5,6,7,9]]
             >>> sheet = pe.Sheet(data)
             >>> sheet
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+---+---+---+---+---+---+---+
             | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 |
             +---+---+---+---+---+---+---+---+
             >>> del sheet.column[1,2,3,5]
             >>> sheet
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+---+---+---+
             | 1 | 5 | 7 | 9 |
             +---+---+---+---+
@@ -911,7 +911,7 @@ class Matrix(object):
             ... ]
             >>> matrix = pe.sheets.Sheet(data)
             >>> matrix
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+
             | 1 |
             +---+
@@ -925,7 +925,7 @@ class Matrix(object):
             ... ]
             >>> matrix.extend_columns_with_rows(rows)
             >>> matrix
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +---+----+----+
             | 1 | 11 | 11 |
             +---+----+----+
@@ -957,7 +957,7 @@ class Matrix(object):
             >>> data = s.cut([1, 1], [4, 5])
             >>> s.paste([4,6], rows=data)
             >>> s
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +----+----+----+----+----+----+----+----+----+----+
             | 1  | 2  | 3  | 4  | 5  | 6  | 7  |    |    |    |
             +----+----+----+----+----+----+----+----+----+----+
@@ -975,7 +975,7 @@ class Matrix(object):
             +----+----+----+----+----+----+----+----+----+----+
             >>> s.paste([6,9], columns=data)
             >>> s
-            Sheet Name: pyexcel
+            pyexcel sheet:
             +----+----+----+----+----+----+----+----+----+----+----+----+
             | 1  | 2  | 3  | 4  | 5  | 6  | 7  |    |    |    |    |    |
             +----+----+----+----+----+----+----+----+----+----+----+----+
