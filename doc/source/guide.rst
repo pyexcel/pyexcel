@@ -7,15 +7,21 @@ Here's the architecture of pyexcel
 
 Pull requests are welcome.
 
-Acceptance criteria
--------------------
+Development steps for code changes
 
-#. Has fair amount of documentation
-#. Has Test cases written
-#. Has all code lines tested
-#. Passes all Travis CI builds
-#. Pythonic code please
-#. Agree on NEW BSD License for your contribution
+#. git clone https://github.com/pyexcel/pyexcel.git
+#. cd pyexcel
+#. pip install -r requirements.txt
+#. pip install -r tests/requirements.txt
+
+
+In order to update test envrionment, and documentation, additional setps are
+required:
+
+#. pip install -r moban
+#. git clone https://github.com/pyexcel/pyexel-commons.git
+#. make your changes in `.moban.d` directory, then do `moban`
+
 
 How to test your contribution
 ------------------------------
@@ -29,4 +35,14 @@ On Linux/Unix systems, please launch your tests like this::
 On Windows systems, please issue this command::
 
     > test.bat
+
+Acceptance criteria
+-------------------
+
+#. Has fair amount of documentation
+#. Has Test cases written
+#. Has all code lines tested
+#. Passes all Travis CI builds
+#. Pythonic code please
+#. Agree on NEW BSD License for your contribution
 

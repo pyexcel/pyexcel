@@ -117,6 +117,38 @@ Documentation
 Documentation is hosted at `read the docs <https://pyexcel.readthedocs.org/en/latest>`_ and `pyhosted <https://pythonhosted.org/pyexcel/>`_
 
 
+Deveopment guide
+================================================================================
+
+Development steps for code changes
+
+#. git clone https://github.com/pyexcel/pyexcel.git
+#. cd pyexcel
+#. pip install -r requirements.txt
+#. pip install -r tests/requirements.txt
+
+
+In order to update test envrionment, and documentation, additional setps are
+required:
+
+#. pip install -r moban
+#. git clone https://github.com/pyexcel/pyexel-commons.git
+#. make your changes in `.moban.d` directory, then do `moban`
+
+
+How to test your contribution
+------------------------------
+
+Although `nose` and `doctest` are both used in code testing, it is adviable that unit tests are put in tests. `doctest` is incorporated only to make sure the code examples in documentation remain valid across different development releases.
+
+On Linux/Unix systems, please launch your tests like this::
+
+    $ make test
+
+On Windows systems, please issue this command::
+
+    > test.bat
+
 License
 ================================================================================
 

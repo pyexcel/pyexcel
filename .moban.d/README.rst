@@ -70,7 +70,7 @@ JSON
     >>> an_array = [[1,2]]
     >>> sheet = pe.Sheet(an_array)
     >>> sheet.json
-    '{"pyexcel": [[1, 2]]}'
+    '{"pyexcel sheet": [[1, 2]]}'
 
 Note: It is available with pyexcel v0.2.1 and pyexcel-text 0.2.0
 
@@ -95,44 +95,16 @@ CSV
     '1,2\r\n'
 
 
-XLS
-----------------------
-
-.. code-block:: python
-
-    >>> sheet.xls # doctest: +ELLIPSIS
-    ...
-	
-XLSX
-----------------------
-
-.. code-block:: python
-
-    >>> sheet.xlsx # doctest: +ELLIPSIS
-    ...
-	
-ODS
-----------------------
-
-.. code-block:: python
-
-    >>> sheet.ods # doctest: +ELLIPSIS
-    ...
-
-Compressed csv (csvz)
-----------------------
-
-.. code-block:: python
-
-    >>> sheet.csvz # doctest: +ELLIPSIS
-    ...
-
-
 Documentation
 =============
 
 Documentation is hosted at `read the docs <https://pyexcel.readthedocs.org/en/latest>`_ and `pyhosted <https://pythonhosted.org/pyexcel/>`_
 
+
+Deveopment guide
+================================================================================
+
+{%include "developer_guide.rst.jj2" %}
 
 {%include "license.rst.jj2" %}
 

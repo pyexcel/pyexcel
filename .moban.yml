@@ -13,3 +13,4 @@ targets:
   - LICENSE: LICENSE.jj2
   - MANIFEST.in: MANIFEST.in.jj2
   - README.rst: README.rst
+  - "doc/source/guide.rst": "docs/source/guide.rst"
