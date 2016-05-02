@@ -131,9 +131,9 @@ Development steps for code changes
 In order to update test envrionment, and documentation, additional setps are
 required:
 
-#. pip install -r moban
+#. pip install moban
 #. git clone https://github.com/pyexcel/pyexel-commons.git
-#. make your changes in `.moban.d` directory, then do `moban`
+#. make your changes in `.moban.d` directory, then issue command `moban`
 
 
 How to test your contribution
