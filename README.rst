@@ -132,7 +132,7 @@ In order to update test envrionment, and documentation, additional setps are
 required:
 
 #. pip install moban
-#. git clone https://github.com/pyexcel/pyexel-commons.git
+#. git clone https://github.com/pyexcel/pyexcel-commons.git
 #. make your changes in `.moban.d` directory, then issue command `moban`
 
 
