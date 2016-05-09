@@ -1,9 +1,10 @@
 import os
+from unittest import TestCase
 import pyexcel as pe
 from base import create_sample_file2_in_memory
 
 
-class TestRareCases:
+class TestRareCases(TestCase):
     def test_validate(self):
         ifr = pe.filters.IndexFilter(None)
         ifr.validate_filter(None)
@@ -17,7 +18,7 @@ class TestRareCases:
         s = pe.sheets.FilterableSheet(data)
         s.add_filter(pe.filters.ColumnFilter([100]))
         result = pe.utils.to_array(s)
-        assert data == result
+        self.assertEqual(data, result)
 
     def test_empty_row_filter(self):
         data = [
@@ -26,15 +27,15 @@ class TestRareCases:
         s = pe.sheets.FilterableSheet(data)
         s.add_filter(pe.filters.RowFilter([100]))
         result = pe.utils.to_array(s)
-        assert data == result
+        self.assertEqual(data, result)
 
     def test_row_value_filter_with_series_reader(self):
         data = "Person,Age\nAdam,24\nBilly,23\nCeri,28\nDennis,25"
         r1 = pe.SeriesReader(("csv", data))
-        filter_func = lambda row: row['Age'] == '23'
+        filter_func = lambda row: row['Age'] == 23
         r1.filter(pe.filters.SeriesRowValueFilter(filter_func).invert())
-        assert r1.number_of_rows() == 1
-        assert r1.row[0] == ['Billy', '23']
+        self.assertEqual(r1.number_of_rows(), 1)
+        self.assertEqual(r1.row[0], ['Billy', 23])
 
 
 class TestFilterWithFilterableReader:
@@ -397,7 +398,7 @@ class TestFilterWithReader:
         assert result == actual
 
 
-class TestComplexFilter:
+class TestComplexFilter(TestCase):
     def setUp(self):
         """
         Make a test csv file as:
@@ -434,18 +435,18 @@ class TestComplexFilter:
         r2 = pe.load("testcsv2.csv")
         filter_func = lambda array: r2.contains((lambda row: array[0] == row[0] and array[1] == row[1]))
         r1.filter(pe.filters.RowValueFilter(filter_func).invert())
-        result = ['1', 'a', '2', 'b', '3', 'c', '8', 'h']
+        result = [1, 'a', 2, 'b', 3, 'c', 8, 'h']
         actual = pe.utils.to_array(r1.enumerate())
-        assert result == actual
+        self.assertEqual(result, actual)
 
     def test_row_in_file_filter(self):
         r1 = pe.load("testcsv1.csv")
         r2 = pe.load("testcsv2.csv")
         r2.filter(pe.filters.ColumnFilter([2]))
         r1.filter(pe.filters.RowInFileFilter(r2))
-        result = ['1', 'a', '2', 'b', '3', 'c', '8', 'h']
+        result = [1, 'a', 2, 'b', 3, 'c', 8, 'h']
         actual = pe.utils.to_array(r1.enumerate())
-        assert result == actual
+        self.assertEqual(result, actual)
 
     def tearDown(self):
         if os.path.exists(self.testfile1):
@@ -523,7 +524,7 @@ class TestNamedRowValueFilter:
         assert sheet.to_array() == expected
 
 
-class TestNamedColumnValueFilter:
+class TestNamedColumnValueFilter(TestCase):
     def test_row_value_filter(self):
         data = [
             ['a', 1, 2, 3, 4, 1],
@@ -537,5 +538,5 @@ class TestNamedColumnValueFilter:
             ['b', 4],
             ['c', 5]
         ]
-        assert sheet.to_array() == expected
+        self.assertEqual(sheet.to_array(), expected)
 

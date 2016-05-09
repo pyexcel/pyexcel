@@ -1,9 +1,10 @@
-import glob2
 import os
+import sys
 import imp
 import json
+import glob2
+from unittest import TestCase
 import pyexcel as pe
-import sys
 
 PY2 = sys.version_info[0] == 2
 
@@ -39,7 +40,8 @@ class TestAllExamples:
                 if fn is not None:
                     fn(path)
 
-class TestPyexcelServer:
+
+class TestPyexcelServer(TestCase):
     """
     This test tells how difficult to test unicode vs bytes when
     dealing with csv files in relation to pyexcel. and this
@@ -59,16 +61,16 @@ class TestPyexcelServer:
         expected = {
             "result": {
                 "X": [
-                    "1",
-                    "4"
+                    1,
+                    4
                 ],
                 "Y": [
-                    "2",
-                    "5"
+                    2,
+                    5
                 ],
                 "Z": [
-                    "3",
-                    "6"
+                    3,
+                    6
                 ]
             }
         }
@@ -87,20 +89,21 @@ class TestPyexcelServer:
                                  data = {"excel": (io, "test.csv")},
                                  content_type="multipart/form-data")
         if PY2:
-            assert json.loads(response.data) == expected            
+            self.assertEqual(json.loads(response.data), expected)
         else:
             # for the same reason, python 3 socket receve bytes
             # to convert bytes to str is to do a decode
-            assert json.loads(response.data.decode('utf-8')) == expected
+            self.assertEqual(json.loads(response.data.decode('utf-8')), expected)
 
     def test_download(self):
         response = self.app.get('/download')
         ret = pe.get_array(file_type="csv", file_content=response.data)
-        assert ret == [
+        print(ret)
+        self.assertEqual(ret, [
             ["REVIEW_DATE","AUTHOR","ISBN","DISCOUNTED_PRICE"],
-            ["1985/01/21","Douglas Adams",'0345391802','5.95'],
-            ["1990/01/12","Douglas Hofstadter",'0465026567','9.95'],
-            ["1998/07/15","Timothy \"The Parser\" Campbell",'0968411304','18.99'],
-            ["1999/12/03","Richard Friedman",'0060630353','5.95'],
-            ["2004/10/04","Randel Helms",'0879755725','4.5']
-        ]
+            ["1985/01/21","Douglas Adams",'0345391802',5.95],
+            ["1990/01/12","Douglas Hofstadter",'0465026567',9.95],
+            ["1998/07/15","Timothy \"The Parser\" Campbell",'0968411304',18.99],
+            ["1999/12/03","Richard Friedman",'0060630353',5.95],
+            ["2004/10/04","Randel Helms",'0879755725',4.5]
+        ])

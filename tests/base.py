@@ -76,10 +76,10 @@ class PyexcelBase:
         table = []
         for i in range(0,self.rows):
             row = i + 1
-            array = [str(row)] * 4
+            array = [row] * 4
             table.append(array)
         create_generic_file(filename, table)
-         
+
     def test_number_of_rows(self):
         r = pe.Reader(self.testfile)
         assert self.rows == r.number_of_rows()
@@ -88,10 +88,10 @@ class PyexcelBase:
         r = pe.Reader(self.testfile)
         for i in range(0, self.rows):
             row = i + 1
-            assert str(row) == r.cell_value(i,1)
+            assert row == r.cell_value(i,1)
         for i in r.row_range():
-            assert str(i+1) == r.cell_value(i,1)
-        assert str(3) == r.cell_value(2, 3)
+            assert i+1 == r.cell_value(i,1)
+        assert 3 == r.cell_value(2, 3)
             
     def test_row_range(self):
         r = pe.Reader(self.testfile)
@@ -104,16 +104,16 @@ class PyexcelBase:
     @raises(ValueError)
     def test_slice(self):
         r = pe.Reader(self.testfile)
-        content1 = [['1', '1', '1', '1']]
+        content1 = [[1, 1, 1, 1]]
         assert content1 == r.row[0:1]
-        content2 = [["1", "1", "1", "1"], ["2", "2", "2", "2"]]
+        content2 = [[1, 1, 1, 1], [2, 2, 2, 2]]
         assert content2 == r.row[0:2]
         assert content2 == r.row[:2]
-        content3 = [["2", "2", "2", "2"], ["3","3","3","3"]]
+        content3 = [[2, 2, 2, 2], [3,3,3,3]]
         assert content3 == r.row[1:]
-        content4 = [["1", "1", "1", "1"], ["2", "2", "2", "2"]]
+        content4 = [[1, 1, 1, 1], [2, 2, 2, 2]]
         assert content4 == r.row[0:2:1]
-        content5 = ["1", "1", "1", "1"]
+        content5 = [1, 1, 1, 1]
         assert [content5] == r.row[0:0]
         r.row[2:1]  # bang
 

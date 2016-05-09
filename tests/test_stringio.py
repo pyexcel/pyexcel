@@ -17,7 +17,7 @@ class TestIO:
         with open(csvfile, "r") as f:
             content = f.read()
             r = pe.load_from_memory("csv", content)
-            result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', '1.1', '1']
+            result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
             actual = pe.utils.to_array(r.enumerate())
             assert result == actual
         if os.path.exists(csvfile):
@@ -54,7 +54,7 @@ class TestIO:
         ]
         io = pe.save_as(dest_file_type="csv", array=data)
         r = pe.Reader(("csv", io.getvalue()))
-        result=['1', '2', '3', '4', '5', '6']
+        result=[1, 2, 3, 4, 5, 6]
         actual = pe.utils.to_array(r.enumerate())
         assert actual == result
 
@@ -67,7 +67,7 @@ class TestIO:
         io = StringIO()
         r.save_to_memory("csv", io)
         r = pe.load_from_memory("csv", io.getvalue())
-        result=['1', '2', '3', '4', '5', '6']
+        result=[1, 2, 3, 4, 5, 6]
         actual = pe.utils.to_array(r.enumerate())
         assert actual == result
 
@@ -77,7 +77,7 @@ class TestIO:
         with open(csvfile, "rb") as f:
             content = f.read()
             r = pe.load_from_memory("csvz", content)
-            result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', '1.1', '1']
+            result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
             actual = pe.utils.to_array(r.enumerate())
             assert result == actual
         if os.path.exists(csvfile):
@@ -90,7 +90,7 @@ class TestIO:
         ]
         io = pe.save_as(dest_file_type="csvz", array=data)
         r = pe.Reader(("csvz", io.getvalue()))
-        result=['1', '2', '3', '4', '5', '6']
+        result=[1, 2, 3, 4, 5, 6]
         actual = pe.utils.to_array(r.enumerate())
         assert actual == result
 
@@ -103,7 +103,7 @@ class TestIO:
         io = BytesIO()
         r.save_to_memory("csvz", io)
         r = pe.load_from_memory("csvz", io.getvalue())
-        result=['1', '2', '3', '4', '5', '6']
+        result=[1, 2, 3, 4, 5, 6]
         actual = pe.utils.to_array(r.enumerate())
         assert actual == result
 
@@ -113,7 +113,7 @@ class TestIO:
         with open(csvfile, "rb") as f:
             content = f.read()
             r = pe.load_from_memory("tsvz", content)
-            result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', '1.1', '1']
+            result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
             actual = pe.utils.to_array(r.enumerate())
             assert result == actual
         if os.path.exists(csvfile):
@@ -126,7 +126,7 @@ class TestIO:
         ]
         io = pe.save_as(dest_file_type="tsvz", array=data)
         r = pe.Reader(("tsvz", io.getvalue()))
-        result=['1', '2', '3', '4', '5', '6']
+        result=[1, 2, 3, 4, 5, 6]
         actual = pe.utils.to_array(r.enumerate())
         assert actual == result
 
@@ -139,7 +139,7 @@ class TestIO:
         io = BytesIO()
         r.save_to_memory("tsvz", io)
         r = pe.load_from_memory("tsvz", io.getvalue())
-        result=['1', '2', '3', '4', '5', '6']
+        result=[1, 2, 3, 4, 5, 6]
         actual = pe.utils.to_array(r.enumerate())
         assert actual == result
 

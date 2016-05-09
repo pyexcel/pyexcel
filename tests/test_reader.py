@@ -51,7 +51,7 @@ class TestReader:
     def test_row_at(self):
         r = pe.Reader(self.testfile)
         value = r.row_at(2)
-        assert value == ['i', 'j', "1.1", "1"]
+        assert value == ['i', 'j', 1.1, 1]
         value = r.row_at(100) # bang
 
     @raises(IndexError)
@@ -113,7 +113,7 @@ class TestCSVReader2:
 
     def test_data_types(self):
         r = pe.Reader(self.testfile)
-        result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', '1.1', '1']
+        result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
 
@@ -151,9 +151,9 @@ class TestCSVReaderDialect:
         r = pe.Reader(self.testfile, delimiter=":")
         content = pe.utils.to_array(r)
         assert content == [
-            ["1", "2", "3", "4"],
-            ["5", "6", "7", "8"],
-            ["9", "10", "11", "12"]]
+            [1, 2, 3, 4],
+            [5, 6, 7, 8],
+            [9, 10, 11, 12]]
         
     def tearDown(self):
         clean_up_files([self.testfile])

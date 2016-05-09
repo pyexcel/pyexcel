@@ -533,15 +533,15 @@ class TestMergeCSVsIntoOne:
         r=pe.Reader("merged.csv")
         actual = pe.utils.to_array(r)
         result = [
-            [u'1', u'2', u'3'],
-            [u'4', u'5', u'6'],
-            [u'7', u'8', u'9'],
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9],
             [u'a', u'b', u'c'],
             [u'd', u'e', u'f'],
             [u'g', u'h', u'i'],
-            [u'1.1', u'2.2', u'3.3'],
-            [u'4.4', u'5.5', u'6.6'],
-            [u'7.7', u'8.8', u'9.9']
+            [1.1, 2.2, 3.3],
+            [4.4, 5.5, 6.6],
+            [7.7, 8.8, 9.9]
         ]
         assert result == actual
         # verify
