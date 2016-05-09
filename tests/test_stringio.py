@@ -55,9 +55,9 @@ def do_write_stringio2(file_type):
         [4, 5, 6]
     ]
     r = pe.Sheet(data)
-    io = StringIO()
-    r.save_to_memory(file_type, io)
-    r = pe.load_from_memory(file_type, io.getvalue())
+    getter = getattr(r, "get_"+file_type)
+    content = getter()
+    r = pe.load_from_memory(file_type, content)
     result=[1, 2, 3, 4, 5, 6]
     actual = pe.utils.to_array(r.enumerate())
     assert actual == result
