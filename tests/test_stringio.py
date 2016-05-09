@@ -5,165 +5,101 @@ from base import create_sample_file1
 from nose.tools import raises
 
 
+def do_read_stringio(file_name):
+    create_sample_file1(file_name)
+    file_type = file_name.split('.')[-1]
+    with open(file_name, "rb") as f:
+        content = f.read()
+        r = pe.get_sheet(file_type=file_type, file_content=content)
+        result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
+        actual = pe.utils.to_array(r.enumerate())
+        assert result == actual
+    if os.path.exists(file_name):
+        os.unlink(file_name)
+
+
+def do_book_read_stringio(file_name):
+    create_sample_file1(file_name)
+    file_type = file_name.split('.')[-1]
+    with open(file_name, "rb") as f:
+        content = f.read()
+        b = pe.get_book(file_type=file_type, file_content=content)
+        result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
+        actual = pe.utils.to_array(b[0].enumerate())
+        assert result == actual
+    if os.path.exists(file_name):
+        os.unlink(file_name)
+
+
+def do_write_stringio(file_type):
+    data = [
+        [1, 2, 3],
+        [4, 5, 6]
+    ]
+    io = pe.save_as(dest_file_type=file_type, array=data)
+    r = pe.get_sheet(file_type=file_type, file_content=io.getvalue())
+    result=[1, 2, 3, 4, 5, 6]
+    actual = pe.utils.to_array(r.enumerate())
+    assert actual == result
+
+
+def do_write_stringio2(file_type):
+    data = [
+        [1, 2, 3],
+        [4, 5, 6]
+    ]
+    r = pe.Sheet(data)
+    io = StringIO()
+    r.save_to_memory(file_type, io)
+    r = pe.load_from_memory(file_type, io.getvalue())
+    result=[1, 2, 3, 4, 5, 6]
+    actual = pe.utils.to_array(r.enumerate())
+    assert actual == result
+
+
 class TestIO:
     @raises(IOError)
     def test_wrong_io_input(self):
         pe.Reader(1000)
 
-        
     def test_csv_stringio(self):
-        csvfile = "cute.csv"
-        create_sample_file1(csvfile)
-        with open(csvfile, "r") as f:
-            content = f.read()
-            r = pe.load_from_memory("csv", content)
-            result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
-            actual = pe.utils.to_array(r.enumerate())
-            assert result == actual
-        if os.path.exists(csvfile):
-            os.unlink(csvfile)
+        do_read_stringio("cute.csv")
 
     def test_xls_stringio(self):
-        csvfile = "cute.xls"
-        create_sample_file1(csvfile)
-        with open(csvfile, "rb") as f:
-            content = f.read()
-            r = pe.load_from_memory("xls", content)
-            result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
-            actual = pe.utils.to_array(r.enumerate())
-            assert result == actual
-        if os.path.exists(csvfile):
-            os.unlink(csvfile)
+        do_read_stringio("cute.xls")
 
     def test_book_stringio(self):
-        csvfile = "cute.xls"
-        create_sample_file1(csvfile)
-        with open(csvfile, "rb") as f:
-            content = f.read()
-            b = pe.load_book_from_memory("xls", content)
-            result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
-            actual = pe.utils.to_array(b[0].enumerate())
-            assert result == actual
-        if os.path.exists(csvfile):
-            os.unlink(csvfile)
+        do_book_read_stringio("cute-book.xls")
 
     def test_csv_output_stringio(self):
-        data = [
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
-        io = pe.save_as(dest_file_type="csv", array=data)
-        r = pe.Reader(("csv", io.getvalue()))
-        result=[1, 2, 3, 4, 5, 6]
-        actual = pe.utils.to_array(r.enumerate())
-        assert actual == result
+        do_write_stringio('csv')
 
     def test_csv_output_stringio2(self):
-        data = [
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
-        r = pe.Sheet(data)
-        io = StringIO()
-        r.save_to_memory("csv", io)
-        r = pe.load_from_memory("csv", io.getvalue())
-        result=[1, 2, 3, 4, 5, 6]
-        actual = pe.utils.to_array(r.enumerate())
-        assert actual == result
-
+        do_write_stringio2('csv')
+    
     def test_csvz_stringio(self):
-        csvfile = "cute.csvz"
-        create_sample_file1(csvfile)
-        with open(csvfile, "rb") as f:
-            content = f.read()
-            r = pe.load_from_memory("csvz", content)
-            result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
-            actual = pe.utils.to_array(r.enumerate())
-            assert result == actual
-        if os.path.exists(csvfile):
-            os.unlink(csvfile)
+        do_read_stringio('cute.csvz')
 
     def test_csvz_output_stringio(self):
-        data = [
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
-        io = pe.save_as(dest_file_type="csvz", array=data)
-        r = pe.Reader(("csvz", io.getvalue()))
-        result=[1, 2, 3, 4, 5, 6]
-        actual = pe.utils.to_array(r.enumerate())
-        assert actual == result
+        do_write_stringio('csvz')
 
     def test_csvz_output_stringio2(self):
-        data = [
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
-        r = pe.Sheet(data)
-        io = BytesIO()
-        r.save_to_memory("csvz", io)
-        r = pe.load_from_memory("csvz", io.getvalue())
-        result=[1, 2, 3, 4, 5, 6]
-        actual = pe.utils.to_array(r.enumerate())
-        assert actual == result
+        do_write_stringio2('csvz')
 
     def test_tsvz_stringio(self):
-        csvfile = "cute.tsvz"
-        create_sample_file1(csvfile)
-        with open(csvfile, "rb") as f:
-            content = f.read()
-            r = pe.load_from_memory("tsvz", content)
-            result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
-            actual = pe.utils.to_array(r.enumerate())
-            assert result == actual
-        if os.path.exists(csvfile):
-            os.unlink(csvfile)
+        do_read_stringio('tsvz')
 
     def test_tsvz_output_stringio(self):
-        data = [
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
-        io = pe.save_as(dest_file_type="tsvz", array=data)
-        r = pe.Reader(("tsvz", io.getvalue()))
-        result=[1, 2, 3, 4, 5, 6]
-        actual = pe.utils.to_array(r.enumerate())
-        assert actual == result
+        do_write_stringio('tsvz')
 
     def test_tsvz_output_stringio2(self):
-        data = [
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
-        r = pe.Sheet(data)
-        io = BytesIO()
-        r.save_to_memory("tsvz", io)
-        r = pe.load_from_memory("tsvz", io.getvalue())
-        result=[1, 2, 3, 4, 5, 6]
-        actual = pe.utils.to_array(r.enumerate())
-        assert actual == result
+        do_write_stringio2('tsvz')
 
     def test_xls_output_stringio(self):
-        data = [
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
-        io = pe.save_as(dest_file_type="xls",array=data)
-        r = pe.load_from_memory("xls", io.getvalue())
-        result=[1, 2, 3, 4, 5, 6]
-        actual = pe.utils.to_array(r.enumerate())
-        assert result == actual
+        do_write_stringio2('xls')
 
     def test_xlsm_output_stringio(self):
-        data = [
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
-        io = pe.save_as(dest_file_type="xlsm",array=data)
-        r = pe.load_from_memory("xlsm", io.getvalue())
-        result=[1, 2, 3, 4, 5, 6]
-        actual = pe.utils.to_array(r.enumerate())
-        assert result == actual
+        do_write_stringio2('xlsm')
 
     def test_book_output_stringio(self):
         data = {
