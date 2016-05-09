@@ -8,7 +8,10 @@ from nose.tools import raises
 def do_read_stringio(file_name):
     create_sample_file1(file_name)
     file_type = file_name.split('.')[-1]
-    with open(file_name, "rb") as f:
+    open_flag = 'rb'
+    if file_type in ['csv', 'tsv']:
+        open_flag = 'r'
+    with open(file_name, open_flag) as f:
         content = f.read()
         r = pe.get_sheet(file_type=file_type, file_content=content)
         result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
@@ -21,7 +24,10 @@ def do_read_stringio(file_name):
 def do_book_read_stringio(file_name):
     create_sample_file1(file_name)
     file_type = file_name.split('.')[-1]
-    with open(file_name, "rb") as f:
+    open_flag = 'rb'
+    if file_type in ['csv', 'tsv']:
+        open_flag = 'r'
+    with open(file_name, open_flag) as f:
         content = f.read()
         b = pe.get_book(file_type=file_type, file_content=content)
         result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
