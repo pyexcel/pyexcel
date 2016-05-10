@@ -1,13 +1,13 @@
-from texttable import Texttable
-
-from ..formatters import to_format
 from .._compact import StringIO
 
 from .base import FileSource
 from . import params
+from .factory import RendererFactory
+from . import txttable
 
+RendererFactory.register_renderers(txttable.file_types, txttable.renderer)
 
-file_types = ('texttable',)
+file_types = set(RendererFactory.render_factories.keys())
 
 
 class TextTableSource(FileSource):
@@ -17,7 +17,7 @@ class TextTableSource(FileSource):
     @classmethod
     def can_i_handle(cls, action, file_type):
         status = False
-        if action == params.WRITE_ACTION and file_type in file_types:
+        if action == params.WRITE_ACTION and file_type in RendererFactory.render_factories.keys():
             status = True
         return status
 
@@ -40,7 +40,8 @@ class SheetSourceInMemory(TextTableSource):
         self.write_sheet(self.content, sheet)
             
     def write_sheet(self, stream, sheet):
-        texts = render_text_table(sheet)
+        renderer = RendererFactory.get_renderer(self.file_type)
+        texts = renderer(sheet)
         if self.write_title:
             stream.write("%s:\n" % sheet.name)
         stream.write(texts)
@@ -87,29 +88,6 @@ class BookSource(BookSourceInMemory):
     def write_data(self, sheet):
         with open(self.file_name, 'w') as output_file:
             self.write_book(output_file, sheet)
-
-
-def render_text_table(sheet):
-    table = Texttable(max_width=0)
-    data = sheet.to_array()
-    table.set_cols_dtype(['t'] * len(data[0]))
-    if len(sheet.colnames) > 0:
-        table.set_chars(['-', '|', '+', '='])
-        table.header(list(_cleanse_a_row(data[0])))
-    else:
-        table.add_row(list(_cleanse_a_row(data[0])))
-    for sub_array in data[1:]:
-        new_array = _cleanse_a_row(sub_array)
-        table.add_row(list(new_array))
-    return table.draw()
-
-
-def _cleanse_a_row(row):
-    for item in row:
-        if item == "":
-            yield(" ")
-        else:
-            yield(to_format(str, item))
 
 
 sources = (SheetSource, SheetSourceInMemory, BookSource, BookSourceInMemory)

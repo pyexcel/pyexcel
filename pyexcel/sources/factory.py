@@ -57,3 +57,16 @@ class SourceFactory:
             'book',
             'write',
             **keywords)
+
+
+class RendererFactory:
+    render_factories = {}
+
+    @classmethod
+    def get_renderer(self, file_type):
+        return self.render_factories[file_type]
+
+    @classmethod
+    def register_renderers(self, file_types, renderer):
+        for file_type in file_types:
+            self.render_factories[file_type] = renderer
