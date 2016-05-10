@@ -9,11 +9,37 @@ python:
   - 3.3
   - 3.4
   - 3.5
+matrix:
+  include:
+    - python: 2.7
+      dist: trusty
+      sudo: required
+      virtualenv:
+        system_site_packages: true
+      addons:
+        apt:
+          sources:
+            - debian-sid  # lxml 3.6.0
+          packages:
+            - python-requests
+            - python-sqlalchemy
+            - python-xlwt
+            - python-xlrd
+            - python-lxml
+            - python-openpyxl
+            - python-flask
+            - python-coverage
+            - python-nose
+            - python-mock
+            - python-wheel
 before_install:
   - if [[ $TRAVIS_PYTHON_VERSION == "2.6" ]]; then pip install ordereddict; fi
   - if [[ $TRAVIS_PYTHON_VERSION == "2.6" ]]; then pip install weakrefset; fi
   - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then rm tests/test_examples.py; fi
   - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then pip install lxml==3.4.4; fi
+  # pip and setuptools need to be updated to install pyexcel-xls using a zip
+  # due to its dependency xlwt/xlwt-future that uses environment markers.
+  - pip install --upgrade pip setuptools
   - if [[ -f rnd_requirements.txt ]]; then pip install -r rnd_requirements.txt; fi
   - pip install -r tests/requirements.txt
 script:

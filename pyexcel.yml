@@ -12,5 +12,4 @@ extra_dependencies:
     - pyexcel-xlsx>=0.1.0
   - ods:
     - pyexcel-ods3>=0.1.0
-description: |
-  A wrapper library that provides one API to read, manipulate and write data in different excel formats
+description: A wrapper library that provides one API to read, manipulate and write data in different excel formats
