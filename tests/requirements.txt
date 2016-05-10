@@ -1,5 +1,4 @@
 nose
-nose-cov
 codecov
 coverage
 SQLAlchemy
