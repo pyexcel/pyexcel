@@ -32,12 +32,12 @@ Available Plugins
 =================
 
 ================ ========================================
-Plugins          Supported file formats                  
+Plugins          Supported file formats
 ================ ========================================
 `pyexcel-io`_    csv, csvz, tsv, tsvz
 `pyexcel-xls`_   xls, xlsx(r), xlsm(r)
 `pyexcel-xlsx`_  xlsx
-`pyexcel-ods`_   ods (python 2.6, 2.7 only)              
+`pyexcel-ods`_   ods (python 2.6, 2.7 only)
 `pyexcel-ods3`_  ods
 `pyexcel-text`_  (write only)json, rst, mediawiki,latex,
                  grid, pipe, orgtbl, plain simple
@@ -65,7 +65,7 @@ JSON
 ------------------
 
 .. code-block:: python
-   
+
     >>> import pyexcel as pe
     >>> an_array = [[1,2]]
     >>> sheet = pe.Sheet(an_array)
@@ -114,4 +114,4 @@ Acknowledgement
 
 All great work have done by odf, ezodf(2), xlrd, xlwt, tabulate and other individual developers. This library unites only the data access code.
 
-Extension management code was reused from `flask <https://github.com/mitsuhiko/flask>`_. 
+Extension management code was reused from `flask <https://github.com/mitsuhiko/flask>`_.
