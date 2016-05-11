@@ -3,7 +3,7 @@ name: "pyexcel"
 nick_name: pyexcel
 version: 0.2.2
 dependencies:
-  - pyexcel-io>=0.1.0
+  - pyexcel-io>=0.2.0
   - texttable>=0.8.2
   - ordereddict;python_version<"2.7"
   - weakrefset;python_version<"2.7"

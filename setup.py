@@ -26,7 +26,7 @@ KEYWORDS = [
 ]
 
 INSTALL_REQUIRES = [
-    'pyexcel-io>=0.1.0',
+    'pyexcel-io>=0.2.0',
     'texttable>=0.8.2',
 ]
 

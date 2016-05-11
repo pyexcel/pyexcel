@@ -1,5 +1,5 @@
-pyexcel-io>=0.2.0
-texttable>=0.8.2
+pyexcel-io==0.2.0
+texttable==0.8.3
 ordereddict;python_version<"2.7"
 weakrefset;python_version<"2.7"
 lxml==3.4.4;platform_python_implementation=="PyPy"
