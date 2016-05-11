@@ -12,6 +12,9 @@ python:
 matrix:
   include:
     - python: 2.7
+      env: MINREQ=1
+
+    - python: 2.7
       dist: trusty
       sudo: required
       virtualenv:

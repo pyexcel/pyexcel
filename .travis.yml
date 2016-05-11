@@ -12,6 +12,9 @@ python:
 matrix:
   include:
     - python: 2.7
+      env: MINREQ=1
+
+    - python: 2.7
       dist: trusty
       sudo: required
       virtualenv:
@@ -33,11 +36,13 @@ matrix:
             - python-mock
             - python-wheel
 before_install:
-  - if [[ $TRAVIS_PYTHON_VERSION == "pypy" || $TRAVIS_PYTHON_VERSION == "pypy3" ]]; then rm tests/test_examples.py; fi
-  - if [[ -f rnd_requirements.txt ]]; then
-      pip install --upgrade "setuptools==17.1" "pip==7.1" ;
-      pip install -r rnd_requirements.txt ;
+  - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then rm tests/test_examples.py; fi
+  - if [[ -f min_requirements.txt && "$MINREQ" -eq 1 ]]; then
+      mv min_requirements.txt requirements.txt ;
     fi
+  - test ! -f rnd_requirements.txt || pip install --upgrade "setuptools" "pip==7.1"
+  - test ! -f rnd_requirements.txt || pip install --no-deps -r rnd_requirements.txt
+  - test ! -f rnd_requirements.txt || pip install -r rnd_requirements.txt ;
   - pip install -r tests/requirements.txt
 script:
   make test
