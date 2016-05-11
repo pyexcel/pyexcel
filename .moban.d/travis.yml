@@ -24,6 +24,7 @@ matrix:
           sources:
             - debian-sid  # lxml 3.6.0
           packages:
+            - python-texttable
             - python-requests
             - python-sqlalchemy
             - python-xlwt
