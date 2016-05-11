@@ -26,7 +26,7 @@ KEYWORDS = [
 ]
 
 INSTALL_REQUIRES = [
-    'pyexcel-io>=0.1.0',
+    'pyexcel-io>=0.2.0',
     'texttable>=0.8.2',
 ]
 
@@ -34,6 +34,15 @@ EXTRAS_REQUIRE = {
     'xls': ['pyexcel-xls>=0.1.0'],
     'xlsx': ['pyexcel-xlsx>=0.1.0'],
     'ods': ['pyexcel-ods3>=0.1.0'],
+  ':python_version<"2.7"': [
+    'ordereddict'
+  ],
+  ':python_version<"2.7"': [
+    'weakrefset'
+  ],
+  ':platform_python_implementation=="PyPy"': [
+    'lxml==3.4.4'
+  ],
 }
 
 CLASSIFIERS = [
