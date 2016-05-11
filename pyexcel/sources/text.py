@@ -7,7 +7,15 @@ from . import txttable
 
 RendererFactory.register_renderers(txttable.file_types, txttable.renderer)
 
-file_types = set(RendererFactory.render_factories.keys())
+try:
+    import pyexcel_text as text
+    RendererFactory.register_renderers(text.text.file_types, text.text.renderer)
+    RendererFactory.register_renderers(text.json.file_types, text.json.renderer)
+except ImportError:
+    pass
+
+
+file_types = tuple(RendererFactory.renderer_factories.keys())
 
 
 class TextTableSource(FileSource):
@@ -17,7 +25,7 @@ class TextTableSource(FileSource):
     @classmethod
     def can_i_handle(cls, action, file_type):
         status = False
-        if action == params.WRITE_ACTION and file_type in RendererFactory.render_factories.keys():
+        if action == params.WRITE_ACTION and file_type in file_types:
             status = True
         return status
 
@@ -41,9 +49,7 @@ class SheetSourceInMemory(TextTableSource):
             
     def write_sheet(self, stream, sheet):
         renderer = RendererFactory.get_renderer(self.file_type)
-        texts = renderer(sheet)
-        if self.write_title:
-            stream.write("%s:\n" % sheet.name)
+        texts = renderer(sheet, self.file_type, write_title=self.write_title)
         stream.write(texts)
 
 
@@ -69,11 +75,16 @@ class BookSourceInMemory(SheetSourceInMemory):
         self.write_book(self.content, book)
 
     def write_book(self, stream, book):
-        number_of_sheets = book.number_of_sheets() - 1
-        for index, sheet in enumerate(book):
-            self.write_sheet(stream, sheet)
-            if index < number_of_sheets:
-                stream.write('\n')
+        renderer = RendererFactory.get_book_renderer(self.file_type)
+        if renderer:
+            content = renderer(book, self.file_type)
+            stream.write(content)
+        else:
+            number_of_sheets = book.number_of_sheets() - 1
+            for index, sheet in enumerate(book):
+                self.write_sheet(stream, sheet)
+                if index < number_of_sheets:
+                    stream.write('\n')
 
 
 class BookSource(BookSourceInMemory):
