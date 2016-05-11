@@ -3,9 +3,9 @@ from .._compact import StringIO
 from .base import FileSource
 from . import params
 from .factory import RendererFactory
-from . import txttable
+from . import _texttable as texttable
 
-RendererFactory.register_renderers(txttable.file_types, txttable.renderer)
+RendererFactory.register_renderers(texttable.file_types, texttable.renderer)
 
 try:
     import pyexcel_text as text
