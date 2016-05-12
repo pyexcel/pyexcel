@@ -70,8 +70,6 @@ from .deprecated import (
     Writer,
     BookWriter
 )
-from .sources.factory import SourceFactory
-
 
 from pyexcel_io.manager import RWManager
 import pyexcel.sources.text as text
