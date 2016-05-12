@@ -1,2 +1,6 @@
 *.pyc
+dist/
+build/
+commons/
+doc/build/
 *~
