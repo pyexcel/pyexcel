@@ -1,8 +1,16 @@
 from texttable import Texttable
-
 from ..formatters import to_format
+from .renderer import Renderer
 
 
+class TextTableRenderer(Renderer):
+    file_types = ('texttable',)
+    def render_sheet(self, sheet):
+        self.stream.write(render_text_table(sheet,
+                                            self.file_type,
+                                            self.write_title))
+
+    
 def render_text_table(sheet, _, write_title):
     content = ""
     if write_title:
@@ -30,5 +38,4 @@ def _cleanse_a_row(row):
             yield(to_format(str, item))
 
 
-file_types = ('texttable',)
-renderer = (render_text_table, None)
+renderer = (TextTableRenderer,)

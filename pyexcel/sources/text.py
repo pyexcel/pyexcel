@@ -3,33 +3,15 @@ from .._compact import StringIO
 from .base import FileSource
 from . import params
 from . import _texttable as texttable
+from .renderer import RendererFactory
 
 
-class RendererFactory:
-    renderer_factories = {}
-    book_renderer_factories = {}
-    @classmethod
-    def get_renderer(self, file_type):
-        return self.renderer_factories.get(file_type)
-
-    @classmethod
-    def get_book_renderer(self, file_type):
-        return self.book_renderer_factories.get(file_type)
-
-    @classmethod
-    def register_renderers(self, file_types, renderer):
-        for file_type in file_types:
-            self.renderer_factories[file_type] = renderer[0]
-            if renderer[1]:
-                self.book_renderer_factories[file_type] = renderer[1]
-
-
-RendererFactory.register_renderers(texttable.file_types, texttable.renderer)
+RendererFactory.register_renderers(texttable.renderer)
 
 try:
     import pyexcel_text as text
-    RendererFactory.register_renderers(text.text.file_types, text.text.renderer)
-    RendererFactory.register_renderers(text.json.file_types, text.json.renderer)
+    RendererFactory.register_renderers(text.text.renderer)
+    RendererFactory.register_renderers(text.json.renderer)
 except ImportError:
     pass
 
@@ -62,14 +44,15 @@ class SheetSourceInMemory(TextTableSource):
         self.file_type = file_type
         self.keywords = keywords
         self.write_title = write_title
+        self.renderer = RendererFactory.get_renderer(self.file_type)
+        self.renderer.set_write_title(self.write_title)
 
     def write_data(self, sheet):
+        self.renderer.set_output_stream(self.content)
         self.write_sheet(self.content, sheet)
             
     def write_sheet(self, stream, sheet):
-        renderer = RendererFactory.get_renderer(self.file_type)
-        texts = renderer(sheet, self.file_type, write_title=self.write_title)
-        stream.write(texts)
+        self.renderer.render_sheet(sheet)
 
 
 class SheetSource(SheetSourceInMemory):
@@ -81,9 +64,12 @@ class SheetSource(SheetSourceInMemory):
         self.keywords = keywords
         self.write_title = write_title
         self.file_type = file_name.split(".")[-1]
+        self.renderer = RendererFactory.get_renderer(self.file_type)
+        self.renderer.set_write_title(self.write_title)
 
     def write_data(self, sheet):
         with open(self.file_name, 'w') as output_file:
+            self.renderer.set_output_stream(output_file)
             self.write_sheet(output_file, sheet)
 
 
@@ -91,19 +77,11 @@ class BookSourceInMemory(SheetSourceInMemory):
     targets = (params.BOOK, )
 
     def write_data(self, book):
-        self.write_book(self.content, book)
+        self.renderer.set_output_stream(self.content)
+        self.write_book(book)
 
-    def write_book(self, stream, book):
-        renderer = RendererFactory.get_book_renderer(self.file_type)
-        if renderer:
-            content = renderer(book, self.file_type)
-            stream.write(content)
-        else:
-            number_of_sheets = book.number_of_sheets() - 1
-            for index, sheet in enumerate(book):
-                self.write_sheet(stream, sheet)
-                if index < number_of_sheets:
-                    stream.write('\n')
+    def write_book(self, book):
+        self.renderer.render_book(book)
 
 
 class BookSource(BookSourceInMemory):
@@ -114,10 +92,13 @@ class BookSource(BookSourceInMemory):
         self.keywords = keywords
         self.write_title = write_title
         self.file_type = file_name.split(".")[-1]
+        self.renderer = RendererFactory.get_renderer(self.file_type)
+        self.renderer.set_write_title(self.write_title)
 
-    def write_data(self, sheet):
+    def write_data(self, book):
         with open(self.file_name, 'w') as output_file:
-            self.write_book(output_file, sheet)
+            self.renderer.set_output_stream(output_file)
+            self.renderer.render_book(book)
 
 
 sources = (SheetSource, SheetSourceInMemory, BookSource, BookSourceInMemory)
