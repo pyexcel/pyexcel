@@ -1,3 +1,28 @@
+Migrate from 0.2.1 to 0.2.2
+================================
+
+1. Explicit imports, no longer needed
+--------------------------------------------
+
+Please forget about these statements::
+
+    import pyexcel.ext.xls
+	import pyexcel.ext.ods
+	import pyexcel.ext.xlsx
+
+They are no longer needed. As long as you have pip-installed them, they will
+be auto-loaded.
+
+2. Invalid environment marker: platform_python_implementation=="PyPy"
+-----------------------------------------------------------------------
+
+Yes, it is a surprise. Please upgrade setuptools in your environment::
+
+    pip install --upgrade setuptools
+
+At the time of writing, setuptools (18.0.1) or setuptools-21.0.0-py2.py3-none-any.whl is installed on author's computer and worked.
+
+
 Migrate from 0.1.x to 0.2.x
 ===============================
 

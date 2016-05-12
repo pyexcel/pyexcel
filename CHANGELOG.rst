@@ -4,7 +4,8 @@ Change log
 Unreleased 0.2.2
 --------------------------------------------------------------------------------
 
-#. support pyexcel-io 0.2.0, which would auto load its plugins
+#. Explicit imports, no longer needed
+#. Depends on latest setuptools 18.0.1
 
 0.2.1 - 23.04.2016
 --------------------------------------------------------------------------------
