@@ -45,7 +45,11 @@ from .cookbook import (
     merge_all_to_a_book,
     split_a_book,
     extract_a_sheet_from_a_book)
-from .sources import (
+from .core import (
+    get_array,
+    get_dict,
+    get_records,
+    get_book_dict,
     get_sheet,
     get_book,
     save_as,
@@ -67,71 +71,6 @@ from .deprecated import (
     BookWriter
 )
 from .sources.factory import SourceFactory
-
-
-def get_array(**keywords):
-    """Obtain an array from an excel source
-
-    :param keywords: see :meth:`~pyexcel.get_sheet`
-    """
-    sheet = get_sheet(**keywords)
-    if sheet:
-        return sheet.to_array()
-    else:
-        return None
-
-
-def get_dict(name_columns_by_row=0, **keywords):
-    """Obtain a dictionary from an excel source
-
-    :param name_columns_by_row: specify a row to be a dictionary key.
-                                It is default to 0 or first row.
-    :param keywords: see :meth:`~pyexcel.get_sheet`
-
-    If you would use a column index 0 instead, you should do::
-
-        get_dict(name_columns_by_row=-1, name_rows_by_column=0)
-
-    """
-    sheet = get_sheet(name_columns_by_row=name_columns_by_row,
-                      **keywords)
-    if sheet:
-        return sheet.to_dict()
-    else:
-        return None
-
-
-def get_records(name_columns_by_row=0, **keywords):
-    """Obtain a list of records from an excel source
-
-    :param name_columns_by_row: specify a row to be a dictionary key.
-                                It is default to 0 or first row.
-    :param keywords: see :meth:`~pyexcel.get_sheet`
-
-    If you would use a column index 0 instead, you should do::
-
-        get_records(name_columns_by_row=-1, name_rows_by_column=0)
-
-    """
-    sheet = get_sheet(name_columns_by_row=name_columns_by_row,
-                      **keywords)
-    if sheet:
-        return sheet.to_records()
-    else:
-        return None
-
-
-def get_book_dict(**keywords):
-    """Obtain a dictionary of two dimensional arrays
-
-    :param keywords: see :meth:`~pyexcel.get_book`
-    """
-    book = get_book(**keywords)
-    if book:
-        return book.to_dict()
-    else:
-        return None
-
 
 
 from pyexcel_io.manager import RWManager

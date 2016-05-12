@@ -270,7 +270,7 @@ class Book(object):
 
         :param str filename: a file path
         """
-        from .sources import SourceFactory
+        from .factory import SourceFactory
         out_source = SourceFactory.get_writeable_book_source(file_name=filename)
         self.save_to(out_source)
 
@@ -282,7 +282,7 @@ class Book(object):
                        format, please pass an instance of StringIO. For xls,
                        xlsx, and ods, an instance of BytesIO.
         """
-        from .sources import SourceFactory
+        from .factory import SourceFactory
         out_source = SourceFactory.get_writeable_book_source(
             file_type=file_type,
             file_stream=stream,
@@ -303,7 +303,7 @@ class Book(object):
         :param mapdicts: custom map dictionary for your data columns and the sequence should
                    match tables
         """
-        from .sources import SourceFactory
+        from .factory import SourceFactory
         out_source = SourceFactory.get_writeable_book_source(
             models=models,
             initializers=initializers,
@@ -330,7 +330,7 @@ class Book(object):
         :param auto_commit: by default, data is committed.
 
         """
-        from .sources import SourceFactory
+        from .factory import SourceFactory
         out_source = SourceFactory.get_writeable_book_source(
             session=session,
             tables=tables,
@@ -354,7 +354,7 @@ class Book(object):
 
 def presenter(file_type=None):
     def custom_presenter(self, **keywords):
-        from .sources import SourceFactory
+        from .factory import SourceFactory
         memory_source = SourceFactory.get_writeable_book_source(
             file_type=file_type,
             **keywords)

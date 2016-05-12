@@ -10,7 +10,7 @@
 from functools import partial
 
 from ._compact import deprecated
-from .sources import get_sheet, get_book
+from .core import get_sheet, get_book
 
 
 DEPRECATED_LOADER = partial(

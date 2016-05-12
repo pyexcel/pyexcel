@@ -87,7 +87,7 @@ class Sheet(NominableSheet):
                  supported
         for ods, 'auto_dtect_int' is supported
         """
-        from ..sources import SourceFactory
+        from ..factory import SourceFactory
         out_source = SourceFactory.get_writeable_source(
             file_name=filename, **keywords)
         return self.save_to(out_source)
@@ -102,7 +102,7 @@ class Sheet(NominableSheet):
                                 pass an instance of StringIO. For xls, xlsx,
                                 and ods, an instance of BytesIO.
         """
-        from ..sources import SourceFactory
+        from ..factory import SourceFactory
         out_source = SourceFactory.get_writeable_source(
             file_type=file_type,
             file_stream=stream,
@@ -122,7 +122,7 @@ class Sheet(NominableSheet):
         :param batch_size: a parameter to Django concerning the size of data base
                            set
         """
-        from ..sources import SourceFactory
+        from ..factory import SourceFactory
         source = SourceFactory.get_writeable_source(
             model=model, initializer=initializer,
             mapdict=mapdict, batch_size=batch_size)
@@ -141,7 +141,7 @@ class Sheet(NominableSheet):
         :param auto_commit: by default, data is committed.
 
         """
-        from ..sources import SourceFactory
+        from ..factory import SourceFactory
         source = SourceFactory.get_writeable_source(
             session=session,
             table=table,
@@ -154,7 +154,7 @@ class Sheet(NominableSheet):
 
 def presenter(file_type=None):
     def custom_presenter(self, **keywords):
-        from ..sources import SourceFactory
+        from ..factory import SourceFactory
         memory_source = SourceFactory.get_writeable_source(file_type=file_type,
                                                            **keywords)
         self.save_to(memory_source)

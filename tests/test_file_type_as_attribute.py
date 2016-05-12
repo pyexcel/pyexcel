@@ -1,6 +1,6 @@
 from pyexcel.sources.base import FileSource, WriteOnlyMemorySourceMixin
 from pyexcel.sources import params
-from pyexcel.sources.factory import SourceFactory
+from pyexcel.factory import SourceFactory
 from pyexcel import Sheet, Book
 from _compact import StringIO
 

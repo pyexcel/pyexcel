@@ -1,28 +1,24 @@
 """
-    pyexcel.sources
+    pyexcel.core
     ~~~~~~~~~~~~~~~~~~~
 
-    Representation of excel data sources
+    A list of pyexcel signature functions
 
     :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
 import re
 
-from ..sheets import VALID_SHEET_PARAMETERS, Sheet, SheetStream
-from ..book import Book, BookStream
-from ..constants import (
+from .sheets import VALID_SHEET_PARAMETERS, Sheet, SheetStream
+from .book import Book, BookStream
+from .constants import (
     MESSAGE_DEPRECATED_OUT_FILE,
     MESSAGE_DEPRECATED_CONTENT,
     MESSAGE_ERROR_02,
     MESSAGE_ERROR_NO_HANDLER
 )
-
+from .sources import params, sources
 from .factory import SourceFactory
-from . import memory, file, database, http, text
-from . import params
-
-sources = memory.sources + file.sources + database.sources + http.sources + text.sources
 
 SourceFactory.register_sources(sources)
 
@@ -263,3 +259,68 @@ def save_book_as(**keywords):
             return dest_source.content
     else:
         raise ValueError(MESSAGE_ERROR_02)
+
+
+def get_array(**keywords):
+    """Obtain an array from an excel source
+
+    :param keywords: see :meth:`~pyexcel.get_sheet`
+    """
+    sheet = get_sheet(**keywords)
+    if sheet:
+        return sheet.to_array()
+    else:
+        return None
+
+
+def get_dict(name_columns_by_row=0, **keywords):
+    """Obtain a dictionary from an excel source
+
+    :param name_columns_by_row: specify a row to be a dictionary key.
+                                It is default to 0 or first row.
+    :param keywords: see :meth:`~pyexcel.get_sheet`
+
+    If you would use a column index 0 instead, you should do::
+
+        get_dict(name_columns_by_row=-1, name_rows_by_column=0)
+
+    """
+    sheet = get_sheet(name_columns_by_row=name_columns_by_row,
+                      **keywords)
+    if sheet:
+        return sheet.to_dict()
+    else:
+        return None
+
+
+def get_records(name_columns_by_row=0, **keywords):
+    """Obtain a list of records from an excel source
+
+    :param name_columns_by_row: specify a row to be a dictionary key.
+                                It is default to 0 or first row.
+    :param keywords: see :meth:`~pyexcel.get_sheet`
+
+    If you would use a column index 0 instead, you should do::
+
+        get_records(name_columns_by_row=-1, name_rows_by_column=0)
+
+    """
+    sheet = get_sheet(name_columns_by_row=name_columns_by_row,
+                      **keywords)
+    if sheet:
+        return sheet.to_records()
+    else:
+        return None
+
+
+def get_book_dict(**keywords):
+    """Obtain a dictionary of two dimensional arrays
+
+    :param keywords: see :meth:`~pyexcel.get_book`
+    """
+    book = get_book(**keywords)
+    if book:
+        return book.to_dict()
+    else:
+        return None
+

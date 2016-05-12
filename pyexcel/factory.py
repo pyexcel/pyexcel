@@ -57,22 +57,3 @@ class SourceFactory:
             'book',
             'write',
             **keywords)
-
-
-class RendererFactory:
-    renderer_factories = {}
-    book_renderer_factories = {}
-    @classmethod
-    def get_renderer(self, file_type):
-        return self.renderer_factories.get(file_type)
-
-    @classmethod
-    def get_book_renderer(self, file_type):
-        return self.book_renderer_factories.get(file_type)
-
-    @classmethod
-    def register_renderers(self, file_types, renderer):
-        for file_type in file_types:
-            self.renderer_factories[file_type] = renderer[0]
-            if renderer[1]:
-                self.book_renderer_factories[file_type] = renderer[1]
