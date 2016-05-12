@@ -17,3 +17,4 @@ targets:
   - "doc/source/guide.rst": "docs/source/guide.rst"
   - test.sh: test.sh
   - test.bat: test.bat
+  - .gitignore: .gitignore
