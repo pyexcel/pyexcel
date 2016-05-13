@@ -92,9 +92,10 @@ class BookSource(SheetSource):
                       **self.keywords)
 
 
-class ReadOnlySheetSource(SheetSource):
+class ReadOnlySheetSource(IOSource):
     """Pick up 'file_type' and read a sheet from memory"""
     fields = [params.FILE_TYPE]
+    targets = (params.SHEET,)
     actions = (params.READ_ACTION,)
 
     def __init__(self,
@@ -123,7 +124,7 @@ class ReadOnlySheetSource(SheetSource):
         raise Exception("ReadOnlySource does not write")
 
 
-class ReadOnlyBookSource(ReadOnlySource, IOSource):
+class ReadOnlyBookSource(IOSource):
     """
     Multiple sheet data source via memory
     """
@@ -161,10 +162,6 @@ class WriteOnlySheetSource(WriteOnlyMemorySourceMixin, SheetSource):
         WriteOnlyMemorySourceMixin.__init__(self, file_type=file_type,
                                        file_stream=file_stream, **keywords)
         self.file_name = (file_type, self.content)
-
-
-    def get_data(self):
-        raise Exception("WriteOnlySource does not read" )
 
 
 class WriteOnlyBookSource(WriteOnlyMemorySourceMixin, BookSource):
