@@ -1,3 +1,3 @@
-from . import memory, file, database, http, text
+from . import pydata, excel, database, http, text
 
-sources = memory.sources + file.sources + database.sources + http.sources + text.sources
+sources = pydata.sources + excel.sources + database.sources + http.sources + text.sources
