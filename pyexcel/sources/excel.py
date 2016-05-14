@@ -16,7 +16,6 @@ from ..constants import DEFAULT_SHEET_NAME
 from . import params
 
 from .base import FileSource, one_sheet_tuple
-from .base import WriteOnlyMemorySourceMixin
 
 
 class IOSource(FileSource):
@@ -118,28 +117,14 @@ class ReadOnlySheetSource(IOSource):
                               **self.keywords)
         return one_sheet_tuple(sheets.items())
 
-    def write_data(self, content):
-        """Disable write"""
-        raise Exception("ReadOnlySource does not write")
 
-
-class ReadOnlyBookSource(IOSource):
+class ReadOnlyBookSource(ReadOnlySheetSource):
     """
     Multiple sheet data source via memory
     """
     fields = [params.FILE_TYPE]
     targets = (params.BOOK,)
     actions = (params.READ_ACTION,)
-
-    def __init__(self,
-                 file_content=None,
-                 file_type=None,
-                 file_stream=None,
-                 **keywords):
-        self.file_type = file_type
-        self.file_content = file_content
-        self.file_stream = file_stream
-        self.keywords = keywords
 
     def get_data(self):
         if self.file_stream is not None:
@@ -151,6 +136,16 @@ class ReadOnlyBookSource(IOSource):
                               file_type=self.file_type,
                               **self.keywords)
         return sheets, params.MEMORY, None
+
+
+class WriteOnlyMemorySourceMixin(object):
+    def __init__(self, file_type=None, file_stream=None, **keywords):
+        if file_stream:
+            self.content = file_stream
+        else:
+            self.content = RWManager.get_io(file_type)
+        self.file_type = file_type
+        self.keywords = keywords
 
 
 class WriteOnlySheetSource(WriteOnlyMemorySourceMixin, SheetSource):

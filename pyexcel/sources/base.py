@@ -86,16 +86,6 @@ class FileSource(Source):
         return False
 
 
-class WriteOnlyMemorySourceMixin(object):
-    def __init__(self, file_type=None, file_stream=None, **keywords):
-        if file_stream:
-            self.content = file_stream
-        else:
-            self.content = RWManager.get_io(file_type)
-        self.file_type = file_type
-        self.keywords = keywords
-
-
 def one_sheet_tuple(items):
     if not PY2:
         items = list(items)

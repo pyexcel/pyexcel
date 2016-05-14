@@ -47,9 +47,9 @@ csvz         a zip file that contains one or many csv files
 tsvz         a zip file that contains one or many tsv files
 xls          a spreadsheet file format created by Microsoft for
              use with Microsoft Excel. XLS stands for eXceL
-			 Spreadsheet.[#f1]
+			 Spreadsheet. [#f1]_
 xlsx         MS-Excel Extensions to the Office Open XML
-             SpreadsheetML File Format[#f2]_
+             SpreadsheetML File Format. [#f2]_
 xlsm         an MS-Excel Macro-Enabled Workbook file
 ods          open document spreadsheet
 json         java script object notation
