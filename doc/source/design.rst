@@ -45,9 +45,8 @@ csv          comma separated values                                  Yes
 tsv          tab separated values                                    Yes
 csvz         a zip file that contains one or many csv files
 tsvz         a zip file that contains one or many tsv files
-xls          a spreadsheet file format created by Microsoft for
-             use with Microsoft Excel. XLS stands for eXceL
-			 Spreadsheet. [#f1]_
+xls          a spreadsheet file format created by
+             MS-Excel 97-2003 [#f1]_
 xlsx         MS-Excel Extensions to the Office Open XML
              SpreadsheetML File Format. [#f2]_
 xlsm         an MS-Excel Macro-Enabled Workbook file

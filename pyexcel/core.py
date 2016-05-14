@@ -23,18 +23,6 @@ from .factory import SourceFactory
 SourceFactory.register_sources(sources)
 
 
-def _get_content(**keywords):
-    if params.DEPRECATED_CONTENT in keywords:
-        print(MESSAGE_DEPRECATED_CONTENT)
-        keywords[params.FILE_CONTENT] = keywords.pop(
-            params.DEPRECATED_CONTENT)
-    source = SourceFactory.get_source(**keywords)
-    if source is not None:
-        sheet_name, data = source.get_data()
-        return SheetStream(sheet_name, data)
-    raise NotImplementedError(MESSAGE_ERROR_NO_HANDLER)
-
-
 def get_sheet(**keywords):
     """Get an instance of :class:`Sheet` from an excel source
 
@@ -80,21 +68,15 @@ def get_sheet(**keywords):
     return sheet
 
 
-def _get_book(**keywords):
-    """Get an instance of :class:`Book` from an excel source
-
-    Where the dictionary should have text as keys and two dimensional
-    array as values.
-    """
+def _get_content(**keywords):
     if params.DEPRECATED_CONTENT in keywords:
         print(MESSAGE_DEPRECATED_CONTENT)
         keywords[params.FILE_CONTENT] = keywords.pop(
             params.DEPRECATED_CONTENT)
-    source = SourceFactory.get_book_source(**keywords)
+    source = SourceFactory.get_source(**keywords)
     if source is not None:
-        sheets, filename, path = source.get_data()
-        book = BookStream(sheets, filename=filename, path=path)
-        return book
+        sheet_name, data = source.get_data()
+        return SheetStream(sheet_name, data)
     raise NotImplementedError(MESSAGE_ERROR_NO_HANDLER)
 
 
@@ -133,6 +115,24 @@ def get_book(**keywords):
                 filename=book_stream.filename,
                 path=book_stream.path)
     return book
+
+
+def _get_book(**keywords):
+    """Get an instance of :class:`Book` from an excel source
+
+    Where the dictionary should have text as keys and two dimensional
+    array as values.
+    """
+    if params.DEPRECATED_CONTENT in keywords:
+        print(MESSAGE_DEPRECATED_CONTENT)
+        keywords[params.FILE_CONTENT] = keywords.pop(
+            params.DEPRECATED_CONTENT)
+    source = SourceFactory.get_book_source(**keywords)
+    if source is not None:
+        sheets, filename, path = source.get_data()
+        book = BookStream(sheets, filename=filename, path=path)
+        return book
+    raise NotImplementedError(MESSAGE_ERROR_NO_HANDLER)
 
 
 def split_keywords(**keywords):
@@ -323,4 +323,3 @@ def get_book_dict(**keywords):
         return book.to_dict()
     else:
         return None
-
