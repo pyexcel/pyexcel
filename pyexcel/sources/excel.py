@@ -16,7 +16,6 @@ from ..constants import DEFAULT_SHEET_NAME
 from . import params
 
 from .base import FileSource, one_sheet_tuple
-from .base import ReadOnlySource
 from .base import WriteOnlyMemorySourceMixin
 
 

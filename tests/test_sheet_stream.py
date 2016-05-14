@@ -1,4 +1,4 @@
-from pyexcel.sources.file import SheetSource
+from pyexcel.sources.excel import SheetSource
 from pyexcel.sheets import SheetStream
 from pyexcel_io.manager import RWManager
 from textwrap import dedent
