@@ -10,8 +10,7 @@ RendererFactory.register_renderers(texttable.renderer)
 
 try:
     import pyexcel_text as text
-    RendererFactory.register_renderers(text.text.renderer)
-    RendererFactory.register_renderers(text.json.renderer)
+    RendererFactory.register_renderers(text.renderers)
 except ImportError:
     pass
 
