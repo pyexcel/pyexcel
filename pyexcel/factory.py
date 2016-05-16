@@ -20,7 +20,6 @@ class SourceFactory:
     @classmethod
     def register_a_source(self, target, action, source):
         key = "%s-%s" % (target, action)
-        print key, source
         self.sources[key].append(source)
 
     @classmethod
