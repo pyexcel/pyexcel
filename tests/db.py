@@ -2,9 +2,14 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column , Integer, String, Float, Date
 from sqlalchemy.orm import sessionmaker
+import platform
 
-engine=create_engine("sqlite:///tmp.db")
-#engine=create_engine("sqlite://")
+engine = None
+if platform.python_implementation() == 'PyPy':
+    engine=create_engine("sqlite:///tmp.db")
+else:
+    engine=create_engine("sqlite://")
+
 Base=declarative_base()
 
 class Pyexcel(Base):
