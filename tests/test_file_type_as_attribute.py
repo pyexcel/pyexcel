@@ -1,5 +1,5 @@
 from pyexcel.sources.base import FileSource
-from pyexcel.sources.excel import WriteOnlyMemorySource
+from pyexcel.sources.excel import WriteOnlySheetSource
 from pyexcel.sources import params
 from pyexcel.factory import SourceFactory
 from pyexcel import Sheet, Book
@@ -8,7 +8,7 @@ from _compact import StringIO
 FIXTURE = "dummy"
 
 
-class DummySource(WriteOnlyMemorySource):
+class DummySource(WriteOnlySheetSource):
     """
     Write into json file
     """

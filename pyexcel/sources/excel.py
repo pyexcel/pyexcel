@@ -62,7 +62,11 @@ class BookSource(SheetSource):
                   **self.keywords)
 
 
-class WriteOnlyMemorySource(IOSource):
+class WriteOnlySheetSource(IOSource):
+    fields = [params.FILE_TYPE]
+    targets = (params.SHEET,)
+    actions = (params.WRITE_ACTION,)
+
     def __init__(self, file_type=None, file_stream=None, **keywords):
         if file_stream:
             self.content = file_stream
@@ -70,12 +74,6 @@ class WriteOnlyMemorySource(IOSource):
             self.content = RWManager.get_io(file_type)
         self.file_type = file_type
         self.keywords = keywords
-
-
-class WriteOnlySheetSource(WriteOnlyMemorySource):
-    fields = [params.FILE_TYPE]
-    targets = (params.SHEET,)
-    actions = (params.WRITE_ACTION,)
 
     def write_data(self, sheet):
         sheet_name = DEFAULT_SHEET_NAME
@@ -88,13 +86,11 @@ class WriteOnlySheetSource(WriteOnlyMemorySource):
                   **self.keywords)
 
 
-class WriteOnlyBookSource(WriteOnlyMemorySource):
+class WriteOnlyBookSource(WriteOnlySheetSource):
     """
     Multiple sheet data source for writting back to memory
     """
-    fields = [params.FILE_TYPE]
     targets = (params.BOOK,)
-    actions = (params.WRITE_ACTION,)
 
     def write_data(self, book):
         book_dict = book.to_dict()
