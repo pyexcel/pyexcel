@@ -7,9 +7,7 @@
     :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
-import os
-
-from pyexcel_io import get_data, save_data, RWManager
+from pyexcel_io import save_data, RWManager
 from pyexcel_io.utils import AVAILABLE_WRITERS
 
 from ..constants import DEFAULT_SHEET_NAME
@@ -42,17 +40,6 @@ class SheetSource(IOSource):
         self.file_name = file_name
         self.keywords = keywords
 
-    def get_source_info(self):
-        path, file_name = os.path.split(self.file_name)
-        return file_name, path
-
-    def get_data(self):
-        """
-        Return a dictionary with only one key and one value
-        """
-        sheets = get_data(self.file_name, **self.keywords)
-        return sheets
-
     def write_data(self, sheet):
         sheet_name = DEFAULT_SHEET_NAME
         if sheet.name:
@@ -73,10 +60,6 @@ class BookSource(SheetSource):
     """Pick up 'file_name' field and do multiple sheet based read and write
     """
     targets = (params.BOOK,)
-
-    def get_data(self):
-        sheets = get_data(self.file_name, **self.keywords)
-        return sheets
 
     def write_data(self, book):
         book_dict = book.to_dict()
