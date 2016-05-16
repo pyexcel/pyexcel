@@ -3,10 +3,11 @@ class SourceFactory:
     The factory method to support multiple datasources in getters and savers
     """
     sources = {
-        "sheet-read": [],
+        "input-read": [],
         "sheet-write": [],
+        "book-write": [],
         "book-read": [],
-        "book-write": []
+        "sheet-read": []
     }
 
     @classmethod
@@ -19,6 +20,7 @@ class SourceFactory:
     @classmethod
     def register_a_source(self, target, action, source):
         key = "%s-%s" % (target, action)
+        print key, source
         self.sources[key].append(source)
 
     @classmethod
@@ -32,17 +34,29 @@ class SourceFactory:
 
     @classmethod
     def get_source(self, **keywords):
-        return self._get_generic_source(
-            'sheet',
+        source = self._get_generic_source(
+            'input',
             'read',
             **keywords)
+        if source is None:
+            source = self._get_generic_source(
+                'sheet',
+                'read',
+                **keywords)
+        return source
 
     @classmethod
     def get_book_source(self, **keywords):
-        return self._get_generic_source(
-            'book',
+        source = self._get_generic_source(
+            'input',
             'read',
             **keywords)
+        if source is None:
+            source = self._get_generic_source(
+                'book',
+                'read',
+                **keywords)
+        return source
 
     @classmethod
     def get_writeable_source(self, **keywords):
