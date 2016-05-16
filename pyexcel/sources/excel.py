@@ -45,7 +45,9 @@ class SheetSource(IOSource):
         if sheet.name:
             sheet_name = sheet.name
         data = {sheet_name: sheet.to_array()}
-        write_out(self.file_name, data, **self.keywords)
+        save_data(self.file_name,
+                  data,
+                  **self.keywords)
 
 
 class BookSource(SheetSource):
@@ -55,15 +57,17 @@ class BookSource(SheetSource):
 
     def write_data(self, book):
         book_dict = book.to_dict()
-        write_out(self.file_name, book_dict, **self.keywords)
+        save_data(self.file_name,
+                  book_dict,
+                  **self.keywords)
 
 
 class WriteOnlyMemorySourceMixin(object):
     def __init__(self, file_type=None, file_stream=None, **keywords):
         if file_stream:
-            self.content = file_stream
+            self.stream = file_stream
         else:
-            self.content = RWManager.get_io(file_type)
+            self.stream = RWManager.get_io(file_type)
         self.file_type = file_type
         self.keywords = keywords
 
@@ -75,7 +79,16 @@ class WriteOnlySheetSource(WriteOnlyMemorySourceMixin, SheetSource):
     def __init__(self, file_type=None, file_stream=None, **keywords):
         WriteOnlyMemorySourceMixin.__init__(self, file_type=file_type,
                                        file_stream=file_stream, **keywords)
-        self.file_name = (file_type, self.content)
+
+    def write_data(self, sheet):
+        sheet_name = DEFAULT_SHEET_NAME
+        if sheet.name:
+            sheet_name = sheet.name
+        data = {sheet_name: sheet.to_array()}
+        save_data(self.stream,
+                  data,
+                  file_type=self.file_type,
+                  **self.keywords)
 
 
 class WriteOnlyBookSource(WriteOnlyMemorySourceMixin, BookSource):
@@ -89,19 +102,13 @@ class WriteOnlyBookSource(WriteOnlyMemorySourceMixin, BookSource):
     def __init__(self, file_type=None, file_stream=None, **keywords):
         WriteOnlyMemorySourceMixin.__init__(self, file_type=file_type,
                                        file_stream=file_stream, **keywords)
-        self.file_name = (file_type, self.content)
 
-
-def write_out(file_name, data, **keywords):
-    if isinstance(file_name, tuple):
-        save_data(file_name[1],
-                  data,
-                  file_type=file_name[0],
-                  **keywords)
-    else:
-        save_data(file_name,
-                  data,
-                  **keywords)
+    def write_data(self, book):
+        book_dict = book.to_dict()
+        save_data(self.stream,
+                  book_dict,
+                  file_type=self.file_type,
+                  **self.keywords)
 
 
 sources = (
