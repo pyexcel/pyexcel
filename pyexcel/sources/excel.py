@@ -7,14 +7,23 @@
     :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel_io import save_data, RWManager
-from pyexcel_io.utils import AVAILABLE_WRITERS
-
-from ..constants import DEFAULT_SHEET_NAME
 from . import params
 
 from .base import FileSource
+from .renderer import RendererFactory
+from . import _texttable as texttable
 
+
+RendererFactory.register_renderers(texttable.renderer)
+
+try:
+    import pyexcel_text as text
+    RendererFactory.register_renderers(text.renderers)
+except ImportError:
+    pass
+
+
+file_types = tuple(RendererFactory.renderer_factories.keys())
 
 class IOSource(FileSource):
     """
@@ -23,7 +32,7 @@ class IOSource(FileSource):
     @classmethod
     def can_i_handle(cls, action, file_type):
         if action == params.WRITE_ACTION:
-            status = file_type in RWManager.writer_factories or file_type in AVAILABLE_WRITERS
+            status = file_type in file_types
         else:
             status = False
         return status
@@ -39,15 +48,12 @@ class SheetSource(IOSource):
     def __init__(self, file_name=None, **keywords):
         self.file_name = file_name
         self.keywords = keywords
+        self.file_type = file_name.split(".")[-1]
+        self.renderer = RendererFactory.get_renderer(self.file_type)
 
     def write_data(self, sheet):
-        sheet_name = DEFAULT_SHEET_NAME
-        if sheet.name:
-            sheet_name = sheet.name
-        data = {sheet_name: sheet.to_array()}
-        save_data(self.file_name,
-                  data,
-                  **self.keywords)
+        self.renderer.render_sheet_to_file(self.file_name,
+                                           sheet, **self.keywords)
 
 
 class BookSource(SheetSource):
@@ -56,10 +62,8 @@ class BookSource(SheetSource):
     targets = (params.BOOK,)
 
     def write_data(self, book):
-        book_dict = book.to_dict()
-        save_data(self.file_name,
-                  book_dict,
-                  **self.keywords)
+        self.renderer.render_book_to_file(self.file_name, book,
+                                          **self.keywords)
 
 
 class WriteOnlySheetSource(IOSource):
@@ -68,22 +72,17 @@ class WriteOnlySheetSource(IOSource):
     actions = (params.WRITE_ACTION,)
 
     def __init__(self, file_type=None, file_stream=None, **keywords):
+        self.renderer = RendererFactory.get_renderer(file_type)
         if file_stream:
             self.content = file_stream
         else:
-            self.content = RWManager.get_io(file_type)
+            self.content = self.renderer.get_io()
         self.file_type = file_type
         self.keywords = keywords
 
     def write_data(self, sheet):
-        sheet_name = DEFAULT_SHEET_NAME
-        if sheet.name:
-            sheet_name = sheet.name
-        data = {sheet_name: sheet.to_array()}
-        save_data(self.content,
-                  data,
-                  file_type=self.file_type,
-                  **self.keywords)
+        self.renderer.render_sheet_to_stream(self.content,
+                                             sheet, **self.keywords)
 
 
 class WriteOnlyBookSource(WriteOnlySheetSource):
@@ -93,11 +92,8 @@ class WriteOnlyBookSource(WriteOnlySheetSource):
     targets = (params.BOOK,)
 
     def write_data(self, book):
-        book_dict = book.to_dict()
-        save_data(self.content,
-                  book_dict,
-                  file_type=self.file_type,
-                  **self.keywords)
+        self.renderer.render_book_to_stream(self.content, book,
+                                            **self.keywords)
 
 
 sources = (

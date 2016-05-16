@@ -72,8 +72,8 @@ from .deprecated import (
 )
 
 from pyexcel_io.manager import RWManager
-import pyexcel.sources.text as text
-all_types = RWManager.file_types + text.file_types
+import pyexcel.sources.excel as excel
+all_types = RWManager.file_types + excel.file_types
 
 for file_type in all_types:
     Sheet.register_presentation(file_type)
