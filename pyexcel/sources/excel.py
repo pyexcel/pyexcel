@@ -62,36 +62,33 @@ class BookSource(SheetSource):
                   **self.keywords)
 
 
-class WriteOnlyMemorySourceMixin(object):
+class WriteOnlyMemorySource(IOSource):
     def __init__(self, file_type=None, file_stream=None, **keywords):
         if file_stream:
-            self.stream = file_stream
+            self.content = file_stream
         else:
-            self.stream = RWManager.get_io(file_type)
+            self.content = RWManager.get_io(file_type)
         self.file_type = file_type
         self.keywords = keywords
 
 
-class WriteOnlySheetSource(WriteOnlyMemorySourceMixin, SheetSource):
+class WriteOnlySheetSource(WriteOnlyMemorySource):
     fields = [params.FILE_TYPE]
+    targets = (params.SHEET,)
     actions = (params.WRITE_ACTION,)
-
-    def __init__(self, file_type=None, file_stream=None, **keywords):
-        WriteOnlyMemorySourceMixin.__init__(self, file_type=file_type,
-                                       file_stream=file_stream, **keywords)
 
     def write_data(self, sheet):
         sheet_name = DEFAULT_SHEET_NAME
         if sheet.name:
             sheet_name = sheet.name
         data = {sheet_name: sheet.to_array()}
-        save_data(self.stream,
+        save_data(self.content,
                   data,
                   file_type=self.file_type,
                   **self.keywords)
 
 
-class WriteOnlyBookSource(WriteOnlyMemorySourceMixin, BookSource):
+class WriteOnlyBookSource(WriteOnlyMemorySource):
     """
     Multiple sheet data source for writting back to memory
     """
@@ -99,13 +96,9 @@ class WriteOnlyBookSource(WriteOnlyMemorySourceMixin, BookSource):
     targets = (params.BOOK,)
     actions = (params.WRITE_ACTION,)
 
-    def __init__(self, file_type=None, file_stream=None, **keywords):
-        WriteOnlyMemorySourceMixin.__init__(self, file_type=file_type,
-                                       file_stream=file_stream, **keywords)
-
     def write_data(self, book):
         book_dict = book.to_dict()
-        save_data(self.stream,
+        save_data(self.content,
                   book_dict,
                   file_type=self.file_type,
                   **self.keywords)
