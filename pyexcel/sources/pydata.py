@@ -29,7 +29,10 @@ class RecordsSource(ReadOnlySource):
 
     def get_data(self):
         from ..utils import yield_from_records
-        return DEFAULT_SHEET_NAME, yield_from_records(self.records)
+        return {DEFAULT_SHEET_NAME: yield_from_records(self.records)}
+
+    def get_source_info(self):
+        return params.RECORDS, None
 
 
 class DictSource(ReadOnlySource):
@@ -46,8 +49,11 @@ class DictSource(ReadOnlySource):
 
     def get_data(self):
         from ..utils import yield_dict_to_array
-        return DEFAULT_SHEET_NAME, yield_dict_to_array(self.adict,
-                                                       self.with_keys)
+        return {DEFAULT_SHEET_NAME: yield_dict_to_array(self.adict,
+                                                       self.with_keys)}
+
+    def get_source_info(self):
+        return params.ADICT, None
 
 
 class ArraySource(ReadOnlySource):
@@ -62,7 +68,10 @@ class ArraySource(ReadOnlySource):
         self.array = array
 
     def get_data(self):
-        return DEFAULT_SHEET_NAME, self.array
+        return {DEFAULT_SHEET_NAME: self.array}
+
+    def get_source_info(self):
+        return params.ARRAY, None
 
 
 class BookDictSource(ReadOnlySource):
@@ -81,8 +90,10 @@ class BookDictSource(ReadOnlySource):
         if not isinstance(self.bookdict, OrderedDict):
             from ..utils import convert_dict_to_ordered_dict
             the_dict = convert_dict_to_ordered_dict(self.bookdict)
-        return the_dict, params.BOOKDICT, None
+        return the_dict
 
+    def get_source_info(self):
+        return params.BOOKDICT, None
 
 
 

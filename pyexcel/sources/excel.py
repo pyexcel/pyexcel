@@ -15,7 +15,7 @@ from pyexcel_io.utils import AVAILABLE_READERS, AVAILABLE_WRITERS
 from ..constants import DEFAULT_SHEET_NAME
 from . import params
 
-from .base import FileSource, one_sheet_tuple
+from .base import FileSource
 
 
 class IOSource(FileSource):
@@ -44,12 +44,16 @@ class SheetSource(IOSource):
         self.file_name = file_name
         self.keywords = keywords
 
+    def get_source_info(self):
+        path, file_name = os.path.split(self.file_name)
+        return file_name, path
+
     def get_data(self):
         """
         Return a dictionary with only one key and one value
         """
         sheets = get_data(self.file_name, **self.keywords)
-        return one_sheet_tuple(sheets.items())
+        return sheets
 
     def write_data(self, sheet):
         sheet_name = DEFAULT_SHEET_NAME
@@ -74,8 +78,7 @@ class BookSource(SheetSource):
 
     def get_data(self):
         sheets = get_data(self.file_name, **self.keywords)
-        path, filename_alone = os.path.split(self.file_name)
-        return sheets, filename_alone, path
+        return sheets
 
     def write_data(self, book):
         book_dict = book.to_dict()
@@ -115,7 +118,7 @@ class ReadOnlySheetSource(IOSource):
             sheets = get_data(self.file_content,
                               file_type=self.file_type,
                               **self.keywords)
-        return one_sheet_tuple(sheets.items())
+        return sheets
 
 
 class ReadOnlyBookSource(ReadOnlySheetSource):
@@ -135,7 +138,10 @@ class ReadOnlyBookSource(ReadOnlySheetSource):
             sheets = get_data(self.file_content,
                               file_type=self.file_type,
                               **self.keywords)
-        return sheets, params.MEMORY, None
+        return sheets
+
+    def get_source_info(self):
+        return params.MEMORY, None
 
 
 class WriteOnlyMemorySourceMixin(object):

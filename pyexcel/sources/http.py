@@ -10,7 +10,7 @@
 from pyexcel_io import get_data
 from .._compact import request, PY2
 
-from .base import ReadOnlySource, one_sheet_tuple
+from .base import ReadOnlySource
 from . import params
 
 
@@ -55,7 +55,10 @@ class HttpBookSource(ReadOnlySource):
         sheets = get_data(content,
                           file_type=file_type,
                           **self.keywords)
-        return sheets, params.URL, None
+        return sheets
+
+    def get_source_info(self):
+        return self.url, None
 
 
 class HttpSheetSource(HttpBookSource):
@@ -65,14 +68,6 @@ class HttpSheetSource(HttpBookSource):
 
     fields = [params.URL]
     targets = (params.SHEET,)
-
-    def __init__(self, url=None, **keywords):
-        self.url = url
-        self.keywords = keywords
-
-    def get_data(self):
-        sheets, unused1, unused2 = HttpBookSource.get_data(self)
-        return one_sheet_tuple(sheets.items())
 
 
 sources = (HttpBookSource, HttpSheetSource)

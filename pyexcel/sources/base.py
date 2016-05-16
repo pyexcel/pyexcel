@@ -30,6 +30,9 @@ class Source(object):
         self.source = source
         self.keywords = keywords
 
+    def get_source_info(self):
+        return (None, None)
+        
     @classmethod
     def is_my_business(cls, action, **keywords):
         """
@@ -84,9 +87,3 @@ class FileSource(Source):
     @classmethod
     def can_i_handle(cls, action, file_type):
         return False
-
-
-def one_sheet_tuple(items):
-    if not PY2:
-        items = list(items)
-    return items[0][0], items[0][1]

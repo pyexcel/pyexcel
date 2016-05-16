@@ -19,6 +19,8 @@ from .constants import (
 )
 from .sources import params, sources
 from .factory import SourceFactory
+from ._compact import PY2
+
 
 SourceFactory.register_sources(sources)
 
@@ -75,7 +77,8 @@ def _get_content(**keywords):
             params.DEPRECATED_CONTENT)
     source = SourceFactory.get_source(**keywords)
     if source is not None:
-        sheet_name, data = source.get_data()
+        sheets = source.get_data()
+        sheet_name, data = one_sheet_tuple(sheets.items())
         return SheetStream(sheet_name, data)
     raise NotImplementedError(MESSAGE_ERROR_NO_HANDLER)
 
@@ -129,7 +132,8 @@ def _get_book(**keywords):
             params.DEPRECATED_CONTENT)
     source = SourceFactory.get_book_source(**keywords)
     if source is not None:
-        sheets, filename, path = source.get_data()
+        sheets = source.get_data()
+        filename, path = source.get_source_info()
         book = BookStream(sheets, filename=filename, path=path)
         return book
     raise NotImplementedError(MESSAGE_ERROR_NO_HANDLER)
@@ -323,3 +327,9 @@ def get_book_dict(**keywords):
         return book.to_dict()
     else:
         return None
+
+
+def one_sheet_tuple(items):
+    if not PY2:
+        items = list(items)
+    return items[0][0], items[0][1]

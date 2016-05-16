@@ -3,7 +3,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column , Integer, String, Float, Date
 from sqlalchemy.orm import sessionmaker
 
-engine=create_engine("sqlite:///tmp.db")
+#engine=create_engine("sqlite:///tmp.db")
+engine=create_engine("sqlite://")
 Base=declarative_base()
 
 class Pyexcel(Base):

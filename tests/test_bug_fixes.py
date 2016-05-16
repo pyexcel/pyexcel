@@ -70,6 +70,7 @@ class TestBugFixes(TestCase):
         newdict = pe.get_dict(file_name="issue10.xls")
         assert isinstance(newdict, OrderedDict) == True
         assert thedict == newdict
+        os.unlink("issue10.xls")
 
     def test_issue_29(self):
         a=[

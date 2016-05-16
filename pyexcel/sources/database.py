@@ -18,7 +18,7 @@ from pyexcel_io.utils import from_query_sets
 from .._compact import OrderedDict
 from ..constants import DEFAULT_SHEET_NAME
 
-from .base import ReadOnlySource, Source, one_sheet_tuple
+from .base import ReadOnlySource, Source
 from . import params
 
 
@@ -40,8 +40,8 @@ class SheetQuerySetSource(ReadOnlySource):
         self.query_sets = query_sets
 
     def get_data(self):
-        return (self.sheet_name,
-                from_query_sets(self.column_names, self.query_sets))
+        return {self.sheet_name:
+                from_query_sets(self.column_names, self.query_sets)}
 
 
 class SheetSQLAlchemySource(Source):
@@ -62,7 +62,7 @@ class SheetSQLAlchemySource(Source):
         adapter = SQLTableExportAdapter(self.table)
         exporter.append(adapter)
         data = get_data(exporter, file_type=DB_SQL)
-        return one_sheet_tuple(data.items())
+        return data
 
     def write_data(self, sheet):
         headers = sheet.colnames
@@ -94,7 +94,7 @@ class SheetDjangoSource(Source):
         adapter = DjangoModelExportAdapter(self.model)
         exporter.append(adapter)
         data = get_data(exporter, file_type=DB_DJANGO)
-        return one_sheet_tuple(data.items())
+        return data
 
     def write_data(self, sheet):
         headers = sheet.colnames
@@ -128,7 +128,10 @@ class BookSQLSource(Source):
             adapter = SQLTableExportAdapter(table)
             exporter.append(adapter)
         data = get_data(exporter, file_type=DB_SQL)
-        return data, DB_SQL, None
+        return data
+
+    def get_source_info(self):
+        return DB_SQL, None
 
     def write_data(self, book):
         initializers = self.keywords.get(params.INITIALIZERS, None)
@@ -176,7 +179,10 @@ class BookDjangoSource(Source):
             adapter = DjangoModelExportAdapter(model)
             exporter.append(adapter)
         data = get_data(exporter, file_type=DB_DJANGO)
-        return data, DB_DJANGO, None
+        return data
+
+    def get_source_info(self):
+        return DB_DJANGO, None
 
     def write_data(self, book):
         new_models = [model for model in self.models if model is not None]
