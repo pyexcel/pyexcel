@@ -45,15 +45,7 @@ class SheetSource(IOSource):
         if sheet.name:
             sheet_name = sheet.name
         data = {sheet_name: sheet.to_array()}
-        if isinstance(self.file_name, tuple):
-            save_data(self.file_name[1],
-                      data,
-                      file_type=self.file_name[0],
-                      **self.keywords)
-        else:
-            save_data(self.file_name,
-                      data,
-                      **self.keywords)
+        write_out(self.file_name, data, **self.keywords)
 
 
 class BookSource(SheetSource):
@@ -63,15 +55,7 @@ class BookSource(SheetSource):
 
     def write_data(self, book):
         book_dict = book.to_dict()
-        if isinstance(self.file_name, tuple):
-            save_data(self.file_name[1],
-                      book_dict,
-                      file_type=self.file_name[0],
-                      **self.keywords)
-        else:
-            save_data(self.file_name,
-                      book_dict,
-                      **self.keywords)
+        write_out(self.file_name, book_dict, **self.keywords)
 
 
 class WriteOnlyMemorySourceMixin(object):
@@ -106,6 +90,18 @@ class WriteOnlyBookSource(WriteOnlyMemorySourceMixin, BookSource):
         WriteOnlyMemorySourceMixin.__init__(self, file_type=file_type,
                                        file_stream=file_stream, **keywords)
         self.file_name = (file_type, self.content)
+
+
+def write_out(file_name, data, **keywords):
+    if isinstance(file_name, tuple):
+        save_data(file_name[1],
+                  data,
+                  file_type=file_name[0],
+                  **keywords)
+    else:
+        save_data(file_name,
+                  data,
+                  **keywords)
 
 
 sources = (
