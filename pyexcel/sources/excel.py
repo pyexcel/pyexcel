@@ -10,7 +10,7 @@
 import os
 
 from pyexcel_io import get_data, save_data, RWManager
-from pyexcel_io.utils import AVAILABLE_READERS, AVAILABLE_WRITERS
+from pyexcel_io.utils import AVAILABLE_WRITERS
 
 from ..constants import DEFAULT_SHEET_NAME
 from . import params
@@ -24,9 +24,7 @@ class IOSource(FileSource):
     """
     @classmethod
     def can_i_handle(cls, action, file_type):
-        if action == params.READ_ACTION:
-            status = file_type in RWManager.reader_factories or file_type in AVAILABLE_READERS 
-        elif action == params.WRITE_ACTION:
+        if action == params.WRITE_ACTION:
             status = file_type in RWManager.writer_factories or file_type in AVAILABLE_WRITERS
         else:
             status = False
@@ -38,7 +36,7 @@ class SheetSource(IOSource):
     """
     fields = [params.FILE_NAME]
     targets = (params.SHEET,)
-    actions = (params.READ_ACTION, params.WRITE_ACTION)
+    actions = (params.WRITE_ACTION,)
 
     def __init__(self, file_name=None, **keywords):
         self.file_name = file_name
@@ -93,57 +91,6 @@ class BookSource(SheetSource):
                       **self.keywords)
 
 
-class ReadOnlySheetSource(IOSource):
-    """Pick up 'file_type' and read a sheet from memory"""
-    fields = [params.FILE_TYPE]
-    targets = (params.SHEET,)
-    actions = (params.READ_ACTION,)
-
-    def __init__(self,
-                 file_content=None,
-                 file_type=None,
-                 file_stream=None,
-                 **keywords):
-        self.file_type = file_type
-        self.file_stream = file_stream
-        self.file_content = file_content
-        self.keywords = keywords
-
-    def get_data(self):
-        if self.file_stream is not None:
-            sheets = get_data(self.file_stream,
-                              file_type=self.file_type,
-                              **self.keywords)
-        else:
-            sheets = get_data(self.file_content,
-                              file_type=self.file_type,
-                              **self.keywords)
-        return sheets
-
-
-class ReadOnlyBookSource(ReadOnlySheetSource):
-    """
-    Multiple sheet data source via memory
-    """
-    fields = [params.FILE_TYPE]
-    targets = (params.BOOK,)
-    actions = (params.READ_ACTION,)
-
-    def get_data(self):
-        if self.file_stream is not None:
-            sheets = get_data(self.file_stream,
-                              file_type=self.file_type,
-                              **self.keywords)
-        else:
-            sheets = get_data(self.file_content,
-                              file_type=self.file_type,
-                              **self.keywords)
-        return sheets
-
-    def get_source_info(self):
-        return params.MEMORY, None
-
-
 class WriteOnlyMemorySourceMixin(object):
     def __init__(self, file_type=None, file_stream=None, **keywords):
         if file_stream:
@@ -179,8 +126,8 @@ class WriteOnlyBookSource(WriteOnlyMemorySourceMixin, BookSource):
 
 
 sources = (
-    ReadOnlySheetSource,
     WriteOnlySheetSource,
-    ReadOnlyBookSource,
     WriteOnlyBookSource,
-    SheetSource, BookSource)
+    SheetSource,
+    BookSource
+)

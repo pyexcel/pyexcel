@@ -21,7 +21,7 @@ class RecordsSource(ReadOnlySource):
     The dictionaries should have identical fields.
     """
     fields = [params.RECORDS]
-    targets = (params.SHEET,)
+    targets = (params.INPUT,)
     actions = (params.READ_ACTION,)
 
     def __init__(self, records):
@@ -40,7 +40,7 @@ class DictSource(ReadOnlySource):
     A dictionary of one dimensional array as sheet source
     """
     fields = [params.ADICT]
-    targets = (params.SHEET,)
+    targets = (params.INPUT,)
     actions = (params.READ_ACTION,)
 
     def __init__(self, adict, with_keys=True):
@@ -61,7 +61,7 @@ class ArraySource(ReadOnlySource):
     A two dimensional array as sheet source
     """
     fields = [params.ARRAY]
-    targets = (params.SHEET,)
+    targets = (params.INPUT,)
     actions = (params.READ_ACTION,)
 
     def __init__(self, array):
@@ -79,7 +79,7 @@ class BookDictSource(ReadOnlySource):
     Multiple sheet data source via a dictionary of two dimensional arrays
     """
     fields = [params.BOOKDICT]
-    targets = (params.BOOK,)
+    targets = (params.INPUT,)
     actions = (params.READ_ACTION,)
 
     def __init__(self, bookdict, **keywords):

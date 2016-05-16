@@ -6,7 +6,7 @@ from pyexcel.sources.base import WriteOnlySource
 from pyexcel.sources.base import FileSource
 
 from pyexcel.sources.excel import WriteOnlySheetSource
-from pyexcel.sources.excel import ReadOnlySheetSource
+
 
 def test_source():
     source = Source(source="asource", params="params")
@@ -24,11 +24,6 @@ def test_read_only_source():
     source = ReadOnlySource()
     source.write_data("something")
 
-
-@raises(Exception)
-def test_read_only_sheet_source():
-    source = ReadOnlySheetSource()
-    source.write_data("something")
 
 
 @raises(Exception)

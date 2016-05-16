@@ -1,4 +1,5 @@
 # keywords
+INPUT = 'input'
 MEMORY = 'memory'
 SOURCE = 'source'
 FILE_TYPE = 'file_type'
