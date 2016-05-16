@@ -4,4 +4,3 @@ cd ..\..\
 
 {% include "test.sh.jj2" %}
 
-del tmp.db
