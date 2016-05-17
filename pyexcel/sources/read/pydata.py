@@ -7,11 +7,11 @@
     :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
-from .._compact import OrderedDict
-from ..constants import DEFAULT_SHEET_NAME
+from pyexcel._compact import OrderedDict
+from pyexcel.constants import DEFAULT_SHEET_NAME
 
-from .base import ReadOnlySource
-from . import params
+from pyexcel.sources.base import ReadOnlySource
+from pyexcel.sources import params
 
 
 class RecordsSource(ReadOnlySource):
@@ -28,7 +28,7 @@ class RecordsSource(ReadOnlySource):
         self.records = records
 
     def get_data(self):
-        from ..utils import yield_from_records
+        from pyexcel.utils import yield_from_records
         return {DEFAULT_SHEET_NAME: yield_from_records(self.records)}
 
     def get_source_info(self):
@@ -48,7 +48,7 @@ class DictSource(ReadOnlySource):
         self.with_keys = with_keys
 
     def get_data(self):
-        from ..utils import yield_dict_to_array
+        from pyexcel.utils import yield_dict_to_array
         return {DEFAULT_SHEET_NAME: yield_dict_to_array(self.adict,
                                                        self.with_keys)}
 
@@ -88,7 +88,7 @@ class BookDictSource(ReadOnlySource):
     def get_data(self):
         the_dict = self.bookdict
         if not isinstance(self.bookdict, OrderedDict):
-            from ..utils import convert_dict_to_ordered_dict
+            from pyexcel.utils import convert_dict_to_ordered_dict
             the_dict = convert_dict_to_ordered_dict(self.bookdict)
         return the_dict
 
