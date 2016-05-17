@@ -8,10 +8,10 @@
     :license: New BSD License
 """
 from pyexcel_io import get_data
-from .._compact import request, PY2
+from pyexcel._compact import request, PY2
 
-from .base import ReadOnlySource
-from . import params
+from pyexcel.sources.base import ReadOnlySource
+from pyexcel.sources import params
 
 
 FILE_TYPE_MIME_TABLE = {

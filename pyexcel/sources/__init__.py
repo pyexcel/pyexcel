@@ -1,3 +1,3 @@
-from . import pydata, excel, database, http, input_source
+from . import pydata, excel, database, read
 
-sources = pydata.sources + excel.sources + database.sources + http.sources + input_source.sources
+sources = pydata.sources + excel.sources + database.sources + read.sources
