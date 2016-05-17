@@ -30,10 +30,6 @@ if PY2:
 else:
     from io import StringIO, BytesIO
     text_type = str
-    def reraise(tp, value, tb=None):
-        if value.__traceback__ is not tb:
-            raise value.with_traceback(tb)
-        raise value
     Iterator = object
     import urllib.request as request
 
