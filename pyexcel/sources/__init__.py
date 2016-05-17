@@ -1,3 +1,3 @@
-from . import write,  database, read
+from . import file_source_output, database, read
 
-sources = write.sources + database.sources + read.sources
+sources = file_source_output.sources + database.sources + read.sources

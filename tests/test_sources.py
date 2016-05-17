@@ -5,7 +5,7 @@ from pyexcel.sources.base import ReadOnlySource
 from pyexcel.sources.base import WriteOnlySource
 from pyexcel.sources.base import FileSource
 
-from pyexcel.sources.excel import WriteOnlySheetSource
+from pyexcel.sources.file_source_output import WriteOnlySheetSource
 
 
 def test_source():

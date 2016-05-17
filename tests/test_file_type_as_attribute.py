@@ -1,5 +1,4 @@
-from pyexcel.sources.base import FileSource
-from pyexcel.sources.excel import WriteOnlySheetSource
+from pyexcel.sources.file_source_output import WriteOnlySheetSource
 from pyexcel.sources import params
 from pyexcel.factory import SourceFactory
 from pyexcel import Sheet, Book

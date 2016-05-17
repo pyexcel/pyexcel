@@ -10,11 +10,11 @@
 from pyexcel.sources import params
 
 from pyexcel.sources.base import FileSource
-from pyexcel.sources.write.renderer import RendererFactory
-from pyexcel.sources.write import _texttable as texttable
+from pyexcel.sources.rendererfactory import RendererFactory
+from pyexcel.sources.renderer import renderers
 
 
-RendererFactory.register_renderers(texttable.renderer)
+RendererFactory.register_renderers(renderers)
 
 try:
     import pyexcel_text as text

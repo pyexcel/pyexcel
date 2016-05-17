@@ -1,4 +1,4 @@
-from pyexcel.sources.write.excel import WriteOnlySheetSource
+from pyexcel.sources.file_source_output import WriteOnlySheetSource
 from pyexcel.sheets import SheetStream
 from pyexcel_io.manager import RWManager
 from textwrap import dedent

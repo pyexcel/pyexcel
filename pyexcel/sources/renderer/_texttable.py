@@ -1,6 +1,6 @@
 from texttable import Texttable
 from pyexcel.formatters import to_format
-from pyexcel.sources.write.renderer import Renderer
+from pyexcel.sources.rendererfactory import Renderer
 
 
 class TextTableRenderer(Renderer):
@@ -38,4 +38,4 @@ def _cleanse_a_row(row):
             yield(to_format(str, item))
 
 
-renderer = (TextTableRenderer,)
+renderers = (TextTableRenderer,)
