@@ -5,10 +5,10 @@ formatter02.py
 
 This example shows you how to use custom formatter function
 
+Please install pyexcel-ods3
 """
 import os
 import pyexcel as pe
-from pyexcel.ext import ods3
 
 
 def main(base_dir):

@@ -18,13 +18,11 @@ xls  y   y   y   y   y    y
 xlsx y   y   y   y   y    y   
 xlsm y   y   y   y   y    y   
 ---- --- --- --- --- ---- ----
+
+Please install pyexcel-xls and pyexcel-ods3
 """
 import os
 import pyexcel as pe
-# you will need to install pyexcel-ods or pyexcel-ods3
-# depending on your python version
-import pyexcel.ext.xls
-import pyexcel.ext.ods3
 
 def main(base_dir):
     # Simple open the file using Book

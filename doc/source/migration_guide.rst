@@ -11,7 +11,8 @@ Please forget about these statements::
 	import pyexcel.ext.xlsx
 
 They are no longer needed. As long as you have pip-installed them, they will
-be auto-loaded.
+be auto-loaded. However, if you do not want some of the plugins, please use
+`pip` to uninstall them.
 
 2. Invalid environment marker: platform_python_implementation=="PyPy"
 -----------------------------------------------------------------------

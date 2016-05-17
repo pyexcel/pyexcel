@@ -5,9 +5,11 @@ write_excel_book.py
 
 This shows how to use **Book** class to write a dictionary
 to sheet spreadsheet.
+
+Please install pyexcel-xls.
+
 """
 import pyexcel as pe
-import pyexcel.ext.xls # import xls to support xls format
 
 # the dictionary should look like the following:
 #  * key: a string typed key

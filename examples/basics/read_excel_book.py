@@ -5,10 +5,11 @@ read_excel_book.py
 
 This shows how to use get_book to go through a multiple
 sheet spreadsheet.
+
+Please install pyexcel-ods3
 """
 import os
 import pyexcel as pe
-import pyexcel.ext.ods3
 
 
 def main(base_dir):

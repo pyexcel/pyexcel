@@ -236,3 +236,7 @@ def Writer(*args, **keywords):
 
 def BookWriter(*args, **keywords):
     raise DeprecationWarning("Since v0.0.18, please use module function save_book_as")
+
+def deprecated_pyexcel_ext(version, module_name):
+    print("Deprecated usage since v%s! Explicit import " % version+
+          "is no longer required. %s is auto imported." % module_name)

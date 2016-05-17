@@ -3,13 +3,14 @@ series.py
 :copyright: (c) 2014-2015 by Onni Software Ltd.
 :license: New BSD License, see LICENSE for more details
 
-This shows how to use **SeriesReader** to get the data in various ways
-But you can use them with **Reader** class as well
+This shows how to use `name_columns_by_row` to get the data in various ways.
+
+you will need to do  `pip install pyexcel-ods3`
+
 """
 # please install pyexcel-ods
 import os
 import pyexcel as pe
-from pyexcel.ext import ods3
 import json
 
 
@@ -20,7 +21,7 @@ def main(base_dir):
     # 1        4        7
     # 2        5        8
     # 3        6        9
-    sheet = pe.load(os.path.join(base_dir, "example_series.ods"), name_columns_by_row=0)
+    sheet = pe.get_sheet(file_name=os.path.join(base_dir, "example_series.ods"), name_columns_by_row=0)
     print(json.dumps(sheet.to_dict()))
     # output:
     # {"Column 2": [4.0, 5.0, 6.0], "Column 3": [7.0, 8.0, 9.0], "Column 1": [1.0, 2.0, 3.0]}

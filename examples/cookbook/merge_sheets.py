@@ -6,9 +6,9 @@ merge_sheets.py
 This code snippet shows you how to merge files that are scattered in
 a directory into one excel book
 
+Please install pyexcel-xls
 """
 import pyexcel as pe
-import pyexcel.ext.xls
 import glob
 import os
 

@@ -7,11 +7,12 @@ imort_xls_into_database_via_sqlalchemy.py
 This code snippet shows you how to import data from an excel
 file into a database table via sqlalchemy
 
-created along with pyexcel v0.1.5. 
+created along with pyexcel v0.1.5.
+
+Please install pyexcel-xls
 """
 import os
 import pyexcel
-import pyexcel.ext.xls
 import datetime
 
 from sqlalchemy import create_engine

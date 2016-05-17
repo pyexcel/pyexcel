@@ -10,10 +10,11 @@ page spreadsheet row by row. The output is::
     [4.0, 5.0, 6.0]
     [7.0, 8.0, 9.0]
 
+Please install pyexcel-xls
+
 """
 import os
 import pyexcel
-import pyexcel.ext.xls
 
 
 def main(base_dir):
