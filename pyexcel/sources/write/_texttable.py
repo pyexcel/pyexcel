@@ -1,6 +1,6 @@
 from texttable import Texttable
-from ..formatters import to_format
-from .renderer import Renderer
+from pyexcel.formatters import to_format
+from pyexcel.sources.write.renderer import Renderer
 
 
 class TextTableRenderer(Renderer):

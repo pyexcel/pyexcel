@@ -7,11 +7,11 @@
     :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
-from . import params
+from pyexcel.sources import params
 
-from .base import FileSource
-from .renderer import RendererFactory
-from . import _texttable as texttable
+from pyexcel.sources.base import FileSource
+from pyexcel.sources.write.renderer import RendererFactory
+from pyexcel.sources.write import _texttable as texttable
 
 
 RendererFactory.register_renderers(texttable.renderer)

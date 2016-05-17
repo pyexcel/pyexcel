@@ -72,7 +72,7 @@ from .deprecated import (
 )
 
 from pyexcel_io.manager import RWManager
-import pyexcel.sources.excel as excel
+import pyexcel.sources.write.excel as excel
 all_types = RWManager.file_types + excel.file_types
 
 for file_type in all_types:
