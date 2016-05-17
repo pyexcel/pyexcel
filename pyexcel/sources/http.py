@@ -24,17 +24,12 @@ FILE_TYPE_MIME_TABLE = {
 }
 
 
-def get_file_type_from_url(url):
-    extension = url.split('.')
-    return extension[-1]
-
-
-class HttpBookSource(ReadOnlySource):
+class HttpSource(ReadOnlySource):
     """
     Multiple sheet data source via http protocol
     """
     fields = [params.URL]
-    targets = (params.BOOK,)
+    targets = (params.INPUT,)
     actions = (params.READ_ACTION,)
 
     def __init__(self, url=None, **keywords):
@@ -61,13 +56,9 @@ class HttpBookSource(ReadOnlySource):
         return self.url, None
 
 
-class HttpSheetSource(HttpBookSource):
-    """
-    Single sheet data source via http protocol
-    """
-
-    fields = [params.URL]
-    targets = (params.SHEET,)
+def get_file_type_from_url(url):
+    extension = url.split('.')
+    return extension[-1]
 
 
-sources = (HttpBookSource, HttpSheetSource)
+sources = (HttpSource,)
