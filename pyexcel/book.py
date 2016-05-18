@@ -272,6 +272,8 @@ class Book(object):
         """
         from .factory import SourceFactory
         out_source = SourceFactory.get_writeable_book_source(file_name=filename)
+        if out_source is None:
+            raise Exception("No handler found to save %s" % filename)
         self.save_to(out_source)
 
     def save_to_memory(self, file_type, stream, **keywords):
@@ -287,6 +289,8 @@ class Book(object):
             file_type=file_type,
             file_stream=stream,
             **keywords)
+        if out_source is None:
+            raise Exception("No handler found to save to memory as %s" % file_type)
         self.save_to(out_source)
 
     def save_to_django_models(self, models,

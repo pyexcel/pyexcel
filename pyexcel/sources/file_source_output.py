@@ -11,10 +11,10 @@ from pyexcel.sources import params
 
 from pyexcel.sources.base import FileSource
 from pyexcel.sources.rendererfactory import RendererFactory
-from pyexcel.sources.renderer import renderers
+from pyexcel.sources import renderer
 
 
-RendererFactory.register_renderers(renderers)
+RendererFactory.register_renderers(renderer.renderers)
 
 try:
     import pyexcel_text as text
