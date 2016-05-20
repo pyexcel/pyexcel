@@ -12,8 +12,8 @@ import os
 from pyexcel_io import get_data, RWManager
 from pyexcel_io.utils import AVAILABLE_READERS
 
-from pyexcel.sources import params
-from pyexcel.sources.base import FileSource
+from pyexcel import params
+from pyexcel.factory import FileSource
 
 
 class InputSource(FileSource):

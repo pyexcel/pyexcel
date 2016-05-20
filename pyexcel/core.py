@@ -17,7 +17,8 @@ from .constants import (
     MESSAGE_ERROR_02,
     MESSAGE_ERROR_NO_HANDLER
 )
-from .sources import params, sources
+from .sources import sources
+from . import params
 from .factory import SourceFactory
 from ._compact import PY2
 

@@ -15,11 +15,11 @@ from pyexcel_io.database.django import DjangoModelExporter, DjangoModelExportAda
 from pyexcel_io.database.django import DjangoModelImporter, DjangoModelImportAdapter
 from pyexcel_io.utils import from_query_sets
 
-from .._compact import OrderedDict
-from ..constants import DEFAULT_SHEET_NAME
+from pyexcel._compact import OrderedDict
+from pyexcel.constants import DEFAULT_SHEET_NAME
 
-from .base import ReadOnlySource, Source
-from . import params
+from pyexcel.factory import ReadOnlySource, Source
+from pyexcel import params
 
 
 class SheetQuerySetSource(ReadOnlySource):

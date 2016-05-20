@@ -10,8 +10,8 @@
 from pyexcel_io import get_data
 from pyexcel._compact import request, PY2
 
-from pyexcel.sources.base import ReadOnlySource
-from pyexcel.sources import params
+from pyexcel.factory import ReadOnlySource
+from pyexcel import params
 
 
 FILE_TYPE_MIME_TABLE = {

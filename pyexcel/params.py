@@ -1,5 +1,4 @@
 # keywords
-INPUT = 'input'
 MEMORY = 'memory'
 SOURCE = 'source'
 FILE_TYPE = 'file_type'
@@ -27,6 +26,8 @@ BATCH_SIZE = 'batch_size'
 URL = 'url'
 STARTS_WITH_DEST = '^dest_(.*)'
 
+
+INPUT = 'input'
 # targets
 SHEET = 'sheet'
 BOOK = 'book'
@@ -34,3 +35,4 @@ BOOK = 'book'
 # actions
 READ_ACTION = 'read'
 WRITE_ACTION = 'write'
+

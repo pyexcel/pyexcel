@@ -7,9 +7,9 @@
     :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel.sources import params
+from pyexcel import params
 
-from pyexcel.sources.base import FileSource
+from pyexcel.factory import FileSource
 from pyexcel.sources.rendererfactory import RendererFactory
 from pyexcel.sources import renderer
 

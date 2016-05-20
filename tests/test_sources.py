@@ -1,9 +1,7 @@
 from nose.tools import raises
 
-from pyexcel.sources.base import Source
-from pyexcel.sources.base import ReadOnlySource
-from pyexcel.sources.base import WriteOnlySource
-from pyexcel.sources.base import FileSource
+from pyexcel.factory import Source, ReadOnlySource
+from pyexcel.factory import FileSource, WriteOnlySource
 
 from pyexcel.sources.file_source_output import WriteOnlySheetSource
 
