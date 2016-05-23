@@ -101,7 +101,7 @@ Documentation
 Documentation is hosted at `read the docs <https://pyexcel.readthedocs.org/en/latest>`_ and `pyhosted <https://pythonhosted.org/pyexcel/>`_
 
 
-Deveopment guide
+Development guide
 ================================================================================
 
 {%include "developer_guide.rst.jj2" %}

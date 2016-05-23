@@ -117,7 +117,7 @@ Documentation
 Documentation is hosted at `read the docs <https://pyexcel.readthedocs.org/en/latest>`_ and `pyhosted <https://pythonhosted.org/pyexcel/>`_
 
 
-Deveopment guide
+Development guide
 ================================================================================
 
 Development steps for code changes
