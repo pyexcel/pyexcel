@@ -41,6 +41,14 @@ auto_detect_datetime
 
 Automatically convert text to python datetime if possible. This applies only pyexcel-io where csv, tsv, csvz and tsvz formats are supported.  By default, it does the detection. Setting it to False will turn on this behavior
 
+
+library
+-------------------------
+
+Name a pyexcel plugin to handle a file format. In the situation where multiple plugins were pip installed, it is confusing for pyexcel on which plugin to handle the file format. For example, both pyexcel-xlsx and pyexcel-xls reads xlsx format. Now since version 0.2.2, you can pass on `library="pyexcel-xls"` to handle xlsx in a specific function call.
+
+Alternatively, you could uninstall the unwanted pyexcel plugin using pip.
+
 .. _conversion-from:
 
 

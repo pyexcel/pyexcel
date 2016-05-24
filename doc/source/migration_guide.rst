@@ -12,7 +12,8 @@ Please forget about these statements::
 
 They are no longer needed. As long as you have pip-installed them, they will
 be auto-loaded. However, if you do not want some of the plugins, please use
-`pip` to uninstall them.
+`pip` to uninstall them. For example, 
+
 
 2. Invalid environment marker: platform_python_implementation=="PyPy"
 -----------------------------------------------------------------------
@@ -23,6 +24,11 @@ Yes, it is a surprise. Please upgrade setuptools in your environment::
 
 At the time of writing, setuptools (18.0.1) or setuptools-21.0.0-py2.py3-none-any.whl is installed on author's computer and worked.
 
+
+3. How to keep both pyexcel-xls and pyexcel-xlsx
+----------------------------------------------------------------
+
+As in `Issue 20 <https://github.com/pyexcel/pyexcel/issues/20>`_, pyexcel-xls was used for xls and pyexcel-xlsx had to be used for xlsx. Both must co-exist due to requirements. The workaround would failed when auto-import are enabled in v0.2.2. Hence, user of pyexcel in this situation shall use 'library' parameter to all signature functions, to instruct pyexcel to use a named library for each function call.
 
 Migrate from 0.1.x to 0.2.x
 ===============================
