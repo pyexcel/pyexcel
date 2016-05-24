@@ -112,6 +112,7 @@ class Sheet(NominableSheet):
         if out_source is None:
             raise Exception("No handler found to save to memory as %s" % file_type)
         self.save_to(out_source)
+        return out_source.content
 
     def save_to_django_model(self,
                              model,

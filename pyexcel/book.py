@@ -113,7 +113,6 @@ class Book(object):
     def register_presentation(cls, file_type):
         setattr(cls, file_type, property(presenter(file_type)))
         setattr(cls, 'get_%s' % file_type, presenter(file_type))
-        pass
 
     def load_from_sheets(self, sheets):
         """Load content from existing sheets
@@ -292,6 +291,7 @@ class Book(object):
         if out_source is None:
             raise Exception("No handler found to save to memory as %s" % file_type)
         self.save_to(out_source)
+        return out_source.content    
 
     def save_to_django_models(self, models,
                               initializers=None, mapdicts=None, batch_size=None):
