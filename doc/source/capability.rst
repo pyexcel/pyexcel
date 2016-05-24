@@ -63,6 +63,9 @@ Functions                       Returns
 :meth:`~pyexcel.get_book`       :class:`~pyexcel.Book`
 =============================== ================================ 
 
+For all six functions, you can pass on the same command parameters while the return value is what the function says.
+
+
 Export data from Python
 -------------------------
 
@@ -83,7 +86,7 @@ and write to one of the following data sources:
    * Django Model
    * Python data stuctures: dictionary, records and array
 
-   
+
 Here are the two functions:
 
 =============================== =================================
