@@ -12,7 +12,6 @@ from ._compact import OrderedDict, PY2
 from .constants import MESSAGE_DATA_ERROR_NO_SERIES
 from functools import partial
 from ._compact import deprecated
-import datetime
 
 
 LOCAL_UUID = 0
@@ -103,7 +102,11 @@ def yield_from_records(records):
     if len(records) < 1:
         yield []
     else:
-        keys = sorted(records[0].keys())
+        first_record = records[0]
+        if isinstance(first_record, OrderedDict):
+            keys = first_record.keys()
+        else:
+            keys = sorted(first_record.keys())
         yield list(keys)
         for r in records:
             row = []
