@@ -20,7 +20,29 @@ This is intended for users of pyexcel.
 Signature functions
 ====================
 
+These flags can be passed on to control plugin behaviors:
+
+auto_detect_int
+-----------------------
+
+Automatically convert float values to integers if the float number has no decimal values(e.g. 1.00). By default, it does the detection. Setting it to False will turn on this behavior
+
+It has no effect on pyexcel-xlsx because it does that by default.
+
+
+auto_detect_float
+----------------------
+
+Automatically convert text to float values if possible. This applies only pyexcel-io where csv, tsv, csvz and tsvz formats are supported.  By default, it does the detection. Setting it to False will turn on this behavior
+
+
+auto_detect_datetime
+-----------------------
+
+Automatically convert text to python datetime if possible. This applies only pyexcel-io where csv, tsv, csvz and tsvz formats are supported.  By default, it does the detection. Setting it to False will turn on this behavior
+
 .. _conversion-from:
+
 
 Obtaining data from excel file
 -------------------------------
