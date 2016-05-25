@@ -139,7 +139,7 @@ required:
 What is rnd_requirements.txt
 -------------------------------
 
-Usually, it is created when an depdent library is not released. Once the dependecy is installed(will be released), the future version of the dependency in the requirements.txt will be valid.
+Usually, it is created when a depdent library is not released. Once the dependecy is installed(will be released), the future version of the dependency in the requirements.txt will be valid.
 
 What is pyexcel-commons
 ---------------------------------
@@ -174,3 +174,5 @@ Acknowledgement
 ===============
 
 All great work have done by odf, ezodf(2), xlrd, xlwt, tabulate and other individual developers. This library unites only the data access code.
+
+Extension management code was reused from `flask <https://github.com/mitsuhiko/flask>`_.
