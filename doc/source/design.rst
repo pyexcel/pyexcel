@@ -53,6 +53,7 @@ xlsm         an MS-Excel Macro-Enabled Workbook file
 ods          open document spreadsheet
 json         java script object notation
 ============ ======================================================= =============
+
 See also :ref:`a-map-of-plugins-and-file-formats`.
 
 Data transformation
@@ -134,5 +135,5 @@ The main operation on a cell involves :ref:`cell access<access-to-cell>`,
 involves the group access to a row or a column, data filtering and data transformation. The
 main operation in a book is obtain access to individual sheets.
 
-.. [#f1] quoted from `whatis.com <http://whatis.techtarget.com/fileformat/XLS-Worksheet-file-Microsoft-Excel`_. Technical details can be found at `MSDN XLS<https://msdn.microsoft.com/en-us/library/office/gg615597(v=office.14).aspx>`_
-.. [#f2] xlsx is used by MS-Excel 2007, more infomation can be found at `MSDN XLSX<https://msdn.microsoft.com/en-us/library/dd922181(v=office.12).aspx>`_
+.. [#f1] quoted from `whatis.com <http://whatis.techtarget.com/fileformat/XLS-Worksheet-file-Microsoft-Excel>`_. Technical details can be found at `MSDN XLS <https://msdn.microsoft.com/en-us/library/office/gg615597(v=office.14).aspx>`_
+.. [#f2] xlsx is used by MS-Excel 2007, more infomation can be found at `MSDN XLSX <https://msdn.microsoft.com/en-us/library/dd922181(v=office.12).aspx>`_

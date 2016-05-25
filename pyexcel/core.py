@@ -178,16 +178,18 @@ def save_as(**keywords):
     :param dest_session: the target database session
     :param dest_table: the target destination table
     :param dest_model: the target django model
-    :param dest_mapdict: a mapping dictionary, see
-                         :meth:`~pyexcel.Sheet.save_to_memory`
+    :param dest_mapdict: a mapping dictionary,
+                         see :meth:`pyexcel.Sheet.save_to_memory`
     :param dest_initializer: a custom initializer function for table or model
     :param dest_mapdict: nominate headers
     :param dest_batch_size: object creation batch size.
                             it is Django specific
+
     if csv file is destination format, python csv
     `fmtparams <https://docs.python.org/release/3.1.5/
     library/csv.html#dialects-and-formatting-parameters>`_
     are accepted
+
     for example: dest_lineterminator will replace default '\r\n'
     to the one you specified
     :returns: IO stream if saving to memory. None otherwise

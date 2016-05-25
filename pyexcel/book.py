@@ -275,7 +275,7 @@ class Book(object):
             raise Exception("No handler found to save %s" % filename)
         self.save_to(out_source)
 
-    def save_to_memory(self, file_type, stream, **keywords):
+    def save_to_memory(self, file_type, stream=None, **keywords):
         """Save the content to a memory stream
 
         :param file_type: what format the stream is in

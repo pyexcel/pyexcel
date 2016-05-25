@@ -7,12 +7,16 @@ Migrate from 0.2.1 to 0.2.2
 Please forget about these statements::
 
     import pyexcel.ext.xls
-	import pyexcel.ext.ods
-	import pyexcel.ext.xlsx
+    import pyexcel.ext.ods
+    import pyexcel.ext.xlsx
 
 They are no longer needed. As long as you have pip-installed them, they will
 be auto-loaded. However, if you do not want some of the plugins, please use
-`pip` to uninstall them. For example, 
+`pip` to uninstall them.
+
+What if you have your code as it is? No harm but a few warnings shown::
+
+    Deprecated usage since v0.2.2! Explicit import is no longer required. pyexcel.ext.ods is auto imported.
 
 
 2. Invalid environment marker: platform_python_implementation=="PyPy"
@@ -29,6 +33,14 @@ At the time of writing, setuptools (18.0.1) or setuptools-21.0.0-py2.py3-none-an
 ----------------------------------------------------------------
 
 As in `Issue 20 <https://github.com/pyexcel/pyexcel/issues/20>`_, pyexcel-xls was used for xls and pyexcel-xlsx had to be used for xlsx. Both must co-exist due to requirements. The workaround would failed when auto-import are enabled in v0.2.2. Hence, user of pyexcel in this situation shall use 'library' parameter to all signature functions, to instruct pyexcel to use a named library for each function call.
+
+4. pyexcel.get_io is no longer exposed
+--------------------------------------------------------------
+
+pyexcel.get_io was passed on from pyexcel-io. However, it is no longer exposed. Please use pyexcel_io.manager.RWManager.get_io if you have to.
+
+You are likely to use pyexcel.get_io when you do :meth:`pyexcel.Sheet.save_to_memory` or :meth:`pyexcel.Book.save_to_memory` where you need to put in a io stream. But actually,
+with latest code, you could put in a `None`.
 
 Migrate from 0.1.x to 0.2.x
 ===============================
