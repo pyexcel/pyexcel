@@ -150,8 +150,8 @@ class BookSQLSource(Source):
         for each_table in scattered:
             adapter = SQLTableImportAdapter(each_table[0])
             adapter.column_names = each_table[1]
-            adapter.row_initializer = each_table[2]
-            adapter.column_name_mapping_dict = each_table[3]
+            adapter.column_name_mapping_dict = each_table[2]
+            adapter.row_initializer = each_table[3]
             importer.append(adapter)
         to_store = OrderedDict()
         for sheet_name in book.sheet_names():
