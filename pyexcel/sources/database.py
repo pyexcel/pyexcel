@@ -74,7 +74,7 @@ class SheetSQLAlchemySource(Source):
         adapter.row_initializer = self.keywords.get(params.INITIALIZER, None)
         adapter.column_name_mapping_dict = self.keywords.get(params.MAPDICT, None)
         importer.append(adapter)
-        save_data(importer, {adapter.get_name(): sheet.array}, file_type=DB_SQL)
+        save_data(importer, {adapter.get_name(): sheet.array}, file_type=DB_SQL, **self.keywords)
 
 
 class SheetDjangoSource(Source):
@@ -93,7 +93,7 @@ class SheetDjangoSource(Source):
         exporter = DjangoModelExporter()
         adapter = DjangoModelExportAdapter(self.model)
         exporter.append(adapter)
-        data = get_data(exporter, file_type=DB_DJANGO)
+        data = get_data(exporter, file_type=DB_DJANGO, **self.keywords)
         return data
 
     def write_data(self, sheet):
@@ -106,7 +106,7 @@ class SheetDjangoSource(Source):
         adapter.set_column_name_mapping_dict(self.keywords.get(params.MAPDICT, None))
         adapter.set_row_initializer(self.keywords.get(params.INITIALIZER, None))
         importer.append(adapter)
-        save_data(importer, {adapter.get_name(): sheet.array}, file_type=DB_DJANGO)
+        save_data(importer, {adapter.get_name(): sheet.array}, file_type=DB_DJANGO, **self.keywords)
 
 
 class BookSQLSource(Source):
@@ -127,7 +127,7 @@ class BookSQLSource(Source):
         for table in self.tables:
             adapter = SQLTableExportAdapter(table)
             exporter.append(adapter)
-        data = get_data(exporter, file_type=DB_SQL)
+        data = get_data(exporter, file_type=DB_SQL, **self.keywords)
         return data
 
     def get_source_info(self):
@@ -158,7 +158,7 @@ class BookSQLSource(Source):
             # due book.to_dict() brings in column_names
             # which corrupts the data
             to_store[sheet_name] = book[sheet_name].array
-        save_data(importer, to_store, file_type=DB_SQL)
+        save_data(importer, to_store, file_type=DB_SQL, **self.keywords)
 
 
 class BookDjangoSource(Source):
@@ -178,7 +178,7 @@ class BookDjangoSource(Source):
         for model in self.models:
             adapter = DjangoModelExportAdapter(model)
             exporter.append(adapter)
-        data = get_data(exporter, file_type=DB_DJANGO)
+        data = get_data(exporter, file_type=DB_DJANGO, **self.keywords)
         return data
 
     def get_source_info(self):
