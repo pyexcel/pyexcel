@@ -15,6 +15,10 @@ class SheetStream(NamedContent):
     """
     A container to hold generator as sheet content
     """
+    def __init__(self, name, payload):
+        NamedContent.__init__(self, name, payload)
+        self.colnames = []
+
     def save_to(self, source):
         """Save to a writeable data source"""
         source.write_data(self)

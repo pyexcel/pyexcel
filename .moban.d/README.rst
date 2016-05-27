@@ -1,15 +1,15 @@
 ========================================================
-pyexcel - Let you focus on data, instead of file formats
+{{name}} - Let you focus on data, instead of file formats
 ========================================================
 
-.. image:: https://api.travis-ci.org/pyexcel/pyexcel.svg?branch=master
-    :target: http://travis-ci.org/pyexcel/pyexcel
+.. image:: https://api.travis-ci.org/{{name}}/{{name}}.svg?branch=master
+    :target: http://travis-ci.org/{{name}}/{{name}}
 
-.. image:: https://codecov.io/github/pyexcel/pyexcel/coverage.svg?branch=master
-    :target: https://codecov.io/github/pyexcel/pyexcel?branch=master
+.. image:: https://codecov.io/github/{{name}}/{{name}}/coverage.svg?branch=master
+    :target: https://codecov.io/github/{{name}}/{{name}}?branch=master
 
-.. image:: https://readthedocs.org/projects/pyexcel/badge/?verssion=latest
-    :target: http://pyexcel.readthedocs.org/en/latest/
+.. image:: https://readthedocs.org/projects/{{name}}/badge/?verssion=latest
+    :target: http://{{name}}.readthedocs.org/en/latest/
 
 
 {%include "constraints.rst.jj2" %}
@@ -114,4 +114,3 @@ Acknowledgement
 
 All great work have done by odf, ezodf(2), xlrd, xlwt, tabulate and other individual developers. This library unites only the data access code.
 
-Extension management code was reused from `flask <https://github.com/mitsuhiko/flask>`_.
