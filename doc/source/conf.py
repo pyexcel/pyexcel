@@ -22,6 +22,8 @@ release = '0.2.2'
 exclude_patterns = []
 pygments_style = 'sphinx'
 html_theme = 'default'
+
+
 def setup(app):
     app.add_stylesheet('theme_overrides.css')
 html_static_path = ['_static']
@@ -36,7 +38,7 @@ man_pages = [
      [u'Onni Software Ltd.'], 1)
 ]
 texinfo_documents = [
-  ('index', 'pyexcel', u'pyexcel Documentation',
-   u'Onni Software Ltd.', 'pyexcel', 'One line description of project.',
-   'Miscellaneous'),
+    ('index', 'pyexcel', u'pyexcel Documentation',
+     'Onni Software Ltd.', 'pyexcel', 'One line description of project.',
+     'Miscellaneous'),
 ]
