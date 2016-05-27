@@ -48,7 +48,7 @@ class ExcelSource(InputSource):
         """
         Return a dictionary with only one key and one value
         """
-        sheets = get_data(self.file_name, **self.keywords)
+        sheets = get_data(self.file_name, streaming=True, **self.keywords)
         return sheets
 
 
@@ -72,10 +72,12 @@ class ExcelMemorySource(InputSource):
         if self.file_stream is not None:
             sheets = get_data(self.file_stream,
                               file_type=self.file_type,
+                              streaming=True,
                               **self.keywords)
         else:
             sheets = get_data(self.file_content,
                               file_type=self.file_type,
+                              streaming=True,
                               **self.keywords)
         return sheets
 
