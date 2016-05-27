@@ -47,7 +47,6 @@ before_install:
   - pip install -r tests/requirements.txt
   - pip install flake8
 script:
-  - flake8 .
-  - make test
+  - flake8 . --exclude=.moban.d  - make test
 after_success:
   codecov
