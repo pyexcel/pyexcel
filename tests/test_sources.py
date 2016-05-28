@@ -1,9 +1,21 @@
-from nose.tools import raises
+from nose.tools import raises, eq_
 
 from pyexcel.factory import Source, ReadOnlySource
 from pyexcel.factory import FileSource, WriteOnlySource
 
 from pyexcel.sources.file_source_output import WriteOnlySheetSource
+from pyexcel.sources.file_source_output import IOSource
+from pyexcel.sources.file_source_input import InputSource
+
+
+def test_io_source():
+    status = IOSource.can_i_handle("read", "xls")
+    eq_(status, False)
+
+
+def test_input_source():
+    status = InputSource.can_i_handle("write", "xls")
+    eq_(status, False)
 
 
 def test_source():

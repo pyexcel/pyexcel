@@ -55,7 +55,7 @@ class Renderer(object):
         self.write_title = flag
 
     def render_sheet(self, sheet):
-        self.stream.write(sheet.name)
+        raise NotImplementedError("Please render sheet")
 
     def render_book(self, book):
         number_of_sheets = book.number_of_sheets() - 1

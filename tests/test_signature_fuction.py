@@ -1,8 +1,8 @@
-import pyexcel as pe
 import os
+import pyexcel as pe
 from db import Session, Base, Signature, Signature2, engine
 from _compact import OrderedDict
-from nose.tools import raises
+from nose.tools import raises, eq_
 
 
 class TestNone:
@@ -707,6 +707,45 @@ class TestGetBook:
         io = pe.save_book_as(dest_file_type="xls", bookdict=content)
         adict = pe.get_book_dict(file_content=io.getvalue(), file_type="xls")
         assert adict == content
+
+    def test_get_sheet_from_array(self):
+        data = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        book = pe.get_book(array=data)
+        result = book.to_dict()
+        eq_(data, result['pyexcel_sheet1'])
+
+    def test_get_sheet_from_dict(self):
+        adict = {
+            "X": [1, 4],
+            "Y": [2, 5],
+            "Z": [3, 6]
+        }
+        book = pe.get_book(adict=adict)
+        expected = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        result = book.to_dict()
+        eq_(expected, result['pyexcel_sheet1'])
+
+    def test_get_sheet_from_records(self):
+        records = [
+            {"X": 1, "Y": 2, "Z": 3},
+            {"X": 4, "Y": 5, "Z": 6}
+        ]
+        book = pe.get_book(records=records)
+        expected = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        result = book.to_dict()
+        eq_(expected, result['pyexcel_sheet1'])
 
 
 class TestSaveAs:

@@ -25,6 +25,7 @@ except ImportError:
 
 file_types = tuple(RendererFactory.renderer_factories.keys())
 
+
 class IOSource(FileSource):
     """
     Get excel data from file source
