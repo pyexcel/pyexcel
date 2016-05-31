@@ -46,7 +46,10 @@ class SourceFactory:
                 'sheet',
                 'read',
                 **keywords)
-        return source
+        if source is None:
+            raise NotImplementedError("No source found for %s" % keywords)
+        else:
+            return source
 
     @classmethod
     def get_book_source(self, **keywords):
@@ -59,21 +62,32 @@ class SourceFactory:
                 'book',
                 'read',
                 **keywords)
-        return source
+        if source is None:
+            raise NotImplementedError("No source found for %s" % keywords)
+        else:
+            return source
 
     @classmethod
     def get_writeable_source(self, **keywords):
-        return self._get_generic_source(
+        source = self._get_generic_source(
             'sheet',
             'write',
             **keywords)
+        if source is None:
+            raise NotImplementedError("No source found for %s" % keywords)
+        else:
+            return source
 
     @classmethod
     def get_writeable_book_source(self, **keywords):
-        return self._get_generic_source(
+        source = self._get_generic_source(
             'book',
             'write',
             **keywords)
+        if source is None:
+            raise NotImplementedError("No source found for %s" % keywords)
+        else:
+            return source
 
 
 class Source(object):

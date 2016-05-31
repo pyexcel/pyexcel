@@ -785,10 +785,10 @@ class TestSaveAs:
             [4, 5, 6]
         ]
 
-    @raises(ValueError)
+    @raises(NotImplementedError)
     def test_wrong_parameters(self):
         pe.save_as(something="else")
 
-    @raises(ValueError)
+    @raises(NotImplementedError)
     def test_wrong_parameters_book(self):
         pe.save_book_as(something="else")

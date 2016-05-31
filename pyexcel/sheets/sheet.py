@@ -94,8 +94,6 @@ class Sheet(NominableSheet):
         from ..factory import SourceFactory
         out_source = SourceFactory.get_writeable_source(
             file_name=filename, **keywords)
-        if out_source is None:
-            raise Exception("No handler found to save %s" % filename)
         return self.save_to(out_source)
 
     def save_to_memory(self, file_type, stream=None, **keywords):
@@ -113,8 +111,6 @@ class Sheet(NominableSheet):
             file_type=file_type,
             file_stream=stream,
             **keywords)
-        if out_source is None:
-            raise Exception("No handler found to save to memory as %s" % file_type)
         self.save_to(out_source)
         return out_source.content
 
