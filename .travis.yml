@@ -41,7 +41,7 @@ before_install:
   - if [[ -f min_requirements.txt && "$MINREQ" -eq 1 ]]; then
       mv min_requirements.txt requirements.txt ;
     fi
-  - test ! -f rnd_requirements.txt || pip install --upgrade "setuptools" "pip==7.1"
+  - pip install --upgrade "setuptools" "pip==7.1"
   - test ! -f rnd_requirements.txt || pip install --no-deps -r rnd_requirements.txt
   - test ! -f rnd_requirements.txt || pip install -r rnd_requirements.txt ;
   - pip install -r tests/requirements.txt
