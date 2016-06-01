@@ -7,7 +7,7 @@ except ImportError:
 
 NAME = 'pyexcel'
 AUTHOR = 'C.W.'
-VERSION = '0.2.2'
+VERSION = '0.2.3'
 EMAIL = 'wangc_2011 (at) hotmail.com'
 LICENSE = 'New BSD'
 PACKAGES = find_packages(exclude=['ez_setup', 'examples', 'tests'])
@@ -30,9 +30,9 @@ INSTALL_REQUIRES = [
 ]
 
 EXTRAS_REQUIRE = {
-    'xls': ['pyexcel-xls>=0.1.0'],
-    'xlsx': ['pyexcel-xlsx>=0.1.0'],
-    'ods': ['pyexcel-ods3>=0.1.0'],
+    'xls': ['pyexcel-xls>=0.2.0'],
+    'xlsx': ['pyexcel-xlsx>=0.2.0'],
+    'ods': ['pyexcel-ods3>=0.2.0'],
   ':python_version<"3"': [
     'texttable>=0.8.1'
   ],
