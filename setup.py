@@ -11,11 +11,15 @@ VERSION = '0.2.3'
 EMAIL = 'wangc_2011 (at) hotmail.com'
 LICENSE = 'New BSD'
 PACKAGES = find_packages(exclude=['ez_setup', 'examples', 'tests'])
-DESCRIPTION = 'A wrapper library that provides one API to read, manipulate and write data in different excel formats'
+DESCRIPTION = (
+    'A wrapper library that provides one API to read, manipulate and write ' +
+    'data in different excel formats' +
+    ''
+)
 KEYWORDS = [
-   'excel',
-   'python',
-   'pyexcel',
+    'excel',
+    'python',
+    'pyexcel',
     'tsv',
     'tsvz'
     'csv',
@@ -33,21 +37,21 @@ EXTRAS_REQUIRE = {
     'xls': ['pyexcel-xls>=0.2.0'],
     'xlsx': ['pyexcel-xlsx>=0.2.0'],
     'ods': ['pyexcel-ods3>=0.2.0'],
-  ':python_version<"3"': [
-    'texttable>=0.8.1'
-  ],
-  ':python_version>="3"': [
-    'texttable>=0.8.2'
-  ],
-  ':python_version<"2.7"': [
-    'ordereddict'
-  ],
-  ':python_version<"2.7"': [
-    'weakrefset'
-  ],
-  ':platform_python_implementation=="PyPy"': [
-    'lxml==3.4.4'
-  ],
+    ':python_version<"3"': [
+        'texttable>=0.8.1'
+    ],
+    ':python_version>="3"': [
+        'texttable>=0.8.2'
+    ],
+    ':python_version<"2.7"': [
+        'ordereddict'
+    ],
+    ':python_version<"2.7"': [
+        'weakrefset'
+    ],
+    ':platform_python_implementation=="PyPy"': [
+        'lxml==3.4.4'
+    ],
 }
 
 CLASSIFIERS = [

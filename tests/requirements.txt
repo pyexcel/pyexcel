@@ -1,6 +1,7 @@
 nose
 codecov
 coverage
+flake8
 SQLAlchemy
 mock
 glob2
