@@ -55,11 +55,27 @@ Source code is hosted in github. You can get it using git client:
 Installation
 -------------
 
+
+Recently, pyexcel(0.2.2+) and its plugins(0.2.0+) started using newer version of setuptools. Please upgrade your setup tools before install latest pyexcel components:
+
+.. code-block:: bash
+
+    $ pip install --upgrade setuptools
+
 You can install it via pip:
 
 .. code-block:: bash
 
     $ pip install pyexcel
+
+
+or clone it and install it:
+
+.. code-block:: bash
+
+    $ git clone http://github.com/pyexcel/pyexcel.git
+    $ cd pyexcel
+    $ python setup.py install
 
 For individual excel file formats, please install them as you wish:
 
