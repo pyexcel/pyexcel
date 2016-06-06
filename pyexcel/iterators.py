@@ -16,6 +16,7 @@ class PyexcelIterator:
     def __next__(self):
         return self.next()
 
+
 class HTLBRIterator(PyexcelIterator):
     """
     Horizontal Top Left to Bottom Right Iterator

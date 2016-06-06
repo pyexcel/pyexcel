@@ -42,7 +42,7 @@ class IndexFilter(object):
         if self.eval_func:
             if self.shallow_eval_func is None:
                 self.shallow_eval_func = self.eval_func
-                self.eval_func = lambda value: not self.shallow_eval_func(value)
+                self.eval_func = lambda val: not self.shallow_eval_func(val)
             else:
                 self.eval_func = self.shallow_eval_func
                 self.shallow_eval_func = None
@@ -394,5 +394,6 @@ class RowInFileFilter(RowValueFilter):
 
         :param Matrix reader: a Matrix instance
         """
-        func = lambda row_a: not reader.contains((lambda row_b: row_a == row_b))
+        func = lambda row_a: not reader.contains(
+            (lambda row_b: row_a == row_b))
         RowValueFilter.__init__(self, func)

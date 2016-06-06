@@ -33,7 +33,7 @@ else:
     Iterator = object
     import urllib.request as request
 
-    
+
 def is_tuple_consists_of_strings(an_array):
     return isinstance(an_array, tuple) and is_array_type(an_array, str)
 

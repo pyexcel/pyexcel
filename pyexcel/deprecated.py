@@ -82,7 +82,8 @@ def load(file_name, sheetname=None, **keywords):
                           sheet_name=sheetname,
                           **keywords)
     else:
-        sheet = get_sheet(file_name=file_name, sheet_name=sheetname, **keywords)
+        sheet = get_sheet(file_name=file_name, sheet_name=sheetname,
+                          **keywords)
     return sheet
 
 
@@ -112,7 +113,8 @@ def load_from_query_sets(column_names, query_sets, **keywords):
     :param query_sets: the values
     :returns: :class:`Sheet`
     """
-    return get_sheet(column_names=column_names, query_sets=query_sets, **keywords)
+    return get_sheet(column_names=column_names, query_sets=query_sets,
+                     **keywords)
 
 
 @DEPRECATED_LOADER
@@ -178,12 +180,13 @@ def Reader(file_name=None, sheetname=None, **keywords):
                          sheet_name=sheetname,
                          **keywords)
     else:
-        return get_sheet(file_name=file_name, sheet_name=sheetname, **keywords)
+        return get_sheet(file_name=file_name, sheet_name=sheetname,
+                         **keywords)
 
 
 @partial(deprecated,
-         message=("Deprecated since v0.0.7! " +
-                  "Please use class Sheet(..., name_columns_by_row=0,..) instead"))
+         message=("Deprecated since v0.0.7! Please use class " +
+                  "Sheet(..., name_columns_by_row=0,..) instead"))
 def SeriesReader(file_name=None, sheetname=None, series=0, **keywords):
     """A single sheet excel file reader and it has column headers in a selected row
 
@@ -202,8 +205,9 @@ def SeriesReader(file_name=None, sheetname=None, series=0, **keywords):
                     **keywords)
 
 
-@partial(deprecated,
-         message="Please use class Sheet(..., name_rows_by_column=0..) instead")
+@partial(
+    deprecated,
+    message="Please use class Sheet(..., name_rows_by_column=0..) instead")
 def ColumnSeriesReader(file_name=None, sheetname=None, series=0, **keywords):
     """A single sheet excel file reader and it has row headers in a selected column
 
@@ -231,12 +235,15 @@ def BookReader(file_name, **keywords):
 
 
 def Writer(*args, **keywords):
-    raise DeprecationWarning("Since v0.0.18, please use module function save_as")
+    raise DeprecationWarning(
+        "Since v0.0.18, please use module function save_as")
 
 
 def BookWriter(*args, **keywords):
-    raise DeprecationWarning("Since v0.0.18, please use module function save_book_as")
+    raise DeprecationWarning(
+        "Since v0.0.18, please use module function save_book_as")
+
 
 def deprecated_pyexcel_ext(version, module_name):
-    print("Deprecated usage since v%s! Explicit import " % version+
+    print("Deprecated usage since v%s! Explicit import " % version +
           "is no longer required. %s is auto imported." % module_name)

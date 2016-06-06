@@ -65,14 +65,14 @@ class BookStream(object):
         return Book(self.to_dict(),
                     filename=self.filename,
                     path=self.path)
-    
+
     def to_dict(self):
         """
         Get book data structure as a dictionary
         """
         the_dict = OrderedDict()
         for sheet in self:
-            the_dict.update({sheet.name:sheet.payload})
+            the_dict.update({sheet.name: sheet.payload})
         return the_dict
 
     def __iter__(self):
@@ -268,7 +268,8 @@ class Book(object):
         :param str filename: a file path
         """
         from .factory import SourceFactory
-        out_source = SourceFactory.get_writeable_book_source(file_name=filename)
+        out_source = SourceFactory.get_writeable_book_source(
+            file_name=filename)
         self.save_to(out_source)
 
     def save_to_memory(self, file_type, stream=None, **keywords):
@@ -285,21 +286,23 @@ class Book(object):
             file_stream=stream,
             **keywords)
         self.save_to(out_source)
-        return out_source.content    
+        return out_source.content
 
     def save_to_django_models(self, models,
-                              initializers=None, mapdicts=None, batch_size=None):
+                              initializers=None, mapdicts=None,
+                              batch_size=None):
         """Save to database table through django model
 
         :param models: a list of database models, that is accepted by
-                       :meth:`Sheet.save_to_django_model`. The sequence of tables
-                       matters when there is dependencies in between the tables.
-                       For example, **Car** is made by **Car Maker**. **Car Maker**
-                       table should be specified before **Car** table.
-        :param initializers: a list of intialization functions for your talbes and
-                             the sequence should match tables,
-        :param mapdicts: custom map dictionary for your data columns and the sequence should
-                   match tables
+                       :meth:`Sheet.save_to_django_model`. The sequence
+                       of tables matters when there is dependencies in
+                       between the tables. For example, **Car** is made
+                       by **Car Maker**. **Car Maker** table should be
+                       specified before **Car** table.
+        :param initializers: a list of intialization functions for your
+                             tables and the sequence should match tables,
+        :param mapdicts: custom map dictionary for your data columns
+                         and the sequence should match tables
         """
         from .factory import SourceFactory
         out_source = SourceFactory.get_writeable_book_source(
@@ -317,14 +320,15 @@ class Book(object):
 
         :param session: database session
         :param tables: a list of database tables, that is accepted by
-                       :meth:`Sheet.save_to_database`. The sequence of tables matters
-                       when there is dependencies in between the tables. For example,
-                       **Car** is made by **Car Maker**. **Car Maker** table should
+                       :meth:`Sheet.save_to_database`. The sequence of tables
+                       matters when there is dependencies in between the
+                       tables. For example, **Car** is made by **Car Maker**.
+                       **Car Maker** table should
                        be specified before **Car** table.
-        :param initializers: a list of intialization functions for your tables and
-                             the sequence should match tables,
-        :param mapdicts: custom map dictionary for your data columns and the sequence should
-                   match tables
+        :param initializers: a list of intialization functions for your
+                             tables and the sequence should match tables,
+        :param mapdicts: custom map dictionary for your data columns
+                         and the sequence should match tables
         :param auto_commit: by default, data is committed.
 
         """

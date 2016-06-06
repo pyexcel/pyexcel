@@ -104,7 +104,7 @@ class Source(object):
 
     def get_source_info(self):
         return (None, None)
-        
+
     @classmethod
     def is_my_business(cls, action, **keywords):
         """

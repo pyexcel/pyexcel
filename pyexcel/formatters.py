@@ -186,7 +186,8 @@ class ColumnFormatter(Formatter):
             else:
                 raise IndexError(MESSAGE_DATA_ERROR_COLUMN_LIST_INTEGER_TYPE)
         else:
-            raise NotImplementedError("%s is not supported" % type(column_index))
+            raise NotImplementedError(
+                "%s is not supported" % type(column_index))
         Formatter.__init__(self, func, formatter)
 
 
@@ -210,7 +211,8 @@ class NamedColumnFormatter(ColumnFormatter):
             else:
                 raise IndexError(MESSAGE_DATA_ERROR_COLUMN_LIST_STRING_TYPE)
         else:
-            raise NotImplementedError("%s is not supported" % type(column_index))
+            raise NotImplementedError(
+                "%s is not supported" % type(column_index))
         Formatter.__init__(self, func, formatter)
 
     def update_index(self, new_indices):
@@ -220,7 +222,9 @@ class NamedColumnFormatter(ColumnFormatter):
         elif isinstance(new_indices, list):
             self.quanlify_func = lambda r, c, v: c in new_indices
         else:
-            raise NotImplementedError("%s is not supported" % type(new_indices))
+            raise NotImplementedError(
+                "%s is not supported" % type(new_indices))
+
 
 class RowFormatter(Formatter):
     """Row Formatter"""
@@ -242,7 +246,8 @@ class RowFormatter(Formatter):
             else:
                 raise IndexError(MESSAGE_DATA_ERROR_COLUMN_LIST_INTEGER_TYPE)
         else:
-            raise NotImplementedError("%s is not supported" % type(row_index))
+            raise NotImplementedError(
+                "%s is not supported" % type(row_index))
         Formatter.__init__(self, func, formatter)
 
 
@@ -266,7 +271,8 @@ class NamedRowFormatter(RowFormatter):
             else:
                 raise IndexError(MESSAGE_DATA_ERROR_COLUMN_LIST_STRING_TYPE)
         else:
-            raise NotImplementedError("%s is not supported" % type(row_index))
+            raise NotImplementedError(
+                "%s is not supported" % type(row_index))
         Formatter.__init__(self, func, formatter)
 
     def update_index(self, new_indices):
@@ -275,7 +281,8 @@ class NamedRowFormatter(RowFormatter):
         elif isinstance(new_indices, list):
             self.quanlify_func = lambda r, c, v: r in new_indices
         else:
-            raise NotImplementedError("%s is not supported" % type(new_indices))
+            raise NotImplementedError(
+                "%s is not supported" % type(new_indices))
 
 
 class SheetFormatter(Formatter):

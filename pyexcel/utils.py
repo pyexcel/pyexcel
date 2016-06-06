@@ -16,6 +16,7 @@ from ._compact import deprecated
 
 LOCAL_UUID = 0
 
+
 def local_uuid():
     global LOCAL_UUID
     LOCAL_UUID = LOCAL_UUID + 1
