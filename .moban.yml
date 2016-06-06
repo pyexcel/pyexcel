@@ -18,3 +18,4 @@ targets:
   - test.sh: test.sh
   - test.bat: test.bat
   - .gitignore: .gitignore
+  - "doc/source/index.rst": "docs/source/index.rst.jj2"

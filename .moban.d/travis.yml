@@ -40,4 +40,3 @@ matrix:
 {%block custom_install%}
   - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then rm tests/test_examples.py; fi
 {%endblock%}
-{%block flake8_options%}--exclude=.moban.d{%endblock%}
