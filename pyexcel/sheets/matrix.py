@@ -10,7 +10,6 @@ of lookup.
 """
 import re
 import copy
-from texttable import Texttable
 from .._compact import is_array_type, PY2
 from ..iterators import (
     HTLBRIterator,
@@ -109,8 +108,16 @@ _INDICES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 def _get_index(index_chars):
     length = len(index_chars)
-    if len(index_chars) > 1:
-        return (_get_index(index_chars[0])+1) * (len(_INDICES) ** (length-1)) + _get_index(index_chars[1:])
+    index_chars_length = len(_INDICES)
+    if length > 1:
+        index = 0
+        for i in range(0, length):
+            if i < (length - 1):
+                index += ((_INDICES.index(index_chars[i]) + 1) *
+                          (index_chars_length ** (length - 1 - i)))
+            else:
+                index += _INDICES.index(index_chars[i])
+        return index
     else:
         return _INDICES.index(index_chars[0])
 
@@ -828,7 +835,8 @@ class Matrix(object):
                 self.cell_value(row_index, i, data_array[i-starting])
             if real_len > ncolumns:
                 left = ncolumns - starting
-                self.array[row_index] = self.array[row_index] + data_array[left:]
+                self.array[row_index] = (self.array[row_index] +
+                                         data_array[left:])
             self.width, self.array = uniform(self.array)
         else:
             raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)

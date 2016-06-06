@@ -3,7 +3,7 @@ import pyexcel as pe
 import datetime
 import copy
 from base import PyexcelIteratorBase, create_sample_file2
-from nose.tools import raises
+from nose.tools import raises, eq_
 
 
 class TestMatrixColumn:
@@ -454,7 +454,7 @@ class TestUtilityFunctions:
         assert index == 27
         chars = "AAB"
         index = pe.sheets.matrix._excel_column_index(chars)
-        assert index == 703
+        eq_(index, 703)
 
     def test_excel_cell_position(self):
         pos_chars = "A"
@@ -468,7 +468,7 @@ class TestUtilityFunctions:
         pos_chars = "AAB111"
         row, column = pe.sheets.matrix._excel_cell_position(pos_chars)
         assert row == 110
-        assert column == 703
+        eq_(column, 703)
 
     @raises(ValueError)
     def test_analyse_slice(self):

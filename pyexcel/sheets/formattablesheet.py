@@ -73,7 +73,8 @@ class FormattableSheet(Matrix):
             >>> sheet = pe.get_sheet(adict=data)
             >>> sheet.row[1]
             [1, 1.25, 2, 1]
-            >>> sheet.map(lambda value: (float(value) if value != None else 0)+1 )
+            >>> inc = lambda value: (float(value) if value != None else 0)+1
+            >>> sheet.map(inc)
             >>> sheet.row[1]
             [2.0, 2.25, 3.0, 2.0]
 
@@ -97,7 +98,8 @@ class FormattableSheet(Matrix):
             >>> sheet = pe.get_sheet(adict=data)
             >>> sheet.row[1]
             [1, 1.25, 2, 1]
-            >>> aformatter = pe.SheetFormatter(lambda value: (float(value) if value != None else 0)+1 )
+            >>> inc = lambda value: (float(value) if value != None else 0)+1
+            >>> aformatter = pe.SheetFormatter(inc)
             >>> sheet.apply_formatter(aformatter)
             >>> sheet.row[1]
             [2.0, 2.25, 3.0, 2.0]
@@ -160,14 +162,15 @@ class FormattableSheet(Matrix):
             >>> sheet = pe.get_sheet(adict=data)
             >>> sheet.row[1]
             [1, 1.25, 2, 1]
-            >>> aformatter = pe.SheetFormatter(lambda value: (float(value) if value != None else 0)+1 )
+            >>> inc = lambda value: (float(value) if value != None else 0)+1
+            >>> aformatter = pe.SheetFormatter(inc)
             >>> sheet.add_formatter(aformatter)
             >>> sheet.row[1]
             [2.0, 2.25, 3.0, 2.0]
             >>> sheet.clear_formatters()
             >>> sheet.row[1]
             [1, 1.25, 2, 1]
-            >>> aformatter = pe.SheetFormatter(lambda value: (float(value) if value != None else 0)+1 )
+            >>> aformatter = pe.SheetFormatter(inc)
             >>> sheet.apply_formatter(aformatter)
             >>> sheet.row[1]
             [2.0, 2.25, 3.0, 2.0]
@@ -201,14 +204,14 @@ class FormattableSheet(Matrix):
             >>> sheet = pe.get_sheet(adict=data)
             >>> sheet.row[1]
             [1, 1.25, 2, 1]
-            >>> aformatter = pe.SheetFormatter(lambda value: (float(value) if value != None else 0)+1)
+            >>> inc = lambda value: (float(value) if value != None else 0)+1
+            >>> aformatter = pe.SheetFormatter(inc)
             >>> sheet.add_formatter(aformatter)
             >>> sheet.row[1]
             [2.0, 2.25, 3.0, 2.0]
             >>> sheet.clear_formatters()
             >>> sheet.row[1]
             [1, 1.25, 2, 1]
-
 
         """
         self._formatters = []

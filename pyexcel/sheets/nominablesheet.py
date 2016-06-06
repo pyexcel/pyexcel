@@ -7,7 +7,6 @@
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-from texttable import Texttable
 from .matrix import Row, Column, Matrix
 from .formattablesheet import FormattableSheet
 from .filterablesheet import FilterableSheet
@@ -17,6 +16,7 @@ from ..formatters import (
     NamedColumnFormatter,
     NamedRowFormatter)
 from .._compact import is_string, OrderedDict, PY2, is_array_type
+from .._compact import is_tuple_consists_of_strings
 from ..filters import ColumnIndexFilter, RowIndexFilter
 from ..iterators import (
     ColumnIndexIterator,
@@ -24,7 +24,11 @@ from ..iterators import (
     NamedRowIterator,
     NamedColumnIterator
 )
-from ..constants import MESSAGE_NOT_IMPLEMENTED_02, MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED, DEFAULT_NAME
+from ..constants import (
+    MESSAGE_NOT_IMPLEMENTED_02,
+    MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED,
+    DEFAULT_NAME
+)
 
 
 def names_to_indices(names, series):
@@ -78,14 +82,33 @@ class NamedRow(Row):
 
     Now let's verify what we had::
 
-        >>> r=pe.get_sheet(file_name="merged.csv")
+        >>> sheet = pe.get_sheet(file_name="merged.csv")
 
     this is added to overcome doctest's inability to handle
     python 3's unicode::
 
-        >>> r.format(lambda v: str(v))
-        >>> print(pe.to_array(r))
-        [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9'], ['a', 'b', 'c'], ['d', 'e', 'f'], ['g', 'h', 'i'], ['1.1', '2.2', '3.3'], ['4.4', '5.5', '6.6'], ['7.7', '8.8', '9.9']]
+        >>> sheet.format(lambda v: str(v))
+        >>> sheet
+        merged.csv:
+        +-----+-----+-----+
+        | 1   | 2   | 3   |
+        +-----+-----+-----+
+        | 4   | 5   | 6   |
+        +-----+-----+-----+
+        | 7   | 8   | 9   |
+        +-----+-----+-----+
+        | a   | b   | c   |
+        +-----+-----+-----+
+        | d   | e   | f   |
+        +-----+-----+-----+
+        | g   | h   | i   |
+        +-----+-----+-----+
+        | 1.1 | 2.2 | 3.3 |
+        +-----+-----+-----+
+        | 4.4 | 5.5 | 6.6 |
+        +-----+-----+-----+
+        | 7.7 | 8.8 | 9.9 |
+        +-----+-----+-----+
 
     .. testcleanup::
         >>> import os
@@ -178,7 +201,7 @@ class NamedRow(Row):
         """
         if is_string(type(column_name)):
             self.ref.delete_named_row_at(column_name)
-        elif isinstance(column_name, tuple) and is_array_type(list(column_name), str):
+        elif is_tuple_consists_of_strings(column_name):
             indices = names_to_indices(list(column_name), self.ref.rownames)
             Row.__delitem__(self, indices)
         else:
@@ -338,7 +361,7 @@ class NamedColumn(Column):
         """
         if is_string(type(str_or_aslice)):
             self.ref.delete_named_column_at(str_or_aslice)
-        elif isinstance(str_or_aslice, tuple) and is_array_type(list(str_or_aslice), str):
+        elif is_tuple_consists_of_strings(str_or_aslice):
             indices = names_to_indices(list(str_or_aslice), self.ref.colnames)
             Column.__delitem__(self, indices)
         else:
@@ -408,6 +431,7 @@ VALID_SHEET_PARAMETERS = ['name_columns_by_row',
                           'rownames',
                           'transpose_before',
                           'transpose_after']
+
 
 class NominableSheet(FilterableSheet):
     """Allow dictionary group of the content

@@ -7,7 +7,7 @@
     :copyright: (c) 2014-2016 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-from .sheets import NominableSheet, Sheet
+from .sheets import Sheet
 from ._compact import OrderedDict, PY2
 from .constants import MESSAGE_DATA_ERROR_NO_SERIES
 from functools import partial
@@ -52,7 +52,7 @@ def to_dict(an_object):
     return the_dict
 
 
-def to_records(reader, custom_headers=None):
+def to_records(sheet, custom_headers=None):
     """
     Make an array of dictionaries
 
@@ -62,23 +62,23 @@ def to_records(reader, custom_headers=None):
     database operations.
     """
     ret = []
-    if isinstance(reader, NominableSheet) is False:
+    if not (hasattr(sheet, 'colnames') and hasattr(sheet, 'rownames')):
         raise NotImplementedError
-    if len(reader.rownames) > 0:
+    if len(sheet.colnames) > 0:
         if custom_headers:
             headers = custom_headers
         else:
-            headers = reader.rownames
-        for column in reader.columns():
-            the_dict = dict(zip(headers, column))
-            ret.append(the_dict)
-    elif len(reader.colnames) > 0:
-        if custom_headers:
-            headers = custom_headers
-        else:
-            headers = reader.colnames
-        for row in reader.rows():
+            headers = sheet.colnames
+        for row in sheet.rows():
             the_dict = dict(zip(headers, row))
+            ret.append(the_dict)
+    elif len(sheet.rownames) > 0:
+        if custom_headers:
+            headers = custom_headers
+        else:
+            headers = sheet.rownames
+        for column in sheet.columns():
+            the_dict = dict(zip(headers, column))
             ret.append(the_dict)
     else:
         raise ValueError(MESSAGE_DATA_ERROR_NO_SERIES)

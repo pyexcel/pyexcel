@@ -73,7 +73,7 @@ class Sheet(NominableSheet):
     def content(self):
         content = self.get_texttable(write_title=False)
         return self._RepresentedString(content)
-        
+
     def save_to(self, source):
         """Save to a writeable data source"""
         source.write_data(self)
@@ -120,12 +120,12 @@ class Sheet(NominableSheet):
                              mapdict=None,
                              batch_size=None):
         """Save to database table through django model
-        
+
         :param model: a database model
         :param initializer: a intialization functions for your model
         :param mapdict: custom map dictionary for your data columns
-        :param batch_size: a parameter to Django concerning the size of data base
-                           set
+        :param batch_size: a parameter to Django concerning the size
+                           of data base set
         """
         from ..factory import SourceFactory
         source = SourceFactory.get_writeable_source(

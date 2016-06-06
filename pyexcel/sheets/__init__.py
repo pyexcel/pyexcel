@@ -9,8 +9,8 @@
 """
 from .sheet import (
     Sheet, SheetStream,
-    NominableSheet)
-from .formattablesheet import FormattableSheet
-from .filterablesheet import FilterableSheet
+)
+#from .formattablesheet import FormattableSheet
+#from .filterablesheet import FilterableSheet
 from .nominablesheet import NamedRow, NamedColumn, VALID_SHEET_PARAMETERS
 from .matrix import Matrix, transpose, Row, Column
