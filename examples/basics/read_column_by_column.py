@@ -17,10 +17,11 @@ import pyexcel as pe
 
 def main(base_dir):
     # "example.csv","example.ods","example.xls", "example.xlsm"
-    spreadsheet = pe.load(os.path.join(base_dir,"example.xlsx"))
-    
+    spreadsheet = pe.get_sheet(file_name=os.path.join(base_dir,
+                                                      "example.xlsx"))
+
     # columns() returns column based iterator, meaning it can be iterated
-    # column by column 
+    # column by column
     for value in spreadsheet.columns():
         print(value)
 

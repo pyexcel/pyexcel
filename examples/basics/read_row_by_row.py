@@ -19,17 +19,16 @@ import pyexcel
 
 def main(base_dir):
     # "example.csv","example.xlsx","example.ods", "example.xlsm"
-    spreadsheet = pyexcel.Reader(os.path.join(base_dir,"example.xls"))
-    
+    spreadsheet = pyexcel.get_sheet(os.path.join(base_dir, "example.xls"))
+
     # rows() returns row based iterator, meaning it can be iterated row by row
     for row in spreadsheet.rows():
         print(row)
-    
+
     # Alternatively, you can use::
     #   for row in spreadsheet:
     #       print row
     # because by default **Reader** regards itself a row based iterator.
-
 
 
 if __name__ == '__main__':

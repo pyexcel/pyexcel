@@ -10,13 +10,16 @@ import pyexcel as pe
 
 
 def main(base_dir):
-    sheet = pe.load(os.path.join(base_dir,"tutorial_datatype_01.xls"), name_columns_by_row=0)
+    sheet = pe.get_sheet(file_name=os.path.join(base_dir,
+                                                "tutorial_datatype_01.xls"),
+                         name_columns_by_row=0)
     print(sheet.to_dict())
-    #{u'userid': [10120.0, 10121.0, 10122.0], u'name': [u'Adam', u'Bella', u'Cedar']}
+    # {u'userid': [10120.0, 10121.0, 10122.0],
+    #  u'name': [u'Adam', u'Bella', u'Cedar']}
     sheet.column.format(0, str)
     print(sheet.to_dict())
-    #{u'userid': ['10120.0', '10121.0', '10122.0'], u'name': [u'Adam', u'Bella', u'Cedar']}
-
+    # {u'userid': ['10120.0', '10121.0', '10122.0'],
+    #  u'name': [u'Adam', u'Bella', u'Cedar']}
 
 
 if __name__ == '__main__':

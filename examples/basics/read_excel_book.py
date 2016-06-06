@@ -14,8 +14,9 @@ import pyexcel as pe
 
 def main(base_dir):
     # Simply give a name to the Book class
-    book = pe.get_book(file_name= os.path.join(base_dir,"multiple-sheets.ods"))
-    
+    book = pe.get_book(file_name=os.path.join(base_dir,
+                                              "multiple-sheets.ods"))
+
     # the default iterator for a **Book* instance is a SheetIterator
     for sheet in book:
         # Each sheet has name
@@ -26,18 +27,19 @@ def main(base_dir):
         for row in sheet:
             print(row)
 
+
 if __name__ == '__main__':
     main(os.getcwd())
-#Here's the output
-#sheet: Sheet 2
-#[u'X', u'Y', u'Z']
-#[1.0, 2.0, 3.0]
-#[4.0, 5.0, 6.0]
-#sheet: Sheet 3
-#[u'O', u'P', u'Q']
-#[3.0, 2.0, 1.0]
-#[4.0, 3.0, 2.0]
-#sheet: Sheet 1
-#[1.0, 2.0, 3.0]
-#[4.0, 5.0, 6.0]
-#[7.0, 8.0, 9.0]
+# Here's the output
+# sheet: Sheet 2
+# [u'X', u'Y', u'Z']
+# [1.0, 2.0, 3.0]
+# [4.0, 5.0, 6.0]
+# sheet: Sheet 3
+# [u'O', u'P', u'Q']
+# [3.0, 2.0, 1.0]
+# [4.0, 3.0, 2.0]
+# sheet: Sheet 1
+# [1.0, 2.0, 3.0]
+# [4.0, 5.0, 6.0]
+# [7.0, 8.0, 9.0]

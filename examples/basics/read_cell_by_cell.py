@@ -24,8 +24,8 @@ import pyexcel as pe
 def main(base_dir):
     # Simple give the file name to **Reader**
     # "example.xls","example.xlsx","example.ods", "example.xlsm"
-    spreadsheet = pe.load(os.path.join(base_dir,"example.csv"))
-    
+    spreadsheet = pe.get_sheet(file_name=os.path.join(base_dir, "example.csv"))
+
     # row_range() gives [0 .. number of rows]
     for r in spreadsheet.row_range():
         # column_range() gives [0 .. number of ranges]

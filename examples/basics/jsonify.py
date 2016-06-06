@@ -7,9 +7,10 @@ import os
 import pyexcel as pe
 import json
 
+
 def main(base_dir):
     # "example.xls","example.xlsx","example.ods", "example.xlsm"
-    sheet = pe.Sheet("example.csv")
+    sheet = pe.get_sheet(file_name="example.csv")
     print(json.dumps(sheet.to_array()))
 
 
