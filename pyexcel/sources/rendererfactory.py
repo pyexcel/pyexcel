@@ -26,24 +26,28 @@ class Renderer(object):
     def get_io(self):
         return StringIO()
 
-    def render_sheet_to_file(self, file_name, sheet, write_title=True, **keywords):
+    def render_sheet_to_file(self, file_name, sheet,
+                             write_title=True, **keywords):
         self.set_write_title(write_title)
         with open(file_name, 'w') as outfile:
             self.set_output_stream(outfile)
             self.render_sheet(sheet)
 
-    def render_sheet_to_stream(self, file_stream, sheet, write_title=True, **keywords):
+    def render_sheet_to_stream(self, file_stream, sheet,
+                               write_title=True, **keywords):
         self.set_write_title(write_title)
         self.set_output_stream(file_stream)
         self.render_sheet(sheet)
 
-    def render_book_to_file(self, file_name, book, write_title=True, **keywords):
+    def render_book_to_file(self, file_name, book,
+                            write_title=True, **keywords):
         self.set_write_title(write_title)
         with open(file_name, 'w') as outfile:
             self.set_output_stream(outfile)
             self.render_book(book)
 
-    def render_book_to_stream(self, file_stream, book, write_title=True, **keywords):
+    def render_book_to_stream(self, file_stream, book,
+                              write_title=True, **keywords):
         self.set_write_title(write_title)
         self.set_output_stream(file_stream)
         self.render_book(book)

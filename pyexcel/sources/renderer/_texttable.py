@@ -4,13 +4,15 @@ from pyexcel.sources.rendererfactory import Renderer
 
 
 class TextTableRenderer(Renderer):
+
     file_types = ('texttable',)
+
     def render_sheet(self, sheet):
         self.stream.write(render_text_table(sheet,
                                             self.file_type,
                                             self.write_title))
 
-    
+
 def render_text_table(sheet, _, write_title):
     content = ""
     if write_title:

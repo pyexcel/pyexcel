@@ -19,6 +19,7 @@ DEFAULT_OUT_FILE = 'pyexcel_merged.csv'
 DEFAULT_OUT_XLS_FILE = 'merged.xls'
 OUT_FILE_FORMATTER = 'pyexcel_%s'
 
+
 def update_columns(infilename, column_dicts, outfilename=None):
     """Update one or more columns of a data file with series
 
@@ -179,4 +180,3 @@ def extract_a_sheet_from_a_book(file_name, sheetname, outfilename=None):
     sheet = book[sheetname]
     file_name = "%s_%s" % (sheetname, saveas)
     sheet.save_as(file_name)
-

@@ -16,6 +16,7 @@ from .constants import (
     MESSAGE_DATA_ERROR_COLUMN_LIST_STRING_TYPE
 )
 
+
 def string_to_format(value, target_format):
     """Convert string to specified format"""
     if target_format == float:
@@ -169,11 +170,10 @@ class ColumnFormatter(Formatter):
     """Apply formatting on columns"""
     def __init__(self, column_index, formatter):
         """Constructor
-
-        :param int or list column_index: to which column or what columns to apply the formatter
-        :param type FORMAT: the target format
-        :param func custom_converter: the custom functional formatter
-
+        :param column_index: to which column or what
+                             columns to apply the formatter
+        :param formatter: the target format, or a custom
+                          functional formatter
         """
         self.indices = column_index
         if isinstance(column_index, int):
@@ -194,11 +194,10 @@ class NamedColumnFormatter(ColumnFormatter):
     """Apply formatting using named columns"""
     def __init__(self, column_index, formatter):
         """Constructor
-
-        :param int or list column_index: to which column or what columns to apply the formatter
-        :param type FORMAT: the target format
-        :param func custom_converter: the custom functional formatter
-
+        :param column_index: to which column or what
+                             columns to apply the formatter
+        :param formatter: the target format, or a custom
+                          functional formatter
         """
         self.indices = column_index
         if isinstance(column_index, str):
@@ -227,11 +226,10 @@ class RowFormatter(Formatter):
     """Row Formatter"""
     def __init__(self, row_index, formatter):
         """Constructor
-
-        :param int or list row_index: to which row or what rows to apply the formatter
-        :param type FORMAT: the target format
-        :param func custom_converter: the custom functional formatter
-
+        :param row_index: to which row or what
+                             rows to apply the formatter
+        :param formatter: the target format, or a custom
+                          functional formatter
         """
         self.indices = row_index
         if isinstance(row_index, int):
@@ -252,10 +250,10 @@ class NamedRowFormatter(RowFormatter):
     """Formatting rows using named rows"""
     def __init__(self, row_index, formatter):
         """Constructor
-
-        :param int or list row_index: to which row or what rows to apply the formatter
-        :param type FORMAT: the target format
-        :param func custom_converter: the custom functional formatter
+        :param row_index: to which row or what
+                             rows to apply the formatter
+        :param formatter: the target format, or a custom
+                          functional formatter
         """
         self.indices = row_index
         if isinstance(row_index, str):

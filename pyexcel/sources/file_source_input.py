@@ -23,7 +23,8 @@ class InputSource(FileSource):
     @classmethod
     def can_i_handle(cls, action, file_type):
         if action == params.READ_ACTION:
-            status = file_type in RWManager.reader_factories or file_type in AVAILABLE_READERS 
+            status = (file_type in RWManager.reader_factories or
+                      file_type in AVAILABLE_READERS)
         else:
             status = False
         return status

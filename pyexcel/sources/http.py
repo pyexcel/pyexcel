@@ -14,12 +14,14 @@ from pyexcel.factory import ReadOnlySource
 from pyexcel import params
 
 
+_xlsx = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+
 FILE_TYPE_MIME_TABLE = {
     "text/csv": "csv",
     "text/tab-separated-values": "tsv",
     "application/vnd.oasis.opendocument.spreadsheet": "ods",
     "application/vnd.ms-excel": "xls",
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xlsx",
+    _xlsx: "xlsx",
     "application/vnd.ms-excel.sheet.macroenabled.12": "xlsm"
 }
 

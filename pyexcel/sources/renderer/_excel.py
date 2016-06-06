@@ -5,7 +5,10 @@ from pyexcel.sources.rendererfactory import Renderer
 
 
 class ExcelRenderer(Renderer):
-    file_types = tuple(AVAILABLE_WRITERS) + tuple(RWManager.writer_factories.keys())
+
+    file_types = (tuple(AVAILABLE_WRITERS) +
+                  tuple(RWManager.writer_factories.keys()))
+
     def get_io(self):
         return RWManager.get_io(self.file_type)
 
@@ -21,7 +24,6 @@ class ExcelRenderer(Renderer):
     def render_book_to_file(self, file_name, book, **keywords):
         save_data(file_name, book.to_dict(), **keywords)
 
-
     def render_sheet_to_stream(self, file_stream, sheet, **keywords):
         sheet_name = DEFAULT_SHEET_NAME
         if sheet.name:
@@ -31,7 +33,7 @@ class ExcelRenderer(Renderer):
                   data,
                   file_type=self.file_type,
                   **keywords)
-        
+
     def render_book_to_stream(self, file_stream, book, **keywords):
         save_data(file_stream, book.to_dict(),
                   file_type=self.file_type, **keywords)

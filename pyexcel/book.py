@@ -59,15 +59,13 @@ class BookStream(object):
 
     def save_to(self, source):
         """Save to a writeable data source"""
-        from .sources.database import BookDjangoSource, BookSQLSource
-        if isinstance(source, BookDjangoSource) or isinstance(source, BookSQLSource):
-            book = Book(self.to_dict(),
-                        filename=self.filename,
-                        path=self.path)
-            source.write_data(book)
-        else:
-            source.write_data(self)
+        source.write_data(self)
 
+    def to_book(self):
+        return Book(self.to_dict(),
+                    filename=self.filename,
+                    path=self.path)
+    
     def to_dict(self):
         """
         Get book data structure as a dictionary

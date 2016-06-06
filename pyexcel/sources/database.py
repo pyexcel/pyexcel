@@ -11,8 +11,10 @@ from pyexcel_io import get_data, save_data
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
 from pyexcel_io.database.sql import SQLTableImporter, SQLTableImportAdapter
 from pyexcel_io.database.sql import SQLTableExporter, SQLTableExportAdapter
-from pyexcel_io.database.django import DjangoModelExporter, DjangoModelExportAdapter
-from pyexcel_io.database.django import DjangoModelImporter, DjangoModelImportAdapter
+from pyexcel_io.database.django import (
+    DjangoModelExporter, DjangoModelExportAdapter,
+    DjangoModelImporter, DjangoModelImportAdapter
+)
 from pyexcel_io.utils import from_query_sets
 
 from pyexcel._compact import OrderedDict
@@ -20,6 +22,7 @@ from pyexcel.constants import DEFAULT_SHEET_NAME
 
 from pyexcel.factory import ReadOnlySource, Source
 from pyexcel import params
+from pyexcel.book import BookStream
 
 
 class SheetQuerySetSource(ReadOnlySource):
@@ -72,9 +75,11 @@ class SheetSQLAlchemySource(Source):
         adapter = SQLTableImportAdapter(self.table)
         adapter.column_names = headers
         adapter.row_initializer = self.keywords.get(params.INITIALIZER, None)
-        adapter.column_name_mapping_dict = self.keywords.get(params.MAPDICT, None)
+        adapter.column_name_mapping_dict = self.keywords.get(params.MAPDICT,
+                                                             None)
         importer.append(adapter)
-        save_data(importer, {adapter.get_name(): sheet.array}, file_type=DB_SQL, **self.keywords)
+        save_data(importer, {adapter.get_name(): sheet.array},
+                  file_type=DB_SQL, **self.keywords)
 
 
 class SheetDjangoSource(Source):
@@ -103,10 +108,13 @@ class SheetDjangoSource(Source):
         importer = DjangoModelImporter()
         adapter = DjangoModelImportAdapter(self.model)
         adapter.set_column_names(headers)
-        adapter.set_column_name_mapping_dict(self.keywords.get(params.MAPDICT, None))
-        adapter.set_row_initializer(self.keywords.get(params.INITIALIZER, None))
+        adapter.set_column_name_mapping_dict(
+            self.keywords.get(params.MAPDICT, None))
+        adapter.set_row_initializer(
+            self.keywords.get(params.INITIALIZER, None))
         importer.append(adapter)
-        save_data(importer, {adapter.get_name(): sheet.array}, file_type=DB_DJANGO, **self.keywords)
+        save_data(importer, {adapter.get_name(): sheet.array},
+                  file_type=DB_DJANGO, **self.keywords)
 
 
 class BookSQLSource(Source):
@@ -133,7 +141,10 @@ class BookSQLSource(Source):
     def get_source_info(self):
         return DB_SQL, None
 
-    def write_data(self, book):
+    def write_data(self, thebook):
+        book = thebook
+        if isinstance(thebook, BookStream):
+            book = thebook.to_book()
         initializers = self.keywords.get(params.INITIALIZERS, None)
         if initializers is None:
             initializers = [None] * len(self.tables)
@@ -184,7 +195,10 @@ class BookDjangoSource(Source):
     def get_source_info(self):
         return DB_DJANGO, None
 
-    def write_data(self, book):
+    def write_data(self, thebook):
+        book = thebook
+        if isinstance(thebook, BookStream):
+            book = thebook.to_book()
         new_models = [model for model in self.models if model is not None]
         batch_size = self.keywords.get(params.BATCH_SIZE, None)
         initializers = self.keywords.get(params.INITIALIZERS, None)
@@ -219,4 +233,3 @@ sources = (
     SheetSQLAlchemySource, SheetDjangoSource, SheetQuerySetSource,
     BookDjangoSource, BookSQLSource
 )
-

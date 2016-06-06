@@ -49,8 +49,8 @@ class DictSource(ReadOnlySource):
 
     def get_data(self):
         from pyexcel.utils import yield_dict_to_array
-        return {DEFAULT_SHEET_NAME: yield_dict_to_array(self.adict,
-                                                       self.with_keys)}
+        return {DEFAULT_SHEET_NAME: yield_dict_to_array(
+            self.adict, self.with_keys)}
 
     def get_source_info(self):
         return params.ADICT, None
@@ -96,11 +96,9 @@ class BookDictSource(ReadOnlySource):
         return params.BOOKDICT, None
 
 
-
 sources = (
     DictSource,
     RecordsSource,
     ArraySource,
     BookDictSource,
 )
-
