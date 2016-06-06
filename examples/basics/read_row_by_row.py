@@ -19,7 +19,8 @@ import pyexcel
 
 def main(base_dir):
     # "example.csv","example.xlsx","example.ods", "example.xlsm"
-    spreadsheet = pyexcel.get_sheet(os.path.join(base_dir, "example.xls"))
+    spreadsheet = pyexcel.get_sheet(file_name=os.path.join(base_dir,
+                                                           "example.xls"))
 
     # rows() returns row based iterator, meaning it can be iterated row by row
     for row in spreadsheet.rows():

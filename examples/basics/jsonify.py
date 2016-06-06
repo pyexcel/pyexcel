@@ -10,7 +10,8 @@ import json
 
 def main(base_dir):
     # "example.xls","example.xlsx","example.ods", "example.xlsm"
-    sheet = pe.get_sheet(file_name="example.csv")
+    sheet = pe.get_sheet(file_name=os.path.join(base_dir,
+                                                "example.csv"))
     print(json.dumps(sheet.to_array()))
 
 
