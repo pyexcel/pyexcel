@@ -72,7 +72,8 @@ class TestReader:
 
     def test_contains(self):
         r = pe.Reader(self.testfile)
-        f = lambda row: row[0] == 'a' and row[1] == 'b'
+
+        def f(row): return row[0] == 'a' and row[1] == 'b'
         assert r.contains(f) is True
 
     def tearDown(self):

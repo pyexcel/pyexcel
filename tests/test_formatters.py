@@ -5,6 +5,14 @@ from base import clean_up_files
 from nose.tools import raises
 
 
+def increase_func(x):
+    return int(x) + 1
+
+
+def increase_float_func(x):
+    return float(x) + 1
+
+
 class TestToFormatFunction:
     def test_none_2_str(self):
         value = None
@@ -229,7 +237,7 @@ class TestColumnFormatter(TestCase):
     def test_column_format_specs_on_demand(self):
         r = pe.Reader(self.test_tuple)
         r.column.format(format_specs=[
-            [0, lambda v: int(v)+1], [[2, 3, 4], float]])
+            [0, increase_func], [[2, 3, 4], float]])
         c1 = r.column_at(0)[1:]
         self.assertEqual(c1, self.data['5'])
         c1 = r.column_at(3)[1:]
@@ -273,19 +281,17 @@ class TestColumnFormatter(TestCase):
 
     def test_custom_func(self):
         r = pe.Reader(self.test_tuple)
-        f = lambda x: int(x) + 1
         r.add_formatter(pe.formatters.ColumnFormatter(
             0,
-            f))
+            increase_func))
         c1 = r.column_at(0)[1:]
         self.assertEqual(c1, self.data['5'])
 
     def test_custom_func_with_a_general_converter(self):
         r = pe.Reader(self.test_tuple)
-        f = lambda x: int(x) + 1
         r.add_formatter(pe.formatters.ColumnFormatter(
             0,
-            f))
+            increase_func))
         c1 = r.column_at(0)[1:]
         self.assertEqual(c1, self.data['5'])
         r.add_formatter(pe.formatters.ColumnFormatter(
@@ -420,27 +426,25 @@ class TestRowFormatter(TestCase):
         c1 = r.row_at(1)
         c2 = [1, "1", 1.1, "1.1", 2, "2"]
         self.assertEqual(c1, c2)
-        r.row.format(format_specs=[[1, lambda v: float(v)+1], [1, str]])
+        r.row.format(format_specs=[[1, increase_float_func], [1, str]])
         c1 = r.row_at(1)
         c2 = ['2.0', '2.0', '2.1', '2.1', '3.0', '3.0']
         self.assertEqual(c1, c2)
 
     def test_custom_func(self):
         r = pe.Reader(self.testfile)
-        f = lambda x: float(x) + 1
         r.add_formatter(pe.formatters.RowFormatter(
             1,
-            f))
+            increase_float_func))
         c1 = r.row_at(1)
         c2 = [2.0, 2.0, 2.1, 2.1, 3.0, 3.0]
         self.assertEqual(c1, c2)
 
     def test_custom_func_with_a_general_converter(self):
         r = pe.Reader(self.testfile)
-        f = lambda x: float(x) + 1
         r.add_formatter(pe.formatters.RowFormatter(
             1,
-            f))
+            increase_float_func))
         c1 = r.row_at(1)
         c2 = [2.0, 2.0, 2.1, 2.1, 3.0, 3.0]
         self.assertEqual(c1, c2)
@@ -453,8 +457,7 @@ class TestRowFormatter(TestCase):
 
     def test_remove_formatter2(self):
         r = pe.Reader(self.testfile)
-        f = lambda x: float(x) + 1
-        ft = pe.formatters.RowFormatter(1, f)
+        ft = pe.formatters.RowFormatter(1, increase_float_func)
         r.add_formatter(ft)
         c1 = r.row_at(1)
         c2 = [2.0, 2.0, 2.1, 2.1, 3.0, 3.0]
@@ -511,9 +514,8 @@ class TestSheetFormatter(TestCase):
 
     def test_custom_func(self):
         r = pe.Reader(self.testfile)
-        f = lambda x: float(x) + 1
         r.add_formatter(pe.formatters.SheetFormatter(float))
-        r.add_formatter(pe.formatters.SheetFormatter(f))
+        r.add_formatter(pe.formatters.SheetFormatter(increase_float_func))
         c1 = r.row_at(1)
         c2 = [2.0, 2.1, 3.0, 2.0]
         self.assertEqual(c1, c2)
@@ -523,9 +525,8 @@ class TestSheetFormatter(TestCase):
 
     def test_custom_func2(self):
         r = pe.Reader(self.testfile)
-        f = lambda x: float(x) + 1
         r.format(float)
-        r.map(f)
+        r.map(increase_float_func)
         c1 = r.row_at(1)
         c2 = [2.0, 2.1, 3.0, 2.0]
         self.assertEqual(c1, c2)
@@ -535,9 +536,8 @@ class TestSheetFormatter(TestCase):
 
     def test_custom_func_with_a_general_converter(self):
         r = pe.Reader(self.testfile)
-        f = lambda x: float(x) + 1
         r.add_formatter(pe.formatters.SheetFormatter(float))
-        r.add_formatter(pe.formatters.SheetFormatter(f))
+        r.add_formatter(pe.formatters.SheetFormatter(increase_float_func))
         r.add_formatter(pe.formatters.SheetFormatter(str))
         c1 = r.row_at(1)
         c2 = ["2.0", "2.1", "3.0", "2.0"]
@@ -552,14 +552,12 @@ class TestSheetFormatter(TestCase):
         the sheet to float first, otherwise, TypeError
         """
         r = pe.Reader(self.testfile)
-        f = lambda x: float(x) + 1
-        r.add_formatter(pe.formatters.SheetFormatter(f))
+        r.add_formatter(pe.formatters.SheetFormatter(increase_float_func))
         r.row_at(2)  # bang
 
     def test_clear_formatters(self):
         r = pe.Reader(self.testfile)
-        f = lambda x: float(x) + 1
-        r.add_formatter(pe.formatters.SheetFormatter(f))
+        r.add_formatter(pe.formatters.SheetFormatter(increase_float_func))
         r.add_formatter(pe.formatters.SheetFormatter(str))
         r.clear_formatters()
         r.name_columns_by_row(0)
@@ -605,8 +603,7 @@ class TestSheetFormatterInXLS(TestCase):
 
     def test_custom_func(self):
         r = pe.Reader(self.testfile)
-        f = lambda x: float(x) + 1
-        r.add_formatter(pe.formatters.SheetFormatter(f))
+        r.add_formatter(pe.formatters.SheetFormatter(increase_float_func))
         c1 = r.row_at(1)
         c2 = [2.0, 2.1, 3.0]
         self.assertEqual(c1, c2)
@@ -616,8 +613,7 @@ class TestSheetFormatterInXLS(TestCase):
 
     def test_custom_func_with_a_general_converter(self):
         r = pe.Reader(self.testfile)
-        f = lambda x: float(x) + 1
-        r.add_formatter(pe.formatters.SheetFormatter(f))
+        r.add_formatter(pe.formatters.SheetFormatter(increase_float_func))
         r.add_formatter(pe.formatters.SheetFormatter(str))
         c1 = r.row_at(1)
         c2 = ["2.0", "2.1", "3.0"]
@@ -628,8 +624,7 @@ class TestSheetFormatterInXLS(TestCase):
 
     def test_clear_formatters(self):
         r = pe.Reader(self.testfile)
-        f = lambda x: float(x) + 1
-        r.add_formatter(pe.formatters.SheetFormatter(f))
+        r.add_formatter(pe.formatters.SheetFormatter(increase_float_func))
         r.add_formatter(pe.formatters.SheetFormatter(str))
         r.clear_formatters()
         r.name_columns_by_row(0)

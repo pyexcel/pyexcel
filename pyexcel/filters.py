@@ -42,7 +42,9 @@ class IndexFilter(object):
         if self.eval_func:
             if self.shallow_eval_func is None:
                 self.shallow_eval_func = self.eval_func
-                self.eval_func = lambda val: not self.shallow_eval_func(val)
+
+                def inverse(val): return not self.shallow_eval_func(val)
+                self.eval_func = inverse
             else:
                 self.eval_func = self.shallow_eval_func
                 self.shallow_eval_func = None
@@ -165,7 +167,7 @@ class ColumnFilter(ColumnIndexFilter):
 
         :param list indices: a list of column indices to be filtered out
         """
-        eval_func = lambda x: x in indices
+        def eval_func(x): return x in indices
         ColumnIndexFilter.__init__(self, eval_func)
 
 
@@ -176,7 +178,7 @@ class SingleColumnFilter(ColumnIndexFilter):
 
         :param list indices: a list of column indices to be filtered out
         """
-        eval_func = lambda x: x == index
+        def eval_func(x): return x == index
         ColumnIndexFilter.__init__(self, eval_func)
 
 
@@ -187,7 +189,7 @@ class OddColumnFilter(ColumnIndexFilter):
     * column 1 is regarded as the seocond column -> this will be filtered out
     """
     def __init__(self):
-        eval_func = lambda x: (x+1) % 2 == 1
+        def eval_func(x): return (x+1) % 2 == 1
         ColumnIndexFilter.__init__(self, eval_func)
 
 
@@ -198,7 +200,7 @@ class EvenColumnFilter(ColumnIndexFilter):
     * column 1 is regarded as the seocond column
     """
     def __init__(self):
-        eval_func = lambda x: (x+1) % 2 == 0
+        def eval_func(x): return (x+1) % 2 == 0
         ColumnIndexFilter.__init__(self, eval_func)
 
 
@@ -244,7 +246,7 @@ class RowFilter(RowIndexFilter):
 
         :param list indices: a list of column indices to be filtered out
         """
-        eval_func = lambda x: x in indices
+        def eval_func(x): return x in indices
         RowIndexFilter.__init__(self, eval_func)
 
 
@@ -255,7 +257,7 @@ class SingleRowFilter(RowIndexFilter):
 
         :param list indices: a list of column indices to be filtered out
         """
-        eval_func = lambda x: x == index
+        def eval_func(x): return x == index
         RowIndexFilter.__init__(self, eval_func)
 
 
@@ -265,7 +267,7 @@ class OddRowFilter(RowIndexFilter):
     row 0 is seen as the first row
     """
     def __init__(self):
-        eval_func = lambda x: (x+1) % 2 == 1
+        def eval_func(x): return (x+1) % 2 == 1
         RowIndexFilter.__init__(self, eval_func)
 
 
@@ -275,7 +277,7 @@ class EvenRowFilter(RowIndexFilter):
     row 0 is seen as the first row
     """
     def __init__(self):
-        eval_func = lambda x: (x+1) % 2 == 0
+        def eval_func(x): return (x+1) % 2 == 0
         RowIndexFilter.__init__(self, eval_func)
 
 
@@ -394,6 +396,8 @@ class RowInFileFilter(RowValueFilter):
 
         :param Matrix reader: a Matrix instance
         """
-        func = lambda row_a: not reader.contains(
-            (lambda row_b: row_a == row_b))
+        def func(row_a):
+            def are_we_equal(row_b): return row_a == row_b
+            return not reader.contains(are_we_equal)
+
         RowValueFilter.__init__(self, func)

@@ -32,7 +32,8 @@ class TestRareCases(TestCase):
     def test_row_value_filter_with_series_reader(self):
         data = "Person,Age\nAdam,24\nBilly,23\nCeri,28\nDennis,25"
         r1 = pe.SeriesReader(("csv", data))
-        filter_func = lambda row: row['Age'] == 23
+
+        def filter_func(row): return row['Age'] == 23
         r1.filter(pe.filters.SeriesRowValueFilter(filter_func).invert())
         self.assertEqual(r1.number_of_rows(), 1)
         self.assertEqual(r1.row[0], ['Billy', 23])
@@ -109,7 +110,8 @@ class TestFilterWithFilterableReader:
 
     def test_column_index_filter(self):
         r = pe.load((self.file_type, self.testfile.getvalue()))
-        test_func = lambda x: x in [0, 2]
+
+        def test_func(x): return x in [0, 2]
         r.add_filter(pe.filters.ColumnIndexFilter(test_func))
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
@@ -184,7 +186,8 @@ class TestFilterWithFilterableReader:
 
     def test_row_index_filter(self):
         r = pe.load((self.file_type, self.testfile.getvalue()))
-        filter_func = lambda x: x in [1]
+
+        def filter_func(x): return x in [1]
         r.add_filter(pe.filters.RowIndexFilter(filter_func))
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4
@@ -300,7 +303,8 @@ class TestFilterWithReader:
 
     def test_column_index_filter(self):
         r = pe.load(self.test_tuple)
-        test_func = lambda x: x in [0, 2]
+
+        def test_func(x): return x in [0, 2]
         r.add_filter(pe.filters.ColumnIndexFilter(test_func))
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
@@ -366,7 +370,8 @@ class TestFilterWithReader:
 
     def test_row_index_filter(self):
         r = pe.load(self.test_tuple)
-        filter_func = lambda x: x in [1]
+
+        def filter_func(x): return x in [1]
         r.add_filter(pe.filters.RowIndexFilter(filter_func))
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4
@@ -433,8 +438,10 @@ class TestComplexFilter(TestCase):
     def test_row_value_filter(self):
         r1 = pe.load("testcsv1.csv")
         r2 = pe.load("testcsv2.csv")
-        filter_func = lambda array: r2.contains((lambda row: array[0] == row[0]
-                                                 and array[1] == row[1]))
+
+        def filter_func(array):
+            def func(row): return array[0] == row[0] and array[1] == row[1]
+            return r2.contains(func)
         r1.filter(pe.filters.RowValueFilter(filter_func).invert())
         result = [1, 'a', 2, 'b', 3, 'c', 8, 'h']
         actual = pe.utils.to_array(r1.enumerate())
@@ -501,8 +508,9 @@ class TestColumnValueFilter:
             [1, 2, 3, 4, 1]
         ]
         sheet = pe.Sheet(data)
-        f = lambda column: column[1] == 1
-        sheet.filter(pe.ColumnValueFilter(f).invert())
+
+        def func(column): return column[1] == 1
+        sheet.filter(pe.ColumnValueFilter(func).invert())
         expected = [
             ['a', 'e'],
             [1, 1]
@@ -519,8 +527,9 @@ class TestNamedRowValueFilter:
             [3, 4, 5, 6, 7]
         ]
         sheet = pe.Sheet(data, name_columns_by_row=0)
-        f = lambda row: row['a'] == 3
-        sheet.filter(pe.NamedRowValueFilter(f).invert())
+
+        def func(row): return row['a'] == 3
+        sheet.filter(pe.NamedRowValueFilter(func).invert())
         expected = [
             ['a', 'b', 'c', 'd', 'e'],
             [3, 4, 5, 6, 7]
@@ -536,8 +545,9 @@ class TestNamedColumnValueFilter(TestCase):
             ['c', 3, 4, 5, 6, 7]
         ]
         sheet = pe.Sheet(data, name_rows_by_column=0)
-        f = lambda column: column['a'] == 3
-        sheet.filter(pe.NamedColumnValueFilter(f).invert())
+
+        def func(column): return column['a'] == 3
+        sheet.filter(pe.NamedColumnValueFilter(func).invert())
         expected = [
             ['a', 3],
             ['b', 4],

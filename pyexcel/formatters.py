@@ -177,12 +177,12 @@ class ColumnFormatter(Formatter):
         """
         self.indices = column_index
         if isinstance(column_index, int):
-            func = lambda r, c, v: c == column_index
+            def func(r, c, v): return c == column_index
         elif isinstance(column_index, list):
             if len(column_index) == 0:
                 raise IndexError(MESSAGE_DATA_ERROR_EMPTY_COLUMN_LIST)
             if is_array_type(column_index, int):
-                func = lambda r, c, v: c in column_index
+                def func(r, c, v): return c in column_index
             else:
                 raise IndexError(MESSAGE_DATA_ERROR_COLUMN_LIST_INTEGER_TYPE)
         else:
@@ -202,12 +202,12 @@ class NamedColumnFormatter(ColumnFormatter):
         """
         self.indices = column_index
         if isinstance(column_index, str):
-            func = lambda r, c, v: c == column_index
+            def func(r, c, v): return c == column_index
         elif isinstance(column_index, list):
             if len(column_index) == 0:
                 raise IndexError(MESSAGE_DATA_ERROR_EMPTY_COLUMN_LIST)
             if is_array_type(column_index, str):
-                func = lambda r, c, v: c in column_index
+                def func(r, c, v): return c in column_index
             else:
                 raise IndexError(MESSAGE_DATA_ERROR_COLUMN_LIST_STRING_TYPE)
         else:
@@ -218,9 +218,11 @@ class NamedColumnFormatter(ColumnFormatter):
     def update_index(self, new_indices):
         self.indices = new_indices
         if isinstance(new_indices, int):
-            self.quanlify_func = lambda r, c, v: c == new_indices
+            def func(r, c, v): return c == new_indices
+            self.quanlify_func = func
         elif isinstance(new_indices, list):
-            self.quanlify_func = lambda r, c, v: c in new_indices
+            def func(r, c, v): return c in new_indices
+            self.quanlify_func = func
         else:
             raise NotImplementedError(
                 "%s is not supported" % type(new_indices))
@@ -237,12 +239,12 @@ class RowFormatter(Formatter):
         """
         self.indices = row_index
         if isinstance(row_index, int):
-            func = lambda r, c, v: r == row_index
+            def func(r, c, v): return r == row_index
         elif isinstance(row_index, list):
             if len(row_index) == 0:
                 raise IndexError(MESSAGE_DATA_ERROR_EMPTY_COLUMN_LIST)
             if is_array_type(row_index, int):
-                func = lambda r, c, v: r in row_index
+                def func(r, c, v): return r in row_index
             else:
                 raise IndexError(MESSAGE_DATA_ERROR_COLUMN_LIST_INTEGER_TYPE)
         else:
@@ -262,12 +264,12 @@ class NamedRowFormatter(RowFormatter):
         """
         self.indices = row_index
         if isinstance(row_index, str):
-            func = lambda r, c, v: r == row_index
+            def func(r, c, v): return r == row_index
         elif isinstance(row_index, list):
             if len(row_index) == 0:
                 raise IndexError(MESSAGE_DATA_ERROR_EMPTY_COLUMN_LIST)
             if is_array_type(row_index, str):
-                func = lambda r, c, v: r in row_index
+                def func(r, c, v): return r in row_index
             else:
                 raise IndexError(MESSAGE_DATA_ERROR_COLUMN_LIST_STRING_TYPE)
         else:
@@ -277,9 +279,11 @@ class NamedRowFormatter(RowFormatter):
 
     def update_index(self, new_indices):
         if isinstance(new_indices, int):
-            self.quanlify_func = lambda r, c, v: r == new_indices
+            def func(r, c, v): return r == new_indices
+            self.quanlify_func = func
         elif isinstance(new_indices, list):
-            self.quanlify_func = lambda r, c, v: r in new_indices
+            def func(r, c, v): return r in new_indices
+            self.quanlify_func = func
         else:
             raise NotImplementedError(
                 "%s is not supported" % type(new_indices))
