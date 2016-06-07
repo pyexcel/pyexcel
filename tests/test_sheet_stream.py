@@ -7,7 +7,7 @@ from textwrap import dedent
 def test_save_to():
     file_type = 'csv'
     io = RWManager.get_io(file_type)
-    g = (i for i in [[1,2],[3,4]])
+    g = (i for i in [[1, 2], [3, 4]])
     ss = WriteOnlySheetSource(file_type=file_type, file_stream=io,
                               lineterminator='\n')
     sheet_stream = SheetStream("test", g)

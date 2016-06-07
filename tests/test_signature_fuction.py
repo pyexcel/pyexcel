@@ -9,27 +9,27 @@ class TestNone:
     @raises(NotImplementedError)
     def test_get_array(self):
         pe.get_array(x="something")
-        
+
     @raises(NotImplementedError)
     def test_get_dict(self):
         pe.get_dict(x="something")
-        
+
     @raises(NotImplementedError)
     def test_get_records(self):
         pe.get_records("something")
-        
+
     @raises(NotImplementedError)
     def test_get_sheet(self):
         pe.get_sheet(x="something")
-        
+
     @raises(NotImplementedError)
     def test_get_book(self):
         pe.get_book(x="something")
-        
+
     @raises(NotImplementedError)
     def test_get_book_dict(self):
         pe.get_book_dict(x="something")
-        
+
 
 class TestGetSheet:
     def test_get_sheet_from_file(self):
@@ -44,7 +44,7 @@ class TestGetSheet:
         sheet = pe.get_sheet(file_name=testfile)
         assert sheet.to_array() == data
         os.unlink(testfile)
-        
+
     def test_get_sheet_from_file_stream(self):
         data = [
             ["X", "Y", "Z"],
@@ -54,7 +54,7 @@ class TestGetSheet:
         content = pe.save_as(dest_file_type="xls", array=data)
         sheet = pe.get_sheet(file_stream=content, file_type="xls")
         assert sheet.to_array() == data
-        
+
     def test_get_sheet_from_memory(self):
         data = [
             ["X", "Y", "Z"],
@@ -64,7 +64,7 @@ class TestGetSheet:
         content = pe.save_as(dest_file_type="xls", array=data)
         sheet = pe.get_sheet(file_content=content.getvalue(), file_type="xls")
         assert sheet.to_array() == data
-        
+
     def test_get_sheet_from_memory_compatibility(self):
         data = [
             ["X", "Y", "Z"],
@@ -74,7 +74,7 @@ class TestGetSheet:
         content = pe.save_as(dest_file_type="xls", array=data)
         sheet = pe.get_sheet(content=content.getvalue(), file_type="xls")
         assert sheet.to_array() == data
-        
+
     def test_get_sheet_from_array(self):
         data = [
             ["X", "Y", "Z"],
@@ -126,7 +126,7 @@ class TestGetArray:
         result = pe.get_array(file_name=testfile)
         assert result == data
         os.unlink(testfile)
-        
+
     def test_get_array_from_memory(self):
         data = [
             ["X", "Y", "Z"],
@@ -140,7 +140,7 @@ class TestGetArray:
             [1, 2, 3],
             [4, 5, 6]
         ]
-        
+
     def test_get_array_from_array(self):
         data = [
             ["X", "Y", "Z"],
@@ -195,7 +195,7 @@ class TestGetDict:
             "Z": [3, 6]
         }
         os.unlink(testfile)
-        
+
     def test_get_dict_from_memory(self):
         data = [
             ["X", "Y", "Z"],
@@ -209,7 +209,7 @@ class TestGetDict:
             "Y": [2, 5],
             "Z": [3, 6]
         }
-        
+
     def test_get_dict_from_array(self):
         data = [
             ["X", "Y", "Z"],
@@ -262,7 +262,7 @@ class TestGetRecords:
             {"X": 4, "Y": 5, "Z": 6}
         ]
         os.unlink(testfile)
-        
+
     def test_get_records_from_memory(self):
         data = [
             ["X", "Y", "Z"],
@@ -275,7 +275,7 @@ class TestGetRecords:
             {"X": 1, "Y": 2, "Z": 3},
             {"X": 4, "Y": 5, "Z": 6}
         ]
-        
+
     def test_get_records_from_array(self):
         data = [
             ["X", "Y", "Z"],
@@ -320,7 +320,7 @@ class TestSavingToDatabase:
 
     def tearDown(self):
         self.session.close()
-        
+
     def test_save_a_dict(self):
         adict = {
             "X": [1, 4],
@@ -395,7 +395,7 @@ class TestSavingToDatabase:
             "Y": [2, 5],
             "Z": [3, 6]
         }
-        
+
     def test_save_an_array3(self):
         data = [
             [1, 4, 'A'],
@@ -438,7 +438,7 @@ class TestSavingToDatabase:
             "Y": [2, 5],
             "Z": [3, 6]
         }
-        
+
     def test_save_an_array7(self):
         data = [
             ["X", "Y", "Z"],
@@ -477,7 +477,7 @@ class TestSavingToDatabase:
             "Y": [2, 5],
             "Z": [3, 6]
         }
-        
+
     def test_book_save_a_dict2(self):
         data = [
             [1, 4, 'X'],
@@ -584,8 +584,8 @@ class TestSQL:
             [1, 2, 3],
             [4, 5, 6]
         ]
-        
-        
+
+
     def test_get_sheet_from_sql(self):
         sheet = pe.get_sheet(session=Session(), table=Signature)
         assert sheet.to_array() == [
@@ -609,7 +609,7 @@ class TestSQL:
             "Y": [2, 5],
             "Z": [3, 6]
         }
-    
+
     def test_get_records_from_sql(self):
         records = pe.get_records(session=Session(), table=Signature)
         assert records == [

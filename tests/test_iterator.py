@@ -23,9 +23,10 @@ class TestMatrixColumn:
     def test_to_array(self):
         m = pe.sheets.Matrix(self.data)
         data = m.to_array()
-        result = [[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, '', ''], [1, '', '', '', '', '']]
+        result = [[1, 2, 3, 4, 5, 6],
+                  [1, 2, 3, 4, '', ''],
+                  [1, '', '', '', '', '']]
         assert data == result
-
 
     def test_get_slice_of_columns(self):
         m = pe.sheets.Matrix(self.data)
@@ -37,31 +38,31 @@ class TestMatrixColumn:
         """Get with a wrong index"""
         m = pe.sheets.Matrix(self.data)
         m.column[1.11]  # bang, string type index
-        
+
     @raises(IndexError)
     def test_delete_with_a_wrong_column_index(self):
         """Get with a wrong index"""
         m = pe.sheets.Matrix(self.data)
-        del m.column[1.11]  # bang, string type index 
+        del m.column[1.11]  # bang, string type index
 
     @raises(IndexError)
     def test_set_column_with_a_wrong_column_index(self):
         """Get with a wrong index"""
         m = pe.sheets.Matrix(self.data)
-        m.column[1.11] = 1 # bang, string type index 
+        m.column[1.11] = 1  # bang, string type index
 
     @raises(IndexError)
     def test_get_with_a_wrong_index(self):
         """Get with a wrong index"""
         m = pe.sheets.Matrix(self.data)
-        m[1.1] # bang, 
+        m[1.1]  # bang,
 
     @raises(IndexError)
     def test_set_with_a_wrong_index(self):
         """Get with a wrong index"""
         m = pe.sheets.Matrix(self.data)
-        m[1.1] = 1 # bang,
-        
+        m[1.1] = 1  # bang,
+
     def test_extend_columns(self):
         """Test extend columns"""
         m = pe.sheets.Matrix(self.data)
@@ -74,7 +75,7 @@ class TestMatrixColumn:
         m = pe.sheets.Matrix(self.data)
         m.extend_columns([1, 1])
         assert m.row[0] == self.result[0][:7]
-        
+
     @raises(TypeError)
     def test_extend_columns2(self):
         """Test extend columns"""
@@ -106,8 +107,8 @@ class TestMatrixColumn:
         actual4 = pe.utils.to_array(m7)
         result2 = [
             [1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6],
-            [1, 2, 3, 4, '','',1, 2, 3, 4,'',''],
-            [1,'','','','','', 1,'','','','','']
+            [1, 2, 3, 4, '', '', 1, 2, 3, 4, '', ''],
+            [1, '', '', '', '', '', 1, '', '', '', '', '']
         ]
         assert result2 == actual4
 
@@ -119,7 +120,7 @@ class TestMatrixColumn:
     def test_delete_columns(self):
         r = pe.sheets.Matrix(self.data)
         # delete a list of indices
-        r.delete_columns([0,2])
+        r.delete_columns([0, 2])
         assert r.row[0] == [2, 4, 5, 6]
 
     @raises(TypeError)
@@ -149,19 +150,19 @@ class TestMatrixColumn:
         assert r.column['B'] == ['p', 'q', 'r', 'o']
 
     def test_set_a_slice_of_column(self):
-        r = pe.sheets.Matrix(self.data)        
+        r = pe.sheets.Matrix(self.data)
         content2 = [1, 2, 3, 4]
         r.column[1:] = content2
         assert r.column[2] == content2
 
     def test_set_a_special_slice(self):
-        r = pe.sheets.Matrix(self.data)        
+        r = pe.sheets.Matrix(self.data)
         content3 = [True, False, True, False]
         r.column[0:0] = content3
         assert r.column[0] == content3
 
     def test_a_stepper_in_a_slice(self):
-        r = pe.sheets.Matrix(self.data)        
+        r = pe.sheets.Matrix(self.data)
         r.column[0:2:1] = [1, 1, 1, 1]
         assert r.column[0] == [1, 1, 1, 1]
         assert r.column[1] == [1, 1, 1, 1]
@@ -232,7 +233,7 @@ class TestMatrixRow:
     def test_type_error(self):
         m = pe.sheets.Matrix(self.data)
         m.row += 12  # bang, cannot add integer
-   
+
     def test_delete_a_index(self):
         """Delete a index"""
         r = pe.sheets.Matrix(self.data)
@@ -249,7 +250,7 @@ class TestMatrixRow:
 
     def test_delete_special_slice(self):
         r3 = pe.sheets.Matrix(self.data)
-        content = ['i', 'j', 1.1, 1]        
+        content = ['i', 'j', 1.1, 1]
         del r3.row[0:0]
         assert r3.row[1] == content
         assert r3.number_of_rows() == 2
@@ -313,20 +314,20 @@ class TestMatrix:
 
     def test_update_a_cell(self):
         r = pe.sheets.Matrix(self.data)
-        r[0,0] = 'k'
-        assert r[0,0] == 'k'
+        r[0, 0] = 'k'
+        assert r[0, 0] == 'k'
         d = datetime.date(2014, 10, 1)
         r.cell_value(0, 1, d)
-        assert isinstance(r[0,1], datetime.date) is True
-        assert r[0,1].strftime("%d/%m/%y") == "01/10/14"
+        assert isinstance(r[0, 1], datetime.date) is True
+        assert r[0, 1].strftime("%d/%m/%y") == "01/10/14"
         r["A1"] = 'p'
-        assert r[0,0] == 'p'
-        r[0,1] = 16
+        assert r[0, 0] == 'p'
+        r[0, 1] = 16
         assert r["B1"] == 16
 
     def test_old_style_access(self):
         r = pe.sheets.Matrix(self.data)
-        r[0,0] = 'k'
+        r[0, 0] = 'k'
         assert r[0][0] == 'k'
 
     @raises(IndexError)
@@ -353,7 +354,7 @@ class TestMatrix:
         m.transpose()
         actual = pe.utils.to_array(m)
         assert result == actual
-                    
+
     def test_set_column_at(self):
         r = pe.sheets.Matrix(self.data)
         try:
@@ -440,7 +441,7 @@ class TestHatIterators:
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
 
-            
+
 class TestUtilityFunctions:
     def test_excel_column_index(self):
         chars = ""
@@ -484,5 +485,4 @@ class TestUtilityFunctions:
         assert expected == result
         a = slice(2, 1)  # invalid series
         bound = 4
-        result = pe.sheets.matrix._analyse_slice(a, bound) # bang
-       
+        result = pe.sheets.matrix._analyse_slice(a, bound)  # bang

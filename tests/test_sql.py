@@ -35,6 +35,7 @@ class TestSQL(TestCase):
         +------------+----+-------+--------+""").strip('\n')
         self.assertEqual(str(sheet), content)
 
+
 class TestEmptyTable:
     def setUp(self):
         Base.metadata.drop_all(engine)

@@ -29,7 +29,8 @@ class TestSpliting:
         assert os.path.exists("Sheet3_%s" % self.testfile4)
 
     def test_extract_a_book(self):
-        pe.cookbook.extract_a_sheet_from_a_book(self.testfile4, "Sheet1", "extracted.csv")
+        pe.cookbook.extract_a_sheet_from_a_book(self.testfile4,
+                                                "Sheet1", "extracted.csv")
         assert os.path.exists("Sheet1_extracted.csv")
 
     def test_extract_a_book_2(self):
@@ -109,17 +110,17 @@ class TestCookbook:
         data = pe.utils.to_dict(r)
         assert data["Z"] == custom_column["Z"]
         # test if it try not overwrite a file
-        pe.cookbook.update_columns(self.testfile, custom_column)  #bang
+        pe.cookbook.update_columns(self.testfile, custom_column)  # bang
 
     def test_update_rows(self):
         bad_column = {100: [31, 1, 1, 1, 1]}
-        custom_column = {"1": [3,4]}
+        custom_column = {"1": [3, 4]}
         try:
             # try non-existent column first
             pe.cookbook.update_rows(self.testfile, bad_column)
-            assert 1==2
+            assert 1 == 2
         except ValueError:
-            assert 1==1
+            assert 1 == 1
         pe.cookbook.update_rows(self.testfile, custom_column)
         r = pe.Reader("pyexcel_%s" % self.testfile)
         assert custom_column["1"] == r.row_at(1)[1:]
@@ -127,9 +128,9 @@ class TestCookbook:
             # try not to overwrite a file
             pe.cookbook.update_rows(self.testfile, custom_column)
             r = pe.SeriesReader("pyexcel_%s" % self.testfile)
-            assert 1==2
+            assert 1 == 2
         except NotImplementedError:
-            assert 1==1
+            assert 1 == 1
         pe.cookbook.update_rows(self.testfile, custom_column, "test4.xls")
         r = pe.Reader("test4.xls")
         assert custom_column["1"] == r.row_at(1)[1:]

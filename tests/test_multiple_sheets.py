@@ -6,14 +6,22 @@ from _compact import OrderedDict
 from nose.tools import raises
 
 
+def _produce_ordered_dict():
+    data_dict = OrderedDict()
+    data_dict.update({
+        "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
+    data_dict.update({
+        "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
+    data_dict.update({
+        "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
+    return data_dict
+
+
 class TestXlsNXlsmMultipleSheets(PyexcelMultipleSheetBase):
     def setUp(self):
         self.testfile = "multiple1.xls"
         self.testfile2 = "multiple1.xlsm"
-        self.content = OrderedDict()
-        self.content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
-        self.content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
-        self.content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
+        self.content = _produce_ordered_dict()
         self._write_test_file(self.testfile)
 
     def tearDown(self):
@@ -23,10 +31,7 @@ class TestXlsNXlsmMultipleSheets(PyexcelMultipleSheetBase):
 class TestCSVNXlsMultipleSheets:
     def setUp(self):
         self.testfile = "multiple1.csv"
-        self.content = OrderedDict()
-        self.content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
-        self.content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
-        self.content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
+        self.content = _produce_ordered_dict()
         pe.save_book_as(dest_file_name=self.testfile, bookdict=self.content)
 
     def test_read_multiple_csv_into_book(self):
@@ -34,9 +39,9 @@ class TestCSVNXlsMultipleSheets:
         assert book.sheet_names() == ["Sheet1", "Sheet2", "Sheet3"]
         book["Sheet1"].format(int)
         assert self.content["Sheet1"] == book["Sheet1"].to_array()
-        book["Sheet2"].format(int)        
+        book["Sheet2"].format(int)
         assert self.content["Sheet2"] == book["Sheet2"].to_array()
-        book["Sheet3"].format(int)        
+        book["Sheet3"].format(int)
         assert self.content["Sheet3"] == book["Sheet3"].to_array()
 
     def tearDown(self):
@@ -51,20 +56,17 @@ class TestCSVNXlsMultipleSheets:
 class TestCSVzMultipleSheets:
     def setUp(self):
         self.testfile = "multiple1.csvz"
-        self.content = OrderedDict()
-        self.content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
-        self.content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
-        self.content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
+        self.content = _produce_ordered_dict()
         pe.save_book_as(dest_file_name=self.testfile, bookdict=self.content)
-        
+
     def test_read_multiple_csv_into_book(self):
         book = pe.load_book(self.testfile)
         assert book.sheet_names() == ["Sheet1", "Sheet2", "Sheet3"]
         book["Sheet1"].format(int)
         assert self.content["Sheet1"] == book["Sheet1"].to_array()
-        book["Sheet2"].format(int)        
+        book["Sheet2"].format(int)
         assert self.content["Sheet2"] == book["Sheet2"].to_array()
-        book["Sheet3"].format(int)        
+        book["Sheet3"].format(int)
         assert self.content["Sheet3"] == book["Sheet3"].to_array()
 
     def tearDown(self):
@@ -75,10 +77,7 @@ class TestCSVzMultipleSheets:
 class TestSingleSheetReaderForMulitpleSheetBook:
     def setUp(self):
         self.testfile = "multiple1.xls"
-        self.content = OrderedDict()
-        self.content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
-        self.content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
-        self.content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
+        self.content = _produce_ordered_dict()
         pe.save_book_as(dest_file_name=self.testfile, bookdict=self.content)
 
     def test_non_default_sheet_as_single_sheet_reader(self):
@@ -142,10 +141,7 @@ class TestCSVSingleSheet:
 
     def setUp(self):
         self.testfile = "multiple1.csv"
-        self.content = OrderedDict()
-        self.content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
-        self.content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
-        self.content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
+        self.content = _produce_ordered_dict()
         self._write_test_file(self.testfile, self.content)
 
     def test_load_a_single_sheet(self):
@@ -153,21 +149,20 @@ class TestCSVSingleSheet:
         b1['Sheet1'].format(int)
         assert len(b1.sheet_names()) == 1
         assert b1['Sheet1'].to_array() == self.content['Sheet1']
-        
+
     def test_load_a_single_sheet2(self):
         b1 = pe.load_book(self.testfile, sheet_index=1)
         b1['Sheet2'].format(int)
         assert len(b1.sheet_names()) == 1
         assert b1['Sheet2'].to_array() == self.content['Sheet2']
-        
+
     @raises(IndexError)
     def test_load_a_single_sheet3(self):
         pe.load_book(self.testfile, sheet_index=10000)
-        
+
     @raises(ValueError)
     def test_load_a_single_sheet4(self):
         pe.load_book(self.testfile, sheet_name="Not exist")
-
 
     def tearDown(self):
         clean_up_files([
@@ -190,10 +185,7 @@ class TestCSVZSingleSheet:
 
     def setUp(self):
         self.testfile = "multiple1.csvz"
-        self.content = OrderedDict()
-        self.content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
-        self.content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
-        self.content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
+        self.content = _produce_ordered_dict()
         self._write_test_file(self.testfile, self.content)
 
     def test_load_a_single_sheet(self):
@@ -211,7 +203,7 @@ class TestCSVZSingleSheet:
     @raises(IndexError)
     def test_load_a_single_sheet3(self):
         pe.load_book(self.testfile, sheet_index=10000)
-        
+
     @raises(ValueError)
     def test_load_a_single_sheet4(self):
         pe.load_book(self.testfile, sheet_name="Not exist")
@@ -237,11 +229,7 @@ class TestAddBooks:
         self.testfile = "multiple1.xlsm"
         self.testfile2 = "multiple1.xls"
         self.testfile3 = "multiple2.xlsx"
-        self.content = {
-            "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
-            "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
-            "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
-        }
+        self.content = _produce_ordered_dict()
         self._write_test_file(self.testfile, self.content)
         self._write_test_file(self.testfile2, self.content)
         self.test_single_sheet_file = "single.xls"
@@ -267,14 +255,14 @@ class TestAddBooks:
         del b1[2]
         del b1[1]
         assert len(b1.sheet_names()) == 1
-        del b1[1] # bang, already deleted
+        del b1[1]  # bang, already deleted
 
     @raises(TypeError)
     def test_delete_sheets3(self):
         """Test float in []"""
         b1 = pe.load_book(self.testfile)
         del b1[1.1]
-            
+
     def test_delete_sheets4(self):
         """repetitively delete first sheet"""
         b1 = pe.load_book(self.testfile)
@@ -284,7 +272,7 @@ class TestAddBooks:
         assert len(b1.sheet_names()) == 1
         del b1[0]
         assert len(b1.sheet_names()) == 0
-        
+
     def test_add_book1(self):
         """
         test this scenario: book3 = book1 + book2
@@ -302,7 +290,7 @@ class TestAddBooks:
                 assert content[name] == self.content["Sheet2"]
             elif "Sheet1" in name:
                 assert content[name] == self.content["Sheet1"]
-        
+
     def test_add_book1_in_place(self):
         """
         test this scenario: book1 +=  book2
@@ -369,7 +357,7 @@ class TestAddBooks:
         assert len(sheet_names) == 2
         assert content["Sheet3"] == self.content["Sheet3"]
         assert content["Sheet1"] == self.content["Sheet1"]
-        
+
     def test_add_book4(self):
         """
         test this scenario: book3 = sheet1 + book
@@ -501,7 +489,7 @@ class TestAddBooks:
     @raises(NotImplementedError)
     def test_add_sheet_error2(self):
         b1 = pe.BookReader(self.testfile)
-        b1["Sheet1"] += 12  #bang, cannot iadd integer
+        b1["Sheet1"] += 12  # bang, cannot iadd integer
 
     def tearDown(self):
         if os.path.exists(self.testfile):
@@ -518,9 +506,9 @@ class TestMergeCSVsIntoOne:
     def test_merging(self):
         # set up
         import pyexcel as pe
-        data = [[1,2,3],[4,5,6],[7,8,9]]
-        data2 = [['a','b','c'],['d','e','f'],['g','h','i']]
-        data3=[[1.1, 2.2, 3.3],[4.4, 5.5, 6.6],[7.7, 8.8, 9.9]]
+        data = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+        data2 = [['a', 'b', 'c'], ['d', 'e', 'f'], ['g', 'h', 'i']]
+        data3 = [[1.1, 2.2, 3.3], [4.4, 5.5, 6.6], [7.7, 8.8, 9.9]]
         pe.save_as(dest_file_name="1.csv", array=data)
         pe.save_as(dest_file_name="2.csv", array=data2)
         pe.save_as(dest_file_name="3.csv", array=data3)
@@ -530,7 +518,7 @@ class TestMergeCSVsIntoOne:
             r = pe.Reader(file)
             merged.row += r
         merged.save_as("merged.csv")
-        r=pe.Reader("merged.csv")
+        r = pe.Reader("merged.csv")
         actual = pe.utils.to_array(r)
         result = [
             [1, 2, 3],
