@@ -1,3 +1,0 @@
-{%extends "test.sh.jj2"%}
-
-{%block flake8_options%}--exclude=.moban.d{%endblock%}

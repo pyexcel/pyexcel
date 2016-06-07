@@ -5,4 +5,4 @@ python setup.py install
 cd ../../
 
 pip freeze
-nosetests --with-cov --cover-package pyexcel --cover-package tests --with-doctest --doctest-extension=.rst tests README.rst pyexcel && flake8 . --exclude=.moban.d
+nosetests --with-cov --cover-package pyexcel --cover-package tests --with-doctest --doctest-extension=.rst tests README.rst pyexcel && flake8 . --exclude=.moban.d 
