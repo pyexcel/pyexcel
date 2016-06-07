@@ -12,7 +12,7 @@ class TestHttpBookSource(TestCase):
         x.type.return_value = "text/csv"
         m.info.return_value = x
         m.read.return_value = "1,2,3"
-        mock_open.return_value = m 
+        mock_open.return_value = m
         book = pe.get_book(url="xx.csv")
         content = dedent("""
         csv:
@@ -20,7 +20,6 @@ class TestHttpBookSource(TestCase):
         | 1 | 2 | 3 |
         +---+---+---+""").strip('\n')
         self.assertEqual(str(book), content)
-        
 
     @patch('pyexcel._compact.request.urlopen')
     def test_url_source_via_file_suffix(self, mock_open):
@@ -29,7 +28,7 @@ class TestHttpBookSource(TestCase):
         x.type.return_value = "text"
         m.info.return_value = x
         m.read.return_value = "1,2,3"
-        mock_open.return_value = m 
+        mock_open.return_value = m
         book = pe.get_book(url="xx.csv")
         content = dedent("""
         csv:
@@ -45,7 +44,7 @@ class TestHttpBookSource(TestCase):
         x.type.return_value = "text"
         m.info.return_value = x
         m.read.return_value = "1,2,3"
-        mock_open.return_value = m 
+        mock_open.return_value = m
         sheet = pe.get_sheet(url="xx.csv")
         content = dedent("""
         csv:
@@ -53,4 +52,3 @@ class TestHttpBookSource(TestCase):
         | 1 | 2 | 3 |
         +---+---+---+""").strip('\n')
         self.assertEqual(str(sheet), content)
-

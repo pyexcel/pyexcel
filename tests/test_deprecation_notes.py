@@ -15,7 +15,7 @@ except NameError:
 
 
 EXPECTED_DEPRECATION_MESSAGE = (
-    'Deprecated usage since v%s! '+
+    'Deprecated usage since v%s! ' +
     'Explicit import is no longer required. pyexcel.ext.%s is auto imported.\n'
 )
 
@@ -24,24 +24,29 @@ class TestNote(TestCase):
     @patch('sys.stdout', new_callable=StringIO)
     def test_ods_note(self, stdout):
         reload(pyexcel.ext.ods)
-        self.assertEqual(stdout.getvalue(), EXPECTED_DEPRECATION_MESSAGE % ('0.2.2', 'ods'))
+        self.assertEqual(stdout.getvalue(),
+                         EXPECTED_DEPRECATION_MESSAGE % ('0.2.2', 'ods'))
 
     @patch('sys.stdout', new_callable=StringIO)
     def test_xls_note(self, stdout):
         reload(pyexcel.ext.xls)
-        self.assertEqual(stdout.getvalue(), EXPECTED_DEPRECATION_MESSAGE % ('0.2.2', 'xls'))
+        self.assertEqual(stdout.getvalue(),
+                         EXPECTED_DEPRECATION_MESSAGE % ('0.2.2', 'xls'))
 
     @patch('sys.stdout', new_callable=StringIO)
     def test_xlsx_note(self, stdout):
         reload(pyexcel.ext.xlsx)
-        self.assertEqual(stdout.getvalue(), EXPECTED_DEPRECATION_MESSAGE % ('0.2.2', 'xlsx'))
+        self.assertEqual(stdout.getvalue(),
+                         EXPECTED_DEPRECATION_MESSAGE % ('0.2.2', 'xlsx'))
 
     @patch('sys.stdout', new_callable=StringIO)
     def test_ods3_note(self, stdout):
         reload(pyexcel.ext.ods3)
-        self.assertEqual(stdout.getvalue(), EXPECTED_DEPRECATION_MESSAGE % ('0.2.2', 'ods3'))
+        self.assertEqual(stdout.getvalue(),
+                         EXPECTED_DEPRECATION_MESSAGE % ('0.2.2', 'ods3'))
 
     @patch('sys.stdout', new_callable=StringIO)
     def test_text_note(self, stdout):
         reload(pyexcel.ext.text)
-        self.assertEqual(stdout.getvalue(), EXPECTED_DEPRECATION_MESSAGE % ('0.2.1', 'text'))
+        self.assertEqual(stdout.getvalue(),
+                         EXPECTED_DEPRECATION_MESSAGE % ('0.2.1', 'text'))

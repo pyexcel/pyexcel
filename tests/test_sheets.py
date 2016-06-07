@@ -9,7 +9,7 @@ from pyexcel import Sheet, load_from_dict, load_from_records
 from _compact import OrderedDict
 from nose.tools import raises
 
-    
+
 class TestFormattableSheet:
     def setUp(self):
         self.data = [
@@ -47,7 +47,8 @@ class TestFormattableSheet:
         assert ret is None
         ret = s._cell_value(100, 100)
         assert ret == ""
-        
+
+
 class TestFilterSheet:
     def test_freeze_filters(self):
         data = [
@@ -83,7 +84,7 @@ class TestSheetNamedColumn:
         f = NamedColumnFormatter("Column 1", str)
         s.apply_formatter(f)
         assert s.column["Column 1"] == ["1", "4", "7"]
-        
+
     def test_formatter_by_named_columns(self):
         """Test multiple named columns"""
         s = NominableSheet(self.data, "test")
@@ -105,12 +106,12 @@ class TestSheetNamedColumn:
     @raises(NotImplementedError)
     def test_float_in_list_for_named_column_formatter(self):
         NamedColumnFormatter(1.22, str)
-        
+
     def test_add(self):
         s = NominableSheet(self.data, "test")
         s.name_columns_by_row(0)
         data = OrderedDict({
-            "Column 4":[10, 11,12]
+            "Column 4": [10, 11, 12]
         })
         s = s.column + data
         assert s.column["Column 4"] == [10, 11, 12]
@@ -181,8 +182,8 @@ class TestSheetNamedColumn2:
     def test_series3(self):
         custom_columns = ["C1", "C2", "C3"]
         NominableSheet(self.data, "test", colnames=custom_columns,
-                                     name_columns_by_row=0)
-        
+                       name_columns_by_row=0)
+
     def test_formatter_by_named_column(self):
         s = NominableSheet(self.data, "test")
         s.name_columns_by_row(2)
@@ -236,14 +237,14 @@ class TestSheetNamedRow:
         f = NamedRowFormatter("Row 1", str)
         s.apply_formatter(f)
         assert s.row["Row 1"] == ["1", "2", "3"]
-        
+
     def test_rownames(self):
         s = NominableSheet(self.data, "test", name_rows_by_column=0)
         assert s.rownames == ["Row 0", "Row 1", "Row 2", "Row 3"]
         custom_rows = ["R0", "R1", "R2", "R3"]
         s.rownames = custom_rows
         assert s.rownames == custom_rows
-        
+
     def test_rownames2(self):
         custom_rows = ["R0", "R1", "R2", "R3"]
         s = NominableSheet(self.data, "test", rownames=custom_rows)
@@ -253,7 +254,7 @@ class TestSheetNamedRow:
     def test_rownames3(self):
         custom_rows = ["R0", "R1", "R2", "R3"]
         NominableSheet(self.data, "test", name_rows_by_column=0,
-                                 rownames=custom_rows)
+                       rownames=custom_rows)
 
     def test_formatter_by_named_row_2(self):
         s = NominableSheet(self.data, "test")
@@ -272,7 +273,7 @@ class TestSheetNamedRow:
     def test_extend_rows_using_wrong_data_type(self):
         s = NominableSheet(self.data, "test")
         s.name_rows_by_column(0)
-        s.extend_rows([1,2])
+        s.extend_rows([1, 2])
 
     def test_formatter_by_named_row2(self):
         """Test a list of string as index"""
@@ -395,7 +396,7 @@ class TestSheetRegion:
     def test_region(self):
         data = [
             # 0 1  2  3  4 5   6
-            [1, 2, 3, 4, 5, 6, 7], #  0
+            [1, 2, 3, 4, 5, 6, 7],  # 0
             [21, 22, 23, 24, 25, 26, 27],
             [31, 32, 33, 34, 35, 36, 37],
             [41, 42, 43, 44, 45, 46, 47],
@@ -413,7 +414,7 @@ class TestSheetRegion:
     def test_cut_region(self):
         data = [
             # 0 1  2  3  4 5   6
-            [1, 2, 3, 4, 5, 6, 7], #  0
+            [1, 2, 3, 4, 5, 6, 7],  # 0
             [21, 22, 23, 24, 25, 26, 27],
             [31, 32, 33, 34, 35, 36, 37],
             [41, 42, 43, 44, 45, 46, 47],
@@ -428,7 +429,7 @@ class TestSheetRegion:
         ]
         expected2 = [
             # 0 1  2  3  4 5   6
-            [1, 2, 3, 4, 5, 6, 7], #  0
+            [1, 2, 3, 4, 5, 6, 7],  # 0
             [21, '', '', '', '', 26, 27],
             [31, '', '', '', '', 36, 37],
             [41, '', '', '', '', 46, 47],
@@ -440,7 +441,7 @@ class TestSheetRegion:
     def test_cut_and_paste_region(self):
         data = [
             # 0 1  2  3  4 5   6
-            [1, 2, 3, 4, 5, 6, 7], #  0
+            [1, 2, 3, 4, 5, 6, 7],  # 0
             [21, 22, 23, 24, 25, 26, 27],
             [31, 32, 33, 34, 35, 36, 37],
             [41, 42, 43, 44, 45, 46, 47],
@@ -448,7 +449,7 @@ class TestSheetRegion:
         ]
         s = Sheet(data)
         data = s.cut([1, 1], [4, 5])
-        s.paste([0,0], rows=data)
+        s.paste([0, 0], rows=data)
         expected = [
             [22, 23, 24, 25, 5, 6, 7],
             [32, 33, 34, 35, '', 26, 27],
@@ -457,11 +458,11 @@ class TestSheetRegion:
             [51, 52, 53, 54, 55, 56, 57]
         ]
         assert expected == s.to_array()
-        
+
     def test_cut_and_paste_region_within_limits_at_edge(self):
         data = [
             # 0 1  2  3  4 5   6
-            [1, 2, 3, 4, 5, 6, 7], #  0
+            [1, 2, 3, 4, 5, 6, 7],  # 0
             [21, 22, 23, 24, 25, 26, 27],
             [31, 32, 33, 34, 35, 36, 37],
             [41, 42, 43, 44, 45, 46, 47],
@@ -469,7 +470,7 @@ class TestSheetRegion:
         ]
         s = Sheet(data)
         data = s.cut([1, 1], [4, 5])
-        s.paste([0,0], rows=data)
+        s.paste([0, 0], rows=data)
         expected = [
             [22, 23, 24, 25, 5, 6, 7],
             [32, 33, 34, 35, '', 26, 27],
@@ -483,8 +484,8 @@ class TestSheetRegion:
 class TestLoadingFunction:
     def test_load_from_dict(self):
         content = {
-            "a": [1,2,3,5],
-            "b": [4,5,6,7,8]
+            "a": [1, 2, 3, 5],
+            "b": [4, 5, 6, 7, 8]
         }
         sheet = load_from_dict(content, name_columns_by_row=0)
         assert sorted(sheet.colnames) == sorted(content.keys())

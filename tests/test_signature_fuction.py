@@ -270,7 +270,8 @@ class TestGetRecords:
             [4, 5, 6]
         ]
         content = pe.save_as(dest_file_type="xls", array=data)
-        records = pe.get_records(file_content=content.getvalue(), file_type="xls")
+        records = pe.get_records(file_content=content.getvalue(),
+                                 file_type="xls")
         assert records == [
             {"X": 1, "Y": 2, "Z": 3},
             {"X": 4, "Y": 5, "Z": 6}
@@ -447,9 +448,11 @@ class TestSavingToDatabase:
         ]
         sheet = pe.Sheet(data)
         sheet.name_columns_by_row(0)
+
         def make_signature(row):
             return Signature(X=row["X"], Y=row["Y"], Z=row["Z"])
-        sheet.save_to_database(self.session, Signature, initializer=make_signature)
+        sheet.save_to_database(self.session, Signature,
+                               initializer=make_signature)
         result = pe.get_dict(session=self.session, table=Signature)
         assert result == {
             "X": [1, 4],
@@ -502,7 +505,7 @@ class TestSavingToDatabase:
         book[sheet2].name_columns_by_row(2)
         book.save_to_database(
             self.session,
-            [Signature,Signature2])
+            [Signature, Signature2])
         result = pe.get_dict(session=self.session, table=Signature)
         assert result == {
             "X": [1, 4],
@@ -522,8 +525,8 @@ class TestSavingToDatabase:
             "Y": [2, 5],
             "Z": [3, 6]
         }
-        pe.save_as(adict=adict, dest_session=self.session, dest_table=Signature,
-                   name_columns_by_row=0)
+        pe.save_as(adict=adict, dest_session=self.session,
+                   dest_table=Signature, name_columns_by_row=0)
         result = pe.get_dict(session=self.session, table=Signature)
         assert adict == result
 
@@ -563,11 +566,11 @@ class TestSQL:
     def setUp(self):
         Base.metadata.drop_all(engine)
         Base.metadata.create_all(engine)
-        row1 = Signature(X=1,Y=2, Z=3)
+        row1 = Signature(X=1, Y=2, Z=3)
         row2 = Signature(X=4, Y=5, Z=6)
         row3 = Signature2(A=1, B=2, C=3)
         row4 = Signature2(A=4, B=5, C=6)
-        session =Session()
+        session = Session()
         session.add(row1)
         session.add(row2)
         session.add(row3)
@@ -575,7 +578,7 @@ class TestSQL:
         session.commit()
 
     def test_get_sheet_from_query_sets(self):
-        session=Session()
+        session = Session()
         objects = session.query(Signature).all()
         column_names = ["X", "Y", "Z"]
         sheet = pe.get_sheet(column_names=column_names, query_sets=objects)
@@ -584,7 +587,6 @@ class TestSQL:
             [1, 2, 3],
             [4, 5, 6]
         ]
-
 
     def test_get_sheet_from_sql(self):
         sheet = pe.get_sheet(session=Session(), table=Signature)
@@ -621,19 +623,23 @@ class TestSQL:
         book_dict = pe.get_book_dict(session=Session(),
                                      tables=[Signature, Signature2])
         expected = OrderedDict()
-        expected.update({'signature': [['X', 'Y', 'Z'], [1, 2, 3], [4, 5, 6]]})
-        expected.update({'signature2': [['A', 'B', 'C'], [1, 2, 3], [4, 5, 6]]})
+        expected.update({'signature':
+                         [['X', 'Y', 'Z'], [1, 2, 3], [4, 5, 6]]})
+        expected.update({'signature2':
+                         [['A', 'B', 'C'], [1, 2, 3], [4, 5, 6]]})
         assert book_dict == expected
 
     def test_save_book_as_file_from_sql(self):
-        test_file="book_from_sql.xls"
+        test_file = "book_from_sql.xls"
         pe.save_book_as(out_file=test_file,
                         session=Session(),
                         tables=[Signature, Signature2])
         book_dict = pe.get_book_dict(file_name=test_file)
         expected = OrderedDict()
-        expected.update({'signature': [['X', 'Y', 'Z'], [1, 2, 3], [4, 5, 6]]})
-        expected.update({'signature2': [['A', 'B', 'C'], [1, 2, 3], [4, 5, 6]]})
+        expected.update({'signature':
+                         [['X', 'Y', 'Z'], [1, 2, 3], [4, 5, 6]]})
+        expected.update({'signature2':
+                         [['A', 'B', 'C'], [1, 2, 3], [4, 5, 6]]})
         assert book_dict == expected
         os.unlink(test_file)
 
@@ -646,26 +652,23 @@ class TestSQL:
             file_type="xls"
         )
         expected = OrderedDict()
-        expected.update({'signature': [['X', 'Y', 'Z'], [1, 2, 3], [4, 5, 6]]})
-        expected.update({'signature2': [['A', 'B', 'C'], [1, 2, 3], [4, 5, 6]]})
+        expected.update({'signature':
+                         [['X', 'Y', 'Z'], [1, 2, 3], [4, 5, 6]]})
+        expected.update({'signature2':
+                         [['A', 'B', 'C'], [1, 2, 3], [4, 5, 6]]})
         assert book_dict == expected
 
 
 class TestGetBook:
     def test_get_book_from_book_dict(self):
-        content = OrderedDict()
-        content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
-        content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
-        content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
+        content = _produce_ordered_dict()
         book = pe.get_book(bookdict=content)
         assert book.to_dict() == content
 
     def test_get_book_from_file(self):
         test_file = "test_get_book.xls"
-        content = OrderedDict()
-        content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
-        content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
-        content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
+        content = _produce_ordered_dict()
+
         book = pe.Book(content)
         book.save_as(test_file)
         book2 = pe.get_book(file_name=test_file)
@@ -673,37 +676,26 @@ class TestGetBook:
         os.unlink(test_file)
 
     def test_get_book_from_memory(self):
-        content = OrderedDict()
-        content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
-        content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
-        content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
+        content = _produce_ordered_dict()
         io = pe.save_book_as(dest_file_type="xls", bookdict=content)
         book2 = pe.get_book(file_content=io.getvalue(), file_type="xls")
         assert book2.to_dict() == content
 
     def test_get_book_from_file_stream(self):
-        content = OrderedDict()
-        content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
-        content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
-        content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
+        content = _produce_ordered_dict()
+
         io = pe.save_book_as(dest_file_type="xls", bookdict=content)
         book2 = pe.get_book(file_stream=io, file_type="xls")
         assert book2.to_dict() == content
 
     def test_get_book_from_memory_compatibility(self):
-        content = OrderedDict()
-        content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
-        content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
-        content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
+        content = _produce_ordered_dict()
         io = pe.save_book_as(dest_file_type="xls", bookdict=content)
         book2 = pe.get_book(content=io.getvalue(), file_type="xls")
         assert book2.to_dict() == content
 
     def test_get_book_dict(self):
-        content = OrderedDict()
-        content.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
-        content.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
-        content.update({"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
+        content = _produce_ordered_dict()
         io = pe.save_book_as(dest_file_type="xls", bookdict=content)
         adict = pe.get_book_dict(file_content=io.getvalue(), file_type="xls")
         assert adict == content
@@ -776,8 +768,7 @@ class TestSaveAs:
         testfile2 = "testfile.xls"
         sheet.save_as(testfile)
         pe.save_as(file_name=testfile, out_file=testfile2,
-                   colnames=["X", "Y", "Z"]
-               )
+                   colnames=["X", "Y", "Z"])
         array = pe.get_array(file_name=testfile2)
         assert array == [
             ["X", "Y", "Z"],
@@ -792,3 +783,14 @@ class TestSaveAs:
     @raises(NotImplementedError)
     def test_wrong_parameters_book(self):
         pe.save_book_as(something="else")
+
+
+def _produce_ordered_dict():
+    data_dict = OrderedDict()
+    data_dict.update({
+        "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
+    data_dict.update({
+        "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
+    data_dict.update({
+        "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
+    return data_dict

@@ -37,9 +37,9 @@ class TestReader:
         r = pe.Reader(self.testfile)
         r.add_filter(pe.filters.ColumnFilter([0, 2]))
         r.cell_value(2, 1, "k")
-        assert r[2,1] == "k"
+        assert r[2, 1] == "k"
         r.clear_filters()
-        assert r[2,3] == "k"
+        assert r[2, 3] == "k"
 
     def tearDown(self):
         clean_up_files([self.testfile])
@@ -174,7 +174,7 @@ class TestReaderWithFilter:
         assert result == actual
         #             5     6    7
         rows = [['c1', 'c2', 'c3'],
-                   ['x1', 'x2', 'x4']]
+                ['x1', 'x2', 'x4']]
         r.extend_columns(pe.transpose(rows))
         assert r.row[0] == [2, 4, 'c2']
         assert r.row[1] == [6, 8, 'x2']

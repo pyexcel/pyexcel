@@ -8,12 +8,12 @@ class TestRareCases(TestCase):
     def test_validate(self):
         ifr = pe.filters.IndexFilter(None)
         ifr.validate_filter(None)
-        ifr.translate(1,2)
-        assert 1==1
+        ifr.translate(1, 2)
+        assert 1 == 1
 
     def test_empty_column_filter(self):
         data = [
-            [1,2,3]
+            [1, 2, 3]
         ]
         s = pe.sheets.filterablesheet.FilterableSheet(data)
         s.add_filter(pe.filters.ColumnFilter([100]))
@@ -22,7 +22,7 @@ class TestRareCases(TestCase):
 
     def test_empty_row_filter(self):
         data = [
-            [1,2,3]
+            [1, 2, 3]
         ]
         s = pe.sheets.filterablesheet.FilterableSheet(data)
         s.add_filter(pe.filters.RowFilter([100]))
@@ -172,7 +172,7 @@ class TestFilterWithFilterableReader:
         result = [1, 2, 3, 4, 9, 10, 11, 12]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
-        
+
     def test_row_filter_with_invalid_indices(self):
         r = pe.load((self.file_type, self.testfile.getvalue()))
         r.filter(pe.filters.RowFilter([11, -1]))
@@ -433,7 +433,8 @@ class TestComplexFilter(TestCase):
     def test_row_value_filter(self):
         r1 = pe.load("testcsv1.csv")
         r2 = pe.load("testcsv2.csv")
-        filter_func = lambda array: r2.contains((lambda row: array[0] == row[0] and array[1] == row[1]))
+        filter_func = lambda array: r2.contains((lambda row: array[0] == row[0]
+                                                 and array[1] == row[1]))
         r1.filter(pe.filters.RowValueFilter(filter_func).invert())
         result = [1, 'a', 2, 'b', 3, 'c', 8, 'h']
         actual = pe.utils.to_array(r1.enumerate())
@@ -454,18 +455,19 @@ class TestComplexFilter(TestCase):
         if os.path.exists(self.testfile2):
             os.unlink(self.testfile2)
 
+
 class TestRegionFilter:
     def test_normal_usage(self):
         data = [
             # 0 1  2  3  4 5   6
-            [1, 2, 3, 4, 5, 6, 7], #  0
+            [1, 2, 3, 4, 5, 6, 7],  # 0
             [21, 22, 23, 24, 25, 26, 27],
             [31, 32, 33, 34, 35, 36, 37],
             [41, 42, 43, 44, 45, 46, 47],
             [51, 52, 53, 54, 55, 56, 57]  # 4
             ]
         s = pe.Sheet(data)
-        s.filter(pe.filters.RegionFilter(slice(1,4,1), slice(1,5,1)))
+        s.filter(pe.filters.RegionFilter(slice(1, 4, 1), slice(1, 5, 1)))
         expected = [
             [22, 23, 24, 25],
             [32, 33, 34, 35],
@@ -476,14 +478,14 @@ class TestRegionFilter:
     def test_normal_usage2(self):
         data = [
             # 0 1  2  3  4 5   6
-            [1, 2, 3, 4, 5, 6, 7], #  0
+            [1, 2, 3, 4, 5, 6, 7],  # 0
             [21, 22, 23, 24, 25, 26, 27],
             [31, 32, 33, 34, 35, 36, 37],
             [41, 42, 43, 44, 45, 46, 47],
             [51, 52, 53, 54, 55, 56, 57]  # 4
             ]
         s = pe.Sheet(data)
-        s.add_filter(pe.filters.RegionFilter(slice(1,4,1), slice(1,5,1)))
+        s.add_filter(pe.filters.RegionFilter(slice(1, 4, 1), slice(1, 5, 1)))
         expected = [
             [22, 23, 24, 25],
             [32, 33, 34, 35],
@@ -499,7 +501,8 @@ class TestColumnValueFilter:
             [1, 2, 3, 4, 1]
         ]
         sheet = pe.Sheet(data)
-        sheet.filter(pe.ColumnValueFilter(lambda column: column[1] == 1).invert())
+        f = lambda column: column[1] == 1
+        sheet.filter(pe.ColumnValueFilter(f).invert())
         expected = [
             ['a', 'e'],
             [1, 1]
@@ -516,7 +519,8 @@ class TestNamedRowValueFilter:
             [3, 4, 5, 6, 7]
         ]
         sheet = pe.Sheet(data, name_columns_by_row=0)
-        sheet.filter(pe.NamedRowValueFilter(lambda row: row['a'] == 3).invert())
+        f = lambda row: row['a'] == 3
+        sheet.filter(pe.NamedRowValueFilter(f).invert())
         expected = [
             ['a', 'b', 'c', 'd', 'e'],
             [3, 4, 5, 6, 7]
@@ -532,11 +536,11 @@ class TestNamedColumnValueFilter(TestCase):
             ['c', 3, 4, 5, 6, 7]
         ]
         sheet = pe.Sheet(data, name_rows_by_column=0)
-        sheet.filter(pe.NamedColumnValueFilter(lambda column: column['a'] == 3).invert())
+        f = lambda column: column['a'] == 3
+        sheet.filter(pe.NamedColumnValueFilter(f).invert())
         expected = [
             ['a', 3],
             ['b', 4],
             ['c', 5]
         ]
         self.assertEqual(sheet.to_array(), expected)
-

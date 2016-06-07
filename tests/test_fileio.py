@@ -5,7 +5,7 @@ from textwrap import dedent
 
 
 def test_write_texttable():
-    content = [[1,2]]
+    content = [[1, 2]]
     test_file = "test.texttable"
     expected = dedent("""
     pyexcel_sheet1:
@@ -20,7 +20,7 @@ def test_write_texttable():
 
 
 def test_write_texttable_book():
-    content = {"Sheet": [[1,2]]}
+    content = {"Sheet": [[1, 2]]}
     test_file = "test.texttable"
     expected = dedent("""
     Sheet:

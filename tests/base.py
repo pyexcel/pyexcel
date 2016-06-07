@@ -18,30 +18,32 @@ def to_json(iterator):
 def create_generic_file(filename, array_content):
     pe.save_as(dest_file_name=filename, array=array_content)
 
+
 def create_sample_file1(filename):
-    data=[
-        ['a', 'b', 'c', 'd'], 
-        ['e', 'f', 'g', 'h'], 
+    data = [
+        ['a', 'b', 'c', 'd'],
+        ['e', 'f', 'g', 'h'],
         ['i', 'j', 1.1, 1]
-        ]
+    ]
     create_generic_file(filename, data)
 
 
 def create_sample_file1_series(filename):
-    data=[
-        ['c1', 'c2', 'c3', 'c4'], 
-        ['a', 'b', 'c', 'd'], 
-        ['e', 'f', 'g', 'h'], 
+    data = [
+        ['c1', 'c2', 'c3', 'c4'],
+        ['a', 'b', 'c', 'd'],
+        ['e', 'f', 'g', 'h'],
         ['i', 'j', 1.1, 1]
-        ]
+    ]
     create_generic_file(filename, data)
+
 
 def create_sample_file2(filename):
     """
     1,2,3,4
     5,6,7,8
     9,10,11,12
-    """    
+    """
     table = []
     for i in [0, 4, 8]:
         array = [i+1, i+2, i+3, i+4]
@@ -74,7 +76,7 @@ class PyexcelBase:
         """
         self.rows = 3
         table = []
-        for i in range(0,self.rows):
+        for i in range(0, self.rows):
             row = i + 1
             array = [row] * 4
             table.append(array)
@@ -88,15 +90,15 @@ class PyexcelBase:
         r = pe.Reader(self.testfile)
         for i in range(0, self.rows):
             row = i + 1
-            assert row == r.cell_value(i,1)
+            assert row == r.cell_value(i, 1)
         for i in r.row_range():
-            assert i+1 == r.cell_value(i,1)
+            assert i+1 == r.cell_value(i, 1)
         assert 3 == r.cell_value(2, 3)
-            
+
     def test_row_range(self):
         r = pe.Reader(self.testfile)
         assert self.rows == len(r.row_range())
-            
+
     def test_number_of_columns(self):
         r = pe.Reader(self.testfile)
         assert 4 == r.number_of_columns()
@@ -109,7 +111,7 @@ class PyexcelBase:
         content2 = [[1, 1, 1, 1], [2, 2, 2, 2]]
         assert content2 == r.row[0:2]
         assert content2 == r.row[:2]
-        content3 = [[2, 2, 2, 2], [3,3,3,3]]
+        content3 = [[2, 2, 2, 2], [3, 3, 3, 3]]
         assert content3 == r.row[1:]
         content4 = [[1, 1, 1, 1], [2, 2, 2, 2]]
         assert content4 == r.row[0:2:1]
@@ -122,7 +124,7 @@ class PyexcelMultipleSheetBase:
 
     def _write_test_file(self, filename):
         pe.save_book_as(dest_file_name=filename, bookdict=self.content)
-        
+
     def _clean_up(self):
         if os.path.exists(self.testfile2):
             os.unlink(self.testfile2)
@@ -130,8 +132,8 @@ class PyexcelMultipleSheetBase:
             os.unlink(self.testfile)
 
     def test_sheet_names(self):
-        r = pe.BookReader( self.testfile)
-        expected = [ "Sheet1", "Sheet2", "Sheet3"]
+        r = pe.BookReader(self.testfile)
+        expected = ["Sheet1", "Sheet2", "Sheet3"]
         sheet_names = r.sheet_names()
         assert sheet_names == expected
 
@@ -180,10 +182,10 @@ class PyexcelMultipleSheetBase:
         value = r["Sheet3"].row[0][1]
         assert value == 4
 
-        
+
 class PyexcelIteratorBase:
     def test_random_access(self):
-        assert self.iteratable.cell_value(100, 100) == None
+        assert self.iteratable.cell_value(100, 100) is None
 
     def test_set_value(self):
         self.iteratable.cell_value(0, 0, 1)
@@ -271,7 +273,7 @@ class PyexcelIteratorBase:
 
 
 class PyexcelSheetRWBase:
-            
+
     @raises(TypeError)
     def test_extend_rows(self):
         r2 = self.testclass(self.testfile)
@@ -283,5 +285,5 @@ class PyexcelSheetRWBase:
         assert r2.row[3] == ['r', 's', 't', 'o', '']
         assert r2.row[4] == [1, 2, 3, 4, '']
         assert r2.row[5] == [True, "", "", "", '']
-        assert r2.row[6] == [1.1, 2.2, 3.3, 4.4, 5.5]        
+        assert r2.row[6] == [1.1, 2.2, 3.3, 4.4, 5.5]
         r2.row += 12  # bang

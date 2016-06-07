@@ -20,8 +20,8 @@ class TestReader:
 
     def test_cell_value(self):
         r = pe.Reader(self.testfile)
-        value = r.cell_value(100,100)
-        assert value == None
+        value = r.cell_value(100, 100)
+        assert value is None
         value = r.cell_value(0, 1)
         assert value == 'b'
 
@@ -44,7 +44,7 @@ class TestReader:
 
     def test_get_item_operator(self):
         r = pe.Reader(self.testfile)
-        value = r[0,1]
+        value = r[0, 1]
         assert value == 'b'
 
     @raises(IndexError)
@@ -52,19 +52,18 @@ class TestReader:
         r = pe.Reader(self.testfile)
         value = r.row_at(2)
         assert value == ['i', 'j', 1.1, 1]
-        value = r.row_at(100) # bang
+        value = r.row_at(100)  # bang
 
     @raises(IndexError)
     def test_column_at(self):
         r = pe.Reader(self.testfile)
         value = r.column_at(1)
-        assert value == ['b','f','j']
-        value = r.column_at(100) # bang
+        assert value == ['b', 'f', 'j']
+        value = r.column_at(100)  # bang
 
     @raises(NotImplementedError)
     def test_not_supported_file(self):
         pe.Reader("test.sylk")
-        assert 0==1
 
     @raises(IndexError)
     def test_out_of_index(self):
@@ -73,8 +72,8 @@ class TestReader:
 
     def test_contains(self):
         r = pe.Reader(self.testfile)
-        f = lambda row: row[0]=='a' and row[1] == 'b'
-        assert r.contains(f) == True
+        f = lambda row: row[0] == 'a' and row[1] == 'b'
+        assert r.contains(f) is True
 
     def tearDown(self):
         clean_up_files([self.testfile])
@@ -113,7 +112,7 @@ class TestCSVReader2:
 
     def test_data_types(self):
         r = pe.Reader(self.testfile)
-        result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
+        result = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
 
@@ -122,7 +121,7 @@ class TestCSVReader2:
 
 
 class TestCSVReaderDialect:
-        
+
     def setUp(self):
         """
         Make a test csv file as:
@@ -136,8 +135,9 @@ class TestCSVReaderDialect:
         for i in [0, 4, 8]:
             array = [i+1, i+2, i+3, i+4]
             table.append(array)
-        pe.save_as(dest_file_name=self.testfile, dest_delimiter=":", array=table)
-    
+        pe.save_as(dest_file_name=self.testfile, dest_delimiter=":",
+                   array=table)
+
     def test_delimiter(self):
         f = open(self.testfile)
         content = '1:2:3:45:6:7:89:10:11:12'
@@ -154,7 +154,7 @@ class TestCSVReaderDialect:
             [1, 2, 3, 4],
             [5, 6, 7, 8],
             [9, 10, 11, 12]]
-        
+
     def tearDown(self):
         clean_up_files([self.testfile])
 
@@ -224,7 +224,6 @@ class TestSeriesReader3:
         ]
         create_generic_file(self.testfile, self.content)
 
-
     def test_empty_series_reader(self):
         # debug this further
         s = pe.Sheet()  # seriesreader is gone since v0.0.7
@@ -239,7 +238,7 @@ class TestSeriesReader3:
         assert test_data == actual
         s.name_columns_by_row(2)
         assert s.colnames == test_data[2]
-        
+
     def test_row_filter(self):
         r = pe.SeriesReader(self.testfile)
         r.add_filter(pe.filters.RowFilter([1]))
@@ -307,14 +306,19 @@ class TestSeriesReader3:
         # test removing the filter, it prints the original one
         r.clear_filters()
         actual = pe.utils.to_array(r)
-        result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [11, 21, 31, 41, 51]}, {'Z': [12, 22, 32, 42, 52]}]
+        result = [{'X': [1, 2, 3, 4, 5]},
+                  {'Y': [11, 21, 31, 41, 51]},
+                  {'Z': [12, 22, 32, 42, 52]}]
         assert actual == result
 
     def test_series_column_iterator(self):
         r = pe.SeriesReader(self.testfile)
         sci = pe.iterators.ColumnIndexIterator(r)
         actual = pe.utils.to_array(sci)
-        result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [11, 21, 31, 41, 51]}, {'Z': [12, 22, 32, 42, 52]}]
+        result = [
+            {'X': [1, 2, 3, 4, 5]},
+            {'Y': [11, 21, 31, 41, 51]},
+            {'Z': [12, 22, 32, 42, 52]}]
         assert actual == result
 
     def tearDown(self):
@@ -347,7 +351,7 @@ class TestSeriesReader4:
     def test_named_column_at(self):
         r = pe.SeriesReader(self.testfile)
         result = r.named_column_at("X")
-        actual = {"X":[1, 1, 1, 1, 1]}
+        actual = {"X": [1, 1, 1, 1, 1]}
         assert result == actual["X"]
 
     def test_column_filter(self):
@@ -371,7 +375,7 @@ class TestSeriesReader4:
         Series Reader will skip first row because it has column header
         """
         r = pe.SeriesReader(self.testfile)
-        value = r[0,1]
+        value = r[0, 1]
         assert value == 2
 
     def tearDown(self):
@@ -405,7 +409,7 @@ class TestSeriesReader5:
     def test_named_column_at(self):
         r = pe.SeriesReader(self.testfile, series=4)
         result = r.named_column_at("X")
-        actual = {"X":[1, 1, 1, 1, 1]}
+        actual = {"X": [1, 1, 1, 1, 1]}
         assert result == actual["X"]
 
     def test_column_filter(self):
@@ -427,7 +431,7 @@ class TestSeriesReader5:
 
     def test_get_item_operator(self):
         r = pe.SeriesReader(self.testfile, series=4)
-        value = r[0,1]
+        value = r[0, 1]
         assert value == 2
 
     def tearDown(self):
@@ -527,12 +531,18 @@ class TestColumnSeriesReader:
         # test removing the filter, it prints the original one
         r.clear_filters()
         actual = pe.utils.to_array(r)
-        result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [11, 21, 31, 41, 51]}, {'Z': [12, 22, 32, 42, 52]}]
+        result = [
+            {'X': [1, 2, 3, 4, 5]},
+            {'Y': [11, 21, 31, 41, 51]},
+            {'Z': [12, 22, 32, 42, 52]}]
         assert actual == result
 
     def test_series_column_iterator(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
         sri = pe.iterators.RowIndexIterator(r)
         actual = pe.utils.to_array(sri)
-        result = [{'X': [1, 2, 3, 4, 5]}, {'Y': [11, 21, 31, 41, 51]}, {'Z': [12, 22, 32, 42, 52]}]
+        result = [
+            {'X': [1, 2, 3, 4, 5]},
+            {'Y': [11, 21, 31, 41, 51]},
+            {'Z': [12, 22, 32, 42, 52]}]
         assert actual == result

@@ -21,13 +21,13 @@ class TestPresentation(TestCase):
            | 7 | 8   | 999 |
            +---+-----+-----+""").strip('\n')
         self.assertEqual(str(s), content)
-        
+
     def test_irregular_usage(self):
         """textable doesn't like empty string """
         content = [
             [1, 2, 3],
             [4, 588, 6],
-            [7, 8] # one empty string
+            [7, 8]  # one empty string
         ]
         s = pe.Sheet(content)
         content = dedent("""
@@ -40,7 +40,6 @@ class TestPresentation(TestCase):
            | 7 | 8   |   |
            +---+-----+---+""").strip('\n')
         self.assertEqual(str(s), content)
-    
 
     def test_column_series(self):
         content = [

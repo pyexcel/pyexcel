@@ -35,7 +35,7 @@ class TestUtils(TestCase):
         ]
         actual = pe.utils.to_array(r)
         self.assertEqual(result, actual)
-        
+
     def test_to_dict(self):
         """
         Note: data file with column headers are tested
@@ -103,6 +103,7 @@ class TestUtils2(TestCase):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
 
+
 class TestToRecord(TestCase):
     def setUp(self):
         """
@@ -133,9 +134,10 @@ class TestToRecord(TestCase):
     @raises(ValueError)
     def test_index_sheet1(self):
         """Invalid input"""
-        s = pe.sheets.nominablesheet.NominableSheet([[1,2,3]], "test")
+        s = pe.sheets.nominablesheet.NominableSheet([[1, 2, 3]],
+                                                    "test")
         pe.to_records(s)
-    
+
     def test_index_sheet2(self):
         s = pe.ColumnSeriesReader(self.testfile, series=0)
         actual = pe.to_records(s)
@@ -144,7 +146,7 @@ class TestToRecord(TestCase):
             {'1': 7, 'X': 'Z', '3': 9, '2': 8}
         ]
         self.assertEqual(result, actual)
-        
+
     def test_index_sheet3(self):
         s = pe.ColumnSeriesReader(self.testfile, series=0)
         headers = ["Row 1", "Row 2", "Row 3", "Row 4"]
@@ -176,7 +178,7 @@ class TestToRecord(TestCase):
     def test_from_records(self):
         """give an empty records array"""
         value = pe.utils.from_records([])
-        assert value == None
+        assert value is None
 
     def tearDown(self):
         if os.path.exists(self.testfile):

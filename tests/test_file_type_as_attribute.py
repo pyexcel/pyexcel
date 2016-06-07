@@ -38,12 +38,11 @@ SourceFactory.register_sources([DummySource])
 
 def test_sheet_register_presentation():
     Sheet.register_presentation('dummy')
-    s = Sheet([[1,2]])
+    s = Sheet([[1, 2]])
     assert s.dummy == FIXTURE
 
 
 def test_book_register_presentation():
     Book.register_presentation('dummy')
-    b = Book({"sheet":[[1,2]]})
+    b = Book({"sheet": [[1, 2]]})
     assert b.dummy == FIXTURE
-

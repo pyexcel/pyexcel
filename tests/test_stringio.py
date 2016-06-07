@@ -14,7 +14,7 @@ def do_read_stringio(file_name):
     with open(file_name, open_flag) as f:
         content = f.read()
         r = pe.get_sheet(file_type=file_type, file_content=content)
-        result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
+        result = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
     if os.path.exists(file_name):
@@ -30,7 +30,7 @@ def do_book_read_stringio(file_name):
     with open(file_name, open_flag) as f:
         content = f.read()
         b = pe.get_book(file_type=file_type, file_content=content)
-        result=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
+        result = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
         actual = pe.utils.to_array(b[0].enumerate())
         assert result == actual
     if os.path.exists(file_name):
@@ -44,7 +44,7 @@ def do_write_stringio(file_type):
     ]
     io = pe.save_as(dest_file_type=file_type, array=data)
     r = pe.get_sheet(file_type=file_type, file_content=io.getvalue())
-    result=[1, 2, 3, 4, 5, 6]
+    result = [1, 2, 3, 4, 5, 6]
     actual = pe.utils.to_array(r.enumerate())
     assert actual == result
 
@@ -58,7 +58,7 @@ def do_write_stringio2(file_type):
     getter = getattr(r, "get_"+file_type)
     content = getter()
     r = pe.load_from_memory(file_type, content)
-    result=[1, 2, 3, 4, 5, 6]
+    result = [1, 2, 3, 4, 5, 6]
     actual = pe.utils.to_array(r.enumerate())
     assert actual == result
 
@@ -82,7 +82,7 @@ class TestIO:
 
     def test_csv_output_stringio2(self):
         do_write_stringio2('csv')
-    
+
     def test_csvz_stringio(self):
         do_read_stringio('cute.csvz')
 
@@ -114,9 +114,9 @@ class TestIO:
                 [4, 5, 6]
             ]
         }
-        io = pe.save_book_as(dest_file_type="xlsm",bookdict=data)
+        io = pe.save_book_as(dest_file_type="xlsm", bookdict=data)
         b = pe.load_book_from_memory("xlsm", io.getvalue())
-        result=[1, 2, 3, 4, 5, 6]
+        result = [1, 2, 3, 4, 5, 6]
         actual = pe.utils.to_array(b[0].enumerate())
         assert result == actual
 
@@ -131,6 +131,6 @@ class TestIO:
         io = BytesIO()
         book.save_to_memory("xlsm", io)
         b = pe.load_book_from_memory("xlsm", io.getvalue())
-        result=[1, 2, 3, 4, 5, 6]
+        result = [1, 2, 3, 4, 5, 6]
         actual = pe.utils.to_array(b[0].enumerate())
         assert result == actual

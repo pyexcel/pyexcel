@@ -86,24 +86,26 @@ class TestPyexcelServer(TestCase):
             io = nio
             io.seek(0)
         response = self.app.post('/upload', buffered=True,
-                                 data = {"excel": (io, "test.csv")},
+                                 data={"excel": (io, "test.csv")},
                                  content_type="multipart/form-data")
         if PY2:
             self.assertEqual(json.loads(response.data), expected)
         else:
             # for the same reason, python 3 socket receve bytes
             # to convert bytes to str is to do a decode
-            self.assertEqual(json.loads(response.data.decode('utf-8')), expected)
+            self.assertEqual(json.loads(response.data.decode('utf-8')),
+                             expected)
 
     def test_download(self):
         response = self.app.get('/download')
         ret = pe.get_array(file_type="csv", file_content=response.data)
         print(ret)
         self.assertEqual(ret, [
-            ["REVIEW_DATE","AUTHOR","ISBN","DISCOUNTED_PRICE"],
-            ["1985/01/21","Douglas Adams",'0345391802',5.95],
-            ["1990/01/12","Douglas Hofstadter",'0465026567',9.95],
-            ["1998/07/15","Timothy \"The Parser\" Campbell",'0968411304',18.99],
-            ["1999/12/03","Richard Friedman",'0060630353',5.95],
-            ["2004/10/04","Randel Helms",'0879755725',4.5]
+            ["REVIEW_DATE", "AUTHOR", "ISBN", "DISCOUNTED_PRICE"],
+            ["1985/01/21", "Douglas Adams", '0345391802', 5.95],
+            ["1990/01/12", "Douglas Hofstadter", '0465026567', 9.95],
+            ["1998/07/15", "Timothy \"The Parser\" Campbell",
+             '0968411304', 18.99],
+            ["1999/12/03", "Richard Friedman", '0060630353', 5.95],
+            ["2004/10/04", "Randel Helms", '0879755725', 4.5]
         ])

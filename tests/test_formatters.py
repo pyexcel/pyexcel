@@ -101,7 +101,7 @@ class TestToFormatFunction:
             d
         )
         assert d == new_d
-        t = datetime.time(11,11,11)
+        t = datetime.time(11, 11, 11)
         new_t = pe.formatters.to_format(
             datetime.datetime,
             t
@@ -207,7 +207,7 @@ class TestColumnFormatter(TestCase):
             str)
         c1 = r.column_at(0)[1:]
         self.assertEqual(c1, self.data["2"])
-            
+
     def test_column_format_general_usage2(self):
         """Test column format function on demand"""
         r = pe.Reader(self.test_tuple)
@@ -220,7 +220,7 @@ class TestColumnFormatter(TestCase):
 
     def test_column_format_specs(self):
         r = pe.Reader(self.test_tuple)
-        r.column.format(format_specs=[[0, str], [[2,3,4], float]])
+        r.column.format(format_specs=[[0, str], [[2, 3, 4], float]])
         c1 = r.column_at(0)[1:]
         self.assertEqual(c1, self.data['2'])
         c1 = r.column_at(3)[1:]
@@ -228,7 +228,8 @@ class TestColumnFormatter(TestCase):
 
     def test_column_format_specs_on_demand(self):
         r = pe.Reader(self.test_tuple)
-        r.column.format(format_specs=[[0, lambda v: int(v)+1], [[2,3,4], float]])
+        r.column.format(format_specs=[
+            [0, lambda v: int(v)+1], [[2, 3, 4], float]])
         c1 = r.column_at(0)[1:]
         self.assertEqual(c1, self.data['5'])
         c1 = r.column_at(3)[1:]
@@ -237,7 +238,7 @@ class TestColumnFormatter(TestCase):
     def test_one_formatter_for_two_columns(self):
         r = pe.Reader(self.test_tuple)
         r.add_formatter(pe.formatters.ColumnFormatter(
-            [0,5],
+            [0, 5],
             str))
         c1 = r.column_at(0)[1:]
         self.assertEqual(c1, self.data['2'])
@@ -298,7 +299,7 @@ class TestColumnFormatter(TestCase):
         """Test wrong data type to update_index"""
         nrf = pe.formatters.NamedColumnFormatter("abc", str)
         nrf.update_index("abc")
-        
+
 
 class TestRowFormatter(TestCase):
     def setUp(self):
@@ -314,7 +315,7 @@ class TestRowFormatter(TestCase):
         pe.save_as(dest_file_name=self.testfile, adict=self.data)
 
     def test_general_usage(self):
-        """format a row 
+        """format a row
         """
         r = pe.Reader(self.testfile)
         r.add_formatter(pe.formatters.RowFormatter(
@@ -325,7 +326,7 @@ class TestRowFormatter(TestCase):
         self.assertEqual(c1, c2)
 
     def test_general_usage2(self):
-        """format a row 
+        """format a row
         """
         r = pe.Reader(self.testfile)
         r.row.format(
@@ -336,7 +337,7 @@ class TestRowFormatter(TestCase):
         self.assertEqual(c1, c2)
 
     def test_general_usage3(self):
-        """format a row 
+        """format a row
         """
         r = pe.Reader(self.testfile)
         r.row.format(
@@ -351,7 +352,7 @@ class TestRowFormatter(TestCase):
         """
         r = pe.Reader(self.testfile)
         r.add_formatter(pe.formatters.RowFormatter(
-            [1,2],
+            [1, 2],
             str))
         c1 = r.row_at(2)
         c2 = ["2", "2", "2.2", "2.2", "3", "3"]
@@ -409,7 +410,7 @@ class TestRowFormatter(TestCase):
         c1 = r.row_at(1)
         c2 = [1, "1", 1.1, "1.1", 2, "2"]
         self.assertEqual(c1, c2)
-        r.row.format(format_specs=[[1, int],[1,str]])
+        r.row.format(format_specs=[[1, int], [1, str]])
         c1 = r.row_at(1)
         c2 = ['1', '1', '1', '1', '2', '2']
         self.assertEqual(c1, c2)
@@ -419,7 +420,7 @@ class TestRowFormatter(TestCase):
         c1 = r.row_at(1)
         c2 = [1, "1", 1.1, "1.1", 2, "2"]
         self.assertEqual(c1, c2)
-        r.row.format(format_specs=[[1, lambda v: float(v)+1],[1,str]])
+        r.row.format(format_specs=[[1, lambda v: float(v)+1], [1, str]])
         c1 = r.row_at(1)
         c2 = ['2.0', '2.0', '2.1', '2.1', '3.0', '3.0']
         self.assertEqual(c1, c2)
@@ -471,7 +472,7 @@ class TestRowFormatter(TestCase):
         """Test wrong data type to update_index"""
         nrf = pe.formatters.NamedRowFormatter("abc", str)
         nrf.update_index("abc")
-        
+
     def tearDown(self):
         clean_up_files([self.testfile])
 
@@ -482,7 +483,7 @@ class TestSheetFormatter(TestCase):
             "1": [1, 2, 3, 4, 5, 6, 7, 8],
             "3": [1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
             "5": [2, 3, 4, 5, 6, 7, 8, 9],
-            "7": [1, '',]
+            "7": [1, '']
         }
         self.testfile = "test.xls"
         pe.save_as(dest_file_name=self.testfile, adict=self.data)
@@ -553,7 +554,7 @@ class TestSheetFormatter(TestCase):
         r = pe.Reader(self.testfile)
         f = lambda x: float(x) + 1
         r.add_formatter(pe.formatters.SheetFormatter(f))
-        r.row_at(2) # bang
+        r.row_at(2)  # bang
 
     def test_clear_formatters(self):
         r = pe.Reader(self.testfile)
