@@ -354,8 +354,10 @@ Data Filters
    SingleColumnFilter
    OddColumnFilter
    EvenColumnFilter
+   ColumnValueFilter
    RowFilter
    SingleRowFilter
    OddRowFilter
    EvenRowFilter
+   RowValueFilter
    RegionFilter
