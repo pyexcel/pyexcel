@@ -220,7 +220,8 @@ def save_as(**keywords):
                           **sheet_params)
         sheet.save_to(dest_source)
         if params.FILE_TYPE in dest_source.fields:
-            dest_source.content.seek(0)
+            if not isinstance(dest_source.content, file):
+                dest_source.content.seek(0)
             return dest_source.content
     else:
         raise ValueError(MESSAGE_ERROR_02)
@@ -262,7 +263,8 @@ def save_book_as(**keywords):
         book = _get_book(**source_keywords)
         book.save_to(dest_source)
         if params.FILE_TYPE in dest_source.fields:
-            dest_source.content.seek(0)
+            if not isinstance(dest_source.content, file):
+                dest_source.content.seek(0)
             return dest_source.content
     else:
         raise ValueError(MESSAGE_ERROR_02)
