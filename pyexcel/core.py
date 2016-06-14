@@ -20,7 +20,7 @@ from .constants import (
 from .sources import sources
 from . import params
 from .factory import SourceFactory
-from ._compact import PY2
+from ._compact import PY2, is_file_handle
 
 
 SourceFactory.register_sources(sources)
@@ -220,7 +220,7 @@ def save_as(**keywords):
                           **sheet_params)
         sheet.save_to(dest_source)
         if params.FILE_TYPE in dest_source.fields:
-            if not isinstance(dest_source.content, file):
+            if not is_file_handle(dest_source.content):
                 dest_source.content.seek(0)
             return dest_source.content
     else:
@@ -263,7 +263,7 @@ def save_book_as(**keywords):
         book = _get_book(**source_keywords)
         book.save_to(dest_source)
         if params.FILE_TYPE in dest_source.fields:
-            if not isinstance(dest_source.content, file):
+            if not is_file_handle(dest_source.content):
                 dest_source.content.seek(0)
             return dest_source.content
     else:
