@@ -28,15 +28,11 @@ if PY2:
         def next(self):
             return type(self).__next__(self)
     import urllib2 as request
-    def is_file_handle(obj):
-        return isinstance(obj, file)
 else:
     from io import StringIO, BytesIO
     text_type = str
     Iterator = object
     import urllib.request as request
-    def is_file_handle(obj):
-        return hasattr(obj, 'read')
 
 
 def is_tuple_consists_of_strings(an_array):
