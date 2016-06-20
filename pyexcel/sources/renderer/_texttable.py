@@ -1,6 +1,7 @@
 from texttable import Texttable
 from pyexcel.formatters import to_format
 from pyexcel.sources.rendererfactory import Renderer
+from pyexcel._compact import is_generator
 
 
 class TextTableRenderer(Renderer):
@@ -19,6 +20,8 @@ def render_text_table(sheet, _, write_title):
         content += "%s:\n" % sheet.name
     table = Texttable(max_width=0)
     data = sheet.to_array()
+    if is_generator(data):
+        data = list(data)
     table.set_cols_dtype(['t'] * len(data[0]))
     if len(sheet.colnames) > 0:
         table.set_chars(['-', '|', '+', '='])
