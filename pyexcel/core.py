@@ -21,6 +21,7 @@ from .sources import sources
 from . import params
 from .factory import SourceFactory
 from ._compact import PY2
+from pyexcel_io.manager import RWManager
 
 
 SourceFactory.register_sources(sources)
@@ -332,6 +333,16 @@ def get_book_dict(**keywords):
         return None
 
 
+def get_io_type(file_type):
+    """
+    Return the file types
+    """
+    io_type = RWManager.get_io_type(file_type)
+    if io_type is None:
+        io_type = "string"
+    return io_type
+
+    
 def one_sheet_tuple(items):
     if not PY2:
         items = list(items)
