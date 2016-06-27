@@ -342,7 +342,7 @@ def get_io_type(file_type):
         io_type = "string"
     return io_type
 
-    
+
 def one_sheet_tuple(items):
     if not PY2:
         items = list(items)
