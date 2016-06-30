@@ -221,7 +221,6 @@ def save_as(**keywords):
                           **sheet_params)
         sheet.save_to(dest_source)
         if params.FILE_TYPE in dest_source.fields:
-            dest_source.content.seek(0)
             return dest_source.content
     else:
         raise ValueError(MESSAGE_ERROR_02)
@@ -263,7 +262,6 @@ def save_book_as(**keywords):
         book = _get_book(**source_keywords)
         book.save_to(dest_source)
         if params.FILE_TYPE in dest_source.fields:
-            dest_source.content.seek(0)
             return dest_source.content
     else:
         raise ValueError(MESSAGE_ERROR_02)
@@ -335,7 +333,7 @@ def get_book_dict(**keywords):
 
 def get_io_type(file_type):
     """
-    Return the file types
+    Return the io stream types, string or bytes
     """
     io_type = RWManager.get_io_type(file_type)
     if io_type is None:
