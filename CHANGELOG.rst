@@ -7,8 +7,8 @@ Change log
 Updated:
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-#. No longer seeking 0 when saving to memory, because if sys.stdout is not
-   seekable
+#. For python 3, do not seek 0 when saving to memory if sys.stdout is passed on.
+   Hence, adding support for sys.stdin and sys.stdout.
 
 0.2.2 - 01.06.2016
 --------------------------------------------------------------------------------
