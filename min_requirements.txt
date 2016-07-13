@@ -1,4 +1,4 @@
-pyexcel-io==0.2.0
+pyexcel-io==0.2.1
 texttable==0.8.3;python_version<"3"
 texttable==0.8.3;python_version>="3"
 ordereddict;python_version<"2.7"
