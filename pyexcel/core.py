@@ -221,14 +221,7 @@ def save_as(**keywords):
                           **sheet_params)
         sheet.save_to(dest_source)
         if params.FILE_TYPE in dest_source.fields:
-            if PY2:
-                dest_source.content.seek(0)
-            else:
-                import io
-                try:
-                    dest_source.content.seek(0)
-                except io.UnsupportedOperation:
-                    pass
+            _try_put_file_read_pointer_to_its_begining(dest_source.content)
             return dest_source.content
     else:
         raise ValueError(MESSAGE_ERROR_02)
@@ -270,14 +263,7 @@ def save_book_as(**keywords):
         book = _get_book(**source_keywords)
         book.save_to(dest_source)
         if params.FILE_TYPE in dest_source.fields:
-            if PY2:
-                dest_source.content.seek(0)
-            else:
-                import io
-                try:
-                    dest_source.content.seek(0)
-                except io.UnsupportedOperation:
-                    pass
+            _try_put_file_read_pointer_to_its_begining(dest_source.content)
             return dest_source.content
     else:
         raise ValueError(MESSAGE_ERROR_02)
@@ -361,3 +347,17 @@ def one_sheet_tuple(items):
     if not PY2:
         items = list(items)
     return items[0][0], items[0][1]
+
+
+def _try_put_file_read_pointer_to_its_begining(a_stream):
+    if PY2:
+        try:
+            a_stream.seek(0)
+        except IOError:
+            pass
+    else:
+        import io
+        try:
+            a_stream.seek(0)
+        except io.UnsupportedOperation:
+            pass
