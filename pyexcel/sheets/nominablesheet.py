@@ -17,7 +17,6 @@ from ..formatters import (
     NamedRowFormatter)
 from .._compact import is_string, OrderedDict, PY2, is_array_type
 from .._compact import is_tuple_consists_of_strings
-from ..filters import ColumnIndexFilter, RowIndexFilter
 from ..iterators import (
     ColumnIndexIterator,
     RowIndexIterator,
@@ -27,8 +26,7 @@ from ..iterators import (
 from ..constants import (
     MESSAGE_NOT_IMPLEMENTED_02,
     MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED,
-    DEFAULT_NAME
-)
+    DEFAULT_NAME)
 
 
 def names_to_indices(names, series):
@@ -401,28 +399,20 @@ class NamedColumn(Column):
 
     def format(self,
                column_index=None, formatter=None,
-               format_specs=None, on_demand=False):
+               format_specs=None):
         """Format a column
         """
-        def handle_one_formatter(columns, aformatter, on_demand):
+        def handle_one_formatter(columns, aformatter):
             new_indices = columns
             if len(self.ref.colnames) > 0:
                 new_indices = names_to_indices(columns, self.ref.colnames)
             theformatter = ColumnFormatter(new_indices, aformatter)
-            if on_demand:
-                self.ref.add_formatter(theformatter)
-            else:
-                self.ref.apply_formatter(theformatter)
+            self.ref.apply_formatter(theformatter)
         if column_index is not None:
-            handle_one_formatter(column_index, formatter, on_demand)
+            handle_one_formatter(column_index, formatter)
         elif format_specs:
             for spec in format_specs:
-                if len(spec) == 3:
-                    handle_one_formatter(spec[0], spec[1],
-                                         on_demand)
-                else:
-                    handle_one_formatter(spec[0], spec[1],
-                                         on_demand)
+                handle_one_formatter(spec[0], spec[1])
 
 
 VALID_SHEET_PARAMETERS = ['name_columns_by_row',
@@ -551,18 +541,7 @@ class NominableSheet(FilterableSheet):
     @property
     def colnames(self):
         """Return column names"""
-        if len(self._filters) != 0:
-            column_filters = [f for f in self._filters
-                              if isinstance(f, ColumnIndexFilter)]
-            if len(column_filters) != 0:
-                indices = range(0, len(self._column_names))
-                for f in column_filters:
-                    indices = [i for i in indices if i not in f.indices]
-                return [self._column_names[i] for i in indices]
-            else:
-                return self._column_names
-        else:
-            return self._column_names
+        return self._column_names
 
     @colnames.setter
     def colnames(self, value):
@@ -572,18 +551,7 @@ class NominableSheet(FilterableSheet):
     @property
     def rownames(self):
         """Return row names"""
-        if len(self._filters) != 0:
-            row_filters = [f for f in self._filters
-                           if isinstance(f, RowIndexFilter)]
-            if len(row_filters) != 0:
-                indices = range(0, len(self._row_names))
-                for f in row_filters:
-                    indices = [i for i in indices if i not in f.indices]
-                return [self._row_names[i] for i in indices]
-            else:
-                return self._row_names
-        else:
-            return self._row_names
+        return self._row_names
 
     @rownames.setter
     def rownames(self, value):
@@ -704,19 +672,6 @@ class NominableSheet(FilterableSheet):
             indices = names_to_indices(aformatter.indices, series)
             aformatter.update_index(indices)
         return aformatter
-
-    def add_formatter(self, aformatter):
-        """Add a lazy formatter.
-
-        The formatter takes effect on the fly when a cell value is read
-        This is cost effective when you have a big data table
-        and you use only a few rows or columns. If you have farily modest
-        data table, you can choose apply_formatter() too.
-
-        :param Formatter aformatter: a custom formatter
-        """
-        aformatter = self._translate_named_formatter(aformatter)
-        FormattableSheet.add_formatter(self, aformatter)
 
     def extend_rows(self, rows):
         """Take ordereddict to extend named rows

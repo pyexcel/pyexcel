@@ -209,9 +209,9 @@ class TestCookbook:
         Now start row filtering
         """
         r1 = pe.SeriesReader(self.testfile)
-        r1.add_filter(pe.filters.OddRowFilter())
+        r1.filter(pe.filters.OddRowFilter())
         r2 = pe.SeriesReader(self.testfile2)
-        r2.add_filter(pe.filters.EvenRowFilter())
+        r2.filter(pe.filters.EvenRowFilter())
         pe.cookbook.merge_two_readers(r1, r2)
         r = pe.SeriesReader("pyexcel_merged.csv")
         r.apply_formatter(pe.formatters.SheetFormatter(int))
@@ -231,9 +231,9 @@ class TestCookbook:
         Now start column filtering
         """
         r1 = pe.SeriesReader(self.testfile)
-        r1.add_filter(pe.filters.OddColumnFilter())
+        r1.filter(pe.filters.OddColumnFilter())
         r2 = pe.SeriesReader(self.testfile2)
-        r2.add_filter(pe.filters.EvenColumnFilter())
+        r2.filter(pe.filters.EvenColumnFilter())
         pe.cookbook.merge_two_readers(r1, r2)
         r = pe.SeriesReader("pyexcel_merged.csv")
         r.apply_formatter(pe.formatters.SheetFormatter(int))

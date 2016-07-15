@@ -4,7 +4,6 @@ from pyexcel.sheets.filterablesheet import FilterableSheet
 from pyexcel.formatters import RowFormatter, ColumnFormatter
 from pyexcel.formatters import NamedColumnFormatter, SheetFormatter
 from pyexcel.formatters import NamedRowFormatter
-from pyexcel.filters import EvenRowFilter
 from pyexcel import Sheet, load_from_dict, load_from_records
 from _compact import OrderedDict
 from nose.tools import raises
@@ -37,29 +36,8 @@ class TestFormattableSheet:
         assert s.row[0] == s.row[1]
         assert s.column[0] == [1, 1, 1.1, 1.1, 2, 2]
 
-    def test_freeze_formatter(self):
-        s = FormattableSheet(self.data)
-        s.freeze_formatters()
-
-    def test_empty_sheet(self):
-        s = FormattableSheet([])
-        ret = s.cell_value(100, 100)
-        assert ret is None
-        ret = s._cell_value(100, 100)
-        assert ret == ""
-
 
 class TestFilterSheet:
-    def test_freeze_filters(self):
-        data = [
-            [1, 2, 3],
-            [2, 3, 4]
-        ]
-        s = FilterableSheet(data)
-        s.add_filter(EvenRowFilter())
-        s.freeze_filters()
-        assert s.row[0] == [1, 2, 3]
-        assert s.column[0] == [1]
 
     @raises(NotImplementedError)
     def test_non_filter(self):

@@ -13,7 +13,10 @@ from ..formatters import (
     RowFormatter,
     SheetFormatter
 )
-from ..constants import MESSAGE_NOT_IMPLEMENTED_01
+from ..constants import (
+    MESSAGE_NOT_IMPLEMENTED_01,
+    _IMPLEMENTATION_REMOVED
+)
 
 
 class FormattableSheet(Matrix):
@@ -25,7 +28,6 @@ class FormattableSheet(Matrix):
 
         """
         Matrix.__init__(self, array)
-        self._formatters = []
 
     def format(self, formatter, on_demand=False):
         """Apply a formatting action for the whole sheet
@@ -52,10 +54,7 @@ class FormattableSheet(Matrix):
 
         """
         sf = SheetFormatter(formatter)
-        if on_demand:
-            self.add_formatter(sf)
-        else:
-            self.apply_formatter(sf)
+        self.apply_formatter(sf)
 
     def map(self, custom_function):
         """Execute a function across all cells of the sheet
@@ -103,9 +102,6 @@ class FormattableSheet(Matrix):
             >>> sheet.apply_formatter(aformatter)
             >>> sheet.row[1]
             [2.0, 2.25, 3.0, 2.0]
-            >>> sheet.clear_formatters() # no return ticket
-            >>> sheet.row[1]
-            [2.0, 2.25, 3.0, 2.0]
 
         """
         if isinstance(aformatter, ColumnFormatter):
@@ -113,9 +109,12 @@ class FormattableSheet(Matrix):
         elif isinstance(aformatter, RowFormatter):
             self._apply_row_formatter(aformatter)
         else:
-            # to do don't use add_formatter'
-            self.add_formatter(aformatter)
-            self.freeze_formatters()
+            for row in self.row_range():
+                for column in self.column_range():
+                    value = self.cell_value(row, column)
+                    if aformatter.is_my_business(row, column, value):
+                        value = aformatter.do_format(value)
+                        self.cell_value(row, column, value)
 
     def _apply_column_formatter(self, column_formatter):
         def filter_indices(column_index):
@@ -141,125 +140,26 @@ class FormattableSheet(Matrix):
 
     def add_formatter(self, aformatter):
         """Add a lazy formatter.
-
-        The formatter takes effect on the fly when a cell value is read
-        This is cost effective when you have a big data table
-        and you use only a few columns or rows. If you have farily modest
-        data table, you can choose apply_formatter() too.
-
-        :param Formatter aformatter: a custom formatter
-
-        Example::
-
-            >>> import pyexcel as pe
-            >>> # Given a dictinoary as the following
-            >>> data = {
-            ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
-            ...     "3": [1.25, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
-            ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
-            ...     "7": [1, '',]
-            ...     }
-            >>> sheet = pe.get_sheet(adict=data)
-            >>> sheet.row[1]
-            [1, 1.25, 2, 1]
-            >>> inc = lambda value: (float(value) if value != None else 0)+1
-            >>> aformatter = pe.SheetFormatter(inc)
-            >>> sheet.add_formatter(aformatter)
-            >>> sheet.row[1]
-            [2.0, 2.25, 3.0, 2.0]
-            >>> sheet.clear_formatters()
-            >>> sheet.row[1]
-            [1, 1.25, 2, 1]
-            >>> aformatter = pe.SheetFormatter(inc)
-            >>> sheet.apply_formatter(aformatter)
-            >>> sheet.row[1]
-            [2.0, 2.25, 3.0, 2.0]
-            >>> sheet.clear_formatters() # no return ticket
-            >>> sheet.row[1]
-            [2.0, 2.25, 3.0, 2.0]
-
         """
-        self._formatters.append(aformatter)
+        print("Deprecated since 0.3.0!Please use apply_formatter.")
+        self.apply_formatter(aformatter)
 
     def remove_formatter(self, aformatter):
         """Remove a formatter
 
         :param Formatter aformatter: a custom formatter
         """
-        self._formatters.remove(aformatter)
+        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
 
     def clear_formatters(self):
         """Clear all formatters
-
-        Example::
-
-            >>> import pyexcel as pe
-            >>> # Given a dictinoary as the following
-            >>> data = {
-            ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
-            ...     "3": [1.25, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
-            ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
-            ...     "7": [1, '',]
-            ...     }
-            >>> sheet = pe.get_sheet(adict=data)
-            >>> sheet.row[1]
-            [1, 1.25, 2, 1]
-            >>> inc = lambda value: (float(value) if value != None else 0)+1
-            >>> aformatter = pe.SheetFormatter(inc)
-            >>> sheet.add_formatter(aformatter)
-            >>> sheet.row[1]
-            [2.0, 2.25, 3.0, 2.0]
-            >>> sheet.clear_formatters()
-            >>> sheet.row[1]
-            [1, 1.25, 2, 1]
-
         """
-        self._formatters = []
+        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
 
     def freeze_formatters(self):
         """Apply all added formatters and clear them
-
-        The tradeoff here is when you extend the sheet, you won't
-        get the effect of previously applied formatters because they
-        are applied and gone.
         """
-        if len(self._formatters) < 1:
-            return
-        # set the values
-        for rindex in self.row_range():
-            for cindex in self.column_range():
-                value = self.cell_value(rindex, cindex)
-                self.cell_value(rindex, cindex, value)
-        # clear formatters
-        self._formatters = []
-
-    def _cell_value(self, row, column, new_value=None):
-        """
-        Random access to the xls cells
-        """
-        if new_value is None:
-            try:
-                value = self.array[row][column]
-            except IndexError:
-                value = ""
-            if len(self._formatters) > 0:
-                for f in self._formatters:
-                    if f.is_my_business(row, column, value):
-                        value = f.do_format(value)
-            return value
-        else:
-            self.array[row][column] = new_value
-            return new_value
-
-    def cell_value(self, row, column, new_value=None):
-        """
-        Random access to the data cells
-        """
-        if row in self.row_range() and column in self.column_range():
-            # apply formatting
-            return self._cell_value(row, column, new_value)
-        else:
-            return None
+        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
 
     def __add__(self, other):
         """Overload the + sign

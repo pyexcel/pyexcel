@@ -118,11 +118,6 @@ class TestFilterWithFilterableReader:
         result = [2, 4, 6, 8, 10, 12]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
-        # test removing the filter,  it prints the original one
-        r.clear_filters()
-        result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-        actual = pe.utils.to_array(r.enumerate())
-        assert result == actual
 
     def test_even_column_filter(self):
         r = pe.load((self.file_type, self.testfile.getvalue()))
@@ -194,11 +189,6 @@ class TestFilterWithFilterableReader:
         result = [1, 2, 3, 4, 9, 10, 11, 12]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
-        # test removing the filter,  it prints the original one
-        r.clear_filters()
-        result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-        actual = pe.utils.to_array(r.enumerate())
-        assert result == actual
 
     def test_even_row_filter(self):
         r = pe.load((self.file_type, self.testfile.getvalue()))
@@ -227,24 +217,6 @@ class TestFilterWithFilterableReader:
         assert r.number_of_columns() == 2
         assert r.number_of_rows() == 1
         result = [6, 8]
-        actual = pe.utils.to_array(r.enumerate())
-        assert result == actual
-        r.remove_filter(f1)
-        result = [2, 4, 6, 8, 10, 12]
-        actual = pe.utils.to_array(r.enumerate())
-        assert result == actual
-
-    def test_remove_filter(self):
-        r = pe.load((self.file_type, self.testfile.getvalue()))
-        f = pe.filters.OddRowFilter()
-        r.add_filter(f)
-        assert r.number_of_rows() == 1
-        assert r.number_of_columns() == 4
-        result = [5, 6, 7, 8]
-        actual = pe.utils.to_array(r.enumerate())
-        assert result == actual
-        r.remove_filter(f)
-        result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
 
@@ -311,11 +283,6 @@ class TestFilterWithReader:
         result = [2, 4, 6, 8, 10, 12]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
-        # test removing the filter,  it prints the original one
-        r.clear_filters()
-        result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-        actual = pe.utils.to_array(r.enumerate())
-        assert result == actual
 
     def test_even_column_filter(self):
         r = pe.load(self.test_tuple)
@@ -376,11 +343,6 @@ class TestFilterWithReader:
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4
         result = [1, 2, 3, 4, 9, 10, 11, 12]
-        actual = pe.utils.to_array(r.enumerate())
-        assert result == actual
-        # test removing the filter,  it prints the original one
-        r.clear_filters()
-        result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
 

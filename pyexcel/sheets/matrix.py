@@ -533,15 +533,18 @@ class Matrix(object):
         :param int column: column index which starts from 0
         :param any new_value: new value if this is to set the value
         """
-        if new_value is None:
-            if row in self.row_range() and column in self.column_range():
-                # apply formatting
+        if row in self.row_range() and column in self.column_range():
+            if new_value is None:
+                # get
                 return self.array[row][column]
             else:
-                return None
+                # set
+                self.array[row][column] = new_value
         else:
-            self.array[row][column] = new_value
-            return new_value
+            if new_value is None:
+                raise IndexError("Index out of range")
+            else:
+                self.paste((row, column), [[new_value]])
 
     def __iter__(self):
         """
@@ -944,6 +947,42 @@ class Matrix(object):
         """
         self._extend_columns_with_rows(rows)
 
+    def region(self, topleft_corner, bottomright_corner):
+        """Get a rectangle shaped data out
+
+        :param slice topleft_corner: the top left corner of the rectangle
+        :param slice bottomright_corner: the bottom right
+                                         corner of the rectangle
+        """
+        region = []
+        for row in range(topleft_corner[0], bottomright_corner[0]):
+            tmp_row = []
+            for column in range(topleft_corner[1], bottomright_corner[1]):
+                tmp_row.append(self.cell_value(row, column))
+            region.append(tmp_row)
+        return region
+
+    def cut(self, topleft_corner, bottomright_corner):
+        """Get a rectangle shaped data out and clear them in position
+
+        :param slice topleft_corner: the top left corner of the rectangle
+        :param slice bottomright_corner: the bottom right
+                                         corner of the rectangle
+        """
+        region = self.region(topleft_corner, bottomright_corner)
+        for row in range(topleft_corner[0], bottomright_corner[0]):
+            for column in range(topleft_corner[1], bottomright_corner[1]):
+                self.cell_value(row, column, "")
+        return region
+
+    def insert(self, topleft_corner, rows=None, columns=None):
+        """Insert a rectangle shaped data after a position
+
+        :param slice topleft_corner: the top left corner of the rectangle
+
+        """
+        self.paste(topleft_corner, rows=rows, columns=columns)
+
     def paste(self, topleft_corner, rows=None, columns=None):
         """Paste a rectangle shaped data after a position
 
@@ -1009,6 +1048,12 @@ class Matrix(object):
         """
         if rows:
             starting_row = topleft_corner[0]
+            number_of_rows = self.number_of_rows()
+            number_of_columns = self.number_of_columns()
+            if starting_row > number_of_rows:
+                for i in range(0, starting_row - number_of_rows):
+                    empty_row = [""] * number_of_columns
+                    self._extend_row(empty_row)
             number_of_rows = self.number_of_rows()
             for index, row in enumerate(rows):
                 set_index = starting_row + index

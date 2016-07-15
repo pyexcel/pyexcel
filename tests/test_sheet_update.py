@@ -5,7 +5,7 @@ from base import (create_sample_file1,
                   clean_up_files,
                   PyexcelSheetRWBase)
 from _compact import OrderedDict
-from nose.tools import raises
+from nose.tools import raises, eq_
 
 
 class TestReader:
@@ -38,8 +38,6 @@ class TestReader:
         r.add_filter(pe.filters.ColumnFilter([0, 2]))
         r.cell_value(2, 1, "k")
         assert r[2, 1] == "k"
-        r.clear_filters()
-        assert r[2, 3] == "k"
 
     def tearDown(self):
         clean_up_files([self.testfile])
@@ -130,27 +128,16 @@ class TestReaderWithFilter:
         result = [1, 2, 3, 4, 9, 10, 11, 12]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
-        content = [['r', 's', 't', 'o'],  # 4
-                   [1, 2, 3, 4],  # 5
-                   [True],  # 6
-                   [1.1, 2.2, 3.3, 4.4, 5.5]]  # 7
-        r.extend_rows(content)
-        assert r.row[3] == content[3]
 
-    def test_add_rows_even_row_filter2(self):
+    def test_add_rows_even_row_filter_2(self):
         r = pe.Reader(self.testfile)
-        r.add_filter(pe.filters.EvenRowFilter())
-        assert r.number_of_rows() == 2
-        assert r.number_of_columns() == 4
-        result = [1, 2, 3, 4, 9, 10, 11, 12]
-        actual = pe.utils.to_array(r.enumerate())
-        assert result == actual
         content = [['r', 's', 't', 'o'],  # 4
                    [1, 2, 3, 4],  # 5
                    [True],  # 6
                    [1.1, 2.2, 3.3, 4.4, 5.5]]  # 7
         r.extend_rows(content)
-        assert r.row[3] == content[3]
+        r.add_filter(pe.filters.EvenRowFilter())
+        eq_(r.row[3], content[3])
 
     def test_delete_rows_even_row_filter(self):
         r = pe.Reader(self.testfile)
@@ -172,10 +159,14 @@ class TestReaderWithFilter:
         result = [2, 4, 6, 8, 10, 12]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
+
+    def test_add_rows_odd_column_filter_2(self):
+        r = pe.Reader(self.testfile)
         #             5     6    7
         rows = [['c1', 'c2', 'c3'],
                 ['x1', 'x2', 'x4']]
         r.extend_columns(pe.transpose(rows))
+        r.add_filter(pe.filters.OddColumnFilter())
         assert r.row[0] == [2, 4, 'c2']
         assert r.row[1] == [6, 8, 'x2']
         assert r.row[2] == [10, 12, '']
@@ -188,8 +179,12 @@ class TestReaderWithFilter:
         result = [2, 4, 6, 8, 10, 12]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual
+
+    def test_delete_rows_odd_column_filter_2(self):
+        r = pe.Reader(self.testfile)
         #             5     6    7
         r.delete_columns([0])
+        r.add_filter(pe.filters.OddColumnFilter())
         result = [3, 7, 11]
         actual = pe.utils.to_array(r.enumerate())
         assert result == actual

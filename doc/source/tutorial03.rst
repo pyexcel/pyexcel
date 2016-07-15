@@ -3,10 +3,7 @@
 Sheet: Formatting
 ===================
 
-Previous section has assumed the data is in the format that you want. In reality, you have to manipulate the data types a bit to suit your needs. Hence, formatters comes into the scene. The formatters take effect when the data is read on the fly. They do not affect the persistence of the data in the excel files. A row or column formatter can be applied to mutilpe rows/columns. There are two ways of applying a formatter:
-
-#. use :meth:`~pyexcel.Sheet.add_formatter`, :meth:`~pyexcel.Sheet.remove_formatter` and :meth:`~pyexcel.Sheet.clear_formatter` to apply formatter on the fly. The formatter takes effect when a cell value is read. In other words, the sheet content is intact until you call :meth:`~pyexcel.Sheet.freeze_formatters` to apply all added formatters.  
-#. use :meth:`~pyexcel.Sheet.format` to apply formatter immediately. 
+Previous section has assumed the data is in the format that you want. In reality, you have to manipulate the data types a bit to suit your needs. Hence, formatters comes into the scene.  use :meth:`~pyexcel.Sheet.format` to apply formatter immediately. 
 
 
 There is slightly different behavior between csv reader and xls reader. The cell type of the cells read by csv reader will be always text while the cell types read by xls reader vary. 
@@ -108,7 +105,7 @@ Now try to create a custom cleanse function::
 Then let's create a :class:`~pyexcel.SheetFormatter` and apply it::
 
     >>> sf = pyexcel.formatters.SheetFormatter(cleanse_func)
-    >>> sheet.add_formatter(sf)
+    >>> sheet.apply_formatter(sf)
     >>> sheet.to_array()
     [['Version', 'Comments', 'Author'], ['v0.0.1', 'Release versions', 'Eda'], ['v0.0.2', 'Useful updates', 'Freud']]
 

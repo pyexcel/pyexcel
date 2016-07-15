@@ -2,10 +2,7 @@
 Sheet: Data filtering
 ======================
 
-There are two ways of applying a filter:
-
-#. soft filtering. use :meth:`~pyexcel.Sheet.add_filter`, :meth:`~pyexcel.Sheet.remove_filter` and :meth:`~pyexcel.Sheet.clear_filters` to interactively apply a filter. The content is not modified until you call :meth:`~pyexcel.Sheet.freeze_filters`
-#. hard filtering. use :meth:`~pyexcel.Sheet.filter` function to apply a filter immediately. The content is modified.
+use :meth:`~pyexcel.Sheet.filter` function to apply a filter immediately. The content is modified.
 
 
 Suppose you have the following data in any of the supported excel formats:
@@ -43,7 +40,7 @@ You may want to filter odd rows and print them in an array of dictionaries:
 
 .. code-block:: python
 
-    >>> sheet.add_filter(pyexcel.OddRowFilter())
+    >>> sheet.filter(pyexcel.OddRowFilter())
     >>> sheet.to_array()
     [['Column 1', 'Column 2', 'Column 3'], [4, 5, 6]]
 
@@ -51,7 +48,7 @@ Let's try to further filter out even columns:
 
 .. code-block:: python
 
-    >>> sheet.add_filter(pyexcel.EvenColumnFilter())
+    >>> sheet.filter(pyexcel.EvenColumnFilter())
     >>> sheet.to_dict()
     OrderedDict([('Column 1', [4]), ('Column 3', [6])])
 

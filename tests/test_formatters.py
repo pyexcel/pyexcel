@@ -221,8 +221,7 @@ class TestColumnFormatter(TestCase):
         r = pe.Reader(self.test_tuple)
         r.column.format(
             0,
-            str,
-            on_demand=True)
+            str)
         c1 = r.column_at(0)[1:]
         self.assertEqual(c1, self.data['2'])
 
@@ -231,15 +230,6 @@ class TestColumnFormatter(TestCase):
         r.column.format(format_specs=[[0, str], [[2, 3, 4], float]])
         c1 = r.column_at(0)[1:]
         self.assertEqual(c1, self.data['2'])
-        c1 = r.column_at(3)[1:]
-        self.assertEqual(c1, self.data['3'])
-
-    def test_column_format_specs_on_demand(self):
-        r = pe.Reader(self.test_tuple)
-        r.column.format(format_specs=[
-            [0, increase_func], [[2, 3, 4], float]])
-        c1 = r.column_at(0)[1:]
-        self.assertEqual(c1, self.data['5'])
         c1 = r.column_at(3)[1:]
         self.assertEqual(c1, self.data['3'])
 
@@ -342,17 +332,6 @@ class TestRowFormatter(TestCase):
         c2 = ["1", "1", "1.1", "1.1", "2", "2"]
         self.assertEqual(c1, c2)
 
-    def test_general_usage3(self):
-        """format a row
-        """
-        r = pe.Reader(self.testfile)
-        r.row.format(
-            1,
-            str, on_demand=True)
-        c1 = r.row_at(1)
-        c2 = ["1", "1", "1.1", "1.1", "2", "2"]
-        self.assertEqual(c1, c2)
-
     def test_one_formatter_for_two_rows(self):
         """format more than one row
         """
@@ -381,20 +360,6 @@ class TestRowFormatter(TestCase):
     @raises(IndexError)
     def test_float_in_row_formatter(self):
         pe.formatters.RowFormatter([1, 1.1], str)
-
-    def test_remove_formatter(self):
-        r = pe.Reader(self.testfile)
-        ft = pe.formatters.RowFormatter(
-            1,
-            str)
-        r.add_formatter(ft)
-        c1 = r.row_at(1)
-        c2 = ["1", "1", "1.1", "1.1", "2", "2"]
-        self.assertEqual(c1, c2)
-        r.remove_formatter(ft)
-        c1 = r.row_at(1)
-        c2 = [1, "1", 1.1, "1.1", 2, "2"]
-        self.assertEqual(c1, c2)
 
     def test_two_formatters(self):
         r = pe.Reader(self.testfile)
@@ -453,21 +418,6 @@ class TestRowFormatter(TestCase):
             str))
         c1 = r.row_at(1)
         c2 = ["2.0", "2.0", "2.1", "2.1", "3.0", "3.0"]
-        self.assertEqual(c1, c2)
-
-    def test_remove_formatter2(self):
-        r = pe.Reader(self.testfile)
-        ft = pe.formatters.RowFormatter(1, increase_float_func)
-        r.add_formatter(ft)
-        c1 = r.row_at(1)
-        c2 = [2.0, 2.0, 2.1, 2.1, 3.0, 3.0]
-        self.assertEqual(c1, c2)
-        c1 = r.row_at(1)
-        c2 = [2.0, 2.0, 2.1, 2.1, 3.0, 3.0]
-        self.assertEqual(c1, c2)
-        r.remove_formatter(ft)
-        c1 = r.row_at(1)
-        c2 = [1, "1", 1.1, "1.1", 2, "2"]
         self.assertEqual(c1, c2)
 
     @raises(NotImplementedError)
@@ -555,17 +505,6 @@ class TestSheetFormatter(TestCase):
         r.add_formatter(pe.formatters.SheetFormatter(increase_float_func))
         r.row_at(2)  # bang
 
-    def test_clear_formatters(self):
-        r = pe.Reader(self.testfile)
-        r.add_formatter(pe.formatters.SheetFormatter(increase_float_func))
-        r.add_formatter(pe.formatters.SheetFormatter(str))
-        r.clear_formatters()
-        r.name_columns_by_row(0)
-        mydata = r.to_dict()
-        self.assertEqual(mydata['1'], self.data['1'])
-        self.assertEqual(mydata['3'], self.data['3'])
-        self.assertEqual(mydata['5'], self.data['5'])
-
     def tearDown(self):
         clean_up_files([self.testfile])
 
@@ -621,17 +560,6 @@ class TestSheetFormatterInXLS(TestCase):
         c1 = r.row_at(2)
         c2 = ["3.0", "3.2", "4.0"]
         self.assertEqual(c1, c2)
-
-    def test_clear_formatters(self):
-        r = pe.Reader(self.testfile)
-        r.add_formatter(pe.formatters.SheetFormatter(increase_float_func))
-        r.add_formatter(pe.formatters.SheetFormatter(str))
-        r.clear_formatters()
-        r.name_columns_by_row(0)
-        mydata = r.to_dict()
-        self.assertEqual(mydata['1'], self.data['1'])
-        self.assertEqual(mydata['3'], self.data['3'])
-        self.assertEqual(mydata['5'], self.data['5'])
 
     def tearDown(self):
         clean_up_files([self.testfile])

@@ -184,8 +184,9 @@ class PyexcelMultipleSheetBase:
 
 
 class PyexcelIteratorBase:
+    @raises(IndexError)
     def test_random_access(self):
-        assert self.iteratable.cell_value(100, 100) is None
+        self.iteratable.cell_value(100, 100)
 
     def test_set_value(self):
         self.iteratable.cell_value(0, 0, 1)

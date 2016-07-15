@@ -18,12 +18,12 @@ class TestReader:
         self.testfile = "testcsv.csv"
         create_sample_file1(self.testfile)
 
+    @raises(IndexError)
     def test_cell_value(self):
         r = pe.Reader(self.testfile)
-        value = r.cell_value(100, 100)
-        assert value is None
         value = r.cell_value(0, 1)
         assert value == 'b'
+        value = r.cell_value(100, 100)
 
     def test_row_range(self):
         r = pe.Reader(self.testfile)
@@ -262,9 +262,6 @@ class TestSeriesReader3:
             "Z": [22, 42]
         }
         assert result == actual
-        r.remove_filter(f)
-        actual = pe.utils.to_array(r.rows())
-        assert actual == self.content[1:]
 
     def test_even_row_filter(self):
         r = pe.SeriesReader(self.testfile)
@@ -276,10 +273,6 @@ class TestSeriesReader3:
             "Z": [12, 32, 52]
         }
         assert result == actual
-        # test removing the filter, it prints the original one
-        r.clear_filters()
-        actual = pe.utils.to_array(r.rows())
-        assert actual == self.content[1:]
 
     def test_orthogonality(self):
         r = pe.SeriesReader(self.testfile)
@@ -290,10 +283,6 @@ class TestSeriesReader3:
             "Y": [11, 31, 51]
         }
         assert result == actual
-        # test removing the filter, it prints the original one
-        r.clear_filters()
-        actual = pe.utils.to_array(r.rows())
-        assert actual == self.content[1:]
 
     def test_orthogonality2(self):
         r = pe.SeriesReader(self.testfile)
@@ -304,13 +293,6 @@ class TestSeriesReader3:
             "Y": [11, 31, 51]
         }
         assert result == actual
-        # test removing the filter, it prints the original one
-        r.clear_filters()
-        actual = pe.utils.to_array(r)
-        result = [{'X': [1, 2, 3, 4, 5]},
-                  {'Y': [11, 21, 31, 41, 51]},
-                  {'Z': [12, 22, 32, 42, 52]}]
-        assert actual == result
 
     def test_series_column_iterator(self):
         r = pe.SeriesReader(self.testfile)
@@ -366,10 +348,6 @@ class TestSeriesReader4:
         }
         assert "Y" not in actual
         assert result == actual
-        # test removing the filter, it prints the original one
-        r.remove_filter(filter)
-        actual = pe.utils.to_array(r.rows())
-        assert actual == self.content[1:]
 
     def test_get_item_operator(self):
         """
@@ -424,11 +402,6 @@ class TestSeriesReader5:
         }
         assert "Y" not in actual
         assert result == actual
-        # test removing the filter, it prints the original one
-        r.remove_filter(filter)
-        actual = pe.utils.to_array(r.rows())
-        self.content.pop(4)
-        assert actual == self.content
 
     def test_get_item_operator(self):
         r = pe.SeriesReader(self.testfile, series=4)
@@ -486,9 +459,6 @@ class TestColumnSeriesReader:
             "Y": [11, 21, 31, 41, 51]
         }
         assert result == actual
-        r.remove_filter(f)
-        actual = pe.utils.to_array(r.rows())
-        assert actual == pe.transpose(self.content[1:])
 
     def test_even_row_filter(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
@@ -499,10 +469,6 @@ class TestColumnSeriesReader:
             "Z": [12, 22, 32, 42, 52]
         }
         assert result == actual
-        # test removing the filter, it prints the original one
-        r.clear_filters()
-        actual = pe.utils.to_array(r.rows())
-        assert actual == pe.transpose(self.content[1:])
 
     def test_orthogonality(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
@@ -514,10 +480,6 @@ class TestColumnSeriesReader:
             "Z": [22, 42]
         }
         assert result == actual
-        # test removing the filter, it prints the original one
-        r.clear_filters()
-        actual = pe.utils.to_array(r.rows())
-        assert actual == pe.transpose(self.content[1:])
 
     def test_orthogonality2(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
@@ -529,14 +491,6 @@ class TestColumnSeriesReader:
             "Z": [22, 42]
         }
         assert result == actual
-        # test removing the filter, it prints the original one
-        r.clear_filters()
-        actual = pe.utils.to_array(r)
-        result = [
-            {'X': [1, 2, 3, 4, 5]},
-            {'Y': [11, 21, 31, 41, 51]},
-            {'Z': [12, 22, 32, 42, 52]}]
-        assert actual == result
 
     def test_series_column_iterator(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
