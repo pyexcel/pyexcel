@@ -26,8 +26,9 @@ from ..constants import (
     MESSAGE_INDEX_OUT_OF_RANGE,
     MESSAGE_DATA_ERROR_EMPTY_CONTENT,
     MESSAGE_DATA_ERROR_DATA_TYPE_MISMATCH,
-    MESSAGE_DEPRECATED_ROW_COLUMN
-)
+    MESSAGE_DEPRECATED_ROW_COLUMN,
+    _IMPLEMENTATION_REMOVED)
+from ..filters import ColumnIndexFilter, RowIndexFilter, RegionFilter
 
 
 def _unique(seq):
@@ -1136,3 +1137,61 @@ class Matrix(object):
         """Get an array out
         """
         return self.array
+
+
+    def filter(self, afilter):
+        """Apply the filter with immediate effect"""
+        if isinstance(afilter, ColumnIndexFilter):
+            self._apply_column_filters(afilter)
+        elif isinstance(afilter, RowIndexFilter):
+            self._apply_row_filters(afilter)
+        elif isinstance(afilter, RegionFilter):
+            afilter.validate_filter(self)
+            decending_list = sorted(afilter.row_indices, reverse=True)
+            for i in decending_list:
+                del self.row[i]
+            decending_list = sorted(afilter.column_indices, reverse=True)
+            for i in decending_list:
+                del self.column[i]
+        else:
+            raise NotImplementedError("Invalid Filter!")
+
+    def _apply_row_filters(self, afilter):
+        afilter.validate_filter(self)
+        decending_list = sorted(afilter.indices, reverse=True)
+        for i in decending_list:
+            del self.row[i]
+
+    def _apply_column_filters(self, afilter):
+        """Private method to apply column filter"""
+        afilter.validate_filter(self)
+        decending_list = sorted(afilter.indices, reverse=True)
+        for i in decending_list:
+            del self.column[i]
+
+    def add_filter(self, afilter):
+        """Apply a filter
+        """
+        print(_IMPLEMENTATION_REMOVED + "Please use filter().")
+        self.filter(afilter)
+
+    def remove_filter(self, afilter):
+        """Remove a named filter
+        """
+        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
+
+    def clear_filters(self):
+        """Clears all filters"""
+        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
+
+
+    def validate_filters(self):
+        """Re-apply filters
+
+        It is called when some data is updated
+        """
+        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
+
+    def freeze_filters(self):
+        """Apply all filters and delete them"""
+        raise NotImplementedError(_IMPLEMENTATION_REMOVED)

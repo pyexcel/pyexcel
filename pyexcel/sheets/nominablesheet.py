@@ -2,14 +2,13 @@
     pyexcel.sheets.nominablesheet
     ~~~~~~~~~~~~~~~~~~~
 
-    Building on top of filterablesheet, adding named columns and rows support
+    Building on top of formattablesheet, adding named columns and rows support
 
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
 from .matrix import Row, Column, Matrix
 from .formattablesheet import FormattableSheet
-from .filterablesheet import FilterableSheet
 from ..formatters import (
     ColumnFormatter,
     RowFormatter,
@@ -423,7 +422,7 @@ VALID_SHEET_PARAMETERS = ['name_columns_by_row',
                           'transpose_after']
 
 
-class NominableSheet(FilterableSheet):
+class NominableSheet(FormattableSheet):
     """Allow dictionary group of the content
     """
     def __init__(self, sheet=None, name=DEFAULT_NAME,
@@ -445,7 +444,7 @@ class NominableSheet(FilterableSheet):
         # this get rid of phatom data by not specifying sheet
         if sheet is None:
             sheet = []
-        FilterableSheet.__init__(self, sheet)
+        FormattableSheet.__init__(self, sheet)
         if transpose_before:
             self.transpose()
         self.name = name
@@ -583,7 +582,7 @@ class NominableSheet(FilterableSheet):
 
         :param list column_indices: a list of column indices
         """
-        FilterableSheet.delete_columns(self, column_indices)
+        FormattableSheet.delete_columns(self, column_indices)
         if len(self._column_names) > 0:
             new_series = [self._column_names[i]
                           for i in range(0, len(self._column_names))
@@ -595,7 +594,7 @@ class NominableSheet(FilterableSheet):
 
         :param list row_indices: a list of row indices
         """
-        FilterableSheet.delete_rows(self, row_indices)
+        FormattableSheet.delete_rows(self, row_indices)
         if len(self._row_names) > 0:
             new_series = [self._row_names[i]
                           for i in range(0, len(self._row_names))
@@ -616,7 +615,7 @@ class NominableSheet(FilterableSheet):
         else:
             index = self.colnames.index(name)
             self.colnames.pop(index)
-            FilterableSheet.delete_columns(self, [index])
+            FormattableSheet.delete_columns(self, [index])
 
     def named_row_at(self, name):
         """Get a row by its name """
@@ -651,7 +650,7 @@ class NominableSheet(FilterableSheet):
         else:
             index = self.rownames.index(name)
             self.rownames.pop(index)
-            FilterableSheet.delete_rows(self, [index])
+            FormattableSheet.delete_rows(self, [index])
 
     def apply_formatter(self, aformatter):
         """Apply the formatter immediately.
@@ -684,18 +683,18 @@ class NominableSheet(FilterableSheet):
             for k in keys:
                 self.rownames.append(k)
                 incoming_data.append(rows[k])
-            FilterableSheet.extend_rows(self, incoming_data)
+            FormattableSheet.extend_rows(self, incoming_data)
         elif len(self.rownames) > 0:
             raise TypeError(MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED)
         else:
-            FilterableSheet.extend_rows(self, rows)
+            FormattableSheet.extend_rows(self, rows)
 
     def extend_columns_with_rows(self, rows):
         """Put rows on the right most side of the data"""
         if len(self.colnames) > 0:
             headers = rows.pop(self.row_index)
             self._column_names += headers
-        FilterableSheet.extend_columns_with_rows(self, rows)
+        FormattableSheet.extend_columns_with_rows(self, rows)
 
     def extend_columns(self, columns):
         """Take ordereddict to extend named columns
@@ -708,11 +707,11 @@ class NominableSheet(FilterableSheet):
             for k in keys:
                 self.colnames.append(k)
                 incoming_data.append(columns[k])
-            FilterableSheet.extend_columns(self, incoming_data)
+            FormattableSheet.extend_columns(self, incoming_data)
         elif len(self.colnames) > 0:
             raise TypeError(MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED)
         else:
-            FilterableSheet.extend_columns(self, columns)
+            FormattableSheet.extend_columns(self, columns)
 
     def __iter__(self):
         if len(self._column_names) > 0:
@@ -720,7 +719,7 @@ class NominableSheet(FilterableSheet):
         elif len(self._row_names) > 0:
             return RowIndexIterator(self)
         else:
-            return FilterableSheet.__iter__(self)
+            return FormattableSheet.__iter__(self)
 
     def to_array(self):
         """Returns an array after filtering"""

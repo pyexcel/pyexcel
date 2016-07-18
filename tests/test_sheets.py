@@ -1,6 +1,5 @@
 from pyexcel.sheets.nominablesheet import NominableSheet
 from pyexcel.sheets.formattablesheet import FormattableSheet
-from pyexcel.sheets.filterablesheet import FilterableSheet
 from pyexcel.formatters import RowFormatter, ColumnFormatter
 from pyexcel.formatters import NamedColumnFormatter, SheetFormatter
 from pyexcel.formatters import NamedRowFormatter
@@ -42,7 +41,7 @@ class TestFilterSheet:
     @raises(NotImplementedError)
     def test_non_filter(self):
         data = []
-        s = FilterableSheet(data)
+        s = Sheet(data)
         s.filter("abc")  # bang
 
 
