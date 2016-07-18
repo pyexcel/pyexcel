@@ -52,6 +52,10 @@ xlsx         MS-Excel Extensions to the Office Open XML
 xlsm         an MS-Excel Macro-Enabled Workbook file
 ods          open document spreadsheet
 json         java script object notation
+html         html table of the data structure
+simple       `simple` presentation
+rst          rStructured Text presentation of the data
+mediawiki    media wiki table
 ============ ======================================================= =============
 
 See also :ref:`a-map-of-plugins-and-file-formats`.

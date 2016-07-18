@@ -4,19 +4,19 @@ Migrate from 0.2.x to 0.3.0
 `pyexcel.sheets` are simplified. Soft filtering and formatting are gone. if you use
 one of the following functions:
 
-# add_formatter
-# remove_fomatter
-# clear_formatters
-# freeze_formatters
-# add_filter
-# remove_filter
-# clear_filters
-# freeze_formatters
+#. add_formatter
+#. remove_fomatter
+#. clear_formatters
+#. freeze_formatters
+#. add_filter
+#. remove_filter
+#. clear_filters
+#. freeze_formatters
 
 Please use apply_formatter and apply_filter instead
 
 
-Migrate from 0.2.1 to 0.2.2
+Migrate from 0.2.1 to 0.2.2+
 ================================
 
 1. Explicit imports, no longer needed
