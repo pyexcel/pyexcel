@@ -8,7 +8,6 @@
     :license: New BSD License, see LICENSE for more details
 """
 from .matrix import Row, Column, Matrix
-from .formattablesheet import FormattableSheet
 from ..formatters import (
     ColumnFormatter,
     RowFormatter,
@@ -422,7 +421,7 @@ VALID_SHEET_PARAMETERS = ['name_columns_by_row',
                           'transpose_after']
 
 
-class NominableSheet(FormattableSheet):
+class NominableSheet(Matrix):
     """Allow dictionary group of the content
     """
     def __init__(self, sheet=None, name=DEFAULT_NAME,
@@ -444,7 +443,7 @@ class NominableSheet(FormattableSheet):
         # this get rid of phatom data by not specifying sheet
         if sheet is None:
             sheet = []
-        FormattableSheet.__init__(self, sheet)
+        Matrix.__init__(self, sheet)
         if transpose_before:
             self.transpose()
         self.name = name
@@ -582,7 +581,7 @@ class NominableSheet(FormattableSheet):
 
         :param list column_indices: a list of column indices
         """
-        FormattableSheet.delete_columns(self, column_indices)
+        Matrix.delete_columns(self, column_indices)
         if len(self._column_names) > 0:
             new_series = [self._column_names[i]
                           for i in range(0, len(self._column_names))
@@ -594,7 +593,7 @@ class NominableSheet(FormattableSheet):
 
         :param list row_indices: a list of row indices
         """
-        FormattableSheet.delete_rows(self, row_indices)
+        Matrix.delete_rows(self, row_indices)
         if len(self._row_names) > 0:
             new_series = [self._row_names[i]
                           for i in range(0, len(self._row_names))
@@ -615,7 +614,7 @@ class NominableSheet(FormattableSheet):
         else:
             index = self.colnames.index(name)
             self.colnames.pop(index)
-            FormattableSheet.delete_columns(self, [index])
+            Matrix.delete_columns(self, [index])
 
     def named_row_at(self, name):
         """Get a row by its name """
@@ -650,7 +649,7 @@ class NominableSheet(FormattableSheet):
         else:
             index = self.rownames.index(name)
             self.rownames.pop(index)
-            FormattableSheet.delete_rows(self, [index])
+            Matrix.delete_rows(self, [index])
 
     def apply_formatter(self, aformatter):
         """Apply the formatter immediately.
@@ -658,7 +657,7 @@ class NominableSheet(FormattableSheet):
         :param Formatter aformatter: a custom formatter
         """
         aformatter = self._translate_named_formatter(aformatter)
-        FormattableSheet.apply_formatter(self, aformatter)
+        Matrix.apply_formatter(self, aformatter)
 
     def _translate_named_formatter(self, aformatter):
         if isinstance(aformatter, NamedColumnFormatter):
@@ -683,18 +682,18 @@ class NominableSheet(FormattableSheet):
             for k in keys:
                 self.rownames.append(k)
                 incoming_data.append(rows[k])
-            FormattableSheet.extend_rows(self, incoming_data)
+            Matrix.extend_rows(self, incoming_data)
         elif len(self.rownames) > 0:
             raise TypeError(MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED)
         else:
-            FormattableSheet.extend_rows(self, rows)
+            Matrix.extend_rows(self, rows)
 
     def extend_columns_with_rows(self, rows):
         """Put rows on the right most side of the data"""
         if len(self.colnames) > 0:
             headers = rows.pop(self.row_index)
             self._column_names += headers
-        FormattableSheet.extend_columns_with_rows(self, rows)
+        Matrix.extend_columns_with_rows(self, rows)
 
     def extend_columns(self, columns):
         """Take ordereddict to extend named columns
@@ -707,11 +706,11 @@ class NominableSheet(FormattableSheet):
             for k in keys:
                 self.colnames.append(k)
                 incoming_data.append(columns[k])
-            FormattableSheet.extend_columns(self, incoming_data)
+            Matrix.extend_columns(self, incoming_data)
         elif len(self.colnames) > 0:
             raise TypeError(MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED)
         else:
-            FormattableSheet.extend_columns(self, columns)
+            Matrix.extend_columns(self, columns)
 
     def __iter__(self):
         if len(self._column_names) > 0:
@@ -719,7 +718,7 @@ class NominableSheet(FormattableSheet):
         elif len(self._row_names) > 0:
             return RowIndexIterator(self)
         else:
-            return FormattableSheet.__iter__(self)
+            return Matrix.__iter__(self)
 
     def to_array(self):
         """Returns an array after filtering"""

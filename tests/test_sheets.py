@@ -1,5 +1,4 @@
 from pyexcel.sheets.nominablesheet import NominableSheet
-from pyexcel.sheets.formattablesheet import FormattableSheet
 from pyexcel.formatters import RowFormatter, ColumnFormatter
 from pyexcel.formatters import NamedColumnFormatter, SheetFormatter
 from pyexcel.formatters import NamedRowFormatter
@@ -20,17 +19,17 @@ class TestFormattableSheet:
         ]
 
     def test_apply_row_formatter(self):
-        s = FormattableSheet(self.data)
+        s = Sheet(self.data)
         s.apply_formatter(RowFormatter(0, str))
         assert s.row[0] == s.row[1]
 
     def test_apply_column_formatter(self):
-        s = FormattableSheet(self.data)
+        s = Sheet(self.data)
         s.apply_formatter(ColumnFormatter(0, float))
         assert s.column[0] == [1, 1, 1.1, 1.1, 2, 2]
 
     def test_apply_sheet_formatter(self):
-        s = FormattableSheet(self.data)
+        s = Sheet(self.data)
         s.apply_formatter(SheetFormatter(float))
         assert s.row[0] == s.row[1]
         assert s.column[0] == [1, 1, 1.1, 1.1, 2, 2]

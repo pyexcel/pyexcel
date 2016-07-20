@@ -11,7 +11,6 @@
 from .sheet import (
     Sheet, SheetStream
 )
-from .formattablesheet import FormattableSheet
 from .nominablesheet import NamedRow, NamedColumn, VALID_SHEET_PARAMETERS
 from .nominablesheet import NominableSheet
 from .matrix import Matrix, transpose, Row, Column
