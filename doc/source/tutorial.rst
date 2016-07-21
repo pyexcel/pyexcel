@@ -54,6 +54,9 @@ Here is the example code showing how you can randomly access a cell::
    5
    >>> print(sheet["C3"])
    5
+   >>> sheet[3, 3] = 10
+   >>> print(sheet[3, 3])
+   10
 
 
 Random access to rows and columns
