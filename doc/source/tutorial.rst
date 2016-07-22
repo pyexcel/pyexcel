@@ -58,6 +58,10 @@ Here is the example code showing how you can randomly access a cell::
    >>> print(sheet[3, 3])
    10
 
+.. note::
+
+   In order to set a value to a cell, please use sheet[row_index, column_index] = new_value
+
 
 Random access to rows and columns
 ---------------------------------
@@ -69,7 +73,7 @@ Random access to rows and columns
    >>> str(sheet[1,0])
    'a'
    >>> sheet[0, 2] = str(sheet[0, 2])
-   >>> sheet[0,2]
+   >>> sheet[0, 2]
    'Y'
 
 Continue with previous excel file, you can access row and column separately::
@@ -87,16 +91,19 @@ Alternatively, it is possible to use the first row to refer to each columns::
     >>> sheet.name_columns_by_row(0)
     >>> print(sheet[1, "Y"])
     5
+	>>> sheet[1, "Y"] = 100
+    >>> print(sheet[1, "Y"])
+    100
 
 You have noticed the row index has been changed. It is because first row is taken as the column names, hence all rows after the first row are shifted. Now accessing the columns are changed too::
 
     >>> sheet.column['Y']
-    [2, 5, 8]
+    [2, 100, 8]
 
 Hence access the same cell, this statement also works::
 
     >>> sheet.column['Y'][1]
-    5
+    100
   
 Further more, it is possible to use first column to refer to each rows::
 
@@ -105,12 +112,20 @@ Further more, it is possible to use first column to refer to each rows::
 To access the same cell, we can use this line::
 
     >>> sheet.row["b"][1]
-    5
+    100
 
 For the same reason, the row index has been reduced by 1. Since we have named columns and rows, it is possible to access the same cell like this::
 
     >>> print(sheet["b", "Y"])
-    5
+    100
+    >>> sheet["b", "Y"] = 200
+    >>> print(sheet["b", "Y"])
+    200
+
+.. note::
+
+   When you have named your rows and columns, in order to set a value to a cell, please use sheet[row_name, column_name] = new_value
+
 
 For multiple sheet file, you can regard it as three dimensional array if you use :class:`~pyexcel.Book`. So, you access each cell via this syntax::
 
