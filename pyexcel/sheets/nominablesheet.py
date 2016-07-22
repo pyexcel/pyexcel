@@ -767,6 +767,21 @@ class NominableSheet(Matrix):
         else:
             return Matrix.__getitem__(self, aset)
 
+    def __setitem__(self, aset, c):
+        if isinstance(aset, tuple):
+            if isinstance(aset[0], str):
+                row = self.rownames.index(aset[0])
+            else:
+                row = aset[0]
+
+            if isinstance(aset[1], str):
+                column = self.colnames.index(aset[1])
+            else:
+                column = aset[1]
+            self.cell_value(row, column, c)
+        else:
+            Matrix.__setitem__(self, aset, c)
+
     def named_rows(self):
         return NamedRowIterator(self)
 
