@@ -186,14 +186,14 @@ Tutorial
 ----------
 .. toctree::
 
+   tutorial_file
+   tutorial06
+   tutorial_data_conversion
    tutorial
    tutorial05
    tutorial02
-   tutorial_data_conversion
    tutorial03
    tutorial04
-   tutorial_file
-   tutorial06
    migration_guide
 
 Cook book
