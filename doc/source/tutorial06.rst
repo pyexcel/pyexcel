@@ -5,14 +5,30 @@ Work with excel files in memory
 Excel files in memory can be manipulated directly without saving it to physical disk and vice versa. This is useful in excel file handling at file upload or in excel file download. For example::
 
     >>> import pyexcel
-
     >>> content = "1,2,3\n3,4,5"
     >>> sheet = pyexcel.get_sheet(file_type="csv", file_content=content)
-    >>> sheet.format(int)
     >>> print(sheet.to_array())
     [[1, 2, 3], [3, 4, 5]]
 
+file type as its attributes
+--------------------------------------------------------------------------------
 
+Since version 0.3.0, each supported file types became an attribute of the Sheet and
+Book class. What it means is that:
+
+#. Read the content in memory
+#. Set the content in memory 
+
+For example, after you have your Sheet and Book instance, you could access its content in a support file type by using its dot notation. The code in previous section could be rewritten as::
+
+    >>> import pyexcel
+    >>> content = "1,2,3\n3,4,5"
+    >>> sheet = pyexcel.Sheet()
+    >>> sheet.csv = content
+    >>> sheet.array
+    [[1, 2, 3], [3, 4, 5]]
+
+	
 Read any supported excel and respond its content in json
 ----------------------------------------------------------------------
 

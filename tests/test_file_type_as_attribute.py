@@ -3,6 +3,8 @@ from pyexcel import params
 from pyexcel.factory import SourceFactory
 from pyexcel import Sheet, Book
 from _compact import StringIO
+from nose.tools import eq_
+from textwrap import dedent
 
 FIXTURE = "dummy"
 
@@ -46,3 +48,14 @@ def test_book_register_presentation():
     Book.register_presentation('dummy')
     b = Book({"sheet": [[1, 2]]})
     assert b.dummy == FIXTURE
+
+
+def test_set_csv_attribute():
+    sheet = Sheet()
+    sheet.csv = "a,b,c"
+    expected = dedent("""
+    csv:
+    +---+---+---+
+    | a | b | c |
+    +---+---+---+""").strip('\n')
+    eq_(str(sheet), expected)

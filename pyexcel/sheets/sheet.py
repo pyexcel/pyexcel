@@ -8,7 +8,14 @@
     :license: New BSD License, see LICENSE for more details
 """
 from pyexcel_io.sheet import NamedContent
-from .nominablesheet import NominableSheet
+from .nominablesheet import NominableSheet, VALID_SHEET_PARAMETERS
+import pyexcel.params as params
+from pyexcel.factory import SourceFactory
+from pyexcel.constants import (
+    MESSAGE_DEPRECATED_CONTENT,
+    MESSAGE_ERROR_NO_HANDLER
+)
+from pyexcel._compact import PY2
 
 
 class SheetStream(NamedContent):
@@ -60,8 +67,11 @@ class Sheet(NominableSheet):
 
     @classmethod
     def register_presentation(cls, file_type):
-        setattr(cls, file_type, property(presenter(file_type)))
-        setattr(cls, 'get_%s' % file_type, presenter(file_type))
+        getter = presenter(file_type)
+        setter = importer(file_type)
+        setattr(cls, file_type, property(getter, setter))
+        setattr(cls, 'get_%s' % file_type, getter)
+        setattr(cls, 'set_%s' % file_type, setter)
 
     def __repr__(self):
         return self.texttable
@@ -165,3 +175,36 @@ def presenter(file_type=None):
         self.save_to(memory_source)
         return memory_source.content.getvalue()
     return custom_presenter
+
+
+def importer(file_type=None):
+    def custom_presenter1(self, content, **keywords):
+        sheet_params = {}
+        for field in VALID_SHEET_PARAMETERS:
+            if field in keywords:
+                sheet_params[field] = keywords.pop(field)
+        named_content = _get_content(file_type=file_type, file_content=content,
+                                     **keywords)
+        self.init(named_content.payload,
+                  named_content.name, **sheet_params)
+
+    return custom_presenter1
+
+
+def _get_content(**keywords):
+    if params.DEPRECATED_CONTENT in keywords:
+        print(MESSAGE_DEPRECATED_CONTENT)
+        keywords[params.FILE_CONTENT] = keywords.pop(
+            params.DEPRECATED_CONTENT)
+    source = SourceFactory.get_source(**keywords)
+    if source is not None:
+        sheets = source.get_data()
+        sheet_name, data = _one_sheet_tuple(sheets.items())
+        return SheetStream(sheet_name, data)
+    raise NotImplementedError(MESSAGE_ERROR_NO_HANDLER)
+
+
+def _one_sheet_tuple(items):
+    if not PY2:
+        items = list(items)
+    return items[0][0], items[0][1]

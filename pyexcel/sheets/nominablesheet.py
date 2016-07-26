@@ -440,6 +440,24 @@ class NominableSheet(Matrix):
         :param colnames: use an external list of strings to name the columns
         :param rownames: use an external list of strings to name the rows
         """
+        self.init(
+            sheet=sheet,
+            name=name,
+            name_columns_by_row=name_columns_by_row,
+            name_rows_by_column=name_rows_by_column,
+            colnames=colnames,
+            rownames=rownames,
+            transpose_before=transpose_before,
+            transpose_after=transpose_after
+        )
+
+    def init(self, sheet=None, name=DEFAULT_NAME,
+             name_columns_by_row=-1,
+             name_rows_by_column=-1,
+             colnames=None,
+             rownames=None,
+             transpose_before=False,
+             transpose_after=False):
         # this get rid of phatom data by not specifying sheet
         if sheet is None:
             sheet = []

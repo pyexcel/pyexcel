@@ -83,39 +83,14 @@ Installation of individual plugins , please refer to individual plugin page.
 Usage
 ===============
 
-
-JSON
-------------------
-
 .. code-block:: python
 
-    >>> import pyexcel as pe
-    >>> an_array = [[1,2]]
-    >>> sheet = pe.Sheet(an_array)
-    >>> sheet.json
-    '{"pyexcel sheet": [[1, 2]]}'
-
-Note: It is available with pyexcel v0.2.1 and pyexcel-text 0.2.0
-
-
-TSV
----------------------
-
-.. code-block:: python
-
-    >>> sheet.tsv
-    '1\t2\r\n'
-
-Note: TSV and the rest of the formats are available with pyexcel v0.2.2 and its plugins at version 0.2.0+ only
-
-
-CSV
----------------------
-
-.. code-block:: python
-
-    >>> sheet.csv
-    '1,2\r\n'
+    >>> import pyexcel
+    >>> content = "1,2,3\n3,4,5"
+    >>> sheet = pyexcel.Sheet()
+    >>> sheet.csv = content
+    >>> sheet.array
+    [[1, 2, 3], [3, 4, 5]]
 
 
 Documentation

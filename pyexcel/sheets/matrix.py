@@ -553,192 +553,6 @@ class Matrix(object):
             else:
                 self.paste((row, column), [[new_value]])
 
-    def __iter__(self):
-        """
-        Default iterator to go through each cell one by one from top row to
-        bottom row and from left to right
-        """
-        return self.rows()
-
-    def enumerate(self):
-        """
-        Iterate cell by cell from top to bottom and from left to right
-
-        .. testcode::
-
-            >>> import pyexcel as pe
-            >>> data = [
-            ...     [1, 2, 3, 4],
-            ...     [5, 6, 7, 8],
-            ...     [9, 10, 11, 12]
-            ... ]
-            >>> m = pe.sheets.Matrix(data)
-            >>> print(pe.to_array(m.enumerate()))
-            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-
-        More details see :class:`HTLBRIterator`
-        """
-        return HTLBRIterator(self)
-
-    def reverse(self):
-        """Opposite to enumerate
-
-        each cell one by one from
-        bottom row to top row and from right to left
-        example::
-
-            >>> import pyexcel as pe
-            >>> data = [
-            ...     [1, 2, 3, 4],
-            ...     [5, 6, 7, 8],
-            ...     [9, 10, 11, 12]
-            ... ]
-            >>> m = pe.sheets.Matrix(data)
-            >>> print(pe.to_array(m.reverse()))
-            [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-
-        More details see :class:`HBRTLIterator`
-        """
-        return HBRTLIterator(self)
-
-    def vertical(self):
-        """
-        Default iterator to go through each cell one by one from
-        leftmost column to rightmost row and from top to bottom
-        example::
-
-            import pyexcel as pe
-            data = [
-                [1, 2, 3, 4],
-                [5, 6, 7, 8],
-                [9, 10, 11, 12]
-            ]
-            m = pe.Matrix(data)
-            print(pe.utils.to_array(m.vertical()))
-
-        output::
-
-            [1, 5, 9, 2, 6, 10, 3, 7, 11, 4, 8, 12]
-
-        More details see :class:`VTLBRIterator`
-        """
-        return VTLBRIterator(self)
-
-    def rvertical(self):
-        """
-        Default iterator to go through each cell one by one from rightmost
-        column to leftmost row and from bottom to top
-        example::
-
-            import pyexcel as pe
-            data = [
-                [1, 2, 3, 4],
-                [5, 6, 7, 8],
-                [9, 10, 11, 12]
-            ]
-            m = pe.Matrix(data)
-            print(pe.utils.to_array(m.rvertical())
-
-        output::
-
-            [12, 8, 4, 11, 7, 3, 10, 6, 2, 9, 5, 1]
-
-        More details see :class:`VBRTLIterator`
-        """
-        return VBRTLIterator(self)
-
-    def rows(self):
-        """
-        Returns a top to bottom row iterator
-
-        example::
-
-            import pyexcel as pe
-            data = [
-                [1, 2, 3, 4],
-                [5, 6, 7, 8],
-                [9, 10, 11, 12]
-            ]
-            m = pe.Matrix(data)
-            print(pe.utils.to_array(m.rows()))
-
-        output::
-
-            [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
-
-        More details see :class:`RowIterator`
-        """
-        return RowIterator(self)
-
-    def rrows(self):
-        """
-        Returns a bottom to top row iterator
-
-        .. testcode::
-
-            import pyexcel as pe
-            data = [
-                [1, 2, 3, 4],
-                [5, 6, 7, 8],
-                [9, 10, 11, 12]
-            ]
-            m = pe.Matrix(data)
-            print(pe.utils.to_array(m.rrows()))
-
-        .. testoutput::
-
-            [[9, 10, 11, 12], [5, 6, 7, 8], [1, 2, 3, 4]]
-
-        More details see :class:`RowReverseIterator`
-        """
-        return RowReverseIterator(self)
-
-    def columns(self):
-        """
-        Returns a left to right column iterator
-
-        .. testcode::
-
-            import pyexcel as pe
-            data = [
-                [1, 2, 3, 4],
-                [5, 6, 7, 8],
-                [9, 10, 11, 12]
-            ]
-            m = pe.Matrix(data)
-            print(pe.utils.to_array(m.columns()))
-
-        .. testoutput::
-
-            [[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]
-
-        More details see :class:`ColumnIterator`
-        """
-        return ColumnIterator(self)
-
-    def rcolumns(self):
-        """
-        Returns a right to left column iterator
-
-        example::
-
-            import pyexcel as pe
-            data = [
-                [1, 2, 3, 4],
-                [5, 6, 7, 8],
-                [9, 10, 11, 12]
-            ]
-            m = pe.Matrix(data)
-            print(pe.utils.to_array(m.rcolumns()))
-
-        output::
-
-            [[4, 8, 12], [3, 7, 11], [2, 6, 10], [1, 5, 9]]
-
-        More details see :class:`ColumnReverseIterator`
-        """
-        return ColumnReverseIterator(self)
-
     @property
     def row(self):
         return Row(self)
@@ -1143,6 +957,192 @@ class Matrix(object):
         """Get an array out
         """
         return self.array
+
+    def __iter__(self):
+        """
+        Default iterator to go through each cell one by one from top row to
+        bottom row and from left to right
+        """
+        return self.rows()
+
+    def enumerate(self):
+        """
+        Iterate cell by cell from top to bottom and from left to right
+
+        .. testcode::
+
+            >>> import pyexcel as pe
+            >>> data = [
+            ...     [1, 2, 3, 4],
+            ...     [5, 6, 7, 8],
+            ...     [9, 10, 11, 12]
+            ... ]
+            >>> m = pe.sheets.Matrix(data)
+            >>> print(pe.to_array(m.enumerate()))
+            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+        More details see :class:`HTLBRIterator`
+        """
+        return HTLBRIterator(self)
+
+    def reverse(self):
+        """Opposite to enumerate
+
+        each cell one by one from
+        bottom row to top row and from right to left
+        example::
+
+            >>> import pyexcel as pe
+            >>> data = [
+            ...     [1, 2, 3, 4],
+            ...     [5, 6, 7, 8],
+            ...     [9, 10, 11, 12]
+            ... ]
+            >>> m = pe.sheets.Matrix(data)
+            >>> print(pe.to_array(m.reverse()))
+            [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+
+        More details see :class:`HBRTLIterator`
+        """
+        return HBRTLIterator(self)
+
+    def vertical(self):
+        """
+        Default iterator to go through each cell one by one from
+        leftmost column to rightmost row and from top to bottom
+        example::
+
+            import pyexcel as pe
+            data = [
+                [1, 2, 3, 4],
+                [5, 6, 7, 8],
+                [9, 10, 11, 12]
+            ]
+            m = pe.Matrix(data)
+            print(pe.utils.to_array(m.vertical()))
+
+        output::
+
+            [1, 5, 9, 2, 6, 10, 3, 7, 11, 4, 8, 12]
+
+        More details see :class:`VTLBRIterator`
+        """
+        return VTLBRIterator(self)
+
+    def rvertical(self):
+        """
+        Default iterator to go through each cell one by one from rightmost
+        column to leftmost row and from bottom to top
+        example::
+
+            import pyexcel as pe
+            data = [
+                [1, 2, 3, 4],
+                [5, 6, 7, 8],
+                [9, 10, 11, 12]
+            ]
+            m = pe.Matrix(data)
+            print(pe.utils.to_array(m.rvertical())
+
+        output::
+
+            [12, 8, 4, 11, 7, 3, 10, 6, 2, 9, 5, 1]
+
+        More details see :class:`VBRTLIterator`
+        """
+        return VBRTLIterator(self)
+
+    def rows(self):
+        """
+        Returns a top to bottom row iterator
+
+        example::
+
+            import pyexcel as pe
+            data = [
+                [1, 2, 3, 4],
+                [5, 6, 7, 8],
+                [9, 10, 11, 12]
+            ]
+            m = pe.Matrix(data)
+            print(pe.utils.to_array(m.rows()))
+
+        output::
+
+            [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
+
+        More details see :class:`RowIterator`
+        """
+        return RowIterator(self)
+
+    def rrows(self):
+        """
+        Returns a bottom to top row iterator
+
+        .. testcode::
+
+            import pyexcel as pe
+            data = [
+                [1, 2, 3, 4],
+                [5, 6, 7, 8],
+                [9, 10, 11, 12]
+            ]
+            m = pe.Matrix(data)
+            print(pe.utils.to_array(m.rrows()))
+
+        .. testoutput::
+
+            [[9, 10, 11, 12], [5, 6, 7, 8], [1, 2, 3, 4]]
+
+        More details see :class:`RowReverseIterator`
+        """
+        return RowReverseIterator(self)
+
+    def columns(self):
+        """
+        Returns a left to right column iterator
+
+        .. testcode::
+
+            import pyexcel as pe
+            data = [
+                [1, 2, 3, 4],
+                [5, 6, 7, 8],
+                [9, 10, 11, 12]
+            ]
+            m = pe.Matrix(data)
+            print(pe.utils.to_array(m.columns()))
+
+        .. testoutput::
+
+            [[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]
+
+        More details see :class:`ColumnIterator`
+        """
+        return ColumnIterator(self)
+
+    def rcolumns(self):
+        """
+        Returns a right to left column iterator
+
+        example::
+
+            import pyexcel as pe
+            data = [
+                [1, 2, 3, 4],
+                [5, 6, 7, 8],
+                [9, 10, 11, 12]
+            ]
+            m = pe.Matrix(data)
+            print(pe.utils.to_array(m.rcolumns()))
+
+        output::
+
+            [[4, 8, 12], [3, 7, 11], [2, 6, 10], [1, 5, 9]]
+
+        More details see :class:`ColumnReverseIterator`
+        """
+        return ColumnReverseIterator(self)
 
     def filter(self, afilter):
         """Apply the filter with immediate effect"""
