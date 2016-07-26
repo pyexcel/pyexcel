@@ -149,7 +149,7 @@ class TestBugFixes(TestCase):
 
     def test_issue_55_unicode_in_headers(self):
         headers = [u'Äkkilähdöt', u'Matkakirjoituksia', u'Matkatoimistot']
-        content = [headers, [1,2,3]]
+        content = [headers, [1, 2, 3]]
         sheet = pe.Sheet(content)
         sheet.name_columns_by_row(0)
         eq_(sheet.colnames, headers)
