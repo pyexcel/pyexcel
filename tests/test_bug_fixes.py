@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import os
 from textwrap import dedent
 from unittest import TestCase
@@ -5,6 +8,7 @@ from unittest import TestCase
 import pyexcel as pe
 from datetime import datetime
 from _compact import StringIO, OrderedDict
+from nose.tools import eq_
 
 
 class TestBugFixes(TestCase):
@@ -142,3 +146,10 @@ class TestBugFixes(TestCase):
         array = list(yield_from_records(records))
         expected = [['Hippo', 'Monkey', 'Zebra'], [9, 8, 10], [2, 3, 1]]
         self.assertEqual(array, expected)
+
+    def test_issue_55_unicode_in_headers(self):
+        headers = [u'Äkkilähdöt', u'Matkakirjoituksia', u'Matkatoimistot']
+        content = [headers, [1, 2, 3]]
+        sheet = pe.Sheet(content)
+        sheet.name_columns_by_row(0)
+        eq_(sheet.colnames, headers)
