@@ -90,6 +90,7 @@ For individual excel file formats, please install them as you wish:
     ======= ========== =========== ============ ============ ============ ============
     pyexcel pyexcel-io xls         xlsx         ods          ods3         text  
     ======= ========== =========== ============ ============ ============ ============
+    0.3.0   0.2.0      0.2.0       0.2.0        0.2.0        0.2.0        0.2.1+
     0.2.2+  0.2.0      0.2.0       0.2.0        0.2.0        0.2.0        0.2.1+
     0.2.1   0.1.0      0.1.0       0.1.0        0.1.0+       0.1.0+       0.2.0
     0.2.0   0.1.0      0.1.0       0.1.0        0.1.0+       0.1.0+       0.1.0+
@@ -165,14 +166,14 @@ Tutorial
 ----------
 .. toctree::
 
+   tutorial_file
+   tutorial06
+   tutorial_data_conversion
    tutorial
    tutorial05
    tutorial02
-   tutorial_data_conversion
    tutorial03
    tutorial04
-   tutorial_file
-   tutorial06
    migration_guide
 
 Cook book

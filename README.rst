@@ -93,11 +93,6 @@ Usage
     [[1, 2, 3], [3, 4, 5]]
 
 
-Documentation
-=============
-
-Documentation is hosted at `read the docs <https://pyexcel.readthedocs.org/en/latest>`_ and `pyhosted <https://pythonhosted.org/pyexcel/>`_
-
 
 Development guide
 ================================================================================
