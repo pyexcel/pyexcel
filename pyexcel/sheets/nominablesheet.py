@@ -43,12 +43,14 @@ def make_names_unique(alist):
     duplicates = {}
     new_names = []
     for item in alist:
+        if not is_string(type(item)):
+            item = str(item)
         if item in duplicates:
             duplicates[item] = duplicates[item] + 1
             new_names.append("%s-%d" % (item, duplicates[item]))
         else:
             duplicates[item] = 0
-            new_names.append(str(item))
+            new_names.append(item)
     return new_names
 
 
