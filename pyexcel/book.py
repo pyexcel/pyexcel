@@ -14,7 +14,8 @@ from ._compact import OrderedDict
 import pyexcel.params as params
 from .constants import (
     MESSAGE_DEPRECATED_CONTENT,
-    MESSAGE_ERROR_NO_HANDLER
+    MESSAGE_ERROR_NO_HANDLER,
+    _FILE_TYPE_DOC_STRING
 )
 from .factory import SourceFactory
 
@@ -120,7 +121,10 @@ class Book(object):
     def register_presentation(cls, file_type):
         setter = importer(file_type)
         getter = presenter(file_type)
-        setattr(cls, file_type, property(getter, setter))
+        file_type_property = property(
+            getter, setter,
+            doc=_FILE_TYPE_DOC_STRING.format(file_type, "Book"))
+        setattr(cls, file_type, file_type_property)
         setattr(cls, 'get_%s' % file_type, getter)
         setattr(cls, 'set_%s' % file_type, setter)
 

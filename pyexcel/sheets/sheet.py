@@ -13,7 +13,8 @@ import pyexcel.params as params
 from pyexcel.factory import SourceFactory
 from pyexcel.constants import (
     MESSAGE_DEPRECATED_CONTENT,
-    MESSAGE_ERROR_NO_HANDLER
+    MESSAGE_ERROR_NO_HANDLER,
+    _FILE_TYPE_DOC_STRING
 )
 from pyexcel._compact import PY2
 
@@ -69,7 +70,10 @@ class Sheet(NominableSheet):
     def register_presentation(cls, file_type):
         getter = presenter(file_type)
         setter = importer(file_type)
-        setattr(cls, file_type, property(getter, setter))
+        file_type_property = property(
+            getter, setter,
+            doc=_FILE_TYPE_DOC_STRING.format(file_type, "Sheet"))
+        setattr(cls, file_type, file_type_property)
         setattr(cls, 'get_%s' % file_type, getter)
         setattr(cls, 'set_%s' % file_type, setter)
 

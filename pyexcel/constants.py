@@ -33,3 +33,19 @@ MESSAGE_READONLY = "This attribute is readonly"
 MESSAGE_ERROR_NO_HANDLER = "No suitable plugins imported or installed"
 MESSAGE_UNKNOWN_IO_OPERATION = "Internal error: an illegal source action"
 _IMPLEMENTATION_REMOVED = "Deprecated since 0.3.0! Implementation removed"
+_FILE_TYPE_DOC_STRING = """
+Get/Set data in/from {0} format
+
+You could obtain content in {0} format by dot notation::
+
+    {1}.{0}
+
+And you could as well set content by dot notation::
+
+    {1}.{0} = the_io_stream_in_{0}_format
+
+if you need to pass on more parameters, you could use::
+
+    {1}.get_{0}(**keywords)
+    {1}.set_{0}(the_io_stream_in_{0}_format, **keywords)
+"""
