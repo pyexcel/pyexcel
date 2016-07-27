@@ -386,7 +386,8 @@ def importer(file_type=None):
         self.init(sheets=sheets, filename=filename, path=path)
 
     return custom_importer
-    
+
+
 def _get_book(**keywords):
     """Get an instance of :class:`Book` from an excel source
 

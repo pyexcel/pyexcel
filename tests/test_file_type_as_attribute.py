@@ -87,8 +87,8 @@ def test_book_attribute():
 
 def test_set_book_attribute():
     file_name = os.path.join("tests",
-                           "fixtures",
-                           "test-multiple.csvz")
+                             "fixtures",
+                             "test-multiple.csvz")
     with open(file_name, 'rb') as f:
         csvz_content = f.read()
         book = Book()
