@@ -1,7 +1,9 @@
+import os
 from pyexcel.sources.file_source_output import WriteOnlySheetSource
 from pyexcel import params
 from pyexcel.factory import SourceFactory
 from pyexcel import Sheet, Book
+from pyexcel import get_book
 from _compact import StringIO
 from nose.tools import eq_
 from textwrap import dedent
@@ -59,3 +61,51 @@ def test_set_csv_attribute():
     | a | b | c |
     +---+---+---+""").strip('\n')
     eq_(str(sheet), expected)
+
+
+def test_book_attribute():
+    book = get_book(file_name=os.path.join("tests",
+                                           "fixtures",
+                                           "test-multiple.csvz"))
+    expected = ("---pyexcel:sheet1---\r\n" +
+                "1,4,9\r\n" +
+                "2,5,8\r\n" +
+                "3,6,7\r\n" +
+                "---pyexcel---\r\n" +
+                "---pyexcel:sheet2---\r\n" +
+                "1,4,9\r\n" +
+                "2,5,8\r\n" +
+                "3,6,7\r\n" +
+                "---pyexcel---\r\n" +
+                "---pyexcel:sheet3---\r\n" +
+                "1,4,9\r\n" +
+                "2,5,8\r\n" +
+                "3,6,7\r\n" +
+                "---pyexcel---\r\n")
+    eq_(book.csv, expected)
+
+
+def test_set_book_attribute():
+    file_name = os.path.join("tests",
+                           "fixtures",
+                           "test-multiple.csvz")
+    with open(file_name, 'rb') as f:
+        csvz_content = f.read()
+        book = Book()
+        book.csvz = csvz_content
+        expected = ("---pyexcel:sheet1---\r\n" +
+                    "1,4,9\r\n" +
+                    "2,5,8\r\n" +
+                    "3,6,7\r\n" +
+                    "---pyexcel---\r\n" +
+                    "---pyexcel:sheet2---\r\n" +
+                    "1,4,9\r\n" +
+                    "2,5,8\r\n" +
+                    "3,6,7\r\n" +
+                    "---pyexcel---\r\n" +
+                    "---pyexcel:sheet3---\r\n" +
+                    "1,4,9\r\n" +
+                    "2,5,8\r\n" +
+                    "3,6,7\r\n" +
+                    "---pyexcel---\r\n")
+        eq_(book.csv, expected)

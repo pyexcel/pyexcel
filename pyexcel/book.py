@@ -11,6 +11,12 @@ from .iterators import SheetIterator
 from .sheets import Sheet, SheetStream
 from .utils import to_dict, local_uuid
 from ._compact import OrderedDict
+import pyexcel.params as params
+from .constants import (
+    MESSAGE_DEPRECATED_CONTENT,
+    MESSAGE_ERROR_NO_HANDLER
+)
+from .factory import SourceFactory
 
 
 class BookStream(object):
@@ -102,6 +108,9 @@ class Book(object):
         :param str path: the relative path or abosolute path
         :param set keywords: additional parameters to be passed on
         """
+        self.init(sheets=sheets, filename=filename, path=path)
+
+    def init(self, sheets=None, filename="memory", path=None):
         self.path = path
         self.filename = filename
         self.name_array = []
@@ -109,8 +118,11 @@ class Book(object):
 
     @classmethod
     def register_presentation(cls, file_type):
-        setattr(cls, file_type, property(presenter(file_type)))
-        setattr(cls, 'get_%s' % file_type, presenter(file_type))
+        setter = importer(file_type)
+        getter = presenter(file_type)
+        setattr(cls, file_type, property(getter, setter))
+        setattr(cls, 'get_%s' % file_type, getter)
+        setattr(cls, 'set_%s' % file_type, setter)
 
     def load_from_sheets(self, sheets):
         """Load content from existing sheets
@@ -363,3 +375,31 @@ def presenter(file_type=None):
         self.save_to(memory_source)
         return memory_source.content.getvalue()
     return custom_presenter
+
+
+def importer(file_type=None):
+    def custom_importer(self, content, **keywords):
+        sheets, filename, path = _get_book(
+            file_type=file_type,
+            file_content=content,
+            **keywords)
+        self.init(sheets=sheets, filename=filename, path=path)
+
+    return custom_importer
+    
+def _get_book(**keywords):
+    """Get an instance of :class:`Book` from an excel source
+
+    Where the dictionary should have text as keys and two dimensional
+    array as values.
+    """
+    if params.DEPRECATED_CONTENT in keywords:
+        print(MESSAGE_DEPRECATED_CONTENT)
+        keywords[params.FILE_CONTENT] = keywords.pop(
+            params.DEPRECATED_CONTENT)
+    source = SourceFactory.get_book_source(**keywords)
+    if source is not None:
+        sheets = source.get_data()
+        filename, path = source.get_source_info()
+        return sheets, filename, path
+    raise NotImplementedError(MESSAGE_ERROR_NO_HANDLER)
