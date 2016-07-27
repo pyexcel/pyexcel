@@ -9,12 +9,6 @@ API Reference
 
 This is intended for users of pyexcel.
 
-.. note::
-
-   sphinx on ReadTheDocs cannot produce api docs. Please read it
-   from [pypi](http://pythonhosted.org/pyexcel/api.html)
-
-
 .. _signature-functions:
 
 Signature functions
@@ -287,10 +281,6 @@ Formatting
 
    Sheet.format
    Sheet.apply_formatter
-   Sheet.add_formatter
-   Sheet.remove_formatter
-   Sheet.clear_formatters
-   Sheet.freeze_formatters
 
 Filtering
 -----------
@@ -299,10 +289,6 @@ Filtering
    :toctree: generated/
 
    Sheet.filter
-   Sheet.add_filter
-   Sheet.remove_filter
-   Sheet.clear_filters
-   Sheet.freeze_filters
 
 Conversion
 -------------
