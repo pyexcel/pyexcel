@@ -37,6 +37,7 @@ pyexcel.Book
       ~Book.get_xls
       ~Book.get_xlsm
       ~Book.get_xlsx
+      ~Book.init
       ~Book.load_from_sheets
       ~Book.number_of_sheets
       ~Book.register_presentation
@@ -46,6 +47,28 @@ pyexcel.Book
       ~Book.save_to_database
       ~Book.save_to_django_models
       ~Book.save_to_memory
+      ~Book.set_csv
+      ~Book.set_csvz
+      ~Book.set_django
+      ~Book.set_grid
+      ~Book.set_html
+      ~Book.set_json
+      ~Book.set_latex
+      ~Book.set_latex_booktabs
+      ~Book.set_mediawiki
+      ~Book.set_ods
+      ~Book.set_orgtbl
+      ~Book.set_pipe
+      ~Book.set_plain
+      ~Book.set_rst
+      ~Book.set_simple
+      ~Book.set_sql
+      ~Book.set_texttable
+      ~Book.set_tsv
+      ~Book.set_tsvz
+      ~Book.set_xls
+      ~Book.set_xlsm
+      ~Book.set_xlsx
       ~Book.sheet_by_index
       ~Book.sheet_by_name
       ~Book.sheet_names

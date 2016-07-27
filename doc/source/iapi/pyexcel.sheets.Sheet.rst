@@ -59,6 +59,7 @@ pyexcel.sheets.Sheet
       ~Sheet.get_xls
       ~Sheet.get_xlsm
       ~Sheet.get_xlsx
+      ~Sheet.init
       ~Sheet.insert
       ~Sheet.map
       ~Sheet.name_columns_by_row
@@ -87,9 +88,31 @@ pyexcel.sheets.Sheet
       ~Sheet.save_to_django_model
       ~Sheet.save_to_memory
       ~Sheet.set_column_at
+      ~Sheet.set_csv
+      ~Sheet.set_csvz
+      ~Sheet.set_django
+      ~Sheet.set_grid
+      ~Sheet.set_html
+      ~Sheet.set_json
+      ~Sheet.set_latex
+      ~Sheet.set_latex_booktabs
+      ~Sheet.set_mediawiki
       ~Sheet.set_named_column_at
       ~Sheet.set_named_row_at
+      ~Sheet.set_ods
+      ~Sheet.set_orgtbl
+      ~Sheet.set_pipe
+      ~Sheet.set_plain
       ~Sheet.set_row_at
+      ~Sheet.set_rst
+      ~Sheet.set_simple
+      ~Sheet.set_sql
+      ~Sheet.set_texttable
+      ~Sheet.set_tsv
+      ~Sheet.set_tsvz
+      ~Sheet.set_xls
+      ~Sheet.set_xlsm
+      ~Sheet.set_xlsx
       ~Sheet.to_array
       ~Sheet.to_dict
       ~Sheet.to_records

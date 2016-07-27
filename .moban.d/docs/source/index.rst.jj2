@@ -10,7 +10,8 @@
 :Source code: http://github.com/pyexcel/pyexcel
 :Issues: http://github.com/pyexcel/pyexcel/issues
 :License: New BSD License
-:Version: |version|
+:Development: |version|
+:Released: |release|
 :Generated: |today|
 
 Introduction

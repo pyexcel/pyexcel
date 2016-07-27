@@ -21,8 +21,6 @@ In inheritance order from parent to child
 .. autosummary::
    :toctree: iapi
 
-   FormattableSheet
-   FilterableSheet
    NominableSheet
    Sheet
 

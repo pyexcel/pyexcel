@@ -37,6 +37,7 @@ pyexcel.sheets.NominableSheet
       ~NominableSheet.format
       ~NominableSheet.freeze_filters
       ~NominableSheet.freeze_formatters
+      ~NominableSheet.init
       ~NominableSheet.insert
       ~NominableSheet.map
       ~NominableSheet.name_columns_by_row
