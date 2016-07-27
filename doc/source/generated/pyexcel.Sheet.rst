@@ -73,6 +73,7 @@ pyexcel.Sheet
       ~Sheet.paste
       ~Sheet.rcolumns
       ~Sheet.region
+      ~Sheet.register_io
       ~Sheet.register_presentation
       ~Sheet.remove_filter
       ~Sheet.remove_formatter
@@ -91,23 +92,11 @@ pyexcel.Sheet
       ~Sheet.set_csv
       ~Sheet.set_csvz
       ~Sheet.set_django
-      ~Sheet.set_grid
-      ~Sheet.set_html
-      ~Sheet.set_json
-      ~Sheet.set_latex
-      ~Sheet.set_latex_booktabs
-      ~Sheet.set_mediawiki
       ~Sheet.set_named_column_at
       ~Sheet.set_named_row_at
       ~Sheet.set_ods
-      ~Sheet.set_orgtbl
-      ~Sheet.set_pipe
-      ~Sheet.set_plain
       ~Sheet.set_row_at
-      ~Sheet.set_rst
-      ~Sheet.set_simple
       ~Sheet.set_sql
-      ~Sheet.set_texttable
       ~Sheet.set_tsv
       ~Sheet.set_tsvz
       ~Sheet.set_xls

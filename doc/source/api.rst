@@ -109,10 +109,9 @@ Attribute
 .. autosummary::
    :toctree: generated/
 
-
    Book.csv
-   Book.csvz
    Book.tsv
+   Book.csvz
    Book.tsvz
    Book.xls
    Book.xlsx
@@ -179,8 +178,8 @@ Attributes
    :toctree: generated/
 
    Sheet.csv
-   Sheet.csvz
    Sheet.tsv
+   Sheet.csvz
    Sheet.tsvz
    Sheet.xls
    Sheet.xlsx
