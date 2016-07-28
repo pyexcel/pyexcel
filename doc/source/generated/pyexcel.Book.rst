@@ -16,7 +16,6 @@ pyexcel.Book
       ~Book.__init__
       ~Book.get_csv
       ~Book.get_csvz
-      ~Book.get_django
       ~Book.get_grid
       ~Book.get_html
       ~Book.get_json
@@ -30,7 +29,6 @@ pyexcel.Book
       ~Book.get_rst
       ~Book.get_sheet
       ~Book.get_simple
-      ~Book.get_sql
       ~Book.get_texttable
       ~Book.get_tsv
       ~Book.get_tsvz
@@ -50,9 +48,7 @@ pyexcel.Book
       ~Book.save_to_memory
       ~Book.set_csv
       ~Book.set_csvz
-      ~Book.set_django
       ~Book.set_ods
-      ~Book.set_sql
       ~Book.set_tsv
       ~Book.set_tsvz
       ~Book.set_xls
@@ -73,7 +69,6 @@ pyexcel.Book
    
       ~Book.csv
       ~Book.csvz
-      ~Book.django
       ~Book.grid
       ~Book.html
       ~Book.json
@@ -86,7 +81,6 @@ pyexcel.Book
       ~Book.plain
       ~Book.rst
       ~Book.simple
-      ~Book.sql
       ~Book.texttable
       ~Book.tsv
       ~Book.tsvz

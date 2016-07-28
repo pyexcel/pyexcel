@@ -76,6 +76,8 @@ from pyexcel_io.manager import RWManager
 import pyexcel.sources.file_source_output as outfiles
 
 for file_type in set(RWManager.file_types).intersection(set(outfiles.file_types)):
+    if file_type in ["django", "sql"]:
+        continue
     Sheet.register_io(file_type)
     Book.register_io(file_type)
 

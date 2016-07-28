@@ -95,6 +95,9 @@ class Sheet(NominableSheet):
 
     @property
     def content(self):
+        """
+        Plain representation without headers
+        """
         content = self.get_texttable(write_title=False)
         return self._RepresentedString(content)
 

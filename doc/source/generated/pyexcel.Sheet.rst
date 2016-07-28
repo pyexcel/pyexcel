@@ -39,7 +39,6 @@ pyexcel.Sheet
       ~Sheet.freeze_formatters
       ~Sheet.get_csv
       ~Sheet.get_csvz
-      ~Sheet.get_django
       ~Sheet.get_grid
       ~Sheet.get_html
       ~Sheet.get_json
@@ -52,7 +51,6 @@ pyexcel.Sheet
       ~Sheet.get_plain
       ~Sheet.get_rst
       ~Sheet.get_simple
-      ~Sheet.get_sql
       ~Sheet.get_texttable
       ~Sheet.get_tsv
       ~Sheet.get_tsvz
@@ -91,12 +89,10 @@ pyexcel.Sheet
       ~Sheet.set_column_at
       ~Sheet.set_csv
       ~Sheet.set_csvz
-      ~Sheet.set_django
       ~Sheet.set_named_column_at
       ~Sheet.set_named_row_at
       ~Sheet.set_ods
       ~Sheet.set_row_at
-      ~Sheet.set_sql
       ~Sheet.set_tsv
       ~Sheet.set_tsvz
       ~Sheet.set_xls
@@ -122,7 +118,6 @@ pyexcel.Sheet
       ~Sheet.content
       ~Sheet.csv
       ~Sheet.csvz
-      ~Sheet.django
       ~Sheet.grid
       ~Sheet.html
       ~Sheet.json
@@ -137,12 +132,12 @@ pyexcel.Sheet
       ~Sheet.rownames
       ~Sheet.rst
       ~Sheet.simple
-      ~Sheet.sql
       ~Sheet.texttable
       ~Sheet.tsv
       ~Sheet.tsvz
       ~Sheet.xls
       ~Sheet.xlsm
       ~Sheet.xlsx
+      ~Sheet.yaml
    
    

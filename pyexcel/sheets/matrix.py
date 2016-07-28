@@ -563,16 +563,6 @@ class Matrix(object):
         # in py3
         pass
 
-    @property
-    def column(self):
-        return Column(self)
-
-    @column.setter
-    def column(self, value):
-        # dummy setter to enable self.column += ..
-        # in py3
-        pass
-
     def row_at(self, index):
         """
         Gets the data at the specified row
@@ -582,53 +572,6 @@ class Matrix(object):
             for i in self.column_range():
                 cell_array.append(self.cell_value(index, i))
             return cell_array
-        else:
-            raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)
-
-    def column_at(self, index):
-        """
-        Gets the data at the specified column
-        """
-        if index in self.column_range():
-            cell_array = []
-            for i in self.row_range():
-                cell_array.append(self.cell_value(i, index))
-            return cell_array
-        else:
-            raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)
-
-    def set_column_at(self, column_index, data_array, starting=0):
-        """Updates a column data range
-
-        It works like this if the call is:
-        set_column_at(2, ['N','N', 'N'], 1)::
-
-                +--> column_index = 2
-                |
-            A B C
-            1 3 N <- starting = 1
-            2 4 N
-
-        This function will not set element outside the current table range
-
-        :param int column_index: which column to be modified
-        :param list data_array: one dimensional array
-        :param int staring: from which index, the update happens
-        :raises IndexError: if column_index exceeds column range
-                            or starting exceeds row range
-        """
-        nrows = self.number_of_rows()
-        ncolumns = self.number_of_columns()
-        if column_index < ncolumns and starting < nrows:
-            real_len = len(data_array)+starting
-            to = min(real_len, nrows)
-            for i in range(starting, to):
-                self.cell_value(i, column_index, data_array[i-starting])
-            if real_len > nrows:
-                for i in range(nrows, real_len):
-                    new_row = [''] * column_index + [data_array[i-starting]]
-                    self.array.append(new_row)
-            self.width, self.array = uniform(self.array)
         else:
             raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)
 
@@ -691,6 +634,63 @@ class Matrix(object):
             for i in sorted_list:
                 if i < self.number_of_rows():
                     del self.array[i]
+
+    @property
+    def column(self):
+        return Column(self)
+
+    @column.setter
+    def column(self, value):
+        # dummy setter to enable self.column += ..
+        # in py3
+        pass
+
+    def column_at(self, index):
+        """
+        Gets the data at the specified column
+        """
+        if index in self.column_range():
+            cell_array = []
+            for i in self.row_range():
+                cell_array.append(self.cell_value(i, index))
+            return cell_array
+        else:
+            raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)
+
+    def set_column_at(self, column_index, data_array, starting=0):
+        """Updates a column data range
+
+        It works like this if the call is:
+        set_column_at(2, ['N','N', 'N'], 1)::
+
+                +--> column_index = 2
+                |
+            A B C
+            1 3 N <- starting = 1
+            2 4 N
+
+        This function will not set element outside the current table range
+
+        :param int column_index: which column to be modified
+        :param list data_array: one dimensional array
+        :param int staring: from which index, the update happens
+        :raises IndexError: if column_index exceeds column range
+                            or starting exceeds row range
+        """
+        nrows = self.number_of_rows()
+        ncolumns = self.number_of_columns()
+        if column_index < ncolumns and starting < nrows:
+            real_len = len(data_array)+starting
+            to = min(real_len, nrows)
+            for i in range(starting, to):
+                self.cell_value(i, column_index, data_array[i-starting])
+            if real_len > nrows:
+                for i in range(nrows, real_len):
+                    new_row = [''] * column_index + [data_array[i-starting]]
+                    self.array.append(new_row)
+            self.width, self.array = uniform(self.array)
+        else:
+            raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)
 
     def extend_columns(self, columns):
         """Inserts two dimensional data after the rightmost column

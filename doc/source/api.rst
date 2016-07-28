@@ -188,6 +188,7 @@ Attributes
    Sheet.latex_booktabs
    Sheet.json
    Sheet.html
+   Sheet.content
    Sheet.row
    Sheet.column
    Sheet.number_of_rows
