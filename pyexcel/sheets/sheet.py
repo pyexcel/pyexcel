@@ -113,10 +113,10 @@ class Sheet(NominableSheet):
 
         for csv, `fmtparams <https://docs.python.org/release/3.1.5/
         library/csv.html#dialects-and-formatting-parameters>`_ are accepted
-        
+
         for xls, 'auto_detect_int', 'encoding' and 'style_compression' are
         supported
-        
+
         for ods, 'auto_dtect_int' is supported
         """
         from ..factory import SourceFactory

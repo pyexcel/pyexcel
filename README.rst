@@ -91,8 +91,9 @@ Usage
     >>> sheet.csv = content
     >>> sheet.array
     [[1, 2, 3], [3, 4, 5]]
-	>>> with open("myfile.xlsx", "wb") as output:
-	...     output.write(sheet.xlsx)
+    >>> with open("myfile.xlsx", "wb") as output:
+    ...     output.write(sheet.xlsx) # doctest:+ELLIPSIS
+    ...
 
 .. testcode::
    :hide:
