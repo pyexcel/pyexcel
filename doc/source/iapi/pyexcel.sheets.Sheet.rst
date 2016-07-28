@@ -138,6 +138,5 @@ pyexcel.sheets.Sheet
       ~Sheet.xls
       ~Sheet.xlsm
       ~Sheet.xlsx
-      ~Sheet.yaml
    
    

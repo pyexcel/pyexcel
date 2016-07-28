@@ -168,6 +168,7 @@ class Formatter(object):
 
 class ColumnFormatter(Formatter):
     """Apply formatting on columns"""
+
     def __init__(self, column_index, formatter):
         """Constructor
         :param column_index: to which column or what
@@ -193,6 +194,7 @@ class ColumnFormatter(Formatter):
 
 class NamedColumnFormatter(ColumnFormatter):
     """Apply formatting using named columns"""
+
     def __init__(self, column_index, formatter):
         """Constructor
         :param column_index: to which column or what
@@ -230,6 +232,7 @@ class NamedColumnFormatter(ColumnFormatter):
 
 class RowFormatter(Formatter):
     """Row Formatter"""
+
     def __init__(self, row_index, formatter):
         """Constructor
         :param row_index: to which row or what
@@ -255,6 +258,7 @@ class RowFormatter(Formatter):
 
 class NamedRowFormatter(RowFormatter):
     """Formatting rows using named rows"""
+
     def __init__(self, row_index, formatter):
         """Constructor
         :param row_index: to which row or what
@@ -290,7 +294,8 @@ class NamedRowFormatter(RowFormatter):
 
 
 class SheetFormatter(Formatter):
-    """Apply the formatter to all cells in the sheet
+    """
+    Apply the formatter to all cells in the sheet
     """
     def __init__(self, formatter):
         Formatter.__init__(self, None, formatter)
