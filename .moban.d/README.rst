@@ -69,8 +69,7 @@ Usage
     >>> sheet.array
     [[1, 2, 3], [3, 4, 5]]
     >>> with open("myfile.xlsx", "wb") as output:
-    ...     output.write(sheet.xlsx) # doctest:+ELLIPSIS
-    ...
+    ...     write_count_not_used = output.write(sheet.xlsx)
 
 .. testcode::
    :hide:
