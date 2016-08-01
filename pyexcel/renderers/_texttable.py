@@ -1,7 +1,8 @@
 from texttable import Texttable
 from pyexcel.formatters import to_format
-from pyexcel.sources.rendererfactory import Renderer
 from pyexcel._compact import is_generator
+
+from .factory import Renderer
 
 
 class TextTableRenderer(Renderer):

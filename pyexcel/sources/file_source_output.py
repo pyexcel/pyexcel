@@ -10,17 +10,7 @@
 from pyexcel import params
 
 from pyexcel.factory import FileSource
-from pyexcel.sources.rendererfactory import RendererFactory
-from pyexcel.sources import renderer
-
-
-RendererFactory.register_renderers(renderer.renderers)
-
-try:
-    import pyexcel_text as text
-    RendererFactory.register_renderers(text.renderers)
-except ImportError:
-    pass
+from pyexcel.renderers import RendererFactory
 
 
 file_types = tuple(RendererFactory.renderer_factories.keys())

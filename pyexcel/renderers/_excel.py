@@ -1,7 +1,8 @@
 from pyexcel.constants import DEFAULT_SHEET_NAME
 from pyexcel_io import save_data, RWManager
 from pyexcel_io.utils import AVAILABLE_WRITERS
-from pyexcel.sources.rendererfactory import Renderer
+
+from .factory import Renderer
 
 
 class ExcelRenderer(Renderer):
