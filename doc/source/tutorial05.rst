@@ -1,7 +1,7 @@
 Sheet: Data manipulation 
 ============================
 
-The data in a sheet is represented by :class:`~pyexcel.Sheet` which maintains the data as a list of lists. You can regard :class:`~pyexcel.Sheet` as a two dimensional array with additional iterators. Random access to individual column and row is explosed by :class:`~pyexcel.sheets.NamedColumn` and :class:`~pyexcel.sheets.NamedRow` 
+The data in a sheet is represented by :class:`~pyexcel.Sheet` which maintains the data as a list of lists. You can regard :class:`~pyexcel.Sheet` as a two dimensional array with additional iterators. Random access to individual column and row is exposed by :class:`~pyexcel.sheets.NamedColumn` and :class:`~pyexcel.sheets.NamedRow` 
 
 Column manipulation
 -----------------------------

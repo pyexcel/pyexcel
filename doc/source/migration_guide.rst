@@ -5,7 +5,7 @@ Migrate from 0.2.x to 0.3.0
 one of the following functions:
 
 #. add_formatter
-#. remove_fomatter
+#. remove_formatter
 #. clear_formatters
 #. freeze_formatters
 #. add_filter

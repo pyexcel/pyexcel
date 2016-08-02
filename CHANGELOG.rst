@@ -53,7 +53,7 @@ Added:
 Updated:
 ********************************************************************************
 
-#. code refactored sources for easy addition of sources.
+#. code refactoring done for easy addition of sources.
 #. bug fix `issue 29 <https://github.com/pyexcel/pyexcel/issues/29>`__, Even if the format is a string it is displayed as a float
 #. pyexcel-text is no longer a plugin to pyexcel-io but to pyexcel.sources, see `pyexcel-text issue #22 <https://github.com/pyexcel/pyexcel-text/issues/22>`__
 
@@ -69,4 +69,4 @@ Updated
 ********************************************************************************
 
 #. adopt pyexcel-io yield key word to return generator as content
-#. pyexcel.save_as and pyexcel.save_book_as get performance imporvements
+#. pyexcel.save_as and pyexcel.save_book_as get performance improvements

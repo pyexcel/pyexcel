@@ -10,11 +10,11 @@ This library provides one application programming interface to read data from on
    * memory file
    * SQLAlchemy table
    * Django Model
-   * Python data stuctures: dictionary, records and array
+   * Python data structures: dictionary, records and array
 
 and to transform them into one of the data structures:
 
-   * two dimensinal array
+   * two dimensional array
    * a dictionary of one dimensional arrays
    * a list of dictionaries
    * a dictionary of two dimensional arrays
@@ -32,7 +32,7 @@ the first three functions operates on any one sheet from an excel book and the f
 .. table:: A list of module level functions
 
    =============================== ======================================= ================================ 
-   Functions                       Psudo name                              Python name                      
+   Functions                       Name                                    Python name                      
    =============================== ======================================= ================================ 
    :meth:`~pyexcel.get_array`      two dimensional array                   a list of lists                 
    :meth:`~pyexcel.get_dict`       a dictionary of one dimensional arrays  an ordered dictionary of lists           
@@ -71,7 +71,7 @@ Export data from Python
 
 This library provides one application programming interface to transform them into one of the data structures:
 
-   * two dimensinal array
+   * two dimensional array
    * a (ordered) dictionary of one dimensional arrays
    * a list of dictionaries
    * a dictionary of two dimensional arrays
@@ -84,7 +84,7 @@ and write to one of the following data sources:
    * memory file
    * SQLAlchemy table
    * Django Model
-   * Python data stuctures: dictionary, records and array
+   * Python data structures: dictionary, records and array
 
 
 Here are the two functions:
@@ -111,7 +111,7 @@ Based the capability of this library, it is capable of transporting your data in
    * memory file
    * SQLAlchemy table
    * Django Model
-   * Python data stuctures: dictionary, records and array
+   * Python data structures: dictionary, records and array
 
 See also:
 

@@ -24,7 +24,7 @@ In inheritance order from parent to child
    NominableSheet
    Sheet
 
-Row represetation
+Row representation
 ===================
 
 .. autosummary::
@@ -32,7 +32,7 @@ Row represetation
 
    Row
 
-Column represetation
+Column representation
 =====================
 
 .. autosummary::

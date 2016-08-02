@@ -25,7 +25,7 @@ class SheetStream(NamedContent):
         self.colnames = []
 
     def save_to(self, source):
-        """Save to a writeable data source"""
+        """Save to a writable data source"""
         source.write_data(self)
 
     def to_array(self):
@@ -39,7 +39,7 @@ class Sheet(NominableSheet):
     """Two dimensional data container for filtering, formatting and iteration
 
     :class:`Sheet` is a container for a two dimensional array, where individual
-    cell can be any Python types. Other than numbers, value of thsee
+    cell can be any Python types. Other than numbers, value of these
     types: string, date, time and boolean can be mixed in the array. This
     differs from Numpy's matrix where each cell are of the same number type.
 
@@ -98,13 +98,13 @@ class Sheet(NominableSheet):
         return self._RepresentedString(content)
 
     def save_to(self, source):
-        """Save to a writeable data source"""
+        """Save to a writable data source"""
         source.write_data(self)
 
     def save_as(self, filename, **keywords):
         """Save the content to a named file
 
-        Heywords may vary depending on your file type, because the associated
+        Keywords may vary depending on your file type, because the associated
         file type employs different library.
 
         for csv, `fmtparams <https://docs.python.org/release/3.1.5/
@@ -113,10 +113,10 @@ class Sheet(NominableSheet):
         for xls, 'auto_detect_int', 'encoding' and 'style_compression' are
         supported
 
-        for ods, 'auto_dtect_int' is supported
+        for ods, 'auto_detect_int' is supported
         """
         from pyexcel.sources import SourceFactory
-        out_source = SourceFactory.get_writeable_source(
+        out_source = SourceFactory.get_writable_source(
             file_name=filename, **keywords)
         return self.save_to(out_source)
 
@@ -124,14 +124,14 @@ class Sheet(NominableSheet):
         """Save the content to memory
 
         :param str file_type: any value of 'csv', 'tsv', 'csvz',
-                              'tsvz', 'xls', 'xlsm', 'xslm', 'ods'
+                              'tsvz', 'xls', 'xlsm', 'xlsm', 'ods'
         :param iostream stream: the memory stream to be written to. Note in
                                 Python 3, for csv  and tsv format, please
                                 pass an instance of StringIO. For xls, xlsx,
                                 and ods, an instance of BytesIO.
         """
         from pyexcel.sources import SourceFactory
-        out_source = SourceFactory.get_writeable_source(
+        out_source = SourceFactory.get_writable_source(
             file_type=file_type,
             file_stream=stream,
             **keywords)
@@ -146,13 +146,13 @@ class Sheet(NominableSheet):
         """Save to database table through django model
 
         :param model: a database model
-        :param initializer: a intialization functions for your model
+        :param initializer: a initialization functions for your model
         :param mapdict: custom map dictionary for your data columns
         :param batch_size: a parameter to Django concerning the size
                            of data base set
         """
         from pyexcel.sources import SourceFactory
-        source = SourceFactory.get_writeable_source(
+        source = SourceFactory.get_writable_source(
             model=model, initializer=initializer,
             mapdict=mapdict, batch_size=batch_size)
         self.save_to(source)
@@ -165,13 +165,13 @@ class Sheet(NominableSheet):
 
         :param session: database session
         :param table: a database table
-        :param initializer: a intialization functions for your table
+        :param initializer: a initialization functions for your table
         :param mapdict: custom map dictionary for your data columns
         :param auto_commit: by default, data is committed.
 
         """
         from pyexcel.sources import SourceFactory
-        source = SourceFactory.get_writeable_source(
+        source = SourceFactory.get_writable_source(
             session=session,
             table=table,
             initializer=initializer,
@@ -184,7 +184,7 @@ class Sheet(NominableSheet):
 def presenter(file_type=None):
     def custom_presenter(self, **keywords):
         from pyexcel.sources import SourceFactory
-        memory_source = SourceFactory.get_writeable_source(file_type=file_type,
+        memory_source = SourceFactory.get_writable_source(file_type=file_type,
                                                            **keywords)
         self.save_to(memory_source)
         return memory_source.content.getvalue()

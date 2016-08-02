@@ -8,7 +8,7 @@ Data models and data structures
 When dealing with excel files, there are three primary objects: **cell**, **sheet** and **book**.
 A book contains one or more sheets and a sheet is consisted of a sheet
 name and a two dimensional array of cells. Although a sheet can contain charts and a cell can have
-formular, styling properties, this library ignores them and pay attention to the data in the cell
+formula, styling properties, this library ignores them and pay attention to the data in the cell
 and its data type. So, in the context of this library, the definition of those three concepts are:
 
 ========= ======================================================== =======================
@@ -22,7 +22,7 @@ a book    is a dictionary of two dimensional array of data units.  :class:`~pyex
 Data source
 -------------
 
-The most popular data source is an excel file. Libre Offcie/Microsoft Excel could easily
+The most popular data source is an excel file. Libre Office/Microsoft Excel could easily
 generate an new excel file of desired format. Besides a physical file, this library
 recognizes additional three additional sources:
 
@@ -39,7 +39,7 @@ Data format
 This library and its plugins support most of the frequently used excel file formats. 
 
 ============ ======================================================= =============
-file format  defintion                                               Single Sheet
+file format  definition                                              Single Sheet
 ============ ======================================================= =============
 csv          comma separated values                                  Yes
 tsv          tab separated values                                    Yes
@@ -65,7 +65,7 @@ Data transformation
 
 Quite often, a developer would like to have the excel data in a Python data structures. This library
 supports the :ref:`conversions from<conversion-from>` previous three data source to the following
-list of data strcutures, and :ref:`vice versa<conversion-to>`.
+list of data structures, and :ref:`vice versa<conversion-to>`.
 
 .. _a-list-of-data-structures:
 .. table:: A list of supported data structures
@@ -140,4 +140,4 @@ involves the group access to a row or a column, data filtering and data transfor
 main operation in a book is obtain access to individual sheets.
 
 .. [#f1] quoted from `whatis.com <http://whatis.techtarget.com/fileformat/XLS-Worksheet-file-Microsoft-Excel>`_. Technical details can be found at `MSDN XLS <https://msdn.microsoft.com/en-us/library/office/gg615597(v=office.14).aspx>`_
-.. [#f2] xlsx is used by MS-Excel 2007, more infomation can be found at `MSDN XLSX <https://msdn.microsoft.com/en-us/library/dd922181(v=office.12).aspx>`_
+.. [#f2] xlsx is used by MS-Excel 2007, more information can be found at `MSDN XLSX <https://msdn.microsoft.com/en-us/library/dd922181(v=office.12).aspx>`_

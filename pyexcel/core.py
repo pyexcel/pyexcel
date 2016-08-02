@@ -159,10 +159,10 @@ def split_keywords(**keywords):
 
 
 def save_as(**keywords):
-    """Save a sheet from a data srouce to another one
+    """Save a sheet from a data source to another one
 
     It accepts two sets of keywords. Why two sets? one set is
-    source, the other set is destination. In order to distiguish
+    source, the other set is destination. In order to distinguish
     the two sets, source set will be exactly the same
     as the ones for :meth:`pyexcel.get_sheet`; destination
     set are exactly the same as the ones for :class:`pyexcel.Sheet.save_as`
@@ -206,7 +206,7 @@ def save_as(**keywords):
     ================= =============================================
     """
     dest_keywords, source_keywords = split_keywords(**keywords)
-    dest_source = SourceFactory.get_writeable_source(**dest_keywords)
+    dest_source = SourceFactory.get_writable_source(**dest_keywords)
     if dest_source is not None:
         sheet_params = {}
         for field in VALID_SHEET_PARAMETERS:
@@ -234,7 +234,7 @@ def save_book_as(**keywords):
     :param dest_tables: the list of target destination tables
     :param dest_models: the list of target destination django models
     :param dest_mapdicts: a list of mapping dictionaries
-    :param dest_initializers: table initialization fuctions
+    :param dest_initializers: table initialization functions
     :param dest_mapdicts: to nominate a model or table fields. Optional
     :param dest_batch_size: batch creation size. Optional
     :param keywords: additional keywords can be found at
@@ -255,7 +255,7 @@ def save_book_as(**keywords):
     ================ ============================================
     """
     dest_keywords, source_keywords = split_keywords(**keywords)
-    dest_source = SourceFactory.get_writeable_book_source(**dest_keywords)
+    dest_source = SourceFactory.get_writable_book_source(**dest_keywords)
     if dest_source is not None:
         book = _get_book(**source_keywords)
         book.save_to(dest_source)

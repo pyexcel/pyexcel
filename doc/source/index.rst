@@ -29,7 +29,7 @@ were not and will not be considered.
 Excel files are de-facto file format for information sharing in non-software
 centric organisations. Excel files are not only used for mathematical
 computation in financial institutions but also used for many other purposes
-in an office work environment. This is largely casued by wide adoption of
+in an office work environment. This is largely caused by wide adoption of
 Microsoft Office. Comparing the existing, mathematics savvy Pandas library,
 this library intends to help data processing job where data extraction is more
 important than data analysis. In such context, ease of use, and low overhead is

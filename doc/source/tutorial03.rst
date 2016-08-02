@@ -12,7 +12,7 @@ There is slightly different behavior between csv reader and xls reader. The cell
 Convert a column of numbers to strings
 --------------------------------------
 
-By default, all values in **csv** are read back as texts. However, for xls, xlsx and xlsm files, differnt data type are supported. Numbers are always read as `float`. Therefore, if you should like to have them in string format, you need to do some conversions. Suppose you have the following data in any of the supported excel formats:
+By default, all values in **csv** are read back as texts. However, for xls, xlsx and xlsm files, different data type are supported. Numbers are always read as `float`. Therefore, if you should like to have them in string format, you need to do some conversions. Suppose you have the following data in any of the supported excel formats:
 
 ======== =========
 userid   name
@@ -52,7 +52,7 @@ As you can see, `userid` column is of `float` type. Next, let's convert the colu
 
 Now, they are in string format.
 
-You can do this row by row as well using :class:`~pyexcel.RowFormatter` or do this to a whote spread sheet using :class:`~pyexcel.SheetFormatter`
+You can do this row by row as well using :class:`~pyexcel.RowFormatter` or do this to a whole spread sheet using :class:`~pyexcel.SheetFormatter`
 
 .. _cleansing:
 

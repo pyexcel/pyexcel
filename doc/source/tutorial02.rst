@@ -116,7 +116,7 @@ You can use :class:`pyexcel.filters.RowValueFilter`, which examines each row, re
     ...     result = [element for element in row if element != '']
     ...     return len(result)==0
 
-Now, let's contruct a row value filter
+Now, let's construct a row value filter
 
 .. code-block:: python
 
@@ -140,7 +140,7 @@ And then apply the filter on the sheet:
 Work with multi-sheet file
 --------------------------
 
-How do I read a book, pocess it and save to a new book
+How do I read a book, process it and save to a new book
 ******************************************************
 
 Yes, you can do that. The code looks like this::

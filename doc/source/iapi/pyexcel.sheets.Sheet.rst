@@ -39,18 +39,7 @@ pyexcel.sheets.Sheet
       ~Sheet.freeze_formatters
       ~Sheet.get_csv
       ~Sheet.get_csvz
-      ~Sheet.get_grid
-      ~Sheet.get_html
-      ~Sheet.get_json
-      ~Sheet.get_latex
-      ~Sheet.get_latex_booktabs
-      ~Sheet.get_mediawiki
       ~Sheet.get_ods
-      ~Sheet.get_orgtbl
-      ~Sheet.get_pipe
-      ~Sheet.get_plain
-      ~Sheet.get_rst
-      ~Sheet.get_simple
       ~Sheet.get_texttable
       ~Sheet.get_tsv
       ~Sheet.get_tsvz
@@ -118,20 +107,9 @@ pyexcel.sheets.Sheet
       ~Sheet.content
       ~Sheet.csv
       ~Sheet.csvz
-      ~Sheet.grid
-      ~Sheet.html
-      ~Sheet.json
-      ~Sheet.latex
-      ~Sheet.latex_booktabs
-      ~Sheet.mediawiki
       ~Sheet.ods
-      ~Sheet.orgtbl
-      ~Sheet.pipe
-      ~Sheet.plain
       ~Sheet.row
       ~Sheet.rownames
-      ~Sheet.rst
-      ~Sheet.simple
       ~Sheet.texttable
       ~Sheet.tsv
       ~Sheet.tsvz

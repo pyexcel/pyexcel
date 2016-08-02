@@ -68,7 +68,7 @@ class SourceFactory:
             return source
 
     @classmethod
-    def get_writeable_source(self, **keywords):
+    def get_writable_source(self, **keywords):
         source = self._get_generic_source(
             'sheet',
             'write',
@@ -79,7 +79,7 @@ class SourceFactory:
             return source
 
     @classmethod
-    def get_writeable_book_source(self, **keywords):
+    def get_writable_book_source(self, **keywords):
         source = self._get_generic_source(
             'book',
             'write',
