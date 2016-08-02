@@ -4,6 +4,7 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.viewcode',
+    'sphinxcontrib.spelling',
     'sphinx.ext.autosummary'
 ]
 
