@@ -10,8 +10,8 @@
 from pyexcel_io import get_data
 from pyexcel._compact import request, PY2
 
-from pyexcel.factory import ReadOnlySource
 from pyexcel import params
+from .factory import ReadOnlySource
 
 
 _xlsx = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"

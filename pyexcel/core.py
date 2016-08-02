@@ -17,14 +17,11 @@ from .constants import (
     MESSAGE_ERROR_02,
     MESSAGE_ERROR_NO_HANDLER
 )
-from .sources import sources
+from pyexcel.sources import SourceFactory
 from . import params
-from .factory import SourceFactory
+
 from ._compact import PY2
 from pyexcel_io.manager import RWManager
-
-
-SourceFactory.register_sources(sources)
 
 
 def get_sheet(**keywords):

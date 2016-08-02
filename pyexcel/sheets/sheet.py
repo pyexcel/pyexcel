@@ -9,11 +9,7 @@
 """
 from pyexcel_io.sheet import NamedContent
 from .nominablesheet import NominableSheet, VALID_SHEET_PARAMETERS
-import pyexcel.params as params
-from pyexcel.factory import SourceFactory
 from pyexcel.constants import (
-    MESSAGE_DEPRECATED_CONTENT,
-    MESSAGE_ERROR_NO_HANDLER,
     _IO_FILE_TYPE_DOC_STRING,
     _OUT_FILE_TYPE_DOC_STRING
 )
@@ -119,7 +115,7 @@ class Sheet(NominableSheet):
 
         for ods, 'auto_dtect_int' is supported
         """
-        from ..factory import SourceFactory
+        from pyexcel.sources import SourceFactory
         out_source = SourceFactory.get_writeable_source(
             file_name=filename, **keywords)
         return self.save_to(out_source)
@@ -134,7 +130,7 @@ class Sheet(NominableSheet):
                                 pass an instance of StringIO. For xls, xlsx,
                                 and ods, an instance of BytesIO.
         """
-        from ..factory import SourceFactory
+        from pyexcel.sources import SourceFactory
         out_source = SourceFactory.get_writeable_source(
             file_type=file_type,
             file_stream=stream,
@@ -155,7 +151,7 @@ class Sheet(NominableSheet):
         :param batch_size: a parameter to Django concerning the size
                            of data base set
         """
-        from ..factory import SourceFactory
+        from pyexcel.sources import SourceFactory
         source = SourceFactory.get_writeable_source(
             model=model, initializer=initializer,
             mapdict=mapdict, batch_size=batch_size)
@@ -174,7 +170,7 @@ class Sheet(NominableSheet):
         :param auto_commit: by default, data is committed.
 
         """
-        from ..factory import SourceFactory
+        from pyexcel.sources import SourceFactory
         source = SourceFactory.get_writeable_source(
             session=session,
             table=table,
@@ -187,7 +183,7 @@ class Sheet(NominableSheet):
 
 def presenter(file_type=None):
     def custom_presenter(self, **keywords):
-        from ..factory import SourceFactory
+        from pyexcel.sources import SourceFactory
         memory_source = SourceFactory.get_writeable_source(file_type=file_type,
                                                            **keywords)
         self.save_to(memory_source)
@@ -197,6 +193,7 @@ def presenter(file_type=None):
 
 def importer(file_type=None):
     def custom_presenter1(self, content, **keywords):
+        from pyexcel.core import _get_content
         sheet_params = {}
         for field in VALID_SHEET_PARAMETERS:
             if field in keywords:
@@ -207,19 +204,6 @@ def importer(file_type=None):
                   named_content.name, **sheet_params)
 
     return custom_presenter1
-
-
-def _get_content(**keywords):
-    if params.DEPRECATED_CONTENT in keywords:
-        print(MESSAGE_DEPRECATED_CONTENT)
-        keywords[params.FILE_CONTENT] = keywords.pop(
-            params.DEPRECATED_CONTENT)
-    source = SourceFactory.get_source(**keywords)
-    if source is not None:
-        sheets = source.get_data()
-        sheet_name, data = _one_sheet_tuple(sheets.items())
-        return SheetStream(sheet_name, data)
-    raise NotImplementedError(MESSAGE_ERROR_NO_HANDLER)
 
 
 def _one_sheet_tuple(items):

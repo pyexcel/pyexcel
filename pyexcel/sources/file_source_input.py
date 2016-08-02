@@ -13,7 +13,7 @@ from pyexcel_io import get_data, RWManager
 from pyexcel_io.utils import AVAILABLE_READERS
 
 from pyexcel import params
-from pyexcel.factory import FileSource
+from .factory import FileSource
 
 
 class InputSource(FileSource):

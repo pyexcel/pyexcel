@@ -18,7 +18,6 @@ from .constants import (
     _IO_FILE_TYPE_DOC_STRING,
     _OUT_FILE_TYPE_DOC_STRING
 )
-from .factory import SourceFactory
 
 
 class BookStream(object):
@@ -293,7 +292,7 @@ class Book(object):
 
         :param str filename: a file path
         """
-        from .factory import SourceFactory
+        from pyexcel.sources import SourceFactory
         out_source = SourceFactory.get_writeable_book_source(
             file_name=filename)
         self.save_to(out_source)
@@ -306,7 +305,7 @@ class Book(object):
                        format, please pass an instance of StringIO. For xls,
                        xlsx, and ods, an instance of BytesIO.
         """
-        from .factory import SourceFactory
+        from pyexcel.sources import SourceFactory
         out_source = SourceFactory.get_writeable_book_source(
             file_type=file_type,
             file_stream=stream,
@@ -330,7 +329,7 @@ class Book(object):
         :param mapdicts: custom map dictionary for your data columns
                          and the sequence should match tables
         """
-        from .factory import SourceFactory
+        from pyexcel.sources import SourceFactory
         out_source = SourceFactory.get_writeable_book_source(
             models=models,
             initializers=initializers,
@@ -358,7 +357,7 @@ class Book(object):
         :param auto_commit: by default, data is committed.
 
         """
-        from .factory import SourceFactory
+        from pyexcel.sources import SourceFactory
         out_source = SourceFactory.get_writeable_book_source(
             session=session,
             tables=tables,
@@ -382,7 +381,7 @@ class Book(object):
 
 def presenter(file_type=None):
     def custom_presenter(self, **keywords):
-        from .factory import SourceFactory
+        from pyexcel.sources import SourceFactory
         memory_source = SourceFactory.get_writeable_book_source(
             file_type=file_type,
             **keywords)
@@ -408,6 +407,7 @@ def _get_book(**keywords):
     Where the dictionary should have text as keys and two dimensional
     array as values.
     """
+    from pyexcel.sources import SourceFactory
     if params.DEPRECATED_CONTENT in keywords:
         print(MESSAGE_DEPRECATED_CONTENT)
         keywords[params.FILE_CONTENT] = keywords.pop(

@@ -1,5 +1,5 @@
-from ._compact import PY2, is_string
-from .params import FILE_NAME, FILE_TYPE, SOURCE
+from pyexcel._compact import PY2, is_string
+from pyexcel.params import FILE_NAME, FILE_TYPE, SOURCE
 
 
 class SourceFactory:

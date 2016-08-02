@@ -8,9 +8,8 @@
     :license: New BSD License
 """
 from pyexcel import params
-
-from pyexcel.factory import FileSource
 from pyexcel.renderers import RendererFactory
+from .factory import FileSource
 
 
 file_types = tuple(RendererFactory.renderer_factories.keys())

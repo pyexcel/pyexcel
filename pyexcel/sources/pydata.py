@@ -10,8 +10,8 @@
 from pyexcel._compact import OrderedDict
 from pyexcel.constants import DEFAULT_SHEET_NAME
 
-from pyexcel.factory import ReadOnlySource
 from pyexcel import params
+from .factory import ReadOnlySource
 
 
 class RecordsSource(ReadOnlySource):
