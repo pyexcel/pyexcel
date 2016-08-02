@@ -12,9 +12,6 @@ from pyexcel.renderers import RendererFactory
 from .factory import FileSource
 
 
-file_types = tuple(RendererFactory.renderer_factories.keys())
-
-
 class IOSource(FileSource):
     """
     Get excel data from file source
@@ -22,7 +19,8 @@ class IOSource(FileSource):
     @classmethod
     def can_i_handle(cls, action, file_type):
         if action == params.WRITE_ACTION:
-            status = file_type in file_types
+            status = file_type in tuple(
+                RendererFactory.renderer_factories.keys())
         else:
             status = False
         return status
