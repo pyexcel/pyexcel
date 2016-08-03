@@ -173,7 +173,7 @@ def _analyse_slice(aslice, upper_bound):
 
 
 class Row:
-    """Represet row of a matrix
+    """Represent row of a matrix
 
     .. table:: "example.csv"
 
@@ -183,7 +183,7 @@ class Row:
         7 8 9
         = = =
 
-    Above column manipluation can be performed on rows similiarly. This section
+    Above column manipulation can be performed on rows similarly. This section
     will not repeat the same example but show some advance usages.
 
 
@@ -344,7 +344,7 @@ class Row:
 
 
 class Column:
-    """Represet columns of a matrix
+    """Represent columns of a matrix
 
     .. table:: "example.csv"
 
@@ -613,7 +613,7 @@ class Matrix(object):
         self.array.append(array)
 
     def extend_rows(self, rows):
-        """Inserts two dimensinal data after the bottom row"""
+        """Inserts two dimensional data after the bottom row"""
         if isinstance(rows, list):
             if is_array_type(rows, list):
                 for r in rows:
@@ -946,7 +946,7 @@ class Matrix(object):
             return False
 
     def transpose(self):
-        """Roate the data table by 90 degrees
+        """Rotate the data table by 90 degrees
 
         Reference :func:`transpose`
         """

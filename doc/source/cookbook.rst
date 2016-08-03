@@ -5,7 +5,7 @@ Recipes
 
     The pyexcel DOES NOT consider Fonts, Styles and Charts at all. In the resulting excel files, fonts, styles and charts will not be transferred.
 
-These recipes give a one-stop utility functions for known use cases. Simliar functionality can be achieved using other application interfaces.
+These recipes give a one-stop utility functions for known use cases. Similar functionality can be achieved using other application interfaces.
 
 Update one column of a data file
 ---------------------------------

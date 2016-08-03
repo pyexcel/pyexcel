@@ -31,7 +31,7 @@ class BookStream(object):
         Selecting a specific book according to filename extension
         :param OrderedDict/dict sheets: a dictionary of data
         :param str filename: the physical file
-        :param str path: the relative path or abosolute path
+        :param str path: the relative path or absolute path
         :param set keywords: additional parameters to be passed on
         """
         self.path = path
@@ -65,7 +65,7 @@ class BookStream(object):
         self.name_array = list(self.sheets.keys())
 
     def save_to(self, source):
-        """Save to a writeable data source"""
+        """Save to a writable data source"""
         source.write_data(self)
 
     def to_book(self):
@@ -106,7 +106,7 @@ class Book(object):
         Selecting a specific book according to filename extension
         :param OrderedDict/dict sheets: a dictionary of data
         :param str filename: the physical file
-        :param str path: the relative path or abosolute path
+        :param str path: the relative path or absolute path
         :param set keywords: additional parameters to be passed on
         """
         self.init(sheets=sheets, filename=filename, path=path)
@@ -284,7 +284,7 @@ class Book(object):
         return self
 
     def save_to(self, source):
-        """Save to a writeable data source"""
+        """Save to a writable data source"""
         source.write_data(self)
 
     def save_as(self, filename):
@@ -293,7 +293,7 @@ class Book(object):
         :param str filename: a file path
         """
         from pyexcel.sources import SourceFactory
-        out_source = SourceFactory.get_writeable_book_source(
+        out_source = SourceFactory.get_writable_book_source(
             file_name=filename)
         self.save_to(out_source)
 
@@ -306,7 +306,7 @@ class Book(object):
                        xlsx, and ods, an instance of BytesIO.
         """
         from pyexcel.sources import SourceFactory
-        out_source = SourceFactory.get_writeable_book_source(
+        out_source = SourceFactory.get_writable_book_source(
             file_type=file_type,
             file_stream=stream,
             **keywords)
@@ -330,7 +330,7 @@ class Book(object):
                          and the sequence should match tables
         """
         from pyexcel.sources import SourceFactory
-        out_source = SourceFactory.get_writeable_book_source(
+        out_source = SourceFactory.get_writable_book_source(
             models=models,
             initializers=initializers,
             mapdicts=mapdicts,
@@ -358,7 +358,7 @@ class Book(object):
 
         """
         from pyexcel.sources import SourceFactory
-        out_source = SourceFactory.get_writeable_book_source(
+        out_source = SourceFactory.get_writable_book_source(
             session=session,
             tables=tables,
             initializers=initializers,
@@ -382,7 +382,7 @@ class Book(object):
 def presenter(file_type=None):
     def custom_presenter(self, **keywords):
         from pyexcel.sources import SourceFactory
-        memory_source = SourceFactory.get_writeable_book_source(
+        memory_source = SourceFactory.get_writable_book_source(
             file_type=file_type,
             **keywords)
         self.save_to(memory_source)

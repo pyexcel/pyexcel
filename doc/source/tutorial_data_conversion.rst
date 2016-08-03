@@ -491,4 +491,4 @@ Again let's verify what we have gotten:
 How to open a xls multiple sheet excel book and save it as csv
 ----------------------------------------------------------------
 
-Well, you write similiar codes as before but you will need to use `:meth:~pyexcel.save_book_as` function.
+Well, you write similar codes as before but you will need to use `:meth:~pyexcel.save_book_as` function.

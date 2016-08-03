@@ -16,7 +16,7 @@ Development steps for code changes
 #. pip install -r tests/requirements.txt
 
 
-In order to update test envrionment, and documentation, additional setps are
+In order to update test environment, and documentation, additional setup are
 required:
 
 #. pip install moban
@@ -26,7 +26,7 @@ required:
 What is rnd_requirements.txt
 -------------------------------
 
-Usually, it is created when a depdent library is not released. Once the dependecy is installed(will be released), the future version of the dependency in the requirements.txt will be valid.
+Usually, it is created when a dependent library is not released. Once the dependency is installed(will be released), the future version of the dependency in the requirements.txt will be valid.
 
 What is pyexcel-commons
 ---------------------------------
@@ -41,7 +41,7 @@ What is .moban.d
 How to test your contribution
 ------------------------------
 
-Although `nose` and `doctest` are both used in code testing, it is adviable that unit tests are put in tests. `doctest` is incorporated only to make sure the code examples in documentation remain valid across different development releases.
+Although `nose` and `doctest` are both used in code testing, it is advisable that unit tests are put in tests. `doctest` is incorporated only to make sure the code examples in documentation remain valid across different development releases.
 
 On Linux/Unix systems, please launch your tests like this::
 

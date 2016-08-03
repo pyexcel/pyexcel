@@ -52,7 +52,7 @@ You can find a real world example in **examples/memoryfile/** directory: pyexcel
             return jsonify({"result":data})
         return render_template...
 
-**request.files['excel']** in line 4 holds the file object. line 5 finds out the file extension. line 8 feeds in a tuple to **Book**. line 10 gives a dictionary represetation of the excel file and line 11 send the json represetation of the excel file back to client browser
+**request.files['excel']** in line 4 holds the file object. line 5 finds out the file extension. line 8 feeds in a tuple to **Book**. line 10 gives a dictionary representation of the excel file and line 11 send the json representation of the excel file back to client browser
 
 Write to memory and respond to download
 -------------------------------------------

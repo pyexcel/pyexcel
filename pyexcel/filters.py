@@ -186,7 +186,7 @@ class OddColumnFilter(ColumnIndexFilter):
     """Filters out odd indexed columns
 
     * column 0 is regarded as the first column.
-    * column 1 is regarded as the seocond column -> this will be filtered out
+    * column 1 is regarded as the second column -> this will be filtered out
     """
     def __init__(self):
         def eval_func(x): return (x+1) % 2 == 1
@@ -197,7 +197,7 @@ class EvenColumnFilter(ColumnIndexFilter):
     """Filters out even indexed columns
 
     * column 0 is regarded as the first column. -> this will be filtered out
-    * column 1 is regarded as the seocond column
+    * column 1 is regarded as the second column
     """
     def __init__(self):
         def eval_func(x): return (x+1) % 2 == 0
