@@ -21,10 +21,10 @@ from pyexcel._compact import OrderedDict
 from pyexcel.constants import DEFAULT_SHEET_NAME
 from pyexcel import params
 from pyexcel.book import BookStream
-from .factory import ReadOnlySource, Source
+from .factory import Source
 
 
-class SheetQuerySetSource(ReadOnlySource):
+class SheetQuerySetSource(Source):
     """
     Database query set as data source
 

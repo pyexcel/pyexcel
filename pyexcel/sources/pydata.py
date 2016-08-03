@@ -11,10 +11,10 @@ from pyexcel._compact import OrderedDict
 from pyexcel.constants import DEFAULT_SHEET_NAME
 
 from pyexcel import params
-from .factory import ReadOnlySource
+from .factory import Source
 
 
-class RecordsSource(ReadOnlySource):
+class RecordsSource(Source):
     """
     A list of dictionaries as data source
 
@@ -35,7 +35,7 @@ class RecordsSource(ReadOnlySource):
         return params.RECORDS, None
 
 
-class DictSource(ReadOnlySource):
+class DictSource(Source):
     """
     A dictionary of one dimensional array as sheet source
     """
@@ -56,7 +56,7 @@ class DictSource(ReadOnlySource):
         return params.ADICT, None
 
 
-class ArraySource(ReadOnlySource):
+class ArraySource(Source):
     """
     A two dimensional array as sheet source
     """
@@ -74,7 +74,7 @@ class ArraySource(ReadOnlySource):
         return params.ARRAY, None
 
 
-class BookDictSource(ReadOnlySource):
+class BookDictSource(Source):
     """
     Multiple sheet data source via a dictionary of two dimensional arrays
     """

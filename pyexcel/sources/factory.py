@@ -116,16 +116,9 @@ class Source(object):
             results = list(results)
         return len(results) == 0
 
-
-class ReadOnlySource(Source):
-    """Read Only Data Source"""
     def write_data(self, content):
         """This function does nothing """
         raise Exception("ReadOnlySource does not write")
-
-
-class WriteOnlySource(Source):
-    """Write Only Data Source"""
 
     def get_data(self):
         """This function does nothing"""
