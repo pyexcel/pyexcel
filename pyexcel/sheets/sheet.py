@@ -185,7 +185,7 @@ def presenter(file_type=None):
     def custom_presenter(self, **keywords):
         from pyexcel.sources import SourceFactory
         memory_source = SourceFactory.get_writable_source(file_type=file_type,
-                                                           **keywords)
+                                                          **keywords)
         self.save_to(memory_source)
         return memory_source.content.getvalue()
     return custom_presenter
