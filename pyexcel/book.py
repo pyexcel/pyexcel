@@ -305,13 +305,9 @@ class Book(object):
                        format, please pass an instance of StringIO. For xls,
                        xlsx, and ods, an instance of BytesIO.
         """
-        import pyexcel.sources as sources
-        out_source = sources.get_writable_book_source(
-            file_type=file_type,
-            file_stream=stream,
-            **keywords)
-        self.save_to(out_source)
-        return out_source.content
+        get_method = getattr(self, "get_%s" % file_type)
+        content = get_method(file_stream=stream, **keywords)
+        return content
 
     def save_to_django_models(self, models,
                               initializers=None, mapdicts=None,

@@ -8,7 +8,7 @@
     :license: New BSD License
 """
 from pyexcel import params
-from pyexcel.renderers import RendererFactory
+import pyexcel.renderers as renderers
 from .factory import FileSource
 
 
@@ -20,7 +20,7 @@ class IOSource(FileSource):
     def can_i_handle(cls, action, file_type):
         if action == params.WRITE_ACTION:
             status = file_type in tuple(
-                RendererFactory.renderer_factories.keys())
+                renderers.renderer_factories.keys())
         else:
             status = False
         return status
@@ -37,7 +37,7 @@ class SheetSource(IOSource):
         self.file_name = file_name
         self.keywords = keywords
         self.file_type = file_name.split(".")[-1]
-        self.renderer = RendererFactory.get_renderer(self.file_type)
+        self.renderer = renderers.get_renderer(self.file_type)
 
     def write_data(self, sheet):
         self.renderer.render_sheet_to_file(self.file_name,
@@ -60,7 +60,7 @@ class WriteOnlySheetSource(IOSource):
     actions = (params.WRITE_ACTION,)
 
     def __init__(self, file_type=None, file_stream=None, **keywords):
-        self.renderer = RendererFactory.get_renderer(file_type)
+        self.renderer = renderers.get_renderer(file_type)
         if file_stream:
             self.content = file_stream
         else:
