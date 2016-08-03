@@ -17,7 +17,7 @@ from .constants import (
     MESSAGE_ERROR_02,
     MESSAGE_ERROR_NO_HANDLER
 )
-from pyexcel.sources import SourceFactory
+import pyexcel.sources as sources
 from . import params
 
 from ._compact import PY2
@@ -74,7 +74,7 @@ def _get_content(**keywords):
         print(MESSAGE_DEPRECATED_CONTENT)
         keywords[params.FILE_CONTENT] = keywords.pop(
             params.DEPRECATED_CONTENT)
-    source = SourceFactory.get_source(**keywords)
+    source = sources.get_source(**keywords)
     if source is not None:
         sheets = source.get_data()
         sheet_name, data = one_sheet_tuple(sheets.items())
@@ -129,7 +129,7 @@ def _get_book(**keywords):
         print(MESSAGE_DEPRECATED_CONTENT)
         keywords[params.FILE_CONTENT] = keywords.pop(
             params.DEPRECATED_CONTENT)
-    source = SourceFactory.get_book_source(**keywords)
+    source = sources.get_book_source(**keywords)
     if source is not None:
         sheets = source.get_data()
         filename, path = source.get_source_info()
@@ -206,7 +206,7 @@ def save_as(**keywords):
     ================= =============================================
     """
     dest_keywords, source_keywords = split_keywords(**keywords)
-    dest_source = SourceFactory.get_writable_source(**dest_keywords)
+    dest_source = sources.get_writable_source(**dest_keywords)
     if dest_source is not None:
         sheet_params = {}
         for field in VALID_SHEET_PARAMETERS:
@@ -255,7 +255,7 @@ def save_book_as(**keywords):
     ================ ============================================
     """
     dest_keywords, source_keywords = split_keywords(**keywords)
-    dest_source = SourceFactory.get_writable_book_source(**dest_keywords)
+    dest_source = sources.get_writable_book_source(**dest_keywords)
     if dest_source is not None:
         book = _get_book(**source_keywords)
         book.save_to(dest_source)

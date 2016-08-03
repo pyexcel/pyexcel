@@ -292,8 +292,8 @@ class Book(object):
 
         :param str filename: a file path
         """
-        from pyexcel.sources import SourceFactory
-        out_source = SourceFactory.get_writable_book_source(
+        import pyexcel.sources as sources
+        out_source = sources.get_writable_book_source(
             file_name=filename)
         self.save_to(out_source)
 
@@ -305,8 +305,8 @@ class Book(object):
                        format, please pass an instance of StringIO. For xls,
                        xlsx, and ods, an instance of BytesIO.
         """
-        from pyexcel.sources import SourceFactory
-        out_source = SourceFactory.get_writable_book_source(
+        import pyexcel.sources as sources
+        out_source = sources.get_writable_book_source(
             file_type=file_type,
             file_stream=stream,
             **keywords)
@@ -329,8 +329,8 @@ class Book(object):
         :param mapdicts: custom map dictionary for your data columns
                          and the sequence should match tables
         """
-        from pyexcel.sources import SourceFactory
-        out_source = SourceFactory.get_writable_book_source(
+        import pyexcel.sources as sources
+        out_source = sources.get_writable_book_source(
             models=models,
             initializers=initializers,
             mapdicts=mapdicts,
@@ -357,8 +357,8 @@ class Book(object):
         :param auto_commit: by default, data is committed.
 
         """
-        from pyexcel.sources import SourceFactory
-        out_source = SourceFactory.get_writable_book_source(
+        import pyexcel.sources as sources
+        out_source = sources.get_writable_book_source(
             session=session,
             tables=tables,
             initializers=initializers,
@@ -381,8 +381,8 @@ class Book(object):
 
 def presenter(file_type=None):
     def custom_presenter(self, **keywords):
-        from pyexcel.sources import SourceFactory
-        memory_source = SourceFactory.get_writable_book_source(
+        import pyexcel.sources as sources
+        memory_source = sources.get_writable_book_source(
             file_type=file_type,
             **keywords)
         self.save_to(memory_source)
@@ -407,12 +407,12 @@ def _get_book(**keywords):
     Where the dictionary should have text as keys and two dimensional
     array as values.
     """
-    from pyexcel.sources import SourceFactory
+    import pyexcel.sources as sources
     if params.DEPRECATED_CONTENT in keywords:
         print(MESSAGE_DEPRECATED_CONTENT)
         keywords[params.FILE_CONTENT] = keywords.pop(
             params.DEPRECATED_CONTENT)
-    source = SourceFactory.get_book_source(**keywords)
+    source = sources.get_book_source(**keywords)
     if source is not None:
         sheets = source.get_data()
         filename, path = source.get_source_info()

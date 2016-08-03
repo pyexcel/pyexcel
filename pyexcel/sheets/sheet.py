@@ -115,8 +115,8 @@ class Sheet(NominableSheet):
 
         for ods, 'auto_detect_int' is supported
         """
-        from pyexcel.sources import SourceFactory
-        out_source = SourceFactory.get_writable_source(
+        import pyexcel.sources as sources
+        out_source = sources.get_writable_source(
             file_name=filename, **keywords)
         return self.save_to(out_source)
 
@@ -130,8 +130,8 @@ class Sheet(NominableSheet):
                                 pass an instance of StringIO. For xls, xlsx,
                                 and ods, an instance of BytesIO.
         """
-        from pyexcel.sources import SourceFactory
-        out_source = SourceFactory.get_writable_source(
+        import pyexcel.sources as sources
+        out_source = sources.get_writable_source(
             file_type=file_type,
             file_stream=stream,
             **keywords)
@@ -151,8 +151,8 @@ class Sheet(NominableSheet):
         :param batch_size: a parameter to Django concerning the size
                            of data base set
         """
-        from pyexcel.sources import SourceFactory
-        source = SourceFactory.get_writable_source(
+        import pyexcel.sources as sources
+        source = sources.get_writable_source(
             model=model, initializer=initializer,
             mapdict=mapdict, batch_size=batch_size)
         self.save_to(source)
@@ -170,8 +170,8 @@ class Sheet(NominableSheet):
         :param auto_commit: by default, data is committed.
 
         """
-        from pyexcel.sources import SourceFactory
-        source = SourceFactory.get_writable_source(
+        import pyexcel.sources as sources
+        source = sources.get_writable_source(
             session=session,
             table=table,
             initializer=initializer,
@@ -183,8 +183,8 @@ class Sheet(NominableSheet):
 
 def presenter(file_type=None):
     def custom_presenter(self, **keywords):
-        from pyexcel.sources import SourceFactory
-        memory_source = SourceFactory.get_writable_source(file_type=file_type,
+        import pyexcel.sources as sources
+        memory_source = sources.get_writable_source(file_type=file_type,
                                                            **keywords)
         self.save_to(memory_source)
         return memory_source.content.getvalue()
