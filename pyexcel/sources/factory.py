@@ -2,94 +2,6 @@ from pyexcel._compact import PY2, is_string
 from pyexcel.params import FILE_NAME, FILE_TYPE, SOURCE
 
 
-class SourceFactory:
-    """
-    The factory method to support multiple datasources in getters and savers
-    """
-    sources = {
-        "input-read": [],
-        "sheet-write": [],
-        "book-write": [],
-        "book-read": [],
-        "sheet-read": []
-    }
-
-    @classmethod
-    def register_sources(self, sources):
-        for source in sources:
-            for target in source.targets:
-                for action in source.actions:
-                    self.register_a_source(target, action, source)
-
-    @classmethod
-    def register_a_source(self, target, action, source):
-        key = "%s-%s" % (target, action)
-        self.sources[key].append(source)
-
-    @classmethod
-    def _get_generic_source(self, target, action, **keywords):
-        key = "%s-%s" % (target, action)
-        for source in self.sources[key]:
-            if source.is_my_business(action, **keywords):
-                s = source(**keywords)
-                return s
-        return None
-
-    @classmethod
-    def get_source(self, **keywords):
-        source = self._get_generic_source(
-            'input',
-            'read',
-            **keywords)
-        if source is None:
-            source = self._get_generic_source(
-                'sheet',
-                'read',
-                **keywords)
-        if source is None:
-            raise NotImplementedError("No source found for %s" % keywords)
-        else:
-            return source
-
-    @classmethod
-    def get_book_source(self, **keywords):
-        source = self._get_generic_source(
-            'input',
-            'read',
-            **keywords)
-        if source is None:
-            source = self._get_generic_source(
-                'book',
-                'read',
-                **keywords)
-        if source is None:
-            raise NotImplementedError("No source found for %s" % keywords)
-        else:
-            return source
-
-    @classmethod
-    def get_writable_source(self, **keywords):
-        source = self._get_generic_source(
-            'sheet',
-            'write',
-            **keywords)
-        if source is None:
-            raise NotImplementedError("No source found for %s" % keywords)
-        else:
-            return source
-
-    @classmethod
-    def get_writable_book_source(self, **keywords):
-        source = self._get_generic_source(
-            'book',
-            'write',
-            **keywords)
-        if source is None:
-            raise NotImplementedError("No source found for %s" % keywords)
-        else:
-            return source
-
-
 class Source(object):
     """ A command source for get_sheet, get_book, save_as and save_book_as
 
@@ -116,16 +28,9 @@ class Source(object):
             results = list(results)
         return len(results) == 0
 
-
-class ReadOnlySource(Source):
-    """Read Only Data Source"""
     def write_data(self, content):
         """This function does nothing """
         raise Exception("ReadOnlySource does not write")
-
-
-class WriteOnlySource(Source):
-    """Write Only Data Source"""
 
     def get_data(self):
         """This function does nothing"""

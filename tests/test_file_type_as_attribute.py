@@ -1,7 +1,7 @@
 import os
 from pyexcel.sources.file_source_output import WriteOnlySheetSource
 from pyexcel import params
-from pyexcel.sources import SourceFactory
+import pyexcel.sources as sources
 from pyexcel import Sheet, Book
 from pyexcel import get_book
 from _compact import StringIO
@@ -37,7 +37,7 @@ class DummySource(WriteOnlySheetSource):
     def write_data(self, sheet):
         self.content.write(FIXTURE)
 
-SourceFactory.register_sources([DummySource])
+sources.register_sources([DummySource])
 
 
 def test_sheet_register_presentation():

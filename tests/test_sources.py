@@ -1,7 +1,7 @@
 from nose.tools import raises, eq_
 
-from pyexcel.sources.factory import Source, ReadOnlySource
-from pyexcel.sources.factory import FileSource, WriteOnlySource
+from pyexcel.sources.factory import Source
+from pyexcel.sources.factory import FileSource
 
 from pyexcel.sources.file_source_output import WriteOnlySheetSource
 from pyexcel.sources.file_source_output import IOSource
@@ -31,13 +31,13 @@ def test_source_class_method():
 
 @raises(Exception)
 def test_read_only_source():
-    source = ReadOnlySource()
+    source = Source()
     source.write_data("something")
 
 
 @raises(Exception)
 def test_write_only_source():
-    source = WriteOnlySource()
+    source = Source()
     source.get_data()
 
 

@@ -11,7 +11,7 @@ from pyexcel_io import get_data
 from pyexcel._compact import request, PY2
 
 from pyexcel import params
-from .factory import ReadOnlySource
+from .factory import Source
 
 
 _xlsx = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -26,7 +26,7 @@ FILE_TYPE_MIME_TABLE = {
 }
 
 
-class HttpSource(ReadOnlySource):
+class HttpSource(Source):
     """
     Multiple sheet data source via http protocol
     """

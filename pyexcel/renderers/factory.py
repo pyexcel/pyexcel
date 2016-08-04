@@ -1,21 +1,6 @@
 from pyexcel._compact import StringIO
 
 
-class RendererFactory:
-    renderer_factories = {}
-
-    @classmethod
-    def get_renderer(self, file_type):
-        renderer_class = self.renderer_factories.get(file_type)
-        return renderer_class(file_type)
-
-    @classmethod
-    def register_renderers(self, renderers):
-        for renderer in renderers:
-            for file_type in renderer.file_types:
-                self.renderer_factories[file_type] = renderer
-
-
 class Renderer(object):
     file_types = ()
 
