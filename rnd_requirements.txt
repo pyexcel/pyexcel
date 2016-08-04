@@ -1,2 +1,3 @@
+sphinxcontrib-spelling
 https://github.com/pyexcel/pyexcel-io/archive/master.zip
 https://github.com/pyexcel/pyexcel-text/archive/master.zip
