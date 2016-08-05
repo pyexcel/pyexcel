@@ -217,7 +217,7 @@ def save_as(**keywords):
             sheet = Sheet(sheet.payload, sheet.name,
                           **sheet_params)
         sheet.save_to(dest_source)
-        if params.FILE_TYPE in dest_source.fields:
+        if hasattr(dest_source, 'content'):
             _try_put_file_read_pointer_to_its_begining(dest_source.content)
             return dest_source.content
     else:
