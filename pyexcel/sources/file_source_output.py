@@ -16,13 +16,13 @@ class IOSource(FileSource):
     """
     Get excel data from file source
     """
-    attributes = renderers.renderer_factories.keys()
+    attributes = renderers.get_all_file_types()
 
     @classmethod
     def can_i_handle(cls, action, file_type):
         if action == params.WRITE_ACTION:
             status = file_type in tuple(
-                renderers.renderer_factories.keys())
+                renderers.get_all_file_types())
         else:
             status = False
         return status
@@ -69,6 +69,7 @@ class WriteOnlySheetSource(IOSource):
             self.content = self.renderer.get_io()
         self.file_type = file_type
         self.keywords = keywords
+        self.attributes = renderers.get_all_file_types()
 
     def write_data(self, sheet):
         self.renderer.render_sheet_to_stream(self.content,

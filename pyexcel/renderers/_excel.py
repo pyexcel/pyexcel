@@ -38,6 +38,3 @@ class ExcelRenderer(Renderer):
     def render_book_to_stream(self, file_stream, book, **keywords):
         save_data(file_stream, book.to_dict(),
                   file_type=self.file_type, **keywords)
-
-
-renderers = (ExcelRenderer,)

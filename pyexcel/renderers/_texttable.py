@@ -42,6 +42,3 @@ def _cleanse_a_row(row):
             yield(" ")
         else:
             yield(to_format(str, item))
-
-
-renderers = (TextTableRenderer,)
