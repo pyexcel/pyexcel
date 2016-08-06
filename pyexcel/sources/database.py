@@ -33,6 +33,7 @@ class SheetQuerySetSource(Source):
     fields = [params.COLUMN_NAMES, params.QUERY_SETS]
     targets = (params.SHEET,)
     actions = (params.READ_ACTION,)
+    attributes = []
 
     def __init__(self, column_names, query_sets, sheet_name=None):
         self.sheet_name = sheet_name
@@ -53,6 +54,7 @@ class SheetSQLAlchemySource(Source):
     fields = [params.SESSION, params.TABLE]
     targets = (params.SHEET,)
     actions = (params.READ_ACTION, params.WRITE_ACTION)
+    attributes = []
 
     def __init__(self, session, table, **keywords):
         self.session = session
@@ -88,6 +90,7 @@ class SheetDjangoSource(Source):
     fields = [params.MODEL]
     targets = (params.SHEET,)
     actions = (params.READ_ACTION, params.WRITE_ACTION)
+    attributes = []
 
     def __init__(self, model=None, **keywords):
         self.model = model
@@ -123,6 +126,7 @@ class BookSQLSource(Source):
     fields = [params.SESSION, params.TABLES]
     targets = (params.BOOK,)
     actions = (params.READ_ACTION, params.WRITE_ACTION)
+    attributes = []
 
     def __init__(self, session, tables, **keywords):
         self.session = session

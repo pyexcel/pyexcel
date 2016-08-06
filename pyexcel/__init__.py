@@ -10,10 +10,22 @@
     :license: New BSD License, see LICENSE for more details
 """
 # flake8: noqa
+from .cookbook import (
+    merge_csv_to_a_book,
+    merge_all_to_a_book,
+    split_a_book,
+    extract_a_sheet_from_a_book)
+from .core import (
+    get_array,
+    get_dict,
+    get_records,
+    get_book_dict,
+    get_sheet,
+    get_book,
+    save_as,
+    save_book_as)
 from .book import Book
-from .sheets import (
-    Sheet,
-    transpose)
+from .sheets import Sheet, transpose
 from .utils import (
     to_dict,
     to_array,
@@ -41,20 +53,6 @@ from .filters import (
     ColumnValueFilter,
     NamedColumnValueFilter,
     SingleRowFilter)
-from .cookbook import (
-    merge_csv_to_a_book,
-    merge_all_to_a_book,
-    split_a_book,
-    extract_a_sheet_from_a_book)
-from .core import (
-    get_array,
-    get_dict,
-    get_records,
-    get_book_dict,
-    get_sheet,
-    get_book,
-    save_as,
-    save_book_as)
 from .deprecated import (
     load_book,
     load_book_from_memory,
@@ -79,8 +77,8 @@ for file_type in set(RWManager.file_types).intersection(set(renderers.renderer_f
     if file_type in ["django", "sql"]:
         continue
     Sheet.register_io(file_type)
-    Book.register_io(file_type)
+    #Book.register_io(file_type)
 
 for file_type in set(renderers.renderer_factories.keys()).difference(set(RWManager.file_types)):
     Sheet.register_presentation(file_type)
-    Book.register_presentation(file_type)
+    #Book.register_presentation(file_type)

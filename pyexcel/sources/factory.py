@@ -9,6 +9,7 @@ class Source(object):
     class inherit this and register it with corresponding source registry
     """
     fields = [SOURCE]
+    attributes = []
 
     def __init__(self, source=None, **keywords):
         self.source = source

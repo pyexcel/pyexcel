@@ -16,6 +16,8 @@ class IOSource(FileSource):
     """
     Get excel data from file source
     """
+    attributes = renderers.renderer_factories.keys()
+
     @classmethod
     def can_i_handle(cls, action, file_type):
         if action == params.WRITE_ACTION:

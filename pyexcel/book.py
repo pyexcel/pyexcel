@@ -112,10 +112,16 @@ class Book(object):
         self.init(sheets=sheets, filename=filename, path=path)
 
     def init(self, sheets=None, filename="memory", path=None):
+        from pyexcel.sources import (get_book_rw_attributes,
+                                     get_book_w_attributes)
         self.path = path
         self.filename = filename
         self.name_array = []
         self.load_from_sheets(sheets)
+        for attribute in get_book_rw_attributes():
+            self.register_io(attribute)
+        for attribute in get_book_w_attributes():
+            self.register_presentation(attribute)
 
     @classmethod
     def register_presentation(cls, file_type):
