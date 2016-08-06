@@ -11,7 +11,8 @@ from pyexcel_io.sheet import NamedContent
 from .nominablesheet import NominableSheet, VALID_SHEET_PARAMETERS
 from pyexcel.constants import (
     _IO_FILE_TYPE_DOC_STRING,
-    _OUT_FILE_TYPE_DOC_STRING
+    _OUT_FILE_TYPE_DOC_STRING,
+    DEFAULT_NAME
 )
 from pyexcel._compact import PY2
 
@@ -53,6 +54,40 @@ class Sheet(NominableSheet):
     Filtering functions are used to reduce the information contained in the
     array.
     """
+    def __init__(self, sheet=None, name=DEFAULT_NAME,
+                 name_columns_by_row=-1,
+                 name_rows_by_column=-1,
+                 colnames=None,
+                 rownames=None,
+                 transpose_before=False,
+                 transpose_after=False):
+        """Constructor
+
+        :param sheet: two dimensional array
+        :param name: this becomes the sheet name.
+        :param name_columns_by_row: use a row to name all columns
+        :param name_rows_by_column: use a column to name all rows
+        :param colnames: use an external list of strings to name the columns
+        :param rownames: use an external list of strings to name the rows
+        """
+        NominableSheet.__init__(
+            self,
+            sheet=sheet,
+            name=name,
+            name_columns_by_row=name_columns_by_row,
+            name_rows_by_column=name_rows_by_column,
+            colnames=colnames,
+            rownames=rownames,
+            transpose_before=transpose_before,
+            transpose_after=transpose_after
+        )
+        from pyexcel.sources import (get_sheet_rw_attributes,
+                                     get_sheet_w_attributes)
+        for attribute in get_sheet_rw_attributes():
+            self.register_io(attribute)
+        for attribute in get_sheet_w_attributes():
+            self.register_presentation(attribute)
+
     class _RepresentedString:
         def __init__(self, text):
             self.text = text

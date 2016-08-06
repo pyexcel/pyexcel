@@ -45,6 +45,18 @@ def get_book_w_attributes():
         set(_attributes["book-read"]))
 
 
+def get_sheet_rw_attributes():
+    LazySource.get_sources()
+    return set(_attributes["sheet-read"]).intersection(
+        set(_attributes["sheet-write"]))
+
+
+def get_sheet_w_attributes():
+    LazySource.get_sources()
+    return set(_attributes["sheet-write"]).difference(
+        set(_attributes["sheet-read"]))
+
+
 def register_sources(sources):
     for source in sources:
         for target in source.targets:

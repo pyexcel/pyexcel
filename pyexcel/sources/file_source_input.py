@@ -20,8 +20,6 @@ class InputSource(FileSource):
     """
     Get excel data from file source
     """
-    attributes = ["xls", "xlsx", "ods", "csv", "csvz", "tsv", "tsvz"]
-
     @classmethod
     def can_i_handle(cls, action, file_type):
         if action == params.READ_ACTION:
@@ -60,6 +58,7 @@ class ExcelMemorySource(InputSource):
     fields = [params.FILE_TYPE]
     targets = (params.SHEET, params.BOOK)
     actions = (params.READ_ACTION,)
+    attributes = ["xls", "xlsx", "ods", "csv", "csvz", "tsv", "tsvz"]
 
     def __init__(self,
                  file_content=None,

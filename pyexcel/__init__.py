@@ -70,15 +70,3 @@ from .deprecated import (
     BookWriter
 )
 
-from pyexcel_io.manager import RWManager
-import pyexcel.renderers as renderers
-
-for file_type in set(RWManager.file_types).intersection(set(renderers.renderer_factories.keys())):
-    if file_type in ["django", "sql"]:
-        continue
-    Sheet.register_io(file_type)
-    #Book.register_io(file_type)
-
-for file_type in set(renderers.renderer_factories.keys()).difference(set(RWManager.file_types)):
-    Sheet.register_presentation(file_type)
-    #Book.register_presentation(file_type)
