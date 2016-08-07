@@ -58,7 +58,7 @@ class ExcelMemorySource(InputSource):
     fields = [params.FILE_TYPE]
     targets = (params.SHEET, params.BOOK)
     actions = (params.READ_ACTION,)
-    attributes = ["xls", "xlsx", "ods", "csv", "csvz", "tsv", "tsvz"]
+    attributes = RWManager.reader_factories.keys()
 
     def __init__(self,
                  file_content=None,
