@@ -1,9 +1,10 @@
 from pyexcel._compact import StringIO
 
 
-class RendererManager(type):
+class RendererMeta(type):
+    """sole class registry"""
     def __init__(cls, name, bases, nmspc):
-        super(RendererManager, cls).__init__(name, bases, nmspc)
+        super(RendererMeta, cls).__init__(name, bases, nmspc)
         if not hasattr(cls, 'registry'):
             cls.registry = {}
         for file_type in cls.file_types:
@@ -12,7 +13,7 @@ class RendererManager(type):
 
 class Renderer(object):
     file_types = ()
-    __metaclass__ = RendererManager
+    __metaclass__ = RendererMeta
 
     def __init__(self, file_type):
         self.file_type = file_type

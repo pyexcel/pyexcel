@@ -1,7 +1,6 @@
 import os
 from pyexcel.sources.file_source_output import WriteOnlySheetSource
 from pyexcel import params
-import pyexcel.sources as sources
 from pyexcel import Sheet, Book
 from pyexcel import get_book
 from _compact import StringIO
@@ -18,6 +17,7 @@ class DummySource(WriteOnlySheetSource):
     fields = [params.FILE_TYPE]
     targets = (params.BOOK, params.SHEET)
     actions = (params.WRITE_ACTION,)
+    attirbutes = ['dummy']
 
     def __init__(self, file_type=None, file_stream=None, **keywords):
         if file_stream:
@@ -36,8 +36,6 @@ class DummySource(WriteOnlySheetSource):
 
     def write_data(self, sheet):
         self.content.write(FIXTURE)
-
-sources.register_sources([DummySource])
 
 
 def test_sheet_register_presentation():

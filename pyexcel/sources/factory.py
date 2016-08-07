@@ -2,14 +2,44 @@ from pyexcel._compact import PY2, is_string
 from pyexcel.params import FILE_NAME, FILE_TYPE, SOURCE
 
 
+class SourceMeta(type):
+    """sole class registry"""
+    def __init__(cls, name, bases, nmspc):
+        super(SourceMeta, cls).__init__(name, bases, nmspc)
+        if not hasattr(cls, 'registry'):
+            cls.registry = {
+                "input-read": [],
+                "sheet-write": [],
+                "book-write": [],
+                "book-read": [],
+                "sheet-read": []
+            }
+            cls.attribute_registry = {
+                "input-read": [],
+                "sheet-read": [],
+                "sheet-write": [],
+                "book-read": [],
+                "book-write": []
+            }
+        for target in cls.targets:
+            for action in cls.actions:
+                key = "%s-%s" % (target, action)
+                cls.registry[key].append(cls)
+                for attr in cls.attributes:
+                    cls.attribute_registry[key].append(attr)
+
+
 class Source(object):
     """ A command source for get_sheet, get_book, save_as and save_book_as
 
     This can be used to extend the function parameters once the custom
     class inherit this and register it with corresponding source registry
     """
+    __metaclass__ = SourceMeta
     fields = [SOURCE]
     attributes = []
+    targets = []
+    actions = []
 
     def __init__(self, source=None, **keywords):
         self.source = source
