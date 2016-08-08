@@ -138,26 +138,6 @@ def _get_book(**keywords):
     raise NotImplementedError(MESSAGE_ERROR_NO_HANDLER)
 
 
-def split_keywords(**keywords):
-    dest_keywords = {}
-    source_keywords = {}
-    for key in keywords.keys():
-        result = re.match(params.STARTS_WITH_DEST, key)
-        if result:
-            dest_keywords[result.group(1)] = keywords[key]
-        else:
-            source_keywords[key] = keywords[key]
-    if params.DEPRECATED_OUT_FILE in keywords:
-        print(MESSAGE_DEPRECATED_OUT_FILE)
-        dest_keywords[params.FILE_NAME] = keywords.pop(
-            params.DEPRECATED_OUT_FILE)
-    if params.DEPRECATED_CONTENT in keywords:
-        print(MESSAGE_DEPRECATED_CONTENT)
-        dest_keywords[params.FILE_CONTENT] = keywords.pop(
-            params.DEPRECATED_CONTENT)
-    return dest_keywords, source_keywords
-
-
 def save_as(**keywords):
     """Save a sheet from a data source to another one
 
@@ -205,7 +185,7 @@ def save_as(**keywords):
                       dest_mapdict, dest_batch_size
     ================= =============================================
     """
-    dest_keywords, source_keywords = split_keywords(**keywords)
+    dest_keywords, source_keywords = _split_keywords(**keywords)
     dest_source = sources.get_writable_source(**dest_keywords)
     if dest_source is not None:
         sheet_params = {}
@@ -254,7 +234,7 @@ def save_book_as(**keywords):
                      dest_mapdict, dest_batch_size
     ================ ============================================
     """
-    dest_keywords, source_keywords = split_keywords(**keywords)
+    dest_keywords, source_keywords = _split_keywords(**keywords)
     dest_source = sources.get_writable_book_source(**dest_keywords)
     if dest_source is not None:
         book = _get_book(**source_keywords)
@@ -358,3 +338,23 @@ def _try_put_file_read_pointer_to_its_begining(a_stream):
             a_stream.seek(0)
         except io.UnsupportedOperation:
             pass
+
+
+def _split_keywords(**keywords):
+    dest_keywords = {}
+    source_keywords = {}
+    for key in keywords.keys():
+        result = re.match(params.STARTS_WITH_DEST, key)
+        if result:
+            dest_keywords[result.group(1)] = keywords[key]
+        else:
+            source_keywords[key] = keywords[key]
+    if params.DEPRECATED_OUT_FILE in keywords:
+        print(MESSAGE_DEPRECATED_OUT_FILE)
+        dest_keywords[params.FILE_NAME] = keywords.pop(
+            params.DEPRECATED_OUT_FILE)
+    if params.DEPRECATED_CONTENT in keywords:
+        print(MESSAGE_DEPRECATED_CONTENT)
+        dest_keywords[params.FILE_CONTENT] = keywords.pop(
+            params.DEPRECATED_CONTENT)
+    return dest_keywords, source_keywords
