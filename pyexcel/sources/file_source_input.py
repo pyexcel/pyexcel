@@ -12,7 +12,7 @@ import os
 from pyexcel_io import get_data, RWManager
 from pyexcel_io.utils import AVAILABLE_READERS
 
-from pyexcel import params
+from . import params
 from .factory import FileSource
 
 

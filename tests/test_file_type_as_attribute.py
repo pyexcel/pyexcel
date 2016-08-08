@@ -1,6 +1,6 @@
 import os
 from pyexcel.sources.file_source_output import WriteOnlySheetSource
-from pyexcel import params
+from pyexcel.sources import params
 from pyexcel import Sheet, Book
 from pyexcel import get_book
 from _compact import StringIO

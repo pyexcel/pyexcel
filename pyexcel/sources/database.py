@@ -19,7 +19,7 @@ from pyexcel_io.utils import from_query_sets
 
 from pyexcel._compact import OrderedDict
 from pyexcel.constants import DEFAULT_SHEET_NAME
-from pyexcel import params
+from . import params
 from pyexcel.book import BookStream
 from .factory import Source
 

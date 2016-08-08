@@ -10,7 +10,7 @@
 from pyexcel_io import get_data
 from pyexcel._compact import request, PY2
 
-from pyexcel import params
+from . import params
 from .factory import Source
 
 

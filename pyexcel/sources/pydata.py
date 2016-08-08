@@ -10,7 +10,7 @@
 from pyexcel._compact import OrderedDict
 from pyexcel.constants import DEFAULT_SHEET_NAME
 
-from pyexcel import params
+from . import params
 from .factory import Source
 
 
