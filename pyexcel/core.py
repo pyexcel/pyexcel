@@ -12,16 +12,16 @@ import re
 from .sheets import VALID_SHEET_PARAMETERS, Sheet, SheetStream
 from .book import Book, BookStream
 from .constants import (
-    MESSAGE_DEPRECATED_OUT_FILE,
-    MESSAGE_DEPRECATED_CONTENT,
     MESSAGE_ERROR_02,
     MESSAGE_ERROR_NO_HANDLER
 )
 import pyexcel.sources as sources
-from . import params
 
 from ._compact import PY2
 from pyexcel_io.manager import RWManager
+
+
+STARTS_WITH_DEST = '^dest_(.*)'
 
 
 def get_sheet(**keywords):
@@ -70,10 +70,6 @@ def get_sheet(**keywords):
 
 
 def _get_content(**keywords):
-    if params.DEPRECATED_CONTENT in keywords:
-        print(MESSAGE_DEPRECATED_CONTENT)
-        keywords[params.FILE_CONTENT] = keywords.pop(
-            params.DEPRECATED_CONTENT)
     source = sources.get_source(**keywords)
     if source is not None:
         sheets = source.get_data()
@@ -125,10 +121,6 @@ def _get_book(**keywords):
     Where the dictionary should have text as keys and two dimensional
     array as values.
     """
-    if params.DEPRECATED_CONTENT in keywords:
-        print(MESSAGE_DEPRECATED_CONTENT)
-        keywords[params.FILE_CONTENT] = keywords.pop(
-            params.DEPRECATED_CONTENT)
     source = sources.get_book_source(**keywords)
     if source is not None:
         sheets = source.get_data()
@@ -197,7 +189,7 @@ def save_as(**keywords):
             sheet = Sheet(sheet.payload, sheet.name,
                           **sheet_params)
         sheet.save_to(dest_source)
-        if params.FILE_TYPE in dest_source.fields:
+        if hasattr(dest_source, 'content'):
             _try_put_file_read_pointer_to_its_begining(dest_source.content)
             return dest_source.content
     else:
@@ -239,7 +231,7 @@ def save_book_as(**keywords):
     if dest_source is not None:
         book = _get_book(**source_keywords)
         book.save_to(dest_source)
-        if params.FILE_TYPE in dest_source.fields:
+        if hasattr(dest_source, 'content'):
             _try_put_file_read_pointer_to_its_begining(dest_source.content)
             return dest_source.content
     else:
@@ -344,17 +336,9 @@ def _split_keywords(**keywords):
     dest_keywords = {}
     source_keywords = {}
     for key in keywords.keys():
-        result = re.match(params.STARTS_WITH_DEST, key)
+        result = re.match(STARTS_WITH_DEST, key)
         if result:
             dest_keywords[result.group(1)] = keywords[key]
         else:
             source_keywords[key] = keywords[key]
-    if params.DEPRECATED_OUT_FILE in keywords:
-        print(MESSAGE_DEPRECATED_OUT_FILE)
-        dest_keywords[params.FILE_NAME] = keywords.pop(
-            params.DEPRECATED_OUT_FILE)
-    if params.DEPRECATED_CONTENT in keywords:
-        print(MESSAGE_DEPRECATED_CONTENT)
-        dest_keywords[params.FILE_CONTENT] = keywords.pop(
-            params.DEPRECATED_CONTENT)
     return dest_keywords, source_keywords

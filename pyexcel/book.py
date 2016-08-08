@@ -11,9 +11,7 @@ from .iterators import SheetIterator
 from .sheets import Sheet, SheetStream
 from .utils import to_dict, local_uuid
 from ._compact import OrderedDict
-import pyexcel.params as params
 from .constants import (
-    MESSAGE_DEPRECATED_CONTENT,
     MESSAGE_ERROR_NO_HANDLER,
     _IO_FILE_TYPE_DOC_STRING,
     _OUT_FILE_TYPE_DOC_STRING
@@ -410,10 +408,6 @@ def _get_book(**keywords):
     array as values.
     """
     import pyexcel.sources as sources
-    if params.DEPRECATED_CONTENT in keywords:
-        print(MESSAGE_DEPRECATED_CONTENT)
-        keywords[params.FILE_CONTENT] = keywords.pop(
-            params.DEPRECATED_CONTENT)
     source = sources.get_book_source(**keywords)
     if source is not None:
         sheets = source.get_data()

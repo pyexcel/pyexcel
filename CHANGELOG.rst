@@ -14,6 +14,13 @@ Update:
 
 #. SourceFactory and RendererFactory are removed
 
+
+Removed:
+********************************************************************************
+
+#. `content` and `out_file` as function parameters to the signature functions are
+   no longer supported. 
+
 0.2.4 - 14.07.2016
 --------------------------------------------------------------------------------
 

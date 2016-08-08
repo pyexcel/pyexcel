@@ -65,6 +65,7 @@ class TestGetSheet:
         sheet = pe.get_sheet(file_content=content.getvalue(), file_type="xls")
         assert sheet.to_array() == data
 
+    @raises(IOError)
     def test_get_sheet_from_memory_compatibility(self):
         data = [
             ["X", "Y", "Z"],
@@ -72,8 +73,7 @@ class TestGetSheet:
             [4, 5, 6]
         ]
         content = pe.save_as(dest_file_type="xls", array=data)
-        sheet = pe.get_sheet(content=content.getvalue(), file_type="xls")
-        assert sheet.to_array() == data
+        pe.get_sheet(content=content.getvalue(), file_type="xls")
 
     def test_get_sheet_from_array(self):
         data = [
@@ -629,9 +629,24 @@ class TestSQL:
                          [['A', 'B', 'C'], [1, 2, 3], [4, 5, 6]]})
         assert book_dict == expected
 
-    def test_save_book_as_file_from_sql(self):
+    @raises(NotImplementedError)
+    def test_save_book_as_file_from_sql_compactibility(self):
         test_file = "book_from_sql.xls"
         pe.save_book_as(out_file=test_file,
+                        session=Session(),
+                        tables=[Signature, Signature2])
+        book_dict = pe.get_book_dict(file_name=test_file)
+        expected = OrderedDict()
+        expected.update({'signature':
+                         [['X', 'Y', 'Z'], [1, 2, 3], [4, 5, 6]]})
+        expected.update({'signature2':
+                         [['A', 'B', 'C'], [1, 2, 3], [4, 5, 6]]})
+        assert book_dict == expected
+        os.unlink(test_file)
+
+    def test_save_book_as_file_from_sql(self):
+        test_file = "book_from_sql.xls"
+        pe.save_book_as(dest_file_name=test_file,
                         session=Session(),
                         tables=[Signature, Signature2])
         book_dict = pe.get_book_dict(file_name=test_file)
@@ -688,11 +703,11 @@ class TestGetBook:
         book2 = pe.get_book(file_stream=io, file_type="xls")
         assert book2.to_dict() == content
 
+    @raises(IOError)
     def test_get_book_from_memory_compatibility(self):
         content = _produce_ordered_dict()
         io = pe.save_book_as(dest_file_type="xls", bookdict=content)
-        book2 = pe.get_book(content=io.getvalue(), file_type="xls")
-        assert book2.to_dict() == content
+        pe.get_book(content=io.getvalue(), file_type="xls")
 
     def test_get_book_dict(self):
         content = _produce_ordered_dict()
@@ -751,12 +766,25 @@ class TestSaveAs:
         testfile = "testfile.xls"
         testfile2 = "testfile2.csv"
         sheet.save_as(testfile)
-        pe.save_as(file_name=testfile, out_file=testfile2)
+        pe.save_as(file_name=testfile, dest_file_name=testfile2)
         sheet = pe.get_sheet(file_name=testfile2)
         sheet.format(int)
         assert sheet.to_array() == data
         os.unlink(testfile)
         os.unlink(testfile2)
+
+    @raises(NotImplementedError)
+    def test_out_file_error(self):
+        data = [
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        sheet = pe.Sheet(data)
+        testfile = "testfile.xls"
+        testfile2 = "testfile.xls"
+        sheet.save_as(testfile)
+        pe.save_as(file_name=testfile, out_file=testfile2,
+                   colnames=["X", "Y", "Z"])
 
     def test_save_as_and_append_colnames(self):
         data = [
@@ -767,7 +795,7 @@ class TestSaveAs:
         testfile = "testfile.xls"
         testfile2 = "testfile.xls"
         sheet.save_as(testfile)
-        pe.save_as(file_name=testfile, out_file=testfile2,
+        pe.save_as(file_name=testfile, dest_file_name=testfile2,
                    colnames=["X", "Y", "Z"])
         array = pe.get_array(file_name=testfile2)
         assert array == [
