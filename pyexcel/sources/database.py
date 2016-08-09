@@ -20,7 +20,8 @@ from pyexcel_io.utils import from_query_sets
 from pyexcel._compact import OrderedDict
 from pyexcel.constants import DEFAULT_SHEET_NAME
 from . import params
-from pyexcel.book import BookStream
+from pyexcel.generators import BookStream
+from pyexcel.book import to_book
 from .factory import Source
 
 
@@ -147,7 +148,7 @@ class BookSQLSource(Source):
     def write_data(self, thebook):
         book = thebook
         if isinstance(thebook, BookStream):
-            book = thebook.to_book()
+            book = to_book(thebook)
         initializers = self.keywords.get(params.INITIALIZERS, None)
         if initializers is None:
             initializers = [None] * len(self.tables)
@@ -201,7 +202,7 @@ class BookDjangoSource(Source):
     def write_data(self, thebook):
         book = thebook
         if isinstance(thebook, BookStream):
-            book = thebook.to_book()
+            book = to_book(thebook)
         new_models = [model for model in self.models if model is not None]
         batch_size = self.keywords.get(params.BATCH_SIZE, None)
         initializers = self.keywords.get(params.INITIALIZERS, None)

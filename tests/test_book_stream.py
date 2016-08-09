@@ -1,4 +1,4 @@
-from pyexcel.book import BookStream
+from pyexcel.generators import BookStream
 
 
 def test_book_stream():

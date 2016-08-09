@@ -9,8 +9,9 @@
 """
 import re
 
-from .sheets import VALID_SHEET_PARAMETERS, Sheet, SheetStream
-from .book import Book, BookStream
+from .sheets import VALID_SHEET_PARAMETERS, Sheet
+from .book import Book
+from .generators import BookStream, SheetStream
 from .constants import (
     MESSAGE_ERROR_02,
     MESSAGE_ERROR_NO_HANDLER

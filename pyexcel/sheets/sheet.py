@@ -7,7 +7,6 @@
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-from pyexcel_io.sheet import NamedContent
 from .nominablesheet import NominableSheet, VALID_SHEET_PARAMETERS
 from pyexcel.constants import (
     _IO_FILE_TYPE_DOC_STRING,
@@ -15,25 +14,6 @@ from pyexcel.constants import (
     DEFAULT_NAME
 )
 from pyexcel._compact import PY2
-
-
-class SheetStream(NamedContent):
-    """
-    A container to hold generator as sheet content
-    """
-    def __init__(self, name, payload):
-        NamedContent.__init__(self, name, payload)
-        self.colnames = []
-
-    def save_to(self, source):
-        """Save to a writable data source"""
-        source.write_data(self)
-
-    def to_array(self):
-        """
-        Simply return the generator
-        """
-        return self.payload
 
 
 class Sheet(NominableSheet):

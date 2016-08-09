@@ -1,7 +1,7 @@
-from pyexcel.sources.file_source_output import WriteOnlySheetSource
-from pyexcel.sheets import SheetStream
-from pyexcel_io.manager import RWManager
 from textwrap import dedent
+from pyexcel_io.manager import RWManager
+from pyexcel.generators import SheetStream
+from pyexcel.sources.file_source_output import WriteOnlySheetSource
 
 
 def test_save_to():
