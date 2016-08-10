@@ -1,3 +1,4 @@
+from six import with_metaclass
 from pyexcel._compact import StringIO
 
 
@@ -11,9 +12,8 @@ class RendererMeta(type):
             cls.registry[file_type] = cls
 
 
-class Renderer(object):
+class Renderer(with_metaclass(RendererMeta, object)):
     file_types = ()
-    __metaclass__ = RendererMeta
 
     def __init__(self, file_type):
         self.file_type = file_type

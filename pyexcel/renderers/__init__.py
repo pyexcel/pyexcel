@@ -5,7 +5,6 @@ from .factory import Renderer
 try:
     import pyexcel_text as text
 except ImportError as e:
-    print e
     pass
 
 

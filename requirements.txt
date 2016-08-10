@@ -1,3 +1,4 @@
+six
 pyexcel-io>=0.2.1
 texttable>=0.8.1;python_version<"3"
 texttable>=0.8.2;python_version>="3"

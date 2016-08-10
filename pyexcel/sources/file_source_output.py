@@ -7,9 +7,9 @@
     :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
-from . import params
 import pyexcel.renderers as renderers
-from .factory import FileSource
+from pyexcel.sources.factory import FileSource
+from pyexcel.sources import params
 
 
 class IOSource(FileSource):

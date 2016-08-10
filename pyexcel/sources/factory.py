@@ -1,3 +1,4 @@
+from six import with_metaclass
 from pyexcel._compact import PY2, is_string
 from .params import FILE_NAME, FILE_TYPE, SOURCE
 
@@ -29,13 +30,12 @@ class SourceMeta(type):
                     cls.attribute_registry[key].append(attr)
 
 
-class Source(object):
+class Source(with_metaclass(SourceMeta, object)):
     """ A command source for get_sheet, get_book, save_as and save_book_as
 
     This can be used to extend the function parameters once the custom
     class inherit this and register it with corresponding source registry
     """
-    __metaclass__ = SourceMeta
     fields = [SOURCE]
     attributes = []
     targets = []
