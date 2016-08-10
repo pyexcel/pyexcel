@@ -231,9 +231,3 @@ class BookDjangoSource(Source):
             to_store[sheet_name] = book[sheet_name].array
         save_data(importer, to_store, file_type=DB_DJANGO,
                   batch_size=batch_size)
-
-
-sources = (
-    SheetSQLAlchemySource, SheetDjangoSource, SheetQuerySetSource,
-    BookDjangoSource, BookSQLSource
-)

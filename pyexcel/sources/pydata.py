@@ -98,11 +98,3 @@ class BookDictSource(Source):
 
     def get_source_info(self):
         return params.BOOKDICT, None
-
-
-sources = (
-    DictSource,
-    RecordsSource,
-    ArraySource,
-    BookDictSource,
-)

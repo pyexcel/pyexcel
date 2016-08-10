@@ -1,5 +1,5 @@
 """
-    pyexcel.readers
+    pyexcel.book
     ~~~~~~~~~~~~~~~~~~~
 
     Uniform interface for describing a excel book

@@ -85,11 +85,3 @@ class WriteOnlyBookSource(WriteOnlySheetSource):
     def write_data(self, book):
         self.renderer.render_book_to_stream(self.content, book,
                                             **self.keywords)
-
-
-sources = (
-    WriteOnlySheetSource,
-    WriteOnlyBookSource,
-    SheetSource,
-    BookSource
-)

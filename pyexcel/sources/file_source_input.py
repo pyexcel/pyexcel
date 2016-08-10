@@ -85,6 +85,3 @@ class ExcelMemorySource(InputSource):
 
     def get_source_info(self):
         return params.MEMORY, None
-
-
-sources = (ExcelSource, ExcelMemorySource)

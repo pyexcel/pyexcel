@@ -62,6 +62,3 @@ class HttpSource(Source):
 def get_file_type_from_url(url):
     extension = url.split('.')
     return extension[-1]
-
-
-sources = (HttpSource,)
