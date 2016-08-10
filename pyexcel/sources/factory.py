@@ -3,10 +3,11 @@ from pyexcel._compact import PY2, is_string
 from .params import FILE_NAME, FILE_TYPE, SOURCE
 
 
-class SourceMeta(type):
+class MetaForSourceRegistryOnly(type):
     """sole class registry"""
     def __init__(cls, name, bases, nmspc):
-        super(SourceMeta, cls).__init__(name, bases, nmspc)
+        super(MetaForSourceRegistryOnly, cls).__init__(
+            name, bases, nmspc)
         if not hasattr(cls, 'registry'):
             cls.registry = {
                 "input-read": [],
@@ -30,7 +31,7 @@ class SourceMeta(type):
                     cls.attribute_registry[key].append(attr)
 
 
-class Source(with_metaclass(SourceMeta, object)):
+class Source(with_metaclass(MetaForSourceRegistryOnly, object)):
     """ A command source for get_sheet, get_book, save_as and save_book_as
 
     This can be used to extend the function parameters once the custom
@@ -60,12 +61,10 @@ class Source(with_metaclass(SourceMeta, object)):
         return len(results) == 0
 
     def write_data(self, content):
-        """This function does nothing """
-        raise Exception("ReadOnlySource does not write")
+        raise NotImplementedError("")
 
     def get_data(self):
-        """This function does nothing"""
-        raise Exception("WriteOnlySource does not read")
+        raise NotImplementedError("")
 
 
 class FileSource(Source):

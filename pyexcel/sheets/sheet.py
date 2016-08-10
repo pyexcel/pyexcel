@@ -204,13 +204,14 @@ def presenter(file_type=None):
 
 def importer(file_type=None):
     def custom_presenter1(self, content, **keywords):
-        from pyexcel.core import _get_content
+        from pyexcel.core import get_sheet_stream
         sheet_params = {}
         for field in VALID_SHEET_PARAMETERS:
             if field in keywords:
                 sheet_params[field] = keywords.pop(field)
-        named_content = _get_content(file_type=file_type, file_content=content,
-                                     **keywords)
+        named_content = get_sheet_stream(file_type=file_type,
+                                         file_content=content,
+                                         **keywords)
         self.init(named_content.payload,
                   named_content.name, **sheet_params)
 

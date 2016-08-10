@@ -12,10 +12,7 @@ import re
 from .sheets import VALID_SHEET_PARAMETERS, Sheet
 from .book import Book
 from .generators import BookStream, SheetStream
-from .constants import (
-    MESSAGE_ERROR_02,
-    MESSAGE_ERROR_NO_HANDLER
-)
+import pyexcel.constants as constants
 import pyexcel.sources as sources
 
 from ._compact import PY2
@@ -65,18 +62,16 @@ def get_sheet(**keywords):
     for field in VALID_SHEET_PARAMETERS:
         if field in keywords:
             sheet_params[field] = keywords.pop(field)
-    named_content = _get_content(**keywords)
+    named_content = get_sheet_stream(**keywords)
     sheet = Sheet(named_content.payload, named_content.name, **sheet_params)
     return sheet
 
 
-def _get_content(**keywords):
+def get_sheet_stream(**keywords):
     source = sources.get_source(**keywords)
-    if source is not None:
-        sheets = source.get_data()
-        sheet_name, data = one_sheet_tuple(sheets.items())
-        return SheetStream(sheet_name, data)
-    raise NotImplementedError(MESSAGE_ERROR_NO_HANDLER)
+    sheets = source.get_data()
+    sheet_name, data = one_sheet_tuple(sheets.items())
+    return SheetStream(sheet_name, data)
 
 
 def get_book(**keywords):
@@ -109,26 +104,24 @@ def get_book(**keywords):
     Where the dictionary should have text as keys and two dimensional
     array as values.
     """
-    book_stream = _get_book(**keywords)
+    book_stream = get_book_stream(**keywords)
     book = Book(book_stream.to_dict(),
                 filename=book_stream.filename,
                 path=book_stream.path)
     return book
 
 
-def _get_book(**keywords):
+def get_book_stream(**keywords):
     """Get an instance of :class:`Book` from an excel source
 
     Where the dictionary should have text as keys and two dimensional
     array as values.
     """
     source = sources.get_book_source(**keywords)
-    if source is not None:
-        sheets = source.get_data()
-        filename, path = source.get_source_info()
-        book = BookStream(sheets, filename=filename, path=path)
-        return book
-    raise NotImplementedError(MESSAGE_ERROR_NO_HANDLER)
+    sheets = source.get_data()
+    filename, path = source.get_source_info()
+    book = BookStream(sheets, filename=filename, path=path)
+    return book
 
 
 def save_as(**keywords):
@@ -185,7 +178,7 @@ def save_as(**keywords):
         for field in VALID_SHEET_PARAMETERS:
             if field in source_keywords:
                 sheet_params[field] = source_keywords.pop(field)
-        sheet = _get_content(**source_keywords)
+        sheet = get_sheet_stream(**source_keywords)
         if sheet_params != {}:
             sheet = Sheet(sheet.payload, sheet.name,
                           **sheet_params)
@@ -194,7 +187,7 @@ def save_as(**keywords):
             _try_put_file_read_pointer_to_its_begining(dest_source.content)
             return dest_source.content
     else:
-        raise ValueError(MESSAGE_ERROR_02)
+        raise ValueError(constants.MESSAGE_ERROR_02)
 
 
 def save_book_as(**keywords):
@@ -230,13 +223,13 @@ def save_book_as(**keywords):
     dest_keywords, source_keywords = _split_keywords(**keywords)
     dest_source = sources.get_writable_book_source(**dest_keywords)
     if dest_source is not None:
-        book = _get_book(**source_keywords)
+        book = get_book_stream(**source_keywords)
         book.save_to(dest_source)
         if hasattr(dest_source, 'content'):
             _try_put_file_read_pointer_to_its_begining(dest_source.content)
             return dest_source.content
     else:
-        raise ValueError(MESSAGE_ERROR_02)
+        raise ValueError(constants.MESSAGE_ERROR_02)
 
 
 def get_array(**keywords):
@@ -245,10 +238,7 @@ def get_array(**keywords):
     :param keywords: see :meth:`~pyexcel.get_sheet`
     """
     sheet = get_sheet(**keywords)
-    if sheet:
-        return sheet.to_array()
-    else:
-        return None
+    return sheet.to_array()
 
 
 def get_dict(name_columns_by_row=0, **keywords):
@@ -265,10 +255,7 @@ def get_dict(name_columns_by_row=0, **keywords):
     """
     sheet = get_sheet(name_columns_by_row=name_columns_by_row,
                       **keywords)
-    if sheet:
-        return sheet.to_dict()
-    else:
-        return None
+    return sheet.to_dict()
 
 
 def get_records(name_columns_by_row=0, **keywords):
@@ -285,10 +272,7 @@ def get_records(name_columns_by_row=0, **keywords):
     """
     sheet = get_sheet(name_columns_by_row=name_columns_by_row,
                       **keywords)
-    if sheet:
-        return sheet.to_records()
-    else:
-        return None
+    return sheet.to_records()
 
 
 def get_book_dict(**keywords):
@@ -297,10 +281,7 @@ def get_book_dict(**keywords):
     :param keywords: see :meth:`~pyexcel.get_book`
     """
     book = get_book(**keywords)
-    if book:
-        return book.to_dict()
-    else:
-        return None
+    return book.to_dict()
 
 
 def get_io_type(file_type):
