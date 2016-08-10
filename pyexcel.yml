@@ -10,6 +10,7 @@ dependencies:
   - ordereddict;python_version<"2.7"
   - weakrefset;python_version<"2.7"
   - lxml==3.4.4;platform_python_implementation=="PyPy"
+  - six>=1.10.0
 extra_dependencies:
   - xls:
     - pyexcel-xls>=0.2.0

@@ -4,3 +4,4 @@ texttable==0.8.3;python_version>="3"
 ordereddict;python_version<"2.7"
 weakrefset;python_version<"2.7"
 lxml==3.4.4;platform_python_implementation=="PyPy"
+six==1.10.0
