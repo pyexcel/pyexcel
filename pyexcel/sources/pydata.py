@@ -9,9 +9,8 @@
 """
 from pyexcel._compact import OrderedDict
 from pyexcel.constants import DEFAULT_SHEET_NAME
-
-from . import params
-from .factory import Source
+from pyexcel.sources import params
+from pyexcel.sources.factory import Source
 
 
 class RecordsSource(Source):

@@ -3,13 +3,13 @@ from nose.tools import raises, eq_
 from pyexcel.sources.factory import Source
 from pyexcel.sources.factory import FileSource
 
-from pyexcel.sources.file_source_output import WriteOnlySheetSource
-from pyexcel.sources.file_source_output import IOSource
+from pyexcel.sources.file_source_output import WriteSheetToMemory
+from pyexcel.sources.file_source_output import OutputSource
 from pyexcel.sources.file_source_input import InputSource
 
 
 def test_io_source():
-    status = IOSource.can_i_handle("read", "xls")
+    status = OutputSource.can_i_handle("read", "xls")
     eq_(status, False)
 
 
@@ -43,7 +43,7 @@ def test_write_only_source():
 
 @raises(Exception)
 def test_write_only_sheet_source():
-    source = WriteOnlySheetSource()
+    source = WriteSheetToMemory()
     source.get_data()
 
 

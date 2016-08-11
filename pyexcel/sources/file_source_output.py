@@ -12,7 +12,7 @@ from pyexcel.sources.factory import FileSource
 from pyexcel.sources import params
 
 
-class IOSource(FileSource):
+class OutputSource(FileSource):
     """
     Get excel data from file source
     """
@@ -28,7 +28,7 @@ class IOSource(FileSource):
         return status
 
 
-class SheetSource(IOSource):
+class WriteSheetToFile(OutputSource):
     """Pick up 'file_name' field and do single sheet based read and write
     """
     fields = [params.FILE_NAME]
@@ -46,7 +46,7 @@ class SheetSource(IOSource):
                                            sheet, **self.keywords)
 
 
-class BookSource(SheetSource):
+class WriteBookToFile(WriteSheetToFile):
     """Pick up 'file_name' field and do multiple sheet based read and write
     """
     targets = (params.BOOK,)
@@ -56,7 +56,7 @@ class BookSource(SheetSource):
                                           **self.keywords)
 
 
-class WriteOnlySheetSource(IOSource):
+class WriteSheetToMemory(OutputSource):
     fields = [params.FILE_TYPE]
     targets = (params.SHEET,)
     actions = (params.WRITE_ACTION,)
@@ -76,7 +76,7 @@ class WriteOnlySheetSource(IOSource):
                                              sheet, **self.keywords)
 
 
-class WriteOnlyBookSource(WriteOnlySheetSource):
+class WriteBookToMemory(WriteSheetToMemory):
     """
     Multiple sheet data source for writting back to memory
     """

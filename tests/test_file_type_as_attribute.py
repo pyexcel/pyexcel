@@ -1,5 +1,5 @@
 import os
-from pyexcel.sources.file_source_output import WriteOnlySheetSource
+from pyexcel.sources.file_source_output import WriteSheetToMemory
 from pyexcel.sources import params
 from pyexcel import Sheet, Book
 from pyexcel import get_book
@@ -10,7 +10,7 @@ from textwrap import dedent
 FIXTURE = "dummy"
 
 
-class DummySource(WriteOnlySheetSource):
+class DummySource(WriteSheetToMemory):
     """
     Write into json file
     """
