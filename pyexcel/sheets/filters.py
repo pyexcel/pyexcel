@@ -24,7 +24,7 @@
         f3         x
              1           2   3
 """
-from ._compact import PY2
+from pyexcel._compact import PY2
 
 
 class IndexFilter(object):

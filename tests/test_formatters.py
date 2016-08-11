@@ -16,69 +16,69 @@ def increase_float_func(x):
 class TestToFormatFunction:
     def test_none_2_str(self):
         value = None
-        n_value = pe.formatters.to_format(str, value)
+        n_value = pe.sheets.formatters.to_format(str, value)
         assert n_value == ""
 
     def test_string_2_float(self):
         value = "11.11"
-        n_value = pe.formatters.to_format(
+        n_value = pe.sheets.formatters.to_format(
             float, value)
         assert n_value == 11.11
         value = "abc"
-        n_value = pe.formatters.to_format(
+        n_value = pe.sheets.formatters.to_format(
             float, value)
         assert n_value == value
 
     def test_string_to_string(self):
         value = "string"
-        n_value = pe.formatters.to_format(
+        n_value = pe.sheets.formatters.to_format(
             str, value)
         assert n_value == value
 
     def test_string_2_int_format(self):
         value = "11"
-        n_value = pe.formatters.to_format(
+        n_value = pe.sheets.formatters.to_format(
             int, value)
         assert n_value == 11
         value = "11.11111"
-        n_value = pe.formatters.to_format(
+        n_value = pe.sheets.formatters.to_format(
             int,
             value)
         assert n_value == 11
         value = "abc"
-        n_value = pe.formatters.to_format(
+        n_value = pe.sheets.formatters.to_format(
             int, value)
         assert n_value == value
 
     def test_float_2_string_format(self):
         value = 1.0
-        n_value = pe.formatters.to_format(
+        n_value = pe.sheets.formatters.to_format(
             str, value)
         assert n_value == "1.0"
 
     def test_float_2_int_format(self):
         value = 1.1111
-        n_value = pe.formatters.to_format(
+        n_value = pe.sheets.formatters.to_format(
             int, value)
         assert type(n_value) == int
         assert n_value == 1
 
     def test_float_2_date_format(self):
         value = 1.1111
-        n_value = pe.formatters.to_format(
+        n_value = pe.sheets.formatters.to_format(
             datetime.datetime, value)
         assert type(n_value) == float
         assert n_value == value
 
     def test_int_2_string_format(self):
         value = 11
-        n_value = pe.formatters.to_format(
+        n_value = pe.sheets.formatters.to_format(
             str, value)
         assert n_value == "11"
 
     def test_int_2_float_format(self):
         value = 11
-        n_value = pe.formatters.to_format(
+        n_value = pe.sheets.formatters.to_format(
             float,
             value)
         assert type(n_value) == float
@@ -86,7 +86,7 @@ class TestToFormatFunction:
 
     def test_int_2_date(self):
         value = 11
-        n_value = pe.formatters.to_format(
+        n_value = pe.sheets.formatters.to_format(
             datetime.datetime,
             value)
         assert type(n_value) == int
@@ -94,39 +94,39 @@ class TestToFormatFunction:
 
     def test_date_conversion(self):
         d = datetime.datetime.now()
-        new_d = pe.formatters.to_format(
+        new_d = pe.sheets.formatters.to_format(
             datetime.datetime,
             d
         )
         assert d == new_d
-        new_d = pe.formatters.to_format(
+        new_d = pe.sheets.formatters.to_format(
             str,
             d
         )
         assert d.strftime("%d/%m/%y") == new_d
-        new_d = pe.formatters.to_format(
+        new_d = pe.sheets.formatters.to_format(
             bool,
             d
         )
         assert d == new_d
         t = datetime.time(11, 11, 11)
-        new_t = pe.formatters.to_format(
+        new_t = pe.sheets.formatters.to_format(
             datetime.datetime,
             t
         )
         assert t == new_t
-        new_t = pe.formatters.to_format(
+        new_t = pe.sheets.formatters.to_format(
             str,
             t
         )
         assert t.strftime("%H:%M:%S") == new_t
-        new_t = pe.formatters.to_format(
+        new_t = pe.sheets.formatters.to_format(
             bool,
             t
         )
         assert t == new_t
         bad = "bad"
-        new_d = pe.formatters.to_format(
+        new_d = pe.sheets.formatters.to_format(
             str,
             bad
         )
@@ -134,7 +134,7 @@ class TestToFormatFunction:
 
     def test_boolean_2_date(self):
         value = True
-        n_value = pe.formatters.to_format(
+        n_value = pe.sheets.formatters.to_format(
             datetime.datetime,
             value)
         assert type(n_value) == bool
@@ -142,45 +142,45 @@ class TestToFormatFunction:
 
     def test_boolean_2_float(self):
         value = True
-        n_value = pe.formatters.to_format(
+        n_value = pe.sheets.formatters.to_format(
             float,
             value)
         assert n_value == 1
 
     def test_boolean_2_string(self):
         value = True
-        n_value = pe.formatters.to_format(
+        n_value = pe.sheets.formatters.to_format(
             str,
             value)
         assert n_value == "true"
         value = False
-        n_value = pe.formatters.to_format(
+        n_value = pe.sheets.formatters.to_format(
             str,
             value)
         assert n_value == "false"
 
     def test_empty_to_supported_types(self):
         value = ""
-        n_value = pe.formatters.to_format(
+        n_value = pe.sheets.formatters.to_format(
             float,
             value)
         assert type(n_value) == float
         assert n_value == 0
         value = ""
-        n_value = pe.formatters.to_format(
+        n_value = pe.sheets.formatters.to_format(
             int,
             value)
         assert type(n_value) == int
         assert n_value == 0
         value = ""
-        n_value = pe.formatters.to_format(
+        n_value = pe.sheets.formatters.to_format(
             datetime.datetime,
             value)
         assert n_value == ""
 
     def test_date_format(self):
         d = "11-Jan-14"
-        n_d = pe.formatters.to_format(
+        n_d = pe.sheets.formatters.to_format(
             datetime.datetime,
             d)
         assert d == n_d
@@ -201,7 +201,7 @@ class TestColumnFormatter(TestCase):
 
     def test_general_usage(self):
         r = pe.Reader(self.test_tuple)
-        r.add_formatter(pe.formatters.ColumnFormatter(
+        r.add_formatter(pe.sheets.formatters.ColumnFormatter(
             0,
             str))
         c1 = r.column_at(0)[1:]
@@ -235,7 +235,7 @@ class TestColumnFormatter(TestCase):
 
     def test_one_formatter_for_two_columns(self):
         r = pe.Reader(self.test_tuple)
-        r.add_formatter(pe.formatters.ColumnFormatter(
+        r.add_formatter(pe.sheets.formatters.ColumnFormatter(
             [0, 5],
             str))
         c1 = r.column_at(0)[1:]
@@ -245,25 +245,25 @@ class TestColumnFormatter(TestCase):
 
     @raises(NotImplementedError)
     def test_invalid_input(self):
-        pe.formatters.ColumnFormatter("world", str)
+        pe.sheets.formatters.ColumnFormatter("world", str)
 
     @raises(IndexError)
     def test_invalid_input2(self):
         """Empty list"""
-        pe.formatters.ColumnFormatter([], str)
+        pe.sheets.formatters.ColumnFormatter([], str)
 
     @raises(IndexError)
     def test_float_in_list(self):
-        pe.formatters.ColumnFormatter([1, 1.1], str)
+        pe.sheets.formatters.ColumnFormatter([1, 1.1], str)
 
     def test_two_formatters(self):
         r = pe.Reader(self.test_tuple)
-        r.add_formatter(pe.formatters.ColumnFormatter(
+        r.add_formatter(pe.sheets.formatters.ColumnFormatter(
             0,
             str))
         c1 = r.column_at(0)[1:]
         self.assertEqual(c1, self.data['2'])
-        r.add_formatter(pe.formatters.ColumnFormatter(
+        r.add_formatter(pe.sheets.formatters.ColumnFormatter(
             0,
             int))
         c1 = r.column_at(0)[1:]
@@ -271,7 +271,7 @@ class TestColumnFormatter(TestCase):
 
     def test_custom_func(self):
         r = pe.Reader(self.test_tuple)
-        r.add_formatter(pe.formatters.ColumnFormatter(
+        r.add_formatter(pe.sheets.formatters.ColumnFormatter(
             0,
             increase_func))
         c1 = r.column_at(0)[1:]
@@ -279,12 +279,12 @@ class TestColumnFormatter(TestCase):
 
     def test_custom_func_with_a_general_converter(self):
         r = pe.Reader(self.test_tuple)
-        r.add_formatter(pe.formatters.ColumnFormatter(
+        r.add_formatter(pe.sheets.formatters.ColumnFormatter(
             0,
             increase_func))
         c1 = r.column_at(0)[1:]
         self.assertEqual(c1, self.data['5'])
-        r.add_formatter(pe.formatters.ColumnFormatter(
+        r.add_formatter(pe.sheets.formatters.ColumnFormatter(
             0,
             str))
         c1 = r.column_at(0)[1:]
@@ -293,7 +293,7 @@ class TestColumnFormatter(TestCase):
     @raises(NotImplementedError)
     def test_named_formatter(self):
         """Test wrong data type to update_index"""
-        nrf = pe.formatters.NamedColumnFormatter("abc", str)
+        nrf = pe.sheets.formatters.NamedColumnFormatter("abc", str)
         nrf.update_index("abc")
 
 
@@ -314,7 +314,7 @@ class TestRowFormatter(TestCase):
         """format a row
         """
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.formatters.RowFormatter(
+        r.add_formatter(pe.sheets.formatters.RowFormatter(
             1,
             str))
         c1 = r.row_at(1)
@@ -336,7 +336,7 @@ class TestRowFormatter(TestCase):
         """format more than one row
         """
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.formatters.RowFormatter(
+        r.add_formatter(pe.sheets.formatters.RowFormatter(
             [1, 2],
             str))
         c1 = r.row_at(2)
@@ -348,28 +348,28 @@ class TestRowFormatter(TestCase):
 
     @raises(NotImplementedError)
     def test_unacceptable_index(self):
-        pe.formatters.RowFormatter(
+        pe.sheets.formatters.RowFormatter(
             "hello", str)
 
     @raises(IndexError)
     def test_empty_list_as_input(self):
-        pe.formatters.RowFormatter(
+        pe.sheets.formatters.RowFormatter(
             [], str
         )
 
     @raises(IndexError)
     def test_float_in_row_formatter(self):
-        pe.formatters.RowFormatter([1, 1.1], str)
+        pe.sheets.formatters.RowFormatter([1, 1.1], str)
 
     def test_two_formatters(self):
         r = pe.Reader(self.testfile)
         c1 = r.row_at(1)
         c2 = [1, "1", 1.1, "1.1", 2, "2"]
         self.assertEqual(c1, c2)
-        r.add_formatter(pe.formatters.RowFormatter(
+        r.add_formatter(pe.sheets.formatters.RowFormatter(
             1,
             int))
-        r.add_formatter(pe.formatters.RowFormatter(
+        r.add_formatter(pe.sheets.formatters.RowFormatter(
             1,
             str))
         c1 = r.row_at(1)
@@ -398,7 +398,7 @@ class TestRowFormatter(TestCase):
 
     def test_custom_func(self):
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.formatters.RowFormatter(
+        r.add_formatter(pe.sheets.formatters.RowFormatter(
             1,
             increase_float_func))
         c1 = r.row_at(1)
@@ -407,13 +407,13 @@ class TestRowFormatter(TestCase):
 
     def test_custom_func_with_a_general_converter(self):
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.formatters.RowFormatter(
+        r.add_formatter(pe.sheets.formatters.RowFormatter(
             1,
             increase_float_func))
         c1 = r.row_at(1)
         c2 = [2.0, 2.0, 2.1, 2.1, 3.0, 3.0]
         self.assertEqual(c1, c2)
-        r.add_formatter(pe.formatters.RowFormatter(
+        r.add_formatter(pe.sheets.formatters.RowFormatter(
             1,
             str))
         c1 = r.row_at(1)
@@ -423,7 +423,7 @@ class TestRowFormatter(TestCase):
     @raises(NotImplementedError)
     def test_named_formatter(self):
         """Test wrong data type to update_index"""
-        nrf = pe.formatters.NamedRowFormatter("abc", str)
+        nrf = pe.sheets.formatters.NamedRowFormatter("abc", str)
         nrf.update_index("abc")
 
     def tearDown(self):
@@ -443,7 +443,7 @@ class TestSheetFormatter(TestCase):
 
     def test_general_usage(self):
         r = pe.SeriesReader(self.testfile)
-        r.add_formatter(pe.formatters.SheetFormatter(
+        r.add_formatter(pe.sheets.formatters.SheetFormatter(
             str))
         data = [
             ["1", "2", "3", "4", "5", "6", "7", "8"],
@@ -456,16 +456,17 @@ class TestSheetFormatter(TestCase):
 
     def test_two_formatters(self):
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.formatters.SheetFormatter(str))
-        r.add_formatter(pe.formatters.SheetFormatter(int))
+        r.add_formatter(pe.sheets.formatters.SheetFormatter(str))
+        r.add_formatter(pe.sheets.formatters.SheetFormatter(int))
         c1 = r.row_at(0)
         c2 = [1, 3, 5, 7]
         self.assertEqual(c1, c2)
 
     def test_custom_func(self):
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.formatters.SheetFormatter(float))
-        r.add_formatter(pe.formatters.SheetFormatter(increase_float_func))
+        r.add_formatter(pe.sheets.formatters.SheetFormatter(float))
+        r.add_formatter(pe.sheets.formatters.SheetFormatter(
+            increase_float_func))
         c1 = r.row_at(1)
         c2 = [2.0, 2.1, 3.0, 2.0]
         self.assertEqual(c1, c2)
@@ -486,9 +487,10 @@ class TestSheetFormatter(TestCase):
 
     def test_custom_func_with_a_general_converter(self):
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.formatters.SheetFormatter(float))
-        r.add_formatter(pe.formatters.SheetFormatter(increase_float_func))
-        r.add_formatter(pe.formatters.SheetFormatter(str))
+        r.add_formatter(pe.sheets.formatters.SheetFormatter(float))
+        r.add_formatter(pe.sheets.formatters.SheetFormatter(
+            increase_float_func))
+        r.add_formatter(pe.sheets.formatters.SheetFormatter(str))
         c1 = r.row_at(1)
         c2 = ["2.0", "2.1", "3.0", "2.0"]
         self.assertEqual(c1, c2)
@@ -502,7 +504,8 @@ class TestSheetFormatter(TestCase):
         the sheet to float first, otherwise, TypeError
         """
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.formatters.SheetFormatter(increase_float_func))
+        r.add_formatter(pe.sheets.formatters.SheetFormatter(
+            increase_float_func))
         r.row_at(2)  # bang
 
     def tearDown(self):
@@ -521,7 +524,7 @@ class TestSheetFormatterInXLS(TestCase):
 
     def test_general_usage(self):
         r = pe.SeriesReader(self.testfile)
-        r.add_formatter(pe.formatters.SheetFormatter(str))
+        r.add_formatter(pe.sheets.formatters.SheetFormatter(str))
         self.data = [
             ["1", "2", "3", "4", "5", "6", "7", "8"],
             ["1.1", "2.2", "3.3", "4.4", "5.5", "6.6", "7.7", "8.8"],
@@ -534,15 +537,16 @@ class TestSheetFormatterInXLS(TestCase):
 
     def test_two_formatters(self):
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.formatters.SheetFormatter(str))
-        r.add_formatter(pe.formatters.SheetFormatter(int))
+        r.add_formatter(pe.sheets.formatters.SheetFormatter(str))
+        r.add_formatter(pe.sheets.formatters.SheetFormatter(int))
         c1 = r.row_at(0)
         c2 = [1, 3, 5]
         self.assertEqual(c1, c2)
 
     def test_custom_func(self):
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.formatters.SheetFormatter(increase_float_func))
+        r.add_formatter(pe.sheets.formatters.SheetFormatter(
+            increase_float_func))
         c1 = r.row_at(1)
         c2 = [2.0, 2.1, 3.0]
         self.assertEqual(c1, c2)
@@ -552,8 +556,9 @@ class TestSheetFormatterInXLS(TestCase):
 
     def test_custom_func_with_a_general_converter(self):
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.formatters.SheetFormatter(increase_float_func))
-        r.add_formatter(pe.formatters.SheetFormatter(str))
+        r.add_formatter(pe.sheets.formatters.SheetFormatter(
+            increase_float_func))
+        r.add_formatter(pe.sheets.formatters.SheetFormatter(str))
         c1 = r.row_at(1)
         c2 = ["2.0", "2.1", "3.0"]
         self.assertEqual(c1, c2)

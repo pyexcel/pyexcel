@@ -1,5 +1,5 @@
 from texttable import Texttable
-from pyexcel.formatters import to_format
+from pyexcel.sheets.formatters import to_format
 from pyexcel._compact import is_generator
 
 from .factory import Renderer

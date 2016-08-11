@@ -32,13 +32,13 @@ from .utils import (
     to_records,
     dict_to_array,
     from_records)
-from .formatters import (
+from .sheets.formatters import (
     ColumnFormatter,
     RowFormatter,
     SheetFormatter,
     NamedColumnFormatter,
     NamedRowFormatter)
-from .filters import (
+from .sheets.filters import (
     ColumnIndexFilter,
     ColumnFilter,
     RowFilter,

@@ -7,11 +7,11 @@
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-from .iterators import SheetIterator
-from .sheets import Sheet
-from .utils import to_dict, local_uuid
-from ._compact import OrderedDict
-from .constants import (
+from pyexcel.sheets.iterators import SheetIterator
+from pyexcel.sheets import Sheet
+from pyexcel.utils import to_dict, local_uuid
+from pyexcel._compact import OrderedDict
+from pyexcel.constants import (
     MESSAGE_ERROR_NO_HANDLER,
     _IO_FILE_TYPE_DOC_STRING,
     _OUT_FILE_TYPE_DOC_STRING

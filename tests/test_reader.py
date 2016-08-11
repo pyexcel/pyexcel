@@ -242,7 +242,7 @@ class TestSeriesReader3:
 
     def test_row_filter(self):
         r = pe.SeriesReader(self.testfile)
-        r.add_filter(pe.filters.RowFilter([1]))
+        r.add_filter(pe.sheets.filters.RowFilter([1]))
         actual = pe.utils.to_dict(r)
         result = {
             "X": [1, 3, 4, 5],
@@ -253,7 +253,7 @@ class TestSeriesReader3:
 
     def test_odd_row_filter(self):
         r = pe.SeriesReader(self.testfile)
-        f = pe.filters.OddRowFilter()
+        f = pe.sheets.filters.OddRowFilter()
         r.add_filter(f)
         actual = pe.utils.to_dict(r)
         result = {
@@ -265,7 +265,7 @@ class TestSeriesReader3:
 
     def test_even_row_filter(self):
         r = pe.SeriesReader(self.testfile)
-        r.add_filter(pe.filters.EvenRowFilter())
+        r.add_filter(pe.sheets.filters.EvenRowFilter())
         actual = pe.utils.to_dict(r)
         result = {
             "X": [1, 3, 5],
@@ -276,8 +276,8 @@ class TestSeriesReader3:
 
     def test_orthogonality(self):
         r = pe.SeriesReader(self.testfile)
-        r.add_filter(pe.filters.EvenRowFilter())
-        r.add_filter(pe.filters.OddColumnFilter())
+        r.add_filter(pe.sheets.filters.EvenRowFilter())
+        r.add_filter(pe.sheets.filters.OddColumnFilter())
         actual = pe.to_dict(r)
         result = {
             "Y": [11, 31, 51]
@@ -286,8 +286,8 @@ class TestSeriesReader3:
 
     def test_orthogonality2(self):
         r = pe.SeriesReader(self.testfile)
-        r.add_filter(pe.filters.OddColumnFilter())
-        r.add_filter(pe.filters.EvenRowFilter())
+        r.add_filter(pe.sheets.filters.OddColumnFilter())
+        r.add_filter(pe.sheets.filters.EvenRowFilter())
         actual = pe.utils.to_dict(r)
         result = {
             "Y": [11, 31, 51]
@@ -296,7 +296,7 @@ class TestSeriesReader3:
 
     def test_series_column_iterator(self):
         r = pe.SeriesReader(self.testfile)
-        sci = pe.iterators.ColumnIndexIterator(r)
+        sci = pe.sheets.iterators.ColumnIndexIterator(r)
         actual = pe.utils.to_array(sci)
         result = [
             {'X': [1, 2, 3, 4, 5]},
@@ -339,7 +339,7 @@ class TestSeriesReader4:
 
     def test_column_filter(self):
         r = pe.SeriesReader(self.testfile)
-        filter = pe.filters.ColumnFilter([1])
+        filter = pe.sheets.filters.ColumnFilter([1])
         r.add_filter(filter)
         actual = pe.utils.to_dict(r)
         result = {
@@ -393,7 +393,7 @@ class TestSeriesReader5:
 
     def test_column_filter(self):
         r = pe.SeriesReader(self.testfile, series=4)
-        filter = pe.filters.ColumnFilter([1])
+        filter = pe.sheets.filters.ColumnFilter([1])
         r.add_filter(filter)
         actual = pe.utils.to_dict(r)
         result = {
@@ -430,7 +430,7 @@ class TestColumnSeriesReader:
 
     def test_row_filter(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
-        r.add_filter(pe.filters.SingleRowFilter(1))
+        r.add_filter(pe.sheets.filters.SingleRowFilter(1))
         actual = pe.utils.to_dict(r)
         result = {
             "X": [1, 2, 3, 4, 5],
@@ -440,7 +440,7 @@ class TestColumnSeriesReader:
 
     def test_column_filter(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
-        r.add_filter(pe.filters.SingleColumnFilter(0))
+        r.add_filter(pe.sheets.filters.SingleColumnFilter(0))
         actual = pe.utils.to_dict(r)
         result = {
             "X": [2, 3, 4, 5],
@@ -452,7 +452,7 @@ class TestColumnSeriesReader:
 
     def test_odd_row_filter(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
-        f = pe.filters.OddRowFilter()
+        f = pe.sheets.filters.OddRowFilter()
         r.add_filter(f)
         actual = pe.utils.to_dict(r)
         result = {
@@ -462,7 +462,7 @@ class TestColumnSeriesReader:
 
     def test_even_row_filter(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
-        r.add_filter(pe.filters.EvenRowFilter())
+        r.add_filter(pe.sheets.filters.EvenRowFilter())
         actual = pe.utils.to_dict(r)
         result = {
             "X": [1, 2, 3, 4, 5],
@@ -472,8 +472,8 @@ class TestColumnSeriesReader:
 
     def test_orthogonality(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
-        r.add_filter(pe.filters.EvenRowFilter())
-        r.add_filter(pe.filters.OddColumnFilter())
+        r.add_filter(pe.sheets.filters.EvenRowFilter())
+        r.add_filter(pe.sheets.filters.OddColumnFilter())
         actual = pe.to_dict(r)
         result = {
             "X": [2, 4],
@@ -483,8 +483,8 @@ class TestColumnSeriesReader:
 
     def test_orthogonality2(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
-        r.add_filter(pe.filters.OddColumnFilter())
-        r.add_filter(pe.filters.EvenRowFilter())
+        r.add_filter(pe.sheets.filters.OddColumnFilter())
+        r.add_filter(pe.sheets.filters.EvenRowFilter())
         actual = pe.utils.to_dict(r)
         result = {
             "X": [2, 4],
@@ -494,7 +494,7 @@ class TestColumnSeriesReader:
 
     def test_series_column_iterator(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
-        sri = pe.iterators.RowIndexIterator(r)
+        sri = pe.sheets.iterators.RowIndexIterator(r)
         actual = pe.utils.to_array(sri)
         result = [
             {'X': [1, 2, 3, 4, 5]},

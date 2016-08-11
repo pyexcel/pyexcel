@@ -8,14 +8,14 @@
     :license: New BSD License, see LICENSE for more details
 """
 from .matrix import Row, Column, Matrix
-from ..formatters import (
+from .formatters import (
     ColumnFormatter,
     RowFormatter,
     NamedColumnFormatter,
     NamedRowFormatter)
 from .._compact import is_string, OrderedDict, PY2, is_array_type
 from .._compact import is_tuple_consists_of_strings
-from ..iterators import (
+from .iterators import (
     ColumnIndexIterator,
     RowIndexIterator,
     NamedRowIterator,

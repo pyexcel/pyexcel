@@ -10,8 +10,9 @@ of lookup.
 """
 import re
 import copy
-from .._compact import is_array_type, PY2
-from ..iterators import (
+
+from pyexcel._compact import is_array_type, PY2
+from pyexcel.sheets.iterators import (
     HTLBRIterator,
     HBRTLIterator,
     VTLBRIterator,
@@ -21,16 +22,18 @@ from ..iterators import (
     RowReverseIterator,
     ColumnReverseIterator
 )
-from ..filters import RowFilter, ColumnFilter
-from ..constants import (
+from pyexcel.sheets.filters import RowFilter, ColumnFilter
+from pyexcel.constants import (
     MESSAGE_INDEX_OUT_OF_RANGE,
     MESSAGE_DATA_ERROR_EMPTY_CONTENT,
     MESSAGE_DATA_ERROR_DATA_TYPE_MISMATCH,
     MESSAGE_DEPRECATED_ROW_COLUMN,
     MESSAGE_NOT_IMPLEMENTED_01,
     _IMPLEMENTATION_REMOVED)
-from ..filters import ColumnIndexFilter, RowIndexFilter, RegionFilter
-from ..formatters import (
+from pyexcel.sheets.filters import (ColumnIndexFilter,
+                                    RowIndexFilter,
+                                    RegionFilter)
+from pyexcel.sheets.formatters import (
     ColumnFormatter,
     RowFormatter,
     SheetFormatter

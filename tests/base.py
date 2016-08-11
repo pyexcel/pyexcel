@@ -159,7 +159,7 @@ class PyexcelMultipleSheetBase:
         for s in b:
             data = pe.utils.to_array(s)
             assert self.content[s.name] == data
-        si = pe.iterators.SheetIterator(b)
+        si = pe.sheets.iterators.SheetIterator(b)
         for s in si:
             data = pe.utils.to_array(s)
             assert self.content[s.name] == data
@@ -254,22 +254,26 @@ class PyexcelIteratorBase:
 
     def test_horizontal_top_right_2_bottom_left_iterator(self):
         result = [4, 3, 2, 1, 8, 7, 6, 5, 12, 11, 10, 9]
-        actual = pe.utils.to_array(pe.iterators.HTRBLIterator(self.iteratable))
+        actual = pe.utils.to_array(pe.sheets.iterators.HTRBLIterator(
+            self.iteratable))
         assert result == actual
 
     def test_horizontal_bottom_left_2_top_right_iterator(self):
         result = [9, 10, 11, 12, 5, 6, 7, 8, 1, 2, 3, 4]
-        actual = pe.utils.to_array(pe.iterators.HBLTRIterator(self.iteratable))
+        actual = pe.utils.to_array(pe.sheets.iterators.HBLTRIterator(
+            self.iteratable))
         assert result == actual
 
     def test_vertical_bottom_left_2_top_right_iterator(self):
         result = [9, 5, 1, 10, 6, 2, 11, 7, 3, 12, 8, 4]
-        actual = pe.utils.to_array(pe.iterators.VBLTRIterator(self.iteratable))
+        actual = pe.utils.to_array(pe.sheets.iterators.VBLTRIterator(
+            self.iteratable))
         assert result == actual
 
     def test_vertical_top_right_2_bottom_left_iterator(self):
         result = [4, 8, 12, 3, 7, 11, 2, 6, 10, 1, 5, 9]
-        actual = pe.utils.to_array(pe.iterators.VTRBLIterator(self.iteratable))
+        actual = pe.utils.to_array(pe.sheets.iterators.VTRBLIterator(
+            self.iteratable))
         assert result == actual
 
 

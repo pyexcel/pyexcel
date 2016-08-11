@@ -9,8 +9,8 @@
 """
 import types
 import datetime
-from ._compact import is_array_type, PY2
-from .constants import (
+from pyexcel._compact import is_array_type, PY2
+from pyexcel.constants import (
     MESSAGE_DATA_ERROR_EMPTY_COLUMN_LIST,
     MESSAGE_DATA_ERROR_COLUMN_LIST_INTEGER_TYPE,
     MESSAGE_DATA_ERROR_COLUMN_LIST_STRING_TYPE
