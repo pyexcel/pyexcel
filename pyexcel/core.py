@@ -12,7 +12,6 @@ import re
 from .sheets import VALID_SHEET_PARAMETERS, Sheet
 from .book import Book
 from .generators import BookStream, SheetStream
-import pyexcel.constants as constants
 import pyexcel.sources as sources
 
 from ._compact import PY2
@@ -173,21 +172,18 @@ def save_as(**keywords):
     """
     dest_keywords, source_keywords = _split_keywords(**keywords)
     dest_source = sources.get_writable_source(**dest_keywords)
-    if dest_source is not None:
-        sheet_params = {}
-        for field in VALID_SHEET_PARAMETERS:
-            if field in source_keywords:
-                sheet_params[field] = source_keywords.pop(field)
-        sheet = get_sheet_stream(**source_keywords)
-        if sheet_params != {}:
-            sheet = Sheet(sheet.payload, sheet.name,
-                          **sheet_params)
-        sheet.save_to(dest_source)
-        if hasattr(dest_source, 'content'):
-            _try_put_file_read_pointer_to_its_begining(dest_source.content)
-            return dest_source.content
-    else:
-        raise ValueError(constants.MESSAGE_ERROR_02)
+    sheet_params = {}
+    for field in VALID_SHEET_PARAMETERS:
+        if field in source_keywords:
+            sheet_params[field] = source_keywords.pop(field)
+    sheet = get_sheet_stream(**source_keywords)
+    if sheet_params != {}:
+        sheet = Sheet(sheet.payload, sheet.name,
+                      **sheet_params)
+    sheet.save_to(dest_source)
+    if hasattr(dest_source, 'content'):
+        _try_put_file_read_pointer_to_its_begining(dest_source.content)
+        return dest_source.content
 
 
 def save_book_as(**keywords):
@@ -222,14 +218,11 @@ def save_book_as(**keywords):
     """
     dest_keywords, source_keywords = _split_keywords(**keywords)
     dest_source = sources.get_writable_book_source(**dest_keywords)
-    if dest_source is not None:
-        book = get_book_stream(**source_keywords)
-        book.save_to(dest_source)
-        if hasattr(dest_source, 'content'):
-            _try_put_file_read_pointer_to_its_begining(dest_source.content)
-            return dest_source.content
-    else:
-        raise ValueError(constants.MESSAGE_ERROR_02)
+    book = get_book_stream(**source_keywords)
+    book.save_to(dest_source)
+    if hasattr(dest_source, 'content'):
+        _try_put_file_read_pointer_to_its_begining(dest_source.content)
+        return dest_source.content
 
 
 def get_array(**keywords):
