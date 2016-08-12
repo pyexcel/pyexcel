@@ -7,15 +7,11 @@
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
+import pyexcel.utils as utils
+import pyexcel.constants as constants
 from pyexcel.sheets.iterators import SheetIterator
 from pyexcel.sheets import Sheet
-from pyexcel.utils import to_dict, local_uuid
 from pyexcel._compact import OrderedDict
-from pyexcel.constants import (
-    MESSAGE_ERROR_NO_HANDLER,
-    _IO_FILE_TYPE_DOC_STRING,
-    _OUT_FILE_TYPE_DOC_STRING
-)
 
 
 class Book(object):
@@ -51,7 +47,7 @@ class Book(object):
         getter = presenter(file_type)
         file_type_property = property(
             getter,
-            doc=_OUT_FILE_TYPE_DOC_STRING.format(file_type, "Book"))
+            doc=constants._OUT_FILE_TYPE_DOC_STRING.format(file_type, "Book"))
         setattr(cls, file_type, file_type_property)
         setattr(cls, 'get_%s' % file_type, getter)
 
@@ -61,7 +57,7 @@ class Book(object):
         setter = importer(file_type)
         file_type_property = property(
             getter, setter,
-            doc=_IO_FILE_TYPE_DOC_STRING.format(file_type, "Book"))
+            doc=constants._IO_FILE_TYPE_DOC_STRING.format(file_type, "Book"))
         setattr(cls, file_type, file_type_property)
         setattr(cls, 'get_%s' % file_type, getter)
         setattr(cls, 'set_%s' % file_type, setter)
@@ -153,26 +149,26 @@ class Book(object):
 
         """
         content = {}
-        current_dict = to_dict(self)
+        current_dict = utils.to_dict(self)
         for k in current_dict.keys():
             new_key = k
             if len(current_dict.keys()) == 1:
                 new_key = "%s_%s" % (self.filename, k)
             content[new_key] = current_dict[k]
         if isinstance(other, Book):
-            other_dict = to_dict(other)
+            other_dict = utils.to_dict(other)
             for l in other_dict.keys():
                 new_key = l
                 if len(other_dict.keys()) == 1:
                     new_key = other.filename
                 if new_key in content:
-                    uid = local_uuid()
+                    uid = utils.local_uuid()
                     new_key = "%s_%s" % (l, uid)
                 content[new_key] = other_dict[l]
         elif isinstance(other, Sheet):
             new_key = other.name
             if new_key in content:
-                uid = local_uuid()
+                uid = utils.local_uuid()
                 new_key = "%s_%s" % (other.name, uid)
             content[new_key] = other.to_array()
         else:
@@ -197,14 +193,14 @@ class Book(object):
                 if len(names) == 1:
                     new_key = other.filename
                 if new_key in self.name_array:
-                    uid = local_uuid()
+                    uid = utils.local_uuid()
                     new_key = "%s_%s" % (name, uid)
                 self.sheets[new_key] = self.get_sheet(other[name].to_array(),
                                                       new_key)
         elif isinstance(other, Sheet):
             new_key = other.name
             if new_key in self.name_array:
-                uid = local_uuid()
+                uid = utils.local_uuid()
                 new_key = "%s_%s" % (other.name, uid)
             self.sheets[new_key] = self.get_sheet(other.to_array(), new_key)
         else:
@@ -334,11 +330,9 @@ def _get_book(**keywords):
     """
     import pyexcel.sources as sources
     source = sources.get_book_source(**keywords)
-    if source is not None:
-        sheets = source.get_data()
-        filename, path = source.get_source_info()
-        return sheets, filename, path
-    raise NotImplementedError(MESSAGE_ERROR_NO_HANDLER)
+    sheets = source.get_data()
+    filename, path = source.get_source_info()
+    return sheets, filename, path
 
 
 def to_book(bookstream):

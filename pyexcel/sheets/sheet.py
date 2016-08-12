@@ -1,5 +1,5 @@
 """
-    pyexcel.sheets
+    pyexcel.sheets.Sheet
     ~~~~~~~~~~~~~~~~~~~
 
     Representation of data sheets
@@ -7,12 +7,9 @@
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-from .nominablesheet import NominableSheet, VALID_SHEET_PARAMETERS
-from pyexcel.constants import (
-    _IO_FILE_TYPE_DOC_STRING,
-    _OUT_FILE_TYPE_DOC_STRING,
-    DEFAULT_NAME
-)
+from pyexcel.sheets.nominablesheet import (
+    NominableSheet, VALID_SHEET_PARAMETERS)
+import pyexcel.constants as constants
 from pyexcel._compact import PY2
 
 
@@ -34,7 +31,7 @@ class Sheet(NominableSheet):
     Filtering functions are used to reduce the information contained in the
     array.
     """
-    def __init__(self, sheet=None, name=DEFAULT_NAME,
+    def __init__(self, sheet=None, name=constants.DEFAULT_NAME,
                  name_columns_by_row=-1,
                  name_rows_by_column=-1,
                  colnames=None,
@@ -83,7 +80,7 @@ class Sheet(NominableSheet):
         getter = presenter(file_type)
         file_type_property = property(
             getter,
-            doc=_OUT_FILE_TYPE_DOC_STRING.format(file_type, "Sheet"))
+            doc=constants._OUT_FILE_TYPE_DOC_STRING.format(file_type, "Sheet"))
         setattr(cls, file_type, file_type_property)
         setattr(cls, 'get_%s' % file_type, getter)
 
@@ -93,7 +90,7 @@ class Sheet(NominableSheet):
         setter = importer(file_type)
         file_type_property = property(
             getter, setter,
-            doc=_IO_FILE_TYPE_DOC_STRING.format(file_type, "Sheet"))
+            doc=constants._IO_FILE_TYPE_DOC_STRING.format(file_type, "Sheet"))
         setattr(cls, file_type, file_type_property)
         setattr(cls, 'get_%s' % file_type, getter)
         setattr(cls, 'set_%s' % file_type, setter)

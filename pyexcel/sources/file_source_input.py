@@ -1,5 +1,5 @@
 """
-    pyexcel.sources.file
+    pyexcel.sources.file_source_input
     ~~~~~~~~~~~~~~~~~~~
 
     Representation of file sources

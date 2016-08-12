@@ -7,11 +7,11 @@
     :copyright: (c) 2014-2016 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-from .sheets import Sheet
-from ._compact import OrderedDict, PY2
-from .constants import MESSAGE_DATA_ERROR_NO_SERIES
 from functools import partial
-from ._compact import deprecated
+from pyexcel.sheets import Sheet
+from pyexcel._compact import OrderedDict, PY2
+from pyexcel._compact import deprecated
+import pyexcel.constants as constants
 
 
 LOCAL_UUID = 0
@@ -82,7 +82,7 @@ def to_records(sheet, custom_headers=None):
             the_dict = dict(zip(headers, column))
             ret.append(the_dict)
     else:
-        raise ValueError(MESSAGE_DATA_ERROR_NO_SERIES)
+        raise ValueError(constants.MESSAGE_DATA_ERROR_NO_SERIES)
     return ret
 
 

@@ -9,12 +9,12 @@
 """
 import re
 
-from .sheets import VALID_SHEET_PARAMETERS, Sheet
-from .book import Book
-from .generators import BookStream, SheetStream
+from pyexcel.sheets import VALID_SHEET_PARAMETERS, Sheet
+from pyexcel.book import Book
+from pyexcel.generators import BookStream, SheetStream
 import pyexcel.sources as sources
 
-from ._compact import PY2
+from pyexcel._compact import PY2
 from pyexcel_io.manager import RWManager
 
 
