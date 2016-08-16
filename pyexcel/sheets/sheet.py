@@ -7,10 +7,8 @@
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-from pyexcel.sheets.nominablesheet import (
-    NominableSheet, VALID_SHEET_PARAMETERS)
+from pyexcel.sheets.nominablesheet import NominableSheet
 import pyexcel.constants as constants
-from pyexcel._compact import PY2
 
 
 class Sheet(NominableSheet):
@@ -75,6 +73,20 @@ class Sheet(NominableSheet):
         def __str__(self):
             return self.text
 
+    def __repr__(self):
+        return self.texttable
+
+    def __str__(self):
+        return self.texttable
+
+    @property
+    def content(self):
+        """
+        Plain representation without headers
+        """
+        content = self.get_texttable(write_title=False)
+        return self._RepresentedString(content)
+
     @classmethod
     def register_presentation(cls, file_type):
         getter = presenter(file_type)
@@ -94,20 +106,6 @@ class Sheet(NominableSheet):
         setattr(cls, file_type, file_type_property)
         setattr(cls, 'get_%s' % file_type, getter)
         setattr(cls, 'set_%s' % file_type, setter)
-
-    def __repr__(self):
-        return self.texttable
-
-    def __str__(self):
-        return self.texttable
-
-    @property
-    def content(self):
-        """
-        Plain representation without headers
-        """
-        content = self.get_texttable(write_title=False)
-        return self._RepresentedString(content)
 
     def save_to(self, source):
         """Save to a writable data source"""
@@ -201,9 +199,9 @@ def presenter(file_type=None):
 
 def importer(file_type=None):
     def custom_presenter1(self, content, **keywords):
-        from pyexcel.core import get_sheet_stream
+        from pyexcel.sources import get_sheet_stream
         sheet_params = {}
-        for field in VALID_SHEET_PARAMETERS:
+        for field in constants.VALID_SHEET_PARAMETERS:
             if field in keywords:
                 sheet_params[field] = keywords.pop(field)
         named_content = get_sheet_stream(file_type=file_type,
@@ -213,9 +211,3 @@ def importer(file_type=None):
                   named_content.name, **sheet_params)
 
     return custom_presenter1
-
-
-def _one_sheet_tuple(items):
-    if not PY2:
-        items = list(items)
-    return items[0][0], items[0][1]

@@ -415,14 +415,6 @@ class NamedColumn(Column):
                 handle_one_formatter(spec[0], spec[1])
 
 
-VALID_SHEET_PARAMETERS = ['name_columns_by_row',
-                          'name_rows_by_column',
-                          'colnames',
-                          'rownames',
-                          'transpose_before',
-                          'transpose_after']
-
-
 class NominableSheet(Matrix):
     """Allow dictionary group of the content
     """

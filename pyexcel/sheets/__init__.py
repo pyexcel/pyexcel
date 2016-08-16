@@ -9,6 +9,6 @@
 """
 # flake8: noqa
 from .sheet import Sheet
-from .nominablesheet import NamedRow, NamedColumn, VALID_SHEET_PARAMETERS
+from .nominablesheet import NamedRow, NamedColumn
 from .nominablesheet import NominableSheet
 from .matrix import Matrix, transpose, Row, Column

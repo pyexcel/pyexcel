@@ -9,13 +9,12 @@
 """
 import re
 
-from pyexcel.sheets import VALID_SHEET_PARAMETERS, Sheet
-from pyexcel.book import Book
-from pyexcel.generators import BookStream, SheetStream
-import pyexcel.sources as sources
-
-from pyexcel._compact import PY2
 from pyexcel_io.manager import RWManager
+
+from pyexcel.sheets import Sheet
+from pyexcel.book import Book
+import pyexcel.sources as sources
+import pyexcel.constants as constants
 
 
 STARTS_WITH_DEST = '^dest_(.*)'
@@ -58,19 +57,12 @@ def get_sheet(**keywords):
     see also :ref:`a-list-of-data-structures`
     """
     sheet_params = {}
-    for field in VALID_SHEET_PARAMETERS:
+    for field in constants.VALID_SHEET_PARAMETERS:
         if field in keywords:
             sheet_params[field] = keywords.pop(field)
-    named_content = get_sheet_stream(**keywords)
+    named_content = sources.get_sheet_stream(**keywords)
     sheet = Sheet(named_content.payload, named_content.name, **sheet_params)
     return sheet
-
-
-def get_sheet_stream(**keywords):
-    source = sources.get_source(**keywords)
-    sheets = source.get_data()
-    sheet_name, data = one_sheet_tuple(sheets.items())
-    return SheetStream(sheet_name, data)
 
 
 def get_book(**keywords):
@@ -103,23 +95,10 @@ def get_book(**keywords):
     Where the dictionary should have text as keys and two dimensional
     array as values.
     """
-    book_stream = get_book_stream(**keywords)
+    book_stream = sources.get_book_stream(**keywords)
     book = Book(book_stream.to_dict(),
                 filename=book_stream.filename,
                 path=book_stream.path)
-    return book
-
-
-def get_book_stream(**keywords):
-    """Get an instance of :class:`Book` from an excel source
-
-    Where the dictionary should have text as keys and two dimensional
-    array as values.
-    """
-    source = sources.get_book_source(**keywords)
-    sheets = source.get_data()
-    filename, path = source.get_source_info()
-    book = BookStream(sheets, filename=filename, path=path)
     return book
 
 
@@ -171,19 +150,15 @@ def save_as(**keywords):
     ================= =============================================
     """
     dest_keywords, source_keywords = _split_keywords(**keywords)
-    dest_source = sources.get_writable_source(**dest_keywords)
     sheet_params = {}
-    for field in VALID_SHEET_PARAMETERS:
+    for field in constants.VALID_SHEET_PARAMETERS:
         if field in source_keywords:
             sheet_params[field] = source_keywords.pop(field)
-    sheet = get_sheet_stream(**source_keywords)
+    sheet = sources.get_sheet_stream(**source_keywords)
     if sheet_params != {}:
         sheet = Sheet(sheet.payload, sheet.name,
                       **sheet_params)
-    sheet.save_to(dest_source)
-    if hasattr(dest_source, 'content'):
-        _try_put_file_read_pointer_to_its_begining(dest_source.content)
-        return dest_source.content
+    return sources.save_sheet(sheet, **dest_keywords)
 
 
 def save_book_as(**keywords):
@@ -217,12 +192,8 @@ def save_book_as(**keywords):
     ================ ============================================
     """
     dest_keywords, source_keywords = _split_keywords(**keywords)
-    dest_source = sources.get_writable_book_source(**dest_keywords)
-    book = get_book_stream(**source_keywords)
-    book.save_to(dest_source)
-    if hasattr(dest_source, 'content'):
-        _try_put_file_read_pointer_to_its_begining(dest_source.content)
-        return dest_source.content
+    book = sources.get_book_stream(**source_keywords)
+    return sources.save_book(book, **dest_keywords)
 
 
 def get_array(**keywords):
@@ -285,26 +256,6 @@ def get_io_type(file_type):
     if io_type is None:
         io_type = "string"
     return io_type
-
-
-def one_sheet_tuple(items):
-    if not PY2:
-        items = list(items)
-    return items[0][0], items[0][1]
-
-
-def _try_put_file_read_pointer_to_its_begining(a_stream):
-    if PY2:
-        try:
-            a_stream.seek(0)
-        except IOError:
-            pass
-    else:
-        import io
-        try:
-            a_stream.seek(0)
-        except io.UnsupportedOperation:
-            pass
 
 
 def _split_keywords(**keywords):
