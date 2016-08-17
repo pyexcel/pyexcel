@@ -192,9 +192,8 @@ class SheetMixin:
 
         for ods, 'auto_detect_int' is supported
         """
-        out_source = get_writable_source(
-            file_name=filename, **keywords)
-        return self.save_to(out_source)
+        return save_sheet(self, file_name=filename,
+                          **keywords)
 
     def save_to_memory(self, file_type, stream=None, **keywords):
         """Save the content to memory
@@ -311,9 +310,7 @@ class BookMixin(object):
 
         :param str filename: a file path
         """
-        out_source = get_writable_book_source(
-            file_name=filename)
-        self.save_to(out_source)
+        return save_book(self, file_name=filename)
 
     def save_to_memory(self, file_type, stream=None, **keywords):
         """Save the content to a memory stream
