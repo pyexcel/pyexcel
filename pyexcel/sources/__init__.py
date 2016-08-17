@@ -223,10 +223,10 @@ class SheetMixin:
         :param batch_size: a parameter to Django concerning the size
                            of data base set
         """
-        source = get_writable_source(
-            model=model, initializer=initializer,
-            mapdict=mapdict, batch_size=batch_size)
-        self.save_to(source)
+        save_sheet(self,
+                   model=model, initializer=initializer,
+                   mapdict=mapdict, batch_size=batch_size)
+
 
     def save_to_database(self, session, table,
                          initializer=None,
@@ -241,14 +241,13 @@ class SheetMixin:
         :param auto_commit: by default, data is committed.
 
         """
-        source = get_writable_source(
-            session=session,
-            table=table,
-            initializer=initializer,
-            mapdict=mapdict,
-            auto_commit=auto_commit
-        )
-        self.save_to(source)
+        save_sheet(self,
+                   session=session,
+                   table=table,
+                   initializer=initializer,
+                   mapdict=mapdict,
+                   auto_commit=auto_commit
+               )
 
 
 def presenter(file_type=None):
@@ -344,13 +343,11 @@ class BookMixin(object):
         :param mapdicts: custom map dictionary for your data columns
                          and the sequence should match tables
         """
-        out_source = get_writable_book_source(
-            models=models,
-            initializers=initializers,
-            mapdicts=mapdicts,
-            batch_size=batch_size
-        )
-        self.save_to(out_source)
+        save_book(self,
+                  models=models,
+                  initializers=initializers,
+                  mapdicts=mapdicts,
+                  batch_size=batch_size)
 
     def save_to_database(self, session, tables,
                          initializers=None, mapdicts=None,
@@ -371,14 +368,12 @@ class BookMixin(object):
         :param auto_commit: by default, data is committed.
 
         """
-        out_source = get_writable_book_source(
-            session=session,
-            tables=tables,
-            initializers=initializers,
-            mapdicts=mapdicts,
-            auto_commit=auto_commit
-        )
-        self.save_to(out_source)
+        save_book(self,
+                  session=session,
+                  tables=tables,
+                  initializers=initializers,
+                  mapdicts=mapdicts,
+                  auto_commit=auto_commit)
 
 
 def book_presenter(file_type=None):
