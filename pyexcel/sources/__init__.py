@@ -7,89 +7,6 @@ from pyexcel.generators import BookStream, SheetStream
 import pyexcel.constants as constants
 
 
-def get_book_rw_attributes():
-    return set(Source.attribute_registry["book-read"]).intersection(
-        set(Source.attribute_registry["book-write"]))
-
-
-def get_book_w_attributes():
-    return set(Source.attribute_registry["book-write"]).difference(
-        set(Source.attribute_registry["book-read"]))
-
-
-def get_sheet_rw_attributes():
-    return set(Source.attribute_registry["sheet-read"]).intersection(
-        set(Source.attribute_registry["sheet-write"]))
-
-
-def get_sheet_w_attributes():
-    return set(Source.attribute_registry["sheet-write"]).difference(
-        set(Source.attribute_registry["sheet-read"]))
-
-
-def _get_generic_source(target, action, **keywords):
-    key = "%s-%s" % (target, action)
-    for source in Source.registry[key]:
-        if source.is_my_business(action, **keywords):
-            s = source(**keywords)
-            return s
-    return None
-
-
-def get_source(**keywords):
-    source = _get_generic_source(
-        'input',
-        'read',
-        **keywords)
-    if source is None:
-        source = _get_generic_source(
-            'sheet',
-            'read',
-            **keywords)
-    if source is None:
-        raise NotImplementedError("No source found for %s" % keywords)
-    else:
-        return source
-
-
-def get_book_source(**keywords):
-    source = _get_generic_source(
-        'input',
-        'read',
-        **keywords)
-    if source is None:
-        source = _get_generic_source(
-            'book',
-            'read',
-            **keywords)
-    if source is None:
-        raise NotImplementedError("No source found for %s" % keywords)
-    else:
-        return source
-
-
-def get_writable_source(**keywords):
-    source = _get_generic_source(
-        'sheet',
-        'write',
-        **keywords)
-    if source is None:
-        raise NotImplementedError("No source found for %s" % keywords)
-    else:
-        return source
-
-
-def get_writable_book_source(**keywords):
-    source = _get_generic_source(
-        'book',
-        'write',
-        **keywords)
-    if source is None:
-        raise NotImplementedError("No source found for %s" % keywords)
-    else:
-        return source
-
-
 def get_sheet_stream(**keywords):
     source = get_source(**keywords)
     sheets = source.get_data()
@@ -124,26 +41,6 @@ def save_book(book, **keywords):
     if hasattr(source, 'content'):
         _try_put_file_read_pointer_to_its_begining(source.content)
         return source.content
-
-
-def _try_put_file_read_pointer_to_its_begining(a_stream):
-    if PY2:
-        try:
-            a_stream.seek(0)
-        except IOError:
-            pass
-    else:
-        import io
-        try:
-            a_stream.seek(0)
-        except io.UnsupportedOperation:
-            pass
-
-
-def one_sheet_tuple(items):
-    if not PY2:
-        items = list(items)
-    return items[0][0], items[0][1]
 
 
 class SheetMixin:
@@ -249,30 +146,6 @@ class SheetMixin:
                )
 
 
-def presenter(file_type=None):
-    def custom_presenter(self, **keywords):
-        memory_source = get_writable_source(file_type=file_type,
-                                            **keywords)
-        self.save_to(memory_source)
-        return memory_source.content.getvalue()
-    return custom_presenter
-
-
-def importer(file_type=None):
-    def custom_presenter1(self, content, **keywords):
-        sheet_params = {}
-        for field in constants.VALID_SHEET_PARAMETERS:
-            if field in keywords:
-                sheet_params[field] = keywords.pop(field)
-        named_content = get_sheet_stream(file_type=file_type,
-                                         file_content=content,
-                                         **keywords)
-        self.init(named_content.payload,
-                  named_content.name, **sheet_params)
-
-    return custom_presenter1
-
-
 class BookMixin(object):
     @classmethod
     def init_attributes(cls):
@@ -373,6 +246,30 @@ class BookMixin(object):
                   auto_commit=auto_commit)
 
 
+def presenter(file_type=None):
+    def custom_presenter(self, **keywords):
+        memory_source = get_writable_source(file_type=file_type,
+                                            **keywords)
+        self.save_to(memory_source)
+        return memory_source.content.getvalue()
+    return custom_presenter
+
+
+def importer(file_type=None):
+    def custom_presenter1(self, content, **keywords):
+        sheet_params = {}
+        for field in constants.VALID_SHEET_PARAMETERS:
+            if field in keywords:
+                sheet_params[field] = keywords.pop(field)
+        named_content = get_sheet_stream(file_type=file_type,
+                                         file_content=content,
+                                         **keywords)
+        self.init(named_content.payload,
+                  named_content.name, **sheet_params)
+
+    return custom_presenter1
+
+
 def book_presenter(file_type=None):
     def custom_presenter(self, **keywords):
         memory_source = get_writable_book_source(
@@ -404,3 +301,106 @@ def _get_book(**keywords):
     sheets = source.get_data()
     filename, path = source.get_source_info()
     return sheets, filename, path
+
+
+def get_book_rw_attributes():
+    return set(Source.attribute_registry["book-read"]).intersection(
+        set(Source.attribute_registry["book-write"]))
+
+
+def get_book_w_attributes():
+    return set(Source.attribute_registry["book-write"]).difference(
+        set(Source.attribute_registry["book-read"]))
+
+
+def get_sheet_rw_attributes():
+    return set(Source.attribute_registry["sheet-read"]).intersection(
+        set(Source.attribute_registry["sheet-write"]))
+
+
+def get_sheet_w_attributes():
+    return set(Source.attribute_registry["sheet-write"]).difference(
+        set(Source.attribute_registry["sheet-read"]))
+
+
+def _get_generic_source(target, action, **keywords):
+    key = "%s-%s" % (target, action)
+    for source in Source.registry[key]:
+        if source.is_my_business(action, **keywords):
+            s = source(**keywords)
+            return s
+    return None
+
+
+def get_source(**keywords):
+    source = _get_generic_source(
+        'input',
+        'read',
+        **keywords)
+    if source is None:
+        source = _get_generic_source(
+            'sheet',
+            'read',
+            **keywords)
+    if source is None:
+        raise NotImplementedError("No source found for %s" % keywords)
+    else:
+        return source
+
+
+def get_book_source(**keywords):
+    source = _get_generic_source(
+        'input',
+        'read',
+        **keywords)
+    if source is None:
+        source = _get_generic_source(
+            'book',
+            'read',
+            **keywords)
+    if source is None:
+        raise NotImplementedError("No source found for %s" % keywords)
+    else:
+        return source
+
+
+def get_writable_source(**keywords):
+    source = _get_generic_source(
+        'sheet',
+        'write',
+        **keywords)
+    if source is None:
+        raise NotImplementedError("No source found for %s" % keywords)
+    else:
+        return source
+
+
+def get_writable_book_source(**keywords):
+    source = _get_generic_source(
+        'book',
+        'write',
+        **keywords)
+    if source is None:
+        raise NotImplementedError("No source found for %s" % keywords)
+    else:
+        return source
+
+
+def _try_put_file_read_pointer_to_its_begining(a_stream):
+    if PY2:
+        try:
+            a_stream.seek(0)
+        except IOError:
+            pass
+    else:
+        import io
+        try:
+            a_stream.seek(0)
+        except io.UnsupportedOperation:
+            pass
+
+
+def one_sheet_tuple(items):
+    if not PY2:
+        items = list(items)
+    return items[0][0], items[0][1]
