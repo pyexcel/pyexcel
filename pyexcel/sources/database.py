@@ -21,7 +21,6 @@ from pyexcel._compact import OrderedDict
 from pyexcel.constants import DEFAULT_SHEET_NAME
 from . import params
 from pyexcel.generators import BookStream
-from pyexcel.book import to_book
 from .factory import Source
 
 
@@ -146,6 +145,7 @@ class BookSQLSource(Source):
         return DB_SQL, None
 
     def write_data(self, thebook):
+        from pyexcel.book import to_book
         book = thebook
         if isinstance(thebook, BookStream):
             book = to_book(thebook)
@@ -200,6 +200,7 @@ class BookDjangoSource(Source):
         return DB_DJANGO, None
 
     def write_data(self, thebook):
+        from pyexcel.book import to_book
         book = thebook
         if isinstance(thebook, BookStream):
             book = to_book(thebook)
