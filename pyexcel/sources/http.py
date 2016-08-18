@@ -34,6 +34,7 @@ class HttpSource(Source):
     targets = (params.INPUT,)
     actions = (params.READ_ACTION,)
     attributes = [params.URL]
+    key = params.URL
 
     def __init__(self, url=None, **keywords):
         self.url = url

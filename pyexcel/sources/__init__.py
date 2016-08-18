@@ -246,23 +246,25 @@ class BookMixin(object):
                   auto_commit=auto_commit)
 
 
-def presenter(file_type=None):
+def presenter(attribute=None):
     def custom_presenter(self, **keywords):
-        memory_source = get_writable_source(file_type=file_type,
-                                            **keywords)
+        keyword = _get_keyword_for_parameter(attribute)
+        keywords[keyword] = attribute
+        memory_source = get_writable_source(**keywords)
         self.save_to(memory_source)
         return memory_source.content.getvalue()
     return custom_presenter
 
 
-def importer(file_type=None):
+def importer(attribute=None):
     def custom_presenter1(self, content, **keywords):
         sheet_params = {}
         for field in constants.VALID_SHEET_PARAMETERS:
             if field in keywords:
                 sheet_params[field] = keywords.pop(field)
-        named_content = get_sheet_stream(file_type=file_type,
-                                         file_content=content,
+        keyword = _get_keyword_for_parameter(attribute)
+        keywords[keyword] = attribute
+        named_content = get_sheet_stream(file_content=content,
                                          **keywords)
         self.init(named_content.payload,
                   named_content.name, **sheet_params)
@@ -270,20 +272,21 @@ def importer(file_type=None):
     return custom_presenter1
 
 
-def book_presenter(file_type=None):
+def book_presenter(attribute=None):
     def custom_presenter(self, **keywords):
-        memory_source = get_writable_book_source(
-            file_type=file_type,
-            **keywords)
+        keyword = _get_keyword_for_parameter(attribute)
+        keywords[keyword] = attribute
+        memory_source = get_writable_book_source(**keywords)
         self.save_to(memory_source)
         return memory_source.content.getvalue()
     return custom_presenter
 
 
-def book_importer(file_type=None):
+def book_importer(attribute=None):
     def custom_book_importer(self, content, **keywords):
+        keyword = _get_keyword_for_parameter(attribute)
+        keywords[keyword] = attribute
         sheets, filename, path = _get_book(
-            file_type=file_type,
             file_content=content,
             **keywords)
         self.init(sheets=sheets, filename=filename, path=path)
@@ -404,3 +407,7 @@ def one_sheet_tuple(items):
     if not PY2:
         items = list(items)
     return items[0][0], items[0][1]
+
+
+def _get_keyword_for_parameter(key):
+    return Source.keywords.get(key, None)

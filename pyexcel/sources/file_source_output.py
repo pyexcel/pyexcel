@@ -17,6 +17,7 @@ class OutputSource(FileSource):
     Get excel data from file source
     """
     attributes = renderers.get_all_file_types()
+    key = params.FILE_TYPE
 
     @classmethod
     def can_i_handle(cls, action, file_type):

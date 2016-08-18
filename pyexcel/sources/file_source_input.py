@@ -59,6 +59,7 @@ class ReadExcelFileMemory(InputSource):
     targets = (params.SHEET, params.BOOK)
     actions = (params.READ_ACTION,)
     attributes = RWManager.reader_factories.keys()
+    key = params.FILE_TYPE
 
     def __init__(self,
                  file_content=None,

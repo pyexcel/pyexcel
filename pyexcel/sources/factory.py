@@ -23,12 +23,14 @@ class MetaForSourceRegistryOnly(type):
                 "book-read": [],
                 "book-write": []
             }
+            cls.keywords = {}
         for target in cls.targets:
             for action in cls.actions:
                 key = "%s-%s" % (target, action)
                 cls.registry[key].append(cls)
                 for attr in cls.attributes:
                     cls.attribute_registry[key].append(attr)
+                    cls.keywords[attr] = cls.key
 
 
 class Source(with_metaclass(MetaForSourceRegistryOnly, object)):
@@ -41,6 +43,7 @@ class Source(with_metaclass(MetaForSourceRegistryOnly, object)):
     attributes = []
     targets = []
     actions = []
+    key = SOURCE
 
     def __init__(self, source=None, **keywords):
         self.source = source

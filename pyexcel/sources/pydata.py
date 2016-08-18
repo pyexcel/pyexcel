@@ -23,6 +23,7 @@ class RecordsSource(Source):
     targets = (params.INPUT,)
     actions = (params.READ_ACTION,)
     attributes = [params.RECORDS]
+    key = params.RECORDS
 
     def __init__(self, records):
         self.records = records
@@ -43,6 +44,7 @@ class DictSource(Source):
     targets = (params.INPUT,)
     actions = (params.READ_ACTION,)
     attributes = ["dict"]
+    key = params.ADICT
 
     def __init__(self, adict, with_keys=True):
         self.adict = adict
@@ -65,6 +67,7 @@ class ArraySource(Source):
     targets = (params.INPUT,)
     actions = (params.READ_ACTION,)
     attributes = ["array"]
+    key = params.ARRAY
 
     def __init__(self, array):
         self.array = array
@@ -84,6 +87,7 @@ class BookDictSource(Source):
     targets = (params.INPUT,)
     actions = (params.READ_ACTION,)
     attributes = [params.BOOKDICT]
+    key = params.BOOKDICT
 
     def __init__(self, bookdict, **keywords):
         self.bookdict = bookdict

@@ -1,5 +1,5 @@
 import os
-from pyexcel.sources.file_source_output import WriteSheetToMemory
+from pyexcel.sources.factory import Source
 from pyexcel.sources import params
 from pyexcel import Sheet, Book
 from pyexcel import get_book
@@ -10,14 +10,15 @@ from textwrap import dedent
 FIXTURE = "dummy"
 
 
-class DummySource(WriteSheetToMemory):
+class DummySource(Source):
     """
     Write into json file
     """
-    fields = [params.FILE_TYPE]
+    fields = [FIXTURE]
     targets = (params.BOOK, params.SHEET)
     actions = (params.WRITE_ACTION,)
-    attirbutes = ['dummy']
+    attributes = [FIXTURE]
+    key = FIXTURE
 
     def __init__(self, file_type=None, file_stream=None, **keywords):
         if file_stream:
@@ -26,13 +27,6 @@ class DummySource(WriteSheetToMemory):
             self.content = StringIO()
         self.file_type = file_type
         self.keywords = keywords
-
-    @classmethod
-    def can_i_handle(cls, action, file_type):
-        status = False
-        if action == params.WRITE_ACTION and file_type == 'dummy':
-            status = True
-        return status
 
     def write_data(self, sheet):
         self.content.write(FIXTURE)
