@@ -332,7 +332,7 @@ class Row:
         if isinstance(other, list):
             self.ref.extend_rows(other)
         elif isinstance(other, Matrix):
-            self.ref.extend_rows(other.array)
+            self.ref.extend_rows(other._array)
         else:
             raise TypeError
         return self
@@ -478,7 +478,7 @@ class Column:
         if isinstance(other, list):
             self.ref.extend_columns(other)
         elif isinstance(other, Matrix):
-            self.ref.extend_columns_with_rows(other.array)
+            self.ref.extend_columns_with_rows(other._array)
         else:
             raise TypeError
         return self
@@ -505,11 +505,11 @@ class Matrix(object):
         copy every cell to a new memory area
         :param list array: a list of arrays
         """
-        self.width, self.array = uniform(list(array))
+        self.width, self._array = uniform(list(array))
 
     def number_of_rows(self):
         """The number of rows"""
-        return len(self.array)
+        return len(self._array)
 
     def number_of_columns(self):
         """The number of columns"""
@@ -546,10 +546,10 @@ class Matrix(object):
         if row in self.row_range() and column in self.column_range():
             if new_value is None:
                 # get
-                return self.array[row][column]
+                return self._array[row][column]
             else:
                 # set
-                self.array[row][column] = new_value
+                self._array[row][column] = new_value
         else:
             if new_value is None:
                 raise IndexError("Index out of range")
@@ -605,15 +605,15 @@ class Matrix(object):
                 self.cell_value(row_index, i, data_array[i-starting])
             if real_len > ncolumns:
                 left = ncolumns - starting
-                self.array[row_index] = (self.array[row_index] +
+                self._array[row_index] = (self._array[row_index] +
                                          data_array[left:])
-            self.width, self.array = uniform(self.array)
+            self.width, self._array = uniform(self._array)
         else:
             raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)
 
     def _extend_row(self, row):
         array = copy.deepcopy(row)
-        self.array.append(array)
+        self._array.append(array)
 
     def extend_rows(self, rows):
         """Inserts two dimensional data after the bottom row"""
@@ -623,7 +623,7 @@ class Matrix(object):
                     self._extend_row(r)
             else:
                 self._extend_row(rows)
-            self.width, self.array = uniform(self.array)
+            self.width, self._array = uniform(self._array)
         else:
             raise TypeError("Cannot use %s" % type(rows))
 
@@ -636,7 +636,7 @@ class Matrix(object):
             sorted_list = sorted(unique_list, reverse=True)
             for i in sorted_list:
                 if i < self.number_of_rows():
-                    del self.array[i]
+                    del self._array[i]
 
     @property
     def column(self):
@@ -690,8 +690,8 @@ class Matrix(object):
             if real_len > nrows:
                 for i in range(nrows, real_len):
                     new_row = [''] * column_index + [data_array[i-starting]]
-                    self.array.append(new_row)
-            self.width, self.array = uniform(self.array)
+                    self._array.append(new_row)
+            self.width, self._array = uniform(self._array)
         else:
             raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)
 
@@ -723,15 +723,15 @@ class Matrix(object):
         array_length = min(current_nrows, insert_column_nrows)
         for i in range(0, array_length):
             array = copy.deepcopy(rows[i])
-            self.array[i] += array
+            self._array[i] += array
         if current_nrows < insert_column_nrows:
             delta = insert_column_nrows - current_nrows
             base = current_nrows
             for i in range(0, delta):
                 new_array = [""] * current_ncols
                 new_array += rows[base+i]
-                self.array.append(new_array)
-        self.width, self.array = uniform(self.array)
+                self._array.append(new_array)
+        self.width, self._array = uniform(self._array)
 
     def extend_columns_with_rows(self, rows):
         """Rows were appended to the rightmost side
@@ -886,7 +886,7 @@ class Matrix(object):
                 else:
                     real_row = [""] * topleft_corner[1] + row
                     self._extend_row(real_row)
-            self.width, self.array = uniform(self.array)
+            self.width, self._array = uniform(self._array)
         elif columns:
             starting_column = topleft_corner[1]
             number_of_columns = self.number_of_columns()
@@ -899,7 +899,7 @@ class Matrix(object):
                 else:
                     real_column = [""] * topleft_corner[0] + column
                     self.extend_columns([real_column])
-            self.width, self.array = uniform(self.array)
+            self.width, self._array = uniform(self._array)
         else:
             raise ValueError(MESSAGE_DATA_ERROR_EMPTY_CONTENT)
 
@@ -911,10 +911,10 @@ class Matrix(object):
         if len(column_indices) > 0:
             unique_list = _unique(column_indices)
             sorted_list = sorted(unique_list, reverse=True)
-            for i in range(0, len(self.array)):
+            for i in range(0, len(self._array)):
                 for j in sorted_list:
-                    del self.array[i][j]
-            self.width = longest_row_number(self.array)
+                    del self._array[i][j]
+            self.width = longest_row_number(self._array)
 
     def __setitem__(self, aset, c):
         """Override the operator to set items"""
@@ -953,13 +953,13 @@ class Matrix(object):
 
         Reference :func:`transpose`
         """
-        self.array = transpose(self.array)
-        self.width, self.array = uniform(self.array)
+        self._array = transpose(self._array)
+        self.width, self._array = uniform(self._array)
 
     def to_array(self):
         """Get an array out
         """
-        return self.array
+        return self._array
 
     def __iter__(self):
         """
@@ -1343,7 +1343,7 @@ class Matrix(object):
         from ..book import Book
         from ..utils import to_dict, local_uuid
         content = {}
-        content[self.name] = self.array
+        content[self.name] = self._array
         if isinstance(other, Book):
             b = to_dict(other)
             for l in b.keys():
@@ -1359,7 +1359,7 @@ class Matrix(object):
             if new_key in content:
                 uid = local_uuid()
                 new_key = "%s_%s" % (other.name, uid)
-            content[new_key] = other.array
+            content[new_key] = other._array
         else:
             raise TypeError
         c = Book()

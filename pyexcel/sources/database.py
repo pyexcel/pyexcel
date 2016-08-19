@@ -79,7 +79,7 @@ class SheetSQLAlchemySource(Source):
         adapter.column_name_mapping_dict = self.keywords.get(params.MAPDICT,
                                                              None)
         importer.append(adapter)
-        save_data(importer, {adapter.get_name(): sheet.array},
+        save_data(importer, {adapter.get_name(): sheet._array},
                   file_type=DB_SQL, **self.keywords)
 
 
@@ -115,7 +115,7 @@ class SheetDjangoSource(Source):
         adapter.set_row_initializer(
             self.keywords.get(params.INITIALIZER, None))
         importer.append(adapter)
-        save_data(importer, {adapter.get_name(): sheet.array},
+        save_data(importer, {adapter.get_name(): sheet._array},
                   file_type=DB_DJANGO, **self.keywords)
 
 
@@ -172,7 +172,7 @@ class BookSQLSource(Source):
         for sheet_name in book.sheet_names():
             # due book.to_dict() brings in column_names
             # which corrupts the data
-            to_store[sheet_name] = book[sheet_name].array
+            to_store[sheet_name] = book[sheet_name]._array
         save_data(importer, to_store, file_type=DB_SQL, **self.keywords)
 
 
@@ -229,6 +229,6 @@ class BookDjangoSource(Source):
         for sheet_name in book.sheet_names():
             # due book.to_dict() brings in column_names
             # which corrupts the data
-            to_store[sheet_name] = book[sheet_name].array
+            to_store[sheet_name] = book[sheet_name]._array
         save_data(importer, to_store, file_type=DB_DJANGO,
                   batch_size=batch_size)

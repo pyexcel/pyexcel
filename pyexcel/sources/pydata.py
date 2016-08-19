@@ -13,6 +13,17 @@ from pyexcel.sources import params
 from pyexcel.sources.factory import Source
 
 
+class _FakeIO:
+    def __init__(self):
+        self.value = None
+
+    def setvalue(self, value):
+        self.value = value
+
+    def getvalue(self):
+        return self.value
+
+
 class RecordsSource(Source):
     """
     A list of dictionaries as data source
@@ -64,19 +75,23 @@ class ArraySource(Source):
     A two dimensional array as sheet source
     """
     fields = [params.ARRAY]
-    targets = (params.INPUT,)
-    actions = (params.READ_ACTION,)
+    targets = (params.SHEET,)
+    actions = (params.READ_ACTION, params.WRITE_ACTION)
     attributes = ["array"]
     key = params.ARRAY
 
     def __init__(self, array):
         self.array = array
+        self.content = _FakeIO()
 
     def get_data(self):
         return {DEFAULT_SHEET_NAME: self.array}
 
     def get_source_info(self):
         return params.ARRAY, None
+
+    def write_data(self, sheet):
+        self.content.setvalue(sheet.to_array())
 
 
 class BookDictSource(Source):

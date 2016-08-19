@@ -11,6 +11,7 @@ class MetaForSourceRegistryOnly(type):
         if not hasattr(cls, 'registry'):
             cls.registry = {
                 "input-read": [],
+                "input-write": [],
                 "sheet-write": [],
                 "book-write": [],
                 "book-read": [],
@@ -18,6 +19,7 @@ class MetaForSourceRegistryOnly(type):
             }
             cls.attribute_registry = {
                 "input-read": [],
+                "input-write": [],
                 "sheet-read": [],
                 "sheet-write": [],
                 "book-read": [],
