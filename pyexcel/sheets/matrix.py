@@ -606,7 +606,7 @@ class Matrix(object):
             if real_len > ncolumns:
                 left = ncolumns - starting
                 self._array[row_index] = (self._array[row_index] +
-                                         data_array[left:])
+                                          data_array[left:])
             self.width, self._array = uniform(self._array)
         else:
             raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)

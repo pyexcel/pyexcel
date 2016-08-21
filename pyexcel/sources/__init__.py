@@ -251,7 +251,7 @@ def presenter(attribute=None):
         keyword = _get_keyword_for_parameter(attribute)
         keywords[keyword] = attribute
         memory_source = get_writable_source(**keywords)
-        self.save_to(memory_source)
+        memory_source.write_data(self)
         return memory_source.content.getvalue()
     return custom_presenter
 
