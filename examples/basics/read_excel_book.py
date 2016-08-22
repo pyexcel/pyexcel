@@ -15,7 +15,7 @@ import pyexcel as pe
 def main(base_dir):
     # Simply give a name to the Book class
     book = pe.get_book(file_name=os.path.join(base_dir,
-                                              "multiple-sheets-example.ods"))
+                                              "multiple-sheets-example.xls"))
 
     # the default iterator for a **Book* instance is a SheetIterator
     for sheet in book:

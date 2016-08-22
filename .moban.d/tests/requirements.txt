@@ -6,7 +6,6 @@ glob2
 flask
 lxml
 pyexcel-xlsx>=0.1.0
-pyexcel-ods3>=0.1.0
 pyexcel-xls>=0.1.0
 pyexcel-text>=0.2.0
 {%endblock%}

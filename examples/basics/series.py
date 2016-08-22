@@ -22,7 +22,7 @@ def main(base_dir):
     # 2        5        8
     # 3        6        9
     sheet = pe.get_sheet(file_name=os.path.join(base_dir,
-                                                "example_series.ods"),
+                                                "example_series.xls"),
                          name_columns_by_row=0)
     print(json.dumps(sheet.to_dict()))
     # output:

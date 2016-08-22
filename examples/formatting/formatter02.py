@@ -12,7 +12,7 @@ import pyexcel as pe
 
 
 def main(base_dir):
-    sheet = pe.load(os.path.join(base_dir, "tutorial_datatype_02.ods"))
+    sheet = pe.load(os.path.join(base_dir, "tutorial_datatype_02.xls"))
     print(sheet.to_array())
 
     def cleanse_func(v):
