@@ -3,36 +3,41 @@ from pyexcel._compact import PY2, is_string
 from .params import FILE_NAME, FILE_TYPE, SOURCE
 
 
+registry = {
+    "input-read": [],
+    "input-write": [],
+    "sheet-write": [],
+    "book-write": [],
+    "book-read": [],
+    "sheet-read": []
+}
+attribute_registry = {
+    "input-read": [],
+    "input-write": [],
+    "sheet-read": [],
+    "sheet-write": [],
+    "book-read": [],
+    "book-write": []
+}
+keywords = {}
+
+
+def register_class(cls):
+    for target in cls.targets:
+        for action in cls.actions:
+            key = "%s-%s" % (target, action)
+            registry[key].append(cls)
+            for attr in cls.attributes:
+                attribute_registry[key].append(attr)
+                keywords[attr] = cls.key
+
+
 class MetaForSourceRegistryOnly(type):
     """sole class registry"""
     def __init__(cls, name, bases, nmspc):
         super(MetaForSourceRegistryOnly, cls).__init__(
             name, bases, nmspc)
-        if not hasattr(cls, 'registry'):
-            cls.registry = {
-                "input-read": [],
-                "input-write": [],
-                "sheet-write": [],
-                "book-write": [],
-                "book-read": [],
-                "sheet-read": []
-            }
-            cls.attribute_registry = {
-                "input-read": [],
-                "input-write": [],
-                "sheet-read": [],
-                "sheet-write": [],
-                "book-read": [],
-                "book-write": []
-            }
-            cls.keywords = {}
-        for target in cls.targets:
-            for action in cls.actions:
-                key = "%s-%s" % (target, action)
-                cls.registry[key].append(cls)
-                for attr in cls.attributes:
-                    cls.attribute_registry[key].append(attr)
-                    cls.keywords[attr] = cls.key
+        register_class(cls)
 
 
 class Source(with_metaclass(MetaForSourceRegistryOnly, object)):
@@ -103,3 +108,86 @@ class FileSource(Source):
 
 def _has_field(field, keywords):
     return field in keywords and keywords[field] is not None
+
+
+def get_book_rw_attributes():
+    return set(attribute_registry["book-read"]).intersection(
+        set(attribute_registry["book-write"]))
+
+
+def get_book_w_attributes():
+    return set(attribute_registry["book-write"]).difference(
+        set(attribute_registry["book-read"]))
+
+
+def get_sheet_rw_attributes():
+    return set(attribute_registry["sheet-read"]).intersection(
+        set(attribute_registry["sheet-write"]))
+
+
+def get_sheet_w_attributes():
+    return set(attribute_registry["sheet-write"]).difference(
+        set(attribute_registry["sheet-read"]))
+
+
+def _get_generic_source(target, action, **keywords):
+    key = "%s-%s" % (target, action)
+    for source in registry[key]:
+        if source.is_my_business(action, **keywords):
+            s = source(**keywords)
+            return s
+    return None
+
+
+def get_source(**keywords):
+    source = _get_generic_source(
+        'input',
+        'read',
+        **keywords)
+    if source is None:
+        source = _get_generic_source(
+            'sheet',
+            'read',
+            **keywords)
+    if source is None:
+        raise NotImplementedError("No source found for %s" % keywords)
+    else:
+        return source
+
+
+def get_book_source(**keywords):
+    source = _get_generic_source(
+        'input',
+        'read',
+        **keywords)
+    if source is None:
+        source = _get_generic_source(
+            'book',
+            'read',
+            **keywords)
+    if source is None:
+        raise NotImplementedError("No source found for %s" % keywords)
+    else:
+        return source
+
+
+def get_writable_source(**keywords):
+    source = _get_generic_source(
+        'sheet',
+        'write',
+        **keywords)
+    if source is None:
+        raise NotImplementedError("No source found for %s" % keywords)
+    else:
+        return source
+
+
+def get_writable_book_source(**keywords):
+    source = _get_generic_source(
+        'book',
+        'write',
+        **keywords)
+    if source is None:
+        raise NotImplementedError("No source found for %s" % keywords)
+    else:
+        return source

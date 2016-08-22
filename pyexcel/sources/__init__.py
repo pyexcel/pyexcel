@@ -1,14 +1,14 @@
 # flake8: noqa
 from . import file_source_output, database
 from . import file_source_input, http, pydata
-from .factory import Source
+from . import factory
 from pyexcel._compact import PY2
 from pyexcel.generators import BookStream, SheetStream
 import pyexcel.constants as constants
 
 
 def get_sheet_stream(**keywords):
-    source = get_source(**keywords)
+    source = factory.get_source(**keywords)
     sheets = source.get_data()
     sheet_name, data = one_sheet_tuple(sheets.items())
     return SheetStream(sheet_name, data)
@@ -20,7 +20,7 @@ def get_book_stream(**keywords):
     Where the dictionary should have text as keys and two dimensional
     array as values.
     """
-    source = get_book_source(**keywords)
+    source = factory.get_book_source(**keywords)
     sheets = source.get_data()
     filename, path = source.get_source_info()
     book = BookStream(sheets, filename=filename, path=path)
@@ -28,7 +28,7 @@ def get_book_stream(**keywords):
 
 
 def save_sheet(sheet, **keywords):
-    source = get_writable_source(**keywords)
+    source = factory.get_writable_source(**keywords)
     source.write_data(sheet)
     if hasattr(source, 'content'):
         _try_put_file_read_pointer_to_its_begining(source.content)
@@ -36,7 +36,7 @@ def save_sheet(sheet, **keywords):
 
 
 def save_book(book, **keywords):
-    source = get_writable_book_source(**keywords)
+    source = factory.get_writable_book_source(**keywords)
     source.write_data(book)
     if hasattr(source, 'content'):
         _try_put_file_read_pointer_to_its_begining(source.content)
@@ -46,9 +46,9 @@ def save_book(book, **keywords):
 class SheetMixin:
     @classmethod
     def init_attributes(cls):
-        for attribute in get_sheet_rw_attributes():
+        for attribute in factory.get_sheet_rw_attributes():
             cls.register_io(attribute)
-        for attribute in get_sheet_w_attributes():
+        for attribute in factory.get_sheet_w_attributes():
             cls.register_presentation(attribute)
 
     @classmethod
@@ -149,9 +149,9 @@ class SheetMixin:
 class BookMixin(object):
     @classmethod
     def init_attributes(cls):
-        for attribute in get_book_rw_attributes():
+        for attribute in factory.get_book_rw_attributes():
             cls.register_io(attribute)
-        for attribute in get_book_w_attributes():
+        for attribute in factory.get_book_w_attributes():
             cls.register_presentation(attribute)
 
     @classmethod
@@ -250,7 +250,7 @@ def presenter(attribute=None):
     def custom_presenter(self, **keywords):
         keyword = _get_keyword_for_parameter(attribute)
         keywords[keyword] = attribute
-        memory_source = get_writable_source(**keywords)
+        memory_source = factory.get_writable_source(**keywords)
         memory_source.write_data(self)
         return memory_source.content.getvalue()
     return custom_presenter
@@ -279,7 +279,7 @@ def book_presenter(attribute=None):
     def custom_presenter(self, **keywords):
         keyword = _get_keyword_for_parameter(attribute)
         keywords[keyword] = attribute
-        memory_source = get_writable_book_source(**keywords)
+        memory_source = factory.get_writable_book_source(**keywords)
         self.save_to(memory_source)
         return memory_source.content.getvalue()
     return custom_presenter
@@ -305,93 +305,10 @@ def _get_book(**keywords):
     Where the dictionary should have text as keys and two dimensional
     array as values.
     """
-    source = get_book_source(**keywords)
+    source = factory.get_book_source(**keywords)
     sheets = source.get_data()
     filename, path = source.get_source_info()
     return sheets, filename, path
-
-
-def get_book_rw_attributes():
-    return set(Source.attribute_registry["book-read"]).intersection(
-        set(Source.attribute_registry["book-write"]))
-
-
-def get_book_w_attributes():
-    return set(Source.attribute_registry["book-write"]).difference(
-        set(Source.attribute_registry["book-read"]))
-
-
-def get_sheet_rw_attributes():
-    return set(Source.attribute_registry["sheet-read"]).intersection(
-        set(Source.attribute_registry["sheet-write"]))
-
-
-def get_sheet_w_attributes():
-    return set(Source.attribute_registry["sheet-write"]).difference(
-        set(Source.attribute_registry["sheet-read"]))
-
-
-def _get_generic_source(target, action, **keywords):
-    key = "%s-%s" % (target, action)
-    for source in Source.registry[key]:
-        if source.is_my_business(action, **keywords):
-            s = source(**keywords)
-            return s
-    return None
-
-
-def get_source(**keywords):
-    source = _get_generic_source(
-        'input',
-        'read',
-        **keywords)
-    if source is None:
-        source = _get_generic_source(
-            'sheet',
-            'read',
-            **keywords)
-    if source is None:
-        raise NotImplementedError("No source found for %s" % keywords)
-    else:
-        return source
-
-
-def get_book_source(**keywords):
-    source = _get_generic_source(
-        'input',
-        'read',
-        **keywords)
-    if source is None:
-        source = _get_generic_source(
-            'book',
-            'read',
-            **keywords)
-    if source is None:
-        raise NotImplementedError("No source found for %s" % keywords)
-    else:
-        return source
-
-
-def get_writable_source(**keywords):
-    source = _get_generic_source(
-        'sheet',
-        'write',
-        **keywords)
-    if source is None:
-        raise NotImplementedError("No source found for %s" % keywords)
-    else:
-        return source
-
-
-def get_writable_book_source(**keywords):
-    source = _get_generic_source(
-        'book',
-        'write',
-        **keywords)
-    if source is None:
-        raise NotImplementedError("No source found for %s" % keywords)
-    else:
-        return source
 
 
 def _try_put_file_read_pointer_to_its_begining(a_stream):
@@ -415,4 +332,4 @@ def one_sheet_tuple(items):
 
 
 def _get_keyword_for_parameter(key):
-    return Source.keywords.get(key, None)
+    return factory.keywords.get(key, None)
