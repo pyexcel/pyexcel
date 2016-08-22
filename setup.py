@@ -51,7 +51,7 @@ EXTRAS_REQUIRE = {
         'weakrefset'
     ],
     ':platform_python_implementation=="PyPy"': [
-        'lxml==3.4.4'
+        'lxml==3.6.0'
     ],
 }
 
