@@ -101,3 +101,69 @@ def test_set_book_attribute():
                     "3,6,7\r\n" +
                     "---pyexcel---\r\n")
         eq_(book.csv, expected)
+
+
+def test_set_array():
+    c = Sheet()
+    test_array = [[1, 2]]
+    c.array = test_array
+    expected = dedent("""
+    pyexcel_sheet1:
+    +---+---+
+    | 1 | 2 |
+    +---+---+""").strip()
+    eq_(str(c), expected)
+    eq_(c.array, test_array)
+
+
+def test_set_records():
+    s = Sheet()
+    test_records = [{"name": "a", "age": 11}, {"name": "b", "age": 12}]
+    s.records = test_records
+    expected = dedent("""
+    pyexcel_sheet1:
+    +-----+------+
+    | age | name |
+    +-----+------+
+    | 11  | a    |
+    +-----+------+
+    | 12  | b    |
+    +-----+------+""").strip()
+    eq_(str(s), expected)
+    s.name_columns_by_row(0)
+    eq_(s.records, test_records)
+
+
+def test_set_dict():
+    s = Sheet()
+    test_dict = {"a": [1, 2, 3], "b": [2, 3, 4]}
+    s.dict = test_dict
+    expected = dedent("""
+    pyexcel_sheet1:
+    +---+---+
+    | a | b |
+    +---+---+
+    | 1 | 2 |
+    +---+---+
+    | 2 | 3 |
+    +---+---+
+    | 3 | 4 |
+    +---+---+""").strip()
+    eq_(expected, str(s))
+    s.name_columns_by_row(0)
+    eq_(s.dict, test_dict)
+
+
+def test_set_bookdict():
+    b = Book()
+    b.bookdict = {"sheet1": [[1]], "sheet2": [[2]]}
+    expected = dedent("""
+    sheet1:
+    +---+
+    | 1 |
+    +---+
+    sheet2:
+    +---+
+    | 2 |
+    +---+""").strip()
+    eq_(str(b), expected)

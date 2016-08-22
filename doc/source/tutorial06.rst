@@ -7,7 +7,7 @@ Excel files in memory can be manipulated directly without saving it to physical 
     >>> import pyexcel
     >>> content = "1,2,3\n3,4,5"
     >>> sheet = pyexcel.get_sheet(file_type="csv", file_content=content)
-    >>> print(sheet.to_array())
+    >>> print(sheet.array)
     [[1, 2, 3], [3, 4, 5]]
 
 file type as its attributes
@@ -42,17 +42,22 @@ You can find a real world example in **examples/memoryfile/** directory: pyexcel
         if request.method == 'POST' and 'excel' in request.files:
             # handle file upload
             filename = request.files['excel'].filename
-            extension = filename.split(".")[1]
+            extension = filename.split(".")[-1]
             # Obtain the file extension and content
             # pass a tuple instead of a file name
-            sheet = pyexcel.load_from_memory(extension, request.files['excel'].read())
+            content = request.files['excel'].read()
+            if sys.version_info[0] > 2:
+                # in order to support python
+                # have to decode bytes to str
+                content = content.decode('utf-8')
+            sheet = pe.get_sheet(file_type=extension, file_content=content)
             # then use it as usual
-            data = pyexcel.to_dict(sheet)
+            sheet.name_columns_by_row(0)
             # respond with a json
-            return jsonify({"result":data})
-        return render_template...
+            return jsonify({"result": sheet.dict})
+        return render_template('upload.html')
 
-**request.files['excel']** in line 4 holds the file object. line 5 finds out the file extension. line 8 feeds in a tuple to **Book**. line 10 gives a dictionary representation of the excel file and line 11 send the json representation of the excel file back to client browser
+**request.files['excel']** in line 4 holds the file object. line 5 finds out the file extension. line 13 obtains a sheet instance. line 15 uses the first row as data header. line 17 sends the json representation of the excel file back to client browser.
 
 Write to memory and respond to download
 -------------------------------------------
@@ -68,9 +73,7 @@ Write to memory and respond to download
     @app.route('/download')
     def download():
         sheet = pe.Sheet(data)
-        io = StringIO()
-        sheet.save_to_memory("csv", io)
-        output = make_response(io.getvalue())
+        output = make_response(sheet.csv)
         output.headers["Content-Disposition"] = "attachment; filename=export.csv"
         output.headers["Content-type"] = "text/csv"
         return output

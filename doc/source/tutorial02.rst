@@ -41,7 +41,7 @@ You may want to filter odd rows and print them in an array of dictionaries:
 .. code-block:: python
 
     >>> sheet.filter(pyexcel.OddRowFilter())
-    >>> sheet.to_array()
+    >>> sheet.array
     [['Column 1', 'Column 2', 'Column 3'], [4, 5, 6]]
 
 Let's try to further filter out even columns:
@@ -242,5 +242,3 @@ the magic to load all of them back into a book. You will just need to provide th
    >>> os.unlink("myfile__Sheet 2__1.csv")
    >>> os.unlink("myfile__Sheet 3__2.csv")
    >>> os.unlink("example_series.xls")
-
-

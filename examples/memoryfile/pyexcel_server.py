@@ -17,10 +17,6 @@ please visit: http://flask.pocoo.org
 import sys
 from flask import Flask, request, render_template, jsonify, make_response
 import pyexcel as pe
-if sys.version_info[0] < 3:
-    from StringIO import StringIO
-else:
-    from io import StringIO
 
 app = Flask(__name__)
 
@@ -41,9 +37,8 @@ def upload():
         sheet = pe.get_sheet(file_type=extension, file_content=content)
         # then use it as usual
         sheet.name_columns_by_row(0)
-        data = sheet.to_dict()
         # respond with a json
-        return jsonify({"result": data})
+        return jsonify({"result": sheet.dict})
     return render_template('upload.html')
 
 
@@ -60,9 +55,7 @@ data = [
 @app.route('/download')
 def download():
     sheet = pe.Sheet(data)
-    io = StringIO()
-    sheet.save_to_memory("csv", io)
-    output = make_response(io.getvalue())
+    output = make_response(sheet.csv)
     output.headers["Content-Disposition"] = "attachment; filename=export.csv"
     output.headers["Content-type"] = "text/csv"
     return output

@@ -263,9 +263,12 @@ def importer(attribute=None):
             if field in keywords:
                 sheet_params[field] = keywords.pop(field)
         keyword = _get_keyword_for_parameter(attribute)
-        keywords[keyword] = attribute
-        named_content = get_sheet_stream(file_content=content,
-                                         **keywords)
+        if keyword == "file_type":
+            keywords[keyword] = attribute
+            keywords["file_content"] = content
+        else:
+            keywords[keyword] = content
+        named_content = get_sheet_stream(**keywords)
         self.init(named_content.payload,
                   named_content.name, **sheet_params)
 
@@ -285,10 +288,12 @@ def book_presenter(attribute=None):
 def book_importer(attribute=None):
     def custom_book_importer(self, content, **keywords):
         keyword = _get_keyword_for_parameter(attribute)
-        keywords[keyword] = attribute
-        sheets, filename, path = _get_book(
-            file_content=content,
-            **keywords)
+        if keyword == "file_type":
+            keywords[keyword] = attribute
+            keywords["file_content"] = content
+        else:
+            keywords[keyword] = content
+        sheets, filename, path = _get_book(**keywords)
         self.init(sheets=sheets, filename=filename, path=path)
 
     return custom_book_importer

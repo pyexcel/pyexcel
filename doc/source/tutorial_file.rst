@@ -32,8 +32,7 @@ Column 1 Column 2 Column 3
    ...      [2, 5, 8],
    ...      [3, 6, 9]
    ...  ]
-   >>> s = pyexcel.Sheet(data)
-   >>> s.save_as("example.xls")
+   >>> pyexcel.save_as(array=data, dest_file_name="example.xls")
 
 And you want to add a new row:
 
@@ -179,8 +178,7 @@ Row 3     7    8    9
    ...      ["Row 2", 4, 5, 6],
    ...      ["Row 3", 7, 8, 9],
    ...  ]
-   >>> s = pyexcel.Sheet(data)
-   >>> s.save_as("row_example.xls")
+   >>> pyexcel.save_as(array=data, dest_file_name="row_example.xls")
 
 And then you want to update "Row 3" with for example::
 

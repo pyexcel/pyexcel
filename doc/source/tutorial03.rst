@@ -90,7 +90,7 @@ First, let's read the content and see what do we have::
 
 .. testcode::
   
-   >>> sheet.to_array()
+   >>> sheet.array
    [['        Version', '        Comments', '       Author &nbsp;'], ['  v0.0.1       ', ' Release versions', '           &nbsp;Eda'], ['&nbsp; v0.0.2  ', 'Useful updates &nbsp; &nbsp;', '  &nbsp;Freud']]
 
 
@@ -106,7 +106,7 @@ Then let's create a :class:`~pyexcel.SheetFormatter` and apply it::
 
     >>> sf = pyexcel.formatters.SheetFormatter(cleanse_func)
     >>> sheet.apply_formatter(sf)
-    >>> sheet.to_array()
+    >>> sheet.array
     [['Version', 'Comments', 'Author'], ['v0.0.1', 'Release versions', 'Eda'], ['v0.0.2', 'Useful updates', 'Freud']]
 
 So in the end, you get this:
