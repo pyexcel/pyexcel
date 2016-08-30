@@ -11,6 +11,13 @@ Development steps for code changes
 
 #. git clone https://github.com/pyexcel/pyexcel.git
 #. cd pyexcel
+
+Upgrade your setup tools and pip. They are needed for development and testing only:
+
+#. pip install --upgrade setuptools "pip==7.1" 
+
+Then install relevant development requirements:
+
 #. pip install -r rnd_requirements.txt # if such a file exists
 #. pip install -r requirements.txt
 #. pip install -r tests/requirements.txt

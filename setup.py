@@ -4,6 +4,7 @@ except ImportError:
     from ez_setup import use_setuptools
     use_setuptools()
     from setuptools import setup, find_packages
+from platform import python_implementation
 from pyexcel._compact import PY2, PY26
 from platform import python_implementation
 
