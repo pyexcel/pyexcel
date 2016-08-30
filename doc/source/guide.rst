@@ -16,7 +16,7 @@ Development steps for code changes
 #. pip install -r tests/requirements.txt
 
 
-In order to update test envrionment, and documentation, additional setps are
+In order to update test environment, and documentation, additional setps are
 required:
 
 #. pip install moban
@@ -26,7 +26,7 @@ required:
 What is rnd_requirements.txt
 -------------------------------
 
-Usually, it is created when a depdent library is not released. Once the dependecy is installed(will be released), the future version of the dependency in the requirements.txt will be valid.
+Usually, it is created when a dependent library is not released. Once the dependecy is installed(will be released), the future version of the dependency in the requirements.txt will be valid.
 
 What is pyexcel-commons
 ---------------------------------

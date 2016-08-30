@@ -38,6 +38,7 @@ matrix:
             - python-wheel
 before_install:
   - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then rm tests/test_examples.py; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == "2.6" ]]; then pip install flake8==2.6.2; fi
   - if [[ -f min_requirements.txt && "$MINREQ" -eq 1 ]]; then
       mv min_requirements.txt requirements.txt ;
     fi
@@ -45,7 +46,6 @@ before_install:
   - test ! -f rnd_requirements.txt || pip install --no-deps -r rnd_requirements.txt
   - test ! -f rnd_requirements.txt || pip install -r rnd_requirements.txt ;
   - pip install -r tests/requirements.txt
-  - pip install flake8
 script:
   - make test
 after_success:
