@@ -56,13 +56,6 @@ Plugins          Supported file formats
 Installation
 ============
 
-
-Recently, pyexcel(0.2.2+) and its plugins(0.2.0+) started using newer version of setuptools. Please upgrade your setup tools before install latest pyexcel components:
-
-.. code-block:: bash
-
-    $ pip install --upgrade setuptools
-
 You can install it via pip:
 
 .. code-block:: bash
