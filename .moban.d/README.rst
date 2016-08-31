@@ -31,24 +31,7 @@ Feature Highlights
 Available Plugins
 =================
 
-================ ========================================
-Plugins          Supported file formats
-================ ========================================
-`pyexcel-io`_    csv, csvz, tsv, tsvz
-`pyexcel-xls`_   xls, xlsx(r), xlsm(r)
-`pyexcel-xlsx`_  xlsx
-`pyexcel-ods`_   ods (python 2.6, 2.7 only)
-`pyexcel-ods3`_  ods
-`pyexcel-text`_  (write only)json, rst, mediawiki,latex,
-                 grid, pipe, orgtbl, plain simple
-================ ========================================
-
-.. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
-.. _pyexcel-xls: https://github.com/pyexcel/pyexcel-xls
-.. _pyexcel-xlsx: https://github.com/pyexcel/pyexcel-xlsx
-.. _pyexcel-ods: https://github.com/pyexcel/pyexcel-ods
-.. _pyexcel-ods3: https://github.com/pyexcel/pyexcel-ods3
-.. _pyexcel-text: https://github.com/pyexcel/pyexcel-text
+{% include "plugins-list.rst.jj2"%}
 
 Installation
 ============

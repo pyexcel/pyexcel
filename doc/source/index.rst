@@ -7,11 +7,11 @@
 ================================================================================
 
 :Author: C.W.
-:Source code: http://github.com/pyexcel/pyexcel
+:Source code: http://github.com/pyexcel/pyexcel.git
 :Issues: http://github.com/pyexcel/pyexcel/issues
 :License: New BSD License
-:Development: |version|
-:Released: |release|
+:Development: |release|
+:Released: |version|
 :Generated: |today|
 
 Introduction
@@ -42,17 +42,6 @@ useful functions.
    They are imported if they are installed. Please use pip to manage the
    plugins.
 
-
-Getting the source
---------------------------------------------------------------------------------
-
-
-Source code is hosted in github. You can get it using git client:
-
-.. code-block:: bash
-
-    $ git clone http://github.com/pyexcel/pyexcel.git
-
 Installation
 -------------
 
@@ -73,31 +62,44 @@ or clone it and install it:
 
 For individual excel file formats, please install them as you wish:
 
+.. _file-format-list:
 .. _a-map-of-plugins-and-file-formats:
-.. table:: a map of plugins and supported excel file formats
 
-   ========= ======================= ============= ============================= =============================	
-   Plugin    Supported file formats  Dependencies  Python versions			     Comments
-   ========= ======================= ============= ============================= =============================	
-   pyexcel   csv, csvz [#f1]_, tsv,  `pyexcel-io`_ 2.6, 2.7, 3.3, 3.4, 3.5, pypy 						
-             tsvz [#f2]_     
-   `xls`_    xls, xlsx(read only),   xlrd, xlwt    2.6, 2.7, 3.3, 3.4, 3.5, pypy supports reading xlsx as well
-             xlsm(read only)
-   `xlsx`_   xlsx                    openpyxl      2.6, 2.7, 3.3, 3.4, 3.5, pypy 					
-   `ods3`_   ods                     ezodf, lxml   2.6, 2.7, 3.3, 3.4, 3.5,							
-   `ods`_    ods (python 2.6, 2.7)   odfpy         2.6, 2.7									
-   `text`_   json, rst, mediawiki,   tabulate      2.6, 2.7, 3.3, 3.4, 3.5, pypy writing to files only
-             latex, grid, etc.
-   ========= ======================= ============= ============================= =============================
+.. table:: A list of file formats supported by external plugins
+
+   ================= ======================= ============= ==================
+   Package name      Supported file formats  Dependencies  Python versions
+   ================= ======================= ============= ==================
+   `pyexcel-io`_     csv, csvz [#f1]_, tsv,                2.6, 2.7, 3.3,
+                                                           3.4, pypy, pypy3
+                     tsvz [#f2]_
+   `pyexcel-xls`_    xls, xlsx(read only),   xlrd, xlwt    2.6, 2.7, 3.3,
+                                                           3.4, pypy, pypy3
+                     xlsm(read only)
+   `pyexcel-xlsx`_   xlsx                    openpyxl      2.6, 2.7, 3.3,
+                                                           3.4, pypy, pypy3
+   `pyexcel-xlsxw`_  xlsx(write only)        xlsxwriter    2.6, 2.7, 3.3,
+                                                           3.4, pypy, pypy3
+   `pyexcel-ods3`_   ods                     ezodf, lxml   2.6, 2.7, 3.3, 3.4
+   `pyexcel-ods`_    ods (python 2.6, 2.7)   odfpy         2.6, 2.7, 3.3, 3.4
+   `pyexcel-text`_   (write only)json, rst,  tabulate      2.6, 2.7, 3.3, 3.4
+                     mediawiki, html,                      pypy, pypy3
+                     latex, grid, pipe,
+                     orgtbl, plain simple
+   ================= ======================= ============= ==================
 
 .. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
-.. _xls: https://github.com/pyexcel/pyexcel-xls
-.. _xlsx: https://github.com/pyexcel/pyexcel-xlsx
-.. _ods: https://github.com/pyexcel/pyexcel-ods
-.. _ods3: https://github.com/pyexcel/pyexcel-ods3
-.. _text: https://github.com/pyexcel/pyexcel-text
+.. _pyexcel-xls: https://github.com/pyexcel/pyexcel-xls
+.. _pyexcel-xlsx: https://github.com/pyexcel/pyexcel-xlsx
+.. _pyexcel-ods: https://github.com/pyexcel/pyexcel-ods
+.. _pyexcel-ods3: https://github.com/pyexcel/pyexcel-ods3
+.. _pyexcel-xlsxw: https://github.com/pyexcel/pyexcel-xlsxw
+.. _pyexcel-text: https://github.com/pyexcel/pyexcel-text
 
+.. rubric:: Footnotes
 
+.. [#f1] zipped csv file
+.. [#f2] zipped tsv file
 
 .. table:: Plugin compatibility table
 

@@ -3,16 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-`pyexcel` - Let you focus on data, instead of file formats
-================================================================================
-
-:Author: C.W.
-:Source code: http://github.com/pyexcel/pyexcel
-:Issues: http://github.com/pyexcel/pyexcel/issues
-:License: New BSD License
-:Development: |version|
-:Released: |release|
-:Generated: |today|
+{%include "header.rst.jj2"%}
 
 Introduction
 -------------
@@ -42,17 +33,6 @@ useful functions.
    They are imported if they are installed. Please use pip to manage the
    plugins.
 
-
-Getting the source
---------------------------------------------------------------------------------
-
-
-Source code is hosted in github. You can get it using git client:
-
-.. code-block:: bash
-
-    $ git clone http://github.com/pyexcel/pyexcel.git
-
 Installation
 -------------
 
@@ -60,31 +40,7 @@ Installation
 
 For individual excel file formats, please install them as you wish:
 
-.. _a-map-of-plugins-and-file-formats:
-.. table:: a map of plugins and supported excel file formats
-
-   ========= ======================= ============= ============================= =============================	
-   Plugin    Supported file formats  Dependencies  Python versions			     Comments
-   ========= ======================= ============= ============================= =============================	
-   pyexcel   csv, csvz [#f1]_, tsv,  `pyexcel-io`_ 2.6, 2.7, 3.3, 3.4, 3.5, pypy 						
-             tsvz [#f2]_     
-   `xls`_    xls, xlsx(read only),   xlrd, xlwt    2.6, 2.7, 3.3, 3.4, 3.5, pypy supports reading xlsx as well
-             xlsm(read only)
-   `xlsx`_   xlsx                    openpyxl      2.6, 2.7, 3.3, 3.4, 3.5, pypy 					
-   `ods3`_   ods                     ezodf, lxml   2.6, 2.7, 3.3, 3.4, 3.5,							
-   `ods`_    ods (python 2.6, 2.7)   odfpy         2.6, 2.7									
-   `text`_   json, rst, mediawiki,   tabulate      2.6, 2.7, 3.3, 3.4, 3.5, pypy writing to files only
-             latex, grid, etc.
-   ========= ======================= ============= ============================= =============================
-
-.. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
-.. _xls: https://github.com/pyexcel/pyexcel-xls
-.. _xlsx: https://github.com/pyexcel/pyexcel-xlsx
-.. _ods: https://github.com/pyexcel/pyexcel-ods
-.. _ods3: https://github.com/pyexcel/pyexcel-ods3
-.. _text: https://github.com/pyexcel/pyexcel-text
-
-
+{%include "plugins-list.rst.jj2"%}
 
 .. table:: Plugin compatibility table
 
