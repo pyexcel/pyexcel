@@ -56,13 +56,6 @@ Plugins          Supported file formats
 Installation
 ============
 
-
-Recently, pyexcel(0.2.2+) and its plugins(0.2.0+) started using newer version of setuptools. Please upgrade your setup tools before install latest pyexcel components:
-
-.. code-block:: bash
-
-    $ pip install --upgrade setuptools
-
 You can install it via pip:
 
 .. code-block:: bash
@@ -107,6 +100,13 @@ Development steps for code changes
 
 #. git clone https://github.com/pyexcel/pyexcel.git
 #. cd pyexcel
+
+Upgrade your setup tools and pip. They are needed for development and testing only:
+
+#. pip install --upgrade setuptools "pip==7.1" 
+
+Then install relevant development requirements:
+
 #. pip install -r rnd_requirements.txt # if such a file exists
 #. pip install -r requirements.txt
 #. pip install -r tests/requirements.txt

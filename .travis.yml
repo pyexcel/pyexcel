@@ -40,11 +40,10 @@ matrix:
 before_install:
   - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then rm tests/test_examples.py; fi
   - if [[ $TRAVIS_PYTHON_VERSION == "2.6" ]]; then pip install flake8==2.6.2; fi
-  - if [[ $TRAVIS_PYTHON_VERSION == "pypy3" ]]; then pip install lxml==3.6.0; fi
   - if [[ -f min_requirements.txt && "$MINREQ" -eq 1 ]]; then
       mv min_requirements.txt requirements.txt ;
     fi
-  - pip install --upgrade "setuptools" "pip==7.1"
+  - pip install --upgrade setuptools "pip==7.1"
   - test ! -f rnd_requirements.txt || pip install --no-deps -r rnd_requirements.txt
   - test ! -f rnd_requirements.txt || pip install -r rnd_requirements.txt ;
   - pip install -r tests/requirements.txt

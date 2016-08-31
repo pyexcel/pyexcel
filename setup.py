@@ -4,6 +4,10 @@ except ImportError:
     from ez_setup import use_setuptools
     use_setuptools()
     from setuptools import setup, find_packages
+from platform import python_implementation
+import sys
+PY2 = sys.version_info[0] == 2
+PY26 = PY2 and sys.version_info[1] < 7
 
 NAME = 'pyexcel'
 AUTHOR = 'C.W.'
@@ -34,25 +38,21 @@ INSTALL_REQUIRES = [
     'six>=1.10.0',
 ]
 
+if PY2:
+    INSTALL_REQUIRES.append('texttable>=0.8.1')
+if not PY2:
+    INSTALL_REQUIRES.append('texttable>=0.8.2')
+if PY26:
+    INSTALL_REQUIRES.append('ordereddict')
+if PY26:
+    INSTALL_REQUIRES.append('weakrefset')
+if python_implementation == "PyPy":
+    INSTALL_REQUIRES.append('lxml==3.4.4')
+
 EXTRAS_REQUIRE = {
     'xls': ['pyexcel-xls>=0.2.0'],
     'xlsx': ['pyexcel-xlsx>=0.2.0'],
     'ods': ['pyexcel-ods3>=0.2.0'],
-    ':python_version<"3"': [
-        'texttable>=0.8.1'
-    ],
-    ':python_version>="3"': [
-        'texttable>=0.8.2'
-    ],
-    ':python_version<"2.7"': [
-        'ordereddict'
-    ],
-    ':python_version<"2.7"': [
-        'weakrefset'
-    ],
-    ':platform_python_implementation=="PyPy"': [
-        'lxml==3.4.4'
-    ],
 }
 
 CLASSIFIERS = [
