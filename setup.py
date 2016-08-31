@@ -6,7 +6,6 @@ except ImportError:
     from setuptools import setup, find_packages
 from platform import python_implementation
 from pyexcel._compact import PY2, PY26
-from platform import python_implementation
 
 NAME = 'pyexcel'
 AUTHOR = 'C.W.'
