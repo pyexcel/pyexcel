@@ -1,9 +1,5 @@
 {% extends 'setup.py.jj2' %}
 
-{%block compat_block%}
-from pyexcel._compact import PY2, PY26
-{%endblock%}
-
 {% block additional_keywords %}
     'tsv',
     'tsvz'
