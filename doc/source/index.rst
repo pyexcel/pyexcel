@@ -71,19 +71,25 @@ For individual excel file formats, please install them as you wish:
    Package name      Supported file formats  Dependencies  Python versions
    ================= ======================= ============= ==================
    `pyexcel-io`_     csv, csvz [#f1]_, tsv,                2.6, 2.7, 3.3,
-                                                           3.4, pypy, pypy3
+                                                           3.4, 3.5,
+                                                           pypy, pypy3
                      tsvz [#f2]_
    `pyexcel-xls`_    xls, xlsx(read only),   xlrd, xlwt    2.6, 2.7, 3.3,
-                                                           3.4, pypy, pypy3
+                                                           3.4, 3.5,
+                                                           pypy, pypy3
                      xlsm(read only)
    `pyexcel-xlsx`_   xlsx                    openpyxl      2.6, 2.7, 3.3,
-                                                           3.4, pypy, pypy3
+                                                           3.4, 3.5,
+                                                           pypy, pypy3
    `pyexcel-xlsxw`_  xlsx(write only)        xlsxwriter    2.6, 2.7, 3.3,
-                                                           3.4, pypy, pypy3
+                                                           3.4, 3.5,
+                                                           pypy, pypy3
    `pyexcel-ods3`_   ods                     ezodf, lxml   2.6, 2.7, 3.3, 3.4
+                                                           3.5
    `pyexcel-ods`_    ods (python 2.6, 2.7)   odfpy         2.6, 2.7, 3.3, 3.4
+                                                           3.5
    `pyexcel-text`_   (write only)json, rst,  tabulate      2.6, 2.7, 3.3, 3.4
-                     mediawiki, html,                      pypy, pypy3
+                     mediawiki, html,                      3.5, pypy, pypy3
                      latex, grid, pipe,
                      orgtbl, plain simple
    ================= ======================= ============= ==================
@@ -101,16 +107,19 @@ For individual excel file formats, please install them as you wish:
 .. [#f1] zipped csv file
 .. [#f2] zipped tsv file
 
+For compatibility tables of pyexcel-io plugins, please click `here <http://pyexcel-io.readthedocs.io/en/latest/#id5>`_
+
 .. table:: Plugin compatibility table
 
-    ======= ========== =========== ============ ============ ============ ============
-    pyexcel pyexcel-io xls         xlsx         ods          ods3         text  
-    ======= ========== =========== ============ ============ ============ ============
-    0.3.0   0.2.0      0.2.0       0.2.0        0.2.0        0.2.0        0.2.1+
-    0.2.2+  0.2.0      0.2.0       0.2.0        0.2.0        0.2.0        0.2.1+
-    0.2.1   0.1.0      0.1.0       0.1.0        0.1.0+       0.1.0+       0.2.0
-    0.2.0   0.1.0      0.1.0       0.1.0        0.1.0+       0.1.0+       0.1.0+
-    ======= ========== =========== ============ ============ ============ ============
+    ======= ========== ============
+    pyexcel pyexcel-io pyexcel-text
+    ======= ========== ============
+    0.3.0   0.2.0+     0.2.1+
+    0.2.2+  0.2.0+     0.2.1+
+    0.2.1   0.1.0      0.2.0
+    0.2.0   0.1.0      0.1.0+
+    ======= ========== ============
+
 
 Usage
 ------
@@ -239,8 +248,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
-.. rubric:: Footnotes
-
-.. [#f1] zipped csv file
-.. [#f2] zipped tsv file

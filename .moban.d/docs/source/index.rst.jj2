@@ -42,16 +42,19 @@ For individual excel file formats, please install them as you wish:
 
 {%include "plugins-list.rst.jj2"%}
 
+For compatibility tables of pyexcel-io plugins, please click `here <http://pyexcel-io.readthedocs.io/en/latest/#id5>`_
+
 .. table:: Plugin compatibility table
 
-    ======= ========== =========== ============ ============ ============ ============
-    pyexcel pyexcel-io xls         xlsx         ods          ods3         text  
-    ======= ========== =========== ============ ============ ============ ============
-    0.3.0   0.2.0      0.2.0       0.2.0        0.2.0        0.2.0        0.2.1+
-    0.2.2+  0.2.0      0.2.0       0.2.0        0.2.0        0.2.0        0.2.1+
-    0.2.1   0.1.0      0.1.0       0.1.0        0.1.0+       0.1.0+       0.2.0
-    0.2.0   0.1.0      0.1.0       0.1.0        0.1.0+       0.1.0+       0.1.0+
-    ======= ========== =========== ============ ============ ============ ============
+    ======= ========== ============
+    pyexcel pyexcel-io pyexcel-text
+    ======= ========== ============
+    0.3.0   0.2.0+     0.2.1+
+    0.2.2+  0.2.0+     0.2.1+
+    0.2.1   0.1.0      0.2.0
+    0.2.0   0.1.0      0.1.0+
+    ======= ========== ============
+
 
 Usage
 ------
@@ -180,8 +183,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
-.. rubric:: Footnotes
-
-.. [#f1] zipped csv file
-.. [#f2] zipped tsv file
