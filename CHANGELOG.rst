@@ -21,6 +21,16 @@ Removed:
 #. `content` and `out_file` as function parameters to the signature functions are
    no longer supported. 
 
+0.2.5 - 31.08.2016
+--------------------------------------------------------------------------------
+
+Updated:
+********************************************************************************
+
+#. `# 58 <https://github.com/pyexcel/pyexcel/issues/58>`_: texttable should
+   have been made as compulsory requirement
+
+
 0.2.4 - 14.07.2016
 --------------------------------------------------------------------------------
 

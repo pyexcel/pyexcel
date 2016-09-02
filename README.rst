@@ -34,34 +34,53 @@ Feature Highlights
 Available Plugins
 =================
 
-================ ========================================
-Plugins          Supported file formats
-================ ========================================
-`pyexcel-io`_    csv, csvz, tsv, tsvz
-`pyexcel-xls`_   xls, xlsx(r), xlsm(r)
-`pyexcel-xlsx`_  xlsx
-`pyexcel-ods`_   ods (python 2.6, 2.7 only)
-`pyexcel-ods3`_  ods
-`pyexcel-text`_  (write only)json, rst, mediawiki,latex,
-                 grid, pipe, orgtbl, plain simple
-================ ========================================
+.. _file-format-list:
+.. _a-map-of-plugins-and-file-formats:
+
+.. table:: A list of file formats supported by external plugins
+
+   ================= ======================= ============= ==================
+   Package name      Supported file formats  Dependencies  Python versions
+   ================= ======================= ============= ==================
+   `pyexcel-io`_     csv, csvz [#f1]_, tsv,                2.6, 2.7, 3.3,
+                                                           3.4, 3.5,
+                                                           pypy, pypy3
+                     tsvz [#f2]_
+   `pyexcel-xls`_    xls, xlsx(read only),   xlrd, xlwt    2.6, 2.7, 3.3,
+                                                           3.4, 3.5,
+                                                           pypy, pypy3
+                     xlsm(read only)
+   `pyexcel-xlsx`_   xlsx                    openpyxl      2.6, 2.7, 3.3,
+                                                           3.4, 3.5,
+                                                           pypy, pypy3
+   `pyexcel-xlsxw`_  xlsx(write only)        xlsxwriter    2.6, 2.7, 3.3,
+                                                           3.4, 3.5,
+                                                           pypy, pypy3
+   `pyexcel-ods3`_   ods                     ezodf, lxml   2.6, 2.7, 3.3, 3.4
+                                                           3.5
+   `pyexcel-ods`_    ods (python 2.6, 2.7)   odfpy         2.6, 2.7, 3.3, 3.4
+                                                           3.5
+   `pyexcel-text`_   (write only)json, rst,  tabulate      2.6, 2.7, 3.3, 3.4
+                     mediawiki, html,                      3.5, pypy, pypy3
+                     latex, grid, pipe,
+                     orgtbl, plain simple
+   ================= ======================= ============= ==================
 
 .. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
 .. _pyexcel-xls: https://github.com/pyexcel/pyexcel-xls
 .. _pyexcel-xlsx: https://github.com/pyexcel/pyexcel-xlsx
 .. _pyexcel-ods: https://github.com/pyexcel/pyexcel-ods
 .. _pyexcel-ods3: https://github.com/pyexcel/pyexcel-ods3
+.. _pyexcel-xlsxw: https://github.com/pyexcel/pyexcel-xlsxw
 .. _pyexcel-text: https://github.com/pyexcel/pyexcel-text
+
+.. rubric:: Footnotes
+
+.. [#f1] zipped csv file
+.. [#f2] zipped tsv file
 
 Installation
 ============
-
-
-Recently, pyexcel(0.2.2+) and its plugins(0.2.0+) started using newer version of setuptools. Please upgrade your setup tools before install latest pyexcel components:
-
-.. code-block:: bash
-
-    $ pip install --upgrade setuptools
 
 You can install it via pip:
 
@@ -107,6 +126,13 @@ Development steps for code changes
 
 #. git clone https://github.com/pyexcel/pyexcel.git
 #. cd pyexcel
+
+Upgrade your setup tools and pip. They are needed for development and testing only:
+
+#. pip install --upgrade setuptools "pip==7.1" 
+
+Then install relevant development requirements:
+
 #. pip install -r rnd_requirements.txt # if such a file exists
 #. pip install -r requirements.txt
 #. pip install -r tests/requirements.txt
