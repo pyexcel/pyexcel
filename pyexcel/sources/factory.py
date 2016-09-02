@@ -1,6 +1,6 @@
 from six import with_metaclass
 from pyexcel._compact import PY2, is_string
-from .params import FILE_NAME, FILE_TYPE, SOURCE
+import pyexcel.sources.params as params
 
 
 registry = {
@@ -46,11 +46,11 @@ class Source(with_metaclass(MetaForSourceRegistryOnly, object)):
     This can be used to extend the function parameters once the custom
     class inherit this and register it with corresponding source registry
     """
-    fields = [SOURCE]
+    fields = [params.SOURCE]
     attributes = []
     targets = []
     actions = []
-    key = SOURCE
+    key = params.SOURCE
 
     def __init__(self, source=None, **keywords):
         self.source = source
@@ -86,14 +86,14 @@ class FileSource(Source):
         status = super(FileSource, cls).is_my_business(
             action, **keywords)
         if status:
-            file_name = keywords.get(FILE_NAME, None)
+            file_name = keywords.get(params.FILE_NAME, None)
             if file_name:
                 if is_string(type(file_name)):
                     file_type = file_name.split(".")[-1]
                 else:
                     raise IOError("Wrong file name")
             else:
-                file_type = keywords.get(FILE_TYPE)
+                file_type = keywords.get(params.FILE_TYPE)
 
             if cls.can_i_handle(action, file_type):
                 status = True

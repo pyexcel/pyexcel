@@ -2,7 +2,7 @@
     pyexcel.sources.file_source_input
     ~~~~~~~~~~~~~~~~~~~
 
-    Representation of file sources
+    Representation of input file sources
 
     :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License

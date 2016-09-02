@@ -19,9 +19,9 @@ from pyexcel_io.utils import from_query_sets
 
 from pyexcel._compact import OrderedDict
 from pyexcel.constants import DEFAULT_SHEET_NAME
-from . import params
 from pyexcel.generators import BookStream
-from .factory import Source
+from pyexcel.sources.factory import Source
+import pyexcel.sources.params as params
 
 
 class SheetQuerySetSource(Source):
