@@ -129,7 +129,7 @@ Development steps for code changes
 
 Upgrade your setup tools and pip. They are needed for development and testing only:
 
-#. pip install --upgrade setuptools "pip==7.1" 
+#. pip install --upgrade setuptools "pip==7.1"
 
 Then install relevant development requirements:
 
