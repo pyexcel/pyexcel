@@ -1,6 +1,6 @@
 from six import with_metaclass
 from pyexcel._compact import PY2, is_string
-import pyexcel.sources.params as params
+from . import params
 
 
 registry = {
