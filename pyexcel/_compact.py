@@ -28,12 +28,13 @@ if PY2:
         def next(self):
             return type(self).__next__(self)
     import urllib2 as request
+    irange = xrange
 else:
     from io import StringIO, BytesIO
     text_type = str
     Iterator = object
     import urllib.request as request
-
+    irange = range
 
 def is_tuple_consists_of_strings(an_array):
     return isinstance(an_array, tuple) and is_array_type(an_array, str)

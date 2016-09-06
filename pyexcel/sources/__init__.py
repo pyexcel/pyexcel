@@ -71,10 +71,6 @@ class SheetMixin:
         setattr(cls, 'get_%s' % file_type, getter)
         setattr(cls, 'set_%s' % file_type, setter)
 
-    def save_to(self, source):
-        """Save to a writable data source"""
-        source.write_data(self)
-
     def save_as(self, filename, **keywords):
         """Save the content to a named file
 
@@ -173,10 +169,6 @@ class BookMixin(object):
         setattr(cls, file_type, file_type_property)
         setattr(cls, 'get_%s' % file_type, getter)
         setattr(cls, 'set_%s' % file_type, setter)
-
-    def save_to(self, source):
-        """Save to a writable data source"""
-        source.write_data(self)
 
     def save_as(self, filename):
         """Save the content to a new file
@@ -280,7 +272,7 @@ def book_presenter(attribute=None):
         keyword = _get_keyword_for_parameter(attribute)
         keywords[keyword] = attribute
         memory_source = factory.get_writable_book_source(**keywords)
-        self.save_to(memory_source)
+        memory_source.write_data(self)
         return memory_source.content.getvalue()
     return custom_presenter
 

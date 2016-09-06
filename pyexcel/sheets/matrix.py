@@ -11,7 +11,7 @@ of lookup.
 import re
 import copy
 
-from pyexcel._compact import is_array_type, PY2
+from pyexcel._compact import is_array_type, PY2, irange
 from pyexcel.sheets.iterators import (
     HTLBRIterator,
     HBRTLIterator,
@@ -522,19 +522,13 @@ class Matrix(object):
         """
         Utility function to get row range
         """
-        if PY2:
-            return xrange(0, self.number_of_rows())
-        else:
-            return range(0, self.number_of_rows())
+        return irange(0, self.number_of_rows())
 
     def column_range(self):
         """
         Utility function to get column range
         """
-        if PY2:
-            return xrange(0, self.number_of_columns())
-        else:
-            return range(0, self.number_of_columns())
+        return irange(0, self.number_of_columns())
 
     def cell_value(self, row, column, new_value=None):
         """Random access to table cells

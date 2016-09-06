@@ -11,7 +11,7 @@ def test_save_to():
     ss = WriteSheetToMemory(file_type=file_type, file_stream=io,
                             lineterminator='\n')
     sheet_stream = SheetStream("test", g)
-    sheet_stream.save_to(ss)
+    ss.write_data(sheet_stream)
     content = io.getvalue()
     expected = dedent("""\
     1,2

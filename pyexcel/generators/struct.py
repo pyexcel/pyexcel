@@ -11,10 +11,6 @@ class SheetStream(NamedContent):
         NamedContent.__init__(self, name, payload)
         self.colnames = []
 
-    def save_to(self, source):
-        """Save to a writable data source"""
-        source.write_data(self)
-
     def to_array(self):
         """
         Simply return the generator
@@ -65,10 +61,6 @@ class BookStream(object):
             # this provide the convenience of access the sheet
             self.__dict__[name] = sheet
         self.name_array = list(self.sheets.keys())
-
-    def save_to(self, source):
-        """Save to a writable data source"""
-        source.write_data(self)
 
     def to_dict(self):
         """
