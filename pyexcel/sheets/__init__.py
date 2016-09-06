@@ -8,7 +8,6 @@
     :license: New BSD License, see LICENSE for more details
 """
 # flake8: noqa
-from .sheet import Sheet
 from .nominablesheet import NamedRow, NamedColumn
-from .nominablesheet import NominableSheet
+from .nominablesheet import Sheet
 from .matrix import Matrix, transpose, Row, Column

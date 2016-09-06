@@ -1,4 +1,4 @@
-from pyexcel.sheets.nominablesheet import NominableSheet
+from pyexcel.sheets.nominablesheet import Sheet
 from pyexcel.sheets.formatters import RowFormatter, ColumnFormatter
 from pyexcel.sheets.formatters import NamedColumnFormatter, SheetFormatter
 from pyexcel.sheets.formatters import NamedRowFormatter
@@ -55,7 +55,7 @@ class TestSheetNamedColumn:
 
     def test_formatter_by_named_column(self):
         """Test one named column"""
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_columns_by_row(0)
         f = NamedColumnFormatter("Column 1", str)
         s.apply_formatter(f)
@@ -63,7 +63,7 @@ class TestSheetNamedColumn:
 
     def test_formatter_by_named_columns(self):
         """Test multiple named columns"""
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_columns_by_row(0)
         f = NamedColumnFormatter(["Column 1", "Column 3"], str)
         s.apply_formatter(f)
@@ -84,7 +84,7 @@ class TestSheetNamedColumn:
         NamedColumnFormatter(1.22, str)
 
     def test_add(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_columns_by_row(0)
         data = OrderedDict({
             "Column 4": [10, 11, 12]
@@ -95,13 +95,13 @@ class TestSheetNamedColumn:
     @raises(TypeError)
     def test_add_wrong_type(self):
         """Add string type"""
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_columns_by_row(0)
         s = s.column + "string type"  # bang
 
     @raises(ValueError)
     def test_delete_named_column(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_columns_by_row(0)
         del s.column["Column 2"]
         assert s.number_of_columns() == 2
@@ -109,7 +109,7 @@ class TestSheetNamedColumn:
 
     @raises(ValueError)
     def test_delete_indexed_column1(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_columns_by_row(0)
         del s.column[1]
         assert s.number_of_columns() == 2
@@ -117,7 +117,7 @@ class TestSheetNamedColumn:
 
     @raises(ValueError)
     def test_delete_indexed_column2(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_columns_by_row(0)
         del s.column["Column 2"]
         assert s.number_of_columns() == 2
@@ -125,7 +125,7 @@ class TestSheetNamedColumn:
 
     @raises(ValueError)
     def test_delete_indexed_column(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_columns_by_row(0)
         s.delete_named_column_at(1)
         assert s.number_of_columns() == 2
@@ -142,7 +142,7 @@ class TestSheetNamedColumn2:
         ]
 
     def test_series(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_columns_by_row(2)
         assert s.colnames == ["Column 1", "Column 2", "Column 3"]
         custom_columns = ["C1", "C2", "C3"]
@@ -151,30 +151,30 @@ class TestSheetNamedColumn2:
 
     def test_series2(self):
         custom_columns = ["C1", "C2", "C3"]
-        s = NominableSheet(self.data, "test", colnames=custom_columns)
+        s = Sheet(self.data, "test", colnames=custom_columns)
         assert s.colnames == custom_columns
 
     @raises(NotImplementedError)
     def test_series3(self):
         custom_columns = ["C1", "C2", "C3"]
-        NominableSheet(self.data, "test", colnames=custom_columns,
+        Sheet(self.data, "test", colnames=custom_columns,
                        name_columns_by_row=0)
 
     def test_formatter_by_named_column(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_columns_by_row(2)
         f = NamedColumnFormatter("Column 1", str)
         s.apply_formatter(f)
         assert s.column["Column 1"] == ["1", "4", "7"]
 
     def test_formatter_by_named_column_2(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_columns_by_row(2)
         s.column.format("Column 1", str)
         assert s.column["Column 1"] == ["1", "4", "7"]
 
     def test_add(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_columns_by_row(2)
         data = OrderedDict({
             "Column 4": [10, 11, 12]
@@ -185,14 +185,14 @@ class TestSheetNamedColumn2:
 
     @raises(ValueError)
     def test_delete_named_column(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_columns_by_row(2)
         del s.column["Column 2"]
         assert s.number_of_columns() == 2
         s.column["Column 2"]  # bang
 
     def test_set_indexed_row(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_columns_by_row(2)
         s.row[0] = [10000, 1, 11]
         assert s.row[0] == [10000, 1, 11]
@@ -208,14 +208,14 @@ class TestSheetNamedRow:
         ]
 
     def test_formatter_by_named_row(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_rows_by_column(0)
         f = NamedRowFormatter("Row 1", str)
         s.apply_formatter(f)
         assert s.row["Row 1"] == ["1", "2", "3"]
 
     def test_rownames(self):
-        s = NominableSheet(self.data, "test", name_rows_by_column=0)
+        s = Sheet(self.data, "test", name_rows_by_column=0)
         assert s.rownames == ["Row 0", "Row 1", "Row 2", "Row 3"]
         custom_rows = ["R0", "R1", "R2", "R3"]
         s.rownames = custom_rows
@@ -223,23 +223,23 @@ class TestSheetNamedRow:
 
     def test_rownames2(self):
         custom_rows = ["R0", "R1", "R2", "R3"]
-        s = NominableSheet(self.data, "test", rownames=custom_rows)
+        s = Sheet(self.data, "test", rownames=custom_rows)
         assert s.rownames == custom_rows
 
     @raises(NotImplementedError)
     def test_rownames3(self):
         custom_rows = ["R0", "R1", "R2", "R3"]
-        NominableSheet(self.data, "test", name_rows_by_column=0,
+        Sheet(self.data, "test", name_rows_by_column=0,
                        rownames=custom_rows)
 
     def test_formatter_by_named_row_2(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_rows_by_column(0)
         s.row.format("Row 1", str)
         assert s.row["Row 1"] == ["1", "2", "3"]
 
     def test_row_series_to_dict(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_rows_by_column(0)
         content = s.to_dict(True)
         keys = ["Row 0", "Row 1", "Row 2", "Row 3"]
@@ -247,13 +247,13 @@ class TestSheetNamedRow:
 
     @raises(TypeError)
     def test_extend_rows_using_wrong_data_type(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_rows_by_column(0)
         s.extend_rows([1, 2])
 
     def test_formatter_by_named_row2(self):
         """Test a list of string as index"""
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_rows_by_column(0)
         f = NamedRowFormatter(["Row 1", "Row 2"], str)
         s.apply_formatter(f)
@@ -274,7 +274,7 @@ class TestSheetNamedRow:
         NamedRowFormatter(1.22, str)
 
     def test_add(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_rows_by_column(0)
         data = OrderedDict({
             "Row 5": [10, 11, 12]
@@ -285,13 +285,13 @@ class TestSheetNamedRow:
 
     @raises(TypeError)
     def test_add_wrong_type(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_rows_by_column(0)
         s = s.row + "string type"  # bang
 
     @raises(ValueError)
     def test_delete_named_row(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_rows_by_column(0)
         del s.row["Row 2"]
         assert s.number_of_rows() == 3
@@ -299,7 +299,7 @@ class TestSheetNamedRow:
 
     @raises(ValueError)
     def test_delete_indexed_row1(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_rows_by_column(0)
         del s.row[2]
         assert s.number_of_rows() == 3
@@ -307,20 +307,20 @@ class TestSheetNamedRow:
 
     @raises(ValueError)
     def test_delete_indexed_row2(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_rows_by_column(0)
         s.delete_named_row_at(2)
         assert s.number_of_rows() == 3
         s.row["Row 2"]  # already deleted
 
     def test_set_named_row(self):
-        s = NominableSheet(self.data, "test")
+        s = Sheet(self.data, "test")
         s.name_rows_by_column(0)
         s.row["Row 2"] = [11, 11, 11]
         assert s.row["Row 2"] == [11, 11, 11]
 
     def test_set_indexed_column(self):
-        s = NominableSheet(self.data, "test", name_rows_by_column=0)
+        s = Sheet(self.data, "test", name_rows_by_column=0)
         s.column[0] = [12, 3, 4, 5]
         assert s.column[0] == [12, 3, 4, 5]
 

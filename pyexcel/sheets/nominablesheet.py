@@ -25,6 +25,7 @@ from ..constants import (
     MESSAGE_NOT_IMPLEMENTED_02,
     MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED,
     DEFAULT_NAME)
+from pyexcel.sources import SheetMixin
 
 
 def names_to_indices(names, series):
@@ -415,8 +416,23 @@ class NamedColumn(Column):
                 handle_one_formatter(spec[0], spec[1])
 
 
-class NominableSheet(Matrix):
-    """Allow dictionary group of the content
+class Sheet(Matrix, SheetMixin):
+    """Two dimensional data container for filtering, formatting and iteration
+
+    :class:`Sheet` is a container for a two dimensional array, where individual
+    cell can be any Python types. Other than numbers, value of these
+    types: string, date, time and boolean can be mixed in the array. This
+    differs from Numpy's matrix where each cell are of the same number type.
+
+    In order to prepare two dimensional data for your computation, formatting
+    functions help convert array cells to required types. Formatting can be
+    applied not only to the whole sheet but also to selected rows or columns.
+    Custom conversion function can be passed to these formatting functions. For
+    example, to remove extra spaces surrounding the content of a cell, a custom
+    function is required.
+
+    Filtering functions are used to reduce the information contained in the
+    array.
     """
     def __init__(self, sheet=None, name=DEFAULT_NAME,
                  name_columns_by_row=-1,
@@ -434,6 +450,7 @@ class NominableSheet(Matrix):
         :param colnames: use an external list of strings to name the columns
         :param rownames: use an external list of strings to name the rows
         """
+        self.init_attributes()
         self.init(
             sheet=sheet,
             name=name,
@@ -799,3 +816,27 @@ class NominableSheet(Matrix):
 
     def named_columns(self):
         return NamedColumnIterator(self)
+
+    class _RepresentedString:
+        def __init__(self, text):
+            self.text = text
+
+        def __repr__(self):
+            return self.text
+
+        def __str__(self):
+            return self.text
+
+    def __repr__(self):
+        return self.texttable
+
+    def __str__(self):
+        return self.texttable
+
+    @property
+    def content(self):
+        """
+        Plain representation without headers
+        """
+        content = self.get_texttable(write_title=False)
+        return self._RepresentedString(content)
