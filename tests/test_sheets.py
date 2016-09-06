@@ -1,8 +1,8 @@
-from pyexcel.sheets.nominablesheet import Sheet
+from pyexcel.sheets.sheet import Sheet
 from pyexcel.sheets.formatters import RowFormatter, ColumnFormatter
 from pyexcel.sheets.formatters import NamedColumnFormatter, SheetFormatter
 from pyexcel.sheets.formatters import NamedRowFormatter
-from pyexcel import Sheet, load_from_dict, load_from_records
+from pyexcel import load_from_dict, load_from_records
 from _compact import OrderedDict
 from nose.tools import raises
 
@@ -158,7 +158,7 @@ class TestSheetNamedColumn2:
     def test_series3(self):
         custom_columns = ["C1", "C2", "C3"]
         Sheet(self.data, "test", colnames=custom_columns,
-                       name_columns_by_row=0)
+              name_columns_by_row=0)
 
     def test_formatter_by_named_column(self):
         s = Sheet(self.data, "test")
@@ -230,7 +230,7 @@ class TestSheetNamedRow:
     def test_rownames3(self):
         custom_rows = ["R0", "R1", "R2", "R3"]
         Sheet(self.data, "test", name_rows_by_column=0,
-                       rownames=custom_rows)
+              rownames=custom_rows)
 
     def test_formatter_by_named_row_2(self):
         s = Sheet(self.data, "test")
