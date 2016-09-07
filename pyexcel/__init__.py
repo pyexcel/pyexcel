@@ -19,6 +19,7 @@ from .core import (
     get_array,
     get_dict,
     get_records,
+    iget_records,
     get_book_dict,
     get_sheet,
     get_book,

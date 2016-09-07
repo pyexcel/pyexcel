@@ -239,6 +239,23 @@ def get_records(name_columns_by_row=0, **keywords):
     return sheet.to_records()
 
 
+def iget_records(**keywords):
+    """Obtain a generator of a list of records from an excel source
+
+    It is similiar to `:meth:get_records` but it is more strict. It
+    requires the headers to be in the first row. And the data matrix
+    should be of equal length. It should consume less memory and should
+    work well with large files.
+    """
+    sheet_stream = sources.get_sheet_stream(**keywords)
+    headers = None
+    for row_index, row in enumerate(sheet_stream.payload):
+        if row_index == 0:
+            headers = row
+        else:
+            yield dict(zip(headers, row))
+
+
 def get_book_dict(**keywords):
     """Obtain a dictionary of two dimensional arrays
 

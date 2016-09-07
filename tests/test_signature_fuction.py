@@ -247,7 +247,7 @@ class TestGetDict:
 
 
 class TestGetRecords:
-    def test_get_dict_from_file(self):
+    def test_get_records_from_file(self):
         data = [
             ["X", "Y", "Z"],
             [1, 2, 3],
@@ -257,10 +257,10 @@ class TestGetRecords:
         testfile = "testfile.xls"
         sheet.save_as(testfile)
         result = pe.get_records(file_name=testfile)
-        assert result == [
+        eq_(result, [
             {"X": 1, "Y": 2, "Z": 3},
             {"X": 4, "Y": 5, "Z": 6}
-        ]
+        ])
         os.unlink(testfile)
 
     def test_get_records_from_memory(self):
@@ -272,10 +272,10 @@ class TestGetRecords:
         content = pe.save_as(dest_file_type="xls", array=data)
         records = pe.get_records(file_content=content.getvalue(),
                                  file_type="xls")
-        assert records == [
+        eq_(records, [
             {"X": 1, "Y": 2, "Z": 3},
             {"X": 4, "Y": 5, "Z": 6}
-        ]
+        ])
 
     def test_get_records_from_array(self):
         data = [
@@ -284,10 +284,10 @@ class TestGetRecords:
             [4, 5, 6]
         ]
         result = pe.get_records(array=data)
-        assert result == [
+        eq_(result, [
             {"X": 1, "Y": 2, "Z": 3},
             {"X": 4, "Y": 5, "Z": 6}
-        ]
+        ])
 
     def test_get_records_from_dict(self):
         data = {
@@ -296,10 +296,10 @@ class TestGetRecords:
             "Z": [3, 6]
         }
         result = pe.get_records(adict=data)
-        assert result == [
+        eq_(result, [
             {"X": 1, "Y": 2, "Z": 3},
             {"X": 4, "Y": 5, "Z": 6}
-        ]
+        ])
 
     def test_get_records_from_records(self):
         data = [
@@ -307,10 +307,77 @@ class TestGetRecords:
             {"X": 4, "Y": 5, "Z": 6}
         ]
         result = pe.get_records(records=data)
-        assert result == [
+        eq_(result, [
+            {"X": 1, "Y": 2, "Z": 3},
+            {"X": 4, "Y": 5, "Z": 6}
+        ])
+
+
+class TestiGetRecords:
+    def test_get_records_from_file(self):
+        data = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        sheet = pe.Sheet(data)
+        testfile = "testfile.xls"
+        sheet.save_as(testfile)
+        result = pe.iget_records(file_name=testfile)
+        eq_(list(result), [
+            {"X": 1, "Y": 2, "Z": 3},
+            {"X": 4, "Y": 5, "Z": 6}
+        ])
+        os.unlink(testfile)
+
+    def test_get_records_from_memory(self):
+        data = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        content = pe.save_as(dest_file_type="xls", array=data)
+        records = pe.get_records(file_content=content.getvalue(),
+                                 file_type="xls")
+        eq_(list(records), [
+            {"X": 1, "Y": 2, "Z": 3},
+            {"X": 4, "Y": 5, "Z": 6}
+        ])
+
+    def test_get_records_from_array(self):
+        data = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        result = pe.iget_records(array=data)
+        eq_(list(result), [
+            {"X": 1, "Y": 2, "Z": 3},
+            {"X": 4, "Y": 5, "Z": 6}
+        ])
+
+    def test_get_records_from_dict(self):
+        data = {
+            "X": [1, 4],
+            "Y": [2, 5],
+            "Z": [3, 6]
+        }
+        result = pe.iget_records(adict=data)
+        eq_(list(result), [
+            {"X": 1, "Y": 2, "Z": 3},
+            {"X": 4, "Y": 5, "Z": 6}
+        ])
+
+    def test_get_records_from_records(self):
+        data = [
             {"X": 1, "Y": 2, "Z": 3},
             {"X": 4, "Y": 5, "Z": 6}
         ]
+        result = pe.iget_records(records=data)
+        eq_(list(result), [
+            {"X": 1, "Y": 2, "Z": 3},
+            {"X": 4, "Y": 5, "Z": 6}
+        ])
 
 
 class TestSavingToDatabase:

@@ -8,18 +8,15 @@ Added:
 ********************************************************************************
 
 #. file type setters for Sheet and Book, and its documentation
-
-Update:
-********************************************************************************
-
-#. SourceFactory and RendererFactory are removed
-
+#. `iget_records` returns a generator for a list of records and should have
+   better memory performance, especially dealing with large csv files.
 
 Removed:
 ********************************************************************************
 
 #. `content` and `out_file` as function parameters to the signature functions are
    no longer supported. 
+#. SourceFactory and RendererFactory are removed
 
 0.2.5 - 31.08.2016
 --------------------------------------------------------------------------------
