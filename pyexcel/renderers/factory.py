@@ -2,15 +2,20 @@ from six import with_metaclass
 from pyexcel._compact import StringIO
 
 
+renderer_registry = {}
+
+
+def _register_renderer(renderer_cls):
+    for file_type in renderer_cls.file_types:
+        renderer_registry[file_type] = renderer_cls
+
+
 class MetaForRendererRegistryOnly(type):
     """sole class registry"""
     def __init__(cls, name, bases, nmspc):
         super(MetaForRendererRegistryOnly, cls).__init__(
             name, bases, nmspc)
-        if not hasattr(cls, 'registry'):
-            cls.registry = {}
-        for file_type in cls.file_types:
-            cls.registry[file_type] = cls
+        _register_renderer(cls)
 
 
 class Renderer(with_metaclass(MetaForRendererRegistryOnly, object)):
