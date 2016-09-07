@@ -13,8 +13,7 @@ from .formatters import (
     RowFormatter,
     NamedColumnFormatter,
     NamedRowFormatter)
-from .._compact import is_string, OrderedDict, PY2, is_array_type
-from .._compact import is_tuple_consists_of_strings
+import pyexcel._compact as compact
 from .iterators import (
     ColumnIndexIterator,
     RowIndexIterator,
@@ -44,7 +43,7 @@ def make_names_unique(alist):
     duplicates = {}
     new_names = []
     for item in alist:
-        if not is_string(type(item)):
+        if not compact.is_string(type(item)):
             item = str(item)
         if item in duplicates:
             duplicates[item] = duplicates[item] + 1
@@ -172,7 +171,7 @@ class NamedRow(Row):
             +---+---+
 
         """
-        if is_array_type(names, str):
+        if compact.is_array_type(names, str):
             indices = names_to_indices(names, self.ref.rownames)
             Row.select(self, indices)
         else:
@@ -198,22 +197,22 @@ class NamedRow(Row):
             +---+---+
 
         """
-        if is_string(type(column_name)):
+        if compact.is_string(type(column_name)):
             self.ref.delete_named_row_at(column_name)
-        elif is_tuple_consists_of_strings(column_name):
+        elif compact.is_tuple_consists_of_strings(column_name):
             indices = names_to_indices(list(column_name), self.ref.rownames)
             Row.__delitem__(self, indices)
         else:
             Row.__delitem__(self, column_name)
 
     def __setitem__(self, str_or_aslice, c):
-        if is_string(type(str_or_aslice)):
+        if compact.is_string(type(str_or_aslice)):
             self.ref.set_named_row_at(str_or_aslice, c)
         else:
             Row.__setitem__(self, str_or_aslice, c)
 
     def __getitem__(self, str_or_aslice):
-        if is_string(type(str_or_aslice)):
+        if compact.is_string(type(str_or_aslice)):
             return self.ref.named_row_at(str_or_aslice)
         else:
             return Row.__getitem__(self, str_or_aslice)
@@ -224,7 +223,7 @@ class NamedRow(Row):
         :param list other: the row header must be the first element.
         :return: self
         """
-        if isinstance(other, OrderedDict):
+        if isinstance(other, compact.OrderedDict):
             self.ref.extend_rows(other)
         else:
             Row.__iadd__(self, other)
@@ -320,7 +319,7 @@ class NamedColumn(Column):
             +---+---+---+---+
 
         """
-        if is_array_type(names, str):
+        if compact.is_array_type(names, str):
             indices = names_to_indices(names, self.ref.colnames)
             Column.select(self, indices)
         else:
@@ -358,22 +357,22 @@ class NamedColumn(Column):
             +---+---+---+---+
 
         """
-        if is_string(type(str_or_aslice)):
+        if compact.is_string(type(str_or_aslice)):
             self.ref.delete_named_column_at(str_or_aslice)
-        elif is_tuple_consists_of_strings(str_or_aslice):
+        elif compact.is_tuple_consists_of_strings(str_or_aslice):
             indices = names_to_indices(list(str_or_aslice), self.ref.colnames)
             Column.__delitem__(self, indices)
         else:
             Column.__delitem__(self, str_or_aslice)
 
     def __setitem__(self, str_or_aslice, c):
-        if is_string(type(str_or_aslice)):
+        if compact.is_string(type(str_or_aslice)):
             self.ref.set_named_column_at(str_or_aslice, c)
         else:
             Column.__setitem__(self, str_or_aslice, c)
 
     def __getitem__(self, str_or_aslice):
-        if is_string(type(str_or_aslice)):
+        if compact.is_string(type(str_or_aslice)):
             return self.ref.named_column_at(str_or_aslice)
         else:
             return Column.__getitem__(self, str_or_aslice)
@@ -384,7 +383,7 @@ class NamedColumn(Column):
         :param list other: the column header must be the first element.
         :return: self
         """
-        if isinstance(other, OrderedDict):
+        if isinstance(other, compact.OrderedDict):
             self.ref.extend_columns(other)
         else:
             Column.__iadd__(self, other)
@@ -588,7 +587,7 @@ class Sheet(Matrix, SheetMixin):
     def named_column_at(self, name):
         """Get a column by its name """
         index = name
-        if is_string(type(index)):
+        if compact.is_string(type(index)):
             index = self.colnames.index(name)
         column_array = self.column_at(index)
         return column_array
@@ -601,7 +600,7 @@ class Sheet(Matrix, SheetMixin):
         the given array except the column name.
         """
         index = name
-        if is_string(type(index)):
+        if compact.is_string(type(index)):
             index = self.colnames.index(name)
         self.set_column_at(index, column_array)
 
@@ -661,7 +660,7 @@ class Sheet(Matrix, SheetMixin):
         the given array except the row name.
         """
         index = name
-        if is_string(type(index)):
+        if compact.is_string(type(index)):
             index = self.rownames.index(name)
         self.set_row_at(index, row_array)
 
@@ -706,7 +705,7 @@ class Sheet(Matrix, SheetMixin):
         :param ordereddist/list rows: a list of rows.
         """
         incoming_data = []
-        if isinstance(rows, OrderedDict):
+        if isinstance(rows, compact.OrderedDict):
             keys = rows.keys()
             for k in keys:
                 self.rownames.append(k)
@@ -730,7 +729,7 @@ class Sheet(Matrix, SheetMixin):
         :param ordereddist/list columns: a list of columns
         """
         incoming_data = []
-        if isinstance(columns, OrderedDict):
+        if isinstance(columns, compact.OrderedDict):
             keys = columns.keys()
             for k in keys:
                 self.colnames.append(k)
@@ -757,7 +756,7 @@ class Sheet(Matrix, SheetMixin):
         if len(self.rownames) > 0:
             ret = map(lambda value: [value[0]] + value[1],
                       zip(self.rownames, ret))
-            if not PY2:
+            if not compact.PY2:
                 ret = list(ret)
         if len(self.colnames) > 0:
             if len(self.rownames) > 0:
