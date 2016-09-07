@@ -71,23 +71,16 @@ For individual excel file formats, please install them as you wish:
    Package name      Supported file formats  Dependencies  Python versions
    ================= ======================= ============= ==================
    `pyexcel-io`_     csv, csvz [#f1]_, tsv,                2.6, 2.7, 3.3,
-                                                           3.4, 3.5,
+                     tsvz [#f2]_                           3.4, 3.5,
                                                            pypy, pypy3
-                     tsvz [#f2]_
-   `pyexcel-xls`_    xls, xlsx(read only),   xlrd, xlwt    2.6, 2.7, 3.3,
-                                                           3.4, 3.5,
-                                                           pypy, pypy3
-                     xlsm(read only)
-   `pyexcel-xlsx`_   xlsx                    openpyxl      2.6, 2.7, 3.3,
-                                                           3.4, 3.5,
-                                                           pypy, pypy3
-   `pyexcel-xlsxw`_  xlsx(write only)        xlsxwriter    2.6, 2.7, 3.3,
-                                                           3.4, 3.5,
-                                                           pypy, pypy3
+   `pyexcel-xls`_    xls, xlsx(read only),   xlrd, xlwt    same as above
+                     xlsm(read only)                       
+                                                           
+   `pyexcel-xlsx`_   xlsx                    openpyxl      same as above
+   `pyexcel-xlsxw`_  xlsx(write only)        xlsxwriter    same as above
    `pyexcel-ods3`_   ods                     ezodf, lxml   2.6, 2.7, 3.3, 3.4
                                                            3.5
-   `pyexcel-ods`_    ods (python 2.6, 2.7)   odfpy         2.6, 2.7, 3.3, 3.4
-                                                           3.5
+   `pyexcel-ods`_    ods                     odfpy         same as above
    `pyexcel-text`_   (write only)json, rst,  tabulate      2.6, 2.7, 3.3, 3.4
                      mediawiki, html,                      3.5, pypy, pypy3
                      latex, grid, pipe,
@@ -100,6 +93,7 @@ For individual excel file formats, please install them as you wish:
 .. _pyexcel-ods: https://github.com/pyexcel/pyexcel-ods
 .. _pyexcel-ods3: https://github.com/pyexcel/pyexcel-ods3
 .. _pyexcel-xlsxw: https://github.com/pyexcel/pyexcel-xlsxw
+
 .. _pyexcel-text: https://github.com/pyexcel/pyexcel-text
 
 .. rubric:: Footnotes
@@ -163,9 +157,9 @@ Dean      26
 Here are the example usages:
 
 .. code-block:: python
-   
+
    >>> import pyexcel as pe
-   >>> records = pe.get_records(file_name="your_file.xls")
+   >>> records = pe.iget_records(file_name="your_file.xls")
    >>> for record in records:
    ...     print("%s is aged at %d" % (record['Name'], record['Age']))
    Adam is aged at 28
@@ -175,7 +169,7 @@ Here are the example usages:
 
 .. testcode::
    :hide:
-   
+
    >>> import os
    >>> os.unlink("your_file.xls")
 

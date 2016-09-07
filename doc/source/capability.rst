@@ -37,6 +37,8 @@ the first three functions operates on any one sheet from an excel book and the f
    :meth:`~pyexcel.get_array`      two dimensional array                   a list of lists                 
    :meth:`~pyexcel.get_dict`       a dictionary of one dimensional arrays  an ordered dictionary of lists           
    :meth:`~pyexcel.get_records`    a list of dictionaries                  a list of dictionaries           
+   :meth:`~pyexcel.iget_records`   a memory efficient list                 a generator of
+                                   list of dictionaries                    a list of dictionaries
    :meth:`~pyexcel.get_book_dict`  a dictionary of two dimensional arrays  a dictionary of lists of lists      
    =============================== ======================================= ================================
 
@@ -118,5 +120,3 @@ See also:
 * :ref:`import_excel_sheet_into_a_database_table`
 * :ref:`save_a_xls_as_a_xlsx`
 * :ref:`save_a_xls_as_a_csv`
-
-

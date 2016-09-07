@@ -60,6 +60,62 @@ Usage
     >>> import os
 	>>> os.unlink("myfile.xlsx")
 
+.. testcode::
+   :hide:
+
+   >>> import pyexcel
+   >>> # make sure you had pyexcel-xls pip-installed
+   >>> a_list_of_dictionaries = [
+   ...     {
+   ...         "Name": 'Adam',
+   ...         "Age": 28
+   ...     },
+   ...     {
+   ...         "Name": 'Beatrice',
+   ...         "Age": 29
+   ...     },
+   ...     {
+   ...         "Name": 'Ceri',
+   ...         "Age": 30
+   ...     },
+   ...     {
+   ...         "Name": 'Dean',
+   ...         "Age": 26
+   ...     }
+   ... ]
+   >>> pyexcel.save_as(records=a_list_of_dictionaries, dest_file_name="your_file.xls")
+
+Suppose you want to process the following excel data :
+
+========= ====
+Name      Age
+========= ====
+Adam      28
+Beatrice  29
+Ceri      30
+Dean      26
+========= ====
+
+Here are the new method to obtain the records on demand:
+
+.. code-block:: python
+   
+   >>> import pyexcel as pe
+   >>> records = pe.iget_records(file_name="your_file.xls")
+   >>> for record in records:
+   ...     print("%s is aged at %d" % (record['Name'], record['Age']))
+   Adam is aged at 28
+   Beatrice is aged at 29
+   Ceri is aged at 30
+   Dean is aged at 26
+
+.. testcode::
+   :hide:
+   
+   >>> import os
+   >>> os.unlink("your_file.xls")
+
+
 Development guide
 ================================================================================
 

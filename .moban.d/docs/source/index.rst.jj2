@@ -98,9 +98,9 @@ Dean      26
 Here are the example usages:
 
 .. code-block:: python
-   
+
    >>> import pyexcel as pe
-   >>> records = pe.get_records(file_name="your_file.xls")
+   >>> records = pe.iget_records(file_name="your_file.xls")
    >>> for record in records:
    ...     print("%s is aged at %d" % (record['Name'], record['Age']))
    Adam is aged at 28
@@ -110,7 +110,7 @@ Here are the example usages:
 
 .. testcode::
    :hide:
-   
+
    >>> import os
    >>> os.unlink("your_file.xls")
 

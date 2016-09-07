@@ -43,23 +43,16 @@ Available Plugins
    Package name      Supported file formats  Dependencies  Python versions
    ================= ======================= ============= ==================
    `pyexcel-io`_     csv, csvz [#f1]_, tsv,                2.6, 2.7, 3.3,
-                                                           3.4, 3.5,
+                     tsvz [#f2]_                           3.4, 3.5,
                                                            pypy, pypy3
-                     tsvz [#f2]_
-   `pyexcel-xls`_    xls, xlsx(read only),   xlrd, xlwt    2.6, 2.7, 3.3,
-                                                           3.4, 3.5,
-                                                           pypy, pypy3
-                     xlsm(read only)
-   `pyexcel-xlsx`_   xlsx                    openpyxl      2.6, 2.7, 3.3,
-                                                           3.4, 3.5,
-                                                           pypy, pypy3
-   `pyexcel-xlsxw`_  xlsx(write only)        xlsxwriter    2.6, 2.7, 3.3,
-                                                           3.4, 3.5,
-                                                           pypy, pypy3
+   `pyexcel-xls`_    xls, xlsx(read only),   xlrd, xlwt    same as above
+                     xlsm(read only)                       
+                                                           
+   `pyexcel-xlsx`_   xlsx                    openpyxl      same as above
+   `pyexcel-xlsxw`_  xlsx(write only)        xlsxwriter    same as above
    `pyexcel-ods3`_   ods                     ezodf, lxml   2.6, 2.7, 3.3, 3.4
                                                            3.5
-   `pyexcel-ods`_    ods (python 2.6, 2.7)   odfpy         2.6, 2.7, 3.3, 3.4
-                                                           3.5
+   `pyexcel-ods`_    ods                     odfpy         same as above
    `pyexcel-text`_   (write only)json, rst,  tabulate      2.6, 2.7, 3.3, 3.4
                      mediawiki, html,                      3.5, pypy, pypy3
                      latex, grid, pipe,
@@ -72,6 +65,7 @@ Available Plugins
 .. _pyexcel-ods: https://github.com/pyexcel/pyexcel-ods
 .. _pyexcel-ods3: https://github.com/pyexcel/pyexcel-ods3
 .. _pyexcel-xlsxw: https://github.com/pyexcel/pyexcel-xlsxw
+
 .. _pyexcel-text: https://github.com/pyexcel/pyexcel-text
 
 .. rubric:: Footnotes
@@ -118,6 +112,62 @@ Usage
 
     >>> import os
 	>>> os.unlink("myfile.xlsx")
+
+.. testcode::
+   :hide:
+
+   >>> import pyexcel
+   >>> # make sure you had pyexcel-xls pip-installed
+   >>> a_list_of_dictionaries = [
+   ...     {
+   ...         "Name": 'Adam',
+   ...         "Age": 28
+   ...     },
+   ...     {
+   ...         "Name": 'Beatrice',
+   ...         "Age": 29
+   ...     },
+   ...     {
+   ...         "Name": 'Ceri',
+   ...         "Age": 30
+   ...     },
+   ...     {
+   ...         "Name": 'Dean',
+   ...         "Age": 26
+   ...     }
+   ... ]
+   >>> pyexcel.save_as(records=a_list_of_dictionaries, dest_file_name="your_file.xls")
+
+Suppose you want to process the following excel data :
+
+========= ====
+Name      Age
+========= ====
+Adam      28
+Beatrice  29
+Ceri      30
+Dean      26
+========= ====
+
+Here are the new method to obtain the records on demand:
+
+.. code-block:: python
+   
+   >>> import pyexcel as pe
+   >>> records = pe.iget_records(file_name="your_file.xls")
+   >>> for record in records:
+   ...     print("%s is aged at %d" % (record['Name'], record['Age']))
+   Adam is aged at 28
+   Beatrice is aged at 29
+   Ceri is aged at 30
+   Dean is aged at 26
+
+.. testcode::
+   :hide:
+   
+   >>> import os
+   >>> os.unlink("your_file.xls")
+
 
 Development guide
 ================================================================================
