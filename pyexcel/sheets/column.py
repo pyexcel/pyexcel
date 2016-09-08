@@ -55,121 +55,6 @@ class Column:
             +---+---+---+---+
             | 2 | 3 | 4 | 6 |
             +---+---+---+---+
-
-        """
-        self.ref.filter(ColumnFilter(indices).invert())
-
-    def __delitem__(self, aslice):
-        """Override the operator to delete items
-
-        Examples:
-
-            >>> import pyexcel as pe
-            >>> data = [[1,2,3,4,5,6,7,9]]
-            >>> sheet = pe.Sheet(data)
-            >>> sheet
-            pyexcel sheet:
-            +---+---+---+---+---+---+---+---+
-            | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 |
-            +---+---+---+---+---+---+---+---+
-            >>> del sheet.column[1,2,3,5]
-            >>> sheet
-            pyexcel sheet:
-            +---+---+---+---+
-            | 1 | 5 | 7 | 9 |
-            +---+---+---+---+
-
-        """
-        if isinstance(aslice, slice):
-            my_range = utils.analyse_slice(aslice,
-                                           self.ref.number_of_columns())
-            self.ref.delete_columns(my_range)
-        elif isinstance(aslice, str):
-            index = utils.excel_column_index(aslice)
-            self.ref.delete_columns([index])
-        elif isinstance(aslice, tuple):
-            indices = list(aslice)
-            self.ref.filter(ColumnFilter(indices))
-        elif isinstance(aslice, list):
-            indices = aslice
-            self.ref.filter(ColumnFilter(indices))
-        elif isinstance(aslice, int):
-            self.ref.delete_columns([aslice])
-        else:
-            raise IndexError
-
-    def __setitem__(self, aslice, c):
-        """Override the operator to set items"""
-        if isinstance(aslice, slice):
-            my_range = utils.analyse_slice(aslice,
-                                           self.ref.number_of_columns())
-            for i in my_range:
-                self.ref.set_column_at(i, c)
-        elif isinstance(aslice, str):
-            index = utils.excel_column_index(aslice)
-            self.ref.set_column_at(index, c)
-        elif isinstance(aslice, int):
-            self.ref.set_column_at(aslice, c)
-        else:
-            raise IndexError
-
-    def __getitem__(self, aslice):
-        """By default, this class recognize from top to bottom
-        from left to right"""
-        index = aslice
-        if isinstance(aslice, slice):
-            my_range = utils.analyse_slice(aslice,
-                                           self.ref.number_of_columns())
-            results = []
-            for i in my_range:
-                results.append(self.ref.column_at(i))
-            return results
-        elif isinstance(aslice, str):
-            index = utils.excel_column_index(aslice)
-        if index in self.ref.column_range():
-            return self.ref.column_at(index)
-        else:
-            raise IndexError
-
-    def __iadd__(self, other):
-        """Overload += sign
-
-        :return: self
-        """
-        if isinstance(other, list):
-            self.ref.extend_columns(other)
-        elif hasattr(other, "_array"):
-            self.ref.extend_columns_with_rows(other._array)
-        else:
-            raise TypeError
-        return self
-
-    def __add__(self, other):
-        """Overload += sign
-
-        :return: self
-        """
-        self.__iadd__(other)
-        return self.ref
-
-
-class NamedColumn(Column):
-    """Series Sheet would have Named Column instead of Column
-
-    example::
-
-        import pyexcel as pe
-
-        r = pe.SeriesReader("example.csv")
-        print(r.column["column 1"])
-
-    """
-    def select(self, names):
-        """Delete columns other than specified
-
-        Examples:
-
-            >>> import pyexcel as pe
             >>> data = [[1,2,3,4,5,6,7,9]]
             >>> sheet = pe.Sheet(data)
             >>> sheet
@@ -207,21 +92,34 @@ class NamedColumn(Column):
             +===+===+===+===+
             | 1 | 3 | 5 | 9 |
             +---+---+---+---+
-
         """
-        if compact.is_array_type(names, str):
-            indices = utils.names_to_indices(names,
-                                             self.ref.colnames)
-            Column.select(self, indices)
+        new_indices = []
+        if compact.is_array_type(indices, str):
+            new_indices = utils.names_to_indices(indices,
+                                                 self.ref.colnames)
         else:
-            Column.select(self, names)
+            new_indices = indices
+        self.ref.filter(ColumnFilter(new_indices).invert())
 
-    def __delitem__(self, str_or_aslice):
-        """
+    def __delitem__(self, aslice):
+        """Override the operator to delete items
 
-        Example::
+        Examples:
 
             >>> import pyexcel as pe
+            >>> data = [[1,2,3,4,5,6,7,9]]
+            >>> sheet = pe.Sheet(data)
+            >>> sheet
+            pyexcel sheet:
+            +---+---+---+---+---+---+---+---+
+            | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 |
+            +---+---+---+---+---+---+---+---+
+            >>> del sheet.column[1,2,3,5]
+            >>> sheet
+            pyexcel sheet:
+            +---+---+---+---+
+            | 1 | 5 | 7 | 9 |
+            +---+---+---+---+
             >>> data = [
             ...     ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
             ...     [1,2,3,4,5,6,7,9],
@@ -248,37 +146,86 @@ class NamedColumn(Column):
             +---+---+---+---+
 
         """
-        if compact.is_string(type(str_or_aslice)):
-            self.ref.delete_named_column_at(str_or_aslice)
-        elif compact.is_tuple_consists_of_strings(str_or_aslice):
-            indices = utils.names_to_indices(list(str_or_aslice),
+        is_sheet = (compact.is_string(type(aslice)) and
+                    hasattr(self.ref, 'delete_named_column_at'))
+        if is_sheet:
+            self.ref.delete_named_column_at(aslice)
+        elif compact.is_tuple_consists_of_strings(aslice):
+            indices = utils.names_to_indices(list(aslice),
                                              self.ref.colnames)
-            Column.__delitem__(self, indices)
+            self.ref.delete_columns(indices)
+        elif isinstance(aslice, slice):
+            my_range = utils.analyse_slice(aslice,
+                                           self.ref.number_of_columns())
+            self.ref.delete_columns(my_range)
+        elif isinstance(aslice, str):
+            index = utils.excel_column_index(aslice)
+            self.ref.delete_columns([index])
+        elif isinstance(aslice, tuple):
+            indices = list(aslice)
+            self.ref.filter(ColumnFilter(indices))
+        elif isinstance(aslice, list):
+            indices = aslice
+            self.ref.filter(ColumnFilter(indices))
+        elif isinstance(aslice, int):
+            self.ref.delete_columns([aslice])
         else:
-            Column.__delitem__(self, str_or_aslice)
+            raise IndexError
 
-    def __setitem__(self, str_or_aslice, c):
-        if compact.is_string(type(str_or_aslice)):
-            self.ref.set_named_column_at(str_or_aslice, c)
+    def __setitem__(self, aslice, c):
+        """Override the operator to set items"""
+        is_sheet = (compact.is_string(type(aslice)) and
+                    hasattr(self.ref, 'set_named_column_at'))
+        if is_sheet:
+            self.ref.set_named_column_at(aslice, c)
+        elif isinstance(aslice, slice):
+            my_range = utils.analyse_slice(aslice,
+                                           self.ref.number_of_columns())
+            for i in my_range:
+                self.ref.set_column_at(i, c)
+        elif isinstance(aslice, str):
+            index = utils.excel_column_index(aslice)
+            self.ref.set_column_at(index, c)
+        elif isinstance(aslice, int):
+            self.ref.set_column_at(aslice, c)
         else:
-            Column.__setitem__(self, str_or_aslice, c)
+            raise IndexError
 
-    def __getitem__(self, str_or_aslice):
-        if compact.is_string(type(str_or_aslice)):
-            return self.ref.named_column_at(str_or_aslice)
+    def __getitem__(self, aslice):
+        """By default, this class recognize from top to bottom
+        from left to right"""
+        index = aslice
+        is_sheet = (compact.is_string(type(aslice)) and
+                    hasattr(self.ref, 'named_column_at'))
+        if is_sheet:
+            return self.ref.named_column_at(aslice)
+        elif isinstance(aslice, slice):
+            my_range = utils.analyse_slice(aslice,
+                                           self.ref.number_of_columns())
+            results = []
+            for i in my_range:
+                results.append(self.ref.column_at(i))
+            return results
+        elif isinstance(aslice, str):
+            index = utils.excel_column_index(aslice)
+        if index in self.ref.column_range():
+            return self.ref.column_at(index)
         else:
-            return Column.__getitem__(self, str_or_aslice)
+            raise IndexError
 
     def __iadd__(self, other):
         """Overload += sign
 
-        :param list other: the column header must be the first element.
         :return: self
         """
         if isinstance(other, compact.OrderedDict):
             self.ref.extend_columns(other)
+        elif isinstance(other, list):
+            self.ref.extend_columns(other)
+        elif hasattr(other, "_array"):
+            self.ref.extend_columns_with_rows(other._array)
         else:
-            Column.__iadd__(self, other)
+            raise TypeError
         return self
 
     def __add__(self, other):

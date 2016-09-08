@@ -24,7 +24,7 @@ from ..constants import (
     DEFAULT_NAME)
 from pyexcel.sources import SheetMixin
 from .row import Row as NamedRow
-from .column import NamedColumn
+from .column import Column as NamedColumn
 from . import _shared as utils
 
 
