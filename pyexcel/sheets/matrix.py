@@ -771,32 +771,6 @@ class Matrix(object):
         for i in decending_list:
             del self.column[i]
 
-    def add_filter(self, afilter):
-        """Apply a filter
-        """
-        print(_IMPLEMENTATION_REMOVED + "Please use filter().")
-        self.filter(afilter)
-
-    def remove_filter(self, afilter):
-        """Remove a named filter
-        """
-        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
-
-    def clear_filters(self):
-        """Clears all filters"""
-        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
-
-    def validate_filters(self):
-        """Re-apply filters
-
-        It is called when some data is updated
-        """
-        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
-
-    def freeze_filters(self):
-        """Apply all filters and delete them"""
-        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
-
     def format(self, formatter, on_demand=False):
         """Apply a formatting action for the whole sheet
 
@@ -906,29 +880,6 @@ class Matrix(object):
                 value = row_formatter.do_format(value)
                 self.cell_value(rindex, cindex, value)
 
-    def add_formatter(self, aformatter):
-        """Add a lazy formatter.
-        """
-        print("Deprecated since 0.3.0!Please use apply_formatter.")
-        self.apply_formatter(aformatter)
-
-    def remove_formatter(self, aformatter):
-        """Remove a formatter
-
-        :param Formatter aformatter: a custom formatter
-        """
-        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
-
-    def clear_formatters(self):
-        """Clear all formatters
-        """
-        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
-
-    def freeze_formatters(self):
-        """Apply all added formatters and clear them
-        """
-        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
-
     def __add__(self, other):
         """Overload the + sign
 
@@ -966,3 +917,52 @@ class Matrix(object):
         :return: self
         """
         raise NotImplementedError(MESSAGE_NOT_IMPLEMENTED_01)
+
+    def add_filter(self, afilter):
+        """Apply a filter
+        """
+        print(_IMPLEMENTATION_REMOVED + "Please use filter().")
+        self.filter(afilter)
+
+    def remove_filter(self, afilter):
+        """Remove a named filter
+        """
+        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
+
+    def clear_filters(self):
+        """Clears all filters"""
+        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
+
+    def validate_filters(self):
+        """Re-apply filters
+
+        It is called when some data is updated
+        """
+        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
+
+    def freeze_filters(self):
+        """Apply all filters and delete them"""
+        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
+
+    def add_formatter(self, aformatter):
+        """Add a lazy formatter.
+        """
+        print("Deprecated since 0.3.0!Please use apply_formatter.")
+        self.apply_formatter(aformatter)
+
+    def remove_formatter(self, aformatter):
+        """Remove a formatter
+
+        :param Formatter aformatter: a custom formatter
+        """
+        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
+
+    def clear_formatters(self):
+        """Clear all formatters
+        """
+        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
+
+    def freeze_formatters(self):
+        """Apply all added formatters and clear them
+        """
+        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
