@@ -78,7 +78,7 @@ class Row:
         """
         self.ref.filter(RowFilter(indices).invert())
 
-    def __delitem__(self, aslice):
+    def __delitem__(self, locator):
         """Override the operator to delete items
 
         Examples:
@@ -119,20 +119,28 @@ class Row:
             +---+
 
         """
-        if isinstance(aslice, slice):
-            my_range = utils.analyse_slice(aslice,
+        if compact.is_string(type(locator)):
+            self.ref.delete_named_row_at(locator)
+        elif compact.is_tuple_consists_of_strings(locator):
+            indices = utils.names_to_indices(list(locator),
+                                             self.ref.rownames)
+            self.ref.delete_rows(indices)
+        elif isinstance(locator, slice):
+            my_range = utils.analyse_slice(locator,
                                            self.ref.number_of_rows())
             self.ref.delete_rows(my_range)
-        elif isinstance(aslice, tuple):
-            self.ref.filter(RowFilter(list(aslice)))
-        elif isinstance(aslice, list):
-            self.ref.filter(RowFilter(aslice))
+        elif isinstance(locator, tuple):
+            self.ref.filter(RowFilter(list(locator)))
+        elif isinstance(locator, list):
+            self.ref.filter(RowFilter(locator))
         else:
-            self.ref.delete_rows([aslice])
+            self.ref.delete_rows([locator])
 
     def __setitem__(self, aslice, c):
         """Override the operator to set items"""
-        if isinstance(aslice, slice):
+        if compact.is_string(type(aslice)):
+            self.ref.set_named_row_at(aslice, c)
+        elif isinstance(aslice, slice):
             my_range = utils.analyse_slice(aslice,
                                            self.ref.number_of_rows())
             for i in my_range:
@@ -144,7 +152,9 @@ class Row:
         """By default, this class recognize from top to bottom
         from left to right"""
         index = aslice
-        if isinstance(aslice, slice):
+        if compact.is_string(type(aslice)):
+            return self.ref.named_row_at(aslice)
+        elif isinstance(aslice, slice):
             my_range = utils.analyse_slice(aslice,
                                            self.ref.number_of_rows())
             results = []
@@ -161,197 +171,14 @@ class Row:
 
         :return: self
         """
-        if isinstance(other, list):
+        if isinstance(other, compact.OrderedDict):
+            self.ref.extend_rows(other)
+        elif isinstance(other, list):
             self.ref.extend_rows(other)
         elif hasattr(other, '_array'):
             self.ref.extend_rows(other._array)
         else:
             raise TypeError
-        return self
-
-    def __add__(self, other):
-        """Overload += sign
-
-        :return: self
-        """
-        self.__iadd__(other)
-        return self.ref
-
-
-class NamedRow(Row):
-    """Series Sheet would have Named Row instead of Row
-
-    Here is an example to merge sheets. Suppose we have the
-    following three files::
-
-        >>> import pyexcel as pe
-        >>> data = [[1,2,3],[4,5,6],[7,8,9]]
-        >>> s = pe.Sheet(data)
-        >>> s.save_as("1.csv")
-        >>> data2 = [['a','b','c'],['d','e','f'],['g','h','i']]
-        >>> s2 = pe.Sheet(data2)
-        >>> s2.save_as("2.csv")
-        >>> data3=[[1.1, 2.2, 3.3],[4.4, 5.5, 6.6],[7.7, 8.8, 9.9]]
-        >>> s3=pe.Sheet(data3)
-        >>> s3.save_as("3.csv")
-
-
-        >>> merged = pe.Sheet()
-        >>> for file in ["1.csv", "2.csv", "3.csv"]:
-        ...     r = pe.get_sheet(file_name=file)
-        ...     merged.row += r
-        >>> merged.save_as("merged.csv")
-
-    Now let's verify what we had::
-
-        >>> sheet = pe.get_sheet(file_name="merged.csv")
-
-    this is added to overcome doctest's inability to handle
-    python 3's unicode::
-
-        >>> sheet.format(lambda v: str(v))
-        >>> sheet
-        merged.csv:
-        +-----+-----+-----+
-        | 1   | 2   | 3   |
-        +-----+-----+-----+
-        | 4   | 5   | 6   |
-        +-----+-----+-----+
-        | 7   | 8   | 9   |
-        +-----+-----+-----+
-        | a   | b   | c   |
-        +-----+-----+-----+
-        | d   | e   | f   |
-        +-----+-----+-----+
-        | g   | h   | i   |
-        +-----+-----+-----+
-        | 1.1 | 2.2 | 3.3 |
-        +-----+-----+-----+
-        | 4.4 | 5.5 | 6.6 |
-        +-----+-----+-----+
-        | 7.7 | 8.8 | 9.9 |
-        +-----+-----+-----+
-
-    .. testcleanup::
-        >>> import os
-        >>> os.unlink("1.csv")
-        >>> os.unlink("2.csv")
-        >>> os.unlink("3.csv")
-        >>> os.unlink("merged.csv")
-
-    """
-    def select(self, names):
-        """Delete row indices other than specified
-
-        Examples:
-
-            >>> import pyexcel as pe
-            >>> data = [[1],[2],[3],[4],[5],[6],[7],[9]]
-            >>> sheet = pe.Sheet(data)
-            >>> sheet
-            pyexcel sheet:
-            +---+
-            | 1 |
-            +---+
-            | 2 |
-            +---+
-            | 3 |
-            +---+
-            | 4 |
-            +---+
-            | 5 |
-            +---+
-            | 6 |
-            +---+
-            | 7 |
-            +---+
-            | 9 |
-            +---+
-            >>> sheet.row.select([1,2,3,5])
-            >>> sheet
-            pyexcel sheet:
-            +---+
-            | 2 |
-            +---+
-            | 3 |
-            +---+
-            | 4 |
-            +---+
-            | 6 |
-            +---+
-            >>> data = [
-            ...     ['a', 1],
-            ...     ['b', 1],
-            ...     ['c', 1]
-            ... ]
-            >>> sheet = pe.Sheet(data, name_rows_by_column=0)
-            >>> sheet.row.select(['a', 'b'])
-            >>> sheet
-            pyexcel sheet:
-            +---+---+
-            | a | 1 |
-            +---+---+
-            | b | 1 |
-            +---+---+
-
-        """
-        if compact.is_array_type(names, str):
-            indices = utils.names_to_indices(names, self.ref.rownames)
-            Row.select(self, indices)
-        else:
-            Row.select(self, names)
-
-    def __delitem__(self, column_name):
-        """
-
-        Examples::
-
-            >>> import pyexcel as pe
-            >>> data = [
-            ...     ['a', 1],
-            ...     ['b', 1],
-            ...     ['c', 1]
-            ... ]
-            >>> sheet = pe.Sheet(data, name_rows_by_column=0)
-            >>> del sheet.row['a', 'b']
-            >>> sheet
-            pyexcel sheet:
-            +---+---+
-            | c | 1 |
-            +---+---+
-
-        """
-        if compact.is_string(type(column_name)):
-            self.ref.delete_named_row_at(column_name)
-        elif compact.is_tuple_consists_of_strings(column_name):
-            indices = utils.names_to_indices(list(column_name),
-                                             self.ref.rownames)
-            Row.__delitem__(self, indices)
-        else:
-            Row.__delitem__(self, column_name)
-
-    def __setitem__(self, str_or_aslice, c):
-        if compact.is_string(type(str_or_aslice)):
-            self.ref.set_named_row_at(str_or_aslice, c)
-        else:
-            Row.__setitem__(self, str_or_aslice, c)
-
-    def __getitem__(self, str_or_aslice):
-        if compact.is_string(type(str_or_aslice)):
-            return self.ref.named_row_at(str_or_aslice)
-        else:
-            return Row.__getitem__(self, str_or_aslice)
-
-    def __iadd__(self, other):
-        """Overload += sign
-
-        :param list other: the row header must be the first element.
-        :return: self
-        """
-        if isinstance(other, compact.OrderedDict):
-            self.ref.extend_rows(other)
-        else:
-            Row.__iadd__(self, other)
         return self
 
     def __add__(self, other):

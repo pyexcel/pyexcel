@@ -23,7 +23,7 @@ from ..constants import (
     MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED,
     DEFAULT_NAME)
 from pyexcel.sources import SheetMixin
-from .row import NamedRow
+from .row import Row as NamedRow
 from .column import NamedColumn
 from . import _shared as utils
 
