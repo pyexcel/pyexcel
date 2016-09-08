@@ -8,10 +8,9 @@ of lookup.
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-import re
 import copy
 
-from pyexcel._compact import is_array_type, PY2, irange
+from pyexcel._compact import is_array_type, irange
 from pyexcel.sheets.iterators import (
     HTLBRIterator,
     HBRTLIterator,
@@ -22,7 +21,6 @@ from pyexcel.sheets.iterators import (
     RowReverseIterator,
     ColumnReverseIterator
 )
-from pyexcel.sheets.filters import RowFilter, ColumnFilter
 from pyexcel.constants import (
     MESSAGE_INDEX_OUT_OF_RANGE,
     MESSAGE_DATA_ERROR_EMPTY_CONTENT,
@@ -38,6 +36,9 @@ from pyexcel.sheets.formatters import (
     RowFormatter,
     SheetFormatter
 )
+from .row import Row
+from .column import Column
+from . import _shared as utils
 
 
 def _unique(seq):
@@ -107,389 +108,6 @@ def transpose(in_array):
                 row_data.append('')
         new_array.append(row_data)
     return new_array
-
-"""
-In order to easily compute the actual index of 'X' or 'AX', these utility
-functions were written
-"""
-
-_INDICES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-
-def _get_index(index_chars):
-    length = len(index_chars)
-    index_chars_length = len(_INDICES)
-    if length > 1:
-        index = 0
-        for i in range(0, length):
-            if i < (length - 1):
-                index += ((_INDICES.index(index_chars[i]) + 1) *
-                          (index_chars_length ** (length - 1 - i)))
-            else:
-                index += _INDICES.index(index_chars[i])
-        return index
-    else:
-        return _INDICES.index(index_chars[0])
-
-
-def _excel_column_index(index_chars):
-    if len(index_chars) < 1:
-        return -1
-    else:
-        return _get_index(index_chars.upper())
-
-
-def _excel_cell_position(pos_chars):
-    if len(pos_chars) < 2:
-        return -1, -1
-    group = re.match("([A-Za-z]+)([0-9]+)", pos_chars)
-    if group:
-        return int(group.group(2)) - 1, _excel_column_index(group.group(1))
-    else:
-        raise IndexError
-
-
-def _analyse_slice(aslice, upper_bound):
-    """An internal function to analyze a given slice
-    """
-    if aslice.start is None:
-        start = 0
-    else:
-        start = max(aslice.start, 0)
-    if aslice.stop is None:
-        stop = upper_bound
-    else:
-        stop = min(aslice.stop, upper_bound)
-    if start > stop:
-        raise ValueError
-    elif start < stop:
-        if aslice.step:
-            my_range = range(start, stop, aslice.step)
-        else:
-            my_range = range(start, stop)
-        if not PY2:
-            # for py3, my_range is a range object
-            my_range = list(my_range)
-    else:
-        my_range = [start]
-    return my_range
-
-
-class Row:
-    """Represent row of a matrix
-
-    .. table:: "example.csv"
-
-        = = =
-        1 2 3
-        4 5 6
-        7 8 9
-        = = =
-
-    Above column manipulation can be performed on rows similarly. This section
-    will not repeat the same example but show some advance usages.
-
-
-        >>> import pyexcel as pe
-        >>> data = [[1,2,3], [4,5,6], [7,8,9]]
-        >>> m = pe.sheets.Matrix(data)
-        >>> m.row[0:2]
-        [[1, 2, 3], [4, 5, 6]]
-        >>> m.row[0:3] = [0, 0, 0]
-        >>> m.row[2]
-        [0, 0, 0]
-        >>> del m.row[0:2]
-        >>> m.row[0]
-        [0, 0, 0]
-
-    """
-    def __init__(self, matrix):
-        self.ref = matrix
-
-    def select(self, indices):
-        """Delete row indices other than specified
-
-        Examples:
-
-            >>> import pyexcel as pe
-            >>> data = [[1],[2],[3],[4],[5],[6],[7],[9]]
-            >>> sheet = pe.Sheet(data)
-            >>> sheet
-            pyexcel sheet:
-            +---+
-            | 1 |
-            +---+
-            | 2 |
-            +---+
-            | 3 |
-            +---+
-            | 4 |
-            +---+
-            | 5 |
-            +---+
-            | 6 |
-            +---+
-            | 7 |
-            +---+
-            | 9 |
-            +---+
-            >>> sheet.row.select([1,2,3,5])
-            >>> sheet
-            pyexcel sheet:
-            +---+
-            | 2 |
-            +---+
-            | 3 |
-            +---+
-            | 4 |
-            +---+
-            | 6 |
-            +---+
-
-        """
-        self.ref.filter(RowFilter(indices).invert())
-
-    def __delitem__(self, aslice):
-        """Override the operator to delete items
-
-        Examples:
-
-            >>> import pyexcel as pe
-            >>> data = [[1],[2],[3],[4],[5],[6],[7],[9]]
-            >>> sheet = pe.Sheet(data)
-            >>> sheet
-            pyexcel sheet:
-            +---+
-            | 1 |
-            +---+
-            | 2 |
-            +---+
-            | 3 |
-            +---+
-            | 4 |
-            +---+
-            | 5 |
-            +---+
-            | 6 |
-            +---+
-            | 7 |
-            +---+
-            | 9 |
-            +---+
-            >>> del sheet.row[1,2,3,5]
-            >>> sheet
-            pyexcel sheet:
-            +---+
-            | 1 |
-            +---+
-            | 5 |
-            +---+
-            | 7 |
-            +---+
-            | 9 |
-            +---+
-
-        """
-        if isinstance(aslice, slice):
-            my_range = _analyse_slice(aslice, self.ref.number_of_rows())
-            self.ref.delete_rows(my_range)
-        elif isinstance(aslice, tuple):
-            self.ref.filter(RowFilter(list(aslice)))
-        elif isinstance(aslice, list):
-            self.ref.filter(RowFilter(aslice))
-        else:
-            self.ref.delete_rows([aslice])
-
-    def __setitem__(self, aslice, c):
-        """Override the operator to set items"""
-        if isinstance(aslice, slice):
-            my_range = _analyse_slice(aslice, self.ref.number_of_rows())
-            for i in my_range:
-                self.ref.set_row_at(i, c)
-        else:
-            self.ref.set_row_at(aslice, c)
-
-    def __getitem__(self, aslice):
-        """By default, this class recognize from top to bottom
-        from left to right"""
-        index = aslice
-        if isinstance(aslice, slice):
-            my_range = _analyse_slice(aslice, self.ref.number_of_rows())
-            results = []
-            for i in my_range:
-                results.append(self.ref.row_at(i))
-            return results
-        if index in self.ref.row_range():
-            return self.ref.row_at(index)
-        else:
-            raise IndexError
-
-    def __iadd__(self, other):
-        """Overload += sign
-
-        :return: self
-        """
-        if isinstance(other, list):
-            self.ref.extend_rows(other)
-        elif isinstance(other, Matrix):
-            self.ref.extend_rows(other._array)
-        else:
-            raise TypeError
-        return self
-
-    def __add__(self, other):
-        """Overload += sign
-
-        :return: self
-        """
-        self.__iadd__(other)
-        return self.ref
-
-
-class Column:
-    """Represent columns of a matrix
-
-    .. table:: "example.csv"
-
-        = = =
-        1 2 3
-        4 5 6
-        7 8 9
-        = = =
-
-    Let us manipulate the data columns on the above data matrix::
-
-        >>> import pyexcel as pe
-        >>> data = [[1,2,3], [4,5,6], [7,8,9]]
-        >>> m = pe.sheets.Matrix(data)
-        >>> m.column[0]
-        [1, 4, 7]
-        >>> m.column[2] = [0, 0, 0]
-        >>> m.column[2]
-        [0, 0, 0]
-        >>> del m.column[1]
-        >>> m.column[1]
-        [0, 0, 0]
-        >>> m.column[2]
-        Traceback (most recent call last):
-            ...
-        IndexError
-
-    """
-    def __init__(self, matrix):
-        self.ref = matrix
-
-    def select(self, indices):
-        """
-        Examples:
-
-            >>> import pyexcel as pe
-            >>> data = [[1,2,3,4,5,6,7,9]]
-            >>> sheet = pe.Sheet(data)
-            >>> sheet
-            pyexcel sheet:
-            +---+---+---+---+---+---+---+---+
-            | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 |
-            +---+---+---+---+---+---+---+---+
-            >>> sheet.column.select([1,2,3,5])
-            >>> sheet
-            pyexcel sheet:
-            +---+---+---+---+
-            | 2 | 3 | 4 | 6 |
-            +---+---+---+---+
-
-        """
-        self.ref.filter(ColumnFilter(indices).invert())
-
-    def __delitem__(self, aslice):
-        """Override the operator to delete items
-
-        Examples:
-
-            >>> import pyexcel as pe
-            >>> data = [[1,2,3,4,5,6,7,9]]
-            >>> sheet = pe.Sheet(data)
-            >>> sheet
-            pyexcel sheet:
-            +---+---+---+---+---+---+---+---+
-            | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 |
-            +---+---+---+---+---+---+---+---+
-            >>> del sheet.column[1,2,3,5]
-            >>> sheet
-            pyexcel sheet:
-            +---+---+---+---+
-            | 1 | 5 | 7 | 9 |
-            +---+---+---+---+
-
-        """
-        if isinstance(aslice, slice):
-            my_range = _analyse_slice(aslice, self.ref.number_of_columns())
-            self.ref.delete_columns(my_range)
-        elif isinstance(aslice, str):
-            index = _excel_column_index(aslice)
-            self.ref.delete_columns([index])
-        elif isinstance(aslice, tuple):
-            indices = list(aslice)
-            self.ref.filter(ColumnFilter(indices))
-        elif isinstance(aslice, list):
-            indices = aslice
-            self.ref.filter(ColumnFilter(indices))
-        elif isinstance(aslice, int):
-            self.ref.delete_columns([aslice])
-        else:
-            raise IndexError
-
-    def __setitem__(self, aslice, c):
-        """Override the operator to set items"""
-        if isinstance(aslice, slice):
-            my_range = _analyse_slice(aslice, self.ref.number_of_columns())
-            for i in my_range:
-                self.ref.set_column_at(i, c)
-        elif isinstance(aslice, str):
-            index = _excel_column_index(aslice)
-            self.ref.set_column_at(index, c)
-        elif isinstance(aslice, int):
-            self.ref.set_column_at(aslice, c)
-        else:
-            raise IndexError
-
-    def __getitem__(self, aslice):
-        """By default, this class recognize from top to bottom
-        from left to right"""
-        index = aslice
-        if isinstance(aslice, slice):
-            my_range = _analyse_slice(aslice, self.ref.number_of_columns())
-            results = []
-            for i in my_range:
-                results.append(self.ref.column_at(i))
-            return results
-        elif isinstance(aslice, str):
-            index = _excel_column_index(aslice)
-        if index in self.ref.column_range():
-            return self.ref.column_at(index)
-        else:
-            raise IndexError
-
-    def __iadd__(self, other):
-        """Overload += sign
-
-        :return: self
-        """
-        if isinstance(other, list):
-            self.ref.extend_columns(other)
-        elif isinstance(other, Matrix):
-            self.ref.extend_columns_with_rows(other._array)
-        else:
-            raise TypeError
-        return self
-
-    def __add__(self, other):
-        """Overload += sign
-
-        :return: self
-        """
-        self.__iadd__(other)
-        return self.ref
 
 
 class Matrix(object):
@@ -915,7 +533,7 @@ class Matrix(object):
         if isinstance(aset, tuple):
             return self.cell_value(aset[0], aset[1], c)
         elif isinstance(aset, str):
-            row, column = _excel_cell_position(aset)
+            row, column = utils.excel_cell_position(aset)
             return self.cell_value(row, column, c)
         else:
             raise IndexError
@@ -926,7 +544,7 @@ class Matrix(object):
         if isinstance(aset, tuple):
             return self.cell_value(aset[0], aset[1])
         elif isinstance(aset, str):
-            row, column = _excel_cell_position(aset)
+            row, column = utils.excel_cell_position(aset)
             return self.cell_value(row, column)
         elif isinstance(aset, int):
             print(MESSAGE_DEPRECATED_ROW_COLUMN)

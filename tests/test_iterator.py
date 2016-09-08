@@ -445,29 +445,29 @@ class TestHatIterators:
 class TestUtilityFunctions:
     def test_excel_column_index(self):
         chars = ""
-        index = pe.sheets.matrix._excel_column_index(chars)
+        index = pe.sheets._shared.excel_column_index(chars)
         assert index == -1
         chars = "Z"
-        index = pe.sheets.matrix._excel_column_index(chars)
+        index = pe.sheets._shared.excel_column_index(chars)
         assert index == 25
         chars = "AB"
-        index = pe.sheets.matrix._excel_column_index(chars)
+        index = pe.sheets._shared.excel_column_index(chars)
         assert index == 27
         chars = "AAB"
-        index = pe.sheets.matrix._excel_column_index(chars)
+        index = pe.sheets._shared.excel_column_index(chars)
         eq_(index, 703)
 
     def test_excel_cell_position(self):
         pos_chars = "A"
-        row, column = pe.sheets.matrix._excel_cell_position(pos_chars)
+        row, column = pe.sheets._shared.excel_cell_position(pos_chars)
         assert row == -1
         assert column == -1
         pos_chars = "A1"
-        row, column = pe.sheets.matrix._excel_cell_position(pos_chars)
+        row, column = pe.sheets._shared.excel_cell_position(pos_chars)
         assert row == 0
         assert column == 0
         pos_chars = "AAB111"
-        row, column = pe.sheets.matrix._excel_cell_position(pos_chars)
+        row, column = pe.sheets._shared.excel_cell_position(pos_chars)
         assert row == 110
         eq_(column, 703)
 
@@ -476,13 +476,13 @@ class TestUtilityFunctions:
         a = slice(None, 3)
         bound = 4
         expected = [0, 1, 2]
-        result = pe.sheets.matrix._analyse_slice(a, bound)
+        result = pe.sheets._shared.analyse_slice(a, bound)
         assert expected == result
         a = slice(1, None)
         bound = 4
         expected = [1, 2, 3]
-        result = pe.sheets.matrix._analyse_slice(a, bound)
+        result = pe.sheets._shared.analyse_slice(a, bound)
         assert expected == result
         a = slice(2, 1)  # invalid series
         bound = 4
-        result = pe.sheets.matrix._analyse_slice(a, bound)  # bang
+        result = pe.sheets._shared.analyse_slice(a, bound)  # bang
