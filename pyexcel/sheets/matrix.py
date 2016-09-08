@@ -124,6 +124,8 @@ class Matrix(object):
         :param list array: a list of arrays
         """
         self.width, self._array = uniform(list(array))
+        self.row = Row(self)
+        self.column = Column(self)
 
     def number_of_rows(self):
         """The number of rows"""
@@ -167,16 +169,6 @@ class Matrix(object):
                 raise IndexError("Index out of range")
             else:
                 self.paste((row, column), [[new_value]])
-
-    @property
-    def row(self):
-        return Row(self)
-
-    @row.setter
-    def row(self, value):
-        # dummy setter to enable self.column += ..
-        # in py3
-        pass
 
     def row_at(self, index):
         """
@@ -249,16 +241,6 @@ class Matrix(object):
             for i in sorted_list:
                 if i < self.number_of_rows():
                     del self._array[i]
-
-    @property
-    def column(self):
-        return Column(self)
-
-    @column.setter
-    def column(self, value):
-        # dummy setter to enable self.column += ..
-        # in py3
-        pass
 
     def column_at(self, index):
         """

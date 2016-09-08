@@ -96,37 +96,7 @@ class Sheet(Matrix, SheetMixin):
              rownames=None,
              transpose_before=False,
              transpose_after=False):
-        # this get rid of phatom data by not specifying sheet
-        if sheet is None:
-            sheet = []
-        Matrix.__init__(self, sheet)
-        if transpose_before:
-            self.transpose()
-        self.name = name
-        self._column_names = []
-        self._row_names = []
-        self.named_row = NamedRow(self)
-        self.named_column = NamedColumn(self)
-        if name_columns_by_row != -1:
-            if colnames:
-                raise NotImplementedError(MESSAGE_NOT_IMPLEMENTED_02)
-            self.name_columns_by_row(name_columns_by_row)
-        else:
-            if colnames:
-                self._column_names = colnames
-        if name_rows_by_column != -1:
-            if rownames:
-                raise NotImplementedError(MESSAGE_NOT_IMPLEMENTED_02)
-            self.name_rows_by_column(name_rows_by_column)
-        else:
-            if rownames:
-                self._row_names = rownames
-        if transpose_after:
-            self.transpose()
-
-    @property
-    def row(self):
-        """Row representation. see :class:`NamedRow`
+        """custom initialization functions
 
         examples::
 
@@ -155,22 +125,33 @@ class Sheet(Matrix, SheetMixin):
                 ...
             IndexError
         """
-        return self.named_row
-
-    @row.setter
-    def row(self, value):
-        # dummy setter to enable self.row += ..
-        pass
-
-    @property
-    def column(self):
-        """Column representation. see :class:`NamedColumn`"""
-        return self.named_column
-
-    @column.setter
-    def column(self, value):
-        # dummy setter to enable self.column += ..
-        pass
+        # this get rid of phatom data by not specifying sheet
+        if sheet is None:
+            sheet = []
+        Matrix.__init__(self, sheet)
+        if transpose_before:
+            self.transpose()
+        self.name = name
+        self._column_names = []
+        self._row_names = []
+        self.row = NamedRow(self)
+        self.column = NamedColumn(self)
+        if name_columns_by_row != -1:
+            if colnames:
+                raise NotImplementedError(MESSAGE_NOT_IMPLEMENTED_02)
+            self.name_columns_by_row(name_columns_by_row)
+        else:
+            if colnames:
+                self._column_names = colnames
+        if name_rows_by_column != -1:
+            if rownames:
+                raise NotImplementedError(MESSAGE_NOT_IMPLEMENTED_02)
+            self.name_rows_by_column(name_rows_by_column)
+        else:
+            if rownames:
+                self._row_names = rownames
+        if transpose_after:
+            self.transpose()
 
     def name_columns_by_row(self, row_index):
         """Use the elements of a specified row to represent individual columns
