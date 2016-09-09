@@ -1,8 +1,8 @@
 """
-    pyexcel.sheets.nominablesheet
+    pyexcel.sheets.sheet
     ~~~~~~~~~~~~~~~~~~~
 
-    Building on top of formattablesheet, adding named columns and rows support
+    Building on top of matrix, adding named columns and rows support
 
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details

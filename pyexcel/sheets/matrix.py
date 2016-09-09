@@ -175,14 +175,22 @@ class Matrix(object):
         Gets the data at the specified row
         """
         if index in self.row_range():
-            cell_array = []
-            for i in self.column_range():
-                cell_array.append(self.cell_value(index, i))
-            return cell_array
+            return copy.deepcopy(self._array[index])
         else:
             raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)
 
-    def set_row_at(self, row_index, data_array, starting=0):
+    def set_row_at(self, row_index, data_array):
+        """Update a row data range
+        """
+        nrows = self.number_of_rows()
+        if row_index < nrows:
+            self._array[row_index] = data_array
+            if len(data_array) != self.number_of_columns():
+                self.width, self._array = uniform(self._array)
+        else:
+            raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)
+
+    def _set_row_at(self, row_index, data_array, starting=0):
         """Update a row data range
 
         It works like this if the call is: set_row_at(2, ['N', 'N', 'N'], 1)::
@@ -476,7 +484,8 @@ class Matrix(object):
             for index, row in enumerate(rows):
                 set_index = starting_row + index
                 if set_index < number_of_rows:
-                    self.set_row_at(set_index, row, starting=topleft_corner[1])
+                    self._set_row_at(set_index, row,
+                                     starting=topleft_corner[1])
                 else:
                     real_row = [""] * topleft_corner[1] + row
                     self._extend_row(real_row)
