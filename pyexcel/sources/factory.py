@@ -6,17 +6,26 @@ from pyexcel._compact import PY2, is_string
 from . import params
 
 
+# registries
+REGISTRY_KEY_FORMAT = "%s-%s"
+
+SHEET_WRITE = REGISTRY_KEY_FORMAT % (params.SHEET, params.WRITE_ACTION)
+SHEET_READ = REGISTRY_KEY_FORMAT % (params.SHEET, params.READ_ACTION)
+BOOK_WRITE = REGISTRY_KEY_FORMAT % (params.BOOK, params.WRITE_ACTION)
+BOOK_READ = REGISTRY_KEY_FORMAT % (params.BOOK, params.READ_ACTION)
+
+
 registry = {
-    "sheet-write": [],
-    "book-write": [],
-    "book-read": [],
-    "sheet-read": []
+    SHEET_WRITE: [],
+    BOOK_WRITE: [],
+    BOOK_READ: [],
+    SHEET_READ: []
 }
 attribute_registry = {
-    "sheet-read": [],
-    "sheet-write": [],
-    "book-read": [],
-    "book-write": []
+    SHEET_WRITE: [],
+    BOOK_WRITE: [],
+    BOOK_READ: [],
+    SHEET_READ: []
 }
 keywords = {}
 
@@ -24,7 +33,7 @@ keywords = {}
 def register_class(cls):
     for target in cls.targets:
         for action in cls.actions:
-            key = "%s-%s" % (target, action)
+            key = REGISTRY_KEY_FORMAT % (target, action)
             registry[key].append(cls)
             for attr in cls.attributes:
                 attribute_registry[key].append(attr)
@@ -110,27 +119,27 @@ def _has_field(field, keywords):
 
 
 def get_book_rw_attributes():
-    return set(attribute_registry["book-read"]).intersection(
-        set(attribute_registry["book-write"]))
+    return set(attribute_registry[BOOK_READ]).intersection(
+        set(attribute_registry[BOOK_WRITE]))
 
 
 def get_book_w_attributes():
-    return set(attribute_registry["book-write"]).difference(
-        set(attribute_registry["book-read"]))
+    return set(attribute_registry[BOOK_WRITE]).difference(
+        set(attribute_registry[BOOK_READ]))
 
 
 def get_sheet_rw_attributes():
-    return set(attribute_registry["sheet-read"]).intersection(
-        set(attribute_registry["sheet-write"]))
+    return set(attribute_registry[SHEET_READ]).intersection(
+        set(attribute_registry[SHEET_WRITE]))
 
 
 def get_sheet_w_attributes():
-    return set(attribute_registry["sheet-write"]).difference(
-        set(attribute_registry["sheet-read"]))
+    return set(attribute_registry[SHEET_WRITE]).difference(
+        set(attribute_registry[SHEET_READ]))
 
 
 def _get_generic_source(target, action, **keywords):
-    key = "%s-%s" % (target, action)
+    key = REGISTRY_KEY_FORMAT % (target, action)
     for source in registry[key]:
         if source.is_my_business(action, **keywords):
             s = source(**keywords)
@@ -138,10 +147,14 @@ def _get_generic_source(target, action, **keywords):
     raise NotImplementedError("No source found for %s" % keywords)
 
 
-get_source = partial(_get_generic_source, 'sheet', 'read')
+get_source = partial(_get_generic_source,
+                     params.SHEET, params.READ_ACTION)
 
-get_book_source = partial(_get_generic_source, 'book', 'read')
+get_book_source = partial(_get_generic_source,
+                          params.BOOK, params.READ_ACTION)
 
-get_writable_source = partial(_get_generic_source, 'sheet', 'write')
+get_writable_source = partial(_get_generic_source,
+                              params.SHEET, params.WRITE_ACTION)
 
-get_writable_book_source = partial(_get_generic_source, 'book', 'write')
+get_writable_book_source = partial(_get_generic_source,
+                                   params.BOOK, params.WRITE_ACTION)
