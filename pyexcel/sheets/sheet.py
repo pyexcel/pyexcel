@@ -24,7 +24,7 @@ from ..constants import (
     MESSAGE_NOT_IMPLEMENTED_02,
     MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED,
     DEFAULT_NAME)
-from pyexcel.sources import SheetMixin, SheetMeta
+from pyexcel.sources import SheetMeta, save_sheet
 from .row import Row as NamedRow
 from .column import Column as NamedColumn
 from . import _shared as utils
@@ -45,7 +45,7 @@ def make_names_unique(alist):
     return new_names
 
 
-class Sheet(with_metaclass(SheetMeta, Matrix, SheetMixin)):
+class Sheet(with_metaclass(SheetMeta, Matrix)):
     """Two dimensional data container for filtering, formatting and iteration
 
     :class:`Sheet` is a container for a two dimensional array, where individual
@@ -450,3 +450,71 @@ class Sheet(with_metaclass(SheetMeta, Matrix, SheetMixin)):
         """
         content = self.get_texttable(write_title=False)
         return self._RepresentedString(content)
+
+    def save_as(self, filename, **keywords):
+        """Save the content to a named file
+
+        Keywords may vary depending on your file type, because the associated
+        file type employs different library.
+
+        for csv, `fmtparams <https://docs.python.org/release/3.1.5/
+        library/csv.html#dialects-and-formatting-parameters>`_ are accepted
+
+        for xls, 'auto_detect_int', 'encoding' and 'style_compression' are
+        supported
+
+        for ods, 'auto_detect_int' is supported
+        """
+        return save_sheet(self, file_name=filename,
+                          **keywords)
+
+    def save_to_memory(self, file_type, stream=None, **keywords):
+        """Save the content to memory
+
+        :param str file_type: any value of 'csv', 'tsv', 'csvz',
+                              'tsvz', 'xls', 'xlsm', 'xlsm', 'ods'
+        :param iostream stream: the memory stream to be written to. Note in
+                                Python 3, for csv  and tsv format, please
+                                pass an instance of StringIO. For xls, xlsx,
+                                and ods, an instance of BytesIO.
+        """
+        get_method = getattr(self, "get_%s" % file_type)
+        content = get_method(file_stream=stream, **keywords)
+        return content
+
+    def save_to_django_model(self,
+                             model,
+                             initializer=None,
+                             mapdict=None,
+                             batch_size=None):
+        """Save to database table through django model
+
+        :param model: a database model
+        :param initializer: a initialization functions for your model
+        :param mapdict: custom map dictionary for your data columns
+        :param batch_size: a parameter to Django concerning the size
+                           of data base set
+        """
+        save_sheet(self,
+                   model=model, initializer=initializer,
+                   mapdict=mapdict, batch_size=batch_size)
+
+    def save_to_database(self, session, table,
+                         initializer=None,
+                         mapdict=None,
+                         auto_commit=True):
+        """Save data in sheet to database table
+
+        :param session: database session
+        :param table: a database table
+        :param initializer: a initialization functions for your table
+        :param mapdict: custom map dictionary for your data columns
+        :param auto_commit: by default, data is committed.
+
+        """
+        save_sheet(self,
+                   session=session,
+                   table=table,
+                   initializer=initializer,
+                   mapdict=mapdict,
+                   auto_commit=auto_commit)

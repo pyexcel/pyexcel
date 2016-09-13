@@ -12,10 +12,10 @@ import pyexcel.utils as utils
 from pyexcel.sheets.iterators import SheetIterator
 from pyexcel.sheets import Sheet
 from pyexcel._compact import OrderedDict
-from pyexcel.sources import BookMeta, BookMixin
+from pyexcel.sources import BookMeta, save_book
 
 
-class Book(with_metaclass(BookMeta, BookMixin)):
+class Book(with_metaclass(BookMeta, object)):
     """Read an excel book that has one or more sheets
 
     For csv file, there will be just one sheet
@@ -193,6 +193,73 @@ class Book(with_metaclass(BookMeta, BookMixin)):
 
     def __str__(self):
         return self.texttable
+
+    def save_as(self, filename):
+        """Save the content to a new file
+
+        :param str filename: a file path
+        """
+        return save_book(self, file_name=filename)
+
+    def save_to_memory(self, file_type, stream=None, **keywords):
+        """Save the content to a memory stream
+
+        :param file_type: what format the stream is in
+        :param stream: a memory stream.  Note in Python 3, for csv and tsv
+                       format, please pass an instance of StringIO. For xls,
+                       xlsx, and ods, an instance of BytesIO.
+        """
+        get_method = getattr(self, "get_%s" % file_type)
+        content = get_method(file_stream=stream, **keywords)
+        return content
+
+    def save_to_django_models(self, models,
+                              initializers=None, mapdicts=None,
+                              batch_size=None):
+        """Save to database table through django model
+
+        :param models: a list of database models, that is accepted by
+                       :meth:`Sheet.save_to_django_model`. The sequence
+                       of tables matters when there is dependencies in
+                       between the tables. For example, **Car** is made
+                       by **Car Maker**. **Car Maker** table should be
+                       specified before **Car** table.
+        :param initializers: a list of intialization functions for your
+                             tables and the sequence should match tables,
+        :param mapdicts: custom map dictionary for your data columns
+                         and the sequence should match tables
+        """
+        save_book(self,
+                  models=models,
+                  initializers=initializers,
+                  mapdicts=mapdicts,
+                  batch_size=batch_size)
+
+    def save_to_database(self, session, tables,
+                         initializers=None, mapdicts=None,
+                         auto_commit=True):
+        """Save data in sheets to database tables
+
+        :param session: database session
+        :param tables: a list of database tables, that is accepted by
+                       :meth:`Sheet.save_to_database`. The sequence of tables
+                       matters when there is dependencies in between the
+                       tables. For example, **Car** is made by **Car Maker**.
+                       **Car Maker** table should
+                       be specified before **Car** table.
+        :param initializers: a list of intialization functions for your
+                             tables and the sequence should match tables,
+        :param mapdicts: custom map dictionary for your data columns
+                         and the sequence should match tables
+        :param auto_commit: by default, data is committed.
+
+        """
+        save_book(self,
+                  session=session,
+                  tables=tables,
+                  initializers=initializers,
+                  mapdicts=mapdicts,
+                  auto_commit=auto_commit)
 
 
 def to_book(bookstream):

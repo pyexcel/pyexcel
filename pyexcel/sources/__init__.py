@@ -71,86 +71,8 @@ class SheetMeta(type):
             register_io(cls, attribute)
         for attribute in factory.get_sheet_w_attributes():
             register_presentation(cls, attribute)
-
-
-class SheetMixin:
-    @classmethod
-    def register_io(cls, file_type):
-        register_io(cls, file_type)
-
-    @classmethod
-    def register_presentation(cls, file_type):
-        register_presentation(cls, file_type)
-
-    def save_as(self, filename, **keywords):
-        """Save the content to a named file
-
-        Keywords may vary depending on your file type, because the associated
-        file type employs different library.
-
-        for csv, `fmtparams <https://docs.python.org/release/3.1.5/
-        library/csv.html#dialects-and-formatting-parameters>`_ are accepted
-
-        for xls, 'auto_detect_int', 'encoding' and 'style_compression' are
-        supported
-
-        for ods, 'auto_detect_int' is supported
-        """
-        return save_sheet(self, file_name=filename,
-                          **keywords)
-
-    def save_to_memory(self, file_type, stream=None, **keywords):
-        """Save the content to memory
-
-        :param str file_type: any value of 'csv', 'tsv', 'csvz',
-                              'tsvz', 'xls', 'xlsm', 'xlsm', 'ods'
-        :param iostream stream: the memory stream to be written to. Note in
-                                Python 3, for csv  and tsv format, please
-                                pass an instance of StringIO. For xls, xlsx,
-                                and ods, an instance of BytesIO.
-        """
-        get_method = getattr(self, "get_%s" % file_type)
-        content = get_method(file_stream=stream, **keywords)
-        return content
-
-    def save_to_django_model(self,
-                             model,
-                             initializer=None,
-                             mapdict=None,
-                             batch_size=None):
-        """Save to database table through django model
-
-        :param model: a database model
-        :param initializer: a initialization functions for your model
-        :param mapdict: custom map dictionary for your data columns
-        :param batch_size: a parameter to Django concerning the size
-                           of data base set
-        """
-        save_sheet(self,
-                   model=model, initializer=initializer,
-                   mapdict=mapdict, batch_size=batch_size)
-
-
-    def save_to_database(self, session, table,
-                         initializer=None,
-                         mapdict=None,
-                         auto_commit=True):
-        """Save data in sheet to database table
-
-        :param session: database session
-        :param table: a database table
-        :param initializer: a initialization functions for your table
-        :param mapdict: custom map dictionary for your data columns
-        :param auto_commit: by default, data is committed.
-
-        """
-        save_sheet(self,
-                   session=session,
-                   table=table,
-                   initializer=initializer,
-                   mapdict=mapdict,
-                   auto_commit=auto_commit
-               )
+        setattr(cls, "register_io", classmethod(register_io))
+        setattr(cls, "register_presentation", classmethod(register_presentation))
 
 
 def register_book_presentation(cls, file_type):
@@ -180,83 +102,8 @@ class BookMeta(type):
             register_book_io(cls, attribute)
         for attribute in factory.get_book_w_attributes():
             register_book_presentation(cls, attribute)
-
-
-class BookMixin(object):
-    @classmethod
-    def register_presentation(cls, file_type):
-        register_book_presentation(cls, file_type)
-
-    @classmethod
-    def register_io(cls, file_type):
-        register_book_io(cls, file_type)
-
-    def save_as(self, filename):
-        """Save the content to a new file
-
-        :param str filename: a file path
-        """
-        return save_book(self, file_name=filename)
-
-    def save_to_memory(self, file_type, stream=None, **keywords):
-        """Save the content to a memory stream
-
-        :param file_type: what format the stream is in
-        :param stream: a memory stream.  Note in Python 3, for csv and tsv
-                       format, please pass an instance of StringIO. For xls,
-                       xlsx, and ods, an instance of BytesIO.
-        """
-        get_method = getattr(self, "get_%s" % file_type)
-        content = get_method(file_stream=stream, **keywords)
-        return content
-
-    def save_to_django_models(self, models,
-                              initializers=None, mapdicts=None,
-                              batch_size=None):
-        """Save to database table through django model
-
-        :param models: a list of database models, that is accepted by
-                       :meth:`Sheet.save_to_django_model`. The sequence
-                       of tables matters when there is dependencies in
-                       between the tables. For example, **Car** is made
-                       by **Car Maker**. **Car Maker** table should be
-                       specified before **Car** table.
-        :param initializers: a list of intialization functions for your
-                             tables and the sequence should match tables,
-        :param mapdicts: custom map dictionary for your data columns
-                         and the sequence should match tables
-        """
-        save_book(self,
-                  models=models,
-                  initializers=initializers,
-                  mapdicts=mapdicts,
-                  batch_size=batch_size)
-
-    def save_to_database(self, session, tables,
-                         initializers=None, mapdicts=None,
-                         auto_commit=True):
-        """Save data in sheets to database tables
-
-        :param session: database session
-        :param tables: a list of database tables, that is accepted by
-                       :meth:`Sheet.save_to_database`. The sequence of tables
-                       matters when there is dependencies in between the
-                       tables. For example, **Car** is made by **Car Maker**.
-                       **Car Maker** table should
-                       be specified before **Car** table.
-        :param initializers: a list of intialization functions for your
-                             tables and the sequence should match tables,
-        :param mapdicts: custom map dictionary for your data columns
-                         and the sequence should match tables
-        :param auto_commit: by default, data is committed.
-
-        """
-        save_book(self,
-                  session=session,
-                  tables=tables,
-                  initializers=initializers,
-                  mapdicts=mapdicts,
-                  auto_commit=auto_commit)
+        setattr(cls, "register_io", classmethod(register_book_io))
+        setattr(cls, "register_presentation", classmethod(register_book_presentation))
 
 
 def presenter(attribute=None):
