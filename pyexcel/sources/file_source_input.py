@@ -34,7 +34,7 @@ class ReadExcelFromFile(InputSource):
     """Pick up 'file_name' field and do single sheet based read and write
     """
     fields = [params.FILE_NAME]
-    targets = (params.INPUT,)
+    targets = (params.SHEET, params.BOOK)
     actions = (params.READ_ACTION,)
 
     def __init__(self, file_name=None, **keywords):

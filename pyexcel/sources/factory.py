@@ -1,19 +1,18 @@
+from functools import partial
+
 from six import with_metaclass
+
 from pyexcel._compact import PY2, is_string
 from . import params
 
 
 registry = {
-    "input-read": [],
-    "input-write": [],
     "sheet-write": [],
     "book-write": [],
     "book-read": [],
     "sheet-read": []
 }
 attribute_registry = {
-    "input-read": [],
-    "input-write": [],
     "sheet-read": [],
     "sheet-write": [],
     "book-read": [],
@@ -136,58 +135,13 @@ def _get_generic_source(target, action, **keywords):
         if source.is_my_business(action, **keywords):
             s = source(**keywords)
             return s
-    return None
+    raise NotImplementedError("No source found for %s" % keywords)
 
 
-def get_source(**keywords):
-    source = _get_generic_source(
-        'input',
-        'read',
-        **keywords)
-    if source is None:
-        source = _get_generic_source(
-            'sheet',
-            'read',
-            **keywords)
-    if source is None:
-        raise NotImplementedError("No source found for %s" % keywords)
-    else:
-        return source
+get_source = partial(_get_generic_source, 'sheet', 'read')
 
+get_book_source = partial(_get_generic_source, 'book', 'read')
 
-def get_book_source(**keywords):
-    source = _get_generic_source(
-        'input',
-        'read',
-        **keywords)
-    if source is None:
-        source = _get_generic_source(
-            'book',
-            'read',
-            **keywords)
-    if source is None:
-        raise NotImplementedError("No source found for %s" % keywords)
-    else:
-        return source
+get_writable_source = partial(_get_generic_source, 'sheet', 'write')
 
-
-def get_writable_source(**keywords):
-    source = _get_generic_source(
-        'sheet',
-        'write',
-        **keywords)
-    if source is None:
-        raise NotImplementedError("No source found for %s" % keywords)
-    else:
-        return source
-
-
-def get_writable_book_source(**keywords):
-    source = _get_generic_source(
-        'book',
-        'write',
-        **keywords)
-    if source is None:
-        raise NotImplementedError("No source found for %s" % keywords)
-    else:
-        return source
+get_writable_book_source = partial(_get_generic_source, 'book', 'write')

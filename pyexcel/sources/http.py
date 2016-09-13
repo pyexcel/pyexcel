@@ -31,7 +31,7 @@ class HttpSource(Source):
     Multiple sheet data source via http protocol
     """
     fields = [params.URL]
-    targets = (params.INPUT,)
+    targets = (params.SHEET, params.BOOK)
     actions = (params.READ_ACTION,)
     attributes = [params.URL]
     key = params.URL
