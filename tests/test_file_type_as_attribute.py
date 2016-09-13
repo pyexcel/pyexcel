@@ -33,13 +33,13 @@ class DummySource(Source):
 
 
 def test_sheet_register_presentation():
-    Sheet.register_presentation('dummy')
+    Sheet.register_presentation(FIXTURE)
     s = Sheet([[1, 2]])
     assert s.dummy == FIXTURE
 
 
 def test_book_register_presentation():
-    Book.register_presentation('dummy')
+    Book.register_presentation(FIXTURE)
     b = Book({"sheet": [[1, 2]]})
     assert b.dummy == FIXTURE
 

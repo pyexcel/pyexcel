@@ -5,6 +5,7 @@ from . import factory
 from pyexcel._compact import PY2
 from pyexcel.generators import BookStream, SheetStream
 import pyexcel.constants as constants
+from functools import partial
 
 
 def get_sheet_stream(**keywords):
@@ -142,33 +143,43 @@ class SheetMixin:
                )
 
 
+def register_presentation(cls, file_type):
+    getter = book_presenter(file_type)
+    file_type_property = property(
+        getter,
+        doc=constants._OUT_FILE_TYPE_DOC_STRING.format(file_type, "Book"))
+    setattr(cls, file_type, file_type_property)
+    setattr(cls, 'get_%s' % file_type, getter)
+
+
+def register_io(cls, file_type):
+    getter = book_presenter(file_type)
+    setter = book_importer(file_type)
+    file_type_property = property(
+        getter, setter,
+        doc=constants._IO_FILE_TYPE_DOC_STRING.format(file_type, "Book"))
+    setattr(cls, file_type, file_type_property)
+    setattr(cls, 'get_%s' % file_type, getter)
+    setattr(cls, 'set_%s' % file_type, setter)
+
+
+class BookMeta(type):
+    def __init__(cls, name, bases, nmspc):
+        super(BookMeta, cls).__init__(name, bases, nmspc)
+        for attribute in factory.get_book_rw_attributes():
+            register_io(cls, attribute)
+        for attribute in factory.get_book_w_attributes():
+            register_presentation(cls, attribute)
+
+
 class BookMixin(object):
     @classmethod
-    def init_attributes(cls):
-        for attribute in factory.get_book_rw_attributes():
-            cls.register_io(attribute)
-        for attribute in factory.get_book_w_attributes():
-            cls.register_presentation(attribute)
-
-    @classmethod
     def register_presentation(cls, file_type):
-        getter = book_presenter(file_type)
-        file_type_property = property(
-            getter,
-            doc=constants._OUT_FILE_TYPE_DOC_STRING.format(file_type, "Book"))
-        setattr(cls, file_type, file_type_property)
-        setattr(cls, 'get_%s' % file_type, getter)
+        register_presentation(cls, file_type)
 
     @classmethod
     def register_io(cls, file_type):
-        getter = book_presenter(file_type)
-        setter = book_importer(file_type)
-        file_type_property = property(
-            getter, setter,
-            doc=constants._IO_FILE_TYPE_DOC_STRING.format(file_type, "Book"))
-        setattr(cls, file_type, file_type_property)
-        setattr(cls, 'get_%s' % file_type, getter)
-        setattr(cls, 'set_%s' % file_type, setter)
+        register_io(cls, file_type)
 
     def save_as(self, filename):
         """Save the content to a new file

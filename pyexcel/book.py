@@ -7,14 +7,15 @@
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
+from six import with_metaclass
 import pyexcel.utils as utils
 from pyexcel.sheets.iterators import SheetIterator
 from pyexcel.sheets import Sheet
 from pyexcel._compact import OrderedDict
-from pyexcel.sources import BookMixin
+from pyexcel.sources import BookMeta, BookMixin
 
 
-class Book(BookMixin):
+class Book(with_metaclass(BookMeta, BookMixin)):
     """Read an excel book that has one or more sheets
 
     For csv file, there will be just one sheet
@@ -28,7 +29,6 @@ class Book(BookMixin):
         :param str path: the relative path or absolute path
         :param set keywords: additional parameters to be passed on
         """
-        self.init_attributes()
         self.init(sheets=sheets, filename=filename, path=path)
 
     def init(self, sheets=None, filename="memory", path=None):

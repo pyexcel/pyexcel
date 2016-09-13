@@ -31,7 +31,6 @@ def register_class(cls):
                 attribute_registry[key].append(attr)
                 keywords[attr] = cls.key
 
-
 class MetaForSourceRegistryOnly(type):
     """sole class registry"""
     def __init__(cls, name, bases, nmspc):
