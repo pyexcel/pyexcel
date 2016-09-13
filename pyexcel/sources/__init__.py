@@ -44,33 +44,43 @@ def save_book(book, **keywords):
         return source.content
 
 
+def register_presentation(cls, file_type):
+    getter = presenter(file_type)
+    file_type_property = property(
+        getter,
+        doc=constants._OUT_FILE_TYPE_DOC_STRING.format(file_type, "Sheet"))
+    setattr(cls, file_type, file_type_property)
+    setattr(cls, 'get_%s' % file_type, getter)
+
+
+def register_io(cls, file_type):
+    getter = presenter(file_type)
+    setter = importer(file_type)
+    file_type_property = property(
+        getter, setter,
+        doc=constants._IO_FILE_TYPE_DOC_STRING.format(file_type, "Sheet"))
+    setattr(cls, file_type, file_type_property)
+    setattr(cls, 'get_%s' % file_type, getter)
+    setattr(cls, 'set_%s' % file_type, setter)
+
+
+class SheetMeta(type):
+    def __init__(cls, name, bases, nmspc):
+        super(SheetMeta, cls).__init__(name, bases, nmspc)
+        for attribute in factory.get_sheet_rw_attributes():
+            register_io(cls, attribute)
+        for attribute in factory.get_sheet_w_attributes():
+            register_presentation(cls, attribute)
+
+
 class SheetMixin:
     @classmethod
-    def init_attributes(cls):
-        for attribute in factory.get_sheet_rw_attributes():
-            cls.register_io(attribute)
-        for attribute in factory.get_sheet_w_attributes():
-            cls.register_presentation(attribute)
+    def register_io(cls, file_type):
+        register_io(cls, file_type)
 
     @classmethod
     def register_presentation(cls, file_type):
-        getter = presenter(file_type)
-        file_type_property = property(
-            getter,
-            doc=constants._OUT_FILE_TYPE_DOC_STRING.format(file_type, "Sheet"))
-        setattr(cls, file_type, file_type_property)
-        setattr(cls, 'get_%s' % file_type, getter)
-
-    @classmethod
-    def register_io(cls, file_type):
-        getter = presenter(file_type)
-        setter = importer(file_type)
-        file_type_property = property(
-            getter, setter,
-            doc=constants._IO_FILE_TYPE_DOC_STRING.format(file_type, "Sheet"))
-        setattr(cls, file_type, file_type_property)
-        setattr(cls, 'get_%s' % file_type, getter)
-        setattr(cls, 'set_%s' % file_type, setter)
+        register_presentation(cls, file_type)
 
     def save_as(self, filename, **keywords):
         """Save the content to a named file
@@ -143,7 +153,7 @@ class SheetMixin:
                )
 
 
-def register_presentation(cls, file_type):
+def register_book_presentation(cls, file_type):
     getter = book_presenter(file_type)
     file_type_property = property(
         getter,
@@ -152,7 +162,7 @@ def register_presentation(cls, file_type):
     setattr(cls, 'get_%s' % file_type, getter)
 
 
-def register_io(cls, file_type):
+def register_book_io(cls, file_type):
     getter = book_presenter(file_type)
     setter = book_importer(file_type)
     file_type_property = property(
@@ -167,19 +177,19 @@ class BookMeta(type):
     def __init__(cls, name, bases, nmspc):
         super(BookMeta, cls).__init__(name, bases, nmspc)
         for attribute in factory.get_book_rw_attributes():
-            register_io(cls, attribute)
+            register_book_io(cls, attribute)
         for attribute in factory.get_book_w_attributes():
-            register_presentation(cls, attribute)
+            register_book_presentation(cls, attribute)
 
 
 class BookMixin(object):
     @classmethod
     def register_presentation(cls, file_type):
-        register_presentation(cls, file_type)
+        register_book_presentation(cls, file_type)
 
     @classmethod
     def register_io(cls, file_type):
-        register_io(cls, file_type)
+        register_book_io(cls, file_type)
 
     def save_as(self, filename):
         """Save the content to a new file

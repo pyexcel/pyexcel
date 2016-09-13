@@ -7,6 +7,8 @@
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
+from six import with_metaclass
+
 from .matrix import Matrix
 from .formatters import (
     NamedColumnFormatter,
@@ -22,7 +24,7 @@ from ..constants import (
     MESSAGE_NOT_IMPLEMENTED_02,
     MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED,
     DEFAULT_NAME)
-from pyexcel.sources import SheetMixin
+from pyexcel.sources import SheetMixin, SheetMeta
 from .row import Row as NamedRow
 from .column import Column as NamedColumn
 from . import _shared as utils
@@ -43,7 +45,7 @@ def make_names_unique(alist):
     return new_names
 
 
-class Sheet(Matrix, SheetMixin):
+class Sheet(with_metaclass(SheetMeta, Matrix, SheetMixin)):
     """Two dimensional data container for filtering, formatting and iteration
 
     :class:`Sheet` is a container for a two dimensional array, where individual
@@ -77,7 +79,6 @@ class Sheet(Matrix, SheetMixin):
         :param colnames: use an external list of strings to name the columns
         :param rownames: use an external list of strings to name the rows
         """
-        self.init_attributes()
         self.init(
             sheet=sheet,
             name=name,
