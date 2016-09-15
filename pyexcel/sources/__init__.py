@@ -5,7 +5,6 @@ from . import factory
 from pyexcel._compact import PY2
 from pyexcel.generators import BookStream, SheetStream
 import pyexcel.constants as constants
-from functools import partial
 
 
 def get_sheet_stream(**keywords):

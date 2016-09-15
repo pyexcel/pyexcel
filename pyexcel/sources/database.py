@@ -35,16 +35,18 @@ class SheetQuerySetSource(Source):
     actions = (params.READ_ACTION,)
     attributes = []
 
-    def __init__(self, column_names, query_sets, sheet_name=None):
+    def __init__(self, column_names, query_sets, sheet_name=None, row_renderer=None):
         self.sheet_name = sheet_name
         if self.sheet_name is None:
             self.sheet_name = DEFAULT_SHEET_NAME
         self.column_names = column_names
         self.query_sets = query_sets
+        self.row_renderer = row_renderer
 
     def get_data(self):
         return {self.sheet_name:
-                from_query_sets(self.column_names, self.query_sets)}
+                from_query_sets(self.column_names, self.query_sets,
+                                row_renderer=self.row_renderer)}
 
 
 class SheetSQLAlchemySource(Source):
