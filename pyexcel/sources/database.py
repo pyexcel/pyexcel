@@ -35,7 +35,8 @@ class SheetQuerySetSource(Source):
     actions = (params.READ_ACTION,)
     attributes = []
 
-    def __init__(self, column_names, query_sets, sheet_name=None, row_renderer=None):
+    def __init__(self, column_names, query_sets,
+                 sheet_name=None, row_renderer=None):
         self.sheet_name = sheet_name
         if self.sheet_name is None:
             self.sheet_name = DEFAULT_SHEET_NAME
