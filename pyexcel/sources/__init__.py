@@ -1,6 +1,5 @@
-# flake8: noqa
-from . import file_source_output, database
-from . import file_source_input, http, pydata
+from . import file_source_output, database  # noqa
+from . import file_source_input, http, pydata  # noqa
 from . import factory
 from pyexcel._compact import PY2
 from pyexcel.generators import BookStream, SheetStream
@@ -23,21 +22,21 @@ def get_book_stream(**keywords):
     source = factory.get_book_source(**keywords)
     sheets = source.get_data()
     filename, path = source.get_source_info()
-    book = BookStream(sheets, filename=filename, path=path)
-    return book
+    return BookStream(sheets, filename=filename, path=path)
 
 
 def save_sheet(sheet, **keywords):
     source = factory.get_writable_source(**keywords)
-    source.write_data(sheet)
-    if hasattr(source, 'content'):
-        _try_put_file_read_pointer_to_its_begining(source.content)
-        return source.content
+    return _save_any(source, sheet)
 
 
 def save_book(book, **keywords):
     source = factory.get_writable_book_source(**keywords)
-    source.write_data(book)
+    return _save_any(source, book)
+
+
+def _save_any(source, instance):
+    source.write_data(instance)
     if hasattr(source, 'content'):
         _try_put_file_read_pointer_to_its_begining(source.content)
         return source.content
@@ -71,7 +70,8 @@ class SheetMeta(type):
         for attribute in factory.get_sheet_w_attributes():
             register_presentation(cls, attribute)
         setattr(cls, "register_io", classmethod(register_io))
-        setattr(cls, "register_presentation", classmethod(register_presentation))
+        setattr(cls, "register_presentation",
+                classmethod(register_presentation))
 
 
 def register_book_presentation(cls, file_type):
@@ -102,7 +102,8 @@ class BookMeta(type):
         for attribute in factory.get_book_w_attributes():
             register_book_presentation(cls, attribute)
         setattr(cls, "register_io", classmethod(register_book_io))
-        setattr(cls, "register_presentation", classmethod(register_book_presentation))
+        setattr(cls, "register_presentation",
+                classmethod(register_book_presentation))
 
 
 def presenter(attribute=None):
