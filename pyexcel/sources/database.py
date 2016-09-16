@@ -36,18 +36,38 @@ class SheetQuerySetSource(Source):
     attributes = []
 
     def __init__(self, column_names, query_sets,
-                 sheet_name=None, row_renderer=None):
+                 sheet_name=None, row_renderer=None,
+                 start_row=0, row_limit=-1,
+                 start_column=None, column_limit=None,
+                 skip_row_func=None, skip_column_func=None):
         self.sheet_name = sheet_name
         if self.sheet_name is None:
             self.sheet_name = DEFAULT_SHEET_NAME
         self.column_names = column_names
         self.query_sets = query_sets
         self.row_renderer = row_renderer
+        self.start_row = start_row
+        self.row_limit = row_limit
+        self.skip_row_func = skip_row_func
+
+        if start_column is None:
+            print("start_column is ignored")
+        if column_limit is None:
+            print("column_limit is ignored")
+        if skip_column_func is None:
+            print("skip_column_func is ignored")
 
     def get_data(self):
-        return {self.sheet_name:
-                from_query_sets(self.column_names, self.query_sets,
-                                row_renderer=self.row_renderer)}
+        params = dict(
+            row_renderer=self.row_renderer,
+            start_row=self.start_row,
+            row_limit=self.row_limit
+        )
+        if self.skip_row_func is not None:
+            params['skip_row_func'] = self.skip_row_func
+        data = from_query_sets(self.column_names, self.query_sets,
+                               **params)
+        return {self.sheet_name: data}
 
 
 class SheetSQLAlchemySource(Source):
