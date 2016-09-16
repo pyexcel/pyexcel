@@ -83,5 +83,8 @@ Obvious, you could do both at the same time:
    +---+----+----+
 
 
-The pagination support is available across all pyexcel-io plugins.
+The pagination support is available across all pyexcel plugins.
 
+.. note::
+
+   No column pagination support for query sets as data source. 
