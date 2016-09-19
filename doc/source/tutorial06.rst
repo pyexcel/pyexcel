@@ -47,7 +47,7 @@ You can find a real world example in **examples/memoryfile/** directory: pyexcel
             # pass a tuple instead of a file name
             content = request.files['excel'].read()
             if sys.version_info[0] > 2:
-                # in order to support python
+                # in order to support python 3
                 # have to decode bytes to str
                 content = content.decode('utf-8')
             sheet = pe.get_sheet(file_type=extension, file_content=content)

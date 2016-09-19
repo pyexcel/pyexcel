@@ -1,11 +1,11 @@
 # flake8: noqa
 from . import _texttable, _excel
-from .factory import renderer_registry
-
 try:
     import pyexcel_text as text
 except ImportError as e:
+    print "Failed to import pyexcel_text due to %s" % e
     pass
+from .factory import renderer_registry
 
 
 def get_renderer(file_type):
