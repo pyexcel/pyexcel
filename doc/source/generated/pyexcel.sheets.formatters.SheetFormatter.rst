@@ -1,7 +1,7 @@
-pyexcel.formatters.SheetFormatter
-=================================
+pyexcel.sheets.formatters.SheetFormatter
+========================================
 
-.. currentmodule:: pyexcel.formatters
+.. currentmodule:: pyexcel.sheets.formatters
 
 .. autoclass:: SheetFormatter
 

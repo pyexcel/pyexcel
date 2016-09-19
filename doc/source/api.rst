@@ -120,7 +120,6 @@ Save changes
 .. autosummary::
    :toctree: generated/
 
-   Book.save_to
    Book.save_as
    Book.save_to_memory
    Book.save_to_database
@@ -143,7 +142,6 @@ Save changes
 .. autosummary::
    :toctree: generated/
 
-   Sheet.save_to
    Sheet.save_as
    Sheet.save_to_memory
    Sheet.save_to_database
@@ -155,8 +153,6 @@ Attributes
    :toctree: generated/
 
    Sheet.content
-   Sheet.row
-   Sheet.column
    Sheet.number_of_rows
    Sheet.number_of_columns
    Sheet.row_range
@@ -288,35 +284,13 @@ Transformation
    Sheet.cut
    Sheet.paste
         
-Row access
-============
-
-.. currentmodule:: pyexcel.sheets
-                   
-.. autosummary::
-   :toctree: generated/
-
-   NamedRow
-   NamedRow.format
-   NamedRow.select
-
-Column access
-===============
-
-                   
-.. autosummary::
-   :toctree: generated/
-
-   NamedColumn
-   NamedColumn.format
-   NamedColumn.select
 
 .. _formatters:
 
 Data formatters
 ================
 
-.. currentmodule:: pyexcel.formatters
+.. currentmodule:: pyexcel.sheets.formatters
 
 .. autosummary::
    :toctree: generated/
@@ -332,7 +306,7 @@ Data formatters
 Data Filters
 ===============
 
-.. currentmodule:: pyexcel.filters
+.. currentmodule:: pyexcel.sheets.filters
 
 .. autosummary::
    :toctree: generated/

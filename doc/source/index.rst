@@ -21,20 +21,20 @@ Introduction
 manipulate and write data in different excel formats. This library makes
 information processing involving excel files an enjoyable task. The data in
 excel files can be turned into :ref:`array or dict<a-list-of-data-structures>`
-with least code, vice versa. And ready-made custom :ref:`filters<filters>`
-and :ref:`formatters<formatters>` can be applied. This library focuses on data
+with least code, vice versa. This library focuses on data
 processing using excel files as storage media hence fonts, colors and charts
 were not and will not be considered.
 
-Excel files are de-facto file format for information sharing in non-software
-centric organisations. Excel files are not only used for mathematical
-computation in financial institutions but also used for many other purposes
-in an office work environment. This is largely caused by wide adoption of
-Microsoft Office. Comparing the existing, mathematics savvy Pandas library,
-this library intends to help data processing job where data extraction is more
-important than data analysis. In such context, ease of use, and low overhead is
-preferred, while Pandas is as big as 4MB and contains hundreds of potentially
-useful functions.
+The idea originated from the common usability problem when developing an excel file
+driven web applications for non-technical office workers: such as office assistant,
+human resource administrator. The fact is that not all people know the
+difference among various excel formats: csv, xls, xlsx. Instead of training those people
+about file formats, this library helps web developers to handle most of the excel file
+formats by providing a common programming interface. To add a specific excel file format
+to you application, all you need is to install an extra pyexcel plugin. No code change
+to your application. Looking at the community, this library and its associated ones try
+to become a small and easy to install alternative to Pandas.
+
 
 .. note::
 
@@ -188,6 +188,7 @@ Tutorial
    tutorial_file
    tutorial06
    tutorial_data_conversion
+   bigdata
    tutorial
    tutorial05
    tutorial02

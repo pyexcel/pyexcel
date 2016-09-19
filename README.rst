@@ -1,16 +1,15 @@
-========================================================
+================================================================================
 pyexcel - Let you focus on data, instead of file formats
-========================================================
+================================================================================
 
 .. image:: https://api.travis-ci.org/pyexcel/pyexcel.svg?branch=master
-    :target: http://travis-ci.org/pyexcel/pyexcel
+   :target: http://travis-ci.org/pyexcel/pyexcel
 
-.. image:: https://codecov.io/github/pyexcel/pyexcel/coverage.svg?branch=master
-    :target: https://codecov.io/github/pyexcel/pyexcel?branch=master
+.. image:: https://codecov.io/github/pyexcel/pyexcel/coverage.png
+    :target: https://codecov.io/github/pyexcel/pyexcel
 
-.. image:: https://readthedocs.org/projects/pyexcel/badge/?verssion=latest
-    :target: http://pyexcel.readthedocs.org/en/latest/
-
+.. image:: https://readthedocs.org/projects/pyexcel/badge/?version=latest
+   :target: http://pyexcel.readthedocs.org/en/latest/
 
 Known constraints
 ==================
@@ -73,9 +72,11 @@ Available Plugins
 .. [#f1] zipped csv file
 .. [#f2] zipped tsv file
 
-Installation
-============
 
+
+
+Installation
+================================================================================
 You can install it via pip:
 
 .. code-block:: bash
@@ -91,7 +92,7 @@ or clone it and install it:
     $ cd pyexcel
     $ python setup.py install
 
-Installation of individual plugins , please refer to individual plugin page.
+
 
 Usage
 ===============
@@ -169,6 +170,14 @@ Here are the new method to obtain the records on demand:
    >>> os.unlink("your_file.xls")
 
 
+
+Acknowledgement
+===============
+
+All great work have done by odf, ezodf, xlrd, xlwt, tabulate and other individual developers. This library unites only the data access code.
+
+
+
 Development guide
 ================================================================================
 
@@ -227,10 +236,3 @@ License
 ================================================================================
 
 New BSD License
-
-
-Acknowledgement
-===============
-
-All great work have done by odf, ezodf(2), xlrd, xlwt, tabulate and other individual developers. This library unites only the data access code.
-

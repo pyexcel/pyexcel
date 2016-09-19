@@ -1,7 +1,7 @@
-pyexcel.filters.SingleColumnFilter
-==================================
+pyexcel.sheets.filters.SingleColumnFilter
+=========================================
 
-.. currentmodule:: pyexcel.filters
+.. currentmodule:: pyexcel.sheets.filters
 
 .. autoclass:: SingleColumnFilter
 

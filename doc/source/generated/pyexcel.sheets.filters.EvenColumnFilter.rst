@@ -1,7 +1,7 @@
-pyexcel.filters.EvenColumnFilter
-================================
+pyexcel.sheets.filters.EvenColumnFilter
+=======================================
 
-.. currentmodule:: pyexcel.filters
+.. currentmodule:: pyexcel.sheets.filters
 
 .. autoclass:: EvenColumnFilter
 

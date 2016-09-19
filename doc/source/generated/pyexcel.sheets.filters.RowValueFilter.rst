@@ -1,7 +1,7 @@
-pyexcel.filters.RowValueFilter
-==============================
+pyexcel.sheets.filters.RowValueFilter
+=====================================
 
-.. currentmodule:: pyexcel.filters
+.. currentmodule:: pyexcel.sheets.filters
 
 .. autoclass:: RowValueFilter
 

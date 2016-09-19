@@ -1,7 +1,7 @@
-pyexcel.formatters.NamedRowFormatter
-====================================
+pyexcel.sheets.formatters.NamedRowFormatter
+===========================================
 
-.. currentmodule:: pyexcel.formatters
+.. currentmodule:: pyexcel.sheets.formatters
 
 .. autoclass:: NamedRowFormatter
 

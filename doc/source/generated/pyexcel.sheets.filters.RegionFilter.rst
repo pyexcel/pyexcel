@@ -1,7 +1,7 @@
-pyexcel.filters.RegionFilter
-============================
+pyexcel.sheets.filters.RegionFilter
+===================================
 
-.. currentmodule:: pyexcel.filters
+.. currentmodule:: pyexcel.sheets.filters
 
 .. autoclass:: RegionFilter
 

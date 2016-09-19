@@ -1,7 +1,7 @@
-pyexcel.formatters.ColumnFormatter
-==================================
+pyexcel.sheets.formatters.ColumnFormatter
+=========================================
 
-.. currentmodule:: pyexcel.formatters
+.. currentmodule:: pyexcel.sheets.formatters
 
 .. autoclass:: ColumnFormatter
 

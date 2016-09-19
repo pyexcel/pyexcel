@@ -61,11 +61,4 @@ pyexcel.sheets.Matrix
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~Matrix.column
-      ~Matrix.row
-   
    

@@ -1,7 +1,7 @@
-pyexcel.formatters.NamedColumnFormatter
-=======================================
+pyexcel.sheets.formatters.NamedColumnFormatter
+==============================================
 
-.. currentmodule:: pyexcel.formatters
+.. currentmodule:: pyexcel.sheets.formatters
 
 .. autoclass:: NamedColumnFormatter
 

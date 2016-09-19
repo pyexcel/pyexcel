@@ -1,7 +1,7 @@
-pyexcel.filters.EvenRowFilter
-=============================
+pyexcel.sheets.filters.EvenRowFilter
+====================================
 
-.. currentmodule:: pyexcel.filters
+.. currentmodule:: pyexcel.sheets.filters
 
 .. autoclass:: EvenRowFilter
 

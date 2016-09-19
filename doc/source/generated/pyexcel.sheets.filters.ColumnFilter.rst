@@ -1,7 +1,7 @@
-pyexcel.filters.ColumnFilter
-============================
+pyexcel.sheets.filters.ColumnFilter
+===================================
 
-.. currentmodule:: pyexcel.filters
+.. currentmodule:: pyexcel.sheets.filters
 
 .. autoclass:: ColumnFilter
 

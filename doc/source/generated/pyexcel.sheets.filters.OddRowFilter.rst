@@ -1,7 +1,7 @@
-pyexcel.filters.OddRowFilter
-============================
+pyexcel.sheets.filters.OddRowFilter
+===================================
 
-.. currentmodule:: pyexcel.filters
+.. currentmodule:: pyexcel.sheets.filters
 
 .. autoclass:: OddRowFilter
 

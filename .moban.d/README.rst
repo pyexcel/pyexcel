@@ -1,19 +1,6 @@
-========================================================
-{{name}} - Let you focus on data, instead of file formats
-========================================================
+{%extends "BASIC-README.rst.jj2"%}
 
-.. image:: https://api.travis-ci.org/{{name}}/{{name}}.svg?branch=master
-    :target: http://travis-ci.org/{{name}}/{{name}}
-
-.. image:: https://codecov.io/github/{{name}}/{{name}}/coverage.svg?branch=master
-    :target: https://codecov.io/github/{{name}}/{{name}}?branch=master
-
-.. image:: https://readthedocs.org/projects/{{name}}/badge/?verssion=latest
-    :target: http://{{name}}.readthedocs.org/en/latest/
-
-
-{%include "constraints.rst.jj2" %}
-
+{%block features%}
 
 Feature Highlights
 ===================
@@ -33,12 +20,9 @@ Available Plugins
 
 {% include "plugins-list.rst.jj2"%}
 
-Installation
-============
+{% endblock %}
 
-{%include "installation.rst.jj2" %}
-
-Installation of individual plugins , please refer to individual plugin page.
+{%block usage%}
 
 Usage
 ===============
@@ -116,16 +100,12 @@ Here are the new method to obtain the records on demand:
    >>> os.unlink("your_file.xls")
 
 
-Development guide
-================================================================================
-
-{%include "developer_guide.rst.jj2" %}
-
-{%include "license.rst.jj2" %}
-
 
 Acknowledgement
 ===============
 
-All great work have done by odf, ezodf(2), xlrd, xlwt, tabulate and other individual developers. This library unites only the data access code.
+All great work have done by odf, ezodf, xlrd, xlwt, tabulate and other individual developers. This library unites only the data access code.
+
+
+{%endblock%}
 

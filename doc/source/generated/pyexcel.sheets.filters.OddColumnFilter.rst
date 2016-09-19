@@ -1,7 +1,7 @@
-pyexcel.filters.OddColumnFilter
-===============================
+pyexcel.sheets.filters.OddColumnFilter
+======================================
 
-.. currentmodule:: pyexcel.filters
+.. currentmodule:: pyexcel.sheets.filters
 
 .. autoclass:: OddColumnFilter
 

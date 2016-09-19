@@ -1,7 +1,7 @@
-pyexcel.filters.SingleRowFilter
-===============================
+pyexcel.sheets.filters.SingleRowFilter
+======================================
 
-.. currentmodule:: pyexcel.filters
+.. currentmodule:: pyexcel.sheets.filters
 
 .. autoclass:: SingleRowFilter
 
