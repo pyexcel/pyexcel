@@ -7,8 +7,9 @@ Excel files in memory can be manipulated directly without saving it to physical 
     >>> import pyexcel
     >>> content = "1,2,3\n3,4,5"
     >>> sheet = pyexcel.get_sheet(file_type="csv", file_content=content)
-    >>> print(sheet.array)
-    [[1, 2, 3], [3, 4, 5]]
+    >>> sheet.csv
+    '1,2,3\r\n3,4,5\r\n'
+
 
 file type as its attributes
 --------------------------------------------------------------------------------
