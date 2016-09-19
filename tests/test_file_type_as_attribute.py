@@ -3,7 +3,7 @@ from pyexcel.sources.factory import Source
 from pyexcel.sources import params
 from pyexcel import Sheet, Book
 from pyexcel import get_book
-from _compact import StringIO
+from _compact import StringIO, OrderedDict
 from nose.tools import eq_
 from textwrap import dedent
 
@@ -167,3 +167,5 @@ def test_set_bookdict():
     | 2 |
     +---+""").strip()
     eq_(str(b), expected)
+    expected = OrderedDict([('sheet1', [[1]]), ('sheet2', [[2]])])
+    eq_(b.bookdict, expected)

@@ -30,6 +30,10 @@ class TestNone:
     def test_get_book_dict(self):
         pe.get_book_dict(x="something")
 
+    def test_get_io_type(self):
+        result = pe.core.get_io_type(None)
+        eq_(result, "string")
+
 
 class TestGetSheet:
     def test_get_sheet_from_file(self):
