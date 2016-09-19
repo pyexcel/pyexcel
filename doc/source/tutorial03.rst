@@ -3,99 +3,75 @@
 Sheet: Formatting
 ===================
 
-Previous section has assumed the data is in the format that you want. In reality, you have to manipulate the data types a bit to suit your needs. Hence, formatters comes into the scene.  use :meth:`~pyexcel.Sheet.format` to apply formatter immediately. 
+Previous section has assumed the data is in the format that you want. In reality, you have to
+manipulate the data types a bit to suit your needs. Hence, formatters comes into the scene.
+use :meth:`~pyexcel.Sheet.format` to apply formatter immediately. 
 
+.. note::
 
-There is slightly different behavior between csv reader and xls reader. The cell type of the cells read by csv reader will be always text while the cell types read by xls reader vary. 
+   **int**, **float** andate **datetime** values are automatically detected in **csv** files
+   since **pyexcel** version 0.2.2
 
 
 Convert a column of numbers to strings
 --------------------------------------
 
-By default, all values in **csv** are read back as texts. However, for xls, xlsx and xlsm files, different data type are supported. Numbers are always read as `float`. Therefore, if you should like to have them in string format, you need to do some conversions. Suppose you have the following data in any of the supported excel formats:
+Suppose you have the following data:
 
-======== =========
-userid   name
-======== =========
-10120    Adam     
-10121    Bella
-10122    Cedar
-======== =========
-
-Let's read it out first::
+.. code-block:: python
 
    >>> import pyexcel
-
-.. testcode::
-   :hide:
-
    >>> data = [
    ...     ["userid","name"],
    ...     [10120,"Adam"],  
    ...     [10121,"Bella"],
    ...     [10122,"Cedar"]
    ... ]
-   >>> s = pyexcel.Sheet(data)
-   >>> s.save_as("example.xls")
-
-.. testcode::
-   
-   >>> sheet = pyexcel.get_sheet(file_name="example.xls", name_columns_by_row=0)
+   >>> sheet = pyexcel.Sheet(data)
+   >>> sheet.name_columns_by_row(0)
    >>> sheet.column["userid"]
    [10120, 10121, 10122]
 
-As you can see, `userid` column is of `float` type. Next, let's convert the column to string format::
+As you can see, `userid` column is of `int` type. Next, let's convert the column to string format:
 
-    >>> sheet.column.format(0, str)
+.. code-block:: python
+
+    >>> sheet.column.format("userid", str)
     >>> sheet.column["userid"]
     ['10120', '10121', '10122']
-
-Now, they are in string format.
-
-You can do this row by row as well using :class:`~pyexcel.RowFormatter` or do this to a whole spread sheet using :class:`~pyexcel.SheetFormatter`
 
 .. _cleansing:
 
 Cleanse the cells in a spread sheet
 -----------------------------------
 
-Sometimes, the data in a spreadsheet may have unwanted strings in all or some cells. Let's take an example. Suppose we have a spread sheet that contains all strings but it as random spaces before and after the text values. Some field had weird characters, such as "&nbsp;&nbsp;":
+Sometimes, the data in a spreadsheet may have unwanted strings in all or some
+cells. Let's take an example. Suppose we have a spread sheet that contains
+all strings but it as random spaces before and after the text values. Some
+field had weird characters, such as "&nbsp;&nbsp;":
 
-================= ============================ ================
-        Version        Comments                Author &nbsp;
-================= ============================ ================
-  v0.0.1          Release versions              &nbsp;Eda
-&nbsp; v0.0.2     Useful updates &nbsp; &nbsp;  &nbsp;Freud
-================= ============================ ================
-
-.. testcode::
-   :hide:
+.. code-block:: python
 
    >>> data = [
    ...     ["        Version", "        Comments", "       Author &nbsp;"],
    ...     ["  v0.0.1       ", " Release versions","           &nbsp;Eda"],
    ...     ["&nbsp; v0.0.2  ", "Useful updates &nbsp; &nbsp;", "  &nbsp;Freud"]
    ... ]
-   >>> s = pyexcel.Sheet(data)
-   >>> s.save_as("example.xls")
-
-First, let's read the content and see what do we have::
-
-   >>> sheet = pyexcel.get_sheet(file_name="example.xls")
-
-.. testcode::
-   :hide:
-
-   >>> sheet.format(lambda v: str(v))
-
-.. testcode::
-  
-   >>> sheet.array
-   [['        Version', '        Comments', '       Author &nbsp;'], ['  v0.0.1       ', ' Release versions', '           &nbsp;Eda'], ['&nbsp; v0.0.2  ', 'Useful updates &nbsp; &nbsp;', '  &nbsp;Freud']]
+   >>> sheet = pyexcel.Sheet(data)
+   >>> sheet.content
+   +-----------------+------------------------------+----------------------+
+   |         Version |         Comments             |        Author &nbsp; |
+   +-----------------+------------------------------+----------------------+
+   |   v0.0.1        |  Release versions            |            &nbsp;Eda |
+   +-----------------+------------------------------+----------------------+
+   | &nbsp; v0.0.2   | Useful updates &nbsp; &nbsp; |   &nbsp;Freud        |
+   +-----------------+------------------------------+----------------------+
 
 
 Now try to create a custom cleanse function::
   
+.. code-block:: python
+
     >>> def cleanse_func(v):
     ...     v = v.replace("&nbsp;", "")
     ...     v = v.rstrip().strip()
@@ -104,22 +80,19 @@ Now try to create a custom cleanse function::
 
 Then let's create a :class:`~pyexcel.SheetFormatter` and apply it::
 
-    >>> sf = pyexcel.formatters.SheetFormatter(cleanse_func)
-    >>> sheet.apply_formatter(sf)
-    >>> sheet.array
-    [['Version', 'Comments', 'Author'], ['v0.0.1', 'Release versions', 'Eda'], ['v0.0.2', 'Useful updates', 'Freud']]
+.. code-block:: python
+
+    >>> sheet.map(cleanse_func)
 
 So in the end, you get this:
 
-================= ============================ ================
-Version           Comments                     Author
-================= ============================ ================
-v0.0.1            Release versions             Eda
-v0.0.2            Useful updates               Freud
-================= ============================ ================
+.. code-block:: python
 
-.. testcode::
-   :hide:
-
-   >>> import os
-   >>> os.unlink("example.xls")
+    >>> sheet.content
+    +---------+------------------+--------+
+    | Version | Comments         | Author |
+    +---------+------------------+--------+
+    | v0.0.1  | Release versions | Eda    |
+    +---------+------------------+--------+
+    | v0.0.2  | Useful updates   | Freud  |
+    +---------+------------------+--------+

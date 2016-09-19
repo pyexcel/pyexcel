@@ -31,7 +31,17 @@ Column 1 Column 2 Column 3
 
 .. code-block:: python
 
-   >>> sheet = pyexcel.get_sheet(file_name="example_series.xls", name_columns_by_row=0)
+    >>> sheet = pyexcel.get_sheet(file_name="example_series.xls", name_columns_by_row=0)
+    >>> sheet.content
+    +----------+----------+----------+
+    | Column 1 | Column 2 | Column 3 |
+    +==========+==========+==========+
+    | 1        | 2        | 3        |
+    +----------+----------+----------+
+    | 4        | 5        | 6        |
+    +----------+----------+----------+
+    | 7        | 8        | 9        |
+    +----------+----------+----------+
 
 Filter out some data
 --------------------------
@@ -41,16 +51,24 @@ You may want to filter odd rows and print them in an array of dictionaries:
 .. code-block:: python
 
     >>> sheet.filter(pyexcel.OddRowFilter())
-    >>> sheet.array
-    [['Column 1', 'Column 2', 'Column 3'], [4, 5, 6]]
+    >>> sheet.content
+    +----------+----------+----------+
+    | Column 1 | Column 2 | Column 3 |
+    +==========+==========+==========+
+    | 4        | 5        | 6        |
+    +----------+----------+----------+
 
 Let's try to further filter out even columns:
 
 .. code-block:: python
 
     >>> sheet.filter(pyexcel.EvenColumnFilter())
-    >>> sheet.to_dict()
-    OrderedDict([('Column 1', [4]), ('Column 3', [6])])
+    >>> sheet.content
+    +----------+----------+
+    | Column 1 | Column 3 |
+    +==========+==========+
+    | 4        | 6        |
+    +----------+----------+
 
 Save the data
 *************
@@ -68,19 +86,6 @@ Column 1 Column 3
 ======== ========
 2        8
 ======== ========
-
-
-The complete code is:
-
-.. code-block:: python
-
-    import pyexcel
-
-    sheet = pyexcel.get_sheet(file_name="example_series.xls")
-    sheet.add_filter(pyexcel.OddRowFilter())
-    sheet.add_filter(pyexcel.EvenColumnFilter())
-    sheet.save_as("example_series_filter.xls")
-
 
 .. testcode::
    :hide:

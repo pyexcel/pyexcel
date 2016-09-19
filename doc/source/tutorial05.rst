@@ -1,7 +1,11 @@
 Sheet: Data manipulation 
 ============================
 
-The data in a sheet is represented by :class:`~pyexcel.Sheet` which maintains the data as a list of lists. You can regard :class:`~pyexcel.Sheet` as a two dimensional array with additional iterators. Random access to individual column and row is exposed by :class:`~pyexcel.sheets.NamedColumn` and :class:`~pyexcel.sheets.NamedRow` 
+The data in a sheet is represented by :class:`~pyexcel.Sheet` which maintains the data
+as a list of lists. You can regard :class:`~pyexcel.Sheet` as a two dimensional array
+with additional iterators. Random access to individual column and row is exposed
+by :class:`~pyexcel.sheets.column.Column` and :class:`~pyexcel.sheets.row.Row` 
+
 
 Column manipulation
 -----------------------------
@@ -21,6 +25,8 @@ Column manipulation
 
 Suppose have one data file as the following:
 
+.. code-block:: python
+
     >>> sheet = pyexcel.get_sheet(file_name="example.xls", name_columns_by_row=0)
     >>> sheet
     pyexcel sheet:
@@ -35,6 +41,8 @@ Suppose have one data file as the following:
     +----------+----------+----------+
 
 And you want to update ``Column 2`` with these data: [11, 12, 13]
+
+.. code-block:: python
 
     >>> sheet.column["Column 2"] = [11, 12, 13]
     >>> sheet.column[1]
@@ -54,13 +62,17 @@ And you want to update ``Column 2`` with these data: [11, 12, 13]
 Remove one column of a data file
 *********************************
 
-If you want to remove ``Column 2``, you can just call::
+If you want to remove ``Column 2``, you can just call:
+
+.. code-block:: python
 
     >>> del sheet.column["Column 2"]
     >>> sheet.column["Column 3"]
     [7, 8, 9]
 
 The sheet content will become:
+
+.. code-block:: python
 
     >>> sheet
     pyexcel sheet:
@@ -78,7 +90,8 @@ The sheet content will become:
 Append more columns to a data file
 ------------------------------------
 
-Continue from previous example. Suppose you want add two more columns to the data file
+Continue from previous example. Suppose you want add two more
+columns to the data file
 
 ======== ========
 Column 4 Column 5
@@ -88,7 +101,9 @@ Column 4 Column 5
 12       15
 ======== ========
 
-Here is the example code to append two extra columns::
+Here is the example code to append two extra columns:
+
+.. code-block:: python
 
    >>> extra_data = [
    ...    ["Column 4", "Column 5"],
@@ -104,6 +119,8 @@ Here is the example code to append two extra columns::
    [13, 14, 15]
 
 Here is what you will get:
+
+.. code-block:: python
 
     >>> sheet
     pyexcel sheet:
@@ -121,7 +138,9 @@ Here is what you will get:
 Cherry pick some columns to be removed
 ***************************************
 
-Suppose you have the following data::
+Suppose you have the following data:
+
+.. code-block:: python
 
      >>> data = [
      ...     ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
@@ -136,7 +155,9 @@ Suppose you have the following data::
      | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 |
      +---+---+---+---+---+---+---+---+
 
-And you want to remove columns named as: 'a', 'c, 'e', 'h'. This is how you do it::
+And you want to remove columns named as: 'a', 'c, 'e', 'h'. This is how you do it:
+
+.. code-block:: python
 
      >>> del sheet.column['a', 'c', 'e', 'h']
      >>> sheet
@@ -160,7 +181,9 @@ What if the headers are in a different row
    ... ]
    >>> sheet = pyexcel.Sheet(data)
 
-Suppose you have the following data::
+Suppose you have the following data:
+
+.. code-block:: python
 
    >>> sheet
    pyexcel sheet:
@@ -174,9 +197,13 @@ Suppose you have the following data::
 
 The way to name your columns is to use index 1:
 
+.. code-block:: python
+
    >>> sheet.name_columns_by_row(1)
 
 Here is what you get:
+
+.. code-block:: python
 
    >>> sheet
    pyexcel sheet:
@@ -204,6 +231,8 @@ Row manipulation
 
 Suppose you have the following data:
 
+.. code-block:: python
+
    >>> sheet
    pyexcel sheet:
    +---+---+---+-------+
@@ -216,9 +245,22 @@ Suppose you have the following data:
 
 You can name your rows by column index at 3:
 
-   >>> sheet.name_rows_by_column(3)
+.. code-block:: python
+
+    >>> sheet.name_rows_by_column(3)
+    >>> sheet
+    pyexcel sheet:
+    +-------+---+---+---+
+    | Row 1 | a | b | c |
+    +-------+---+---+---+
+    | Row 2 | e | f | g |
+    +-------+---+---+---+
+    | Row 3 | 1 | 2 | 3 |
+    +-------+---+---+---+
 
 Then you can access rows by its name:
+
+.. code-block:: python
 
    >>> sheet.row["Row 1"]
    ['a', 'b', 'c']
