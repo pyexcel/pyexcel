@@ -1,7 +1,8 @@
 Introduction
 ================================
 
-This section introduces Excel data models, its representing data structures and provides an overview of formatting, transformation, manipulation supported by **pyexcel**
+This section introduces Excel data models, its representing data structures and provides
+an overview of formatting, transformation, manipulation supported by **pyexcel**
 
 Data models and data structures
 --------------------------------
@@ -38,11 +39,11 @@ Data format
 
 This library and its plugins support most of the frequently used excel file formats. 
 
-============ ======================================================= =============
-file format  definition                                              Single Sheet
-============ ======================================================= =============
-csv          comma separated values                                  Yes
-tsv          tab separated values                                    Yes
+============ =======================================================
+file format  definition
+============ =======================================================
+csv          comma separated values
+tsv          tab separated values
 csvz         a zip file that contains one or many csv files
 tsvz         a zip file that contains one or many tsv files
 xls          a spreadsheet file format created by
@@ -56,7 +57,7 @@ html         html table of the data structure
 simple       `simple` presentation
 rst          rStructured Text presentation of the data
 mediawiki    media wiki table
-============ ======================================================= =============
+============ =======================================================
 
 See also :ref:`a-map-of-plugins-and-file-formats`.
 
@@ -138,6 +139,13 @@ The main operation on a cell involves :ref:`cell access<access-to-cell>`,
 :ref:`formatting<formatting>` and :ref:`cleansing<cleansing>`. The main operation on a sheet
 involves the group access to a row or a column, data filtering and data transformation. The
 main operation in a book is obtain access to individual sheets.
+
+
+Data transcoding
+--------------------------
+
+For various reasons, the data in one format is to be transcoded into another format. This library
+provides the transcoding tunnel for data transcoding in between supported file formats.
 
 .. [#f1] quoted from `whatis.com <http://whatis.techtarget.com/fileformat/XLS-Worksheet-file-Microsoft-Excel>`_. Technical details can be found at `MSDN XLS <https://msdn.microsoft.com/en-us/library/office/gg615597(v=office.14).aspx>`_
 .. [#f2] xlsx is used by MS-Excel 2007, more information can be found at `MSDN XLSX <https://msdn.microsoft.com/en-us/library/dd922181(v=office.12).aspx>`_
