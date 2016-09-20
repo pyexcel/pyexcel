@@ -2,6 +2,10 @@
 Work with big data sheet
 ================================================================================
 
+
+Pagination
+--------------------------------------------------------------------------------
+
 When you are dealing with huge amount of data, e.g. 64GB, obviously you would not
 like to fill up your memory with those data. Hence pagnation feature is developed
 to read partial data into memory for processing. You can pagninate by row, by
@@ -89,3 +93,51 @@ The pagination support is available across all pyexcel plugins.
 .. note::
 
    No column pagination support for query sets as data source. 
+
+
+Formatting while transcoding a big data file
+--------------------------------------------------------------------------------
+
+If you are transcoding a big data set, conventional formatting method would not
+help unless a on-demand free RAM is available. However, there is a way to minize
+the memory footprint of pyexcel while the formatting is performed.
+
+Let's continue from previous example. Suppose we want to transcode "your_file.csv"
+to "your_file.xls" but increase each element by 1.
+
+What we can do is to define a row renderer function as the following:
+
+   >>> def increment_by_one(row):
+   ...     for element in row:
+   ...         yield element + 1
+
+Then pass it onto save_as function:
+
+   >>> pe.save_as(file_name="your_file.csv",
+   ...            dest_file_name="your_file.xlsx",
+   ...            row_renderer=increment_by_one)
+
+We can verify if it was done correctly:
+
+   >>> pe.get_sheet(file_name="your_file.xlsx")
+   your_file.csv:
+   +---+----+----+
+   | 2 | 22 | 32 |
+   +---+----+----+
+   | 3 | 23 | 33 |
+   +---+----+----+
+   | 4 | 24 | 34 |
+   +---+----+----+
+   | 5 | 25 | 35 |
+   +---+----+----+
+   | 6 | 26 | 36 |
+   +---+----+----+
+   | 7 | 27 | 37 |
+   +---+----+----+
+
+.. testcode::
+   :hide:
+
+    >>> import os
+    >>> os.unlink("your_file.csv")
+    >>> os.unlink("your_file.xlsx")

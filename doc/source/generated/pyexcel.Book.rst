@@ -57,6 +57,7 @@ pyexcel.Book
       ~Book.set_csvz
       ~Book.set_dict
       ~Book.set_django
+      ~Book.set_ods
       ~Book.set_records
       ~Book.set_sql
       ~Book.set_tsv

@@ -103,6 +103,25 @@ Attribute
 .. autosummary::
    :toctree: generated/
 
+   Book.bookdict
+   Book.csv
+   Book.tsv
+   Book.csvz
+   Book.tsvz
+   Book.xls
+   Book.xlsx
+   Book.ods
+   Book.plain
+   Book.simple
+   Book.grid
+   Book.pipe
+   Book.orgtbl
+   Book.rst
+   Book.mediawiki
+   Book.latex
+   Book.latex_booktabs
+   Book.json
+   Book.html
    Book.number_of_sheets
    Book.sheet_names
 
@@ -152,7 +171,28 @@ Attributes
 .. autosummary::
    :toctree: generated/
 
+   Sheet.array
+   Sheet.records
+   Sheet.dict
    Sheet.content
+   Sheet.csv
+   Sheet.tsv
+   Sheet.csvz
+   Sheet.tsvz
+   Sheet.xls
+   Sheet.xlsx
+   Sheet.ods
+   Sheet.plain
+   Sheet.simple
+   Sheet.grid
+   Sheet.pipe
+   Sheet.orgtbl
+   Sheet.rst
+   Sheet.mediawiki
+   Sheet.latex
+   Sheet.latex_booktabs
+   Sheet.json
+   Sheet.html
    Sheet.number_of_rows
    Sheet.number_of_columns
    Sheet.row_range

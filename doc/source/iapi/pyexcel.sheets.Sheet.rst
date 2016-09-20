@@ -98,6 +98,7 @@ pyexcel.sheets.Sheet
       ~Sheet.set_django
       ~Sheet.set_named_column_at
       ~Sheet.set_named_row_at
+      ~Sheet.set_ods
       ~Sheet.set_records
       ~Sheet.set_row_at
       ~Sheet.set_sql
