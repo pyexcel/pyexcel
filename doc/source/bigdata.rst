@@ -2,9 +2,10 @@
 Work with big data sheet
 ================================================================================
 
-When you are dealing with huge amount of data, obviously you would not like to
-fill up your memory with those data. Here is a the feature to support pagination
-of your data.
+When you are dealing with huge amount of data, e.g. 64GB, obviously you would not
+like to fill up your memory with those data. Hence pagnation feature is developed
+to read partial data into memory for processing. You can pagninate by row, by
+column and by both.
 
 .. testcode::
    :hide:
