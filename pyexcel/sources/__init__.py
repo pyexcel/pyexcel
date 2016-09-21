@@ -1,3 +1,4 @@
+from functools import partial
 from . import file_source_output, database  # noqa
 from . import file_source_input, http, pydata  # noqa
 from . import factory
@@ -42,75 +43,21 @@ def _save_any(source, instance):
         return source.content
 
 
-def register_presentation(cls, file_type):
-    getter = presenter(file_type)
-    file_type_property = property(
-        getter,
-        doc=constants._OUT_FILE_TYPE_DOC_STRING.format(file_type, "Sheet"))
-    setattr(cls, file_type, file_type_property)
-    setattr(cls, 'get_%s' % file_type, getter)
-
-
-def register_io(cls, file_type):
-    getter = presenter(file_type)
-    setter = importer(file_type)
-    file_type_property = property(
-        getter, setter,
-        doc=constants._IO_FILE_TYPE_DOC_STRING.format(file_type, "Sheet"))
-    setattr(cls, file_type, file_type_property)
-    setattr(cls, 'get_%s' % file_type, getter)
-    setattr(cls, 'set_%s' % file_type, setter)
-
-
-class SheetMeta(type):
-    def __init__(cls, name, bases, nmspc):
-        super(SheetMeta, cls).__init__(name, bases, nmspc)
-        for attribute in factory.get_sheet_rw_attributes():
-            register_io(cls, attribute)
-        for attribute in factory.get_sheet_w_attributes():
-            register_presentation(cls, attribute)
-        setattr(cls, "register_io", classmethod(register_io))
-        setattr(cls, "register_presentation",
-                classmethod(register_presentation))
-
-
-def register_book_presentation(cls, file_type):
-    getter = book_presenter(file_type)
-    file_type_property = property(
-        getter,
-        doc=constants._OUT_FILE_TYPE_DOC_STRING.format(file_type, "Book"))
-    setattr(cls, file_type, file_type_property)
-    setattr(cls, 'get_%s' % file_type, getter)
-
-
-def register_book_io(cls, file_type):
-    getter = book_presenter(file_type)
-    setter = book_importer(file_type)
-    file_type_property = property(
-        getter, setter,
-        doc=constants._IO_FILE_TYPE_DOC_STRING.format(file_type, "Book"))
-    setattr(cls, file_type, file_type_property)
-    setattr(cls, 'get_%s' % file_type, getter)
-    setattr(cls, 'set_%s' % file_type, setter)
-
-
-class BookMeta(type):
-    def __init__(cls, name, bases, nmspc):
-        super(BookMeta, cls).__init__(name, bases, nmspc)
-        for attribute in factory.get_book_rw_attributes():
-            register_book_io(cls, attribute)
-        for attribute in factory.get_book_w_attributes():
-            register_book_presentation(cls, attribute)
-        setattr(cls, "register_io", classmethod(register_book_io))
-        setattr(cls, "register_presentation",
-                classmethod(register_book_presentation))
-
-
-def presenter(attribute=None):
+def sheet_presenter(attribute=None):
     def custom_presenter(self, **keywords):
         keyword = _get_keyword_for_parameter(attribute)
         keywords[keyword] = attribute
         memory_source = factory.get_writable_source(**keywords)
+        memory_source.write_data(self)
+        return memory_source.content.getvalue()
+    return custom_presenter
+
+
+def book_presenter(attribute=None):
+    def custom_presenter(self, **keywords):
+        keyword = _get_keyword_for_parameter(attribute)
+        keywords[keyword] = attribute
+        memory_source = factory.get_writable_book_source(**keywords)
         memory_source.write_data(self)
         return memory_source.content.getvalue()
     return custom_presenter
@@ -135,16 +82,6 @@ def importer(attribute=None):
     return custom_presenter1
 
 
-def book_presenter(attribute=None):
-    def custom_presenter(self, **keywords):
-        keyword = _get_keyword_for_parameter(attribute)
-        keywords[keyword] = attribute
-        memory_source = factory.get_writable_book_source(**keywords)
-        memory_source.write_data(self)
-        return memory_source.content.getvalue()
-    return custom_presenter
-
-
 def book_importer(attribute=None):
     def custom_book_importer(self, content, **keywords):
         keyword = _get_keyword_for_parameter(attribute)
@@ -157,6 +94,60 @@ def book_importer(attribute=None):
         self.init(sheets=sheets, filename=filename, path=path)
 
     return custom_book_importer
+
+
+def _register_instance_input_and_output(
+        cls, file_type, presenter_func=sheet_presenter,
+        input_func=None, instance_name="Sheet"):
+    getter = presenter_func(file_type)
+    if input_func is None:
+        setter = None
+    else:
+        setter = input_func(file_type)
+    file_type_property = property(
+        getter, setter,
+        doc=constants._IO_FILE_TYPE_DOC_STRING.format(file_type,
+                                                      instance_name))
+    setattr(cls, file_type, file_type_property)
+    setattr(cls, 'get_%s' % file_type, getter)
+    if setter is not None:
+        setattr(cls, 'set_%s' % file_type, setter)
+
+
+register_presentation = _register_instance_input_and_output
+register_book_presentation = partial(_register_instance_input_and_output,
+                                     presenter_func=book_presenter,
+                                     instance_name="Book")
+register_io = partial(_register_instance_input_and_output,
+                      input_func=importer)
+register_book_io = partial(_register_instance_input_and_output,
+                           presenter_func=book_presenter,
+                           input_func=book_importer,
+                           instance_name="Book")
+
+
+class SheetMeta(type):
+    def __init__(cls, name, bases, nmspc):
+        super(SheetMeta, cls).__init__(name, bases, nmspc)
+        for attribute in factory.get_sheet_rw_attributes():
+            register_io(cls, attribute)
+        for attribute in factory.get_sheet_w_attributes():
+            register_presentation(cls, attribute)
+        setattr(cls, "register_io", classmethod(register_io))
+        setattr(cls, "register_presentation",
+                classmethod(register_presentation))
+
+
+class BookMeta(type):
+    def __init__(cls, name, bases, nmspc):
+        super(BookMeta, cls).__init__(name, bases, nmspc)
+        for attribute in factory.get_book_rw_attributes():
+            register_book_io(cls, attribute)
+        for attribute in factory.get_book_w_attributes():
+            register_book_presentation(cls, attribute)
+        setattr(cls, "register_io", classmethod(register_book_io))
+        setattr(cls, "register_presentation",
+                classmethod(register_book_presentation))
 
 
 def _get_book(**keywords):
