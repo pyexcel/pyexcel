@@ -105,7 +105,7 @@ def _register_instance_input_and_output(
     else:
         setter = input_func(file_type)
     file_type_property = property(
-        getter, setter,
+        fget=getter, fset=setter,
         doc=constants._IO_FILE_TYPE_DOC_STRING.format(file_type,
                                                       instance_name))
     setattr(cls, file_type, file_type_property)
