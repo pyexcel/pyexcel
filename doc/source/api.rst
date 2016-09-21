@@ -17,9 +17,11 @@ Signature functions
 These flags can be passed on to control plugin behaviors:
 
 auto_detect_int
------------------------
+--------------------------------------------------------------------------------
 
-Automatically convert float values to integers if the float number has no decimal values(e.g. 1.00). By default, it does the detection. Setting it to False will turn on this behavior
+Automatically convert float values to integers if the float number has no
+decimal values(e.g. 1.00). By default, it does the detection. Setting it to
+False will turn on this behavior
 
 It has no effect on pyexcel-xlsx because it does that by default.
 
@@ -27,21 +29,30 @@ It has no effect on pyexcel-xlsx because it does that by default.
 auto_detect_float
 ----------------------
 
-Automatically convert text to float values if possible. This applies only pyexcel-io where csv, tsv, csvz and tsvz formats are supported.  By default, it does the detection. Setting it to False will turn on this behavior
+Automatically convert text to float values if possible. This applies only
+pyexcel-io where csv, tsv, csvz and tsvz formats are supported.  By default,
+it does the detection. Setting it to False will turn on this behavior
 
 
 auto_detect_datetime
 -----------------------
 
-Automatically convert text to python datetime if possible. This applies only pyexcel-io where csv, tsv, csvz and tsvz formats are supported.  By default, it does the detection. Setting it to False will turn on this behavior
+Automatically convert text to python datetime if possible. This applies only
+pyexcel-io where csv, tsv, csvz and tsvz formats are supported.  By default,
+it does the detection. Setting it to False will turn on this behavior
 
 
 library
 -------------------------
 
-Name a pyexcel plugin to handle a file format. In the situation where multiple plugins were pip installed, it is confusing for pyexcel on which plugin to handle the file format. For example, both pyexcel-xlsx and pyexcel-xls reads xlsx format. Now since version 0.2.2, you can pass on `library="pyexcel-xls"` to handle xlsx in a specific function call.
+Name a pyexcel plugin to handle a file format. In the situation where multiple
+plugins were pip installed, it is confusing for pyexcel on which plugin to
+handle the file format. For example, both pyexcel-xlsx and pyexcel-xls reads
+xlsx format. Now since version 0.2.2, you can pass on `library="pyexcel-xls"`
+to handle xlsx in a specific function call.
 
-Alternatively, you could uninstall the unwanted pyexcel plugin using pip.
+It is better to uninstall the unwanted pyexcel plugin using pip if two plugins
+for the same file type are not absolutely necessary.
 
 .. _conversion-from:
 
@@ -55,6 +66,7 @@ Obtaining data from excel file
    get_array
    get_dict
    get_records
+   iget_records
    get_book_dict
    get_book
    get_sheet
