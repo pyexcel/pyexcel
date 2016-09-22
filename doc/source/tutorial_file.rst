@@ -38,7 +38,9 @@ And you want to add a new row:
 
     12, 11, 10
 
-Here is the code::
+Here is the code:
+
+.. code-block:: python
 
     >>> import pyexcel as pe
     >>> sheet = pe.get_sheet(file_name="example.xls")
@@ -68,6 +70,8 @@ Suppose you want to update the last row of the example file as:
 
 Here is the sample code::
 
+.. code-block:: python
+
     >>> import pyexcel as pe
     >>> sheet = pe.get_sheet(file_name="example.xls")
     >>> sheet.row[3] = ['N/A', 'N/A', 'N/A']
@@ -93,7 +97,9 @@ And you want to add a column instead:
 
     ["Column 4", 10, 11, 12]
 
-Here is the code::
+Here is the code:
+
+.. code-block:: python
 
     >>> import pyexcel as pe
     >>> sheet = pe.get_sheet(file_name="example.xls")
@@ -119,7 +125,9 @@ Again let's update "Column 3" with:
 
    [100, 200, 300]
 
-Here is the sample code::
+Here is the sample code:
+
+.. code-block:: python
 
     >>> import pyexcel as pe
     >>> sheet = pe.get_sheet(file_name="example.xls")
@@ -138,7 +146,9 @@ Here is the sample code::
     +----------+----------+----------+
 
 
-Alternatively, you could have done like this::
+Alternatively, you could have done like this:
+
+.. code-block:: python
 
     >>> import pyexcel as pe
     >>> sheet = pe.get_sheet(file_name="example.xls", name_columns_by_row=0)
@@ -184,7 +194,9 @@ And then you want to update "Row 3" with for example::
 
     [100, 200, 300]
 
-These code would do the job::
+These code would do the job:
+
+.. code-block:: python
 
     >>> import pyexcel as pe
     >>> sheet = pe.get_sheet(file_name="row_example.xls", name_rows_by_column=0)

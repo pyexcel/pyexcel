@@ -2,7 +2,9 @@
 Work with excel files in memory
 ===============================
 
-Excel files in memory can be manipulated directly without saving it to physical disk and vice versa. This is useful in excel file handling at file upload or in excel file download. For example::
+Excel files in memory can be manipulated directly without saving it to physical disk and vice versa. This is useful in excel file handling at file upload or in excel file download. For example:
+
+.. code-block:: python
 
     >>> import pyexcel
     >>> content = "1,2,3\n3,4,5"
@@ -20,7 +22,9 @@ Book class. What it means is that:
 #. Read the content in memory
 #. Set the content in memory 
 
-For example, after you have your Sheet and Book instance, you could access its content in a support file type by using its dot notation. The code in previous section could be rewritten as::
+For example, after you have your Sheet and Book instance, you could access its content in a support file type by using its dot notation. The code in previous section could be rewritten as:
+
+.. code-block:: python
 
     >>> import pyexcel
     >>> content = "1,2,3\n3,4,5"

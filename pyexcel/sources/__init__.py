@@ -105,6 +105,8 @@ def _register_instance_input_and_output(
     else:
         setter = input_func(file_type)
     file_type_property = property(
+        # note:
+        # without fget, fset, pypy 5.4.0 crashes randomly.
         fget=getter, fset=setter,
         doc=constants._IO_FILE_TYPE_DOC_STRING.format(file_type,
                                                       instance_name))
