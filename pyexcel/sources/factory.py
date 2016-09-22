@@ -128,6 +128,11 @@ def get_book_w_attributes():
         set(attribute_registry[BOOK_READ]))
 
 
+def get_book_r_attributes():
+    return set(attribute_registry[BOOK_READ]).difference(
+        set(attribute_registry[BOOK_WRITE]))
+
+
 def get_sheet_rw_attributes():
     return set(attribute_registry[SHEET_READ]).intersection(
         set(attribute_registry[SHEET_WRITE]))
@@ -136,6 +141,11 @@ def get_sheet_rw_attributes():
 def get_sheet_w_attributes():
     return set(attribute_registry[SHEET_WRITE]).difference(
         set(attribute_registry[SHEET_READ]))
+
+
+def get_sheet_r_attributes():
+    return set(attribute_registry[SHEET_READ]).difference(
+        set(attribute_registry[SHEET_WRITE]))
 
 
 def _get_generic_source(target, action, **keywords):

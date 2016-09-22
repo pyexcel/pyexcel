@@ -99,7 +99,10 @@ def book_importer(attribute=None):
 def _register_instance_input_and_output(
         cls, file_type, presenter_func=sheet_presenter,
         input_func=None, instance_name="Sheet"):
-    getter = presenter_func(file_type)
+    if presenter_func is None:
+        getter = None
+    else:
+        getter = presenter_func(file_type)
     if input_func is None:
         setter = None
     else:
@@ -111,7 +114,8 @@ def _register_instance_input_and_output(
         doc=constants._IO_FILE_TYPE_DOC_STRING.format(file_type,
                                                       instance_name))
     setattr(cls, file_type, file_type_property)
-    setattr(cls, 'get_%s' % file_type, getter)
+    if getter is not None:
+        setattr(cls, 'get_%s' % file_type, getter)
     if setter is not None:
         setattr(cls, 'set_%s' % file_type, setter)
 
@@ -120,6 +124,13 @@ register_presentation = _register_instance_input_and_output
 register_book_presentation = partial(_register_instance_input_and_output,
                                      presenter_func=book_presenter,
                                      instance_name="Book")
+register_input = partial(_register_instance_input_and_output,
+                         presenter_func=None,
+                         input_func=importer)
+register_book_input = partial(_register_instance_input_and_output,
+                              presenter_func=None,
+                              input_func=book_importer,
+                              instance_name="Book")
 register_io = partial(_register_instance_input_and_output,
                       input_func=importer)
 register_book_io = partial(_register_instance_input_and_output,
@@ -135,9 +146,13 @@ class SheetMeta(type):
             register_io(cls, attribute)
         for attribute in factory.get_sheet_w_attributes():
             register_presentation(cls, attribute)
+        for attribute in factory.get_sheet_r_attributes():
+            register_input(cls, attribute)
         setattr(cls, "register_io", classmethod(register_io))
         setattr(cls, "register_presentation",
                 classmethod(register_presentation))
+        setattr(cls, "register_input",
+                classmethod(register_input))
 
 
 class BookMeta(type):
@@ -147,9 +162,13 @@ class BookMeta(type):
             register_book_io(cls, attribute)
         for attribute in factory.get_book_w_attributes():
             register_book_presentation(cls, attribute)
+        for attribute in factory.get_book_r_attributes():
+            register_book_input(cls, attribute)
         setattr(cls, "register_io", classmethod(register_book_io))
         setattr(cls, "register_presentation",
                 classmethod(register_book_presentation))
+        setattr(cls, "register_book_input",
+                classmethod(register_book_input))
 
 
 def _get_book(**keywords):
