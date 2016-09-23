@@ -108,7 +108,7 @@ For compatibility tables of pyexcel-io plugins, please click `here <http://pyexc
     ======= ========== ============
     pyexcel pyexcel-io pyexcel-text
     ======= ========== ============
-    0.3.0   0.2.3(git) 0.2.1+
+    0.3.0   0.2.3      0.2.4(dev)
     0.2.2+  0.2.0+     0.2.1+
     0.2.1   0.1.0      0.2.0
     0.2.0   0.1.0      0.1.0+
@@ -188,6 +188,7 @@ Tutorial
    tutorial_file
    tutorial06
    tutorial_data_conversion
+   attributes.rst
    bigdata
    tutorial
    tutorial05
