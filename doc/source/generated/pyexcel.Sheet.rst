@@ -59,6 +59,7 @@ pyexcel.Sheet
       ~Sheet.get_texttable
       ~Sheet.get_tsv
       ~Sheet.get_tsvz
+      ~Sheet.get_url
       ~Sheet.get_xls
       ~Sheet.get_xlsm
       ~Sheet.get_xlsx
@@ -76,6 +77,7 @@ pyexcel.Sheet
       ~Sheet.paste
       ~Sheet.rcolumns
       ~Sheet.region
+      ~Sheet.register_input
       ~Sheet.register_io
       ~Sheet.register_presentation
       ~Sheet.remove_filter
@@ -96,14 +98,27 @@ pyexcel.Sheet
       ~Sheet.set_csvz
       ~Sheet.set_dict
       ~Sheet.set_django
+      ~Sheet.set_grid
+      ~Sheet.set_html
+      ~Sheet.set_json
+      ~Sheet.set_latex
+      ~Sheet.set_latex_booktabs
+      ~Sheet.set_mediawiki
       ~Sheet.set_named_column_at
       ~Sheet.set_named_row_at
       ~Sheet.set_ods
+      ~Sheet.set_orgtbl
+      ~Sheet.set_pipe
+      ~Sheet.set_plain
       ~Sheet.set_records
       ~Sheet.set_row_at
+      ~Sheet.set_rst
+      ~Sheet.set_simple
       ~Sheet.set_sql
+      ~Sheet.set_texttable
       ~Sheet.set_tsv
       ~Sheet.set_tsvz
+      ~Sheet.set_url
       ~Sheet.set_xls
       ~Sheet.set_xlsm
       ~Sheet.set_xlsx
@@ -147,6 +162,7 @@ pyexcel.Sheet
       ~Sheet.texttable
       ~Sheet.tsv
       ~Sheet.tsvz
+      ~Sheet.url
       ~Sheet.xls
       ~Sheet.xlsm
       ~Sheet.xlsx

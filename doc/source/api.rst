@@ -116,6 +116,7 @@ Attribute
    :toctree: generated/
 
    Book.bookdict
+   Book.url
    Book.csv
    Book.tsv
    Book.csvz
@@ -187,6 +188,7 @@ Attributes
    Sheet.records
    Sheet.dict
    Sheet.content
+   Sheet.url
    Sheet.csv
    Sheet.tsv
    Sheet.csvz

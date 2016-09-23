@@ -64,7 +64,7 @@ data stream, e.g. from http protocol, or from a zip archive.
    >>> fake_url_open.return_value = method
    >>> xls_file.close()
 
-.. code-block::
+.. code-block:: python
 
    >>> another_sheet.url = "https://github.com/pyexcel/pyexcel/raw/master/examples/basics/multiple-sheets-example.xls"
    >>> another_sheet.content
