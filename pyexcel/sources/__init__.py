@@ -96,17 +96,23 @@ def book_importer(attribute=None):
     return custom_book_importer
 
 
+def default_presenter(attribute=None):
+    def none_presenter(self, **keywords):
+        raise NotImplementedError("%s getter is not defined." % attribute)
+    return none_presenter
+
+
+def default_importer(attribute=None):
+    def none_importer(self, content, **keywords):
+        raise NotImplementedError("%s setter is not defined." % attribute)
+    return none_importer
+
+
 def _register_instance_input_and_output(
         cls, file_type, presenter_func=sheet_presenter,
-        input_func=None, instance_name="Sheet"):
-    if presenter_func is None:
-        getter = None
-    else:
-        getter = presenter_func(file_type)
-    if input_func is None:
-        setter = None
-    else:
-        setter = input_func(file_type)
+        input_func=default_importer, instance_name="Sheet"):
+    getter = presenter_func(file_type)
+    setter = input_func(file_type)
     file_type_property = property(
         # note:
         # without fget, fset, pypy 5.4.0 crashes randomly.
@@ -114,10 +120,8 @@ def _register_instance_input_and_output(
         doc=constants._IO_FILE_TYPE_DOC_STRING.format(file_type,
                                                       instance_name))
     setattr(cls, file_type, file_type_property)
-    if getter is not None:
-        setattr(cls, 'get_%s' % file_type, getter)
-    if setter is not None:
-        setattr(cls, 'set_%s' % file_type, setter)
+    setattr(cls, 'get_%s' % file_type, getter)
+    setattr(cls, 'set_%s' % file_type, setter)
 
 
 register_presentation = _register_instance_input_and_output
@@ -125,10 +129,10 @@ register_book_presentation = partial(_register_instance_input_and_output,
                                      presenter_func=book_presenter,
                                      instance_name="Book")
 register_input = partial(_register_instance_input_and_output,
-                         presenter_func=None,
+                         presenter_func=default_presenter,
                          input_func=importer)
 register_book_input = partial(_register_instance_input_and_output,
-                              presenter_func=None,
+                              presenter_func=default_presenter,
                               input_func=book_importer,
                               instance_name="Book")
 register_io = partial(_register_instance_input_and_output,
