@@ -48,4 +48,35 @@ to a sheet. For example:
 It can used when you want to get a :class:`pyexcel.Sheet` out from an incoming
 data stream, e.g. from http protocol, or from a zip archive.
 
+.. testcode::
+   :hide:
 
+   >>> from mock import patch, MagicMock
+   >>> import os
+   >>> patcher = patch('pyexcel._compact.request.urlopen')
+   >>> fake_url_open = patcher.start()
+   >>> response = MagicMock()
+   >>> response.type.return_value = 'application/vnd.ms-excel'
+   >>> method = MagicMock()
+   >>> xls_file = open(os.path.join("examples", "basics", "multiple-sheets-example.xls"), 'rb')
+   >>> method.info.return_value = response
+   >>> method.read.return_value = xls_file.read()
+   >>> fake_url_open.return_value = method
+   >>> xls_file.close()
+
+.. code-block::
+
+   >>> another_sheet.url = "https://github.com/pyexcel/pyexcel/raw/master/examples/basics/multiple-sheets-example.xls"
+   >>> another_sheet.content
+   +---+---+---+
+   | 1 | 2 | 3 |
+   +---+---+---+
+   | 4 | 5 | 6 |
+   +---+---+---+
+   | 7 | 8 | 9 |
+   +---+---+---+
+
+.. testcode::
+   :hide:
+
+   >>> patcher.stop()
