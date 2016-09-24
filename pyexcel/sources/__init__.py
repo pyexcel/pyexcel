@@ -50,6 +50,7 @@ def sheet_presenter(attribute=None):
         memory_source = factory.get_writable_source(**keywords)
         memory_source.write_data(self)
         return memory_source.content.getvalue()
+    custom_presenter.__doc__ = "Get data in %s format" % attribute
     return custom_presenter
 
 
@@ -60,6 +61,7 @@ def book_presenter(attribute=None):
         memory_source = factory.get_writable_book_source(**keywords)
         memory_source.write_data(self)
         return memory_source.content.getvalue()
+    custom_presenter.__doc__ = "Get data in %s format" % attribute
     return custom_presenter
 
 
@@ -78,7 +80,7 @@ def importer(attribute=None):
         named_content = get_sheet_stream(**keywords)
         self.init(named_content.payload,
                   named_content.name, **sheet_params)
-
+    custom_presenter1.__doc__ = "Set data in %s format" % attribute
     return custom_presenter1
 
 
@@ -92,7 +94,7 @@ def book_importer(attribute=None):
             keywords[keyword] = content
         sheets, filename, path = _get_book(**keywords)
         self.init(sheets=sheets, filename=filename, path=path)
-
+    custom_book_importer.__doc__ = "Set data in %s format" % attribute
     return custom_book_importer
 
 
