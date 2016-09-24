@@ -55,14 +55,14 @@ def sheet_presenter(attribute=None):
 
 
 def book_presenter(attribute=None):
-    def custom_presenter(self, **keywords):
+    def internal_book_presenter(self, **keywords):
         keyword = _get_keyword_for_parameter(attribute)
         keywords[keyword] = attribute
         memory_source = factory.get_writable_book_source(**keywords)
         memory_source.write_data(self)
         return memory_source.content.getvalue()
-    custom_presenter.__doc__ = "Get data in %s format" % attribute
-    return custom_presenter
+    internal_book_presenter.__doc__ = "Get data in %s format" % attribute
+    return internal_book_presenter
 
 
 def importer(attribute=None):
@@ -101,12 +101,14 @@ def book_importer(attribute=None):
 def default_presenter(attribute=None):
     def none_presenter(self, **keywords):
         raise NotImplementedError("%s getter is not defined." % attribute)
+    none_presenter.__doc__ = "%s getter is not defined." % attribute
     return none_presenter
 
 
 def default_importer(attribute=None):
     def none_importer(self, content, **keywords):
         raise NotImplementedError("%s setter is not defined." % attribute)
+    none_importer.__doc__ = "%s setter is not defined." % attribute
     return none_importer
 
 
