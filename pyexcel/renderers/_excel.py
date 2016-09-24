@@ -26,15 +26,9 @@ class ExcelRenderer(Renderer):
         save_data(file_name, book.to_dict(), **keywords)
 
     def render_sheet_to_stream(self, file_stream, sheet, **keywords):
-        sheet_name = DEFAULT_SHEET_NAME
-        if sheet.name:
-            sheet_name = sheet.name
-        data = {sheet_name: sheet.to_array()}
-        save_data(file_stream,
-                  data,
-                  file_type=self.file_type,
-                  **keywords)
+        self.render_sheet_to_file(file_stream, sheet,
+                                  file_type=self.file_type, **keywords)
 
     def render_book_to_stream(self, file_stream, book, **keywords):
-        save_data(file_stream, book.to_dict(),
-                  file_type=self.file_type, **keywords)
+        self.render_book_to_file(file_stream, book, 
+                                 file_type=self.file_type, **keywords)
