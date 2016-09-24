@@ -30,5 +30,5 @@ class ExcelRenderer(Renderer):
                                   file_type=self.file_type, **keywords)
 
     def render_book_to_stream(self, file_stream, book, **keywords):
-        self.render_book_to_file(file_stream, book, 
+        self.render_book_to_file(file_stream, book,
                                  file_type=self.file_type, **keywords)
