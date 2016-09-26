@@ -124,6 +124,7 @@ class TestGetArray:
             [1, 2, 3],
             [4, 5, 6]
         ]
+
     def test_get_array_from_file(self):
         sheet = pe.Sheet(self.test_data)
         testfile = "testfile.xls"
@@ -166,6 +167,7 @@ class TestiGetArray:
             [1, 2, 3],
             [4, 5, 6]
         ]
+
     def test_get_array_from_file(self):
         sheet = pe.Sheet(self.test_data)
         testfile = "testfile.xls"
