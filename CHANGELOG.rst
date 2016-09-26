@@ -10,6 +10,9 @@ Added:
 #. file type setters for Sheet and Book, and its documentation
 #. `iget_records` returns a generator for a list of records and should have
    better memory performance, especially dealing with large csv files.
+#. `iget_array` returns a generator for a list of two dimensional array and
+   should have better memory performance, especially dealing with large csv
+   files.
 #. Enable pagination support via pyexcel-io v0.2.3
    
 Removed:

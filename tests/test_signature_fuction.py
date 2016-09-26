@@ -118,41 +118,28 @@ class TestGetSheet:
 
 
 class TestGetArray:
-    def test_get_array_from_file(self):
-        data = [
+    def setUp(self):
+        self.test_data = [
             ["X", "Y", "Z"],
             [1, 2, 3],
             [4, 5, 6]
         ]
-        sheet = pe.Sheet(data)
+    def test_get_array_from_file(self):
+        sheet = pe.Sheet(self.test_data)
         testfile = "testfile.xls"
         sheet.save_as(testfile)
         result = pe.get_array(file_name=testfile)
-        assert result == data
+        eq_(result, self.test_data)
         os.unlink(testfile)
 
     def test_get_array_from_memory(self):
-        data = [
-            ["X", "Y", "Z"],
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
-        content = pe.save_as(dest_file_type="xls", array=data)
+        content = pe.save_as(dest_file_type="xls", array=self.test_data)
         array = pe.get_array(file_content=content.getvalue(), file_type="xls")
-        assert array == [
-            ["X", "Y", "Z"],
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
+        eq_(array, self.test_data)
 
     def test_get_array_from_array(self):
-        data = [
-            ["X", "Y", "Z"],
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
-        result = pe.get_array(array=data)
-        assert result == data
+        result = pe.get_array(array=self.test_data)
+        eq_(result, self.test_data)
 
     def test_get_array_from_dict(self):
         adict = {
@@ -161,12 +148,7 @@ class TestGetArray:
             "Z": [3, 6]
         }
         result = pe.get_array(adict=adict)
-        expected = [
-            ["X", "Y", "Z"],
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
-        assert expected == result
+        eq_(result, self.test_data)
 
     def test_get_sheet_from_recrods(self):
         records = [
@@ -174,12 +156,49 @@ class TestGetArray:
             {"X": 4, "Y": 5, "Z": 6}
         ]
         result = pe.get_array(records=records)
-        expected = [
+        eq_(result, self.test_data)
+
+
+class TestiGetArray:
+    def setUp(self):
+        self.test_data = [
             ["X", "Y", "Z"],
             [1, 2, 3],
             [4, 5, 6]
         ]
-        assert expected == result
+    def test_get_array_from_file(self):
+        sheet = pe.Sheet(self.test_data)
+        testfile = "testfile.xls"
+        sheet.save_as(testfile)
+        result = pe.iget_array(file_name=testfile)
+        eq_(list(result), self.test_data)
+        os.unlink(testfile)
+
+    def test_get_array_from_memory(self):
+        content = pe.save_as(dest_file_type="xls", array=self.test_data)
+        array = pe.get_array(file_content=content.getvalue(), file_type="xls")
+        eq_(array, self.test_data)
+
+    def test_get_array_from_array(self):
+        result = pe.iget_array(array=self.test_data)
+        eq_(list(result), self.test_data)
+
+    def test_get_array_from_dict(self):
+        adict = {
+            "X": [1, 4],
+            "Y": [2, 5],
+            "Z": [3, 6]
+        }
+        result = pe.iget_array(adict=adict)
+        eq_(list(result), self.test_data)
+
+    def test_get_sheet_from_recrods(self):
+        records = [
+            {"X": 1, "Y": 2, "Z": 3},
+            {"X": 4, "Y": 5, "Z": 6}
+        ]
+        result = pe.iget_array(records=records)
+        eq_(list(result), self.test_data)
 
 
 class TestGetDict:

@@ -64,6 +64,7 @@ Obtaining data from excel file
    :toctree: generated/
 
    get_array
+   iget_array
    get_dict
    get_records
    iget_records

@@ -243,7 +243,7 @@ def iget_records(**keywords):
     """Obtain a generator of a list of records from an excel source
 
     It is similiar to :meth:`pyexcel.get_records` but it has less memory
-    footprint but  requires the headers to be in the first row. And the
+    footprint but requires the headers to be in the first row. And the
     data matrix should be of equal length. It should consume less memory
     and should work well with large files.
     """
@@ -254,6 +254,16 @@ def iget_records(**keywords):
             headers = row
         else:
             yield dict(zip(headers, row))
+
+
+def iget_array(**keywords):
+    """Obtain a generator of an two dimensional array from an excel source
+
+    It is similiar to :meth:`pyexcel.get_array` but it has less memory
+    footprint.
+    """
+    sheet_stream = sources.get_sheet_stream(**keywords)
+    return sheet_stream.payload
 
 
 def get_book_dict(**keywords):
