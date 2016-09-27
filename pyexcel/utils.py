@@ -7,6 +7,7 @@
     :copyright: (c) 2014-2016 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
+from itertools import izip_longest
 from functools import partial
 from pyexcel.sheets import Sheet
 from pyexcel._compact import OrderedDict, PY2
@@ -164,21 +165,9 @@ def yield_dict_to_array(the_dict, with_keys=True):
         keys = sorted(keys)
     if with_keys:
         yield keys
-    max_length = -1
-    for k in keys:
-        column_length = len(the_dict[k])
-        if max_length == -1:
-            max_length = column_length
-        elif max_length < column_length:
-            max_length = column_length
-    for i in range(0, max_length):
-        row_data = []
-        for k in keys:
-            if i < len(the_dict[k]):
-                row_data.append(the_dict[k][i])
-            else:
-                row_data.append('')
-        yield row_data
+    sorted_values = (the_dict[key] for key in keys)
+    for row in izip_longest(*sorted_values):
+        yield list(row)
 
 
 def convert_dict_to_ordered_dict(the_dict):
