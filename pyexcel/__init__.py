@@ -25,6 +25,7 @@ from .core import (
     get_sheet,
     get_book,
     save_as,
+    isave_as,
     save_book_as)
 from .book import Book
 from .sheets import Sheet, transpose

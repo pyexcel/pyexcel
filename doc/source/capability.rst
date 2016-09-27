@@ -107,18 +107,17 @@ Here are the two functions:
 Functions                       Description
 =============================== ================================= 
 :meth:`~pyexcel.save_as`        Works well with single sheet file
+:meth:`~pyexcel.isave_as`       Works well with big data files	  
 :meth:`~pyexcel.save_book_as`   Works with multiple sheet file
+	                            and big data files
 =============================== =================================
 
 If you would only use these two functions to do format transcoding, you may enjoy a
-speed boost than do it via Sheet and Book class. For transcoding, what you might
-have done is to load your file into a Sheet or a Book, then do your data processing
-and save it into another file format. The performance will be OK if your data size
-is not big. If you have huge data size, e.g. 64GB, you would choose these two
-functions directly because they use `yield` keyword and minizes memory footprint.
+speed boost using :meth:`~pyexcel.isave_as` and :meth:`~pyexcel.save_book_as`,
+because they use `yield` keyword and minize memory footprint.
+:meth:`~pyexcel.save_as` uses :class:`~pyexcel.Sheet`, which reads all data into
+memory.
 
-With that said, :meth:`~pyexcel.save_as` may use `Sheet` if you use its parameters like
-`name_columns_by_row`. Then you would lose the speed boost.
 
 See also:
 

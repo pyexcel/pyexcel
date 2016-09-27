@@ -148,7 +148,31 @@ def save_as(**keywords):
     django model      dest_model, dest_initializer,
                       dest_mapdict, dest_batch_size
     ================= =============================================
+
+    In addition, this function use :class:`pyexcel.Sheet` to
+    render the data which could have performance penalty. In exchange,
+    parameters for :class:`pyexcel.Sheet` can be passed on, e.g.
+    `name_columns_by_row`.
+
     """
+    dest_keywords, source_keywords = _split_keywords(**keywords)
+    sheet_params = {}
+    for field in constants.VALID_SHEET_PARAMETERS:
+        if field in source_keywords:
+            sheet_params[field] = source_keywords.pop(field)
+    sheet_stream = sources.get_sheet_stream(**source_keywords)
+    sheet = Sheet(sheet_stream.payload, sheet_stream.name,
+                  **sheet_params)
+    return sources.save_sheet(sheet, **dest_keywords)
+
+
+def isave_as(**keywords):
+    """Save a sheet from a data source to another one
+
+    It is simliar to :meth:`pyexcel.save_as` except that it does
+    not accept parameters for :class:`pyexcel.Sheet`.
+    """
+
     dest_keywords, source_keywords = _split_keywords(**keywords)
     sheet_params = {}
     for field in constants.VALID_SHEET_PARAMETERS:
@@ -156,8 +180,8 @@ def save_as(**keywords):
             sheet_params[field] = source_keywords.pop(field)
     sheet = sources.get_sheet_stream(**source_keywords)
     if sheet_params != {}:
-        sheet = Sheet(sheet.payload, sheet.name,
-                      **sheet_params)
+        raise Exception("This function does not accept parameters for " +
+                        "pyexce.Sheet. Please use pyexcel.save_as instead.")
     return sources.save_sheet(sheet, **dest_keywords)
 
 

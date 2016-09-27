@@ -14,7 +14,13 @@ Added:
    should have better memory performance, especially dealing with large csv
    files.
 #. Enable pagination support via pyexcel-io v0.2.3
-   
+
+Updated
+********************************************************************************
+
+#. Take `isave_as` out from `save_as`. Hence two functions are there for save
+   a sheet as
+
 Removed:
 ********************************************************************************
 

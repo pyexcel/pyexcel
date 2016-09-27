@@ -861,7 +861,7 @@ class TestSaveAs:
         pe.save_as(file_name=testfile, dest_file_name=testfile2)
         sheet = pe.get_sheet(file_name=testfile2)
         sheet.format(int)
-        assert sheet.to_array() == data
+        eq_(sheet.to_array(), data)
         os.unlink(testfile)
         os.unlink(testfile2)
 
@@ -890,11 +890,11 @@ class TestSaveAs:
         pe.save_as(file_name=testfile, dest_file_name=testfile2,
                    colnames=["X", "Y", "Z"])
         array = pe.get_array(file_name=testfile2)
-        assert array == [
+        eq_(array, [
             ["X", "Y", "Z"],
             [1, 2, 3],
             [4, 5, 6]
-        ]
+        ])
 
     @raises(NotImplementedError)
     def test_wrong_parameters(self):
@@ -903,6 +903,41 @@ class TestSaveAs:
     @raises(NotImplementedError)
     def test_wrong_parameters_book(self):
         pe.save_book_as(something="else")
+
+
+class TestiSaveAs:
+    def test_save_file_as_another_one(self):
+        data = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        sheet = pe.Sheet(data)
+        testfile = "testfile.xls"
+        testfile2 = "testfile2.csv"
+        sheet.save_as(testfile)
+        pe.isave_as(file_name=testfile, dest_file_name=testfile2)
+        sheet = pe.get_sheet(file_name=testfile2)
+        eq_(sheet.to_array(), data)
+        os.unlink(testfile)
+        os.unlink(testfile2)
+
+    @raises(Exception)
+    def test_out_file_error(self):
+        data = [
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        sheet = pe.Sheet(data)
+        testfile = "testfile.xls"
+        testfile2 = "testfile.xls"
+        sheet.save_as(testfile)
+        pe.isave_as(file_name=testfile, out_file=testfile2,
+                    colnames=["X", "Y", "Z"])
+
+    @raises(NotImplementedError)
+    def test_wrong_parameters(self):
+        pe.save_as(something="else")
 
 
 def _produce_ordered_dict():

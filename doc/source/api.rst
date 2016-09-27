@@ -81,6 +81,7 @@ Saving data to excel file
    :toctree: generated/
 
    save_as
+   isave_as
    save_book_as
    
 Cookbook
