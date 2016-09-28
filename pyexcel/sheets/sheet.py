@@ -7,6 +7,7 @@
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
+import sys
 from six import with_metaclass
 
 from .matrix import Matrix
@@ -438,10 +439,16 @@ class Sheet(with_metaclass(SheetMeta, Matrix)):
             return self.text
 
     def __repr__(self):
+        if compact.PY2:
+            default_encoding = sys.getdefaultencoding()
+            if default_encoding == "ascii":
+                result = self.texttable
+                return result.encode('utf-8')
+
         return self.texttable
 
     def __str__(self):
-        return self.texttable
+        return self.__repr__()
 
     @property
     def content(self):
