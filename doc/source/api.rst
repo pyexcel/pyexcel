@@ -64,6 +64,7 @@ Obtaining data from excel file
    :toctree: generated/
 
    get_array
+   iget_array
    get_dict
    get_records
    iget_records
@@ -80,6 +81,7 @@ Saving data to excel file
    :toctree: generated/
 
    save_as
+   isave_as
    save_book_as
    
 Cookbook

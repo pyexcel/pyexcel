@@ -17,6 +17,7 @@ from .cookbook import (
     extract_a_sheet_from_a_book)
 from .core import (
     get_array,
+    iget_array,
     get_dict,
     get_records,
     iget_records,
@@ -24,6 +25,7 @@ from .core import (
     get_sheet,
     get_book,
     save_as,
+    isave_as,
     save_book_as)
 from .book import Book
 from .sheets import Sheet, transpose

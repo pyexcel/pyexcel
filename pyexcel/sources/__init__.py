@@ -50,17 +50,19 @@ def sheet_presenter(attribute=None):
         memory_source = factory.get_writable_source(**keywords)
         memory_source.write_data(self)
         return memory_source.content.getvalue()
+    custom_presenter.__doc__ = "Get data in %s format" % attribute
     return custom_presenter
 
 
 def book_presenter(attribute=None):
-    def custom_presenter(self, **keywords):
+    def internal_book_presenter(self, **keywords):
         keyword = _get_keyword_for_parameter(attribute)
         keywords[keyword] = attribute
         memory_source = factory.get_writable_book_source(**keywords)
         memory_source.write_data(self)
         return memory_source.content.getvalue()
-    return custom_presenter
+    internal_book_presenter.__doc__ = "Get data in %s format" % attribute
+    return internal_book_presenter
 
 
 def importer(attribute=None):
@@ -78,7 +80,7 @@ def importer(attribute=None):
         named_content = get_sheet_stream(**keywords)
         self.init(named_content.payload,
                   named_content.name, **sheet_params)
-
+    custom_presenter1.__doc__ = "Set data in %s format" % attribute
     return custom_presenter1
 
 
@@ -92,33 +94,37 @@ def book_importer(attribute=None):
             keywords[keyword] = content
         sheets, filename, path = _get_book(**keywords)
         self.init(sheets=sheets, filename=filename, path=path)
-
+    custom_book_importer.__doc__ = "Set data in %s format" % attribute
     return custom_book_importer
 
 
 def default_presenter(attribute=None):
     def none_presenter(self, **keywords):
         raise NotImplementedError("%s getter is not defined." % attribute)
+    none_presenter.__doc__ = "%s getter is not defined." % attribute
     return none_presenter
 
 
 def default_importer(attribute=None):
     def none_importer(self, content, **keywords):
         raise NotImplementedError("%s setter is not defined." % attribute)
+    none_importer.__doc__ = "%s setter is not defined." % attribute
     return none_importer
 
 
 def _register_instance_input_and_output(
         cls, file_type, presenter_func=sheet_presenter,
-        input_func=default_importer, instance_name="Sheet"):
+        input_func=default_importer,
+        instance_name="Sheet",
+        description=constants._OUT_FILE_TYPE_DOC_STRING):
     getter = presenter_func(file_type)
     setter = input_func(file_type)
     file_type_property = property(
         # note:
         # without fget, fset, pypy 5.4.0 crashes randomly.
         fget=getter, fset=setter,
-        doc=constants._IO_FILE_TYPE_DOC_STRING.format(file_type,
-                                                      instance_name))
+        doc=description.format(file_type,
+                               instance_name))
     setattr(cls, file_type, file_type_property)
     setattr(cls, 'get_%s' % file_type, getter)
     setattr(cls, 'set_%s' % file_type, setter)
@@ -130,17 +136,21 @@ register_book_presentation = partial(_register_instance_input_and_output,
                                      instance_name="Book")
 register_input = partial(_register_instance_input_and_output,
                          presenter_func=default_presenter,
-                         input_func=importer)
+                         input_func=importer,
+                         description=constants._IN_FILE_TYPE_DOC_STRING)
 register_book_input = partial(_register_instance_input_and_output,
                               presenter_func=default_presenter,
                               input_func=book_importer,
-                              instance_name="Book")
+                              instance_name="Book",
+                              description=constants._IN_FILE_TYPE_DOC_STRING)
 register_io = partial(_register_instance_input_and_output,
-                      input_func=importer)
+                      input_func=importer,
+                      description=constants._IO_FILE_TYPE_DOC_STRING)
 register_book_io = partial(_register_instance_input_and_output,
                            presenter_func=book_presenter,
                            input_func=book_importer,
-                           instance_name="Book")
+                           instance_name="Book",
+                           description=constants._IO_FILE_TYPE_DOC_STRING)
 
 
 class SheetMeta(type):

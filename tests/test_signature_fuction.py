@@ -118,41 +118,29 @@ class TestGetSheet:
 
 
 class TestGetArray:
-    def test_get_array_from_file(self):
-        data = [
+    def setUp(self):
+        self.test_data = [
             ["X", "Y", "Z"],
             [1, 2, 3],
             [4, 5, 6]
         ]
-        sheet = pe.Sheet(data)
+
+    def test_get_array_from_file(self):
+        sheet = pe.Sheet(self.test_data)
         testfile = "testfile.xls"
         sheet.save_as(testfile)
         result = pe.get_array(file_name=testfile)
-        assert result == data
+        eq_(result, self.test_data)
         os.unlink(testfile)
 
     def test_get_array_from_memory(self):
-        data = [
-            ["X", "Y", "Z"],
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
-        content = pe.save_as(dest_file_type="xls", array=data)
+        content = pe.save_as(dest_file_type="xls", array=self.test_data)
         array = pe.get_array(file_content=content.getvalue(), file_type="xls")
-        assert array == [
-            ["X", "Y", "Z"],
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
+        eq_(array, self.test_data)
 
     def test_get_array_from_array(self):
-        data = [
-            ["X", "Y", "Z"],
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
-        result = pe.get_array(array=data)
-        assert result == data
+        result = pe.get_array(array=self.test_data)
+        eq_(result, self.test_data)
 
     def test_get_array_from_dict(self):
         adict = {
@@ -161,12 +149,7 @@ class TestGetArray:
             "Z": [3, 6]
         }
         result = pe.get_array(adict=adict)
-        expected = [
-            ["X", "Y", "Z"],
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
-        assert expected == result
+        eq_(result, self.test_data)
 
     def test_get_sheet_from_recrods(self):
         records = [
@@ -174,12 +157,50 @@ class TestGetArray:
             {"X": 4, "Y": 5, "Z": 6}
         ]
         result = pe.get_array(records=records)
-        expected = [
+        eq_(result, self.test_data)
+
+
+class TestiGetArray:
+    def setUp(self):
+        self.test_data = [
             ["X", "Y", "Z"],
             [1, 2, 3],
             [4, 5, 6]
         ]
-        assert expected == result
+
+    def test_get_array_from_file(self):
+        sheet = pe.Sheet(self.test_data)
+        testfile = "testfile.xls"
+        sheet.save_as(testfile)
+        result = pe.iget_array(file_name=testfile)
+        eq_(list(result), self.test_data)
+        os.unlink(testfile)
+
+    def test_get_array_from_memory(self):
+        content = pe.save_as(dest_file_type="xls", array=self.test_data)
+        array = pe.get_array(file_content=content.getvalue(), file_type="xls")
+        eq_(array, self.test_data)
+
+    def test_get_array_from_array(self):
+        result = pe.iget_array(array=self.test_data)
+        eq_(list(result), self.test_data)
+
+    def test_get_array_from_dict(self):
+        adict = {
+            "X": [1, 4],
+            "Y": [2, 5],
+            "Z": [3, 6]
+        }
+        result = pe.iget_array(adict=adict)
+        eq_(list(result), self.test_data)
+
+    def test_get_sheet_from_recrods(self):
+        records = [
+            {"X": 1, "Y": 2, "Z": 3},
+            {"X": 4, "Y": 5, "Z": 6}
+        ]
+        result = pe.iget_array(records=records)
+        eq_(list(result), self.test_data)
 
 
 class TestGetDict:
@@ -840,7 +861,7 @@ class TestSaveAs:
         pe.save_as(file_name=testfile, dest_file_name=testfile2)
         sheet = pe.get_sheet(file_name=testfile2)
         sheet.format(int)
-        assert sheet.to_array() == data
+        eq_(sheet.to_array(), data)
         os.unlink(testfile)
         os.unlink(testfile2)
 
@@ -869,11 +890,11 @@ class TestSaveAs:
         pe.save_as(file_name=testfile, dest_file_name=testfile2,
                    colnames=["X", "Y", "Z"])
         array = pe.get_array(file_name=testfile2)
-        assert array == [
+        eq_(array, [
             ["X", "Y", "Z"],
             [1, 2, 3],
             [4, 5, 6]
-        ]
+        ])
 
     @raises(NotImplementedError)
     def test_wrong_parameters(self):
@@ -882,6 +903,41 @@ class TestSaveAs:
     @raises(NotImplementedError)
     def test_wrong_parameters_book(self):
         pe.save_book_as(something="else")
+
+
+class TestiSaveAs:
+    def test_save_file_as_another_one(self):
+        data = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        sheet = pe.Sheet(data)
+        testfile = "testfile.xls"
+        testfile2 = "testfile2.csv"
+        sheet.save_as(testfile)
+        pe.isave_as(file_name=testfile, dest_file_name=testfile2)
+        sheet = pe.get_sheet(file_name=testfile2)
+        eq_(sheet.to_array(), data)
+        os.unlink(testfile)
+        os.unlink(testfile2)
+
+    @raises(Exception)
+    def test_out_file_error(self):
+        data = [
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        sheet = pe.Sheet(data)
+        testfile = "testfile.xls"
+        testfile2 = "testfile.xls"
+        sheet.save_as(testfile)
+        pe.isave_as(file_name=testfile, out_file=testfile2,
+                    colnames=["X", "Y", "Z"])
+
+    @raises(NotImplementedError)
+    def test_wrong_parameters(self):
+        pe.save_as(something="else")
 
 
 def _produce_ordered_dict():

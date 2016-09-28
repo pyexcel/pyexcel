@@ -1,0 +1,5 @@
+https://github.com/pyexcel/pyexcel-io/archive/master.zip
+https://github.com/pyexcel/pyexcel-text/archive/master.zip
+pyexcel-xlsx>=0.2.0
+pyexcel-xls>=0.2.0
+pyexcel-ods>=0.2.0
