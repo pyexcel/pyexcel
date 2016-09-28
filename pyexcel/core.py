@@ -167,10 +167,11 @@ def save_as(**keywords):
 
 
 def isave_as(**keywords):
-    """Save a sheet from a data source to another one
+    """Save a sheet from a data source to another one with less memory
 
     It is simliar to :meth:`pyexcel.save_as` except that it does
-    not accept parameters for :class:`pyexcel.Sheet`.
+    not accept parameters for :class:`pyexcel.Sheet`. And it read
+    when it writes.
     """
 
     dest_keywords, source_keywords = _split_keywords(**keywords)

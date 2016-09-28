@@ -7,11 +7,10 @@
     :copyright: (c) 2014-2016 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-from itertools import izip_longest
 from functools import partial
 from pyexcel.sheets import Sheet
 from pyexcel._compact import OrderedDict, PY2
-from pyexcel._compact import deprecated
+from pyexcel._compact import deprecated, zip_longest
 import pyexcel.constants as constants
 
 
@@ -166,7 +165,7 @@ def yield_dict_to_array(the_dict, with_keys=True):
     if with_keys:
         yield keys
     sorted_values = (the_dict[key] for key in keys)
-    for row in izip_longest(*sorted_values, fillvalue=''):
+    for row in zip_longest(*sorted_values, fillvalue=''):
         yield list(row)
 
 
