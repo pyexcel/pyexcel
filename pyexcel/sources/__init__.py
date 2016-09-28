@@ -8,6 +8,9 @@ import pyexcel.constants as constants
 
 
 def get_sheet_stream(**keywords):
+    """
+    Get an instance of SheetStream from an excel source
+    """
     source = factory.get_source(**keywords)
     sheets = source.get_data()
     sheet_name, data = one_sheet_tuple(sheets.items())
@@ -15,7 +18,8 @@ def get_sheet_stream(**keywords):
 
 
 def get_book_stream(**keywords):
-    """Get an instance of :class:`Book` from an excel source
+    """
+    Get an instance of BookStream from an excel source
 
     Where the dictionary should have text as keys and two dimensional
     array as values.
@@ -27,11 +31,17 @@ def get_book_stream(**keywords):
 
 
 def save_sheet(sheet, **keywords):
+    """
+    Save a sheet instance to any source
+    """
     source = factory.get_writable_source(**keywords)
     return _save_any(source, sheet)
 
 
 def save_book(book, **keywords):
+    """
+    Save a book instance to any source
+    """
     source = factory.get_writable_book_source(**keywords)
     return _save_any(source, book)
 

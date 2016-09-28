@@ -5,7 +5,18 @@ from pyexcel.sheets.iterators import SheetIterator
 
 class SheetStream(NamedContent):
     """
-    A container to hold generator as sheet content
+    Memory efficient sheet representation
+
+    This class wraps around the data read from pyexcel-io.
+    Comparing with :class:`pyexcel.Sheet`, the instance of
+    this class does not load all data into memory. Hence
+    it performs better when dealing with big data.
+
+    If you would like to do custom rendering for each row
+    of the two dimensional data, you would need to
+    pass a row formatting/rendering function to the parameter
+    "renderer" of pyexcel's signature functions.
+
     """
     def __init__(self, name, payload):
         NamedContent.__init__(self, name, payload)
@@ -19,9 +30,13 @@ class SheetStream(NamedContent):
 
 
 class BookStream(object):
-    """Read an excel book that has one or more sheets
+    """
+    Memory efficient book representation
 
-    For csv file, there will be just one sheet
+    Comparing with :class:`pyexcel.Book`, the instace of
+    this class uses :class:`pyexcel.generators.SheetStream` as
+    its internal repesentation of sheet objects. Because `SheetStream`
+    does not read data into memory, it is memory efficient.
     """
     def __init__(self, sheets=None, filename="memory", path=None):
         """Book constructor

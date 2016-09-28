@@ -17,12 +17,16 @@ In inheritance order from parent to child
    :toctree: iapi
 
    Matrix
-   
+
+.. currentmodule:: pyexcel.generators
+
 .. autosummary::
    :toctree: iapi
 
-   NominableSheet
-   Sheet
+   SheetStream
+   BookStream
+
+.. currentmodule:: pyexcel.sheets
 
 Row representation
 ===================

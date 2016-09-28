@@ -154,7 +154,7 @@ class TestBugFixes(TestCase):
         sheet.name_columns_by_row(0)
         eq_(sheet.colnames, headers)
 
-    def test_issue_50_chinese_text_in_python_2_stdout(self):
+    def test_issue_60_chinese_text_in_python_2_stdout(self):
         import sys
         data = [['这', '是', '中', '文'], ['这', '是', '中', '文']]
         sheet = pe.Sheet(data)

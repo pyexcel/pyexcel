@@ -14,46 +14,6 @@ This is intended for users of pyexcel.
 Signature functions
 ====================
 
-These flags can be passed on to control plugin behaviors:
-
-auto_detect_int
---------------------------------------------------------------------------------
-
-Automatically convert float values to integers if the float number has no
-decimal values(e.g. 1.00). By default, it does the detection. Setting it to
-False will turn on this behavior
-
-It has no effect on pyexcel-xlsx because it does that by default.
-
-
-auto_detect_float
-----------------------
-
-Automatically convert text to float values if possible. This applies only
-pyexcel-io where csv, tsv, csvz and tsvz formats are supported.  By default,
-it does the detection. Setting it to False will turn on this behavior
-
-
-auto_detect_datetime
------------------------
-
-Automatically convert text to python datetime if possible. This applies only
-pyexcel-io where csv, tsv, csvz and tsvz formats are supported.  By default,
-it does the detection. Setting it to False will turn on this behavior
-
-
-library
--------------------------
-
-Name a pyexcel plugin to handle a file format. In the situation where multiple
-plugins were pip installed, it is confusing for pyexcel on which plugin to
-handle the file format. For example, both pyexcel-xlsx and pyexcel-xls reads
-xlsx format. Now since version 0.2.2, you can pass on `library="pyexcel-xls"`
-to handle xlsx in a specific function call.
-
-It is better to uninstall the unwanted pyexcel plugin using pip if two plugins
-for the same file type are not absolutely necessary.
-
 .. _conversion-from:
 
 
@@ -64,13 +24,13 @@ Obtaining data from excel file
    :toctree: generated/
 
    get_array
-   iget_array
    get_dict
    get_records
-   iget_records
    get_book_dict
    get_book
    get_sheet
+   iget_array
+   iget_records
 
 .. _conversion-to:
 
@@ -83,7 +43,49 @@ Saving data to excel file
    save_as
    isave_as
    save_book_as
-   
+
+
+These flags can be passed on all signature functions:
+
+auto_detect_int
+*******************
+
+Automatically convert float values to integers if the float number has no
+decimal values(e.g. 1.00). By default, it does the detection. Setting it to
+False will turn on this behavior
+
+It has no effect on pyexcel-xlsx because it does that by default.
+
+
+auto_detect_float
+***********************
+
+Automatically convert text to float values if possible. This applies only
+pyexcel-io where csv, tsv, csvz and tsvz formats are supported.  By default,
+it does the detection. Setting it to False will turn on this behavior
+
+
+auto_detect_datetime
+**********************
+
+Automatically convert text to python datetime if possible. This applies only
+pyexcel-io where csv, tsv, csvz and tsvz formats are supported.  By default,
+it does the detection. Setting it to False will turn on this behavior
+
+
+library
+**************
+
+Name a pyexcel plugin to handle a file format. In the situation where multiple
+plugins were pip installed, it is confusing for pyexcel on which plugin to
+handle the file format. For example, both pyexcel-xlsx and pyexcel-xls reads
+xlsx format. Now since version 0.2.2, you can pass on `library="pyexcel-xls"`
+to handle xlsx in a specific function call.
+
+It is better to uninstall the unwanted pyexcel plugin using pip if two plugins
+for the same file type are not absolutely necessary.
+
+
 Cookbook
 ==========
 
@@ -117,6 +119,15 @@ Attribute
 .. autosummary::
    :toctree: generated/
 
+   Book.number_of_sheets
+   Book.sheet_names
+
+Conversions
+-------------
+
+.. autosummary::
+   :toctree: generated/
+
    Book.bookdict
    Book.url
    Book.csv
@@ -137,16 +148,7 @@ Attribute
    Book.latex_booktabs
    Book.json
    Book.html
-   Book.number_of_sheets
-   Book.sheet_names
 
-Conversions
--------------
-
-.. autosummary::
-   :toctree: generated/
-
-   Book.to_dict
 
 Save changes
 -------------
@@ -170,15 +172,6 @@ Constructor
 
    Sheet
 
-Save changes
---------------
-
-.. autosummary::
-   :toctree: generated/
-
-   Sheet.save_as
-   Sheet.save_to_memory
-   Sheet.save_to_database
 
 Attributes
 -----------
@@ -186,29 +179,7 @@ Attributes
 .. autosummary::
    :toctree: generated/
 
-   Sheet.array
-   Sheet.records
-   Sheet.dict
    Sheet.content
-   Sheet.url
-   Sheet.csv
-   Sheet.tsv
-   Sheet.csvz
-   Sheet.tsvz
-   Sheet.xls
-   Sheet.xlsx
-   Sheet.ods
-   Sheet.plain
-   Sheet.simple
-   Sheet.grid
-   Sheet.pipe
-   Sheet.orgtbl
-   Sheet.rst
-   Sheet.mediawiki
-   Sheet.latex
-   Sheet.latex_booktabs
-   Sheet.json
-   Sheet.html
    Sheet.number_of_rows
    Sheet.number_of_columns
    Sheet.row_range
@@ -292,6 +263,44 @@ Any row as column name
    Sheet.delete_named_row_at
 
    
+Conversion
+-------------
+
+.. autosummary::
+   :toctree: generated/
+
+   Sheet.array
+   Sheet.records
+   Sheet.dict
+   Sheet.url
+   Sheet.csv
+   Sheet.tsv
+   Sheet.csvz
+   Sheet.tsvz
+   Sheet.xls
+   Sheet.xlsx
+   Sheet.ods
+   Sheet.plain
+   Sheet.simple
+   Sheet.grid
+   Sheet.pipe
+   Sheet.orgtbl
+   Sheet.rst
+   Sheet.mediawiki
+   Sheet.latex
+   Sheet.latex_booktabs
+   Sheet.json
+   Sheet.html
+
+Anti-conversion
+----------------
+
+.. autosummary::
+   :toctree: generated/
+
+   dict_to_array
+   from_records
+
 Formatting
 ------------------
 
@@ -309,24 +318,6 @@ Filtering
 
    Sheet.filter
 
-Conversion
--------------
-
-.. autosummary::
-   :toctree: generated/
-
-   Sheet.to_array
-   Sheet.to_dict
-   Sheet.to_records
-
-Anti-conversion
-----------------
-
-.. autosummary::
-   :toctree: generated/
-
-   dict_to_array
-   from_records
 
 Transformation
 ----------------
@@ -340,6 +331,15 @@ Transformation
    Sheet.cut
    Sheet.paste
         
+Save changes
+--------------
+
+.. autosummary::
+   :toctree: generated/
+
+   Sheet.save_as
+   Sheet.save_to_memory
+   Sheet.save_to_database
 
 .. _formatters:
 
