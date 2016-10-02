@@ -33,7 +33,6 @@ from .utils import (
     to_dict,
     to_array,
     to_records,
-    dict_to_array,
     from_records)
 from .sheets.formatters import (
     ColumnFormatter,

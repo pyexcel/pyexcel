@@ -127,11 +127,6 @@ def to_one_dimensional_array(iterator):
     return array
 
 
-@DEPRECATED_UTILS
-def dict_to_array(the_dict, with_keys=True):
-    return list(yield_dict_to_array(the_dict, with_keys))
-
-
 def yield_dict_to_array(the_dict, with_keys=True):
     """Convert a dictionary of columns to an array
 
