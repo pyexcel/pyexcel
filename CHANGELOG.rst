@@ -13,19 +13,24 @@ Added:
 #. `iget_array` returns a generator for a list of two dimensional array and
    should have better memory performance, especially dealing with large csv
    files.
-#. Enable pagination support via pyexcel-io v0.2.3
+#. Enable pagination support, and custom row renderer via pyexcel-io v0.2.3
 
 Updated
 ********************************************************************************
 
 #. Take `isave_as` out from `save_as`. Hence two functions are there for save
    a sheet as
+#. `# 60 <https://github.com/pyexcel/pyexcel/issues/60>`_: encode 'utf-8' if
+   the console is of ascii encoding.
+#. `# 59 <https://github.com/pyexcel/pyexcel/issues/59>`_: custom row
+   renderer
 
 Removed:
 ********************************************************************************
 
 #. `content` and `out_file` as function parameters to the signature functions are
-   no longer supported. 
+   no longer supported.
+#. `pyexcel.dict_to_array` is removed
 #. SourceFactory and RendererFactory are removed
 
 0.2.5 - 31.08.2016
