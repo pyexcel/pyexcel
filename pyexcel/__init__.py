@@ -32,8 +32,8 @@ from .sheets import Sheet, transpose
 from .utils import (
     to_dict,
     to_array,
-    to_records,
-    from_records)
+    to_records
+)
 from .sheets.formatters import (
     ColumnFormatter,
     RowFormatter,

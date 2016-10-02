@@ -86,17 +86,6 @@ def to_records(sheet, custom_headers=None):
     return ret
 
 
-@DEPRECATED_UTILS
-def from_records(records):
-    """Reverse function of to_records
-    """
-    content = list(yield_from_records(records))
-    if content == [[]]:
-        return None
-    else:
-        return content
-
-
 def yield_from_records(records):
     """Reverse function of to_records
     """

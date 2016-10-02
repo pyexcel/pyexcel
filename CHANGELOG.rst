@@ -30,7 +30,7 @@ Removed:
 
 #. `content` and `out_file` as function parameters to the signature functions are
    no longer supported.
-#. `pyexcel.dict_to_array` is removed
+#. `pyexcel.dict_to_array`, `pyexcel.from_records` are removed
 #. SourceFactory and RendererFactory are removed
 
 0.2.5 - 31.08.2016

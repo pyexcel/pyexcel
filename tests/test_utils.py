@@ -175,11 +175,6 @@ class TestToRecord(TestCase):
         r = pe.BookReader(self.testfile)
         pe.to_records(r)
 
-    def test_from_records(self):
-        """give an empty records array"""
-        value = pe.utils.from_records([])
-        assert value is None
-
     def tearDown(self):
         if os.path.exists(self.testfile):
             os.unlink(self.testfile)
