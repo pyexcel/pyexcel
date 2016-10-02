@@ -3,7 +3,7 @@ from unittest import TestCase
 import pyexcel as pe
 from base import create_sample_file2
 from _compact import OrderedDict
-from nose.tools import raises
+from nose.tools import raises, eq_
 
 
 class TestUtils(TestCase):
@@ -174,6 +174,11 @@ class TestToRecord(TestCase):
     def test_book_reader_to_records_with_wrong_args(self):
         r = pe.BookReader(self.testfile)
         pe.to_records(r)
+
+    def test_yield_from_records(self):
+        """give an empty records array"""
+        value = list(pe.utils.yield_from_records([]))
+        eq_(len(value[0]), 0)
 
     def tearDown(self):
         if os.path.exists(self.testfile):

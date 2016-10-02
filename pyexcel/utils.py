@@ -7,10 +7,9 @@
     :copyright: (c) 2014-2016 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-from functools import partial
 from pyexcel.sheets import Sheet
 from pyexcel._compact import OrderedDict, PY2
-from pyexcel._compact import deprecated, zip_longest
+from pyexcel._compact import zip_longest
 import pyexcel.constants as constants
 
 
@@ -21,11 +20,6 @@ def local_uuid():
     global LOCAL_UUID
     LOCAL_UUID = LOCAL_UUID + 1
     return LOCAL_UUID
-
-
-DEPRECATED_UTILS = partial(
-    deprecated,
-    message="Deprecated since v0.2.0!")
 
 
 def to_array(an_object):
