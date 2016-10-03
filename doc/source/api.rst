@@ -292,14 +292,6 @@ Conversion
    Sheet.json
    Sheet.html
 
-Anti-conversion
-----------------
-
-.. autosummary::
-   :toctree: generated/
-
-   dict_to_array
-   from_records
 
 Formatting
 ------------------

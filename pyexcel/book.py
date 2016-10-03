@@ -16,12 +16,14 @@ from pyexcel.sources import BookMeta, save_book
 
 
 class Book(with_metaclass(BookMeta, object)):
-    """Read an excel book that has one or more sheets
+    """
+    Read an excel book that has one or more sheets
 
     For csv file, there will be just one sheet
     """
     def __init__(self, sheets=None, filename="memory", path=None):
-        """Book constructor
+        """
+        Book constructor
 
         Selecting a specific book according to filename extension
         :param OrderedDict/dict sheets: a dictionary of data
@@ -38,7 +40,8 @@ class Book(with_metaclass(BookMeta, object)):
         self.load_from_sheets(sheets)
 
     def load_from_sheets(self, sheets):
-        """Load content from existing sheets
+        """
+        Load content from existing sheets
 
         :param dict sheets: a dictionary of sheets. Each sheet is
         a list of lists
@@ -60,32 +63,44 @@ class Book(with_metaclass(BookMeta, object)):
         self.name_array = list(self.sheets.keys())
 
     def get_sheet(self, array, name):
-        """Create a sheet from a list of lists"""
+        """
+        Create a sheet from a list of lists
+        """
         return Sheet(array, name)
 
     def __iter__(self):
         return SheetIterator(self)
 
     def number_of_sheets(self):
-        """Return the number of sheets"""
+        """
+        Return the number of sheets
+        """
         return len(self.name_array)
 
     def sheet_names(self):
-        """Return all sheet names"""
+        """
+        Return all sheet names
+        """
         return self.name_array
 
     def sheet_by_name(self, name):
-        """Get the sheet with the specified name"""
+        """
+        Get the sheet with the specified name
+        """
         return self.sheets[name]
 
     def sheet_by_index(self, index):
-        """Get the sheet with the specified index"""
+        """
+        Get the sheet with the specified index
+        """
         if index < len(self.name_array):
             sheet_name = self.name_array[index]
             return self.sheets[sheet_name]
 
     def remove_sheet(self, sheet):
-        """Remove a sheet"""
+        """
+        Remove a sheet
+        """
         if isinstance(sheet, int):
             if sheet < len(self.name_array):
                 sheet_name = self.name_array[sheet]
@@ -110,12 +125,15 @@ class Book(with_metaclass(BookMeta, object)):
             return self.sheet_by_name(key)
 
     def __delitem__(self, other):
-        """Override del book[index]"""
+        """
+        Override del book[index]
+        """
         self.remove_sheet(other)
         return self
 
     def __add__(self, other):
-        """Override operator +
+        """
+        Override operator +
 
         example::
 

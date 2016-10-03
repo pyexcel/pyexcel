@@ -41,7 +41,6 @@ pyexcel.Sheet
       ~Sheet.get_csv
       ~Sheet.get_csvz
       ~Sheet.get_dict
-      ~Sheet.get_django
       ~Sheet.get_grid
       ~Sheet.get_html
       ~Sheet.get_json
@@ -55,7 +54,6 @@ pyexcel.Sheet
       ~Sheet.get_records
       ~Sheet.get_rst
       ~Sheet.get_simple
-      ~Sheet.get_sql
       ~Sheet.get_texttable
       ~Sheet.get_tsv
       ~Sheet.get_tsvz
@@ -97,7 +95,6 @@ pyexcel.Sheet
       ~Sheet.set_csv
       ~Sheet.set_csvz
       ~Sheet.set_dict
-      ~Sheet.set_django
       ~Sheet.set_grid
       ~Sheet.set_html
       ~Sheet.set_json
@@ -114,7 +111,6 @@ pyexcel.Sheet
       ~Sheet.set_row_at
       ~Sheet.set_rst
       ~Sheet.set_simple
-      ~Sheet.set_sql
       ~Sheet.set_texttable
       ~Sheet.set_tsv
       ~Sheet.set_tsvz
@@ -143,7 +139,6 @@ pyexcel.Sheet
       ~Sheet.csv
       ~Sheet.csvz
       ~Sheet.dict
-      ~Sheet.django
       ~Sheet.grid
       ~Sheet.html
       ~Sheet.json
@@ -158,7 +153,6 @@ pyexcel.Sheet
       ~Sheet.rownames
       ~Sheet.rst
       ~Sheet.simple
-      ~Sheet.sql
       ~Sheet.texttable
       ~Sheet.tsv
       ~Sheet.tsvz
