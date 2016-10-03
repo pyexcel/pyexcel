@@ -5,7 +5,8 @@ from six import with_metaclass
 from pyexcel._compact import PY2, is_string
 from . import params
 
-
+# ignore the following attributes
+NO_DOT_NOTATION = ('django', 'sql')
 # registries
 REGISTRY_KEY_FORMAT = "%s-%s"
 
@@ -36,6 +37,8 @@ def register_class(cls):
             key = REGISTRY_KEY_FORMAT % (target, action)
             registry[key].append(cls)
             for attr in cls.attributes:
+                if attr in NO_DOT_NOTATION:
+                    continue
                 attribute_registry[key].append(attr)
                 keywords[attr] = cls.key
 
