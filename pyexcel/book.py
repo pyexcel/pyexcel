@@ -7,11 +7,12 @@
     :copyright: (c) 2014-2015 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
+import sys
 from six import with_metaclass
 import pyexcel.utils as utils
 from pyexcel.sheets.iterators import SheetIterator
 from pyexcel.sheets import Sheet
-from pyexcel._compact import OrderedDict
+import pyexcel._compact as compact
 from pyexcel.sources import BookMeta, save_book
 
 
@@ -46,11 +47,11 @@ class Book(with_metaclass(BookMeta, object)):
         :param dict sheets: a dictionary of sheets. Each sheet is
         a list of lists
         """
-        self.sheets = OrderedDict()
+        self.sheets = compact.OrderedDict()
         if sheets is None:
             return
         keys = sheets.keys()
-        if not isinstance(sheets, OrderedDict):
+        if not isinstance(sheets, compact.OrderedDict):
             # if the end user does not care about the order
             # we put alphatical order
             keys = sorted(keys)
@@ -207,10 +208,16 @@ class Book(with_metaclass(BookMeta, object)):
         return to_dict(self)
 
     def __repr__(self):
+        if compact.PY2:
+            default_encoding = sys.getdefaultencoding()
+            if default_encoding == "ascii":
+                result = self.texttable
+                return result.encode('utf-8')
+
         return self.texttable
 
     def __str__(self):
-        return self.texttable
+        return self.__repr__()
 
     def save_as(self, filename):
         """Save the content to a new file

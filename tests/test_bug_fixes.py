@@ -159,3 +159,10 @@ class TestBugFixes(TestCase):
         data = [['这', '是', '中', '文'], ['这', '是', '中', '文']]
         sheet = pe.Sheet(data)
         sys.stdout.write(repr(sheet))
+
+    def test_issue_60_chinese_text_in_python_2_stdout_on_book(self):
+        import sys
+        adict = {"Sheet 1": [['这', '是', '中', '文'], ['这', '是', '中', '文']]}
+        book = pe.Book()
+        book.bookdict = adict
+        sys.stdout.write(repr(book))
