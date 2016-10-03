@@ -91,6 +91,7 @@ Yet, it is possible assign a absolute url to an online excel file to an instance
 
    >>> patcher.stop()
 
+   
 For book
 --------------------------------------------------------------------------------
 
@@ -284,3 +285,19 @@ How about setting content via a url?
    :hide:
 
    >>> patcher.stop()
+
+
+Getters and Setters
+----------------------------------
+
+You can pass on source specific parameters to getter and setter functions.
+
+.. code-block:: python
+
+    >>> content = "1-2-3\n3-4-5"
+    >>> sheet = pyexcel.Sheet()
+    >>> sheet.set_csv(content, delimiter="-")
+    >>> sheet.csv
+    '1,2,3\r\n3,4,5\r\n'
+    >>> sheet.get_csv(delimiter="|")
+    '1|2|3\r\n3|4|5\r\n'
