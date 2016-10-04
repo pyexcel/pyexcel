@@ -11,7 +11,10 @@ of lookup.
 import copy
 from itertools import chain
 
-from pyexcel._compact import is_array_type, irange, zip
+
+from pyexcel._compact import is_array_type, irange, PY2
+if PY2:
+    from itertools import izip as zip    
 from pyexcel.constants import (
     MESSAGE_INDEX_OUT_OF_RANGE,
     MESSAGE_DATA_ERROR_EMPTY_CONTENT,

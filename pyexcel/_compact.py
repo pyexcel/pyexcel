@@ -30,14 +30,13 @@ if PY2:
     import urllib2 as request
     irange = xrange
     from itertools import izip_longest as zip_longest
-    from itertools import izip as zip
 else:
     from io import StringIO, BytesIO
     text_type = str
     Iterator = object
     import urllib.request as request
     irange = range
-    from itertools import zip_longest, zip
+    from itertools import zip_longest
 
 def is_tuple_consists_of_strings(an_array):
     return isinstance(an_array, tuple) and is_array_type(an_array, str)
