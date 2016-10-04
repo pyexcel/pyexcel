@@ -9,9 +9,9 @@ of lookup.
     :license: New BSD License, see LICENSE for more details
 """
 import copy
-from itertools import chain, izip
+from itertools import chain
 
-from pyexcel._compact import is_array_type, irange
+from pyexcel._compact import is_array_type, irange, zip
 from pyexcel.constants import (
     MESSAGE_INDEX_OUT_OF_RANGE,
     MESSAGE_DATA_ERROR_EMPTY_CONTENT,
@@ -626,7 +626,7 @@ class Matrix(object):
 
         More details see :class:`VTLBRIterator`
         """
-        return chain(*izip(*self._array))
+        return chain(*zip(*self._array))
 
     def rvertical(self):
         """
@@ -649,7 +649,7 @@ class Matrix(object):
 
         More details see :class:`VBRTLIterator`
         """
-        for column in izip(*(reversed(row) for row in self._array)):
+        for column in zip(*(reversed(row) for row in self._array)):
             for cell in reversed(column):
                 yield cell
 
@@ -722,7 +722,7 @@ class Matrix(object):
 
         More details see :class:`ColumnIterator`
         """
-        for row in izip(*self._array):
+        for row in zip(*self._array):
             yield list(row)
 
     def rcolumns(self):
@@ -746,7 +746,7 @@ class Matrix(object):
 
         More details see :class:`ColumnReverseIterator`
         """
-        for column in izip(*(reversed(row) for row in self._array)):
+        for column in zip(*(reversed(row) for row in self._array)):
             yield list(column)
 
     def filter(self, afilter):
