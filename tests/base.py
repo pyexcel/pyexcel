@@ -1,7 +1,7 @@
 import json
 import os
 import pyexcel as pe
-from nose.tools import raises
+from nose.tools import raises, eq_
 
 
 def clean_up_files(file_list):
@@ -195,86 +195,62 @@ class PyexcelIteratorBase:
     def test_horizontal_iterator(self):
         result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         actual = pe.utils.to_array(self.iteratable.enumerate())
-        assert result == actual
+        eq_(result, actual)
 
     def test_row_iterator(self):
         result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         actual = pe.utils.to_one_dimensional_array(self.iteratable.rows())
-        assert result == actual
+        eq_(result, actual)
 
     def test_row_iterator_2_dimensions(self):
         result = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
         actual = pe.utils.to_array(self.iteratable.rows())
-        assert result == actual
+        eq_(result, actual)
 
     def test_horizontal_reverse_iterator(self):
         result = [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
         actual = pe.utils.to_array(self.iteratable.reverse())
-        assert result == actual
+        eq_(result, actual)
 
     def test_row_reverse_iterator(self):
         result = [9, 10, 11, 12, 5, 6, 7, 8, 1, 2, 3, 4]
         actual = pe.utils.to_one_dimensional_array(self.iteratable.rrows())
-        assert result == actual
+        eq_(result, actual)
 
     def test_row_reverse_iterator_2_dimensions(self):
         result = [[9, 10, 11, 12], [5, 6, 7, 8], [1, 2, 3, 4]]
         actual = pe.utils.to_array(self.iteratable.rrows())
-        assert result == actual
+        eq_(result, actual)
 
     def test_vertical_iterator(self):
         result = [1, 5, 9, 2, 6, 10, 3, 7, 11, 4, 8, 12]
         actual = pe.utils.to_array(self.iteratable.vertical())
-        assert result == actual
+        eq_(result, actual)
 
     def test_column_iterator(self):
         result = [1, 5, 9, 2, 6, 10, 3, 7, 11, 4, 8, 12]
         actual = pe.utils.to_one_dimensional_array(self.iteratable.columns())
-        assert result == actual
+        eq_(result, actual)
 
     def test_column_iterator_2_dimensions(self):
         result = [[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]
         actual = pe.utils.to_array(self.iteratable.columns())
-        assert result == actual
+        eq_(result, actual)
 
     def test_vertical_reverse_iterator(self):
         result = [12, 8, 4, 11, 7, 3, 10, 6, 2, 9, 5, 1]
-        actual = pe.utils.to_array(self.iteratable.rvertical())
-        assert result == actual
+        actual = list(self.iteratable.rvertical())
+        eq_(result, actual)
 
     def test_column_reverse_iterator(self):
         result = [4, 8, 12, 3, 7, 11, 2, 6, 10, 1, 5, 9]
         actual = pe.utils.to_one_dimensional_array(self.iteratable.rcolumns())
-        assert result == actual
+        eq_(result, actual)
 
     def test_column_reverse_iterator_2_dimensions(self):
         result = [[4, 8, 12], [3, 7, 11], [2, 6, 10], [1, 5, 9]]
         actual = pe.utils.to_array(self.iteratable.rcolumns())
-        assert result == actual
-
-    def test_horizontal_top_right_2_bottom_left_iterator(self):
-        result = [4, 3, 2, 1, 8, 7, 6, 5, 12, 11, 10, 9]
-        actual = pe.utils.to_array(pe.sheets.iterators.HTRBLIterator(
-            self.iteratable))
-        assert result == actual
-
-    def test_horizontal_bottom_left_2_top_right_iterator(self):
-        result = [9, 10, 11, 12, 5, 6, 7, 8, 1, 2, 3, 4]
-        actual = pe.utils.to_array(pe.sheets.iterators.HBLTRIterator(
-            self.iteratable))
-        assert result == actual
-
-    def test_vertical_bottom_left_2_top_right_iterator(self):
-        result = [9, 5, 1, 10, 6, 2, 11, 7, 3, 12, 8, 4]
-        actual = pe.utils.to_array(pe.sheets.iterators.VBLTRIterator(
-            self.iteratable))
-        assert result == actual
-
-    def test_vertical_top_right_2_bottom_left_iterator(self):
-        result = [4, 8, 12, 3, 7, 11, 2, 6, 10, 1, 5, 9]
-        actual = pe.utils.to_array(pe.sheets.iterators.VTRBLIterator(
-            self.iteratable))
-        assert result == actual
+        eq_(result, actual)
 
 
 class PyexcelSheetRWBase:

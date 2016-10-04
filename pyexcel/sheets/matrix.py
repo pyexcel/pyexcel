@@ -9,18 +9,9 @@ of lookup.
     :license: New BSD License, see LICENSE for more details
 """
 import copy
+from itertools import chain, izip
 
 from pyexcel._compact import is_array_type, irange
-from pyexcel.sheets.iterators import (
-    HTLBRIterator,
-    HBRTLIterator,
-    VTLBRIterator,
-    VBRTLIterator,
-    RowIterator,
-    ColumnIterator,
-    RowReverseIterator,
-    ColumnReverseIterator
-)
 from pyexcel.constants import (
     MESSAGE_INDEX_OUT_OF_RANGE,
     MESSAGE_DATA_ERROR_EMPTY_CONTENT,
@@ -584,12 +575,12 @@ class Matrix(object):
             ...     [9, 10, 11, 12]
             ... ]
             >>> m = pe.sheets.Matrix(data)
-            >>> print(pe.to_array(m.enumerate()))
+            >>> print(list(m.enumerate()))
             [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
         More details see :class:`HTLBRIterator`
         """
-        return HTLBRIterator(self)
+        return chain(*self._array)
 
     def reverse(self):
         """Opposite to enumerate
@@ -605,12 +596,14 @@ class Matrix(object):
             ...     [9, 10, 11, 12]
             ... ]
             >>> m = pe.sheets.Matrix(data)
-            >>> print(pe.to_array(m.reverse()))
+            >>> print(list(m.reverse()))
             [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
 
         More details see :class:`HBRTLIterator`
         """
-        return HBRTLIterator(self)
+        for row in reversed(self._array):
+            for cell in reversed(row):
+                yield cell
 
     def vertical(self):
         """
@@ -625,7 +618,7 @@ class Matrix(object):
                 [9, 10, 11, 12]
             ]
             m = pe.Matrix(data)
-            print(pe.utils.to_array(m.vertical()))
+            print(list(m.vertical()))
 
         output::
 
@@ -633,7 +626,7 @@ class Matrix(object):
 
         More details see :class:`VTLBRIterator`
         """
-        return VTLBRIterator(self)
+        return chain(*izip(*self._array))
 
     def rvertical(self):
         """
@@ -656,7 +649,9 @@ class Matrix(object):
 
         More details see :class:`VBRTLIterator`
         """
-        return VBRTLIterator(self)
+        for column in izip(*(reversed(row) for row in self._array)):
+            for cell in reversed(column):
+                yield cell
 
     def rows(self):
         """
@@ -679,7 +674,8 @@ class Matrix(object):
 
         More details see :class:`RowIterator`
         """
-        return RowIterator(self)
+        for row in self._array:
+            yield row
 
     def rrows(self):
         """
@@ -702,7 +698,8 @@ class Matrix(object):
 
         More details see :class:`RowReverseIterator`
         """
-        return RowReverseIterator(self)
+        for row in reversed(self._array):
+            yield row
 
     def columns(self):
         """
@@ -717,7 +714,7 @@ class Matrix(object):
                 [9, 10, 11, 12]
             ]
             m = pe.Matrix(data)
-            print(pe.utils.to_array(m.columns()))
+            print(list(m.columns()))
 
         .. testoutput::
 
@@ -725,7 +722,8 @@ class Matrix(object):
 
         More details see :class:`ColumnIterator`
         """
-        return ColumnIterator(self)
+        for row in izip(*self._array):
+            yield list(row)
 
     def rcolumns(self):
         """
@@ -748,7 +746,8 @@ class Matrix(object):
 
         More details see :class:`ColumnReverseIterator`
         """
-        return ColumnReverseIterator(self)
+        for column in izip(*(reversed(row) for row in self._array)):
+            yield list(column)
 
     def filter(self, afilter):
         """Apply the filter with immediate effect"""

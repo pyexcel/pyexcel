@@ -17,9 +17,7 @@ from .formatters import (
 import pyexcel._compact as compact
 from .iterators import (
     ColumnIndexIterator,
-    RowIndexIterator,
-    NamedRowIterator,
-    NamedColumnIterator
+    RowIndexIterator
 )
 from ..constants import (
     MESSAGE_NOT_IMPLEMENTED_02,
@@ -29,21 +27,6 @@ from pyexcel.sources import SheetMeta, save_sheet
 from .row import Row as NamedRow
 from .column import Column as NamedColumn
 from . import _shared as utils
-
-
-def make_names_unique(alist):
-    duplicates = {}
-    new_names = []
-    for item in alist:
-        if not compact.is_string(type(item)):
-            item = str(item)
-        if item in duplicates:
-            duplicates[item] = duplicates[item] + 1
-            new_names.append("%s-%d" % (item, duplicates[item]))
-        else:
-            duplicates[item] = 0
-            new_names.append(item)
-    return new_names
 
 
 class Sheet(with_metaclass(SheetMeta, Matrix)):
@@ -423,10 +406,12 @@ class Sheet(with_metaclass(SheetMeta, Matrix)):
             Matrix.__setitem__(self, aset, c)
 
     def named_rows(self):
-        return NamedRowIterator(self)
+        for row_name in self._row_names:
+            yield {row_name: self.row[row_name]}
 
     def named_columns(self):
-        return NamedColumnIterator(self)
+        for column_name in self._column_names:
+            yield {column_name: self.row[column_name]}
 
     class _RepresentedString:
         def __init__(self, text):
@@ -525,3 +510,18 @@ class Sheet(with_metaclass(SheetMeta, Matrix)):
                    initializer=initializer,
                    mapdict=mapdict,
                    auto_commit=auto_commit)
+
+
+def make_names_unique(alist):
+    duplicates = {}
+    new_names = []
+    for item in alist:
+        if not compact.is_string(type(item)):
+            item = str(item)
+        if item in duplicates:
+            duplicates[item] = duplicates[item] + 1
+            new_names.append("%s-%d" % (item, duplicates[item]))
+        else:
+            duplicates[item] = 0
+            new_names.append(item)
+    return new_names
