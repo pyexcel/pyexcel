@@ -52,11 +52,6 @@ class IndexFilter(object):
         """
         pass
 
-    def translate(self, row, column):
-        """Map the row, column after filtering to the
-        original ones before filtering"""
-        pass
-
 
 class RegionFilter(IndexFilter):
     """Filter on both row index and column index"""
@@ -91,26 +86,6 @@ class RegionFilter(IndexFilter):
         self.column_indices = [i for i in reader.column_range()
                                if i not in self.column_indices]
 
-    def translate(self, row, column):
-        """Map the row, column after filtering to the
-        original ones before filtering
-
-        :param int row: row index after filtering
-        :param int column: column index after filtering
-        :returns: set of (row, new_column)
-        """
-        new_column = column
-        if self.column_indices:
-            for i in self.column_indices:
-                if i <= new_column:
-                    new_column += 1
-        new_row = row
-        if self.row_indices:
-            for i in self.row_indices:
-                if i <= new_row:
-                    new_row += 1
-        return new_row, new_column
-
 
 class ColumnIndexFilter(IndexFilter):
     """A column filter that operates on column indices"""
@@ -125,23 +100,6 @@ class ColumnIndexFilter(IndexFilter):
         :param Matrix reader: a Matrix instance
         """
         self.indices = [i for i in reader.column_range() if self.eval_func(i)]
-
-    def translate(self, row, column):
-        """Map the row, column after filtering to the
-        original ones before filtering
-
-        :param int row: row index after filtering
-        :param int column: column index after filtering
-        :returns: set of (row, new_column)
-        """
-        if self.indices:
-            new_column = column
-            for i in self.indices:
-                if i <= new_column:
-                    new_column += 1
-            return row, new_column
-        else:
-            return row, column
 
 
 class ColumnFilter(ColumnIndexFilter):
@@ -204,23 +162,6 @@ class RowIndexFilter(IndexFilter):
         :param Matrix reader: a Matrix instance
         """
         self.indices = [i for i in reader.row_range() if self.eval_func(i)]
-
-    def translate(self, row, column):
-        """Map the row, column after filtering to the
-        original ones before filtering
-
-        :param int row: row index after filtering
-        :param int column: column index after filtering
-        :returns: set of (row, new_column)
-        """
-        if self.indices:
-            new_row = row
-            for i in self.indices:
-                if i <= new_row:
-                    new_row += 1
-            return new_row, column
-        else:
-            return row, column
 
 
 class RowFilter(RowIndexFilter):

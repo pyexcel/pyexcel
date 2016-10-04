@@ -333,3 +333,19 @@ Save changes
    Sheet.save_to_memory
    Sheet.save_to_database
 
+.. _formatters:
+
+Data formatters
+================
+
+.. currentmodule:: pyexcel.sheets.formatters
+
+.. autosummary::
+   :toctree: generated/
+
+   ColumnFormatter
+   NamedColumnFormatter
+   RowFormatter
+   NamedRowFormatter
+   SheetFormatter
+

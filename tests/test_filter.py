@@ -5,12 +5,6 @@ from base import create_sample_file2_in_memory
 
 
 class TestRareCases(TestCase):
-    def test_validate(self):
-        ifr = pe.sheets.filters.IndexFilter(None)
-        ifr.validate_filter(None)
-        ifr.translate(1, 2)
-        assert 1 == 1
-
     def test_empty_column_filter(self):
         data = [
             [1, 2, 3]
