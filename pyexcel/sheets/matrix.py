@@ -11,10 +11,7 @@ of lookup.
 import copy
 from itertools import chain
 
-
-from pyexcel._compact import is_array_type, irange, PY2
-if PY2:
-    from itertools import izip as zip    
+from pyexcel._compact import is_array_type, irange, czip
 from pyexcel.constants import (
     MESSAGE_INDEX_OUT_OF_RANGE,
     MESSAGE_DATA_ERROR_EMPTY_CONTENT,
@@ -629,7 +626,7 @@ class Matrix(object):
 
         More details see :class:`VTLBRIterator`
         """
-        return chain(*zip(*self._array))
+        return chain(*czip(*self._array))
 
     def rvertical(self):
         """
@@ -652,7 +649,7 @@ class Matrix(object):
 
         More details see :class:`VBRTLIterator`
         """
-        for column in zip(*(reversed(row) for row in self._array)):
+        for column in czip(*(reversed(row) for row in self._array)):
             for cell in reversed(column):
                 yield cell
 
@@ -725,7 +722,7 @@ class Matrix(object):
 
         More details see :class:`ColumnIterator`
         """
-        for row in zip(*self._array):
+        for row in czip(*self._array):
             yield list(row)
 
     def rcolumns(self):
@@ -749,7 +746,7 @@ class Matrix(object):
 
         More details see :class:`ColumnReverseIterator`
         """
-        for column in zip(*(reversed(row) for row in self._array)):
+        for column in czip(*(reversed(row) for row in self._array)):
             yield list(column)
 
     def filter(self, afilter):
