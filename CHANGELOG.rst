@@ -46,7 +46,7 @@ Removed:
    no longer supported.
 #. `pyexcel.dict_to_array`, `pyexcel.from_records` are removed
 #. SourceFactory and RendererFactory are removed
-#. `pyexcel.to_array` is removed
+#. `pyexcel.to_array` and `pyexcel.utils.to_one_dimensional_array` are removed
    
 0.2.5 - 31.08.2016
 --------------------------------------------------------------------------------

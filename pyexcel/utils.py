@@ -91,17 +91,6 @@ def yield_from_records(records):
             yield row
 
 
-def to_one_dimensional_array(iterator):
-    """convert a reader to one dimensional array"""
-    array = []
-    for i in iterator:
-        if type(i) == list:
-            array += i
-        else:
-            array.append(i)
-    return array
-
-
 def yield_dict_to_array(the_dict, with_keys=True):
     """Convert a dictionary of columns to an array
 

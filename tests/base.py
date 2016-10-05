@@ -199,7 +199,7 @@ class PyexcelIteratorBase:
 
     def test_row_iterator(self):
         result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-        actual = pe.utils.to_one_dimensional_array(self.iteratable.rows())
+        actual = to_one_dimensional_array(self.iteratable.rows())
         eq_(result, actual)
 
     def test_row_iterator_2_dimensions(self):
@@ -214,7 +214,7 @@ class PyexcelIteratorBase:
 
     def test_row_reverse_iterator(self):
         result = [9, 10, 11, 12, 5, 6, 7, 8, 1, 2, 3, 4]
-        actual = pe.utils.to_one_dimensional_array(self.iteratable.rrows())
+        actual = to_one_dimensional_array(self.iteratable.rrows())
         eq_(result, actual)
 
     def test_row_reverse_iterator_2_dimensions(self):
@@ -229,7 +229,7 @@ class PyexcelIteratorBase:
 
     def test_column_iterator(self):
         result = [1, 5, 9, 2, 6, 10, 3, 7, 11, 4, 8, 12]
-        actual = pe.utils.to_one_dimensional_array(self.iteratable.columns())
+        actual = to_one_dimensional_array(self.iteratable.columns())
         eq_(result, actual)
 
     def test_column_iterator_2_dimensions(self):
@@ -244,7 +244,7 @@ class PyexcelIteratorBase:
 
     def test_column_reverse_iterator(self):
         result = [4, 8, 12, 3, 7, 11, 2, 6, 10, 1, 5, 9]
-        actual = pe.utils.to_one_dimensional_array(self.iteratable.rcolumns())
+        actual = to_one_dimensional_array(self.iteratable.rcolumns())
         eq_(result, actual)
 
     def test_column_reverse_iterator_2_dimensions(self):
@@ -268,3 +268,14 @@ class PyexcelSheetRWBase:
         assert r2.row[5] == [True, "", "", "", '']
         assert r2.row[6] == [1.1, 2.2, 3.3, 4.4, 5.5]
         r2.row += 12  # bang
+
+
+def to_one_dimensional_array(iterator):
+    """convert a reader to one dimensional array"""
+    array = []
+    for i in iterator:
+        if type(i) == list:
+            array += i
+        else:
+            array.append(i)
+    return array
