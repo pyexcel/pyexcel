@@ -31,7 +31,6 @@ from .book import Book
 from .sheets import Sheet, transpose
 from .utils import (
     to_dict,
-    to_array,
     to_records
 )
 from .sheets.formatters import (

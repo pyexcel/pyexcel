@@ -24,7 +24,21 @@ Updated
    the console is of ascii encoding.
 #. `# 59 <https://github.com/pyexcel/pyexcel/issues/59>`_: custom row
    renderer
+#. iterator functions of :class:`~pyexcel.Sheet` were converted to generator
+   functions
 
+   * :meth:`pyexcel.Sheet.enumerate()`
+   * :meth:`pyexcel.Sheet.reverse()`
+   * :meth:`pyexcel.Sheet.vertical()`
+   * :meth:`pyexcel.Sheet.rvertical()`
+   * :meth:`pyexcel.Sheet.rows()`
+   * :meth:`pyexcel.Sheet.rrows()`
+   * :meth:`pyexcel.Sheet.columns()`
+   * :meth:`pyexcel.Sheet.rcolumns()`
+   * :meth:`pyexcel.Sheet.named_rows()`
+   * :meth:`pyexcel.Sheet.named_columns()`
+
+   
 Removed:
 ********************************************************************************
 
@@ -32,7 +46,8 @@ Removed:
    no longer supported.
 #. `pyexcel.dict_to_array`, `pyexcel.from_records` are removed
 #. SourceFactory and RendererFactory are removed
-
+#. `pyexcel.to_array` is removed
+   
 0.2.5 - 31.08.2016
 --------------------------------------------------------------------------------
 

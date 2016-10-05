@@ -3,7 +3,7 @@ from base import PyexcelBase, clean_up_files
 from base import create_sample_file1
 from base import create_generic_file
 from _compact import BytesIO
-from nose.tools import raises
+from nose.tools import raises, eq_
 
 
 class TestReader:
@@ -114,8 +114,8 @@ class TestCSVReader2:
     def test_data_types(self):
         r = pe.Reader(self.testfile)
         result = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
-        actual = pe.utils.to_array(r.enumerate())
-        assert result == actual
+        actual = list(r.enumerate())
+        eq_(result, actual)
 
     def tearDown(self):
         clean_up_files([self.testfile])
@@ -150,7 +150,7 @@ class TestCSVReaderDialect:
 
     def test_read_delimiter(self):
         r = pe.Reader(self.testfile, delimiter=":")
-        content = pe.utils.to_array(r)
+        content = list(r)
         assert content == [
             [1, 2, 3, 4],
             [5, 6, 7, 8],
@@ -235,7 +235,7 @@ class TestSeriesReader3:
             ["Column 1", "Column 2", "Column 3"]
         ]
         s.column += pe.transpose(test_data)
-        actual = pe.to_array(s)
+        actual = s.array
         assert test_data == actual
         s.name_columns_by_row(2)
         assert s.colnames == test_data[2]
@@ -249,7 +249,7 @@ class TestSeriesReader3:
             "Y": [11, 31, 41, 51],
             "Z": [12, 32, 42, 52]
         }
-        assert result == actual
+        eq_(result, actual)
 
     def test_odd_row_filter(self):
         r = pe.SeriesReader(self.testfile)
@@ -261,7 +261,7 @@ class TestSeriesReader3:
             "Y": [21, 41],
             "Z": [22, 42]
         }
-        assert result == actual
+        eq_(result, actual)
 
     def test_even_row_filter(self):
         r = pe.SeriesReader(self.testfile)
@@ -272,7 +272,7 @@ class TestSeriesReader3:
             "Y": [11, 31, 51],
             "Z": [12, 32, 52]
         }
-        assert result == actual
+        eq_(result, actual)
 
     def test_orthogonality(self):
         r = pe.SeriesReader(self.testfile)
@@ -282,7 +282,7 @@ class TestSeriesReader3:
         result = {
             "Y": [11, 31, 51]
         }
-        assert result == actual
+        eq_(result, actual)
 
     def test_orthogonality2(self):
         r = pe.SeriesReader(self.testfile)
@@ -292,12 +292,12 @@ class TestSeriesReader3:
         result = {
             "Y": [11, 31, 51]
         }
-        assert result == actual
+        eq_(result, actual)
 
     def test_series_column_iterator(self):
         r = pe.SeriesReader(self.testfile)
         sci = pe.sheets.iterators.ColumnIndexIterator(r)
-        actual = pe.utils.to_array(sci)
+        actual = list(sci)
         result = [
             {'X': [1, 2, 3, 4, 5]},
             {'Y': [11, 21, 31, 41, 51]},
@@ -323,7 +323,7 @@ class TestSeriesReader4:
 
     def test_content_is_read(self):
         r = pe.SeriesReader(self.testfile)
-        actual = pe.utils.to_array(r.rows())
+        actual = list(r.rows())
         assert self.content[1:] == actual
 
     def test_headers(self):
@@ -335,7 +335,7 @@ class TestSeriesReader4:
         r = pe.SeriesReader(self.testfile)
         result = r.named_column_at("X")
         actual = {"X": [1, 1, 1, 1, 1]}
-        assert result == actual["X"]
+        eq_(result, actual["X"])
 
     def test_column_filter(self):
         r = pe.SeriesReader(self.testfile)
@@ -347,7 +347,7 @@ class TestSeriesReader4:
             "Z": [3, 3, 3, 3, 3]
         }
         assert "Y" not in actual
-        assert result == actual
+        eq_(result, actual)
 
     def test_get_item_operator(self):
         """
@@ -376,20 +376,20 @@ class TestSeriesReader5:
 
     def test_content_is_read(self):
         r = pe.SeriesReader(self.testfile, series=4)
-        actual = pe.utils.to_array(r.rows())
+        actual = list(r.rows())
         self.content.pop(4)
-        assert self.content == actual
+        eq_(self.content, actual)
 
     def test_headers(self):
         r = pe.SeriesReader(self.testfile, series=4)
         actual = r.colnames
-        assert self.content[4] == actual
+        eq_(self.content[4], actual)
 
     def test_named_column_at(self):
         r = pe.SeriesReader(self.testfile, series=4)
         result = r.named_column_at("X")
         actual = {"X": [1, 1, 1, 1, 1]}
-        assert result == actual["X"]
+        eq_(result, actual["X"])
 
     def test_column_filter(self):
         r = pe.SeriesReader(self.testfile, series=4)
@@ -401,7 +401,7 @@ class TestSeriesReader5:
             "Z": [3, 3, 3, 3, 3]
         }
         assert "Y" not in actual
-        assert result == actual
+        eq_(result, actual)
 
     def test_get_item_operator(self):
         r = pe.SeriesReader(self.testfile, series=4)
@@ -436,7 +436,7 @@ class TestColumnSeriesReader:
             "X": [1, 2, 3, 4, 5],
             "Z": [12, 22, 32, 42, 52]
         }
-        assert result == actual
+        eq_(result, actual)
 
     def test_column_filter(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
@@ -447,7 +447,7 @@ class TestColumnSeriesReader:
             "Y": [21, 31, 41, 51],
             "Z": [22, 32, 42, 52]
         }
-        assert result == actual
+        eq_(result, actual)
         assert r.rownames == ["X", "Y", "Z"]
 
     def test_odd_row_filter(self):
@@ -458,7 +458,7 @@ class TestColumnSeriesReader:
         result = {
             "Y": [11, 21, 31, 41, 51]
         }
-        assert result == actual
+        eq_(result, actual)
 
     def test_even_row_filter(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
@@ -468,7 +468,7 @@ class TestColumnSeriesReader:
             "X": [1, 2, 3, 4, 5],
             "Z": [12, 22, 32, 42, 52]
         }
-        assert result == actual
+        eq_(result, actual)
 
     def test_orthogonality(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
@@ -479,7 +479,7 @@ class TestColumnSeriesReader:
             "X": [2, 4],
             "Z": [22, 42]
         }
-        assert result == actual
+        eq_(result, actual)
 
     def test_orthogonality2(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
@@ -490,14 +490,14 @@ class TestColumnSeriesReader:
             "X": [2, 4],
             "Z": [22, 42]
         }
-        assert result == actual
+        eq_(result, actual)
 
     def test_series_column_iterator(self):
         r = pe.ColumnSeriesReader(self.test_tuple)
         sri = pe.sheets.iterators.RowIndexIterator(r)
-        actual = pe.utils.to_array(sri)
+        actual = list(sri)
         result = [
             {'X': [1, 2, 3, 4, 5]},
             {'Y': [11, 21, 31, 41, 51]},
             {'Z': [12, 22, 32, 42, 52]}]
-        assert actual == result
+        eq_(actual, result)

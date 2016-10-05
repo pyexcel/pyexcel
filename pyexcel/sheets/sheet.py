@@ -345,9 +345,8 @@ class Sheet(with_metaclass(SheetMeta, Matrix)):
 
     def to_array(self):
         """Returns an array after filtering"""
-        from ..utils import to_array
         ret = []
-        ret += to_array(self.rows())
+        ret += list(self.rows())
         if len(self.rownames) > 0:
             ret = map(lambda value: [value[0]] + value[1],
                       zip(self.rownames, ret))

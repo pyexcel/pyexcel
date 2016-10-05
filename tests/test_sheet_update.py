@@ -34,7 +34,7 @@ class TestReader:
         to save the change with original data, please clear the filter
         first
         """
-        r = pe.Reader(self.testfile)
+        r = pe.get_sheet(file_name=self.testfile)
         r.add_filter(pe.sheets.filters.ColumnFilter([0, 2]))
         r.cell_value(2, 1, "k")
         assert r[2, 1] == "k"
@@ -121,16 +121,16 @@ class TestReaderWithFilter:
         create_sample_file2(self.testfile)
 
     def test_add_rows_even_row_filter(self):
-        r = pe.Reader(self.testfile)
+        r = pe.get_sheet(file_name=self.testfile)
         r.add_filter(pe.sheets.filters.EvenRowFilter())
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4
         result = [1, 2, 3, 4, 9, 10, 11, 12]
-        actual = pe.utils.to_array(r.enumerate())
-        assert result == actual
+        actual = list(r.enumerate())
+        eq_(result, actual)
 
     def test_add_rows_even_row_filter_2(self):
-        r = pe.Reader(self.testfile)
+        r = pe.get_sheet(file_name=self.testfile)
         content = [['r', 's', 't', 'o'],  # 4
                    [1, 2, 3, 4],  # 5
                    [True],  # 6
@@ -140,28 +140,28 @@ class TestReaderWithFilter:
         eq_(r.row[3], content[3])
 
     def test_delete_rows_even_row_filter(self):
-        r = pe.Reader(self.testfile)
+        r = pe.get_sheet(file_name=self.testfile)
         r.add_filter(pe.sheets.filters.EvenRowFilter())
         assert r.number_of_rows() == 2
         assert r.number_of_columns() == 4
         result = [1, 2, 3, 4, 9, 10, 11, 12]
-        actual = pe.utils.to_array(r.enumerate())
-        assert result == actual
+        actual = list(r.enumerate())
+        eq_(result, actual)
         del r.row[0]
         result = [5, 6, 7, 8]
-        actual = pe.utils.to_array(r.enumerate())
+        actual = list(r.enumerate())
 
     def test_add_rows_odd_column_filter(self):
-        r = pe.Reader(self.testfile)
+        r = pe.get_sheet(file_name=self.testfile)
         r.add_filter(pe.sheets.filters.OddColumnFilter())
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
         result = [2, 4, 6, 8, 10, 12]
-        actual = pe.utils.to_array(r.enumerate())
-        assert result == actual
+        actual = list(r.enumerate())
+        eq_(result, actual)
 
     def test_add_rows_odd_column_filter_2(self):
-        r = pe.Reader(self.testfile)
+        r = pe.get_sheet(file_name=self.testfile)
         #             5     6    7
         rows = [['c1', 'c2', 'c3'],
                 ['x1', 'x2', 'x4']]
@@ -172,22 +172,22 @@ class TestReaderWithFilter:
         assert r.row[2] == [10, 12, '']
 
     def test_delete_rows_odd_column_filter(self):
-        r = pe.Reader(self.testfile)
+        r = pe.get_sheet(file_name=self.testfile)
         r.add_filter(pe.sheets.filters.OddColumnFilter())
         assert r.number_of_rows() == 3
         assert r.number_of_columns() == 2
         result = [2, 4, 6, 8, 10, 12]
-        actual = pe.utils.to_array(r.enumerate())
-        assert result == actual
+        actual = list(r.enumerate())
+        eq_(result, actual)
 
     def test_delete_rows_odd_column_filter_2(self):
-        r = pe.Reader(self.testfile)
+        r = pe.get_sheet(file_name=self.testfile)
         #             5     6    7
         r.delete_columns([0])
         r.add_filter(pe.sheets.filters.OddColumnFilter())
         result = [3, 7, 11]
-        actual = pe.utils.to_array(r.enumerate())
-        assert result == actual
+        actual = list(r.enumerate())
+        eq_(result, actual)
 
     def tearDown(self):
         clean_up_files([self.testfile])

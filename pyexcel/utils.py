@@ -22,14 +22,6 @@ def local_uuid():
     return LOCAL_UUID
 
 
-def to_array(an_object):
-    """convert a reader iterator to an array"""
-    array = []
-    for row in an_object:
-        array.append(row)
-    return array
-
-
 def to_dict(an_object):
     """convert a reader iterator to a dictionary"""
     the_dict = OrderedDict()

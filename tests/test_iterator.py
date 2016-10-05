@@ -22,11 +22,10 @@ class TestMatrixColumn:
 
     def test_to_array(self):
         m = pe.sheets.Matrix(self.data)
-        data = m.to_array()
         result = [[1, 2, 3, 4, 5, 6],
                   [1, 2, 3, 4, '', ''],
                   [1, '', '', '', '', '']]
-        assert data == result
+        eq_(result, m._array)
 
     def test_get_slice_of_columns(self):
         m = pe.sheets.Matrix(self.data)
@@ -67,8 +66,7 @@ class TestMatrixColumn:
         """Test extend columns"""
         m = pe.sheets.Matrix(self.data)
         m.extend_columns(self.data3)
-        actual = pe.utils.to_array(m)
-        assert self.result == actual
+        eq_(self.result, m._array)
 
     def test_extend_column(self):
         """test extend just one column"""
@@ -87,8 +85,7 @@ class TestMatrixColumn:
         """
         m2 = pe.sheets.Matrix(self.data)
         m2.column += self.data3
-        actual2 = pe.utils.to_array(m2)
-        assert self.result == actual2
+        eq_(self.result, m2._array)
 
     def test_add(self):
         """Test operator add overload
@@ -96,21 +93,19 @@ class TestMatrixColumn:
         # +
         m3 = pe.sheets.Matrix(self.data)
         m4 = m3.column + self.data3
-        actual3 = pe.utils.to_array(m4)
-        assert self.result == actual3
+        eq_(self.result, m4._array)
 
     def test_iadd_matrix(self):
         """Test in place add a matrix"""
         m5 = pe.sheets.Matrix(copy.deepcopy(self.data))
         m6 = pe.sheets.Matrix(copy.deepcopy(self.data))
         m7 = m5.column + m6
-        actual4 = pe.utils.to_array(m7)
         result2 = [
             [1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6],
             [1, 2, 3, 4, '', '', 1, 2, 3, 4, '', ''],
             [1, '', '', '', '', '', 1, '', '', '', '', '']
         ]
-        assert result2 == actual4
+        eq_(result2, m7._array)
 
     @raises(TypeError)
     def test_type_error(self):
@@ -352,8 +347,7 @@ class TestMatrix:
         ]
         m = pe.sheets.Matrix(data)
         m.transpose()
-        actual = pe.utils.to_array(m)
-        assert result == actual
+        eq_(result, m._array)
 
     def test_set_column_at(self):
         r = pe.sheets.Matrix(self.data)

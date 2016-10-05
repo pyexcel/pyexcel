@@ -11,7 +11,7 @@ def clean_up_files(file_list):
 
 
 def to_json(iterator):
-    array = pe.utils.to_array(iterator)
+    array = list(iterator)
     return json.dumps(array)
 
 
@@ -139,41 +139,41 @@ class PyexcelMultipleSheetBase:
 
     def test_reading_through_sheets(self):
         b = pe.BookReader(self.testfile)
-        data = pe.utils.to_array(b["Sheet1"].rows())
+        data = list(b["Sheet1"].rows())
         expected = [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]
         assert data == expected
-        data = pe.to_array(b["Sheet2"].rows())
+        data = list(b["Sheet2"].rows())
         expected = [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]
         assert data == expected
-        data = pe.to_array(b["Sheet3"].rows())
+        data = list(b["Sheet3"].rows())
         expected = [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
         assert data == expected
         sheet3 = b["Sheet3"]
         sheet3.name_columns_by_row(0)
-        data = pe.to_array(sheet3.rows())
+        data = list(sheet3.rows())
         expected = [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
         assert data == expected
 
     def test_iterate_through_sheets(self):
-        b = pe.BookReader(self.testfile)
+        b = pe.get_book(file_name=self.testfile)
         for s in b:
-            data = pe.utils.to_array(s)
+            data = s.array
             assert self.content[s.name] == data
         si = pe.sheets.iterators.SheetIterator(b)
         for s in si:
-            data = pe.utils.to_array(s)
+            data = s.array
             assert self.content[s.name] == data
 
     def test_write_a_book_reader(self):
-        b = pe.BookReader(self.testfile)
+        b = pe.get_book(file_name=self.testfile)
         b.save_as(self.testfile2)
-        x = pe.BookReader(self.testfile2)
+        x = pe.get_book(file_name=self.testfile2)
         for s in x:
-            data = pe.utils.to_array(s)
+            data = s.array
             assert self.content[s.name] == data
 
     def test_random_access_operator(self):
-        r = pe.BookReader(self.testfile)
+        r = pe.get_book(file_name=self.testfile)
         value = r["Sheet1"].row[0][1]
         assert value == 1
         value = r["Sheet3"].row[0][1]
@@ -194,7 +194,7 @@ class PyexcelIteratorBase:
 
     def test_horizontal_iterator(self):
         result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-        actual = pe.utils.to_array(self.iteratable.enumerate())
+        actual = list(self.iteratable.enumerate())
         eq_(result, actual)
 
     def test_row_iterator(self):
@@ -204,12 +204,12 @@ class PyexcelIteratorBase:
 
     def test_row_iterator_2_dimensions(self):
         result = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
-        actual = pe.utils.to_array(self.iteratable.rows())
+        actual = list(self.iteratable.rows())
         eq_(result, actual)
 
     def test_horizontal_reverse_iterator(self):
         result = [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        actual = pe.utils.to_array(self.iteratable.reverse())
+        actual = list(self.iteratable.reverse())
         eq_(result, actual)
 
     def test_row_reverse_iterator(self):
@@ -219,12 +219,12 @@ class PyexcelIteratorBase:
 
     def test_row_reverse_iterator_2_dimensions(self):
         result = [[9, 10, 11, 12], [5, 6, 7, 8], [1, 2, 3, 4]]
-        actual = pe.utils.to_array(self.iteratable.rrows())
+        actual = list(self.iteratable.rrows())
         eq_(result, actual)
 
     def test_vertical_iterator(self):
         result = [1, 5, 9, 2, 6, 10, 3, 7, 11, 4, 8, 12]
-        actual = pe.utils.to_array(self.iteratable.vertical())
+        actual = list(self.iteratable.vertical())
         eq_(result, actual)
 
     def test_column_iterator(self):
@@ -234,7 +234,7 @@ class PyexcelIteratorBase:
 
     def test_column_iterator_2_dimensions(self):
         result = [[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]
-        actual = pe.utils.to_array(self.iteratable.columns())
+        actual = list(self.iteratable.columns())
         eq_(result, actual)
 
     def test_vertical_reverse_iterator(self):
@@ -249,7 +249,7 @@ class PyexcelIteratorBase:
 
     def test_column_reverse_iterator_2_dimensions(self):
         result = [[4, 8, 12], [3, 7, 11], [2, 6, 10], [1, 5, 9]]
-        actual = pe.utils.to_array(self.iteratable.rcolumns())
+        actual = list(self.iteratable.rcolumns())
         eq_(result, actual)
 
 

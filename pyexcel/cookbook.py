@@ -10,7 +10,7 @@
 import os
 from .book import Book
 from .core import get_book, get_sheet, save_as
-from .utils import to_dict, to_array
+from .utils import to_dict
 from ._compact import OrderedDict
 from .constants import MESSAGE_WARNING
 
@@ -76,7 +76,7 @@ def merge_files(file_array, outfilename=DEFAULT_OUT_FILE):
     content = []
     for f in file_array:
         sheet = get_sheet(file_name=f)
-        content.extend(to_array(sheet.columns()))
+        content.extend(list(sheet.columns()))
     merged_sheet = get_sheet(array=content)
     merged_sheet.transpose()
     merged_sheet.save_as(outfilename)

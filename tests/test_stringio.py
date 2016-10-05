@@ -2,7 +2,7 @@ import os
 import pyexcel as pe
 from _compact import BytesIO
 from base import create_sample_file1
-from nose.tools import raises
+from nose.tools import raises, eq_
 
 
 def do_read_stringio(file_name):
@@ -15,8 +15,8 @@ def do_read_stringio(file_name):
         content = f.read()
         r = pe.get_sheet(file_type=file_type, file_content=content)
         result = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
-        actual = pe.utils.to_array(r.enumerate())
-        assert result == actual
+        actual = list(r.enumerate())
+        eq_(result, actual)
     if os.path.exists(file_name):
         os.unlink(file_name)
 
@@ -31,8 +31,8 @@ def do_book_read_stringio(file_name):
         content = f.read()
         b = pe.get_book(file_type=file_type, file_content=content)
         result = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
-        actual = pe.utils.to_array(b[0].enumerate())
-        assert result == actual
+        actual = list(b[0].enumerate())
+        eq_(result, actual)
     if os.path.exists(file_name):
         os.unlink(file_name)
 
@@ -45,8 +45,8 @@ def do_write_stringio(file_type):
     io = pe.save_as(dest_file_type=file_type, array=data)
     r = pe.get_sheet(file_type=file_type, file_content=io.getvalue())
     result = [1, 2, 3, 4, 5, 6]
-    actual = pe.utils.to_array(r.enumerate())
-    assert actual == result
+    actual = list(r.enumerate())
+    eq_(result, actual)
 
 
 def do_write_stringio2(file_type):
@@ -59,8 +59,8 @@ def do_write_stringio2(file_type):
     content = getter()
     r = pe.load_from_memory(file_type, content)
     result = [1, 2, 3, 4, 5, 6]
-    actual = pe.utils.to_array(r.enumerate())
-    assert actual == result
+    actual = list(r.enumerate())
+    eq_(result, actual)
 
 
 class TestIO:
@@ -117,8 +117,8 @@ class TestIO:
         io = pe.save_book_as(dest_file_type="xlsm", bookdict=data)
         b = pe.load_book_from_memory("xlsm", io.getvalue())
         result = [1, 2, 3, 4, 5, 6]
-        actual = pe.utils.to_array(b[0].enumerate())
-        assert result == actual
+        actual = list(b[0].enumerate())
+        eq_(result, actual)
 
     def test_book_save_to_stringio(self):
         data = {
@@ -132,5 +132,5 @@ class TestIO:
         book.save_to_memory("xlsm", io)
         b = pe.load_book_from_memory("xlsm", io.getvalue())
         result = [1, 2, 3, 4, 5, 6]
-        actual = pe.utils.to_array(b[0].enumerate())
-        assert result == actual
+        actual = list(b[0].enumerate())
+        eq_(result, actual)

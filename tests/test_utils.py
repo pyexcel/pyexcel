@@ -26,16 +26,6 @@ class TestUtils(TestCase):
         actual2 = pe.utils.to_one_dimensional_array(result)
         self.assertEqual(actual2, result)
 
-    def test_to_array(self):
-        r = pe.Reader(self.testfile)
-        result = [
-            [1, 2, 3, 4],
-            [5, 6, 7, 8, ],
-            [9, 10, 11, 12]
-        ]
-        actual = pe.utils.to_array(r)
-        self.assertEqual(result, actual)
-
     def test_to_dict(self):
         """
         Note: data file with column headers are tested

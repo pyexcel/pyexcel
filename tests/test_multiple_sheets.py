@@ -70,24 +70,24 @@ class TestSingleSheetReaderForMulitpleSheetBook:
         pe.save_book_as(dest_file_name=self.testfile, bookdict=self.content)
 
     def test_non_default_sheet_as_single_sheet_reader(self):
-        r = pe.Reader(self.testfile, "Sheet1")
-        data = pe.utils.to_array(r)
+        r = pe.get_sheet(file_name=self.testfile, sheet_name="Sheet1")
+        data = r.array
         assert data == self.content["Sheet1"]
-        r2 = pe.Reader(self.testfile, "Sheet2")
-        data = pe.utils.to_array(r2)
+        r2 = pe.get_sheet(file_name=self.testfile, sheet_name="Sheet2")
+        data = r2.array
         assert data == self.content["Sheet2"]
-        r3 = pe.Reader(self.testfile, "Sheet3")
-        data = pe.utils.to_array(r3)
+        r3 = pe.get_sheet(file_name=self.testfile, sheet_name="Sheet3")
+        data = r3.array
         assert data == self.content["Sheet3"]
 
     def test_non_default_sheet_as_single_sheet_reader_series(self):
         r = pe.SeriesReader(self.testfile, "Sheet3")
-        data = pe.utils.to_array(r.rows())
+        data = list(r.rows())
         assert data == self.content["Sheet3"][1:]
 
     def test_non_default_sheet_as_single_sheet_plain_reader(self):
         r = pe.load(self.testfile, "Sheet2")
-        data = pe.utils.to_array(r.rows())
+        data = list(r.rows())
         assert data == self.content["Sheet2"]
 
     def tearDown(self):
@@ -504,11 +504,11 @@ class TestMergeCSVsIntoOne:
         # execute
         merged = pe.Sheet()
         for file in ["1.csv", "2.csv", "3.csv"]:
-            r = pe.Reader(file)
+            r = pe.get_sheet(file_name=file)
             merged.row += r
         merged.save_as("merged.csv")
-        r = pe.Reader("merged.csv")
-        actual = pe.utils.to_array(r)
+        r = pe.get_sheet(file_name="merged.csv")
+        actual = r.array
         result = [
             [1, 2, 3],
             [4, 5, 6],

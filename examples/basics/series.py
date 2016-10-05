@@ -34,47 +34,47 @@ def main(base_dir):
     # [u'Column 1', u'Column 2', u'Column 3']
 
     # get the content in one dimensional array
-    data = pe.to_array(sheet.enumerate())
+    data = list(sheet.enumerate())
     print(data)
     # [1.0, 4.0, 7.0, 2.0, 5.0, 8.0, 3.0, 6.0, 9.0]
 
     # get the content in one dimensional array
     # in reverse order
-    data = pe.to_array(sheet.reverse())
+    data = list(sheet.reverse())
     print(data)
 
     # get the content in one dimensional array
     # but iterate it vertically
-    data = pe.to_array(sheet.vertical())
+    data = list(sheet.vertical())
     print(data)
     # [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
 
     # get the content in one dimensional array
     # but iterate it vertically in revserse
     # order
-    data = pe.to_array(sheet.rvertical())
+    data = list(sheet.rvertical())
     print(data)
     # [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0]
 
     # get a two dimensional array
-    data = pe.to_array(sheet.rows())
+    data = list(sheet.rows())
     print(data)
     # [[1.0, 4.0, 7.0], [2.0, 5.0, 8.0], [3.0, 6.0, 9.0]]
 
     # get a two dimensional array in reverse
     # order
-    data = pe.to_array(sheet.rrows())
+    data = list(sheet.rrows())
     print(data)
     # [[3.0, 6.0, 9.0], [2.0, 5.0, 8.0], [1.0, 4.0, 7.0]]
 
     # get a two dimensional array but stack columns
-    data = pe.to_array(sheet.columns())
+    data = list(sheet.columns())
     print(data)
     # [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]]
 
     # get a two dimensional array but stack columns
     # in reverse order
-    data = pe.to_array(sheet.rcolumns())
+    data = list(sheet.rcolumns())
     print(data)
     # [[7.0, 8.0, 9.0], [4.0, 5.0, 6.0], [1.0, 2.0, 3.0]]
 
