@@ -110,29 +110,27 @@ class TestToRecord(TestCase):
             {u'Y': 4.0, u'X': 1.0, u'Z': 7.0},
             {u'Y': 5.0, u'X': 2.0, u'Z': 8.0},
             {u'Y': 6.0, u'X': 3.0, u'Z': 9.0}]
-        actual = pe.to_records(r)
-        self.assertEqual(result, actual)
+        self.assertEqual(result, r.records)
 
     @raises(ValueError)
     def test_index_sheet1(self):
         """Invalid input"""
         s = pe.sheets.Sheet([[1, 2, 3]],
                             "test")
-        pe.to_records(s)
+        s.to_records()
 
     def test_index_sheet2(self):
         s = pe.ColumnSeriesReader(self.testfile, series=0)
-        actual = pe.to_records(s)
         result = [
             {'1': 4, 'X': 'Y', '3': 6, '2': 5},
             {'1': 7, 'X': 'Z', '3': 9, '2': 8}
         ]
-        self.assertEqual(result, actual)
+        self.assertEqual(result, s.records)
 
     def test_index_sheet3(self):
         s = pe.ColumnSeriesReader(self.testfile, series=0)
         headers = ["Row 1", "Row 2", "Row 3", "Row 4"]
-        actual = pe.to_records(s, headers)
+        actual = s.to_records(headers)
         print(actual)
         result = [
             {'Row 4': 6.0, 'Row 2': 4.0, 'Row 1': 'Y', 'Row 3': 5.0},
@@ -149,13 +147,8 @@ class TestToRecord(TestCase):
             {u'P': 4.0, u'O': 1.0, u'Q': 7.0},
             {u'P': 5.0, u'O': 2.0, u'Q': 8.0},
             {u'P': 6.0, u'O': 3.0, u'Q': 9.0}]
-        actual = pe.to_records(r, custom_headers)
+        actual = r.to_records(custom_headers)
         self.assertEqual(result, actual)
-
-    @raises(NotImplementedError)
-    def test_book_reader_to_records_with_wrong_args(self):
-        r = pe.BookReader(self.testfile)
-        pe.to_records(r)
 
     def test_yield_from_records(self):
         """give an empty records array"""

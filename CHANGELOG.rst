@@ -44,10 +44,15 @@ Removed:
 
 #. `content` and `out_file` as function parameters to the signature functions are
    no longer supported.
-#. `pyexcel.dict_to_array`, `pyexcel.from_records` are removed
 #. SourceFactory and RendererFactory are removed
-#. `pyexcel.to_array` and `pyexcel.utils.to_one_dimensional_array` are removed
-   
+#. The following methods are removed:
+   * :meth:`pyexcel.to_array`
+   * :meth:`pyexcel.utils.to_one_dimensional_array`
+   * :meth:`pyexcel.dict_to_array`
+   * :meth:`pyexcel.from_records`
+   * :meth:`pyexcel.to_records`
+
+
 0.2.5 - 31.08.2016
 --------------------------------------------------------------------------------
 

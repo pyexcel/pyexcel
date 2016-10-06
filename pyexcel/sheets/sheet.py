@@ -22,6 +22,7 @@ from .iterators import (
 from ..constants import (
     MESSAGE_NOT_IMPLEMENTED_02,
     MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED,
+    MESSAGE_DATA_ERROR_NO_SERIES,
     DEFAULT_NAME)
 from pyexcel.sources import SheetMeta, save_sheet
 from .row import Row as NamedRow
@@ -360,11 +361,34 @@ class Sheet(with_metaclass(SheetMeta, Matrix)):
         return ret
 
     def to_records(self, custom_headers=None):
-        """Returns the content as an array of dictionaries
-
         """
-        from ..utils import to_records
-        return to_records(self, custom_headers)
+        Make an array of dictionaries
+
+        It takes the first row as keys and the rest of
+        the rows as values. Then zips keys and row values
+        per each row. This is particularly helpful for
+        database operations.
+        """
+        ret = []
+        if len(self.colnames) > 0:
+            if custom_headers:
+                headers = custom_headers
+            else:
+                headers = self.colnames
+            for row in self.rows():
+                the_dict = dict(zip(headers, row))
+                ret.append(the_dict)
+        elif len(self.rownames) > 0:
+            if custom_headers:
+                headers = custom_headers
+            else:
+                headers = self.rownames
+            for column in self.columns():
+                the_dict = dict(zip(headers, column))
+                ret.append(the_dict)
+        else:
+            raise ValueError(MESSAGE_DATA_ERROR_NO_SERIES)
+        return ret
 
     def to_dict(self, row=False):
         """Returns a dictionary"""

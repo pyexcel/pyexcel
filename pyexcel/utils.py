@@ -10,7 +10,6 @@
 from pyexcel.sheets import Sheet
 from pyexcel._compact import OrderedDict, PY2
 from pyexcel._compact import zip_longest
-import pyexcel.constants as constants
 
 
 LOCAL_UUID = 0
@@ -37,39 +36,6 @@ def to_dict(an_object):
             the_dict.update({key: row})
             count += 1
     return the_dict
-
-
-def to_records(sheet, custom_headers=None):
-    """
-    Make an array of dictionaries
-
-    It takes the first row as keys and the rest of
-    the rows as values. Then zips keys and row values
-    per each row. This is particularly helpful for
-    database operations.
-    """
-    ret = []
-    if not (hasattr(sheet, 'colnames') and hasattr(sheet, 'rownames')):
-        raise NotImplementedError
-    if len(sheet.colnames) > 0:
-        if custom_headers:
-            headers = custom_headers
-        else:
-            headers = sheet.colnames
-        for row in sheet.rows():
-            the_dict = dict(zip(headers, row))
-            ret.append(the_dict)
-    elif len(sheet.rownames) > 0:
-        if custom_headers:
-            headers = custom_headers
-        else:
-            headers = sheet.rownames
-        for column in sheet.columns():
-            the_dict = dict(zip(headers, column))
-            ret.append(the_dict)
-    else:
-        raise ValueError(constants.MESSAGE_DATA_ERROR_NO_SERIES)
-    return ret
 
 
 def yield_from_records(records):

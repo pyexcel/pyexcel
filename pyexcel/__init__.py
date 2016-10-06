@@ -30,8 +30,7 @@ from .core import (
 from .book import Book
 from .sheets import Sheet, transpose
 from .utils import (
-    to_dict,
-    to_records
+    to_dict
 )
 from .sheets.formatters import (
     ColumnFormatter,
