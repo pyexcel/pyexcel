@@ -39,7 +39,7 @@ class Sheet(with_metaclass(SheetMeta, Matrix)):
     differs from Numpy's matrix where each cell are of the same number type.
 
     In order to prepare two dimensional data for your computation, formatting
-    functions help convert array cells to required types. Formatting can be
+     functions help convert array cells to required types. Formatting can be
     applied not only to the whole sheet but also to selected rows or columns.
     Custom conversion function can be passed to these formatting functions. For
     example, to remove extra spaces surrounding the content of a cell, a custom
@@ -392,11 +392,16 @@ class Sheet(with_metaclass(SheetMeta, Matrix)):
 
     def to_dict(self, row=False):
         """Returns a dictionary"""
-        from ..utils import to_dict
-        if row:
-            return to_dict(RowIndexIterator(self))
+        the_dict = compact.OrderedDict()
+        if len(self.colnames) > 0 and row is False:
+            for column in self.named_columns():
+                the_dict.update(column)
+        elif len(self.rownames) > 0:
+            for row in self.named_rows():
+                the_dict.update(row)
         else:
-            return to_dict(ColumnIndexIterator(self))
+            raise NotImplementedError("Not implemented")
+        return the_dict
 
     def __getitem__(self, aset):
         if isinstance(aset, tuple):
@@ -434,7 +439,7 @@ class Sheet(with_metaclass(SheetMeta, Matrix)):
 
     def named_columns(self):
         for column_name in self._column_names:
-            yield {column_name: self.row[column_name]}
+            yield {column_name: self.column[column_name]}
 
     class _RepresentedString:
         def __init__(self, text):

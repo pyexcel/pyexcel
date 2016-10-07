@@ -29,9 +29,6 @@ from .core import (
     save_book_as)
 from .book import Book
 from .sheets import Sheet, transpose
-from .utils import (
-    to_dict
-)
 from .sheets.formatters import (
     ColumnFormatter,
     RowFormatter,
@@ -69,4 +66,3 @@ from .deprecated import (
     Writer,
     BookWriter
 )
-

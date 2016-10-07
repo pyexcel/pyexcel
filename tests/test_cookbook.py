@@ -1,7 +1,7 @@
 import pyexcel as pe
 import os
 from base import clean_up_files
-from nose.tools import raises
+from nose.tools import raises, eq_
 
 
 class TestSpliting:
@@ -103,11 +103,11 @@ class TestCookbook:
         custom_column = {"Z": [33, 44, 55, 66, 77]}
         pe.cookbook.update_columns(self.testfile, custom_column)
         r = pe.SeriesReader("pyexcel_%s" % self.testfile)
-        data = pe.utils.to_dict(r)
+        data = r.dict
         assert data["Z"] == custom_column["Z"]
         pe.cookbook.update_columns(self.testfile, custom_column, "test4.xls")
         r = pe.SeriesReader("test4.xls")
-        data = pe.utils.to_dict(r)
+        data = r.dict
         assert data["Z"] == custom_column["Z"]
         # test if it try not overwrite a file
         pe.cookbook.update_columns(self.testfile, custom_column)  # bang
@@ -140,11 +140,10 @@ class TestCookbook:
         pe.cookbook.merge_two_files(self.testfile, self.testfile2)
         r = pe.SeriesReader("pyexcel_merged.csv")
         r.apply_formatter(pe.sheets.formatters.SheetFormatter(int))
-        data = pe.utils.to_dict(r)
         content = {}
         content.update(self.content)
         content.update(self.content2)
-        assert data == content
+        eq_(r.dict, content)
         pe.cookbook.merge_two_files(self.testfile, self.testfile2)  # bang
 
     @raises(NotImplementedError)
@@ -153,12 +152,11 @@ class TestCookbook:
         pe.cookbook.merge_files(file_array)
         r = pe.SeriesReader("pyexcel_merged.csv")
         r.apply_formatter(pe.sheets.formatters.SheetFormatter(int))
-        data = pe.utils.to_dict(r)
         content = {}
         content.update(self.content)
         content.update(self.content2)
         content.update(self.content3)
-        assert data == content
+        eq_(r.dict, content)
         pe.cookbook.merge_files(file_array)  # bang, do not overwrite
 
     @raises(NotImplementedError)
@@ -168,11 +166,10 @@ class TestCookbook:
         pe.cookbook.merge_two_readers(r1, r2)
         r = pe.SeriesReader("pyexcel_merged.csv")
         r.apply_formatter(pe.sheets.formatters.SheetFormatter(int))
-        data = pe.utils.to_dict(r)
         content = {}
         content.update(self.content)
         content.update(self.content2)
-        assert data == content
+        eq_(r.dict, content)
         pe.cookbook.merge_two_readers(r1, r2)  # bang, do not overwrite
 
     @raises(NotImplementedError)
@@ -184,12 +181,11 @@ class TestCookbook:
         pe.cookbook.merge_readers(file_array)
         r = pe.SeriesReader("pyexcel_merged.csv")
         r.apply_formatter(pe.sheets.formatters.SheetFormatter(int))
-        data = pe.utils.to_dict(r)
         content = {}
         content.update(self.content)
         content.update(self.content2)
         content.update(self.content3)
-        assert data == content
+        eq_(r.dict, content)
         pe.cookbook.merge_readers(file_array)  # bang, do not overwrite
 
     def test_merge_two_row_filter_hat_readers(self):
@@ -198,11 +194,10 @@ class TestCookbook:
         pe.cookbook.merge_two_readers(r1, r2)
         r = pe.SeriesReader("pyexcel_merged.csv")
         r.apply_formatter(pe.sheets.formatters.SheetFormatter(int))
-        data = pe.utils.to_dict(r)
         content = {}
         content.update(self.content)
         content.update(self.content2)
-        assert data == content
+        eq_(r.dict, content)
 
     def test_merge_two_row_filter_hat_readers_2(self):
         """
@@ -215,7 +210,6 @@ class TestCookbook:
         pe.cookbook.merge_two_readers(r1, r2)
         r = pe.SeriesReader("pyexcel_merged.csv")
         r.apply_formatter(pe.sheets.formatters.SheetFormatter(int))
-        data = pe.utils.to_dict(r)
         content = {
             'Y': [7, 9, 0],
             'X': [2, 4, 0],
@@ -224,7 +218,7 @@ class TestCookbook:
             'Q': [11, 13, 15],
             'P': [6, 8, 10]
         }
-        assert data == content
+        eq_(r.dict, content)
 
     def test_merge_two_row_filter_hat_readers_3(self):
         """
@@ -237,13 +231,12 @@ class TestCookbook:
         pe.cookbook.merge_two_readers(r1, r2)
         r = pe.SeriesReader("pyexcel_merged.csv")
         r.apply_formatter(pe.sheets.formatters.SheetFormatter(int))
-        data = pe.utils.to_dict(r)
         content = {
             "Y": [6, 7, 8, 9, 10],
             "O": [1, 2, 3, 4, 5],
             "Q": [11, 12, 13, 14, 15]
         }
-        assert data == content
+        eq_(r.dict, content)
 
     def test_merge_any_files_to_a_book(self):
         file_array = [self.testfile, self.testfile2,

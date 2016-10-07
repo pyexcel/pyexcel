@@ -143,14 +143,14 @@ class Book(with_metaclass(BookMeta, object)):
 
         """
         content = {}
-        current_dict = utils.to_dict(self)
+        current_dict = self.to_dict()
         for k in current_dict.keys():
             new_key = k
             if len(current_dict.keys()) == 1:
                 new_key = "%s_%s" % (self.filename, k)
             content[new_key] = current_dict[k]
         if isinstance(other, Book):
-            other_dict = utils.to_dict(other)
+            other_dict = other.to_dict()
             for l in other_dict.keys():
                 new_key = l
                 if len(other_dict.keys()) == 1:
@@ -204,8 +204,10 @@ class Book(with_metaclass(BookMeta, object)):
 
     def to_dict(self):
         """Convert the book to a dictionary"""
-        from .utils import to_dict
-        return to_dict(self)
+        the_dict = compact.OrderedDict()
+        for sheet in self:
+            the_dict.update({sheet.name: sheet.array})
+        return the_dict
 
     def __repr__(self):
         if compact.PY2:

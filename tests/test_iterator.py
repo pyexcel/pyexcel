@@ -412,13 +412,12 @@ class TestHatIterators:
 
     def test_hat_column_iterator(self):
         r = pe.SeriesReader(self.testfile)
-        result = pe.utils.to_dict(r)
         actual = {
             "X": [1, 1, 1, 1, 1],
             "Y": [2, 2, 2, 2, 2],
             "Z": [3, 3, 3, 3, 3],
         }
-        assert result == actual
+        eq_(r.dict, actual)
 
     def test_named_row_iterator(self):
         sheet = pe.get_sheet(file_name=self.testfile, name_columns_by_row=0)

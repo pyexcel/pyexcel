@@ -10,7 +10,6 @@
 import os
 from .book import Book
 from .core import get_book, get_sheet, save_as
-from .utils import to_dict
 from ._compact import OrderedDict
 from .constants import MESSAGE_WARNING
 
@@ -106,7 +105,7 @@ def merge_readers(reader_array, outfilename=DEFAULT_OUT_FILE):
         raise NotImplementedError(MESSAGE_WARNING)
     content = OrderedDict()
     for reader in reader_array:
-        content.update(to_dict(reader))
+        content.update(reader.dict)
     save_as(dest_file_name=outfilename, adict=content)
 
 

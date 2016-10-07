@@ -269,7 +269,7 @@ class TestAddBooks:
         b1 = pe.BookReader(self.testfile)
         b2 = pe.BookReader(self.testfile2)
         b3 = b1 + b2
-        content = pe.utils.to_dict(b3)
+        content = b3.dict
         sheet_names = content.keys()
         assert len(sheet_names) == 6
         for name in sheet_names:
@@ -287,7 +287,7 @@ class TestAddBooks:
         b1 = pe.BookReader(self.testfile)
         b2 = pe.BookReader(self.testfile2)
         b1 += b2
-        content = pe.utils.to_dict(b1)
+        content = b1.dict
         sheet_names = content.keys()
         assert len(sheet_names) == 6
         for name in sheet_names:
@@ -305,7 +305,7 @@ class TestAddBooks:
         b1 = pe.BookReader(self.testfile)
         b2 = pe.BookReader(self.testfile2)
         b3 = b1 + b2["Sheet3"]
-        content = pe.utils.to_dict(b3)
+        content = b3.dict
         sheet_names = content.keys()
         assert len(sheet_names) == 4
         for name in sheet_names:
@@ -323,7 +323,7 @@ class TestAddBooks:
         b1 = pe.BookReader(self.testfile)
         b2 = pe.BookReader(self.testfile2)
         b1 += b2["Sheet3"]
-        content = pe.utils.to_dict(b1)
+        content = b1.dict
         sheet_names = content.keys()
         assert len(sheet_names) == 4
         for name in sheet_names:
@@ -341,7 +341,7 @@ class TestAddBooks:
         b1 = pe.BookReader(self.testfile)
         b2 = pe.BookReader(self.testfile2)
         b3 = b1["Sheet1"] + b2["Sheet3"]
-        content = pe.utils.to_dict(b3)
+        content = b3.dict
         sheet_names = content.keys()
         assert len(sheet_names) == 2
         assert content["Sheet3"] == self.content["Sheet3"]
@@ -354,7 +354,7 @@ class TestAddBooks:
         b1 = pe.BookReader(self.testfile)
         b2 = pe.BookReader(self.testfile2)
         b3 = b1["Sheet1"] + b2
-        content = pe.utils.to_dict(b3)
+        content = b3.dict
         sheet_names = content.keys()
         assert len(sheet_names) == 4
         for name in sheet_names:
@@ -374,7 +374,7 @@ class TestAddBooks:
         b1 = pe.BookReader(self.testfile)
         b2 = pe.BookReader(self.testfile2)
         b3 = b1.Sheet1 + b2
-        content = pe.utils.to_dict(b3)
+        content = b3.dict
         sheet_names = content.keys()
         assert len(sheet_names) == 4
         for name in sheet_names:
@@ -392,7 +392,7 @@ class TestAddBooks:
         b1 = pe.BookReader(self.test_single_sheet_file)
         b2 = pe.BookReader(self.testfile2)
         b3 = b1 + b2
-        content = pe.utils.to_dict(b3)
+        content = b3.dict
         sheet_names = content.keys()
         assert len(sheet_names) == 4
         for name in sheet_names:
@@ -412,7 +412,7 @@ class TestAddBooks:
         b1 = pe.BookReader(self.test_single_sheet_file)
         b2 = pe.BookReader(self.testfile2)
         b3 = b2 + b1
-        content = pe.utils.to_dict(b3)
+        content = b3.dict
         sheet_names = content.keys()
         assert len(sheet_names) == 4
         for name in sheet_names:
@@ -432,7 +432,7 @@ class TestAddBooks:
         b1 = pe.BookReader(self.testfile)
         b2 = pe.BookReader(self.test_single_sheet_file)
         b3 = b1["Sheet1"] + b2
-        content = pe.utils.to_dict(b3)
+        content = b3.dict
         sheet_names = content.keys()
         assert len(sheet_names) == 2
         for name in sheet_names:
@@ -447,7 +447,7 @@ class TestAddBooks:
         """
         b1 = pe.BookReader(self.testfile)
         b3 = b1["Sheet1"] + b1["Sheet1"]
-        content = pe.utils.to_dict(b3)
+        content = b3.dict
         sheet_names = content.keys()
         assert len(sheet_names) == 2
         for name in sheet_names:

@@ -894,11 +894,11 @@ class Matrix(object):
         :returns: a new book
         """
         from ..book import Book
-        from ..utils import to_dict, local_uuid
+        from ..utils import local_uuid
         content = {}
         content[self.name] = self._array
         if isinstance(other, Book):
-            b = to_dict(other)
+            b = other.to_dict()
             for l in b.keys():
                 new_key = l
                 if len(b.keys()) == 1:

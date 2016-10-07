@@ -21,7 +21,7 @@ def local_uuid():
     return LOCAL_UUID
 
 
-def to_dict(an_object):
+def xto_dict(an_object):
     """convert a reader iterator to a dictionary"""
     the_dict = OrderedDict()
     series = "Series_%d"

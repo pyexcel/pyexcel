@@ -38,15 +38,16 @@ Updated
    * :meth:`pyexcel.Sheet.named_rows()`
    * :meth:`pyexcel.Sheet.named_columns()`
 
-   
 Removed:
 ********************************************************************************
 
 #. `content` and `out_file` as function parameters to the signature functions are
    no longer supported.
 #. SourceFactory and RendererFactory are removed
-#. The following methods are removed:
+#. The following methods are removed
+
    * :meth:`pyexcel.to_array`
+   * :meth:`pyexcel.to_dict`
    * :meth:`pyexcel.utils.to_one_dimensional_array`
    * :meth:`pyexcel.dict_to_array`
    * :meth:`pyexcel.from_records`
