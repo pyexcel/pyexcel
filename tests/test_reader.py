@@ -234,7 +234,7 @@ class TestSeriesReader3:
             [4, 5, 6],
             ["Column 1", "Column 2", "Column 3"]
         ]
-        s.column += pe.transpose(test_data)
+        s.column += pe.sheets.transpose(test_data)
         actual = s.array
         assert test_data == actual
         s.name_columns_by_row(2)
@@ -417,7 +417,8 @@ class TestColumnSeriesReader:
             [4, 41, 42],
             [5, 51, 52]
         ]
-        sheet = pe.Sheet(pe.transpose(self.content), name_rows_by_column=0)
+        sheet = pe.Sheet(pe.sheets.transpose(self.content),
+                         name_rows_by_column=0)
         sheet.save_to_memory(file_type, io)
         self.test_tuple = (file_type, io.getvalue())
 

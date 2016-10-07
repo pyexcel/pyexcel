@@ -28,7 +28,7 @@ from .core import (
     isave_as,
     save_book_as)
 from .book import Book
-from .sheets import Sheet, transpose
+from .sheets import Sheet
 from .sheets.formatters import (
     ColumnFormatter,
     RowFormatter,

@@ -24,6 +24,7 @@ Updated
    the console is of ascii encoding.
 #. `# 59 <https://github.com/pyexcel/pyexcel/issues/59>`_: custom row
    renderer
+#. pyexcel.transpose becomes :meth:`pyexcel.sheets.transpose`
 #. iterator functions of :class:`~pyexcel.Sheet` were converted to generator
    functions
 

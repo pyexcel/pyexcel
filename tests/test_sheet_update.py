@@ -165,7 +165,7 @@ class TestReaderWithFilter:
         #             5     6    7
         rows = [['c1', 'c2', 'c3'],
                 ['x1', 'x2', 'x4']]
-        r.extend_columns(pe.transpose(rows))
+        r.extend_columns(pe.sheets.transpose(rows))
         r.add_filter(pe.sheets.filters.OddColumnFilter())
         assert r.row[0] == [2, 4, 'c2']
         assert r.row[1] == [6, 8, 'x2']
