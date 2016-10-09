@@ -78,16 +78,9 @@ def main(base_dir):
     print(data)
     # [[7.0, 8.0, 9.0], [4.0, 5.0, 6.0], [1.0, 2.0, 3.0]]
 
-    # filter out odd rows and even columns
-    sheet.filter(pe.OddRowFilter())
-    sheet.filter(pe.EvenColumnFilter())
-    data = sheet.to_dict()
-    print(data)
-    # {u'Column 3': [8.0], u'Column 1': [2.0]}
-
-    # and you can write the filtered results
+    # and you can write the results
     # into a file
-    sheet.save_as("example_series_filter.xls")
+    sheet.save_as("example_series.xls")
 
 
 if __name__ == '__main__':

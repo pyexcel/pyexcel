@@ -35,21 +35,6 @@ from .sheets.formatters import (
     SheetFormatter,
     NamedColumnFormatter,
     NamedRowFormatter)
-from .sheets.filters import (
-    ColumnIndexFilter,
-    ColumnFilter,
-    RowFilter,
-    EvenColumnFilter,
-    OddColumnFilter,
-    EvenRowFilter,
-    OddRowFilter,
-    RowIndexFilter,
-    SingleColumnFilter,
-    RowValueFilter,
-    NamedRowValueFilter,
-    ColumnValueFilter,
-    NamedColumnValueFilter,
-    SingleRowFilter)
 from .deprecated import (
     load_book,
     load_book_from_memory,

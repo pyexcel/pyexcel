@@ -240,65 +240,6 @@ class TestSeriesReader3:
         s.name_columns_by_row(2)
         assert s.colnames == test_data[2]
 
-    def test_row_filter(self):
-        r = pe.SeriesReader(self.testfile)
-        r.add_filter(pe.sheets.filters.RowFilter([1]))
-        result = {
-            "X": [1, 3, 4, 5],
-            "Y": [11, 31, 41, 51],
-            "Z": [12, 32, 42, 52]
-        }
-        eq_(result, r.dict)
-
-    def test_odd_row_filter(self):
-        r = pe.SeriesReader(self.testfile)
-        f = pe.sheets.filters.OddRowFilter()
-        r.add_filter(f)
-        result = {
-            "X": [2, 4],
-            "Y": [21, 41],
-            "Z": [22, 42]
-        }
-        eq_(result, r.dict)
-
-    def test_even_row_filter(self):
-        r = pe.SeriesReader(self.testfile)
-        r.add_filter(pe.sheets.filters.EvenRowFilter())
-        result = {
-            "X": [1, 3, 5],
-            "Y": [11, 31, 51],
-            "Z": [12, 32, 52]
-        }
-        eq_(result, r.dict)
-
-    def test_orthogonality(self):
-        r = pe.SeriesReader(self.testfile)
-        r.add_filter(pe.sheets.filters.EvenRowFilter())
-        r.add_filter(pe.sheets.filters.OddColumnFilter())
-        result = {
-            "Y": [11, 31, 51]
-        }
-        eq_(result, r.dict)
-
-    def test_orthogonality2(self):
-        r = pe.SeriesReader(self.testfile)
-        r.add_filter(pe.sheets.filters.OddColumnFilter())
-        r.add_filter(pe.sheets.filters.EvenRowFilter())
-        result = {
-            "Y": [11, 31, 51]
-        }
-        eq_(result, r.dict)
-
-    def test_series_column_iterator(self):
-        r = pe.SeriesReader(self.testfile)
-        sci = pe.sheets.iterators.ColumnIndexIterator(r)
-        actual = list(sci)
-        result = [
-            {'X': [1, 2, 3, 4, 5]},
-            {'Y': [11, 21, 31, 41, 51]},
-            {'Z': [12, 22, 32, 42, 52]}]
-        assert actual == result
-
     def tearDown(self):
         clean_up_files([self.testfile])
 
@@ -331,18 +272,6 @@ class TestSeriesReader4:
         result = r.named_column_at("X")
         actual = {"X": [1, 1, 1, 1, 1]}
         eq_(result, actual["X"])
-
-    def test_column_filter(self):
-        r = pe.SeriesReader(self.testfile)
-        afilter = pe.sheets.filters.ColumnFilter([1])
-        r.add_filter(afilter)
-        result = {
-            "X": [1, 1, 1, 1, 1],
-            "Z": [3, 3, 3, 3, 3]
-        }
-        assert "Y" not in r.dict
-        eq_(result, r.dict)
-
     def test_get_item_operator(self):
         """
         Series Reader will skip first row because it has column header
@@ -385,17 +314,6 @@ class TestSeriesReader5:
         actual = {"X": [1, 1, 1, 1, 1]}
         eq_(result, actual["X"])
 
-    def test_column_filter(self):
-        r = pe.SeriesReader(self.testfile, series=4)
-        filter = pe.sheets.filters.ColumnFilter([1])
-        r.add_filter(filter)
-        result = {
-            "X": [1, 1, 1, 1, 1],
-            "Z": [3, 3, 3, 3, 3]
-        }
-        assert "Y" not in r.dict
-        eq_(result, r.dict)
-
     def test_get_item_operator(self):
         r = pe.SeriesReader(self.testfile, series=4)
         value = r[0, 1]
@@ -421,64 +339,6 @@ class TestColumnSeriesReader:
                          name_rows_by_column=0)
         sheet.save_to_memory(file_type, io)
         self.test_tuple = (file_type, io.getvalue())
-
-    def test_row_filter(self):
-        r = pe.ColumnSeriesReader(self.test_tuple)
-        r.add_filter(pe.sheets.filters.SingleRowFilter(1))
-        result = {
-            "X": [1, 2, 3, 4, 5],
-            "Z": [12, 22, 32, 42, 52]
-        }
-        eq_(result, r.dict)
-
-    def test_column_filter(self):
-        r = pe.ColumnSeriesReader(self.test_tuple)
-        r.add_filter(pe.sheets.filters.SingleColumnFilter(0))
-        result = {
-            "X": [2, 3, 4, 5],
-            "Y": [21, 31, 41, 51],
-            "Z": [22, 32, 42, 52]
-        }
-        eq_(result, r.dict)
-        assert r.rownames == ["X", "Y", "Z"]
-
-    def test_odd_row_filter(self):
-        r = pe.ColumnSeriesReader(self.test_tuple)
-        f = pe.sheets.filters.OddRowFilter()
-        r.add_filter(f)
-        result = {
-            "Y": [11, 21, 31, 41, 51]
-        }
-        eq_(result, r.dict)
-
-    def test_even_row_filter(self):
-        r = pe.ColumnSeriesReader(self.test_tuple)
-        r.add_filter(pe.sheets.filters.EvenRowFilter())
-        result = {
-            "X": [1, 2, 3, 4, 5],
-            "Z": [12, 22, 32, 42, 52]
-        }
-        eq_(result, r.dict)
-
-    def test_orthogonality(self):
-        r = pe.ColumnSeriesReader(self.test_tuple)
-        r.add_filter(pe.sheets.filters.EvenRowFilter())
-        r.add_filter(pe.sheets.filters.OddColumnFilter())
-        result = {
-            "X": [2, 4],
-            "Z": [22, 42]
-        }
-        eq_(result, r.dict)
-
-    def test_orthogonality2(self):
-        r = pe.ColumnSeriesReader(self.test_tuple)
-        r.add_filter(pe.sheets.filters.OddColumnFilter())
-        r.add_filter(pe.sheets.filters.EvenRowFilter())
-        result = {
-            "X": [2, 4],
-            "Z": [22, 42]
-        }
-        eq_(result, r.dict)
 
     def test_series_column_iterator(self):
         r = pe.ColumnSeriesReader(self.test_tuple)

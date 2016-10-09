@@ -1,4 +1,3 @@
-from pyexcel.sheets.filters import RowFilter
 from . import _shared as utils
 from .formatters import RowFormatter
 import pyexcel._compact as compact
@@ -76,7 +75,11 @@ class Row:
             +---+
 
         """
-        self.ref.filter(RowFilter(indices).invert())
+        to_remove = []
+        for index in self.ref.row_range():
+            if index not in indices:
+                to_remove.append(index)
+        self.ref.filter(row_indices=to_remove)
 
     def __delitem__(self, locator):
         """Override the operator to delete items
@@ -130,9 +133,9 @@ class Row:
                                            self.ref.number_of_rows())
             self.ref.delete_rows(my_range)
         elif isinstance(locator, tuple):
-            self.ref.filter(RowFilter(list(locator)))
+            self.ref.filter(row_indices=(list(locator)))
         elif isinstance(locator, list):
-            self.ref.filter(RowFilter(locator))
+            self.ref.filter(row_indices=locator)
         else:
             self.ref.delete_rows([locator])
 

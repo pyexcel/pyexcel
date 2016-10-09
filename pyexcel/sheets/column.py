@@ -1,4 +1,3 @@
-from pyexcel.sheets.filters import ColumnFilter
 from . import _shared as utils
 from .formatters import ColumnFormatter
 import pyexcel._compact as compact
@@ -99,7 +98,11 @@ class Column:
                                                  self.ref.colnames)
         else:
             new_indices = indices
-        self.ref.filter(ColumnFilter(new_indices).invert())
+        to_remove = []
+        for index in self.ref.column_range():
+            if index not in new_indices:
+                to_remove.append(index)
+        self.ref.filter(column_indices=to_remove)
 
     def __delitem__(self, aslice):
         """Override the operator to delete items
@@ -163,10 +166,10 @@ class Column:
             self.ref.delete_columns([index])
         elif isinstance(aslice, tuple):
             indices = list(aslice)
-            self.ref.filter(ColumnFilter(indices))
+            self.ref.filter(column_indices=indices)
         elif isinstance(aslice, list):
             indices = aslice
-            self.ref.filter(ColumnFilter(indices))
+            self.ref.filter(column_indices=indices)
         elif isinstance(aslice, int):
             self.ref.delete_columns([aslice])
         else:

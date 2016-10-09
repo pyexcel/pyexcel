@@ -53,7 +53,23 @@ Removed:
    * :meth:`pyexcel.dict_to_array`
    * :meth:`pyexcel.from_records`
    * :meth:`pyexcel.to_records`
+#. :meth:`pyexcel.Sheet.filter` has been re-implemented and all filters were
+   removed:
 
+   * pyexcel.Sheets.filters.ColumnIndexFilter
+   * pyexcel.Sheets.filters.ColumnFilter
+   * pyexcel.Sheets.filters.RowFilter
+   * pyexcel.Sheets.filters.EvenColumnFilter
+   * pyexcel.Sheets.filters.OddColumnFilter
+   * pyexcel.Sheets.filters.EvenRowFilter
+   * pyexcel.Sheets.filters.OddRowFilter
+   * pyexcel.Sheets.filters.RowIndexFilter
+   * pyexcel.Sheets.filters.SingleColumnFilter
+   * pyexcel.Sheets.filters.RowValueFilter
+   * pyexcel.Sheets.filters.NamedRowValueFilter
+   * pyexcel.Sheets.filters.ColumnValueFilter
+   * pyexcel.Sheets.filters.NamedColumnValueFilter
+   * pyexcel.Sheets.filters.SingleRowFilter
 
 0.2.5 - 31.08.2016
 --------------------------------------------------------------------------------

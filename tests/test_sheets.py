@@ -37,7 +37,7 @@ class TestFormattableSheet:
 
 class TestFilterSheet:
 
-    @raises(NotImplementedError)
+    @raises(TypeError)
     def test_non_filter(self):
         data = []
         s = Sheet(data)

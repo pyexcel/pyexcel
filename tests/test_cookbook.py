@@ -199,45 +199,6 @@ class TestCookbook:
         content.update(self.content2)
         eq_(r.dict, content)
 
-    def test_merge_two_row_filter_hat_readers_2(self):
-        """
-        Now start row filtering
-        """
-        r1 = pe.SeriesReader(self.testfile)
-        r1.filter(pe.sheets.filters.OddRowFilter())
-        r2 = pe.SeriesReader(self.testfile2)
-        r2.filter(pe.sheets.filters.EvenRowFilter())
-        pe.cookbook.merge_two_readers(r1, r2)
-        r = pe.SeriesReader("pyexcel_merged.csv")
-        r.apply_formatter(pe.sheets.formatters.SheetFormatter(int))
-        content = {
-            'Y': [7, 9, 0],
-            'X': [2, 4, 0],
-            'Z': [12, 14, 0],
-            'O': [1, 3, 5],
-            'Q': [11, 13, 15],
-            'P': [6, 8, 10]
-        }
-        eq_(r.dict, content)
-
-    def test_merge_two_row_filter_hat_readers_3(self):
-        """
-        Now start column filtering
-        """
-        r1 = pe.SeriesReader(self.testfile)
-        r1.filter(pe.sheets.filters.OddColumnFilter())
-        r2 = pe.SeriesReader(self.testfile2)
-        r2.filter(pe.sheets.filters.EvenColumnFilter())
-        pe.cookbook.merge_two_readers(r1, r2)
-        r = pe.SeriesReader("pyexcel_merged.csv")
-        r.apply_formatter(pe.sheets.formatters.SheetFormatter(int))
-        content = {
-            "Y": [6, 7, 8, 9, 10],
-            "O": [1, 2, 3, 4, 5],
-            "Q": [11, 12, 13, 14, 15]
-        }
-        eq_(r.dict, content)
-
     def test_merge_any_files_to_a_book(self):
         file_array = [self.testfile, self.testfile2,
                       self.testfile3, self.testfile4]

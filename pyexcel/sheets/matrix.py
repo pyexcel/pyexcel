@@ -19,9 +19,6 @@ from pyexcel.constants import (
     MESSAGE_DEPRECATED_ROW_COLUMN,
     MESSAGE_NOT_IMPLEMENTED_01,
     _IMPLEMENTATION_REMOVED)
-from pyexcel.sheets.filters import (ColumnIndexFilter,
-                                    RowIndexFilter,
-                                    RegionFilter)
 from pyexcel.sheets.formatters import (
     ColumnFormatter,
     RowFormatter,
@@ -505,7 +502,7 @@ class Matrix(object):
         if len(column_indices) > 0:
             unique_list = _unique(column_indices)
             sorted_list = sorted(unique_list, reverse=True)
-            for i in range(0, len(self._array)):
+            for i in self.row_range():
                 for j in sorted_list:
                     del self._array[i][j]
             self.width = longest_row_number(self._array)
@@ -749,35 +746,12 @@ class Matrix(object):
         for column in czip(*(reversed(row) for row in self._array)):
             yield list(column)
 
-    def filter(self, afilter):
+    def filter(self, column_indices=None, row_indices=None):
         """Apply the filter with immediate effect"""
-        if isinstance(afilter, ColumnIndexFilter):
-            self._apply_column_filters(afilter)
-        elif isinstance(afilter, RowIndexFilter):
-            self._apply_row_filters(afilter)
-        elif isinstance(afilter, RegionFilter):
-            afilter.validate_filter(self)
-            decending_list = sorted(afilter.row_indices, reverse=True)
-            for i in decending_list:
-                del self.row[i]
-            decending_list = sorted(afilter.column_indices, reverse=True)
-            for i in decending_list:
-                del self.column[i]
-        else:
-            raise NotImplementedError("Invalid Filter!")
-
-    def _apply_row_filters(self, afilter):
-        afilter.validate_filter(self)
-        decending_list = sorted(afilter.indices, reverse=True)
-        for i in decending_list:
-            del self.row[i]
-
-    def _apply_column_filters(self, afilter):
-        """Private method to apply column filter"""
-        afilter.validate_filter(self)
-        decending_list = sorted(afilter.indices, reverse=True)
-        for i in decending_list:
-            del self.column[i]
+        if row_indices is not None:
+            self.delete_rows(row_indices)
+        if column_indices is not None:
+            self.delete_columns(column_indices)
 
     def format(self, formatter, on_demand=False):
         """Apply a formatting action for the whole sheet
