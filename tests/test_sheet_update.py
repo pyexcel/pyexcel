@@ -1,7 +1,6 @@
 import pyexcel as pe
 from base import (create_sample_file1,
                   create_sample_file1_series,
-                  create_sample_file2,
                   clean_up_files,
                   PyexcelSheetRWBase)
 from _compact import OrderedDict
@@ -23,7 +22,7 @@ class TestReader:
     def test_set_named_column_at(self):
         r = pe.SeriesReader(self.testfile)
         r.set_named_column_at('b', [11, 1])
-        assert r.column_at(1) == [11, 1]
+        eq_(r.column_at(1), [11, 1])
 
     def tearDown(self):
         clean_up_files([self.testfile])

@@ -272,6 +272,7 @@ class TestSeriesReader4:
         result = r.named_column_at("X")
         actual = {"X": [1, 1, 1, 1, 1]}
         eq_(result, actual["X"])
+
     def test_get_item_operator(self):
         """
         Series Reader will skip first row because it has column header
