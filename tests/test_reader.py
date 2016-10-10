@@ -2,7 +2,6 @@ import pyexcel as pe
 from base import PyexcelBase, clean_up_files
 from base import create_sample_file1
 from base import create_generic_file
-from _compact import BytesIO
 from nose.tools import raises, eq_
 
 
@@ -322,31 +321,3 @@ class TestSeriesReader5:
 
     def tearDown(self):
         clean_up_files([self.testfile])
-
-
-class TestColumnSeriesReader:
-    def setUp(self):
-        file_type = "xlsx"
-        io = BytesIO()
-        self.content = [
-            ["X", "Y", "Z"],
-            [1, 11, 12],
-            [2, 21, 22],
-            [3, 31, 32],
-            [4, 41, 42],
-            [5, 51, 52]
-        ]
-        sheet = pe.Sheet(pe.sheets.transpose(self.content),
-                         name_rows_by_column=0)
-        sheet.save_to_memory(file_type, io)
-        self.test_tuple = (file_type, io.getvalue())
-
-    def test_series_column_iterator(self):
-        r = pe.ColumnSeriesReader(self.test_tuple)
-        sri = pe.sheets.iterators.RowIndexIterator(r)
-        actual = list(sri)
-        result = [
-            {'X': [1, 2, 3, 4, 5]},
-            {'Y': [11, 21, 31, 41, 51]},
-            {'Z': [12, 22, 32, 42, 52]}]
-        eq_(actual, result)

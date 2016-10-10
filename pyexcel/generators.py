@@ -1,6 +1,5 @@
-from pyexcel._compact import OrderedDict
 from pyexcel_io.sheet import NamedContent
-from pyexcel.sheets.iterators import SheetIterator
+from pyexcel._compact import OrderedDict, SheetIterator
 
 
 class SheetStream(NamedContent):

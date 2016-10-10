@@ -10,7 +10,6 @@
 import sys
 from six import with_metaclass
 import pyexcel.utils as utils
-from pyexcel.sheets.iterators import SheetIterator
 from pyexcel.sheets import Sheet
 import pyexcel._compact as compact
 from pyexcel.sources import BookMeta, save_book
@@ -70,7 +69,7 @@ class Book(with_metaclass(BookMeta, object)):
         return Sheet(array, name)
 
     def __iter__(self):
-        return SheetIterator(self)
+        return compact.SheetIterator(self)
 
     def number_of_sheets(self):
         """

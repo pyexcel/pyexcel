@@ -15,10 +15,6 @@ from .formatters import (
     NamedColumnFormatter,
     NamedRowFormatter)
 import pyexcel._compact as compact
-from .iterators import (
-    ColumnIndexIterator,
-    RowIndexIterator
-)
 from ..constants import (
     MESSAGE_NOT_IMPLEMENTED_02,
     MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED,
@@ -335,14 +331,6 @@ class Sheet(with_metaclass(SheetMeta, Matrix)):
             raise TypeError(MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED)
         else:
             Matrix.extend_columns(self, columns)
-
-    def __iter__(self):
-        if len(self._column_names) > 0:
-            return ColumnIndexIterator(self)
-        elif len(self._row_names) > 0:
-            return RowIndexIterator(self)
-        else:
-            return Matrix.__iter__(self)
 
     def to_array(self):
         """Returns an array after filtering"""
