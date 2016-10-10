@@ -194,25 +194,17 @@ class Row:
 
     def format(self,
                row_index=None, formatter=None,
-               format_specs=None, on_demand=False):
+               format_specs=None):
         """Format a row
         """
-        def handle_one_formatter(rows, theformatter, on_demand):
+        def handle_one_formatter(rows, theformatter):
             new_indices = rows
             if len(self.ref.rownames) > 0:
                 new_indices = utils.names_to_indices(rows, self.ref.rownames)
             aformatter = RowFormatter(new_indices, theformatter)
-            if on_demand:
-                self.ref.add_formatter(aformatter)
-            else:
-                self.ref.apply_formatter(aformatter)
+            self.ref.apply_formatter(aformatter)
         if row_index is not None:
-            handle_one_formatter(row_index, formatter, on_demand)
+            handle_one_formatter(row_index, formatter)
         elif format_specs:
             for spec in format_specs:
-                if len(spec) == 3:
-                    handle_one_formatter(spec[0], spec[1],
-                                         on_demand)
-                else:
-                    handle_one_formatter(spec[0], spec[1],
-                                         on_demand)
+                handle_one_formatter(spec[0], spec[1])
