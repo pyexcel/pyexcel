@@ -1,5 +1,8 @@
+import types
+from functools import partial
+
 from . import _shared as utils
-from .formatters import ColumnFormatter
+from .formatters import to_format
 import pyexcel._compact as compact
 
 
@@ -244,13 +247,30 @@ class Column:
                format_specs=None):
         """Format a column
         """
-        def handle_one_formatter(columns, aformatter):
+        def handle_one_formatter(columns, theformatter):
             new_indices = columns
             if len(self.ref.colnames) > 0:
                 new_indices = utils.names_to_indices(columns,
                                                      self.ref.colnames)
-            theformatter = ColumnFormatter(new_indices, aformatter)
-            self.ref.apply_formatter(theformatter)
+            converter = None
+            if isinstance(theformatter, types.FunctionType):
+                converter = theformatter
+            else:
+                converter = partial(to_format, theformatter)
+
+            if isinstance(new_indices, list):
+                for rcolumn in self.ref.column_range():
+                    if rcolumn in new_indices:
+                        for row in self.ref.row_range():
+                            value = self.ref.cell_value(row, rcolumn)
+                            value = converter(value)
+                            self.ref.cell_value(row, rcolumn, value)
+            else:
+                for row in self.ref.row_range():
+                    value = self.ref.cell_value(row, new_indices)
+                    value = converter(value)
+                    self.ref.cell_value(row, new_indices, value)
+
         if column_index is not None:
             handle_one_formatter(column_index, formatter)
         elif format_specs:
