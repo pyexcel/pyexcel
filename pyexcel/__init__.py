@@ -29,11 +29,6 @@ from .core import (
     save_book_as)
 from .book import Book
 from .sheets import Sheet
-from .sheets.formatters import (
-    ColumnFormatter,
-    RowFormatter,
-    NamedColumnFormatter,
-    NamedRowFormatter)
 from .deprecated import (
     load_book,
     load_book_from_memory,

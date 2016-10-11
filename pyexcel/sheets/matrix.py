@@ -20,11 +20,7 @@ from pyexcel.constants import (
     MESSAGE_DEPRECATED_ROW_COLUMN,
     MESSAGE_NOT_IMPLEMENTED_01,
     _IMPLEMENTATION_REMOVED)
-from pyexcel.sheets.formatters import (
-    to_format,
-    ColumnFormatter,
-    RowFormatter
-)
+from pyexcel.sheets.formatters import to_format
 from .row import Row
 from .column import Column
 from . import _shared as utils
@@ -810,60 +806,9 @@ class Matrix(object):
                 self.cell_value(row, column, value)
 
     def apply_formatter(self, aformatter):
-        """Apply the formatter immediately. No return ticket
-
-        Example::
-
-            >>> import pyexcel as pe
-            >>> # Given a dictinoary as the following
-            >>> data = {
-            ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
-            ...     "3": [1.25, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
-            ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
-            ...     "7": [1, '',]
-            ...     }
-            >>> sheet = pe.get_sheet(adict=data)
-            >>> sheet.row[1]
-            [1, 1.25, 2, 1]
-            >>> inc = lambda value: (float(value) if value != '' else 0)+1
-            >>> sheet.map(inc)
-            >>> sheet.row[1]
-            [2.0, 2.25, 3.0, 2.0]
-
+        """Apply the formatter immediately
         """
-        if isinstance(aformatter, ColumnFormatter):
-            self._apply_column_formatter(aformatter)
-        elif isinstance(aformatter, RowFormatter):
-            self._apply_row_formatter(aformatter)
-        else:
-            for row in self.row_range():
-                for column in self.column_range():
-                    value = self.cell_value(row, column)
-                    if aformatter.is_my_business(row, column, value):
-                        value = aformatter.do_format(value)
-                        self.cell_value(row, column, value)
-
-    def _apply_column_formatter(self, column_formatter):
-        def filter_indices(column_index):
-            return column_formatter.is_my_business(-1, column_index, -1)
-        applicables = [i for i in self.column_range() if filter_indices(i)]
-        # set the values
-        for rindex in self.row_range():
-            for cindex in applicables:
-                value = self.cell_value(rindex, cindex)
-                value = column_formatter.do_format(value)
-                self.cell_value(rindex, cindex, value)
-
-    def _apply_row_formatter(self, row_formatter):
-        def filter_indices(row_index):
-            return row_formatter.is_my_business(row_index, -1, -1)
-        applicables = [i for i in self.row_range() if filter_indices(i)]
-        # set the values
-        for rindex in applicables:
-            for cindex in self.column_range():
-                value = self.cell_value(rindex, cindex)
-                value = row_formatter.do_format(value)
-                self.cell_value(rindex, cindex, value)
+        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
 
     def __add__(self, other):
         """Overload the + sign
@@ -932,8 +877,7 @@ class Matrix(object):
     def add_formatter(self, aformatter):
         """Add a lazy formatter.
         """
-        print("Deprecated since 0.3.0!Please use apply_formatter.")
-        self.apply_formatter(aformatter)
+        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
 
     def remove_formatter(self, aformatter):
         """Remove a formatter

@@ -1,7 +1,4 @@
 from pyexcel.sheets.sheet import Sheet
-from pyexcel.sheets.formatters import RowFormatter, ColumnFormatter
-from pyexcel.sheets.formatters import NamedColumnFormatter
-from pyexcel.sheets.formatters import NamedRowFormatter
 from pyexcel import load_from_dict, load_from_records
 from _compact import OrderedDict
 from nose.tools import raises
@@ -20,12 +17,12 @@ class TestFormattableSheet:
 
     def test_apply_row_formatter(self):
         s = Sheet(self.data)
-        s.apply_formatter(RowFormatter(0, str))
+        s.row.format(0, str)
         assert s.row[0] == s.row[1]
 
     def test_apply_column_formatter(self):
         s = Sheet(self.data)
-        s.apply_formatter(ColumnFormatter(0, float))
+        s.column.format(0, float)
         assert s.column[0] == [1, 1, 1.1, 1.1, 2, 2]
 
     def test_apply_sheet_formatter(self):
@@ -57,31 +54,16 @@ class TestSheetNamedColumn:
         """Test one named column"""
         s = Sheet(self.data, "test")
         s.name_columns_by_row(0)
-        f = NamedColumnFormatter("Column 1", str)
-        s.apply_formatter(f)
+        s.column.format("Column 1", str)
         assert s.column["Column 1"] == ["1", "4", "7"]
 
     def test_formatter_by_named_columns(self):
         """Test multiple named columns"""
         s = Sheet(self.data, "test")
         s.name_columns_by_row(0)
-        f = NamedColumnFormatter(["Column 1", "Column 3"], str)
-        s.apply_formatter(f)
+        s.column.format(["Column 1", "Column 3"], str)
         assert s.column["Column 1"] == ["1", "4", "7"]
         assert s.column["Column 3"] == ["3", "6", "9"]
-
-    @raises(IndexError)
-    def test_formatter_by_named_column3(self):
-        """Test multiple named columns with wrong type"""
-        NamedColumnFormatter(["Column 1", 1], str)
-
-    @raises(IndexError)
-    def test_empty_list_in_named_column_formatter(self):
-        NamedColumnFormatter([], str)
-
-    @raises(NotImplementedError)
-    def test_float_in_list_for_named_column_formatter(self):
-        NamedColumnFormatter(1.22, str)
 
     def test_add(self):
         s = Sheet(self.data, "test")
@@ -163,8 +145,7 @@ class TestSheetNamedColumn2:
     def test_formatter_by_named_column(self):
         s = Sheet(self.data, "test")
         s.name_columns_by_row(2)
-        f = NamedColumnFormatter("Column 1", str)
-        s.apply_formatter(f)
+        s.column.format("Column 1", str)
         assert s.column["Column 1"] == ["1", "4", "7"]
 
     def test_formatter_by_named_column_2(self):
@@ -210,8 +191,7 @@ class TestSheetNamedRow:
     def test_formatter_by_named_row(self):
         s = Sheet(self.data, "test")
         s.name_rows_by_column(0)
-        f = NamedRowFormatter("Row 1", str)
-        s.apply_formatter(f)
+        s.row.format("Row 1", str)
         assert s.row["Row 1"] == ["1", "2", "3"]
 
     def test_rownames(self):
@@ -255,23 +235,9 @@ class TestSheetNamedRow:
         """Test a list of string as index"""
         s = Sheet(self.data, "test")
         s.name_rows_by_column(0)
-        f = NamedRowFormatter(["Row 1", "Row 2"], str)
-        s.apply_formatter(f)
+        s.row.format(["Row 1", "Row 2"], str)
         assert s.row["Row 1"] == ["1", "2", "3"]
         assert s.row["Row 2"] == ["4", "5", "6"]
-
-    @raises(IndexError)
-    def test_formatter_by_named_column3(self):
-        """Test multiple named columns with wrong type"""
-        NamedRowFormatter(["Row 1", 1], str)
-
-    @raises(IndexError)
-    def test_empty_list_in_named_row_column(self):
-        NamedRowFormatter([], str)
-
-    @raises(NotImplementedError)
-    def test_float_in_list_in_named_formatter(self):
-        NamedRowFormatter(1.22, str)
 
     def test_add(self):
         s = Sheet(self.data, "test")

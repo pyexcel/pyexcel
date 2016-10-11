@@ -2,7 +2,6 @@ import datetime
 from unittest import TestCase
 import pyexcel as pe
 from base import clean_up_files
-from nose.tools import raises
 
 
 def increase_func(x):
@@ -201,9 +200,9 @@ class TestColumnFormatter(TestCase):
 
     def test_general_usage(self):
         r = pe.Reader(self.test_tuple)
-        r.add_formatter(pe.sheets.formatters.ColumnFormatter(
+        r.column.format(
             0,
-            str))
+            str)
         c1 = r.column_at(0)[1:]
         self.assertEqual(c1, self.data["2"])
 
@@ -235,66 +234,47 @@ class TestColumnFormatter(TestCase):
 
     def test_one_formatter_for_two_columns(self):
         r = pe.Reader(self.test_tuple)
-        r.add_formatter(pe.sheets.formatters.ColumnFormatter(
+        r.column.format(
             [0, 5],
-            str))
+            str)
         c1 = r.column_at(0)[1:]
         self.assertEqual(c1, self.data['2'])
         c1 = r.column_at(5)[1:]
         self.assertEqual(c1, self.data['6'])
 
-    @raises(NotImplementedError)
-    def test_invalid_input(self):
-        pe.sheets.formatters.ColumnFormatter("world", str)
-
-    @raises(IndexError)
-    def test_invalid_input2(self):
-        """Empty list"""
-        pe.sheets.formatters.ColumnFormatter([], str)
-
-    @raises(IndexError)
-    def test_float_in_list(self):
-        pe.sheets.formatters.ColumnFormatter([1, 1.1], str)
-
     def test_two_formatters(self):
         r = pe.Reader(self.test_tuple)
-        r.add_formatter(pe.sheets.formatters.ColumnFormatter(
+        r.column.format(
             0,
-            str))
+            str)
         c1 = r.column_at(0)[1:]
         self.assertEqual(c1, self.data['2'])
-        r.add_formatter(pe.sheets.formatters.ColumnFormatter(
+        r.column.format(
             0,
-            int))
+            int)
         c1 = r.column_at(0)[1:]
         self.assertEqual(c1, self.data['1'])
 
     def test_custom_func(self):
         r = pe.Reader(self.test_tuple)
-        r.add_formatter(pe.sheets.formatters.ColumnFormatter(
+        r.column.format(
             0,
-            increase_func))
+            increase_func)
         c1 = r.column_at(0)[1:]
         self.assertEqual(c1, self.data['5'])
 
     def test_custom_func_with_a_general_converter(self):
         r = pe.Reader(self.test_tuple)
-        r.add_formatter(pe.sheets.formatters.ColumnFormatter(
+        r.column.format(
             0,
-            increase_func))
+            increase_func)
         c1 = r.column_at(0)[1:]
         self.assertEqual(c1, self.data['5'])
-        r.add_formatter(pe.sheets.formatters.ColumnFormatter(
+        r.column.format(
             0,
-            str))
+            str)
         c1 = r.column_at(0)[1:]
         self.assertEqual(c1, self.data['6'])
-
-    @raises(NotImplementedError)
-    def test_named_formatter(self):
-        """Test wrong data type to update_index"""
-        nrf = pe.sheets.formatters.NamedColumnFormatter("abc", str)
-        nrf.update_index("abc")
 
 
 class TestRowFormatter(TestCase):
@@ -314,9 +294,9 @@ class TestRowFormatter(TestCase):
         """format a row
         """
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.sheets.formatters.RowFormatter(
+        r.row.format(
             1,
-            str))
+            str)
         c1 = r.row_at(1)
         c2 = ["1", "1", "1.1", "1.1", "2", "2"]
         self.assertEqual(c1, c2)
@@ -336,9 +316,9 @@ class TestRowFormatter(TestCase):
         """format more than one row
         """
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.sheets.formatters.RowFormatter(
+        r.row.format(
             [1, 2],
-            str))
+            str)
         c1 = r.row_at(2)
         c2 = ["2", "2", "2.2", "2.2", "3", "3"]
         self.assertEqual(c1, c2)
@@ -346,32 +326,17 @@ class TestRowFormatter(TestCase):
         c2 = ['1', "1", '1.1', "1.1", '2', "2"]
         self.assertEqual(c1, c2)
 
-    @raises(NotImplementedError)
-    def test_unacceptable_index(self):
-        pe.sheets.formatters.RowFormatter(
-            "hello", str)
-
-    @raises(IndexError)
-    def test_empty_list_as_input(self):
-        pe.sheets.formatters.RowFormatter(
-            [], str
-        )
-
-    @raises(IndexError)
-    def test_float_in_row_formatter(self):
-        pe.sheets.formatters.RowFormatter([1, 1.1], str)
-
     def test_two_formatters(self):
         r = pe.Reader(self.testfile)
         c1 = r.row_at(1)
         c2 = [1, "1", 1.1, "1.1", 2, "2"]
         self.assertEqual(c1, c2)
-        r.add_formatter(pe.sheets.formatters.RowFormatter(
+        r.row.format(
             1,
-            int))
-        r.add_formatter(pe.sheets.formatters.RowFormatter(
+            int)
+        r.row.format(
             1,
-            str))
+            str)
         c1 = r.row_at(1)
         c2 = ['1', '1', '1', '1', '2', '2']
         self.assertEqual(c1, c2)
@@ -398,33 +363,27 @@ class TestRowFormatter(TestCase):
 
     def test_custom_func(self):
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.sheets.formatters.RowFormatter(
+        r.row.format(
             1,
-            increase_float_func))
+            increase_float_func)
         c1 = r.row_at(1)
         c2 = [2.0, 2.0, 2.1, 2.1, 3.0, 3.0]
         self.assertEqual(c1, c2)
 
     def test_custom_func_with_a_general_converter(self):
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.sheets.formatters.RowFormatter(
+        r.row.format(
             1,
-            increase_float_func))
+            increase_float_func)
         c1 = r.row_at(1)
         c2 = [2.0, 2.0, 2.1, 2.1, 3.0, 3.0]
         self.assertEqual(c1, c2)
-        r.add_formatter(pe.sheets.formatters.RowFormatter(
+        r.row.format(
             1,
-            str))
+            str)
         c1 = r.row_at(1)
         c2 = ["2.0", "2.0", "2.1", "2.1", "3.0", "3.0"]
         self.assertEqual(c1, c2)
-
-    @raises(NotImplementedError)
-    def test_named_formatter(self):
-        """Test wrong data type to update_index"""
-        nrf = pe.sheets.formatters.NamedRowFormatter("abc", str)
-        nrf.update_index("abc")
 
     def tearDown(self):
         clean_up_files([self.testfile])

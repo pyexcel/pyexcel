@@ -11,9 +11,6 @@ import sys
 from six import with_metaclass
 
 from .matrix import Matrix
-from .formatters import (
-    NamedColumnFormatter,
-    NamedRowFormatter)
 import pyexcel._compact as compact
 from ..constants import (
     MESSAGE_NOT_IMPLEMENTED_02,
@@ -23,7 +20,6 @@ from ..constants import (
 from pyexcel.sources import SheetMeta, save_sheet
 from .row import Row as NamedRow
 from .column import Column as NamedColumn
-from . import _shared as utils
 
 
 class Sheet(with_metaclass(SheetMeta, Matrix)):
@@ -269,27 +265,6 @@ class Sheet(with_metaclass(SheetMeta, Matrix)):
             index = self.rownames.index(name)
             self.rownames.pop(index)
             Matrix.delete_rows(self, [index])
-
-    def apply_formatter(self, aformatter):
-        """Apply the formatter immediately.
-
-        :param Formatter aformatter: a custom formatter
-        """
-        aformatter = self._translate_named_formatter(aformatter)
-        Matrix.apply_formatter(self, aformatter)
-
-    def _translate_named_formatter(self, aformatter):
-        if isinstance(aformatter, NamedColumnFormatter):
-            series = self.colnames
-        elif isinstance(aformatter, NamedRowFormatter):
-            series = self.rownames
-        else:
-            series = None
-        if series:
-            indices = utils.names_to_indices(aformatter.indices,
-                                             series)
-            aformatter.update_index(indices)
-        return aformatter
 
     def extend_rows(self, rows):
         """Take ordereddict to extend named rows
