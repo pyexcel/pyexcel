@@ -1,6 +1,9 @@
+import types
+from functools import partial
+
 from . import _shared as utils
-from .formatters import RowFormatter
 import pyexcel._compact as compact
+from .formatters import to_format
 
 
 class Row:
@@ -201,8 +204,26 @@ class Row:
             new_indices = rows
             if len(self.ref.rownames) > 0:
                 new_indices = utils.names_to_indices(rows, self.ref.rownames)
-            aformatter = RowFormatter(new_indices, theformatter)
-            self.ref.apply_formatter(aformatter)
+
+            converter = None
+            if isinstance(theformatter, types.FunctionType):
+                converter = theformatter
+            else:
+                converter = partial(to_format, theformatter)
+
+            if isinstance(new_indices, list):
+                for rindex in self.ref.row_range():
+                    if rindex in new_indices:
+                        for column in self.ref.column_range():
+                            value = self.ref.cell_value(rindex, column)
+                            value = converter(value)
+                            self.ref.cell_value(rindex, column, value)
+            else:
+                for column in self.ref.column_range():
+                    value = self.ref.cell_value(new_indices, column)
+                    value = converter(value)
+                    self.ref.cell_value(new_indices, column, value)
+
         if row_index is not None:
             handle_one_formatter(row_index, formatter)
         elif format_specs:

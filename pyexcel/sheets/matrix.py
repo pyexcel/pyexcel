@@ -10,6 +10,7 @@ of lookup.
 """
 import copy
 from itertools import chain
+from functools import partial
 
 from pyexcel._compact import is_array_type, irange, czip
 from pyexcel.constants import (
@@ -20,9 +21,9 @@ from pyexcel.constants import (
     MESSAGE_NOT_IMPLEMENTED_01,
     _IMPLEMENTATION_REMOVED)
 from pyexcel.sheets.formatters import (
+    to_format,
     ColumnFormatter,
-    RowFormatter,
-    SheetFormatter
+    RowFormatter
 )
 from .row import Row
 from .column import Column
@@ -777,8 +778,8 @@ class Matrix(object):
             [1, 1, 2, 1]
 
         """
-        sf = SheetFormatter(formatter)
-        self.apply_formatter(sf)
+        custom_function = partial(to_format, formatter)
+        self.map(custom_function)
 
     def map(self, custom_function):
         """Execute a function across all cells of the sheet
@@ -796,14 +797,17 @@ class Matrix(object):
             >>> sheet = pe.get_sheet(adict=data)
             >>> sheet.row[1]
             [1, 1.25, 2, 1]
-            >>> inc = lambda value: (float(value) if value != None else 0)+1
+            >>> inc = lambda value: (float(value) if value != '' else 0)+1
             >>> sheet.map(inc)
             >>> sheet.row[1]
             [2.0, 2.25, 3.0, 2.0]
 
         """
-        sf = SheetFormatter(custom_function)
-        self.apply_formatter(sf)
+        for row in self.row_range():
+            for column in self.column_range():
+                value = self.cell_value(row, column)
+                value = custom_function(value)
+                self.cell_value(row, column, value)
 
     def apply_formatter(self, aformatter):
         """Apply the formatter immediately. No return ticket
@@ -821,9 +825,8 @@ class Matrix(object):
             >>> sheet = pe.get_sheet(adict=data)
             >>> sheet.row[1]
             [1, 1.25, 2, 1]
-            >>> inc = lambda value: (float(value) if value != None else 0)+1
-            >>> aformatter = pe.SheetFormatter(inc)
-            >>> sheet.apply_formatter(aformatter)
+            >>> inc = lambda value: (float(value) if value != '' else 0)+1
+            >>> sheet.map(inc)
             >>> sheet.row[1]
             [2.0, 2.25, 3.0, 2.0]
 

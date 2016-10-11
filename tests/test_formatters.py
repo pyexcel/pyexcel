@@ -443,8 +443,7 @@ class TestSheetFormatter(TestCase):
 
     def test_general_usage(self):
         r = pe.SeriesReader(self.testfile)
-        r.add_formatter(pe.sheets.formatters.SheetFormatter(
-            str))
+        r.format(str)
         data = [
             ["1", "2", "3", "4", "5", "6", "7", "8"],
             ["1.1", "2.2", "3.3", "4.4", "5.5", "6.6", "7.7", "8.8"]
@@ -456,17 +455,16 @@ class TestSheetFormatter(TestCase):
 
     def test_two_formatters(self):
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.sheets.formatters.SheetFormatter(str))
-        r.add_formatter(pe.sheets.formatters.SheetFormatter(int))
+        r.format(str)
+        r.format(int)
         c1 = r.row_at(0)
         c2 = [1, 3, 5, 7]
         self.assertEqual(c1, c2)
 
     def test_custom_func(self):
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.sheets.formatters.SheetFormatter(float))
-        r.add_formatter(pe.sheets.formatters.SheetFormatter(
-            increase_float_func))
+        r.format(float)
+        r.map(increase_float_func)
         c1 = r.row_at(1)
         c2 = [2.0, 2.1, 3.0, 2.0]
         self.assertEqual(c1, c2)
@@ -487,83 +485,14 @@ class TestSheetFormatter(TestCase):
 
     def test_custom_func_with_a_general_converter(self):
         r = pe.Reader(self.testfile)
-        r.add_formatter(pe.sheets.formatters.SheetFormatter(float))
-        r.add_formatter(pe.sheets.formatters.SheetFormatter(
-            increase_float_func))
-        r.add_formatter(pe.sheets.formatters.SheetFormatter(str))
+        r.format(float)
+        r.map(increase_float_func)
+        r.format(str)
         c1 = r.row_at(1)
         c2 = ["2.0", "2.1", "3.0", "2.0"]
         self.assertEqual(c1, c2)
         c1 = r.row_at(2)
         c2 = ["3.0", "3.2", "4.0", "1.0"]
-        self.assertEqual(c1, c2)
-
-    @raises(TypeError)
-    def test_custom_func_with_a_general_converter2(self):
-        """Before float type operation, please convert
-        the sheet to float first, otherwise, TypeError
-        """
-        r = pe.Reader(self.testfile)
-        r.add_formatter(pe.sheets.formatters.SheetFormatter(
-            increase_float_func))
-        r.row_at(2)  # bang
-
-    def tearDown(self):
-        clean_up_files([self.testfile])
-
-
-class TestSheetFormatterInXLS(TestCase):
-    def setUp(self):
-        self.data = {
-            "1": [1, 2, 3, 4, 5, 6, 7, 8],
-            "3": [1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
-            "5": [2, 3, 4, 5, 6, 7, 8, 9],
-        }
-        self.testfile = "test.xls"
-        pe.save_as(dest_file_name=self.testfile, adict=self.data)
-
-    def test_general_usage(self):
-        r = pe.SeriesReader(self.testfile)
-        r.add_formatter(pe.sheets.formatters.SheetFormatter(str))
-        self.data = [
-            ["1", "2", "3", "4", "5", "6", "7", "8"],
-            ["1.1", "2.2", "3.3", "4.4", "5.5", "6.6", "7.7", "8.8"],
-            ["2", "3", "4", "5", "6", "7", "8", "9"]
-        ]
-        c1 = r.column_at(0)
-        self.assertEqual(c1, self.data[0])
-        c1 = r.column_at(1)
-        self.assertEqual(c1, self.data[1])
-
-    def test_two_formatters(self):
-        r = pe.Reader(self.testfile)
-        r.add_formatter(pe.sheets.formatters.SheetFormatter(str))
-        r.add_formatter(pe.sheets.formatters.SheetFormatter(int))
-        c1 = r.row_at(0)
-        c2 = [1, 3, 5]
-        self.assertEqual(c1, c2)
-
-    def test_custom_func(self):
-        r = pe.Reader(self.testfile)
-        r.add_formatter(pe.sheets.formatters.SheetFormatter(
-            increase_float_func))
-        c1 = r.row_at(1)
-        c2 = [2.0, 2.1, 3.0]
-        self.assertEqual(c1, c2)
-        c1 = r.row_at(2)
-        c2 = [3, 3.2, 4]
-        self.assertEqual(c1, c2)
-
-    def test_custom_func_with_a_general_converter(self):
-        r = pe.Reader(self.testfile)
-        r.add_formatter(pe.sheets.formatters.SheetFormatter(
-            increase_float_func))
-        r.add_formatter(pe.sheets.formatters.SheetFormatter(str))
-        c1 = r.row_at(1)
-        c2 = ["2.0", "2.1", "3.0"]
-        self.assertEqual(c1, c2)
-        c1 = r.row_at(2)
-        c2 = ["3.0", "3.2", "4.0"]
         self.assertEqual(c1, c2)
 
     def tearDown(self):

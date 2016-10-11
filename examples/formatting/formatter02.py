@@ -13,16 +13,15 @@ import pyexcel as pe
 
 def main(base_dir):
     sheet = pe.load(os.path.join(base_dir, "tutorial_datatype_02.xls"))
-    print(sheet.to_array())
+    print(sheet.array)
 
     def cleanse_func(v):
         v = v.replace("&nbsp;", "")
         v = v.rstrip().strip()
         return v
 
-    sf = pe.SheetFormatter(cleanse_func)
-    sheet.add_formatter(sf)
-    print(sheet.to_array())
+    sheet.map(cleanse_func)
+    print(sheet.array)
 
 
 if __name__ == '__main__':

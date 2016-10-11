@@ -1,6 +1,6 @@
 from pyexcel.sheets.sheet import Sheet
 from pyexcel.sheets.formatters import RowFormatter, ColumnFormatter
-from pyexcel.sheets.formatters import NamedColumnFormatter, SheetFormatter
+from pyexcel.sheets.formatters import NamedColumnFormatter
 from pyexcel.sheets.formatters import NamedRowFormatter
 from pyexcel import load_from_dict, load_from_records
 from _compact import OrderedDict
@@ -30,7 +30,7 @@ class TestFormattableSheet:
 
     def test_apply_sheet_formatter(self):
         s = Sheet(self.data)
-        s.apply_formatter(SheetFormatter(float))
+        s.format(float)
         assert s.row[0] == s.row[1]
         assert s.column[0] == [1, 1, 1.1, 1.1, 2, 2]
 

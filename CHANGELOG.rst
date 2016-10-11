@@ -56,20 +56,26 @@ Removed:
 #. :meth:`pyexcel.Sheet.filter` has been re-implemented and all filters were
    removed:
 
-   * pyexcel.Sheets.filters.ColumnIndexFilter
-   * pyexcel.Sheets.filters.ColumnFilter
-   * pyexcel.Sheets.filters.RowFilter
-   * pyexcel.Sheets.filters.EvenColumnFilter
-   * pyexcel.Sheets.filters.OddColumnFilter
-   * pyexcel.Sheets.filters.EvenRowFilter
-   * pyexcel.Sheets.filters.OddRowFilter
-   * pyexcel.Sheets.filters.RowIndexFilter
-   * pyexcel.Sheets.filters.SingleColumnFilter
-   * pyexcel.Sheets.filters.RowValueFilter
-   * pyexcel.Sheets.filters.NamedRowValueFilter
-   * pyexcel.Sheets.filters.ColumnValueFilter
-   * pyexcel.Sheets.filters.NamedColumnValueFilter
-   * pyexcel.Sheets.filters.SingleRowFilter
+   * pyexcel.filters.ColumnIndexFilter
+   * pyexcel.filters.ColumnFilter
+   * pyexcel.filters.RowFilter
+   * pyexcel.filters.EvenColumnFilter
+   * pyexcel.filters.OddColumnFilter
+   * pyexcel.filters.EvenRowFilter
+   * pyexcel.filters.OddRowFilter
+   * pyexcel.filters.RowIndexFilter
+   * pyexcel.filters.SingleColumnFilter
+   * pyexcel.filters.RowValueFilter
+   * pyexcel.filters.NamedRowValueFilter
+   * pyexcel.filters.ColumnValueFilter
+   * pyexcel.filters.NamedColumnValueFilter
+   * pyexcel.filters.SingleRowFilter
+
+#. :meth:`pyexcel.Sheet.filter` has been re-implemented and all filters were
+   removed:
+
+   * pyexcel.formatters.SheetFormatter
+   
 
 0.2.5 - 31.08.2016
 --------------------------------------------------------------------------------

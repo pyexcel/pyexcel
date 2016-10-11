@@ -32,7 +32,6 @@ from .sheets import Sheet
 from .sheets.formatters import (
     ColumnFormatter,
     RowFormatter,
-    SheetFormatter,
     NamedColumnFormatter,
     NamedRowFormatter)
 from .deprecated import (

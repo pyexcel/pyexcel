@@ -291,14 +291,3 @@ class NamedRowFormatter(RowFormatter):
         else:
             raise NotImplementedError(
                 "%s is not supported" % type(new_indices))
-
-
-class SheetFormatter(Formatter):
-    """
-    Apply the formatter to all cells in the sheet
-    """
-    def __init__(self, formatter):
-        Formatter.__init__(self, None, formatter)
-
-    def is_my_business(self, row, column, value):
-        return True

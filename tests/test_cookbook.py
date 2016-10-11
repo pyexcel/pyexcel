@@ -139,7 +139,7 @@ class TestCookbook:
     def test_merge_two_files(self):
         pe.cookbook.merge_two_files(self.testfile, self.testfile2)
         r = pe.SeriesReader("pyexcel_merged.csv")
-        r.apply_formatter(pe.sheets.formatters.SheetFormatter(int))
+        r.format(int)
         content = {}
         content.update(self.content)
         content.update(self.content2)
@@ -151,7 +151,7 @@ class TestCookbook:
         file_array = [self.testfile, self.testfile2, self.testfile3]
         pe.cookbook.merge_files(file_array)
         r = pe.SeriesReader("pyexcel_merged.csv")
-        r.apply_formatter(pe.sheets.formatters.SheetFormatter(int))
+        r.format(int)
         content = {}
         content.update(self.content)
         content.update(self.content2)
@@ -165,7 +165,7 @@ class TestCookbook:
         r2 = pe.SeriesReader(self.testfile2)
         pe.cookbook.merge_two_readers(r1, r2)
         r = pe.SeriesReader("pyexcel_merged.csv")
-        r.apply_formatter(pe.sheets.formatters.SheetFormatter(int))
+        r.format(int)
         content = {}
         content.update(self.content)
         content.update(self.content2)
@@ -180,7 +180,7 @@ class TestCookbook:
         file_array = [r1, r2, r3]
         pe.cookbook.merge_readers(file_array)
         r = pe.SeriesReader("pyexcel_merged.csv")
-        r.apply_formatter(pe.sheets.formatters.SheetFormatter(int))
+        r.format(int)
         content = {}
         content.update(self.content)
         content.update(self.content2)
@@ -193,7 +193,7 @@ class TestCookbook:
         r2 = pe.SeriesReader(self.testfile2)
         pe.cookbook.merge_two_readers(r1, r2)
         r = pe.SeriesReader("pyexcel_merged.csv")
-        r.apply_formatter(pe.sheets.formatters.SheetFormatter(int))
+        r.format(int)
         content = {}
         content.update(self.content)
         content.update(self.content2)
@@ -207,8 +207,7 @@ class TestCookbook:
         r[self.testfile].name_columns_by_row(0)
         content = r[self.testfile].to_dict()
         assert content == self.content
-        r[self.testfile2].apply_formatter(
-            pe.sheets.formatters.SheetFormatter(int))
+        r[self.testfile2].format(int)
         r[self.testfile2].name_columns_by_row(0)
         content2 = r[self.testfile2].to_dict()
         assert content2 == self.content2
