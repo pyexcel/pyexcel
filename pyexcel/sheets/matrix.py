@@ -805,18 +805,12 @@ class Matrix(object):
                 value = custom_function(value)
                 self.cell_value(row, column, value)
 
-    def apply_formatter(self, aformatter):
-        """Apply the formatter immediately
-        """
-        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
-
     def __add__(self, other):
         """Overload the + sign
 
         :returns: a new book
         """
-        from ..book import Book
-        from ..utils import local_uuid
+        from ..book import Book, local_uuid
         content = {}
         content[self.name] = self._array
         if isinstance(other, Book):
@@ -872,6 +866,11 @@ class Matrix(object):
 
     def freeze_filters(self):
         """Apply all filters and delete them"""
+        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
+
+    def apply_formatter(self, aformatter):
+        """Apply the formatter immediately
+        """
         raise NotImplementedError(_IMPLEMENTATION_REMOVED)
 
     def add_formatter(self, aformatter):

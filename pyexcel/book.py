@@ -9,10 +9,12 @@
 """
 import sys
 from six import with_metaclass
-import pyexcel.utils as utils
 from pyexcel.sheets import Sheet
 import pyexcel._compact as compact
 from pyexcel.sources import BookMeta, save_book
+
+
+LOCAL_UUID = 0
 
 
 class Book(with_metaclass(BookMeta, object)):
@@ -155,13 +157,13 @@ class Book(with_metaclass(BookMeta, object)):
                 if len(other_dict.keys()) == 1:
                     new_key = other.filename
                 if new_key in content:
-                    uid = utils.local_uuid()
+                    uid = local_uuid()
                     new_key = "%s_%s" % (l, uid)
                 content[new_key] = other_dict[l]
         elif isinstance(other, Sheet):
             new_key = other.name
             if new_key in content:
-                uid = utils.local_uuid()
+                uid = local_uuid()
                 new_key = "%s_%s" % (other.name, uid)
             content[new_key] = other.to_array()
         else:
@@ -186,14 +188,14 @@ class Book(with_metaclass(BookMeta, object)):
                 if len(names) == 1:
                     new_key = other.filename
                 if new_key in self.name_array:
-                    uid = utils.local_uuid()
+                    uid = local_uuid()
                     new_key = "%s_%s" % (name, uid)
                 self.sheets[new_key] = self.get_sheet(other[name].to_array(),
                                                       new_key)
         elif isinstance(other, Sheet):
             new_key = other.name
             if new_key in self.name_array:
-                uid = utils.local_uuid()
+                uid = local_uuid()
                 new_key = "%s_%s" % (other.name, uid)
             self.sheets[new_key] = self.get_sheet(other.to_array(), new_key)
         else:
@@ -292,3 +294,9 @@ def to_book(bookstream):
     return Book(bookstream.to_dict(),
                 filename=bookstream.filename,
                 path=bookstream.path)
+
+
+def local_uuid():
+    global LOCAL_UUID
+    LOCAL_UUID = LOCAL_UUID + 1
+    return LOCAL_UUID

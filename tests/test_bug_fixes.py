@@ -56,7 +56,7 @@ class TestBugFixes(TestCase):
         logger.debug(output.getvalue())
 
     def test_issue_09(self):
-        pe.utils.LOCAL_UUID = 0
+        pe.book.LOCAL_UUID = 0
         merged = pe.Book()
         sheet1 = pe.Sheet(sheet=[[1, 2]])
         sheet2 = pe.Sheet(sheet=[[1, 2]])
@@ -114,7 +114,7 @@ class TestBugFixes(TestCase):
         self.assertEqual(str(s), content.strip('\n'))
 
     def test_issue_51_orderred_dict_in_records(self):
-        from pyexcel.utils import yield_from_records
+        from pyexcel.sources.pydata import yield_from_records
         records = []
         orderred_dict = OrderedDict()
         orderred_dict.update({"Zebra": 10})
@@ -131,7 +131,7 @@ class TestBugFixes(TestCase):
         self.assertEqual(array, expected)
 
     def test_issue_51_normal_dict_in_records(self):
-        from pyexcel.utils import yield_from_records
+        from pyexcel.sources.pydata import yield_from_records
         records = []
         orderred_dict = {}
         orderred_dict.update({"Zebra": 10})

@@ -70,7 +70,7 @@ class TestToRecord(TestCase):
 
     def test_yield_from_records(self):
         """give an empty records array"""
-        value = list(pe.utils.yield_from_records([]))
+        value = list(pe.sources.pydata.yield_from_records([]))
         eq_(len(value[0]), 0)
 
     def tearDown(self):
