@@ -837,8 +837,8 @@ class Matrix(object):
     def add_filter(self, afilter):
         """Apply a filter
         """
-        print(_IMPLEMENTATION_REMOVED + "Please use filter().")
-        self.filter(afilter)
+        raise NotImplementedError(_IMPLEMENTATION_REMOVED +
+                                  "Please use filter().")
 
     def remove_filter(self, afilter):
         """Remove a named filter
