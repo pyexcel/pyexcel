@@ -8,7 +8,6 @@
     :license: New BSD License, see LICENSE for more details
 """
 import sys
-from six import with_metaclass
 from pyexcel.sheets import Sheet
 import pyexcel._compact as compact
 from pyexcel.sources import BookMeta, save_book
@@ -17,7 +16,7 @@ from pyexcel.sources import BookMeta, save_book
 LOCAL_UUID = 0
 
 
-class Book(with_metaclass(BookMeta, object)):
+class Book(compact.with_metaclass(BookMeta, object)):
     """
     Read an excel book that has one or more sheets
 
