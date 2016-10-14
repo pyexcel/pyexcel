@@ -1,5 +1,4 @@
-from six import with_metaclass
-from pyexcel._compact import StringIO
+from pyexcel._compact import StringIO, with_metaclass
 
 
 renderer_registry = {}

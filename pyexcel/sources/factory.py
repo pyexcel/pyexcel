@@ -1,8 +1,6 @@
 from functools import partial
 
-from six import with_metaclass
-
-from pyexcel._compact import PY2, is_string
+from pyexcel._compact import PY2, is_string, with_metaclass
 from . import params
 
 # ignore the following attributes
