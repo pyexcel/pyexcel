@@ -8,7 +8,6 @@
     :license: New BSD License, see LICENSE for more details
 """
 import sys
-from six import with_metaclass
 
 from .matrix import Matrix
 import pyexcel._compact as compact
@@ -22,7 +21,7 @@ from .row import Row as NamedRow
 from .column import Column as NamedColumn
 
 
-class Sheet(with_metaclass(SheetMeta, Matrix)):
+class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
     """Two dimensional data container for filtering, formatting and iteration
 
     :class:`Sheet` is a container for a two dimensional array, where individual
