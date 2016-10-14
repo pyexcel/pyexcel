@@ -386,14 +386,6 @@ class Matrix(object):
                 self.cell_value(row, column, "")
         return region
 
-    def insert(self, topleft_corner, rows=None, columns=None):
-        """Insert a rectangle shaped data after a position
-
-        :param slice topleft_corner: the top left corner of the rectangle
-
-        """
-        self.paste(topleft_corner, rows=rows, columns=columns)
-
     def paste(self, topleft_corner, rows=None, columns=None):
         """Paste a rectangle shaped data after a position
 
