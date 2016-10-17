@@ -9,14 +9,10 @@
 """
 import sys
 
-from .matrix import Matrix
 import pyexcel._compact as compact
-from ..constants import (
-    MESSAGE_NOT_IMPLEMENTED_02,
-    MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED,
-    MESSAGE_DATA_ERROR_NO_SERIES,
-    DEFAULT_NAME)
+import pyexcel.constants as constants
 from pyexcel.sources import SheetMeta, save_sheet
+from .matrix import Matrix
 from .row import Row as NamedRow
 from .column import Column as NamedColumn
 
@@ -39,7 +35,8 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
     Filtering functions are used to reduce the information contained in the
     array.
     """
-    def __init__(self, sheet=None, name=DEFAULT_NAME,
+    def __init__(self, sheet=None,
+                 name=constants.DEFAULT_NAME,
                  name_columns_by_row=-1,
                  name_rows_by_column=-1,
                  colnames=None,
@@ -66,7 +63,8 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
             transpose_after=transpose_after
         )
 
-    def init(self, sheet=None, name=DEFAULT_NAME,
+    def init(self, sheet=None,
+             name=constants.DEFAULT_NAME,
              name_columns_by_row=-1,
              name_rows_by_column=-1,
              colnames=None,
@@ -115,14 +113,16 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
         self.column = NamedColumn(self)
         if name_columns_by_row != -1:
             if colnames:
-                raise NotImplementedError(MESSAGE_NOT_IMPLEMENTED_02)
+                raise NotImplementedError(
+                    constants.MESSAGE_NOT_IMPLEMENTED_02)
             self.name_columns_by_row(name_columns_by_row)
         else:
             if colnames:
                 self._column_names = colnames
         if name_rows_by_column != -1:
             if rownames:
-                raise NotImplementedError(MESSAGE_NOT_IMPLEMENTED_02)
+                raise NotImplementedError(
+                    constants.MESSAGE_NOT_IMPLEMENTED_02)
             self.name_rows_by_column(name_rows_by_column)
         else:
             if rownames:
@@ -278,7 +278,8 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
                 incoming_data.append(rows[k])
             Matrix.extend_rows(self, incoming_data)
         elif len(self.rownames) > 0:
-            raise TypeError(MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED)
+            raise TypeError(
+                constants.MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED)
         else:
             Matrix.extend_rows(self, rows)
 
@@ -302,7 +303,8 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
                 incoming_data.append(columns[k])
             Matrix.extend_columns(self, incoming_data)
         elif len(self.colnames) > 0:
-            raise TypeError(MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED)
+            raise TypeError(
+                constants.MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED)
         else:
             Matrix.extend_columns(self, columns)
 
@@ -349,7 +351,8 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
                 the_dict = dict(zip(headers, column))
                 ret.append(the_dict)
         else:
-            raise ValueError(MESSAGE_DATA_ERROR_NO_SERIES)
+            raise ValueError(
+                constants.MESSAGE_DATA_ERROR_NO_SERIES)
         return ret
 
     def to_dict(self, row=False):

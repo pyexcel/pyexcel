@@ -8,10 +8,10 @@
     :license: New BSD License, see LICENSE for more details
 """
 import os
-from .book import Book
-from .core import get_book, get_sheet, save_as
-from ._compact import OrderedDict
-from .constants import MESSAGE_WARNING
+from pyexcel.book import Book
+from pyexcel.core import get_book, get_sheet, save_as
+from pyexcel._compact import OrderedDict
+from pyexcel.constants import MESSAGE_WARNING
 
 
 DEFAULT_OUT_FILE = 'pyexcel_merged.csv'
