@@ -6,7 +6,7 @@ configuration:
   configuration: pyexcel.yml
 targets:
   - setup.py: setup.py
-  - "doc/source/conf.py": "docs/source/conf.py"
+  - "docs/source/conf.py": "docs/source/conf.py"
   - .travis.yml: travis.yml
   - requirements.txt: requirements.txt.jj2
   - min_requirements.txt: min_requirements.txt.jj2
@@ -14,8 +14,8 @@ targets:
   - LICENSE: LICENSE.jj2
   - MANIFEST.in: MANIFEST.in.jj2
   - README.rst: README.rst
-  - "doc/source/guide.rst": "docs/source/guide.rst"
+  - "docs/source/guide.rst": "docs/source/guide.rst"
   - test.sh: test.sh
   - test.bat: test.bat
   - .gitignore: .gitignore
-  - "doc/source/index.rst": "docs/source/index.rst.jj2"
+  - "docs/source/index.rst": "docs/source/index.rst.jj2"

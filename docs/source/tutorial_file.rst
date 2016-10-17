@@ -47,7 +47,7 @@ Here is the code:
     >>> sheet.row += [12, 11, 10]
     >>> sheet.save_as("new_example.xls")
     >>> pe.get_sheet(file_name="new_example.xls")
-    pyexcel sheet:
+    pyexcel_sheet1:
     +----------+----------+----------+
     | Column 1 | Column 2 | Column 3 |
     +----------+----------+----------+
@@ -77,7 +77,7 @@ Here is the sample code::
     >>> sheet.row[3] = ['N/A', 'N/A', 'N/A']
     >>> sheet.save_as("new_example1.xls")
     >>> pe.get_sheet(file_name="new_example1.xls")
-    pyexcel sheet:
+    pyexcel_sheet1:
     +----------+----------+----------+
     | Column 1 | Column 2 | Column 3 |
     +----------+----------+----------+
@@ -106,7 +106,7 @@ Here is the code:
     >>> sheet.column += ["Column 4", 10, 11, 12]
     >>> sheet.save_as("new_example2.xls")
     >>> pe.get_sheet(file_name="new_example2.xls")
-    pyexcel sheet:
+    pyexcel_sheet1:
     +----------+----------+----------+----------+
     | Column 1 | Column 2 | Column 3 | Column 4 |
     +----------+----------+----------+----------+
@@ -134,7 +134,7 @@ Here is the sample code:
     >>> sheet.column[2] = ["Column 3", 100, 200, 300]
     >>> sheet.save_as("new_example3.xls")
     >>> pe.get_sheet(file_name="new_example3.xls")
-    pyexcel sheet:
+    pyexcel_sheet1:
     +----------+----------+----------+
     | Column 1 | Column 2 | Column 3 |
     +----------+----------+----------+
@@ -155,7 +155,7 @@ Alternatively, you could have done like this:
     >>> sheet.column["Column 3"] = [100, 200, 300]
     >>> sheet.save_as("new_example4.xls")
     >>> pe.get_sheet(file_name="new_example4.xls")
-    pyexcel sheet:
+    pyexcel_sheet1:
     +----------+----------+----------+
     | Column 1 | Column 2 | Column 3 |
     +----------+----------+----------+
@@ -203,7 +203,7 @@ These code would do the job:
     >>> sheet.row["Row 3"] = [100, 200, 300]
     >>> sheet.save_as("new_example5.xls")
     >>> pe.get_sheet(file_name="new_example5.xls")
-    pyexcel sheet:
+    pyexcel_sheet1:
     +-------+-----+-----+-----+
     | Row 1 | 1   | 2   | 3   |
     +-------+-----+-----+-----+

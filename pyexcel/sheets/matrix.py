@@ -493,7 +493,8 @@ class Matrix(object):
             sorted_list = sorted(unique_list, reverse=True)
             for i in self.row_range():
                 for j in sorted_list:
-                    del self._array[i][j]
+                    if j < self.number_of_columns():
+                        del self._array[i][j]
             self.width = longest_row_number(self._array)
 
     def __setitem__(self, aset, c):

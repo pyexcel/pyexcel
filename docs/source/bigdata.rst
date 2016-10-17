@@ -113,10 +113,15 @@ What we can do is to define a row renderer function as the following:
 
 Then pass it onto save_as function:
 
-   >>> pe.save_as(file_name="your_file.csv",
-   ...            dest_file_name="your_file.xlsx",
-   ...            row_renderer=increment_by_one)
+   >>> pe.isave_as(file_name="your_file.csv",
+   ...             dest_file_name="your_file.xlsx",
+   ...             row_renderer=increment_by_one)
 
+
+.. note::
+
+   If the data content is from a generator, isave_as has to be used.
+   
 We can verify if it was done correctly:
 
    >>> pe.get_sheet(file_name="your_file.xlsx")

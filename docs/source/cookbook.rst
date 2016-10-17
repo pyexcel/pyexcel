@@ -229,11 +229,10 @@ Column 1 Column 3 Column 5 Column 8 Column 9 Column 10
 The following code will do the job::
 
    >>> from pyexcel.cookbook import merge_two_readers
-   >>> from pyexcel.filters import EvenColumnFilter, ColumnFilter
    >>> sheet1 = pyexcel.get_sheet(file_name="example.csv", name_columns_by_row=0)
    >>> sheet2 = pyexcel.get_sheet(file_name="example.xls", name_columns_by_row=0)
-   >>> sheet1.filter(pyexcel.EvenColumnFilter())
-   >>> sheet2.filter(pyexcel.ColumnFilter([0, 1]))
+   >>> del sheet1.column[1, 3, 5]
+   >>> del sheet2.column[0, 1]
    >>> merge_two_readers(sheet1, sheet2, "output.xls")
 
 .. testcode::

@@ -177,7 +177,7 @@ The following code will give you data series in a dictionary:
    >>> isinstance(my_dict, OrderedDict)
    True
    >>> for key, values in my_dict.items():
-   ...     print({key: values})
+   ...     print({str(key): values})
    {'Column 1': [1, 4, 7]}
    {'Column 2': [2, 5, 8]}
    {'Column 3': [3, 6, 9]}

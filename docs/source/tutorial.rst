@@ -439,33 +439,33 @@ You can use a utility function to get all in a dictionary::
 
 Maybe you want to get only the data without the column headers. You can call :meth:`~pyexcel.Sheet.rows()` instead::
 
-    >>> pyexcel.to_array(sheet.rows())
+    >>> list(sheet.rows())
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
 You can get data from the bottom to the top one by calling :meth:`~pyexcel.Sheet.rrows()` instead::
 
-    >>> pyexcel.to_array(sheet.rrows())
+    >>> list(sheet.rrows())
     [[7, 8, 9], [4, 5, 6], [1, 2, 3]]
 
 You might want the data arranged vertically. You can call :meth:`~pyexcel.Sheet.columns()` instead::
         
-    >>> pyexcel.to_array(sheet.columns())
+    >>> list(sheet.columns())
     [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
 
 You can get columns in reverse sequence as well by calling :meth:`~pyexcel.Sheet.rcolumns()` instead::
         
-    >>> pyexcel.to_array(sheet.rcolumns())
+    >>> list(sheet.rcolumns())
     [[3, 6, 9], [2, 5, 8], [1, 4, 7]]
 
 Do you want to flatten the data? You can get the content in one dimensional array. If you are interested in playing with one dimensional enumeration, you can check out these functions :meth:`~pyexcel.Sheet.enumerate`, :meth:`~pyexcel.Sheet.reverse`, :meth:`~pyexcel.Sheet.vertical`, and :meth:`~pyexcel.Sheet.rvertical()`::
 
-    >>> pyexcel.to_array(sheet.enumerate())
+    >>> list(sheet.enumerate())
     [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    >>> pyexcel.to_array(sheet.reverse())
+    >>> list(sheet.reverse())
     [9, 8, 7, 6, 5, 4, 3, 2, 1]
-    >>> pyexcel.to_array(sheet.vertical())
+    >>> list(sheet.vertical())
     [1, 4, 7, 2, 5, 8, 3, 6, 9]
-    >>> pyexcel.to_array(sheet.rvertical())
+    >>> list(sheet.rvertical())
     [9, 6, 3, 8, 5, 2, 7, 4, 1]
 
 

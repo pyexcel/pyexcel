@@ -66,7 +66,7 @@ Let's try to further filter out even columns:
     >>> sheet.content
     +----------+----------+
     | Column 1 | Column 3 |
-    +==========+==========+x
+    +==========+==========+
     | 4        | 6        |
     +----------+----------+
 
