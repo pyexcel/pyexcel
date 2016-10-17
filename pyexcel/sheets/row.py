@@ -139,8 +139,20 @@ class Row:
             self.ref.filter(row_indices=(list(locator)))
         elif isinstance(locator, list):
             self.ref.filter(row_indices=locator)
+        elif isinstance(locator, types.LambdaType):
+            self._delete_rows_by_content(locator)
+        elif isinstance(locator, types.FunctionType):
+            self._delete_rows_by_content(locator)
         else:
             self.ref.delete_rows([locator])
+
+    def _delete_rows_by_content(self, locator):
+        to_remove = []
+        for index, row in enumerate(self.ref.rows()):
+            if locator(row):
+                to_remove.append(index)
+        if len(to_remove) > 0:
+            self.ref.delete_rows(to_remove)
 
     def __setitem__(self, aslice, c):
         """Override the operator to set items"""

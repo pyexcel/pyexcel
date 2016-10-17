@@ -50,7 +50,7 @@ You may want to filter odd rows and print them in an array of dictionaries:
 
 .. code-block:: python
 
-    >>> sheet.filter(pyexcel.OddRowFilter())
+    >>> sheet.filter(row_indices=[0, 2])
     >>> sheet.content
     +----------+----------+----------+
     | Column 1 | Column 2 | Column 3 |
@@ -62,11 +62,11 @@ Let's try to further filter out even columns:
 
 .. code-block:: python
 
-    >>> sheet.filter(pyexcel.EvenColumnFilter())
+    >>> sheet.filter(column_indices=[1])
     >>> sheet.content
     +----------+----------+
     | Column 1 | Column 3 |
-    +==========+==========+
+    +==========+==========+x
     | 4        | 6        |
     +----------+----------+
 
@@ -121,17 +121,12 @@ You can use :class:`pyexcel.filters.RowValueFilter`, which examines each row, re
     ...     result = [element for element in row if element != '']
     ...     return len(result)==0
 
-Now, let's construct a row value filter
-
-.. code-block:: python
-
-    >>> row_value_filter = pe.RowValueFilter(filter_row)
 
 And then apply the filter on the sheet:
 
 .. code-block:: python
 
-    >>> sheet.filter(row_value_filter)
+    >>> del sheet.row[filter_row]
     >>> sheet
     pyexcel sheet:
     +---+---+---+
