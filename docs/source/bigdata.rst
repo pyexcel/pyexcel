@@ -76,7 +76,7 @@ Obvious, you could do both at the same time:
 .. code-block:: python
 
    >>> pe.get_sheet(file_name="your_file.csv",
-   ...     start_row=2, row_limit=3)
+   ...     start_row=2, row_limit=3,
    ...     start_column=1, column_limit=2)
    your_file.csv:
    +---+----+----+
