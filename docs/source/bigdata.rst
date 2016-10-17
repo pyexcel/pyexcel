@@ -79,13 +79,13 @@ Obvious, you could do both at the same time:
    ...     start_row=2, row_limit=3,
    ...     start_column=1, column_limit=2)
    your_file.csv:
-   +---+----+----+
-   | 3 | 23 | 33 |
-   +---+----+----+
-   | 4 | 24 | 34 |
-   +---+----+----+
-   | 5 | 25 | 35 |
-   +---+----+----+
+   +----+----+
+   | 23 | 33 |
+   +----+----+
+   | 24 | 34 |
+   +----+----+
+   | 25 | 35 |
+   +----+----+
 
 
 The pagination support is available across all pyexcel plugins.
