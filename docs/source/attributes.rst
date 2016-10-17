@@ -144,10 +144,6 @@ Get content
     +-----+-----+-----+
     | 4.0 | 3.0 | 2.0 |
     +-----+-----+-----+
-    >>> book.xls  # doctest: +ELLIPSIS
-    '...
-    >>> book.ods  # doctest: +ELLIPSIS
-    '...
     >>> print(book.rst)
     Sheet 1:
     =  =  =
