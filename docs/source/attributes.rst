@@ -18,10 +18,6 @@ Get content
     >>> sheet = pyexcel.get_sheet(file_type="csv", file_content=content)
     >>> sheet.tsv
     '1\t2\t3\r\n3\t4\t5\r\n'
-    >>> sheet.xls # doctest: +ELLIPSIS
-    '...
-    >>> sheet.ods # doctest: +ELLIPSIS
-    '...
     >>> print(sheet.simple)
     csv:
     -  -  -
