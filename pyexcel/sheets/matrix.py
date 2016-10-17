@@ -12,14 +12,8 @@ import copy
 from itertools import chain
 from functools import partial
 
-from pyexcel._compact import is_array_type, irange, czip
-from pyexcel.constants import (
-    MESSAGE_INDEX_OUT_OF_RANGE,
-    MESSAGE_DATA_ERROR_EMPTY_CONTENT,
-    MESSAGE_DATA_ERROR_DATA_TYPE_MISMATCH,
-    MESSAGE_DEPRECATED_ROW_COLUMN,
-    MESSAGE_NOT_IMPLEMENTED_01,
-    _IMPLEMENTATION_REMOVED)
+import pyexcel._compact as compact
+import pyexcel.constants as constants
 from pyexcel.sheets.formatters import to_format
 from .row import Row
 from .column import Column
@@ -127,13 +121,13 @@ class Matrix(object):
         """
         Utility function to get row range
         """
-        return irange(0, self.number_of_rows())
+        return compact.irange(0, self.number_of_rows())
 
     def column_range(self):
         """
         Utility function to get column range
         """
-        return irange(0, self.number_of_columns())
+        return compact.irange(0, self.number_of_columns())
 
     def cell_value(self, row, column, new_value=None):
         """Random access to table cells
@@ -162,7 +156,7 @@ class Matrix(object):
         if index in self.row_range():
             return copy.deepcopy(self._array[index])
         else:
-            raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)
+            raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
 
     def set_row_at(self, row_index, data_array):
         """Update a row data range
@@ -173,7 +167,7 @@ class Matrix(object):
             if len(data_array) != self.number_of_columns():
                 self.width, self._array = uniform(self._array)
         else:
-            raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)
+            raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
 
     def _set_row_at(self, row_index, data_array, starting=0):
         """Update a row data range
@@ -206,7 +200,7 @@ class Matrix(object):
                                           data_array[left:])
             self.width, self._array = uniform(self._array)
         else:
-            raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)
+            raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
 
     def _extend_row(self, row):
         array = copy.deepcopy(row)
@@ -215,7 +209,7 @@ class Matrix(object):
     def extend_rows(self, rows):
         """Inserts two dimensional data after the bottom row"""
         if isinstance(rows, list):
-            if is_array_type(rows, list):
+            if compact.is_array_type(rows, list):
                 for r in rows:
                     self._extend_row(r)
             else:
@@ -245,7 +239,7 @@ class Matrix(object):
                 cell_array.append(self.cell_value(i, index))
             return cell_array
         else:
-            raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)
+            raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
 
     def set_column_at(self, column_index, data_array, starting=0):
         """Updates a column data range
@@ -280,7 +274,7 @@ class Matrix(object):
                     self._array.append(new_row)
             self.width, self._array = uniform(self._array)
         else:
-            raise IndexError(MESSAGE_INDEX_OUT_OF_RANGE)
+            raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
 
     def extend_columns(self, columns):
         """Inserts two dimensional data after the rightmost column
@@ -296,9 +290,9 @@ class Matrix(object):
             s s s  +  t t
         """
         if not isinstance(columns, list):
-            raise TypeError(MESSAGE_DATA_ERROR_DATA_TYPE_MISMATCH)
+            raise TypeError(constants.MESSAGE_DATA_ERROR_DATA_TYPE_MISMATCH)
         incoming_data = columns
-        if not is_array_type(columns, list):
+        if not compact.is_array_type(columns, list):
             incoming_data = [columns]
         incoming_data = transpose(incoming_data)
         self._extend_columns_with_rows(incoming_data)
@@ -481,13 +475,13 @@ class Matrix(object):
                     self.extend_columns([real_column])
             self.width, self._array = uniform(self._array)
         else:
-            raise ValueError(MESSAGE_DATA_ERROR_EMPTY_CONTENT)
+            raise ValueError(constants.MESSAGE_DATA_ERROR_EMPTY_CONTENT)
 
     def delete_columns(self, column_indices):
         """Delete columns by specified list of indices
         """
         if isinstance(column_indices, list) is False:
-            raise TypeError(MESSAGE_DATA_ERROR_DATA_TYPE_MISMATCH)
+            raise TypeError(constants.MESSAGE_DATA_ERROR_DATA_TYPE_MISMATCH)
         if len(column_indices) > 0:
             unique_list = _unique(column_indices)
             sorted_list = sorted(unique_list, reverse=True)
@@ -516,7 +510,7 @@ class Matrix(object):
             row, column = utils.excel_cell_position(aset)
             return self.cell_value(row, column)
         elif isinstance(aset, int):
-            print(MESSAGE_DEPRECATED_ROW_COLUMN)
+            print(constants.MESSAGE_DEPRECATED_ROW_COLUMN)
             return self.row_at(aset)
         else:
             raise IndexError
@@ -613,7 +607,7 @@ class Matrix(object):
 
         More details see :class:`VTLBRIterator`
         """
-        return chain(*czip(*self._array))
+        return chain(*compact.czip(*self._array))
 
     def rvertical(self):
         """
@@ -636,7 +630,7 @@ class Matrix(object):
 
         More details see :class:`VBRTLIterator`
         """
-        for column in czip(*(reversed(row) for row in self._array)):
+        for column in compact.czip(*(reversed(row) for row in self._array)):
             for cell in reversed(column):
                 yield cell
 
@@ -709,7 +703,7 @@ class Matrix(object):
 
         More details see :class:`ColumnIterator`
         """
-        for row in czip(*self._array):
+        for row in compact.czip(*self._array):
             yield list(row)
 
     def rcolumns(self):
@@ -733,7 +727,7 @@ class Matrix(object):
 
         More details see :class:`ColumnReverseIterator`
         """
-        for column in czip(*(reversed(row) for row in self._array)):
+        for column in compact.czip(*(reversed(row) for row in self._array)):
             yield list(column)
 
     def filter(self, column_indices=None, row_indices=None):
@@ -833,57 +827,57 @@ class Matrix(object):
 
         :return: self
         """
-        raise NotImplementedError(MESSAGE_NOT_IMPLEMENTED_01)
+        raise NotImplementedError(constants.MESSAGE_NOT_IMPLEMENTED_01)
 
     def add_filter(self, afilter):
         """Apply a filter
         """
-        raise NotImplementedError(_IMPLEMENTATION_REMOVED +
+        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED +
                                   "Please use filter().")
 
     def remove_filter(self, afilter):
         """Remove a named filter
         """
-        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
+        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED)
 
     def clear_filters(self):
         """Clears all filters"""
-        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
+        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED)
 
     def validate_filters(self):
         """Re-apply filters
 
         It is called when some data is updated
         """
-        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
+        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED)
 
     def freeze_filters(self):
         """Apply all filters and delete them"""
-        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
+        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED)
 
     def apply_formatter(self, aformatter):
         """Apply the formatter immediately
         """
-        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
+        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED)
 
     def add_formatter(self, aformatter):
         """Add a lazy formatter.
         """
-        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
+        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED)
 
     def remove_formatter(self, aformatter):
         """Remove a formatter
 
         :param Formatter aformatter: a custom formatter
         """
-        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
+        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED)
 
     def clear_formatters(self):
         """Clear all formatters
         """
-        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
+        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED)
 
     def freeze_formatters(self):
         """Apply all added formatters and clear them
         """
-        raise NotImplementedError(_IMPLEMENTATION_REMOVED)
+        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED)
