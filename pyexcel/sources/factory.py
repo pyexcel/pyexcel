@@ -9,11 +9,13 @@
 """
 from functools import partial
 
+from pyexcel_io.constants import DB_SQL, DB_DJANGO
+
 from pyexcel._compact import PY2, is_string, with_metaclass
 from . import params
 
 # ignore the following attributes
-NO_DOT_NOTATION = ('django', 'sql')
+NO_DOT_NOTATION = (DB_DJANGO, DB_SQL)
 # registries
 REGISTRY_KEY_FORMAT = "%s-%s"
 

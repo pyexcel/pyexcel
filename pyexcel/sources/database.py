@@ -9,12 +9,8 @@
 """
 from pyexcel_io import get_data, save_data
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
-from pyexcel_io.database.sql import SQLTableImporter, SQLTableImportAdapter
-from pyexcel_io.database.sql import SQLTableExporter, SQLTableExportAdapter
-from pyexcel_io.database.django import (
-    DjangoModelExporter, DjangoModelExportAdapter,
-    DjangoModelImporter, DjangoModelImportAdapter
-)
+import pyexcel_io.database.sql as sql
+import pyexcel_io.database.django as django
 from pyexcel_io.utils import from_query_sets
 
 from pyexcel._compact import OrderedDict
@@ -85,8 +81,8 @@ class SheetSQLAlchemySource(Source):
         self.keywords = keywords
 
     def get_data(self):
-        exporter = SQLTableExporter(self.session)
-        adapter = SQLTableExportAdapter(self.table)
+        exporter = sql.SQLTableExporter(self.session)
+        adapter = sql.SQLTableExportAdapter(self.table)
         exporter.append(adapter)
         data = get_data(exporter, file_type=DB_SQL)
         return data
@@ -95,8 +91,8 @@ class SheetSQLAlchemySource(Source):
         headers = sheet.colnames
         if len(headers) == 0:
             headers = sheet.rownames
-        importer = SQLTableImporter(self.session)
-        adapter = SQLTableImportAdapter(self.table)
+        importer = sql.SQLTableImporter(self.session)
+        adapter = sql.SQLTableImportAdapter(self.table)
         adapter.column_names = headers
         adapter.row_initializer = self.keywords.get(params.INITIALIZER, None)
         adapter.column_name_mapping_dict = self.keywords.get(params.MAPDICT,
@@ -120,8 +116,8 @@ class SheetDjangoSource(Source):
         self.keywords = keywords
 
     def get_data(self):
-        exporter = DjangoModelExporter()
-        adapter = DjangoModelExportAdapter(self.model)
+        exporter = django.DjangoModelExporter()
+        adapter = django.DjangoModelExportAdapter(self.model)
         exporter.append(adapter)
         data = get_data(exporter, file_type=DB_DJANGO, **self.keywords)
         return data
@@ -130,8 +126,8 @@ class SheetDjangoSource(Source):
         headers = sheet.colnames
         if len(headers) == 0:
             headers = sheet.rownames
-        importer = DjangoModelImporter()
-        adapter = DjangoModelImportAdapter(self.model)
+        importer = django.DjangoModelImporter()
+        adapter = django.DjangoModelImportAdapter(self.model)
         adapter.set_column_names(headers)
         adapter.set_column_name_mapping_dict(
             self.keywords.get(params.MAPDICT, None))
@@ -157,9 +153,9 @@ class BookSQLSource(Source):
         self.keywords = keywords
 
     def get_data(self):
-        exporter = SQLTableExporter(self.session)
+        exporter = sql.SQLTableExporter(self.session)
         for table in self.tables:
-            adapter = SQLTableExportAdapter(table)
+            adapter = sql.SQLTableExportAdapter(table)
             exporter.append(adapter)
         data = get_data(exporter, file_type=DB_SQL, **self.keywords)
         return data
@@ -184,9 +180,9 @@ class BookSQLSource(Source):
         colnames_array = [sheet.colnames for sheet in book]
         scattered = zip(self.tables, colnames_array, mapdicts, initializers)
 
-        importer = SQLTableImporter(self.session)
+        importer = sql.SQLTableImporter(self.session)
         for each_table in scattered:
-            adapter = SQLTableImportAdapter(each_table[0])
+            adapter = sql.SQLTableImportAdapter(each_table[0])
             adapter.column_names = each_table[1]
             adapter.column_name_mapping_dict = each_table[2]
             adapter.row_initializer = each_table[3]
@@ -212,9 +208,9 @@ class BookDjangoSource(Source):
         self.keywords = keywords
 
     def get_data(self):
-        exporter = DjangoModelExporter()
+        exporter = django.DjangoModelExporter()
         for model in self.models:
-            adapter = DjangoModelExportAdapter(model)
+            adapter = django.DjangoModelExportAdapter(model)
             exporter.append(adapter)
         data = get_data(exporter, file_type=DB_DJANGO, **self.keywords)
         return data
@@ -241,9 +237,9 @@ class BookDjangoSource(Source):
         colnames_array = [sheet.colnames for sheet in book]
         scattered = zip(new_models, colnames_array, mapdicts, initializers)
 
-        importer = DjangoModelImporter()
+        importer = django.DjangoModelImporter()
         for each_model in scattered:
-            adapter = DjangoModelImportAdapter(each_model[0])
+            adapter = django.DjangoModelImportAdapter(each_model[0])
             adapter.set_column_names(each_model[1])
             adapter.set_column_name_mapping_dict(each_model[2])
             adapter.set_row_initializer(each_model[3])
