@@ -18,6 +18,8 @@ import pyexcel.constants as constants
 
 
 STARTS_WITH_DEST = '^dest_(.*)'
+SAVE_AS_EXCEPTION = ("This function does not accept parameters for " +
+                     "pyexce.Sheet. Please use pyexcel.save_as instead.")
 
 
 def get_sheet(**keywords):
@@ -52,6 +54,7 @@ def get_sheet(**keywords):
     loading from dictionary    adict, with_keys
     loading from records       records
     loading from array         array
+    loading from an url        url
     ========================== =========================================
 
     see also :ref:`a-list-of-data-structures`
@@ -90,6 +93,7 @@ def get_book(**keywords):
     loading from sql           session, tables
     loading from django models models
     loading from dictionary    bookdict
+    loading from an url        url
     ========================== ===============================
 
     Where the dictionary should have text as keys and two dimensional
@@ -181,8 +185,7 @@ def isave_as(**keywords):
             sheet_params[field] = source_keywords.pop(field)
     sheet = sources.get_sheet_stream(**source_keywords)
     if sheet_params != {}:
-        raise Exception("This function does not accept parameters for " +
-                        "pyexce.Sheet. Please use pyexcel.save_as instead.")
+        raise Exception(SAVE_AS_EXCEPTION)
     return sources.save_sheet(sheet, **dest_keywords)
 
 
@@ -200,7 +203,7 @@ def save_book_as(**keywords):
     :param dest_mapdicts: to nominate a model or table fields. Optional
     :param dest_batch_size: batch creation size. Optional
     :param keywords: additional keywords can be found at
-                     :meth:`pyexcel.get_sheet`
+                     :meth:`pyexcel.get_book`
     :returns: IO stream if saving to memory. None otherwise
 
     ================ ============================================
@@ -264,6 +267,16 @@ def get_records(name_columns_by_row=0, **keywords):
     return sheet.to_records()
 
 
+def iget_array(**keywords):
+    """Obtain a generator of an two dimensional array from an excel source
+
+    It is similiar to :meth:`pyexcel.get_array` but it has less memory
+    footprint.
+    """
+    sheet_stream = sources.get_sheet_stream(**keywords)
+    return sheet_stream.payload
+
+
 def iget_records(**keywords):
     """Obtain a generator of a list of records from an excel source
 
@@ -279,16 +292,6 @@ def iget_records(**keywords):
             headers = row
         else:
             yield dict(zip(headers, row))
-
-
-def iget_array(**keywords):
-    """Obtain a generator of an two dimensional array from an excel source
-
-    It is similiar to :meth:`pyexcel.get_array` but it has less memory
-    footprint.
-    """
-    sheet_stream = sources.get_sheet_stream(**keywords)
-    return sheet_stream.payload
 
 
 def get_book_dict(**keywords):

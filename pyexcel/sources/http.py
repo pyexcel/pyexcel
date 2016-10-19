@@ -49,7 +49,7 @@ class HttpSource(Source):
             mime_type = info.get_content_type()
         file_type = FILE_TYPE_MIME_TABLE.get(mime_type, None)
         if file_type is None:
-            file_type = get_file_type_from_url(self.url)
+            file_type = _get_file_type_from_url(self.url)
         content = f.read()
         sheets = get_data(content,
                           file_type=file_type,
@@ -60,6 +60,6 @@ class HttpSource(Source):
         return self.url, None
 
 
-def get_file_type_from_url(url):
+def _get_file_type_from_url(url):
     extension = url.split('.')
     return extension[-1]

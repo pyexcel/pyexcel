@@ -1,5 +1,5 @@
 """
-    pyexcel.sources.memory
+    pyexcel.sources.pydata
     ~~~~~~~~~~~~~~~~~~~
 
     Representation of memory sources

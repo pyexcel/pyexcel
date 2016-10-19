@@ -18,17 +18,15 @@ class ExcelRenderer(Renderer):
         if sheet.name:
             sheet_name = sheet.name
         data = {sheet_name: sheet.to_array()}
-        save_data(file_name,
-                  data,
-                  **keywords)
+        save_data(file_name, data, **keywords)
 
     def render_book_to_file(self, file_name, book, **keywords):
         save_data(file_name, book.to_dict(), **keywords)
 
     def render_sheet_to_stream(self, file_stream, sheet, **keywords):
-        self.render_sheet_to_file(file_stream, sheet,
-                                  file_type=self.file_type, **keywords)
+        self.render_sheet_to_file(
+            file_stream, sheet, file_type=self.file_type, **keywords)
 
     def render_book_to_stream(self, file_stream, book, **keywords):
-        self.render_book_to_file(file_stream, book,
-                                 file_type=self.file_type, **keywords)
+        self.render_book_to_file(
+            file_stream, book, file_type=self.file_type, **keywords)

@@ -1,3 +1,12 @@
+"""
+    pyexcel.sources.factory
+    ~~~~~~~~~~~~~~~~~~~
+
+    Data source registration
+
+    :copyright: (c) 2015-2016 by Onni Software Ltd.
+    :license: New BSD License
+"""
 from functools import partial
 
 from pyexcel._compact import PY2, is_string, with_metaclass

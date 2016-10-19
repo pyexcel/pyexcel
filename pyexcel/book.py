@@ -56,18 +56,12 @@ class Book(compact.with_metaclass(BookMeta, object)):
             # we put alphatical order
             keys = sorted(keys)
         for name in keys:
-            sheet = self.get_sheet(sheets[name], name)
+            sheet = Sheet(sheets[name], name)
             # this sheets keep sheet order
             self.sheets.update({name: sheet})
             # this provide the convenience of access the sheet
             self.__dict__[name] = sheet
         self.name_array = list(self.sheets.keys())
-
-    def get_sheet(self, array, name):
-        """
-        Create a sheet from a list of lists
-        """
-        return Sheet(array, name)
 
     def __iter__(self):
         return compact.SheetIterator(self)
@@ -96,7 +90,7 @@ class Book(compact.with_metaclass(BookMeta, object)):
         """
         if index < len(self.name_array):
             sheet_name = self.name_array[index]
-            return self.sheets[sheet_name]
+            return self.sheet_by_name(sheet_name)
 
     def remove_sheet(self, sheet):
         """
@@ -189,14 +183,14 @@ class Book(compact.with_metaclass(BookMeta, object)):
                 if new_key in self.name_array:
                     uid = local_uuid()
                     new_key = "%s_%s" % (name, uid)
-                self.sheets[new_key] = self.get_sheet(other[name].to_array(),
-                                                      new_key)
+                self.sheets[new_key] = Sheet(other[name].to_array(),
+                                             new_key)
         elif isinstance(other, Sheet):
             new_key = other.name
             if new_key in self.name_array:
                 uid = local_uuid()
                 new_key = "%s_%s" % (other.name, uid)
-            self.sheets[new_key] = self.get_sheet(other.to_array(), new_key)
+            self.sheets[new_key] = Sheet(other.to_array(), new_key)
         else:
             raise TypeError
         self.name_array = list(self.sheets.keys())
