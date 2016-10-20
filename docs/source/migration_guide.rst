@@ -1,19 +1,68 @@
 Migrate from 0.2.x to 0.3.0
 ================================
 
-`pyexcel.sheets` are simplified. Soft filtering and formatting are gone. if you use
-one of the following functions:
+Filtering and formatting behavior of :class:`pyexcel.Sheet` are simplified. Soft
+filter and soft formatter are removed. Extra classes such as iterator, formatter,
+filter are removed.
 
-#. add_formatter
-#. remove_formatter
-#. clear_formatters
-#. freeze_formatters
-#. add_filter
-#. remove_filter
-#. clear_filters
-#. freeze_formatters
+Most of formatting tasks could be achieved using :meth:`~pyexcel.Sheet.format`
+and :meth:`~pyexcel.Sheet.map`, Filtering could be donw with  :meth:`~pyexcel.Sheet.filter`. Formatting and filtering on row and/or column can be found with
+:meth:`~pyexcel.sheets.row` and :meth:`~pyexcel.sheets.column`
 
-Please use apply_formatter and apply_filter instead
+1. Updated filter function
+------------------------------------------
+
+There is no alternative to replace the folowing code::
+
+    sheet.filter(pe.OddRowFilter())
+
+You will need to remove odd rows by yourself::
+
+    to_remove = []
+    for index in sheet.row_range():
+	    if index % 2 == 0:
+		    to_remove.append(index)
+	sheet.filter(row_indices=to_remove)
+
+And the same applies to EvenRowFilter, OddColumnFilter, EvenColumnFilter.
+
+2. Updated format function
+-----------------------------------------
+
+2.1 Replacement of sheetformatter
++++++++++++++++++++++++++++++++++++++++++++
+
+The following formatting code::
+
+    sheet.apply_formatter(pe.sheets.formatters.SheetFormatter(int))
+
+can be replaced by::
+
+    sheet.format(int)
+
+2.2 Repalcement of row formatters
+++++++++++++++++++++++++++++++++++++++++++++++
+
+The following code::
+
+    row_formatter = pe.sheets.formatters.RowFormatter([1, 2], str)
+    sheet.add_formatter(row_formatter)
+
+can be replaced by::
+
+    sheet.row.format([1, 2], str)
+
+2.3 Replacement of column formatters
+++++++++++++++++++++++++++++++++++++++++++++++
+
+The following code::
+
+     f = NamedColumnFormatter(["Column 1", "Column 3"], str)
+     sheet.apply_formatter(f)
+
+can be replaced by::
+
+     sheet.column.format(["Column 1", "Column 3"], str)
 
 
 Migrate from 0.2.1 to 0.2.2+
@@ -118,7 +167,7 @@ The new code is:
    ... }
    >>> pyexcel.save_as(adict=content, dest_file_name="afile.csv")
 
-   
+
 .. testcode::
    :hide:
 
@@ -140,7 +189,7 @@ Here is yet another piece of legacy code:
 
 The new code is:
 
-    
+
     >>> data = [
     ...     [1, 2, 3],
     ...     [4, 5, 6]
@@ -150,7 +199,7 @@ The new code is:
     ...     print(line.rstrip())
     1,2,3
     4,5,6
-    
+
 2. "BookWriter" is gone. Please use save_book_as.
 ---------------------------------------------------
 

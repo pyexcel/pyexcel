@@ -4,6 +4,8 @@ Change log
 0.3.0 - Unreleased
 --------------------------------------------------------------------------------
 
+.. _version_o_three:
+
 Added:
 ********************************************************************************
 
@@ -39,6 +41,7 @@ Updated
    * :meth:`pyexcel.Sheet.named_rows()`
    * :meth:`pyexcel.Sheet.named_columns()`
 
+   
 Removed:
 ********************************************************************************
 
@@ -70,6 +73,17 @@ Removed:
    * pyexcel.filters.ColumnValueFilter
    * pyexcel.filters.NamedColumnValueFilter
    * pyexcel.filters.SingleRowFilter
+
+#. the following functions have been removed
+
+   * add_formatter
+   * remove_formatter
+   * clear_formatters
+   * freeze_formatters
+   * add_filter
+   * remove_filter
+   * clear_filters
+   * freeze_formatters
 
 #. :meth:`pyexcel.Sheet.filter` has been re-implemented and all filters were
    removed:

@@ -737,7 +737,7 @@ class Matrix(object):
         if column_indices is not None:
             self.delete_columns(column_indices)
 
-    def format(self, formatter, on_demand=False):
+    def format(self, formatter):
         """Apply a formatting action for the whole sheet
 
         Example::
