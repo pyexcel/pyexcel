@@ -1,10 +1,17 @@
 from pyexcel.sheets.sheet import Sheet
 from pyexcel import load_from_dict, load_from_records
 from _compact import OrderedDict
-from nose.tools import raises
+from nose.tools import raises, eq_
 
 
-class TestFormattableSheet:
+@raises(TypeError)
+def test_non_filter():
+    data = []
+    s = Sheet(data)
+    s.filter("abc")  # bang
+
+
+class TestFormatter:
     def setUp(self):
         self.data = [
             [1, 2, 3, 4, 5, 6, 7, 8],
@@ -31,14 +38,21 @@ class TestFormattableSheet:
         assert s.row[0] == s.row[1]
         assert s.column[0] == [1, 1, 1.1, 1.1, 2, 2]
 
-
-class TestFilterSheet:
-
-    @raises(TypeError)
-    def test_non_filter(self):
-        data = []
-        s = Sheet(data)
-        s.filter("abc")  # bang
+    def test_column_locator(self):
+        """
+        Remove odd columns
+        """
+        locator = lambda column_index, _: column_index % 2 == 0
+        sheet = Sheet(self.data)
+        del sheet.column[locator]
+        expected = [
+            [2, 4, 6, 8],
+            ['2', '4', '6', '8'],
+            [2.2, 4.4, 6.6, 8.8],
+            ['2.2', '4.4', '6.6', '8.8'],
+            [3, 5, 7, 9],
+            ['3', '5', '7', '9']]
+        eq_(sheet.array, expected)
 
 
 class TestSheetNamedColumn:
