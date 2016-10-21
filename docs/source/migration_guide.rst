@@ -6,7 +6,8 @@ filter and soft formatter are removed. Extra classes such as iterator, formatter
 filter are removed.
 
 Most of formatting tasks could be achieved using :meth:`~pyexcel.Sheet.format`
-and :meth:`~pyexcel.Sheet.map`, Filtering could be donw with  :meth:`~pyexcel.Sheet.filter`. Formatting and filtering on row and/or column can be found with
+and :meth:`~pyexcel.Sheet.map`. and Filtering with  :meth:`~pyexcel.Sheet.filter`.
+Formatting and filtering on row and/or column can be found with
 :meth:`~pyexcel.sheets.row` and :meth:`~pyexcel.sheets.column`
 
 1. Updated filter function
@@ -18,11 +19,40 @@ There is no alternative to replace the folowing code::
 
 You will need to remove odd rows by yourself::
 
-    to_remove = []
-    for index in sheet.row_range():
-	    if index % 2 == 0:
-		    to_remove.append(index)
-	sheet.filter(row_indices=to_remove)
+    >>> import pyexcel as pe
+    >>> data = [
+    ...  ['1'],
+    ...  ['2'],
+    ...  ['3'],
+    ... ]
+    >>> sheet = pe.Sheet(data)
+    >>> to_remove = []
+    >>> for index in sheet.row_range():
+    ...     if index % 2 == 0:
+    ...         to_remove.append(index)
+    >>> sheet.filter(row_indices=to_remove)
+    >>> sheet
+    pyexcel sheet:
+    +---+
+    | 2 |
+    +---+
+
+Or, you could do this::
+
+    >>> data = [
+    ...  ['1'],
+    ...  ['2'],
+    ...  ['3'],
+    ... ]
+    >>> sheet = pe.Sheet(data)
+    >>> def odd_filter(row_index, _):
+    ...    return row_index % 2 == 0
+    >>> del sheet.row[odd_filter]
+    >>> sheet
+    pyexcel sheet:
+    +---+
+    | 2 |
+    +---+
 
 And the same applies to EvenRowFilter, OddColumnFilter, EvenColumnFilter.
 

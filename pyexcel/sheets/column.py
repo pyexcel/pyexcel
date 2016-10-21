@@ -185,7 +185,7 @@ class Column:
     def _delete_columns_by_content(self, locator):
         to_remove = []
         for index, column in enumerate(self.ref.columns()):
-            if locator(column):
+            if locator(index, column):
                 to_remove.append(index)
         if len(to_remove) > 0:
             self.ref.delete_columns(to_remove)

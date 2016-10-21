@@ -149,7 +149,7 @@ class Row:
     def _delete_rows_by_content(self, locator):
         to_remove = []
         for index, row in enumerate(self.ref.rows()):
-            if locator(row):
+            if locator(index, row):
                 to_remove.append(index)
         if len(to_remove) > 0:
             self.ref.delete_rows(to_remove)

@@ -117,7 +117,7 @@ You can use :class:`pyexcel.filters.RowValueFilter`, which examines each row, re
 
 .. code-block:: python
 
-    >>> def filter_row(row):
+    >>> def filter_row(row_index, row):
     ...     result = [element for element in row if element != '']
     ...     return len(result)==0
 
