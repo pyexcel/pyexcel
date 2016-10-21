@@ -170,6 +170,7 @@ def _get_generic_source(target, action, **keywords):
     for source in registry[key]:
         if source.is_my_business(action, **keywords):
             s = source(**keywords)
+            log.info("Found %s for %s" % (s, key))
             return s
     raise NotImplementedError("No source found for %s" % keywords)
 
