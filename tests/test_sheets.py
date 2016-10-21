@@ -42,9 +42,8 @@ class TestFormatter:
         """
         Remove odd columns
         """
-        locator = lambda column_index, _: column_index % 2 == 0
         sheet = Sheet(self.data)
-        del sheet.column[locator]
+        del sheet.column[lambda column_index, _: column_index % 2 == 0]
         expected = [
             [2, 4, 6, 8],
             ['2', '4', '6', '8'],
