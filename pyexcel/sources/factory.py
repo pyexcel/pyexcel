@@ -7,6 +7,7 @@
     :copyright: (c) 2015-2016 by Onni Software Ltd.
     :license: New BSD License
 """
+import logging
 from functools import partial
 
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
@@ -14,6 +15,8 @@ from pyexcel_io.constants import DB_SQL, DB_DJANGO
 from pyexcel._compact import PY2, is_string, with_metaclass
 from . import params
 
+
+log = logging.getLogger(__name__)
 # ignore the following attributes
 NO_DOT_NOTATION = (DB_DJANGO, DB_SQL)
 # registries
@@ -45,10 +48,12 @@ def register_class(cls):
         for action in cls.actions:
             key = REGISTRY_KEY_FORMAT % (target, action)
             registry[key].append(cls)
+            log.debug("Source registry: %s -> %s" % (key, cls))
             for attr in cls.attributes:
                 if attr in NO_DOT_NOTATION:
                     continue
                 attribute_registry[key].append(attr)
+                log.debug("Instance attribute: %s -> %s" % (key, attr))
                 keywords[attr] = cls.key
 
 
@@ -169,14 +174,14 @@ def _get_generic_source(target, action, **keywords):
     raise NotImplementedError("No source found for %s" % keywords)
 
 
-get_source = partial(_get_generic_source,
-                     params.SHEET, params.READ_ACTION)
+get_source = partial(
+    _get_generic_source, params.SHEET, params.READ_ACTION)
 
-get_book_source = partial(_get_generic_source,
-                          params.BOOK, params.READ_ACTION)
+get_book_source = partial(
+    _get_generic_source, params.BOOK, params.READ_ACTION)
 
-get_writable_source = partial(_get_generic_source,
-                              params.SHEET, params.WRITE_ACTION)
+get_writable_source = partial(
+    _get_generic_source, params.SHEET, params.WRITE_ACTION)
 
-get_writable_book_source = partial(_get_generic_source,
-                                   params.BOOK, params.WRITE_ACTION)
+get_writable_book_source = partial(
+    _get_generic_source, params.BOOK, params.WRITE_ACTION)

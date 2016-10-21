@@ -141,26 +141,31 @@ def _register_instance_input_and_output(
 
 
 register_presentation = _register_instance_input_and_output
-register_book_presentation = partial(_register_instance_input_and_output,
-                                     presenter_func=book_presenter,
-                                     instance_name="Book")
-register_input = partial(_register_instance_input_and_output,
-                         presenter_func=default_presenter,
-                         input_func=importer,
-                         description=constants._IN_FILE_TYPE_DOC_STRING)
-register_book_input = partial(_register_instance_input_and_output,
-                              presenter_func=default_presenter,
-                              input_func=book_importer,
-                              instance_name="Book",
-                              description=constants._IN_FILE_TYPE_DOC_STRING)
-register_io = partial(_register_instance_input_and_output,
-                      input_func=importer,
-                      description=constants._IO_FILE_TYPE_DOC_STRING)
-register_book_io = partial(_register_instance_input_and_output,
-                           presenter_func=book_presenter,
-                           input_func=book_importer,
-                           instance_name="Book",
-                           description=constants._IO_FILE_TYPE_DOC_STRING)
+register_book_presentation = partial(
+    _register_instance_input_and_output,
+    presenter_func=book_presenter,
+    instance_name="Book")
+register_input = partial(
+    _register_instance_input_and_output,
+    presenter_func=default_presenter,
+    input_func=importer,
+    description=constants._IN_FILE_TYPE_DOC_STRING)
+register_book_input = partial(
+    _register_instance_input_and_output,
+    presenter_func=default_presenter,
+    input_func=book_importer,
+    instance_name="Book",
+    description=constants._IN_FILE_TYPE_DOC_STRING)
+register_io = partial(
+    _register_instance_input_and_output,
+    input_func=importer,
+    description=constants._IO_FILE_TYPE_DOC_STRING)
+register_book_io = partial(
+    _register_instance_input_and_output,
+    presenter_func=book_presenter,
+    input_func=book_importer,
+    instance_name="Book",
+    description=constants._IO_FILE_TYPE_DOC_STRING)
 
 
 class SheetMeta(type):

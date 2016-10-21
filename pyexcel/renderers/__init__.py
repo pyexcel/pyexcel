@@ -1,11 +1,18 @@
 # flake8: noqa
+import logging
+
+
+from .factory import renderer_registry
 from . import _texttable, _excel
+
+
+log = logging.getLogger(__name__)
+
 try:
     import pyexcel_text as text
 except ImportError as e:
-    print("Failed to import pyexcel_text due to %s" % e)
+    log.error("Failed to import pyexcel_text due to %s", exc_info=True)
     pass
-from .factory import renderer_registry
 
 
 def get_renderer(file_type):
