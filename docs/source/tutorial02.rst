@@ -103,15 +103,6 @@ Suppose you have the following data in a sheet and you want to remove those rows
 
     >>> import pyexcel as pe
     >>> sheet = pe.Sheet([[1,2,3],['','',''],['','',''],[1,2,3]])
-    >>> sheet
-    pyexcel sheet:
-    +---+---+---+
-    | 1 | 2 | 3 |
-    +---+---+---+
-    +---+---+---+
-    +---+---+---+
-    | 1 | 2 | 3 |
-    +---+---+---+
 
 You can use :class:`pyexcel.filters.RowValueFilter`, which examines each row, return `True` if the row should be filtered out. So, let's define a filter function:
 

@@ -32,16 +32,13 @@ def test_random_access_to_unknown_area():
     test_content = [[1, 2]]
     sheet = Sheet(test_content)
     eq_(sheet.to_array(), test_content)
-    expected = dedent("""
-    pyexcel sheet:
-    +---+---+-----+
-    | 1 | 2 |     |
-    +---+---+-----+
-    +---+---+-----+
-    |   |   | 100 |
-    +---+---+-----+""").strip('\n')
+    expected = [
+        [1,2, ''],
+        ['', '', ''],
+        ['', '', 100]
+    ]
     sheet[2, 2] = 100
-    eq_(str(sheet), expected)
+    eq_(sheet.array, expected)
 
 
 def test_named_sheet_access():
