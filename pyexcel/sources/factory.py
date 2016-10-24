@@ -9,10 +9,11 @@
 """
 import logging
 from functools import partial
+from itertools import product
 
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
 
-from pyexcel._compact import PY2, is_string, with_metaclass
+from pyexcel._compact import is_string, with_metaclass
 from . import params
 
 
@@ -44,17 +45,16 @@ keywords = {}
 
 
 def register_class(cls):
-    for target in cls.targets:
-        for action in cls.actions:
-            key = REGISTRY_KEY_FORMAT % (target, action)
-            registry[key].append(cls)
-            log.debug("Source registry: %s -> %s" % (key, cls))
-            for attr in cls.attributes:
-                if attr in NO_DOT_NOTATION:
-                    continue
-                attribute_registry[key].append(attr)
-                log.debug("Instance attribute: %s -> %s" % (key, attr))
-                keywords[attr] = cls.key
+    for target, action in product(cls.targets, cls.actions):
+        key = REGISTRY_KEY_FORMAT % (target, action)
+        registry[key].append(cls)
+        log.debug("Source registry: %s -> %s" % (key, cls))
+        for attr in cls.attributes:
+            if attr in NO_DOT_NOTATION:
+                continue
+            attribute_registry[key].append(attr)
+            log.debug("Instance attribute: %s -> %s" % (key, attr))
+            keywords[attr] = cls.key
 
 
 class MetaForSourceRegistryOnly(type):
@@ -90,9 +90,7 @@ class Source(with_metaclass(MetaForSourceRegistryOnly, object)):
         If all required keys are present, this source is activated
         """
         statuses = [_has_field(field, keywords) for field in cls.fields]
-        results = filter(lambda status: status is False, statuses)
-        if not PY2:
-            results = list(results)
+        results = [status for status in statuses if status is False]
         return len(results) == 0
 
     def write_data(self, content):
