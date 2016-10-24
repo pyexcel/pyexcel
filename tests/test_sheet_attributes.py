@@ -33,7 +33,7 @@ def test_random_access_to_unknown_area():
     sheet = Sheet(test_content)
     eq_(sheet.to_array(), test_content)
     expected = [
-        [1,2, ''],
+        [1, 2, ''],
         ['', '', ''],
         ['', '', 100]
     ]
