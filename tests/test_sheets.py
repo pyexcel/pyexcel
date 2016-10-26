@@ -58,8 +58,9 @@ class TestFormatter:
         Remove odd columns
         """
         sheet = Sheet(self.data)
+
         def locator(index, _):
-            return index % 2 ==0
+            return index % 2 == 0
         del sheet.column[locator]
         expected = [
             [2, 4, 6, 8],
@@ -83,7 +84,7 @@ class TestFormatter:
     @raises(IndexError)
     def test_set_row_at3(self):
         s = Sheet(self.data)
-        s._set_row_at(10000, 100000,[1])
+        s._set_row_at(10000, 100000, [1])
 
     @raises(ValueError)
     def test_empty_paste(self):
@@ -166,7 +167,7 @@ class TestSheetColumn:
     @raises(ValueError)
     def test_delete_column(self):
         s = Sheet(self.data, "test")
-        del s.column[1,2]
+        del s.column[1, 2]
         assert s.number_of_columns() == 1
         s.column["Column 2"]  # access it after deletion, bang
 
@@ -347,7 +348,7 @@ class TestSheetRow:
     @raises(ValueError)
     def test_delete_row(self):
         s = Sheet(self.data, "test")
-        del s.row[1,2]
+        del s.row[1, 2]
         assert s.number_of_rows() == 2
         s.row["Row 1"]  # already deleted
 
@@ -356,8 +357,9 @@ class TestSheetRow:
         Remove odd columns
         """
         sheet = Sheet(self.data)
+
         def locator(index, _):
-            return index % 2 ==0
+            return index % 2 == 0
         del sheet.row[locator]
         assert sheet.number_of_rows() == 2
 

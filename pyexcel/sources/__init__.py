@@ -66,31 +66,13 @@ def make_presenter(source_getter, attribute=None):
 
 
 def sheet_presenter(attribute=None):
-    def custom_presenter(self, **keywords):
-        keyword = _get_keyword_for_parameter(attribute)
-        keywords[keyword] = attribute
-        memory_source = factory.get_writable_source(**keywords)
-        memory_source.write_data(self)
-        content = memory_source.content.getvalue()
-        return content
-    custom_presenter.__doc__ = "Get data in %s format" % attribute
-    return custom_presenter
+    source_getter = factory.get_writable_source
+    return make_presenter(source_getter, attribute)
 
 
 def book_presenter(attribute=None):
-    def internal_book_presenter(self, **keywords):
-        keyword = _get_keyword_for_parameter(attribute)
-        keywords[keyword] = attribute
-        memory_source = factory.get_writable_book_source(**keywords)
-        memory_source.write_data(self)
-        try:
-            content = memory_source.content.getvalue()
-        except AttributeError:
-            # assume it is sys.stdout
-            content = None
-        return content
-    internal_book_presenter.__doc__ = "Get data in %s format" % attribute
-    return internal_book_presenter
+    source_getter = factory.get_writable_book_source
+    return make_presenter(source_getter, attribute)
 
 
 def importer(attribute=None):

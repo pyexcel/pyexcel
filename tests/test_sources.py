@@ -22,6 +22,8 @@ def test_source():
     source = Source(source="asource", params="params")
     assert source.keywords == {"params": "params"}
     assert source.source == "asource"
+    info = source.get_source_info()
+    assert info, (None, None)
 
 
 def test_source_class_method():
