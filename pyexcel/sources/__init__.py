@@ -59,10 +59,7 @@ def make_presenter(source_getter, attribute=None):
         keywords[keyword] = attribute
         memory_source = source_getter(**keywords)
         memory_source.write_data(self)
-        try:
-            content = memory_source.content.getvalue()
-        except AttributeError:
-            content = memory_source.content.read()
+        content = memory_source.content.getvalue()
         return content
     custom_presenter.__doc__ = "Get data in %s format" % attribute
     return custom_presenter
@@ -74,11 +71,7 @@ def sheet_presenter(attribute=None):
         keywords[keyword] = attribute
         memory_source = factory.get_writable_source(**keywords)
         memory_source.write_data(self)
-        try:
-            content = memory_source.content.getvalue()
-        except AttributeError:
-            # assume it is sys.stdout
-            content = None
+        content = memory_source.content.getvalue()
         return content
     custom_presenter.__doc__ = "Get data in %s format" % attribute
     return custom_presenter
