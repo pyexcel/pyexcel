@@ -1,4 +1,5 @@
 import os
+import sys
 import pyexcel as pe
 from _compact import BytesIO
 from base import create_sample_file1
@@ -134,3 +135,17 @@ class TestIO:
         result = [1, 2, 3, 4, 5, 6]
         actual = list(b[0].enumerate())
         eq_(result, actual)
+
+
+def test_save_sheet_to_sys_stdout():
+    data = [[1]]
+    sheet = pe.Sheet(data)
+    ret = sheet.save_to_memory('csv', sys.stdout)
+    eq_(ret, None)
+
+
+def test_save_book_to_sys_stdout():
+    data = {"sheet": [[1]]}
+    book = pe.Book(data)
+    ret = book.save_to_memory('csv', sys.stdout)
+    eq_(ret, None)
