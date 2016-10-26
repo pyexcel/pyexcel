@@ -53,8 +53,45 @@ class TestFormatter:
             ['3', '5', '7', '9']]
         eq_(sheet.array, expected)
 
+    def test_column_locator2(self):
+        """
+        Remove odd columns
+        """
+        sheet = Sheet(self.data)
+        def locator(index, _):
+            return index % 2 ==0
+        del sheet.column[locator]
+        expected = [
+            [2, 4, 6, 8],
+            ['2', '4', '6', '8'],
+            [2.2, 4.4, 6.6, 8.8],
+            ['2.2', '4.4', '6.6', '8.8'],
+            [3, 5, 7, 9],
+            ['3', '5', '7', '9']]
+        eq_(sheet.array, expected)
 
-class TestSheetNamedColumn:
+    @raises(IndexError)
+    def test_set_row_at(self):
+        s = Sheet(self.data)
+        s.set_row_at(1000, [1])
+
+    def test_set_row_at2(self):
+        s = Sheet(self.data)
+        s.set_row_at(1, [1])
+        eq_(s[1], [1, '', '', '', '', '', '', ''])
+
+    @raises(IndexError)
+    def test_set_row_at3(self):
+        s = Sheet(self.data)
+        s._set_row_at(10000, 100000,[1])
+
+    @raises(ValueError)
+    def test_empty_paste(self):
+        s = Sheet(self.data)
+        s.paste((1, 2))
+
+
+class TestSheetColumn:
     def setUp(self):
         self.data = [
             ["Column 1", "Column 2", "Column 3"],
@@ -126,8 +163,15 @@ class TestSheetNamedColumn:
         assert s.number_of_columns() == 2
         s.column["Column 2"]  # access it after deletion, bang
 
+    @raises(ValueError)
+    def test_delete_column(self):
+        s = Sheet(self.data, "test")
+        del s.column[1,2]
+        assert s.number_of_columns() == 1
+        s.column["Column 2"]  # access it after deletion, bang
 
-class TestSheetNamedColumn2:
+
+class TestSheetColumn2:
     def setUp(self):
         self.data = [
             [1, 2, 3],
@@ -192,7 +236,7 @@ class TestSheetNamedColumn2:
         assert s.row[0] == [10000, 1, 11]
 
 
-class TestSheetNamedRow:
+class TestSheetRow:
     def setUp(self):
         self.data = [
             ["Row 0", -1, -2, -3],
@@ -291,6 +335,31 @@ class TestSheetNamedRow:
         s.delete_named_row_at(2)
         assert s.number_of_rows() == 3
         s.row["Row 2"]  # already deleted
+
+    @raises(ValueError)
+    def test_delete_indexed_row3(self):
+        s = Sheet(self.data, "test")
+        s.name_rows_by_column(0)
+        del s.row["Row 0", "Row 1"]
+        assert s.number_of_rows() == 2
+        s.row["Row 1"]  # already deleted
+
+    @raises(ValueError)
+    def test_delete_row(self):
+        s = Sheet(self.data, "test")
+        del s.row[1,2]
+        assert s.number_of_rows() == 2
+        s.row["Row 1"]  # already deleted
+
+    def test_column_locator2(self):
+        """
+        Remove odd columns
+        """
+        sheet = Sheet(self.data)
+        def locator(index, _):
+            return index % 2 ==0
+        del sheet.row[locator]
+        assert sheet.number_of_rows() == 2
 
     def test_set_named_row(self):
         s = Sheet(self.data, "test")
