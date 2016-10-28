@@ -26,22 +26,22 @@ Updated
    the console is of ascii encoding.
 #. `# 59 <https://github.com/pyexcel/pyexcel/issues/59>`_: custom row
    renderer
-#. pyexcel.transpose becomes :meth:`pyexcel.sheets.transpose`
-#. iterator functions of :class:`~pyexcel.Sheet` were converted to generator
+#. pyexcel.transpose becomes `pyexcel.sheets.transpose`
+#. iterator functions of `pyexcel.Sheet` were converted to generator
    functions
 
-   * :meth:`pyexcel.Sheet.enumerate()`
-   * :meth:`pyexcel.Sheet.reverse()`
-   * :meth:`pyexcel.Sheet.vertical()`
-   * :meth:`pyexcel.Sheet.rvertical()`
-   * :meth:`pyexcel.Sheet.rows()`
-   * :meth:`pyexcel.Sheet.rrows()`
-   * :meth:`pyexcel.Sheet.columns()`
-   * :meth:`pyexcel.Sheet.rcolumns()`
-   * :meth:`pyexcel.Sheet.named_rows()`
-   * :meth:`pyexcel.Sheet.named_columns()`
+   * `pyexcel.Sheet.enumerate()`
+   * `pyexcel.Sheet.reverse()`
+   * `pyexcel.Sheet.vertical()`
+   * `pyexcel.Sheet.rvertical()`
+   * `pyexcel.Sheet.rows()`
+   * `pyexcel.Sheet.rrows()`
+   * `pyexcel.Sheet.columns()`
+   * `pyexcel.Sheet.rcolumns()`
+   * `pyexcel.Sheet.named_rows()`
+   * `pyexcel.Sheet.named_columns()`
 
-#. :meth:`~pyexcel.Sheet.save_to_memory` and :meth:`~pyexcel.Book.save_to_memory`
+#. `~pyexcel.Sheet.save_to_memory` and `~pyexcel.Book.save_to_memory`
    return the actual content. No longer they will return a io object hence
    you cannot call getvalue() on them.
    
@@ -53,43 +53,43 @@ Removed:
 #. SourceFactory and RendererFactory are removed
 #. The following methods are removed
 
-   * :meth:`pyexcel.to_array`
-   * :meth:`pyexcel.to_dict`
-   * :meth:`pyexcel.utils.to_one_dimensional_array`
-   * :meth:`pyexcel.dict_to_array`
-   * :meth:`pyexcel.from_records`
-   * :meth:`pyexcel.to_records`
+   * `pyexcel.to_array`
+   * `pyexcel.to_dict`
+   * `pyexcel.utils.to_one_dimensional_array`
+   * `pyexcel.dict_to_array`
+   * `pyexcel.from_records`
+   * `pyexcel.to_records`
 
-#. :meth:`pyexcel.Sheet.filter` has been re-implemented and all filters were
+#. `pyexcel.Sheet.filter` has been re-implemented and all filters were
    removed:
 
-   * pyexcel.filters.ColumnIndexFilter
-   * pyexcel.filters.ColumnFilter
-   * pyexcel.filters.RowFilter
-   * pyexcel.filters.EvenColumnFilter
-   * pyexcel.filters.OddColumnFilter
-   * pyexcel.filters.EvenRowFilter
-   * pyexcel.filters.OddRowFilter
-   * pyexcel.filters.RowIndexFilter
-   * pyexcel.filters.SingleColumnFilter
-   * pyexcel.filters.RowValueFilter
-   * pyexcel.filters.NamedRowValueFilter
-   * pyexcel.filters.ColumnValueFilter
-   * pyexcel.filters.NamedColumnValueFilter
-   * pyexcel.filters.SingleRowFilter
+   * `pyexcel.filters.ColumnIndexFilter`
+   * `pyexcel.filters.ColumnFilter`
+   * `pyexcel.filters.RowFilter`
+   * `pyexcel.filters.EvenColumnFilter`
+   * `pyexcel.filters.OddColumnFilter`
+   * `pyexcel.filters.EvenRowFilter`
+   * `pyexcel.filters.OddRowFilter`
+   * `pyexcel.filters.RowIndexFilter`
+   * `pyexcel.filters.SingleColumnFilter`
+   * `pyexcel.filters.RowValueFilter`
+   * `pyexcel.filters.NamedRowValueFilter`
+   * `pyexcel.filters.ColumnValueFilter`
+   * `pyexcel.filters.NamedColumnValueFilter`
+   * `pyexcel.filters.SingleRowFilter`
 
 #. the following functions have been removed
 
-   * add_formatter
-   * remove_formatter
-   * clear_formatters
-   * freeze_formatters
-   * add_filter
-   * remove_filter
-   * clear_filters
-   * freeze_formatters
+   * `add_formatter`
+   * `remove_formatter`
+   * `clear_formatters`
+   * `freeze_formatters`
+   * `add_filter`
+   * `remove_filter`
+   * `clear_filters`
+   * `freeze_formatters`
 
-#. :meth:`pyexcel.Sheet.filter` has been re-implemented and all filters were
+#. `pyexcel.Sheet.filter` has been re-implemented and all filters were
    removed:
 
    * pyexcel.formatters.SheetFormatter
