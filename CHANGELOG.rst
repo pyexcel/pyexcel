@@ -40,7 +40,8 @@ Updated
    * :meth:`pyexcel.Sheet.rcolumns()`
    * :meth:`pyexcel.Sheet.named_rows()`
    * :meth:`pyexcel.Sheet.named_columns()`
-*. :meth:`~pyexcel.Sheet.save_to_memory` and :meth:`~pyexcel.Book.save_to_memory`
+
+#. :meth:`~pyexcel.Sheet.save_to_memory` and :meth:`~pyexcel.Book.save_to_memory`
    return the actual content. No longer they will return a io object hence
    you cannot call getvalue() on them.
    
@@ -58,6 +59,7 @@ Removed:
    * :meth:`pyexcel.dict_to_array`
    * :meth:`pyexcel.from_records`
    * :meth:`pyexcel.to_records`
+
 #. :meth:`pyexcel.Sheet.filter` has been re-implemented and all filters were
    removed:
 
