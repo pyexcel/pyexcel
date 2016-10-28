@@ -26,6 +26,8 @@ Updated
    the console is of ascii encoding.
 #. `# 59 <https://github.com/pyexcel/pyexcel/issues/59>`_: custom row
    renderer
+#. `# 56 <https://github.com/pyexcel/pyexcel/issues/56>`_: set cell value does
+   not work
 #. pyexcel.transpose becomes `pyexcel.sheets.transpose`
 #. iterator functions of `pyexcel.Sheet` were converted to generator
    functions
