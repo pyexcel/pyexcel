@@ -62,7 +62,6 @@ pyexcel.Sheet
       ~Sheet.get_xlsm
       ~Sheet.get_xlsx
       ~Sheet.init
-      ~Sheet.insert
       ~Sheet.map
       ~Sheet.name_columns_by_row
       ~Sheet.name_rows_by_column

@@ -11,14 +11,14 @@ log = logging.getLogger(__name__)
 try:
     import pyexcel_text
 except ImportError as e:
-    log.error("Failed to import pyexcel_text due to %s", exc_info=True)
+    log.info("Failed to import pyexcel_text due to %s", exc_info=True)
     pass
 
 
 try:
     import pyexcel_chart
 except ImportError as e:
-    log.error("Failed to import pyexcel_chart due to %s", exc_info=True)
+    log.info("Failed to import pyexcel_chart due to %s", exc_info=True)
     pass
 
 

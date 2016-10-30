@@ -31,7 +31,6 @@ pyexcel.Book
       ~Book.get_plain
       ~Book.get_records
       ~Book.get_rst
-      ~Book.get_sheet
       ~Book.get_simple
       ~Book.get_texttable
       ~Book.get_tsv

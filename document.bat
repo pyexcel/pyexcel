@@ -1,7 +1,7 @@
 python setup.py clean --all
 python setup.py install
-del doc\source\generated\*.rst
-del doc\source\iapi\*.rst
-sphinx-autogen -o doc\source\generated doc\source\api.rst
-sphinx-autogen -o doc\source\iapi doc\source\iapi.rst
-sphinx-build -b html doc\source doc\build
+del docs\source\generated\*.rst
+del docs\source\iapi\*.rst
+sphinx-autogen -o docs\source\generated docs\source\api.rst
+sphinx-autogen -o docs\source\iapi docs\source\iapi.rst
+sphinx-build -b html docs\source docs\build
