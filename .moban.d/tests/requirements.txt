@@ -2,7 +2,6 @@
 {%block extras %}
 SQLAlchemy
 mock
-glob2
 flask
 lxml
 pyexcel-xlsx>=0.1.0

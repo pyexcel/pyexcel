@@ -2,7 +2,7 @@ import os
 import sys
 import imp
 import json
-import glob2
+import glob
 from unittest import TestCase
 import pyexcel as pe
 
@@ -20,7 +20,7 @@ def load_from_file(mod_name, file_ext, expected_main='main'):
 
 class TestAllExamples:
     def test_them(self):
-        example_files = glob2.glob(os.path.join('examples', '**', '*.py'))
+        example_files = glob.glob(os.path.join('examples', '**', '*.py'))
         file_registry = {}
         for abs_file_path in example_files:
             if 'pyexcel_server.py' in abs_file_path:
