@@ -10,6 +10,7 @@
 # flake8: noqa
 import sys
 import types
+import logging
 
 PY2 = sys.version_info[0] == 2
 PY26 = PY2 and sys.version_info[1] < 7
@@ -18,6 +19,13 @@ if PY26:
     from ordereddict import OrderedDict
 else:
     from collections import OrderedDict
+
+if PY26:
+    from logging import NullHandler
+else:
+    class NullHandler(logging.Handler):
+        def emit(self, record):
+            pass
 
 if PY2:
     from StringIO import StringIO
