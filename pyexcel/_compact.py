@@ -20,9 +20,9 @@ if PY26:
 else:
     from collections import OrderedDict
 
-if PY26:
+try:
     from logging import NullHandler
-else:
+except ImportError:
     class NullHandler(logging.Handler):
         def emit(self, record):
             pass
