@@ -1,7 +1,7 @@
 overrides: "pyexcel.yaml"
 name: "pyexcel"
 nick_name: pyexcel
-version: 0.3.1
+version: 0.3.2
 release: 0.3.1
 dependencies:
   - pyexcel-io>=0.2.3
