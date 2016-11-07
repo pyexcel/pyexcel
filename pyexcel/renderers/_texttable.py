@@ -23,6 +23,8 @@ def render_text_table(sheet, write_title):
     data = sheet.to_array()
     if is_generator(data):
         data = list(data)
+    if len(data) == 0:
+        return content
     table.set_cols_dtype(['t'] * len(data[0]))
     if len(sheet.colnames) > 0:
         table.set_chars(['-', '|', '+', '='])

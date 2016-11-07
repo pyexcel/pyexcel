@@ -166,3 +166,7 @@ class TestBugFixes(TestCase):
         book = pe.Book()
         book.bookdict = adict
         sys.stdout.write(repr(book))
+
+    def test_issue_63_empty_array_crash_texttable_renderer(self):
+        sheet = pe.Sheet([])
+        print(sheet)
