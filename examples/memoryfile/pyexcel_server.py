@@ -60,6 +60,7 @@ def download():
     output.headers["Content-type"] = "text/csv"
     return output
 
+
 if __name__ == "__main__":
     # start web server
     app.run()

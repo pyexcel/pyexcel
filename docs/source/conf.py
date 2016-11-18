@@ -26,6 +26,8 @@ html_theme = 'default'
 
 def setup(app):
     app.add_stylesheet('theme_overrides.css')
+
+
 html_static_path = ['_static']
 htmlhelp_basename = 'pyexceldoc'
 latex_elements = {}
