@@ -24,6 +24,7 @@ class MetaForRendererRegistryOnly(type):
 
 class Renderer(with_metaclass(MetaForRendererRegistryOnly, object)):
     file_types = ()
+    WRITE_FLAG = 'w'
 
     def __init__(self, file_type):
         self.file_type = file_type
@@ -35,7 +36,7 @@ class Renderer(with_metaclass(MetaForRendererRegistryOnly, object)):
     def render_sheet_to_file(self, file_name, sheet,
                              write_title=True, **keywords):
         self.set_write_title(write_title)
-        with open(file_name, 'w') as outfile:
+        with open(file_name, self.WRITE_FLAG) as outfile:
             self.set_output_stream(outfile)
             self.render_sheet(sheet, **keywords)
 
@@ -48,7 +49,7 @@ class Renderer(with_metaclass(MetaForRendererRegistryOnly, object)):
     def render_book_to_file(self, file_name, book,
                             write_title=True, **keywords):
         self.set_write_title(write_title)
-        with open(file_name, 'w') as outfile:
+        with open(file_name, self.WRITE_FLAG) as outfile:
             self.set_output_stream(outfile)
             self.render_book(book, **keywords)
 
