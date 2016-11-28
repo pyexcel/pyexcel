@@ -11,7 +11,7 @@ from pyexcel_io import get_data, save_data
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
 import pyexcel_io.database.sql as sql
 import pyexcel_io.database.django as django
-from pyexcel_io.utils import from_query_sets
+from pyexcel_io.database.querysets import QuerysetsReader
 
 from pyexcel._compact import OrderedDict
 from pyexcel.constants import DEFAULT_SHEET_NAME
@@ -61,8 +61,8 @@ class SheetQuerySetSource(Source):
         )
         if self.skip_row_func is not None:
             params['skip_row_func'] = self.skip_row_func
-        data = from_query_sets(self.column_names, self.query_sets,
-                               **params)
+        reader = QuerysetsReader(self.query_sets, self.column_names, **params)
+        data = reader.to_array()
         return {self.sheet_name: data}
 
 
