@@ -22,9 +22,10 @@ class InputSource(FileSource):
     """
     @classmethod
     def can_i_handle(cls, action, file_type):
+        __file_type = file_type.lower()
         if action == params.READ_ACTION:
-            status = (file_type in manager.reader_factories or
-                      file_type in AVAILABLE_READERS)
+            status = (__file_type in manager.reader_factories or
+                      __file_type in AVAILABLE_READERS)
         else:
             status = False
         return status

@@ -166,3 +166,13 @@ class TestBugFixes(TestCase):
         book = pe.Book()
         book.bookdict = adict
         sys.stdout.write(repr(book))
+
+    def test_xls_issue_11(self):
+        data = [[1, 2]]
+        sheet = pe.Sheet(data)
+        sheet2 = pe.get_sheet(file_content=sheet.xls, file_type='XLS')
+        eq_(sheet.array, sheet2.array)
+        test_file = 'xls_issue_11.JSON'
+        sheet2.save_as(test_file)
+        os.unlink(test_file)
+        
