@@ -35,6 +35,19 @@ class TestSQL(TestCase):
         +------------+----+-------+--------+""").strip('\n')
         self.assertEqual(str(sheet), content)
 
+    def test_sql_sheet(self):
+        sheet = pe.get_sheet(session=Session(), table=Pyexcel, export_columns=['weight', 'birth'])
+        content = dedent("""
+        pyexcel:
+        +--------+------------+
+        | weight | birth      |
+        +--------+------------+
+        | 11.25  | 2014-11-11 |
+        +--------+------------+
+        | 12.25  | 2014-11-12 |
+        +--------+------------+""").strip('\n')
+        self.assertEqual(str(sheet), content)
+
 
 class TestEmptyTable:
     def setUp(self):

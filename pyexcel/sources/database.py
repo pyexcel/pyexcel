@@ -75,14 +75,15 @@ class SheetSQLAlchemySource(Source):
     actions = (params.READ_ACTION, params.WRITE_ACTION)
     attributes = []
 
-    def __init__(self, session, table, **keywords):
+    def __init__(self, session, table, export_columns=None, **keywords):
         self.session = session
         self.table = table
+        self.__export_columns = export_columns
         self.keywords = keywords
 
     def get_data(self):
         exporter = sql.SQLTableExporter(self.session)
-        adapter = sql.SQLTableExportAdapter(self.table)
+        adapter = sql.SQLTableExportAdapter(self.table, self.__export_columns)
         exporter.append(adapter)
         data = get_data(exporter, file_type=DB_SQL)
         return data
@@ -111,13 +112,14 @@ class SheetDjangoSource(Source):
     actions = (params.READ_ACTION, params.WRITE_ACTION)
     attributes = []
 
-    def __init__(self, model=None, **keywords):
+    def __init__(self, model=None, export_columns=None, **keywords):
         self.model = model
+        self.__export_columns = export_columns
         self.keywords = keywords
 
     def get_data(self):
         exporter = django.DjangoModelExporter()
-        adapter = django.DjangoModelExportAdapter(self.model)
+        adapter = django.DjangoModelExportAdapter(self.model, self.__export_columns)
         exporter.append(adapter)
         data = get_data(exporter, file_type=DB_DJANGO, **self.keywords)
         return data
