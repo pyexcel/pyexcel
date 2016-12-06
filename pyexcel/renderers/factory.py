@@ -27,8 +27,9 @@ class Renderer(with_metaclass(MetaForRendererRegistryOnly, object)):
     WRITE_FLAG = 'w'
 
     def __init__(self, file_type):
-        self.file_type = file_type
-        self.stream = None
+        self._file_type = file_type
+        self._stream = None
+        self._write_title = True
 
     def get_io(self):
         return StringIO()
@@ -60,10 +61,10 @@ class Renderer(with_metaclass(MetaForRendererRegistryOnly, object)):
         self.render_book(book, **keywords)
 
     def set_output_stream(self, stream):
-        self.stream = stream
+        self._stream = stream
 
     def set_write_title(self, flag):
-        self.write_title = flag
+        self._write_title = flag
 
     def render_sheet(self, sheet, **keywords):
         raise NotImplementedError("Please render sheet")
@@ -73,4 +74,4 @@ class Renderer(with_metaclass(MetaForRendererRegistryOnly, object)):
         for index, sheet in enumerate(book):
             self.render_sheet(sheet)
             if index < number_of_sheets:
-                self.stream.write('\n')
+                self._stream.write('\n')

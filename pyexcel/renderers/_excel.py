@@ -12,7 +12,7 @@ class ExcelRenderer(Renderer):
                   tuple(manager.get_writers()))
 
     def get_io(self):
-        return manager.get_io(self.file_type)
+        return manager.get_io(self._file_type)
 
     def render_sheet_to_file(self, file_name, sheet, **keywords):
         sheet_name = DEFAULT_SHEET_NAME
@@ -26,8 +26,8 @@ class ExcelRenderer(Renderer):
 
     def render_sheet_to_stream(self, file_stream, sheet, **keywords):
         self.render_sheet_to_file(
-            file_stream, sheet, file_type=self.file_type, **keywords)
+            file_stream, sheet, file_type=self._file_type, **keywords)
 
     def render_book_to_stream(self, file_stream, book, **keywords):
         self.render_book_to_file(
-            file_stream, book, file_type=self.file_type, **keywords)
+            file_stream, book, file_type=self._file_type, **keywords)
