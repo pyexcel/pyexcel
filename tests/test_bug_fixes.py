@@ -175,4 +175,3 @@ class TestBugFixes(TestCase):
         test_file = 'xls_issue_11.JSON'
         sheet2.save_as(test_file)
         os.unlink(test_file)
-        

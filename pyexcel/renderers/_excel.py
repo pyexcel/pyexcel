@@ -8,7 +8,7 @@ from .factory import Renderer
 
 class ExcelRenderer(Renderer):
 
-    file_types = (tuple(AVAILABLE_WRITERS) +
+    file_types = (tuple(AVAILABLE_WRITERS.keys()) +
                   tuple(manager.get_writers()))
 
     def get_io(self):

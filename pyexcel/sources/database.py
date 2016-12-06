@@ -128,11 +128,10 @@ class SheetDjangoSource(Source):
             headers = sheet.rownames
         importer = django.DjangoModelImporter()
         adapter = django.DjangoModelImportAdapter(self.model)
-        adapter.set_column_names(headers)
-        adapter.set_column_name_mapping_dict(
-            self.keywords.get(params.MAPDICT, None))
-        adapter.set_row_initializer(
-            self.keywords.get(params.INITIALIZER, None))
+        adapter.column_names = headers
+        adapter.column_name_mapping_dict = self.keywords.get(
+            params.MAPDICT, None)
+        adapter.row_initializer = self.keywords.get(params.INITIALIZER, None)
         importer.append(adapter)
         save_data(importer, {adapter.get_name(): sheet._array},
                   file_type=DB_DJANGO, **self.keywords)
@@ -240,9 +239,9 @@ class BookDjangoSource(Source):
         importer = django.DjangoModelImporter()
         for each_model in scattered:
             adapter = django.DjangoModelImportAdapter(each_model[0])
-            adapter.set_column_names(each_model[1])
-            adapter.set_column_name_mapping_dict(each_model[2])
-            adapter.set_row_initializer(each_model[3])
+            adapter.column_names = each_model[1]
+            adapter.column_name_mapping_dict = each_model[2]
+            adapter.row_initializer = each_model[3]
             importer.append(adapter)
         to_store = OrderedDict()
         for sheet_name in book.sheet_names():

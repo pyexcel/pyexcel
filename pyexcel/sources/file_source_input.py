@@ -22,7 +22,9 @@ class InputSource(FileSource):
     """
     @classmethod
     def can_i_handle(cls, action, file_type):
-        __file_type = file_type.lower()
+        __file_type = None
+        if file_type:
+            __file_type = file_type.lower()
         if action == params.READ_ACTION:
             status = (__file_type in manager.reader_factories or
                       __file_type in AVAILABLE_READERS)
@@ -59,7 +61,7 @@ class ReadExcelFileMemory(InputSource):
     fields = [params.FILE_TYPE]
     targets = (params.SHEET, params.BOOK)
     actions = (params.READ_ACTION,)
-    attributes = manager.reader_factories.keys()
+    attributes = manager.reader_factories.keys() + AVAILABLE_READERS.keys()
     key = params.FILE_TYPE
 
     def __init__(self,
