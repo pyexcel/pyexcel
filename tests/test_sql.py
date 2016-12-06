@@ -36,7 +36,9 @@ class TestSQL(TestCase):
         self.assertEqual(str(sheet), content)
 
     def test_sql_sheet(self):
-        sheet = pe.get_sheet(session=Session(), table=Pyexcel, export_columns=['weight', 'birth'])
+        sheet = pe.get_sheet(
+            session=Session(), table=Pyexcel,
+            export_columns=['weight', 'birth'])
         content = dedent("""
         pyexcel:
         +--------+------------+

@@ -9,7 +9,7 @@
 """
 import os
 
-from pyexcel_io import get_data, RWManager
+from pyexcel_io import get_data, manager
 from pyexcel_io.utils import AVAILABLE_READERS
 
 from pyexcel.sources import params
@@ -22,9 +22,12 @@ class InputSource(FileSource):
     """
     @classmethod
     def can_i_handle(cls, action, file_type):
+        __file_type = None
+        if file_type:
+            __file_type = file_type.lower()
         if action == params.READ_ACTION:
-            status = (file_type in RWManager.reader_factories or
-                      file_type in AVAILABLE_READERS)
+            status = (__file_type in manager.reader_factories or
+                      __file_type in AVAILABLE_READERS)
         else:
             status = False
         return status
@@ -58,7 +61,8 @@ class ReadExcelFileMemory(InputSource):
     fields = [params.FILE_TYPE]
     targets = (params.SHEET, params.BOOK)
     actions = (params.READ_ACTION,)
-    attributes = RWManager.reader_factories.keys()
+    attributes = (list(manager.reader_factories.keys()) +
+                  list(AVAILABLE_READERS.keys()))
     key = params.FILE_TYPE
 
     def __init__(self,

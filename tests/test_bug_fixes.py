@@ -170,3 +170,12 @@ class TestBugFixes(TestCase):
     def test_issue_63_empty_array_crash_texttable_renderer(self):
         sheet = pe.Sheet([])
         print(sheet)
+
+    def test_xls_issue_11(self):
+        data = [[1, 2]]
+        sheet = pe.Sheet(data)
+        sheet2 = pe.get_sheet(file_content=sheet.xls, file_type='XLS')
+        eq_(sheet.array, sheet2.array)
+        test_file = 'xls_issue_11.JSON'
+        sheet2.save_as(test_file)
+        os.unlink(test_file)

@@ -1,5 +1,6 @@
 import pyexcel as pe
 from _compact import OrderedDict
+from nose.tools import eq_
 
 
 class Attributable:
@@ -101,7 +102,7 @@ class TestVerticalSheet:
         model = FakeDjangoModel()
         pe.save_as(array=data2, dest_model=model, dest_mapdict=mapdict,
                    name_columns_by_row=0, transpose_before=True)
-        assert model.objects.objs == self.result
+        eq_(model.objects.objs, self.result)
 
 
 class TestSheet:
@@ -182,7 +183,7 @@ class TestSheet:
         model = FakeDjangoModel()
         pe.save_as(array=data2, name_columns_by_row=0,
                    dest_model=model, dest_mapdict=mapdict)
-        assert model.objects.objs == self.result
+        eq_(model.objects.objs, self.result)
 
 
 class TestBook:

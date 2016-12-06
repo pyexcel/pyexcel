@@ -9,7 +9,7 @@
 """
 import re
 
-from pyexcel_io.manager import RWManager
+import pyexcel_io.manager as manager
 
 from pyexcel.sheets import Sheet
 from pyexcel.book import Book
@@ -307,7 +307,7 @@ def get_io_type(file_type):
     """
     Return the io stream types, string or bytes
     """
-    io_type = RWManager.get_io_type(file_type)
+    io_type = manager.get_io_type(file_type)
     if io_type is None:
         io_type = "string"
     return io_type

@@ -22,7 +22,7 @@ class OutputSource(FileSource):
     @classmethod
     def can_i_handle(cls, action, file_type):
         if action == params.WRITE_ACTION:
-            status = file_type in tuple(
+            status = file_type.lower() in tuple(
                 renderers.get_all_file_types())
         else:
             status = False

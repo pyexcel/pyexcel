@@ -1,12 +1,12 @@
 from textwrap import dedent
-from pyexcel_io.manager import RWManager
+import pyexcel_io.manager as manager
 from pyexcel.generators import SheetStream
 from pyexcel.sources.file_source_output import WriteSheetToMemory
 
 
 def test_save_to():
     file_type = 'csv'
-    io = RWManager.get_io(file_type)
+    io = manager.get_io(file_type)
     g = (i for i in [[1, 2], [3, 4]])
     ss = WriteSheetToMemory(file_type=file_type, file_stream=io,
                             lineterminator='\n')

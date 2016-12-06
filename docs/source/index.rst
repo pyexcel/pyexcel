@@ -72,7 +72,7 @@ For individual excel file formats, please install them as you wish:
    ================= ======================= ============= ==================
    `pyexcel-io`_     csv, csvz [#f1]_, tsv,                2.6, 2.7, 3.3,
                      tsvz [#f2]_                           3.4, 3.5,
-                                                           pypy, pypy3
+                                                           pypy
    `pyexcel-xls`_    xls, xlsx(read only),   `xlrd`_,      same as above
                      xlsm(read only)         `xlwt`_
    `pyexcel-xlsx`_   xlsx                    `openpyxl`_   same as above

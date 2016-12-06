@@ -11,7 +11,7 @@ from pyexcel_io import get_data, save_data
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
 import pyexcel_io.database.sql as sql
 import pyexcel_io.database.django as django
-from pyexcel_io.utils import from_query_sets
+from pyexcel_io.database.querysets import QuerysetsReader
 
 from pyexcel._compact import OrderedDict
 from pyexcel.constants import DEFAULT_SHEET_NAME
@@ -61,8 +61,8 @@ class SheetQuerySetSource(Source):
         )
         if self.skip_row_func is not None:
             params['skip_row_func'] = self.skip_row_func
-        data = from_query_sets(self.column_names, self.query_sets,
-                               **params)
+        reader = QuerysetsReader(self.query_sets, self.column_names, **params)
+        data = reader.to_array()
         return {self.sheet_name: data}
 
 
@@ -119,7 +119,8 @@ class SheetDjangoSource(Source):
 
     def get_data(self):
         exporter = django.DjangoModelExporter()
-        adapter = django.DjangoModelExportAdapter(self.model, self.__export_columns)
+        adapter = django.DjangoModelExportAdapter(
+            self.model, self.__export_columns)
         exporter.append(adapter)
         data = get_data(exporter, file_type=DB_DJANGO, **self.keywords)
         return data
@@ -130,11 +131,10 @@ class SheetDjangoSource(Source):
             headers = sheet.rownames
         importer = django.DjangoModelImporter()
         adapter = django.DjangoModelImportAdapter(self.model)
-        adapter.set_column_names(headers)
-        adapter.set_column_name_mapping_dict(
-            self.keywords.get(params.MAPDICT, None))
-        adapter.set_row_initializer(
-            self.keywords.get(params.INITIALIZER, None))
+        adapter.column_names = headers
+        adapter.column_name_mapping_dict = self.keywords.get(
+            params.MAPDICT, None)
+        adapter.row_initializer = self.keywords.get(params.INITIALIZER, None)
         importer.append(adapter)
         save_data(importer, {adapter.get_name(): sheet._array},
                   file_type=DB_DJANGO, **self.keywords)
@@ -242,9 +242,9 @@ class BookDjangoSource(Source):
         importer = django.DjangoModelImporter()
         for each_model in scattered:
             adapter = django.DjangoModelImportAdapter(each_model[0])
-            adapter.set_column_names(each_model[1])
-            adapter.set_column_name_mapping_dict(each_model[2])
-            adapter.set_row_initializer(each_model[3])
+            adapter.column_names = each_model[1]
+            adapter.column_name_mapping_dict = each_model[2]
+            adapter.row_initializer = each_model[3]
             importer.append(adapter)
         to_store = OrderedDict()
         for sheet_name in book.sheet_names():

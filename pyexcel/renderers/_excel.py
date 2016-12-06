@@ -1,5 +1,6 @@
 from pyexcel.constants import DEFAULT_SHEET_NAME
-from pyexcel_io import save_data, RWManager
+from pyexcel_io import save_data
+import pyexcel_io.manager as manager
 from pyexcel_io.utils import AVAILABLE_WRITERS
 
 from .factory import Renderer
@@ -7,11 +8,11 @@ from .factory import Renderer
 
 class ExcelRenderer(Renderer):
 
-    file_types = (tuple(AVAILABLE_WRITERS) +
-                  tuple(RWManager.writer_factories.keys()))
+    file_types = (tuple(AVAILABLE_WRITERS.keys()) +
+                  tuple(manager.get_writers()))
 
     def get_io(self):
-        return RWManager.get_io(self.file_type)
+        return manager.get_io(self.file_type)
 
     def render_sheet_to_file(self, file_name, sheet, **keywords):
         sheet_name = DEFAULT_SHEET_NAME
