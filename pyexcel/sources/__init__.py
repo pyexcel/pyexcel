@@ -5,6 +5,10 @@ from . import factory
 from pyexcel._compact import PY2
 from pyexcel.generators import BookStream, SheetStream
 import pyexcel.constants as constants
+import logging
+
+
+log = logging.getLogger(__name__)
 
 
 def get_sheet_stream(**keywords):
@@ -177,10 +181,13 @@ class SheetMeta(type):
         super(SheetMeta, cls).__init__(name, bases, nmspc)
         for attribute in factory.get_sheet_rw_attributes():
             register_io(cls, attribute)
+            log.debug('io:%s' % attribute)
         for attribute in factory.get_sheet_w_attributes():
             register_presentation(cls, attribute)
+            log.debug('o:%s' % attribute)
         for attribute in factory.get_sheet_r_attributes():
             register_input(cls, attribute)
+            log.debug('i:%s' % attribute)
         setattr(cls, "register_io", classmethod(register_io))
         setattr(cls, "register_presentation",
                 classmethod(register_presentation))
