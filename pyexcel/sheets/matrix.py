@@ -102,7 +102,7 @@ class Matrix(object):
         copy every cell to a new memory area
         :param list array: a list of arrays
         """
-        self.width, self.__array = uniform(list(array))
+        self.__width, self.__array = uniform(list(array))
         self.row = Row(self)
         self.column = Column(self)
 
@@ -116,7 +116,7 @@ class Matrix(object):
     def number_of_columns(self):
         """The number of columns"""
         if self.number_of_rows() > 0:
-            return self.width
+            return self.__width
         else:
             return 0
 
@@ -168,7 +168,7 @@ class Matrix(object):
         if row_index < nrows:
             self.__array[row_index] = data_array
             if len(data_array) != self.number_of_columns():
-                self.width, self.__array = uniform(self.__array)
+                self.__width, self.__array = uniform(self.__array)
         else:
             raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
 
@@ -201,7 +201,7 @@ class Matrix(object):
                 left = ncolumns - starting
                 self.__array[row_index] = (self.__array[row_index] +
                                            data_array[left:])
-            self.width, self.__array = uniform(self.__array)
+            self.__width, self.__array = uniform(self.__array)
         else:
             raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
 
@@ -217,7 +217,7 @@ class Matrix(object):
                     self._extend_row(r)
             else:
                 self._extend_row(rows)
-            self.width, self.__array = uniform(self.__array)
+            self.__width, self.__array = uniform(self.__array)
         else:
             raise TypeError("Cannot use %s" % type(rows))
 
@@ -275,7 +275,7 @@ class Matrix(object):
                 for i in range(nrows, real_len):
                     new_row = [''] * column_index + [data_array[i-starting]]
                     self.__array.append(new_row)
-            self.width, self.__array = uniform(self.__array)
+            self.__width, self.__array = uniform(self.__array)
         else:
             raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
 
@@ -315,7 +315,7 @@ class Matrix(object):
                 new_array = [""] * current_ncols
                 new_array += rows[base+i]
                 self.__array.append(new_array)
-        self.width, self.__array = uniform(self.__array)
+        self.__width, self.__array = uniform(self.__array)
 
     def extend_columns_with_rows(self, rows):
         """Rows were appended to the rightmost side
@@ -463,7 +463,7 @@ class Matrix(object):
                 else:
                     real_row = [""] * topleft_corner[1] + row
                     self._extend_row(real_row)
-            self.width, self.__array = uniform(self.__array)
+            self.__width, self.__array = uniform(self.__array)
         elif columns:
             starting_column = topleft_corner[1]
             number_of_columns = self.number_of_columns()
@@ -476,7 +476,7 @@ class Matrix(object):
                 else:
                     real_column = [""] * topleft_corner[0] + column
                     self.extend_columns([real_column])
-            self.width, self.__array = uniform(self.__array)
+            self.__width, self.__array = uniform(self.__array)
         else:
             raise ValueError(constants.MESSAGE_DATA_ERROR_EMPTY_CONTENT)
 
@@ -492,7 +492,7 @@ class Matrix(object):
                 for j in sorted_list:
                     if j < self.number_of_columns():
                         del self.__array[i][j]
-            self.width = longest_row_number(self.__array)
+            self.__width = longest_row_number(self.__array)
 
     def __setitem__(self, aset, c):
         """Override the operator to set items"""
@@ -532,7 +532,7 @@ class Matrix(object):
         Reference :func:`transpose`
         """
         self.__array = transpose(self.__array)
-        self.width, self.__array = uniform(self.__array)
+        self.__width, self.__array = uniform(self.__array)
 
     def to_array(self):
         """Get an array out

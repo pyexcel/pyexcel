@@ -136,7 +136,7 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
         The specified row will be deleted from the data
         :param int row_index: the index of the row that has the column names
         """
-        self.row_index = row_index
+        self.__row_index = row_index
         self.__column_names = make_names_unique(self.row_at(row_index))
         del self.row[row_index]
 
@@ -146,7 +146,6 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
         The specified column will be deleted from the data
         :param int column_index: the index of the column that has the row names
         """
-        self.column_index = column_index
         self.__row_names = make_names_unique(self.column_at(column_index))
         del self.column[column_index]
 
@@ -286,7 +285,7 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
     def extend_columns_with_rows(self, rows):
         """Put rows on the right most side of the data"""
         if len(self.colnames) > 0:
-            headers = rows.pop(self.row_index)
+            headers = rows.pop(self.__row_index)
             self.__column_names += headers
         Matrix.extend_columns_with_rows(self, rows)
 

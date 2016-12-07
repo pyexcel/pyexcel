@@ -35,7 +35,7 @@ class Row:
 
     """
     def __init__(self, matrix):
-        self.ref = matrix
+        self.__ref = matrix
 
     def select(self, indices):
         """Delete row indices other than specified
@@ -79,10 +79,10 @@ class Row:
 
         """
         to_remove = []
-        for index in self.ref.row_range():
+        for index in self.__ref.row_range():
             if index not in indices:
                 to_remove.append(index)
-        self.ref.filter(row_indices=to_remove)
+        self.__ref.filter(row_indices=to_remove)
 
     def __delitem__(self, locator):
         """Override the operator to delete items
@@ -126,61 +126,61 @@ class Row:
 
         """
         if compact.is_string(type(locator)):
-            self.ref.delete_named_row_at(locator)
+            self.__ref.delete_named_row_at(locator)
         elif compact.is_tuple_consists_of_strings(locator):
             indices = utils.names_to_indices(list(locator),
-                                             self.ref.rownames)
-            self.ref.delete_rows(indices)
+                                             self.__ref.rownames)
+            self.__ref.delete_rows(indices)
         elif isinstance(locator, slice):
             my_range = utils.analyse_slice(locator,
-                                           self.ref.number_of_rows())
-            self.ref.delete_rows(my_range)
+                                           self.__ref.number_of_rows())
+            self.__ref.delete_rows(my_range)
         elif isinstance(locator, tuple):
-            self.ref.filter(row_indices=(list(locator)))
+            self.__ref.filter(row_indices=(list(locator)))
         elif isinstance(locator, list):
-            self.ref.filter(row_indices=locator)
+            self.__ref.filter(row_indices=locator)
         elif isinstance(locator, types.LambdaType):
             self._delete_rows_by_content(locator)
         elif isinstance(locator, types.FunctionType):
             self._delete_rows_by_content(locator)
         else:
-            self.ref.delete_rows([locator])
+            self.__ref.delete_rows([locator])
 
     def _delete_rows_by_content(self, locator):
         to_remove = []
-        for index, row in enumerate(self.ref.rows()):
+        for index, row in enumerate(self.__ref.rows()):
             if locator(index, row):
                 to_remove.append(index)
         if len(to_remove) > 0:
-            self.ref.delete_rows(to_remove)
+            self.__ref.delete_rows(to_remove)
 
     def __setitem__(self, aslice, c):
         """Override the operator to set items"""
         if compact.is_string(type(aslice)):
-            self.ref.set_named_row_at(aslice, c)
+            self.__ref.set_named_row_at(aslice, c)
         elif isinstance(aslice, slice):
             my_range = utils.analyse_slice(aslice,
-                                           self.ref.number_of_rows())
+                                           self.__ref.number_of_rows())
             for i in my_range:
-                self.ref.set_row_at(i, c)
+                self.__ref.set_row_at(i, c)
         else:
-            self.ref.set_row_at(aslice, c)
+            self.__ref.set_row_at(aslice, c)
 
     def __getitem__(self, aslice):
         """By default, this class recognize from top to bottom
         from left to right"""
         index = aslice
         if compact.is_string(type(aslice)):
-            return self.ref.named_row_at(aslice)
+            return self.__ref.named_row_at(aslice)
         elif isinstance(aslice, slice):
             my_range = utils.analyse_slice(aslice,
-                                           self.ref.number_of_rows())
+                                           self.__ref.number_of_rows())
             results = []
             for i in my_range:
-                results.append(self.ref.row_at(i))
+                results.append(self.__ref.row_at(i))
             return results
-        if index in self.ref.row_range():
-            return self.ref.row_at(index)
+        if index in self.__ref.row_range():
+            return self.__ref.row_at(index)
         else:
             raise IndexError
 
@@ -190,11 +190,11 @@ class Row:
         :return: self
         """
         if isinstance(other, compact.OrderedDict):
-            self.ref.extend_rows(other)
+            self.__ref.extend_rows(other)
         elif isinstance(other, list):
-            self.ref.extend_rows(other)
+            self.__ref.extend_rows(other)
         elif hasattr(other, 'get_internal_array'):
-            self.ref.extend_rows(other.get_internal_array())
+            self.__ref.extend_rows(other.get_internal_array())
         else:
             raise TypeError
         return self
@@ -205,7 +205,7 @@ class Row:
         :return: self
         """
         self.__iadd__(other)
-        return self.ref
+        return self.__ref
 
     def format(self,
                row_index=None, formatter=None,
@@ -214,8 +214,8 @@ class Row:
         """
         def handle_one_formatter(rows, theformatter):
             new_indices = rows
-            if len(self.ref.rownames) > 0:
-                new_indices = utils.names_to_indices(rows, self.ref.rownames)
+            if len(self.__ref.rownames) > 0:
+                new_indices = utils.names_to_indices(rows, self.__ref.rownames)
 
             converter = None
             if isinstance(theformatter, types.FunctionType):
@@ -224,17 +224,17 @@ class Row:
                 converter = partial(to_format, theformatter)
 
             if isinstance(new_indices, list):
-                for rindex in self.ref.row_range():
+                for rindex in self.__ref.row_range():
                     if rindex in new_indices:
-                        for column in self.ref.column_range():
-                            value = self.ref.cell_value(rindex, column)
+                        for column in self.__ref.column_range():
+                            value = self.__ref.cell_value(rindex, column)
                             value = converter(value)
-                            self.ref.cell_value(rindex, column, value)
+                            self.__ref.cell_value(rindex, column, value)
             else:
-                for column in self.ref.column_range():
-                    value = self.ref.cell_value(new_indices, column)
+                for column in self.__ref.column_range():
+                    value = self.__ref.cell_value(new_indices, column)
                     value = converter(value)
-                    self.ref.cell_value(new_indices, column, value)
+                    self.__ref.cell_value(new_indices, column, value)
 
         if row_index is not None:
             handle_one_formatter(row_index, formatter)
