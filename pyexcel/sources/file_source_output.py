@@ -37,14 +37,15 @@ class WriteSheetToFile(OutputSource):
     actions = (params.WRITE_ACTION,)
 
     def __init__(self, file_name=None, **keywords):
-        self.file_name = file_name
-        self.keywords = keywords
-        self.file_type = file_name.split(".")[-1]
-        self.renderer = renderers.get_renderer(self.file_type)
+        self._keywords = keywords
+        self._file_name = file_name
+
+        self.__file_type = file_name.split(".")[-1]
+        self._renderer = renderers.get_renderer(self.__file_type)
 
     def write_data(self, sheet):
-        self.renderer.render_sheet_to_file(self.file_name,
-                                           sheet, **self.keywords)
+        self._renderer.render_sheet_to_file(self._file_name,
+                                            sheet, **self._keywords)
 
 
 class WriteBookToFile(WriteSheetToFile):
@@ -53,8 +54,8 @@ class WriteBookToFile(WriteSheetToFile):
     targets = (params.BOOK,)
 
     def write_data(self, book):
-        self.renderer.render_book_to_file(self.file_name, book,
-                                          **self.keywords)
+        self._renderer.render_book_to_file(self._file_name, book,
+                                           **self._keywords)
 
 
 class WriteSheetToMemory(OutputSource):
@@ -63,18 +64,21 @@ class WriteSheetToMemory(OutputSource):
     actions = (params.WRITE_ACTION,)
 
     def __init__(self, file_type=None, file_stream=None, **keywords):
-        self.renderer = renderers.get_renderer(file_type)
+        self._keywords = keywords
+
+        self._renderer = renderers.get_renderer(file_type)
         if file_stream:
-            self.content = file_stream
+            self._content = file_stream
         else:
-            self.content = self.renderer.get_io()
-        self.file_type = file_type
-        self.keywords = keywords
+            self._content = self._renderer.get_io()
         self.attributes = renderers.get_all_file_types()
 
     def write_data(self, sheet):
-        self.renderer.render_sheet_to_stream(self.content,
-                                             sheet, **self.keywords)
+        self._renderer.render_sheet_to_stream(self._content,
+                                              sheet, **self._keywords)
+
+    def get_internal_stream(self):
+        return self._content
 
 
 class WriteBookToMemory(WriteSheetToMemory):
@@ -84,5 +88,5 @@ class WriteBookToMemory(WriteSheetToMemory):
     targets = (params.BOOK,)
 
     def write_data(self, book):
-        self.renderer.render_book_to_stream(self.content, book,
-                                            **self.keywords)
+        self._renderer.render_book_to_stream(self._content, book,
+                                             **self._keywords)

@@ -45,16 +45,20 @@ keywords = {}
 
 
 def register_class(cls):
+    debug_registry = "Source registry: "
+    debug_attribute = "Instance attribute: "
     for target, action in product(cls.targets, cls.actions):
         key = REGISTRY_KEY_FORMAT % (target, action)
         registry[key].append(cls)
-        log.debug("Source registry: %s -> %s" % (key, cls))
+        debug_registry += "%s -> %s, " % (key, cls)
         for attr in cls.attributes:
             if attr in NO_DOT_NOTATION:
                 continue
             attribute_registry[key].append(attr)
-            log.debug("Instance attribute: %s -> %s" % (key, attr))
+            debug_attribute += "%s -> %s, " % (key, attr)
             keywords[attr] = cls.key
+    log.debug(debug_registry)
+    log.debug(debug_attribute)
 
 
 class MetaForSourceRegistryOnly(type):
@@ -78,8 +82,8 @@ class Source(with_metaclass(MetaForSourceRegistryOnly, object)):
     key = params.SOURCE
 
     def __init__(self, source=None, **keywords):
-        self.source = source
-        self.keywords = keywords
+        self.__source = source
+        self.__keywords = keywords
 
     def get_source_info(self):
         return (None, None)
@@ -97,6 +101,9 @@ class Source(with_metaclass(MetaForSourceRegistryOnly, object)):
         raise NotImplementedError("")
 
     def get_data(self):
+        raise NotImplementedError("")
+
+    def get_internal_stream(self):
         raise NotImplementedError("")
 
 

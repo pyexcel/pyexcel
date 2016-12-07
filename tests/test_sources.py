@@ -20,8 +20,6 @@ def test_input_source():
 
 def test_source():
     source = Source(source="asource", params="params")
-    assert source.keywords == {"params": "params"}
-    assert source.source == "asource"
     info = source.get_source_info()
     assert info, (None, None)
 

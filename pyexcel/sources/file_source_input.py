@@ -41,18 +41,18 @@ class ReadExcelFromFile(InputSource):
     actions = (params.READ_ACTION,)
 
     def __init__(self, file_name=None, **keywords):
-        self.file_name = file_name
-        self.keywords = keywords
+        self.__file_name = file_name
+        self.__keywords = keywords
 
     def get_source_info(self):
-        path, file_name = os.path.split(self.file_name)
+        path, file_name = os.path.split(self.__file_name)
         return file_name, path
 
     def get_data(self):
         """
         Return a dictionary with only one key and one value
         """
-        sheets = get_data(self.file_name, streaming=True, **self.keywords)
+        sheets = get_data(self.__file_name, streaming=True, **self.__keywords)
         return sheets
 
 
@@ -70,22 +70,22 @@ class ReadExcelFileMemory(InputSource):
                  file_type=None,
                  file_stream=None,
                  **keywords):
-        self.file_type = file_type
-        self.file_stream = file_stream
-        self.file_content = file_content
-        self.keywords = keywords
+        self.__file_type = file_type
+        self.__file_stream = file_stream
+        self.__file_content = file_content
+        self.__keywords = keywords
 
     def get_data(self):
-        if self.file_stream is not None:
-            sheets = get_data(self.file_stream,
-                              file_type=self.file_type,
+        if self.__file_stream is not None:
+            sheets = get_data(self.__file_stream,
+                              file_type=self.__file_type,
                               streaming=True,
-                              **self.keywords)
+                              **self.__keywords)
         else:
-            sheets = get_data(self.file_content,
-                              file_type=self.file_type,
+            sheets = get_data(self.__file_content,
+                              file_type=self.__file_type,
                               streaming=True,
-                              **self.keywords)
+                              **self.__keywords)
         return sheets
 
     def get_source_info(self):

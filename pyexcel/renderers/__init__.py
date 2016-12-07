@@ -23,7 +23,9 @@ except ImportError as e:
 
 
 def get_renderer(file_type):
-    __file_type = file_type.lower()
+    __file_type = None
+    if file_type:
+        __file_type = file_type.lower()
     renderer_class = renderer_registry.get(__file_type)
     return renderer_class(__file_type)
 

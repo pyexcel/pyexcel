@@ -16,13 +16,13 @@ from pyexcel._compact import zip_longest, PY2
 
 class _FakeIO:
     def __init__(self):
-        self.value = None
+        self.__value = None
 
     def setvalue(self, value):
-        self.value = value
+        self.__value = value
 
     def getvalue(self):
-        return self.value
+        return self.__value
 
 
 class RecordsSource(Source):
@@ -38,17 +38,20 @@ class RecordsSource(Source):
     key = params.RECORDS
 
     def __init__(self, records):
-        self.records = records
-        self.content = _FakeIO()
+        self.__records = records
+        self.__content = _FakeIO()
 
     def get_data(self):
-        return {DEFAULT_SHEET_NAME: yield_from_records(self.records)}
+        return {DEFAULT_SHEET_NAME: yield_from_records(self.__records)}
 
     def get_source_info(self):
         return params.RECORDS, None
 
     def write_data(self, sheet):
-        self.content.setvalue(sheet.to_records())
+        self.__content.setvalue(sheet.to_records())
+
+    def get_internal_stream(self):
+        return self.__content
 
 
 class DictSource(Source):
@@ -62,19 +65,22 @@ class DictSource(Source):
     key = params.ADICT
 
     def __init__(self, adict, with_keys=True):
-        self.adict = adict
-        self.with_keys = with_keys
-        self.content = _FakeIO()
+        self.__adict = adict
+        self.__with_keys = with_keys
+        self.__content = _FakeIO()
 
     def get_data(self):
         return {DEFAULT_SHEET_NAME: yield_dict_to_array(
-            self.adict, self.with_keys)}
+            self.__adict, self.__with_keys)}
 
     def get_source_info(self):
         return params.ADICT, None
 
     def write_data(self, sheet):
-        self.content.setvalue(sheet.to_dict())
+        self.__content.setvalue(sheet.to_dict())
+
+    def get_internal_stream(self):
+        return self.__content
 
 
 class ArraySource(Source):
@@ -88,17 +94,20 @@ class ArraySource(Source):
     key = params.ARRAY
 
     def __init__(self, array):
-        self.array = array
-        self.content = _FakeIO()
+        self.__array = array
+        self.__content = _FakeIO()
 
     def get_data(self):
-        return {DEFAULT_SHEET_NAME: self.array}
+        return {DEFAULT_SHEET_NAME: self.__array}
 
     def get_source_info(self):
         return params.ARRAY, None
 
     def write_data(self, sheet):
-        self.content.setvalue(sheet.to_array())
+        self.__content.setvalue(sheet.to_array())
+
+    def get_internal_stream(self):
+        return self.__content
 
 
 class BookDictSource(Source):
@@ -112,20 +121,23 @@ class BookDictSource(Source):
     key = params.BOOKDICT
 
     def __init__(self, bookdict, **keywords):
-        self.bookdict = bookdict
-        self.content = _FakeIO()
+        self.__bookdict = bookdict
+        self.__content = _FakeIO()
 
     def get_data(self):
-        the_dict = self.bookdict
-        if not isinstance(self.bookdict, OrderedDict):
-            the_dict = convert_dict_to_ordered_dict(self.bookdict)
+        the_dict = self.__bookdict
+        if not isinstance(self.__bookdict, OrderedDict):
+            the_dict = convert_dict_to_ordered_dict(self.__bookdict)
         return the_dict
 
     def get_source_info(self):
         return params.BOOKDICT, None
 
     def write_data(self, book):
-        self.content.setvalue(book.to_dict())
+        self.__content.setvalue(book.to_dict())
+
+    def get_internal_stream(self):
+        return self.__content
 
 
 def yield_from_records(records):

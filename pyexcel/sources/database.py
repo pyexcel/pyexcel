@@ -36,15 +36,15 @@ class SheetQuerySetSource(Source):
                  start_row=0, row_limit=-1,
                  start_column=None, column_limit=None,
                  skip_row_func=None, skip_column_func=None):
-        self.sheet_name = sheet_name
-        if self.sheet_name is None:
-            self.sheet_name = DEFAULT_SHEET_NAME
-        self.column_names = column_names
-        self.query_sets = query_sets
-        self.row_renderer = row_renderer
-        self.start_row = start_row
-        self.row_limit = row_limit
-        self.skip_row_func = skip_row_func
+        self.__sheet_name = sheet_name
+        if self.__sheet_name is None:
+            self.__sheet_name = DEFAULT_SHEET_NAME
+        self.__column_names = column_names
+        self.__query_sets = query_sets
+        self.__row_renderer = row_renderer
+        self.__start_row = start_row
+        self.__row_limit = row_limit
+        self.__skip_row_func = skip_row_func
 
         if start_column is None:
             print("start_column is ignored")
@@ -55,15 +55,16 @@ class SheetQuerySetSource(Source):
 
     def get_data(self):
         params = dict(
-            row_renderer=self.row_renderer,
-            start_row=self.start_row,
-            row_limit=self.row_limit
+            row_renderer=self.__row_renderer,
+            start_row=self.__start_row,
+            row_limit=self.__row_limit
         )
-        if self.skip_row_func is not None:
-            params['skip_row_func'] = self.skip_row_func
-        reader = QuerysetsReader(self.query_sets, self.column_names, **params)
+        if self.__skip_row_func is not None:
+            params['skip_row_func'] = self.__skip_row_func
+        reader = QuerysetsReader(
+            self.__query_sets, self.__column_names, **params)
         data = reader.to_array()
-        return {self.sheet_name: data}
+        return {self.__sheet_name: data}
 
 
 class SheetSQLAlchemySource(Source):
@@ -76,14 +77,15 @@ class SheetSQLAlchemySource(Source):
     attributes = []
 
     def __init__(self, session, table, export_columns=None, **keywords):
-        self.session = session
-        self.table = table
+        self.__session = session
+        self.__table = table
         self.__export_columns = export_columns
-        self.keywords = keywords
+        self.__keywords = keywords
 
     def get_data(self):
-        exporter = sql.SQLTableExporter(self.session)
-        adapter = sql.SQLTableExportAdapter(self.table, self.__export_columns)
+        exporter = sql.SQLTableExporter(self.__session)
+        adapter = sql.SQLTableExportAdapter(
+            self.__table, self.__export_columns)
         exporter.append(adapter)
         data = get_data(exporter, file_type=DB_SQL)
         return data
@@ -92,15 +94,15 @@ class SheetSQLAlchemySource(Source):
         headers = sheet.colnames
         if len(headers) == 0:
             headers = sheet.rownames
-        importer = sql.SQLTableImporter(self.session)
-        adapter = sql.SQLTableImportAdapter(self.table)
+        importer = sql.SQLTableImporter(self.__session)
+        adapter = sql.SQLTableImportAdapter(self.__table)
         adapter.column_names = headers
-        adapter.row_initializer = self.keywords.get(params.INITIALIZER, None)
-        adapter.column_name_mapping_dict = self.keywords.get(params.MAPDICT,
-                                                             None)
+        adapter.row_initializer = self.__keywords.get(params.INITIALIZER, None)
+        adapter.column_name_mapping_dict = self.__keywords.get(
+            params.MAPDICT, None)
         importer.append(adapter)
         save_data(importer, {adapter.get_name(): sheet._array},
-                  file_type=DB_SQL, **self.keywords)
+                  file_type=DB_SQL, **self.__keywords)
 
 
 class SheetDjangoSource(Source):
@@ -113,16 +115,16 @@ class SheetDjangoSource(Source):
     attributes = []
 
     def __init__(self, model=None, export_columns=None, **keywords):
-        self.model = model
+        self.__model = model
         self.__export_columns = export_columns
-        self.keywords = keywords
+        self.__keywords = keywords
 
     def get_data(self):
         exporter = django.DjangoModelExporter()
         adapter = django.DjangoModelExportAdapter(
-            self.model, self.__export_columns)
+            self.__model, self.__export_columns)
         exporter.append(adapter)
-        data = get_data(exporter, file_type=DB_DJANGO, **self.keywords)
+        data = get_data(exporter, file_type=DB_DJANGO, **self.__keywords)
         return data
 
     def write_data(self, sheet):
@@ -130,14 +132,14 @@ class SheetDjangoSource(Source):
         if len(headers) == 0:
             headers = sheet.rownames
         importer = django.DjangoModelImporter()
-        adapter = django.DjangoModelImportAdapter(self.model)
+        adapter = django.DjangoModelImportAdapter(self.__model)
         adapter.column_names = headers
-        adapter.column_name_mapping_dict = self.keywords.get(
+        adapter.column_name_mapping_dict = self.__keywords.get(
             params.MAPDICT, None)
-        adapter.row_initializer = self.keywords.get(params.INITIALIZER, None)
+        adapter.row_initializer = self.__keywords.get(params.INITIALIZER, None)
         importer.append(adapter)
         save_data(importer, {adapter.get_name(): sheet._array},
-                  file_type=DB_DJANGO, **self.keywords)
+                  file_type=DB_DJANGO, **self.__keywords)
 
 
 class BookSQLSource(Source):
@@ -150,16 +152,16 @@ class BookSQLSource(Source):
     attributes = []
 
     def __init__(self, session, tables, **keywords):
-        self.session = session
-        self.tables = tables
-        self.keywords = keywords
+        self.__session = session
+        self.__tables = tables
+        self.__keywords = keywords
 
     def get_data(self):
-        exporter = sql.SQLTableExporter(self.session)
-        for table in self.tables:
+        exporter = sql.SQLTableExporter(self.__session)
+        for table in self.__tables:
             adapter = sql.SQLTableExportAdapter(table)
             exporter.append(adapter)
-        data = get_data(exporter, file_type=DB_SQL, **self.keywords)
+        data = get_data(exporter, file_type=DB_SQL, **self.__keywords)
         return data
 
     def get_source_info(self):
@@ -170,19 +172,19 @@ class BookSQLSource(Source):
         book = thebook
         if isinstance(thebook, BookStream):
             book = to_book(thebook)
-        initializers = self.keywords.get(params.INITIALIZERS, None)
+        initializers = self.__keywords.get(params.INITIALIZERS, None)
         if initializers is None:
-            initializers = [None] * len(self.tables)
-        mapdicts = self.keywords.get(params.MAPDICTS, None)
+            initializers = [None] * len(self.__tables)
+        mapdicts = self.__keywords.get(params.MAPDICTS, None)
         if mapdicts is None:
-            mapdicts = [None] * len(self.tables)
+            mapdicts = [None] * len(self.__tables)
         for sheet in book:
             if len(sheet.colnames) == 0:
                 sheet.name_columns_by_row(0)
         colnames_array = [sheet.colnames for sheet in book]
-        scattered = zip(self.tables, colnames_array, mapdicts, initializers)
+        scattered = zip(self.__tables, colnames_array, mapdicts, initializers)
 
-        importer = sql.SQLTableImporter(self.session)
+        importer = sql.SQLTableImporter(self.__session)
         for each_table in scattered:
             adapter = sql.SQLTableImportAdapter(each_table[0])
             adapter.column_names = each_table[1]
@@ -194,7 +196,7 @@ class BookSQLSource(Source):
             # due book.to_dict() brings in column_names
             # which corrupts the data
             to_store[sheet_name] = book[sheet_name]._array
-        save_data(importer, to_store, file_type=DB_SQL, **self.keywords)
+        save_data(importer, to_store, file_type=DB_SQL, **self.__keywords)
 
 
 class BookDjangoSource(Source):
@@ -206,15 +208,15 @@ class BookDjangoSource(Source):
     actions = (params.READ_ACTION, params.WRITE_ACTION)
 
     def __init__(self, models, **keywords):
-        self.models = models
-        self.keywords = keywords
+        self.__models = models
+        self.__keywords = keywords
 
     def get_data(self):
         exporter = django.DjangoModelExporter()
-        for model in self.models:
+        for model in self.__models:
             adapter = django.DjangoModelExportAdapter(model)
             exporter.append(adapter)
-        data = get_data(exporter, file_type=DB_DJANGO, **self.keywords)
+        data = get_data(exporter, file_type=DB_DJANGO, **self.__keywords)
         return data
 
     def get_source_info(self):
@@ -225,12 +227,12 @@ class BookDjangoSource(Source):
         book = thebook
         if isinstance(thebook, BookStream):
             book = to_book(thebook)
-        new_models = [model for model in self.models if model is not None]
-        batch_size = self.keywords.get(params.BATCH_SIZE, None)
-        initializers = self.keywords.get(params.INITIALIZERS, None)
+        new_models = [model for model in self.__models if model is not None]
+        batch_size = self.__keywords.get(params.BATCH_SIZE, None)
+        initializers = self.__keywords.get(params.INITIALIZERS, None)
         if initializers is None:
             initializers = [None] * len(new_models)
-        mapdicts = self.keywords.get(params.MAPDICTS, None)
+        mapdicts = self.__keywords.get(params.MAPDICTS, None)
         if mapdicts is None:
             mapdicts = [None] * len(new_models)
         for sheet in book:

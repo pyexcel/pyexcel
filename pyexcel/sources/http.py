@@ -37,11 +37,11 @@ class HttpSource(Source):
     key = params.URL
 
     def __init__(self, url=None, **keywords):
-        self.url = url
-        self.keywords = keywords
+        self.__url = url
+        self.__keywords = keywords
 
     def get_data(self):
-        f = request.urlopen(self.url)
+        f = request.urlopen(self.__url)
         info = f.info()
         if PY2:
             mime_type = info.type
@@ -49,15 +49,15 @@ class HttpSource(Source):
             mime_type = info.get_content_type()
         file_type = FILE_TYPE_MIME_TABLE.get(mime_type, None)
         if file_type is None:
-            file_type = _get_file_type_from_url(self.url)
+            file_type = _get_file_type_from_url(self.__url)
         content = f.read()
         sheets = get_data(content,
                           file_type=file_type,
-                          **self.keywords)
+                          **self.__keywords)
         return sheets
 
     def get_source_info(self):
-        return self.url, None
+        return self.__url, None
 
 
 def _get_file_type_from_url(url):

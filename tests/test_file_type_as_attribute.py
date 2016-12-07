@@ -31,6 +31,9 @@ class DummySource(Source):
     def write_data(self, sheet):
         self.content.write(FIXTURE)
 
+    def get_internal_stream(self):
+        return self.content
+
 
 def test_sheet_register_presentation():
     Sheet.register_presentation(FIXTURE)

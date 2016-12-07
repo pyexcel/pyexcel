@@ -5,10 +5,6 @@ from . import factory
 from pyexcel._compact import PY2
 from pyexcel.generators import BookStream, SheetStream
 import pyexcel.constants as constants
-import logging
-
-
-log = logging.getLogger(__name__)
 
 
 def get_sheet_stream(**keywords):
@@ -52,9 +48,12 @@ def save_book(book, **keywords):
 
 def _save_any(source, instance):
     source.write_data(instance)
-    if hasattr(source, 'content'):
-        _try_put_file_read_pointer_to_its_begining(source.content)
-        return source.content
+    try:
+        content_stream = source.get_internal_stream()
+        _try_put_file_read_pointer_to_its_begining(content_stream)
+        return content_stream
+    except NotImplementedError:
+        return None
 
 
 def make_presenter(source_getter, attribute=None):
@@ -64,7 +63,8 @@ def make_presenter(source_getter, attribute=None):
         memory_source = source_getter(**keywords)
         memory_source.write_data(self)
         try:
-            content = memory_source.content.getvalue()
+            content_stream = memory_source.get_internal_stream()
+            content = content_stream.getvalue()
         except AttributeError:
             # python 3 _io.TextWrapper
             content = None
@@ -181,13 +181,10 @@ class SheetMeta(type):
         super(SheetMeta, cls).__init__(name, bases, nmspc)
         for attribute in factory.get_sheet_rw_attributes():
             register_io(cls, attribute)
-            log.debug('io:%s' % attribute)
         for attribute in factory.get_sheet_w_attributes():
             register_presentation(cls, attribute)
-            log.debug('o:%s' % attribute)
         for attribute in factory.get_sheet_r_attributes():
             register_input(cls, attribute)
-            log.debug('i:%s' % attribute)
         setattr(cls, "register_io", classmethod(register_io))
         setattr(cls, "register_presentation",
                 classmethod(register_presentation))
