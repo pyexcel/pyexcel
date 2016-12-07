@@ -259,7 +259,7 @@ The following code will give you data series in a dictionary:
 .. testcode::
    :hide:
 
-   >>> sheet._column_names = [ str(name) for name in sheet._column_names]
+   >>> sheet.colnames = [ str(name) for name in sheet.colnames]
 
 .. testcode::
 
@@ -422,7 +422,8 @@ Column 1 Column 2 Column 3
 .. testcode::
    :hide:
 
-   >>> sheet._column_names = [ str(name) for name in sheet._column_names]
+   >>> sheet.colnames = [ str(name) for name in sheet.colnames]
+
 
 Play with data
 **************

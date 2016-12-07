@@ -107,8 +107,8 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
         if transpose_before:
             self.transpose()
         self.name = name
-        self._column_names = []
-        self._row_names = []
+        self.__column_names = []
+        self.__row_names = []
         self.row = NamedRow(self)
         self.column = NamedColumn(self)
         if name_columns_by_row != -1:
@@ -118,7 +118,7 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
             self.name_columns_by_row(name_columns_by_row)
         else:
             if colnames:
-                self._column_names = colnames
+                self.__column_names = colnames
         if name_rows_by_column != -1:
             if rownames:
                 raise NotImplementedError(
@@ -126,7 +126,7 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
             self.name_rows_by_column(name_rows_by_column)
         else:
             if rownames:
-                self._row_names = rownames
+                self.__row_names = rownames
         if transpose_after:
             self.transpose()
 
@@ -137,7 +137,7 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
         :param int row_index: the index of the row that has the column names
         """
         self.row_index = row_index
-        self._column_names = make_names_unique(self.row_at(row_index))
+        self.__column_names = make_names_unique(self.row_at(row_index))
         del self.row[row_index]
 
     def name_rows_by_column(self, column_index):
@@ -147,28 +147,28 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
         :param int column_index: the index of the column that has the row names
         """
         self.column_index = column_index
-        self._row_names = make_names_unique(self.column_at(column_index))
+        self.__row_names = make_names_unique(self.column_at(column_index))
         del self.column[column_index]
 
     @property
     def colnames(self):
         """Return column names"""
-        return self._column_names
+        return self.__column_names
 
     @colnames.setter
     def colnames(self, value):
         """Set column names"""
-        self._column_names = make_names_unique(value)
+        self.__column_names = make_names_unique(value)
 
     @property
     def rownames(self):
         """Return row names"""
-        return self._row_names
+        return self.__row_names
 
     @rownames.setter
     def rownames(self, value):
         """Set row names"""
-        self._row_names = make_names_unique(value)
+        self.__row_names = make_names_unique(value)
 
     def named_column_at(self, name):
         """Get a column by its name """
@@ -196,11 +196,11 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
         :param list column_indices: a list of column indices
         """
         Matrix.delete_columns(self, column_indices)
-        if len(self._column_names) > 0:
-            new_series = [self._column_names[i]
-                          for i in range(0, len(self._column_names))
+        if len(self.__column_names) > 0:
+            new_series = [self.__column_names[i]
+                          for i in range(0, len(self.__column_names))
                           if i not in column_indices]
-            self._column_names = new_series
+            self.__column_names = new_series
 
     def delete_rows(self, row_indices):
         """Delete one or more rows
@@ -208,11 +208,11 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
         :param list row_indices: a list of row indices
         """
         Matrix.delete_rows(self, row_indices)
-        if len(self._row_names) > 0:
-            new_series = [self._row_names[i]
-                          for i in range(0, len(self._row_names))
+        if len(self.__row_names) > 0:
+            new_series = [self.__row_names[i]
+                          for i in range(0, len(self.__row_names))
                           if i not in row_indices]
-            self._row_names = new_series
+            self.__row_names = new_series
 
     def delete_named_column_at(self, name):
         """Works only after you named columns by a row
@@ -287,7 +287,7 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
         """Put rows on the right most side of the data"""
         if len(self.colnames) > 0:
             headers = rows.pop(self.row_index)
-            self._column_names += headers
+            self.__column_names += headers
         Matrix.extend_columns_with_rows(self, rows)
 
     def extend_columns(self, columns):
@@ -399,11 +399,11 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
             Matrix.__setitem__(self, aset, c)
 
     def named_rows(self):
-        for row_name in self._row_names:
+        for row_name in self.__row_names:
             yield {row_name: self.row[row_name]}
 
     def named_columns(self):
-        for column_name in self._column_names:
+        for column_name in self.__column_names:
             yield {column_name: self.column[column_name]}
 
     class _RepresentedString:

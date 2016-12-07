@@ -101,7 +101,7 @@ class SheetSQLAlchemySource(Source):
         adapter.column_name_mapping_dict = self.__keywords.get(
             params.MAPDICT, None)
         importer.append(adapter)
-        save_data(importer, {adapter.get_name(): sheet._array},
+        save_data(importer, {adapter.get_name(): sheet.get_internal_array()},
                   file_type=DB_SQL, **self.__keywords)
 
 
@@ -138,7 +138,7 @@ class SheetDjangoSource(Source):
             params.MAPDICT, None)
         adapter.row_initializer = self.__keywords.get(params.INITIALIZER, None)
         importer.append(adapter)
-        save_data(importer, {adapter.get_name(): sheet._array},
+        save_data(importer, {adapter.get_name(): sheet.get_internal_array()},
                   file_type=DB_DJANGO, **self.__keywords)
 
 
@@ -195,7 +195,7 @@ class BookSQLSource(Source):
         for sheet_name in book.sheet_names():
             # due book.to_dict() brings in column_names
             # which corrupts the data
-            to_store[sheet_name] = book[sheet_name]._array
+            to_store[sheet_name] = book[sheet_name].get_internal_array()
         save_data(importer, to_store, file_type=DB_SQL, **self.__keywords)
 
 
@@ -252,6 +252,6 @@ class BookDjangoSource(Source):
         for sheet_name in book.sheet_names():
             # due book.to_dict() brings in column_names
             # which corrupts the data
-            to_store[sheet_name] = book[sheet_name]._array
+            to_store[sheet_name] = book[sheet_name].get_internal_array()
         save_data(importer, to_store, file_type=DB_DJANGO,
                   batch_size=batch_size)

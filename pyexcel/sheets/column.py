@@ -240,8 +240,8 @@ class Column:
             self.ref.extend_columns(other)
         elif isinstance(other, list):
             self.ref.extend_columns(other)
-        elif hasattr(other, "_array"):
-            self.ref.extend_columns_with_rows(other._array)
+        elif hasattr(other, 'get_internal_array'):
+            self.ref.extend_columns_with_rows(other.get_internal_array())
         else:
             raise TypeError
         return self

@@ -35,9 +35,9 @@ class Book(compact.with_metaclass(BookMeta, object)):
         self.init(sheets=sheets, filename=filename, path=path)
 
     def init(self, sheets=None, filename="memory", path=None):
-        self.path = path
-        self.filename = filename
-        self.name_array = []
+        self.__path = path
+        self._filename = filename
+        self.__name_array = []
         self.load_from_sheets(sheets)
 
     def load_from_sheets(self, sheets):
@@ -47,7 +47,7 @@ class Book(compact.with_metaclass(BookMeta, object)):
         :param dict sheets: a dictionary of sheets. Each sheet is
         a list of lists
         """
-        self.sheets = compact.OrderedDict()
+        self.__sheets = compact.OrderedDict()
         if sheets is None:
             return
         keys = sheets.keys()
@@ -58,10 +58,10 @@ class Book(compact.with_metaclass(BookMeta, object)):
         for name in keys:
             sheet = Sheet(sheets[name], name)
             # this sheets keep sheet order
-            self.sheets.update({name: sheet})
+            self.__sheets.update({name: sheet})
             # this provide the convenience of access the sheet
             self.__dict__[name] = sheet
-        self.name_array = list(self.sheets.keys())
+        self.__name_array = list(self.__sheets.keys())
 
     def __iter__(self):
         return compact.SheetIterator(self)
@@ -70,26 +70,26 @@ class Book(compact.with_metaclass(BookMeta, object)):
         """
         Return the number of sheets
         """
-        return len(self.name_array)
+        return len(self.__name_array)
 
     def sheet_names(self):
         """
         Return all sheet names
         """
-        return self.name_array
+        return self.__name_array
 
     def sheet_by_name(self, name):
         """
         Get the sheet with the specified name
         """
-        return self.sheets[name]
+        return self.__sheets[name]
 
     def sheet_by_index(self, index):
         """
         Get the sheet with the specified index
         """
-        if index < len(self.name_array):
-            sheet_name = self.name_array[index]
+        if index < len(self.__name_array):
+            sheet_name = self.__name_array[index]
             return self.sheet_by_name(sheet_name)
 
     def remove_sheet(self, sheet):
@@ -97,16 +97,16 @@ class Book(compact.with_metaclass(BookMeta, object)):
         Remove a sheet
         """
         if isinstance(sheet, int):
-            if sheet < len(self.name_array):
-                sheet_name = self.name_array[sheet]
-                del self.sheets[sheet_name]
-                self.name_array = list(self.sheets.keys())
+            if sheet < len(self.__name_array):
+                sheet_name = self.__name_array[sheet]
+                del self.__sheets[sheet_name]
+                self.__name_array = list(self.__sheets.keys())
             else:
                 raise IndexError
         elif isinstance(sheet, str):
-            if sheet in self.name_array:
-                del self.sheets[sheet]
-                self.name_array = list(self.sheets.keys())
+            if sheet in self.__name_array:
+                del self.__sheets[sheet]
+                self.__name_array = list(self.__sheets.keys())
             else:
                 raise KeyError
         else:
@@ -141,14 +141,14 @@ class Book(compact.with_metaclass(BookMeta, object)):
         for k in current_dict.keys():
             new_key = k
             if len(current_dict.keys()) == 1:
-                new_key = "%s_%s" % (self.filename, k)
+                new_key = "%s_%s" % (self._filename, k)
             content[new_key] = current_dict[k]
         if isinstance(other, Book):
             other_dict = other.to_dict()
             for l in other_dict.keys():
                 new_key = l
                 if len(other_dict.keys()) == 1:
-                    new_key = other.filename
+                    new_key = other._filename
                 if new_key in content:
                     uid = local_uuid()
                     new_key = "%s_%s" % (l, uid)
@@ -158,7 +158,7 @@ class Book(compact.with_metaclass(BookMeta, object)):
             if new_key in content:
                 uid = local_uuid()
                 new_key = "%s_%s" % (other.name, uid)
-            content[new_key] = other.to_array()
+            content[new_key] = other.array
         else:
             raise TypeError
         output = Book()
@@ -179,21 +179,21 @@ class Book(compact.with_metaclass(BookMeta, object)):
             for name in names:
                 new_key = name
                 if len(names) == 1:
-                    new_key = other.filename
-                if new_key in self.name_array:
+                    new_key = other._filename
+                if new_key in self.__name_array:
                     uid = local_uuid()
                     new_key = "%s_%s" % (name, uid)
-                self.sheets[new_key] = Sheet(other[name].to_array(),
-                                             new_key)
+                self.__sheets[new_key] = Sheet(other[name].array,
+                                               new_key)
         elif isinstance(other, Sheet):
             new_key = other.name
-            if new_key in self.name_array:
+            if new_key in self.__name_array:
                 uid = local_uuid()
                 new_key = "%s_%s" % (other.name, uid)
-            self.sheets[new_key] = Sheet(other.to_array(), new_key)
+            self.__sheets[new_key] = Sheet(other.to_array(), new_key)
         else:
             raise TypeError
-        self.name_array = list(self.sheets.keys())
+        self.__name_array = list(self.__sheets.keys())
         return self
 
     def to_dict(self):

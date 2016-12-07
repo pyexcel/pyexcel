@@ -25,7 +25,7 @@ class TestMatrixColumn:
         result = [[1, 2, 3, 4, 5, 6],
                   [1, 2, 3, 4, '', ''],
                   [1, '', '', '', '', '']]
-        eq_(result, m._array)
+        eq_(result, m.get_internal_array())
 
     def test_get_slice_of_columns(self):
         m = pe.sheets.Matrix(self.data)
@@ -66,7 +66,7 @@ class TestMatrixColumn:
         """Test extend columns"""
         m = pe.sheets.Matrix(self.data)
         m.extend_columns(self.data3)
-        eq_(self.result, m._array)
+        eq_(self.result, m.get_internal_array())
 
     def test_extend_column(self):
         """test extend just one column"""
@@ -85,7 +85,7 @@ class TestMatrixColumn:
         """
         m2 = pe.sheets.Matrix(self.data)
         m2.column += self.data3
-        eq_(self.result, m2._array)
+        eq_(self.result, m2.get_internal_array())
 
     def test_add(self):
         """Test operator add overload
@@ -93,7 +93,7 @@ class TestMatrixColumn:
         # +
         m3 = pe.sheets.Matrix(self.data)
         m4 = m3.column + self.data3
-        eq_(self.result, m4._array)
+        eq_(self.result, m4.get_internal_array())
 
     def test_iadd_matrix(self):
         """Test in place add a matrix"""
@@ -105,7 +105,7 @@ class TestMatrixColumn:
             [1, 2, 3, 4, '', '', 1, 2, 3, 4, '', ''],
             [1, '', '', '', '', '', 1, '', '', '', '', '']
         ]
-        eq_(result2, m7._array)
+        eq_(result2, m7.get_internal_array())
 
     @raises(TypeError)
     def test_type_error(self):
@@ -347,7 +347,7 @@ class TestMatrix:
         ]
         m = pe.sheets.Matrix(data)
         m.transpose()
-        eq_(result, m._array)
+        eq_(result, m.get_internal_array())
 
     def test_set_column_at(self):
         r = pe.sheets.Matrix(self.data)

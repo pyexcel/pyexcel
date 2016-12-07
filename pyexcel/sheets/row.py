@@ -193,8 +193,8 @@ class Row:
             self.ref.extend_rows(other)
         elif isinstance(other, list):
             self.ref.extend_rows(other)
-        elif hasattr(other, '_array'):
-            self.ref.extend_rows(other._array)
+        elif hasattr(other, 'get_internal_array'):
+            self.ref.extend_rows(other.get_internal_array())
         else:
             raise TypeError
         return self

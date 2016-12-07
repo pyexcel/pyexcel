@@ -102,13 +102,16 @@ class Matrix(object):
         copy every cell to a new memory area
         :param list array: a list of arrays
         """
-        self.width, self._array = uniform(list(array))
+        self.width, self.__array = uniform(list(array))
         self.row = Row(self)
         self.column = Column(self)
 
+    def get_internal_array(self):
+        return self.__array
+
     def number_of_rows(self):
         """The number of rows"""
-        return len(self._array)
+        return len(self.__array)
 
     def number_of_columns(self):
         """The number of columns"""
@@ -139,10 +142,10 @@ class Matrix(object):
         if row in self.row_range() and column in self.column_range():
             if new_value is None:
                 # get
-                return self._array[row][column]
+                return self.__array[row][column]
             else:
                 # set
-                self._array[row][column] = new_value
+                self.__array[row][column] = new_value
         else:
             if new_value is None:
                 raise IndexError("Index out of range")
@@ -154,7 +157,7 @@ class Matrix(object):
         Gets the data at the specified row
         """
         if index in self.row_range():
-            return copy.deepcopy(self._array[index])
+            return copy.deepcopy(self.__array[index])
         else:
             raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
 
@@ -163,9 +166,9 @@ class Matrix(object):
         """
         nrows = self.number_of_rows()
         if row_index < nrows:
-            self._array[row_index] = data_array
+            self.__array[row_index] = data_array
             if len(data_array) != self.number_of_columns():
-                self.width, self._array = uniform(self._array)
+                self.width, self.__array = uniform(self.__array)
         else:
             raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
 
@@ -196,15 +199,15 @@ class Matrix(object):
                 self.cell_value(row_index, i, data_array[i-starting])
             if real_len > ncolumns:
                 left = ncolumns - starting
-                self._array[row_index] = (self._array[row_index] +
-                                          data_array[left:])
-            self.width, self._array = uniform(self._array)
+                self.__array[row_index] = (self.__array[row_index] +
+                                           data_array[left:])
+            self.width, self.__array = uniform(self.__array)
         else:
             raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
 
     def _extend_row(self, row):
         array = copy.deepcopy(row)
-        self._array.append(array)
+        self.__array.append(array)
 
     def extend_rows(self, rows):
         """Inserts two dimensional data after the bottom row"""
@@ -214,7 +217,7 @@ class Matrix(object):
                     self._extend_row(r)
             else:
                 self._extend_row(rows)
-            self.width, self._array = uniform(self._array)
+            self.width, self.__array = uniform(self.__array)
         else:
             raise TypeError("Cannot use %s" % type(rows))
 
@@ -227,7 +230,7 @@ class Matrix(object):
             sorted_list = sorted(unique_list, reverse=True)
             for i in sorted_list:
                 if i < self.number_of_rows():
-                    del self._array[i]
+                    del self.__array[i]
 
     def column_at(self, index):
         """
@@ -271,8 +274,8 @@ class Matrix(object):
             if real_len > nrows:
                 for i in range(nrows, real_len):
                     new_row = [''] * column_index + [data_array[i-starting]]
-                    self._array.append(new_row)
-            self.width, self._array = uniform(self._array)
+                    self.__array.append(new_row)
+            self.width, self.__array = uniform(self.__array)
         else:
             raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
 
@@ -304,15 +307,15 @@ class Matrix(object):
         array_length = min(current_nrows, insert_column_nrows)
         for i in range(0, array_length):
             array = copy.deepcopy(rows[i])
-            self._array[i] += array
+            self.__array[i] += array
         if current_nrows < insert_column_nrows:
             delta = insert_column_nrows - current_nrows
             base = current_nrows
             for i in range(0, delta):
                 new_array = [""] * current_ncols
                 new_array += rows[base+i]
-                self._array.append(new_array)
-        self.width, self._array = uniform(self._array)
+                self.__array.append(new_array)
+        self.width, self.__array = uniform(self.__array)
 
     def extend_columns_with_rows(self, rows):
         """Rows were appended to the rightmost side
@@ -460,7 +463,7 @@ class Matrix(object):
                 else:
                     real_row = [""] * topleft_corner[1] + row
                     self._extend_row(real_row)
-            self.width, self._array = uniform(self._array)
+            self.width, self.__array = uniform(self.__array)
         elif columns:
             starting_column = topleft_corner[1]
             number_of_columns = self.number_of_columns()
@@ -473,7 +476,7 @@ class Matrix(object):
                 else:
                     real_column = [""] * topleft_corner[0] + column
                     self.extend_columns([real_column])
-            self.width, self._array = uniform(self._array)
+            self.width, self.__array = uniform(self.__array)
         else:
             raise ValueError(constants.MESSAGE_DATA_ERROR_EMPTY_CONTENT)
 
@@ -488,8 +491,8 @@ class Matrix(object):
             for i in self.row_range():
                 for j in sorted_list:
                     if j < self.number_of_columns():
-                        del self._array[i][j]
-            self.width = longest_row_number(self._array)
+                        del self.__array[i][j]
+            self.width = longest_row_number(self.__array)
 
     def __setitem__(self, aset, c):
         """Override the operator to set items"""
@@ -528,13 +531,13 @@ class Matrix(object):
 
         Reference :func:`transpose`
         """
-        self._array = transpose(self._array)
-        self.width, self._array = uniform(self._array)
+        self.__array = transpose(self.__array)
+        self.width, self.__array = uniform(self.__array)
 
     def to_array(self):
         """Get an array out
         """
-        return self._array
+        return self.__array
 
     def __iter__(self):
         """
@@ -561,7 +564,7 @@ class Matrix(object):
 
         More details see :class:`HTLBRIterator`
         """
-        return chain(*self._array)
+        return chain(*self.__array)
 
     def reverse(self):
         """Opposite to enumerate
@@ -582,7 +585,7 @@ class Matrix(object):
 
         More details see :class:`HBRTLIterator`
         """
-        for row in reversed(self._array):
+        for row in reversed(self.__array):
             for cell in reversed(row):
                 yield cell
 
@@ -607,7 +610,7 @@ class Matrix(object):
 
         More details see :class:`VTLBRIterator`
         """
-        return chain(*compact.czip(*self._array))
+        return chain(*compact.czip(*self.__array))
 
     def rvertical(self):
         """
@@ -630,7 +633,7 @@ class Matrix(object):
 
         More details see :class:`VBRTLIterator`
         """
-        for column in compact.czip(*(reversed(row) for row in self._array)):
+        for column in compact.czip(*(reversed(row) for row in self.__array)):
             for cell in reversed(column):
                 yield cell
 
@@ -655,7 +658,7 @@ class Matrix(object):
 
         More details see :class:`RowIterator`
         """
-        for row in self._array:
+        for row in self.__array:
             yield row
 
     def rrows(self):
@@ -679,7 +682,7 @@ class Matrix(object):
 
         More details see :class:`RowReverseIterator`
         """
-        for row in reversed(self._array):
+        for row in reversed(self.__array):
             yield row
 
     def columns(self):
@@ -703,7 +706,7 @@ class Matrix(object):
 
         More details see :class:`ColumnIterator`
         """
-        for row in compact.czip(*self._array):
+        for row in compact.czip(*self.__array):
             yield list(row)
 
     def rcolumns(self):
@@ -727,7 +730,7 @@ class Matrix(object):
 
         More details see :class:`ColumnReverseIterator`
         """
-        for column in compact.czip(*(reversed(row) for row in self._array)):
+        for column in compact.czip(*(reversed(row) for row in self.__array)):
             yield list(column)
 
     def filter(self, column_indices=None, row_indices=None):
@@ -799,13 +802,13 @@ class Matrix(object):
         """
         from ..book import Book, local_uuid
         content = {}
-        content[self.name] = self._array
+        content[self.name] = self.__array
         if isinstance(other, Book):
             b = other.to_dict()
             for l in b.keys():
                 new_key = l
                 if len(b.keys()) == 1:
-                    new_key = other.filename
+                    new_key = other._filename
                 if new_key in content:
                     uid = local_uuid()
                     new_key = "%s_%s" % (l, uid)
@@ -815,7 +818,7 @@ class Matrix(object):
             if new_key in content:
                 uid = local_uuid()
                 new_key = "%s_%s" % (other.name, uid)
-            content[new_key] = other._array
+            content[new_key] = other.get_internal_array()
         else:
             raise TypeError
         c = Book()
