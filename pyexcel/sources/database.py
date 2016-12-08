@@ -266,7 +266,6 @@ class BookDjangoSource(Source):
 
 
 def _set_dictionary_key(adict, sheet_name):
-    (old_sheet_name, array), = adict
+    (old_sheet_name, array) = adict.items()[0]
     adict[sheet_name] = array
     adict.pop(old_sheet_name)
-            
