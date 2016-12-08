@@ -76,10 +76,12 @@ class SheetSQLAlchemySource(Source):
     actions = (params.READ_ACTION, params.WRITE_ACTION)
     attributes = []
 
-    def __init__(self, session, table, export_columns=None, **keywords):
+    def __init__(self, session, table, export_columns=None,
+                 sheet_name=None, **keywords):
         self.__session = session
         self.__table = table
         self.__export_columns = export_columns
+        self.__sheet_name = sheet_name
         self.__keywords = keywords
 
     def get_data(self):
@@ -88,6 +90,8 @@ class SheetSQLAlchemySource(Source):
             self.__table, self.__export_columns)
         exporter.append(adapter)
         data = get_data(exporter, file_type=DB_SQL)
+        if self.__sheet_name is not None:
+            _set_dictionary_key(data, self.__sheet_name)
         return data
 
     def write_data(self, sheet):
@@ -114,9 +118,11 @@ class SheetDjangoSource(Source):
     actions = (params.READ_ACTION, params.WRITE_ACTION)
     attributes = []
 
-    def __init__(self, model=None, export_columns=None, **keywords):
+    def __init__(self, model=None, export_columns=None, sheet_name=None,
+                 **keywords):
         self.__model = model
         self.__export_columns = export_columns
+        self.__sheet_name = sheet_name
         self.__keywords = keywords
 
     def get_data(self):
@@ -125,6 +131,8 @@ class SheetDjangoSource(Source):
             self.__model, self.__export_columns)
         exporter.append(adapter)
         data = get_data(exporter, file_type=DB_DJANGO, **self.__keywords)
+        if self.__sheet_name is not None:
+            _set_dictionary_key(data, self.__sheet_name)
         return data
 
     def write_data(self, sheet):
@@ -255,3 +263,10 @@ class BookDjangoSource(Source):
             to_store[sheet_name] = book[sheet_name].get_internal_array()
         save_data(importer, to_store, file_type=DB_DJANGO,
                   batch_size=batch_size)
+
+
+def _set_dictionary_key(adict, sheet_name):
+    (old_sheet_name, array), = adict
+    adict[sheet_name] = array
+    adict.pop(old_sheet_name)
+            
