@@ -37,12 +37,13 @@ class RecordsSource(Source):
     attributes = [params.RECORDS]
     key = params.RECORDS
 
-    def __init__(self, records):
+    def __init__(self, records, sheet_name=DEFAULT_SHEET_NAME):
         self.__records = records
         self.__content = _FakeIO()
+        self.__sheet_name = sheet_name
 
     def get_data(self):
-        return {DEFAULT_SHEET_NAME: yield_from_records(self.__records)}
+        return {self.__sheet_name: yield_from_records(self.__records)}
 
     def get_source_info(self):
         return params.RECORDS, None
@@ -64,13 +65,14 @@ class DictSource(Source):
     attributes = ["dict"]
     key = params.ADICT
 
-    def __init__(self, adict, with_keys=True):
+    def __init__(self, adict, with_keys=True, sheet_name=DEFAULT_SHEET_NAME):
         self.__adict = adict
         self.__with_keys = with_keys
         self.__content = _FakeIO()
+        self.__sheet_name = sheet_name
 
     def get_data(self):
-        return {DEFAULT_SHEET_NAME: yield_dict_to_array(
+        return {self.__sheet_name: yield_dict_to_array(
             self.__adict, self.__with_keys)}
 
     def get_source_info(self):
@@ -93,12 +95,13 @@ class ArraySource(Source):
     attributes = ["array"]
     key = params.ARRAY
 
-    def __init__(self, array):
+    def __init__(self, array, sheet_name=DEFAULT_SHEET_NAME):
         self.__array = array
         self.__content = _FakeIO()
+        self.__sheet_name = sheet_name
 
     def get_data(self):
-        return {DEFAULT_SHEET_NAME: self.__array}
+        return {self.__sheet_name: self.__array}
 
     def get_source_info(self):
         return params.ARRAY, None
@@ -120,7 +123,7 @@ class BookDictSource(Source):
     attributes = [params.BOOKDICT]
     key = params.BOOKDICT
 
-    def __init__(self, bookdict, **keywords):
+    def __init__(self, bookdict):
         self.__bookdict = bookdict
         self.__content = _FakeIO()
 

@@ -147,7 +147,7 @@ def save_as(**keywords):
                       keywords with prefix 'dest'
     memory            dest_file_type, dest_content,
                       dest_sheet_name, keywords with prefix 'dest'
-    sql               dest_session, table,
+    sql               dest_session, dest_table,
                       dest_initializer, dest_mapdict
     django model      dest_model, dest_initializer,
                       dest_mapdict, dest_batch_size
