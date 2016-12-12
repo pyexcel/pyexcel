@@ -13,7 +13,7 @@ import pyexcel_io.database.sql as sql
 import pyexcel_io.database.django as django
 from pyexcel_io.database.querysets import QuerysetsReader
 
-from pyexcel._compact import OrderedDict
+from pyexcel._compact import OrderedDict, PY2
 from pyexcel.constants import DEFAULT_SHEET_NAME
 from pyexcel.generators import BookStream
 from pyexcel.sources.factory import Source
@@ -266,6 +266,9 @@ class BookDjangoSource(Source):
 
 
 def _set_dictionary_key(adict, sheet_name):
-    (old_sheet_name, array) = adict.items()[0]
+    if PY2:
+        (old_sheet_name, array) = adict.items()[0]
+    else:
+        (old_sheet_name, array) = list(adict.items())[0]
     adict[sheet_name] = array
     adict.pop(old_sheet_name)
