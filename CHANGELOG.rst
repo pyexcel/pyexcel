@@ -1,8 +1,24 @@
 Change log
 ================================================================================
 
-0.3.4 - unreleased
+0.4.0 - unreleased
 --------------------------------------------------------------------------------
+
+Added
+********************************************************************************
+
+#. `Flask-Excel issue 19 <https://github.com/pyexcel/Flask-Excel/issues/19>`_
+   allow sheet_name parameter
+#. `pyexcel-xls issue 11 <https://github.com/pyexcel/pyexcel-xls/issues/11>`_
+   case-incenstive for file_type. `xls` and `XLS` are treated in the same way
+
+
+Updated
+********************************************************************************
+
+#. `# 66 <https://github.com/pyexcel/pyexcel/issues/66>`_: `export_columns` is
+   ignored
+#. Update dependency on pyexcel-io v0.3.0
 
 
 0.3.3 - 07.11.2016
@@ -22,7 +38,7 @@ Updated
 ********************************************************************************
 
 #. `# 62 <https://github.com/pyexcel/pyexcel/issues/62>`_: optional module
-   import error become visible. 
+   import error become visible.
 
 
 0.3.0 - 28.10.2016
@@ -70,7 +86,7 @@ Updated
 #. `~pyexcel.Sheet.save_to_memory` and `~pyexcel.Book.save_to_memory`
    return the actual content. No longer they will return a io object hence
    you cannot call getvalue() on them.
-   
+
 Removed:
 ********************************************************************************
 
@@ -119,7 +135,7 @@ Removed:
    removed:
 
    * pyexcel.formatters.SheetFormatter
-   
+
 
 0.2.5 - 31.08.2016
 --------------------------------------------------------------------------------
