@@ -37,10 +37,10 @@ class TestSQL(TestCase):
 
     def test_sql_sheet(self):
         sheet = pe.get_sheet(
-            session=Session(), table=Pyexcel,
+            session=Session(), table=Pyexcel, sheet_name='custom sheet',
             export_columns=['weight', 'birth'])
         content = dedent("""
-        pyexcel:
+        custom sheet:
         +--------+------------+
         | weight | birth      |
         +--------+------------+

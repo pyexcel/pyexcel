@@ -813,9 +813,10 @@ class TestGetBook:
             [1, 2, 3],
             [4, 5, 6]
         ]
-        book = pe.get_book(array=data)
+        test_sheet_name = 'custom_sheet'
+        book = pe.get_book(array=data, sheet_name=test_sheet_name)
         result = book.to_dict()
-        eq_(data, result['pyexcel_sheet1'])
+        eq_(data, result[test_sheet_name])
 
     def test_get_sheet_from_dict(self):
         adict = {
@@ -823,28 +824,30 @@ class TestGetBook:
             "Y": [2, 5],
             "Z": [3, 6]
         }
-        book = pe.get_book(adict=adict)
+        test_sheet_name = 'custom_sheet'
+        book = pe.get_book(adict=adict, sheet_name=test_sheet_name)
         expected = [
             ["X", "Y", "Z"],
             [1, 2, 3],
             [4, 5, 6]
         ]
         result = book.to_dict()
-        eq_(expected, result['pyexcel_sheet1'])
+        eq_(expected, result[test_sheet_name])
 
     def test_get_sheet_from_records(self):
         records = [
             {"X": 1, "Y": 2, "Z": 3},
             {"X": 4, "Y": 5, "Z": 6}
         ]
-        book = pe.get_book(records=records)
+        test_sheet_name = 'custom_sheet'
+        book = pe.get_book(records=records, sheet_name=test_sheet_name)
         expected = [
             ["X", "Y", "Z"],
             [1, 2, 3],
             [4, 5, 6]
         ]
         result = book.to_dict()
-        eq_(expected, result['pyexcel_sheet1'])
+        eq_(expected, result[test_sheet_name])
 
 
 class TestSaveAs:
