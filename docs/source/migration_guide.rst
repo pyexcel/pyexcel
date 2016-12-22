@@ -1,4 +1,4 @@
-Migrate from 0.2.x to 0.3.0
+Migrate from 0.2.x to 0.3.0+
 ================================
 
 Filtering and formatting behavior of :class:`pyexcel.Sheet` are simplified. Soft
