@@ -35,6 +35,7 @@ pyexcel.sheets.Matrix
       ~Matrix.format
       ~Matrix.freeze_filters
       ~Matrix.freeze_formatters
+      ~Matrix.get_internal_array
       ~Matrix.map
       ~Matrix.number_of_columns
       ~Matrix.number_of_rows

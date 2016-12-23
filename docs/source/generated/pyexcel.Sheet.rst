@@ -38,29 +38,54 @@ pyexcel.Sheet
       ~Sheet.freeze_filters
       ~Sheet.freeze_formatters
       ~Sheet.get_array
+      ~Sheet.get_array_stream
       ~Sheet.get_csv
+      ~Sheet.get_csv_stream
       ~Sheet.get_csvz
+      ~Sheet.get_csvz_stream
       ~Sheet.get_dict
+      ~Sheet.get_dict_stream
       ~Sheet.get_grid
+      ~Sheet.get_grid_stream
       ~Sheet.get_html
+      ~Sheet.get_html_stream
+      ~Sheet.get_internal_array
       ~Sheet.get_json
+      ~Sheet.get_json_stream
       ~Sheet.get_latex
       ~Sheet.get_latex_booktabs
+      ~Sheet.get_latex_booktabs_stream
+      ~Sheet.get_latex_stream
       ~Sheet.get_mediawiki
+      ~Sheet.get_mediawiki_stream
       ~Sheet.get_ods
+      ~Sheet.get_ods_stream
       ~Sheet.get_orgtbl
+      ~Sheet.get_orgtbl_stream
       ~Sheet.get_pipe
+      ~Sheet.get_pipe_stream
       ~Sheet.get_plain
+      ~Sheet.get_plain_stream
       ~Sheet.get_records
+      ~Sheet.get_records_stream
       ~Sheet.get_rst
+      ~Sheet.get_rst_stream
       ~Sheet.get_simple
+      ~Sheet.get_simple_stream
       ~Sheet.get_texttable
+      ~Sheet.get_texttable_stream
       ~Sheet.get_tsv
+      ~Sheet.get_tsv_stream
       ~Sheet.get_tsvz
+      ~Sheet.get_tsvz_stream
       ~Sheet.get_url
+      ~Sheet.get_url_stream
       ~Sheet.get_xls
+      ~Sheet.get_xls_stream
       ~Sheet.get_xlsm
+      ~Sheet.get_xlsm_stream
       ~Sheet.get_xlsx
+      ~Sheet.get_xlsx_stream
       ~Sheet.init
       ~Sheet.map
       ~Sheet.name_columns_by_row
