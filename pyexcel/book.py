@@ -230,9 +230,9 @@ class Book(compact.with_metaclass(BookMeta, object)):
                        format, please pass an instance of StringIO. For xls,
                        xlsx, and ods, an instance of BytesIO.
         """
-        get_method = getattr(self, "get_%s" % file_type)
-        content = get_method(file_stream=stream, **keywords)
-        return content
+        get_method = getattr(self, "get_%s_stream" % file_type)
+        stream = get_method(file_stream=stream, **keywords)
+        return stream
 
     def save_to_django_models(self, models,
                               initializers=None, mapdicts=None,

@@ -140,12 +140,12 @@ class TestIO:
 def test_save_sheet_to_sys_stdout():
     data = [[1]]
     sheet = pe.Sheet(data)
-    ret = sheet.save_to_memory('csv', sys.stdout)
-    eq_(ret, '1\r\n')
+    stream = sheet.save_to_memory('csv', sys.stdout)
+    eq_(stream.getvalue(), '1\r\n')
 
 
 def test_save_book_to_sys_stdout():
     data = {"sheet": [[1]]}
     book = pe.Book(data)
-    ret = book.save_to_memory('csv', sys.stdout)
-    eq_(ret, '1\r\n')
+    stream = book.save_to_memory('csv', sys.stdout)
+    eq_(stream.getvalue(), '1\r\n')

@@ -179,3 +179,13 @@ class TestBugFixes(TestCase):
         test_file = 'xls_issue_11.JSON'
         sheet2.save_as(test_file)
         os.unlink(test_file)
+
+    def test_issue_68(self):
+        data = [[1]]
+        sheet = pe.Sheet(data)
+        stream = sheet.save_to_memory('csv')
+        eq_(stream.getvalue(), '1\r\n')
+        data = {"sheet": [[1]]}
+        book = pe.Book(data)
+        stream = book.save_to_memory('csv')
+        eq_(stream.getvalue(), '1\r\n')
