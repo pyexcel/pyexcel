@@ -4,7 +4,7 @@
 
     Representation of output file sources
 
-    :copyright: (c) 2015-2016 by Onni Software Ltd.
+    :copyright: (c) 2017-2016 by Onni Software Ltd.
     :license: New BSD License
 """
 import pyexcel.renderers as renderers

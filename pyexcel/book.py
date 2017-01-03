@@ -4,7 +4,7 @@
 
     Uniform interface for describing a excel book
 
-    :copyright: (c) 2014-2015 by Onni Software Ltd.
+    :copyright: (c) 2014-2017 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
 import sys

@@ -4,7 +4,7 @@
 
     Building on top of matrix, adding named columns and rows support
 
-    :copyright: (c) 2014-2015 by Onni Software Ltd.
+    :copyright: (c) 2014-2017 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
 import sys
@@ -134,7 +134,7 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
         """Use the elements of a specified row to represent individual columns
 
         The specified row will be deleted from the data
-        :param int row_index: the index of the row that has the column names
+        :param row_index: the index of the row that has the column names
         """
         self.__row_index = row_index
         self.__column_names = make_names_unique(self.row_at(row_index))
@@ -144,14 +144,14 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
         """Use the elements of a specified column to represent individual rows
 
         The specified column will be deleted from the data
-        :param int column_index: the index of the column that has the row names
+        :param column_index: the index of the column that has the row names
         """
         self.__row_names = make_names_unique(self.column_at(column_index))
         del self.column[column_index]
 
     @property
     def colnames(self):
-        """Return column names"""
+        """Return column names if any"""
         return self.__column_names
 
     @colnames.setter
@@ -161,7 +161,7 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
 
     @property
     def rownames(self):
-        """Return row names"""
+        """Return row names if any"""
         return self.__row_names
 
     @rownames.setter
@@ -170,7 +170,7 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
         self.__row_names = make_names_unique(value)
 
     def named_column_at(self, name):
-        """Get a column by its name """
+        """Get a column by its name"""
         index = name
         if compact.is_string(type(index)):
             index = self.colnames.index(name)
@@ -232,7 +232,6 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
     def named_row_at(self, name):
         """Get a row by its name """
         index = name
-        # if is_string(type(index)):
         index = self.rownames.index(name)
         row_array = self.row_at(index)
         return row_array
@@ -367,6 +366,92 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
             raise NotImplementedError("Not implemented")
         return the_dict
 
+    def named_rows(self):
+        for row_name in self.__row_names:
+            yield {row_name: self.row[row_name]}
+
+    def named_columns(self):
+        for column_name in self.__column_names:
+            yield {column_name: self.column[column_name]}
+
+    @property
+    def content(self):
+        """
+        Plain representation without headers
+        """
+        content = self.get_texttable(write_title=False)
+        return _RepresentedString(content)
+
+    def save_as(self, filename, **keywords):
+        """Save the content to a named file
+
+        Keywords may vary depending on your file type, because the associated
+        file type employs different library.
+
+        for csv, `fmtparams <https://docs.python.org/release/3.1.5/
+        library/csv.html#dialects-and-formatting-parameters>`_ are accepted
+
+        for xls, 'auto_detect_int', 'encoding' and 'style_compression' are
+        supported
+
+        for ods, 'auto_detect_int' is supported
+        """
+        return save_sheet(self, file_name=filename,
+                          **keywords)
+
+    def save_to_memory(self, file_type, stream=None, **keywords):
+        """Save the content to memory
+
+        :param file_type: any value of 'csv', 'tsv', 'csvz',
+                          'tsvz', 'xls', 'xlsm', 'xlsm', 'ods'
+        :param stream: the memory stream to be written to. Note in
+                       Python 3, for csv  and tsv format, please
+                       pass an instance of StringIO. For xls, xlsx,
+                       and ods, an instance of BytesIO.
+        """
+        get_method = getattr(self, "get_%s_stream" % file_type)
+        stream = get_method(file_stream=stream, **keywords)
+        return stream
+
+    def save_to_django_model(self,
+                             model,
+                             initializer=None,
+                             mapdict=None,
+                             batch_size=None):
+        """Save to database table through django model
+
+        :param model: a database model
+        :param initializer: a initialization functions for your model
+        :param mapdict: custom map dictionary for your data columns
+        :param batch_size: a parameter to Django concerning the size
+                           for bulk insertion
+        """
+        save_sheet(self,
+                   model=model, initializer=initializer,
+                   mapdict=mapdict, batch_size=batch_size)
+
+    def save_to_database(self, session, table,
+                         initializer=None,
+                         mapdict=None,
+                         auto_commit=True):
+        """Save data in sheet to database table
+
+        :param session: database session
+        :param table: a database table
+        :param initializer: a initialization functions for your table
+        :param mapdict: custom map dictionary for your data columns
+        :param auto_commit: by default, data is auto committed.
+
+        """
+        save_sheet(self,
+                   session=session,
+                   table=table,
+                   initializer=initializer,
+                   mapdict=mapdict,
+                   auto_commit=auto_commit)
+
+    # python magic methods
+
     def __getitem__(self, aset):
         if isinstance(aset, tuple):
             if isinstance(aset[0], str):
@@ -397,24 +482,6 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
         else:
             Matrix.__setitem__(self, aset, c)
 
-    def named_rows(self):
-        for row_name in self.__row_names:
-            yield {row_name: self.row[row_name]}
-
-    def named_columns(self):
-        for column_name in self.__column_names:
-            yield {column_name: self.column[column_name]}
-
-    class _RepresentedString:
-        def __init__(self, text):
-            self.text = text
-
-        def __repr__(self):
-            return self.text
-
-        def __str__(self):
-            return self.text
-
     def __repr__(self):
         if compact.PY2:
             default_encoding = sys.getdefaultencoding()
@@ -427,81 +494,17 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
     def __str__(self):
         return self.__repr__()
 
-    @property
-    def content(self):
-        """
-        Plain representation without headers
-        """
-        content = self.get_texttable(write_title=False)
-        return self._RepresentedString(content)
 
-    def save_as(self, filename, **keywords):
-        """Save the content to a named file
+class _RepresentedString:
+    """present in text"""
+    def __init__(self, text):
+        self.text = text
 
-        Keywords may vary depending on your file type, because the associated
-        file type employs different library.
+    def __repr__(self):
+        return self.text
 
-        for csv, `fmtparams <https://docs.python.org/release/3.1.5/
-        library/csv.html#dialects-and-formatting-parameters>`_ are accepted
-
-        for xls, 'auto_detect_int', 'encoding' and 'style_compression' are
-        supported
-
-        for ods, 'auto_detect_int' is supported
-        """
-        return save_sheet(self, file_name=filename,
-                          **keywords)
-
-    def save_to_memory(self, file_type, stream=None, **keywords):
-        """Save the content to memory
-
-        :param str file_type: any value of 'csv', 'tsv', 'csvz',
-                              'tsvz', 'xls', 'xlsm', 'xlsm', 'ods'
-        :param iostream stream: the memory stream to be written to. Note in
-                                Python 3, for csv  and tsv format, please
-                                pass an instance of StringIO. For xls, xlsx,
-                                and ods, an instance of BytesIO.
-        """
-        get_method = getattr(self, "get_%s_stream" % file_type)
-        stream = get_method(file_stream=stream, **keywords)
-        return stream
-
-    def save_to_django_model(self,
-                             model,
-                             initializer=None,
-                             mapdict=None,
-                             batch_size=None):
-        """Save to database table through django model
-
-        :param model: a database model
-        :param initializer: a initialization functions for your model
-        :param mapdict: custom map dictionary for your data columns
-        :param batch_size: a parameter to Django concerning the size
-                           of data base set
-        """
-        save_sheet(self,
-                   model=model, initializer=initializer,
-                   mapdict=mapdict, batch_size=batch_size)
-
-    def save_to_database(self, session, table,
-                         initializer=None,
-                         mapdict=None,
-                         auto_commit=True):
-        """Save data in sheet to database table
-
-        :param session: database session
-        :param table: a database table
-        :param initializer: a initialization functions for your table
-        :param mapdict: custom map dictionary for your data columns
-        :param auto_commit: by default, data is committed.
-
-        """
-        save_sheet(self,
-                   session=session,
-                   table=table,
-                   initializer=initializer,
-                   mapdict=mapdict,
-                   auto_commit=auto_commit)
+    def __str__(self):
+        return self.text
 
 
 def make_names_unique(alist):
