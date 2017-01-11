@@ -1,6 +1,18 @@
 Change log
 ================================================================================
 
+0.4.2 - unreleased
+--------------------------------------------------------------------------------
+
+Updated
+********************************************************************************
+
+#. Raise exception if the incoming sheet does not have column names. In other
+   words, only sheet with column names could be saved to database. sheet with
+   row names cannot be saved. The alternative is to tranpose the sheet, then
+   name_columns_by_row and then save.
+
+
 0.4.1 - 23.12.2016
 --------------------------------------------------------------------------------
 

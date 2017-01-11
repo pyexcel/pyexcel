@@ -20,6 +20,9 @@ from pyexcel.sources.factory import Source
 from . import params
 
 
+NO_COLUMN_NAMES = "Only sheet with column names is accepted"
+
+
 class SheetQuerySetSource(Source):
     """
     Database query set as data source
@@ -97,7 +100,7 @@ class SheetSQLAlchemySource(Source):
     def write_data(self, sheet):
         headers = sheet.colnames
         if len(headers) == 0:
-            headers = sheet.rownames
+            raise Exception(NO_COLUMN_NAMES)
         importer = sql.SQLTableImporter(self.__session)
         adapter = sql.SQLTableImportAdapter(self.__table)
         adapter.column_names = headers
@@ -138,7 +141,7 @@ class SheetDjangoSource(Source):
     def write_data(self, sheet):
         headers = sheet.colnames
         if len(headers) == 0:
-            headers = sheet.rownames
+            raise Exception(NO_COLUMN_NAMES)
         importer = django.DjangoModelImporter()
         adapter = django.DjangoModelImportAdapter(self.__model)
         adapter.column_names = headers

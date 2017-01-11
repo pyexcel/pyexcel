@@ -1,6 +1,6 @@
 import pyexcel as pe
 from _compact import OrderedDict
-from nose.tools import eq_
+from nose.tools import eq_, raises
 
 
 class Attributable:
@@ -167,6 +167,19 @@ class TestSheet:
         mapdict = ["X", "Y", "Z"]
         model = FakeDjangoModel()
         pe.save_as(array=data2, name_columns_by_row=0,
+                   dest_model=model, dest_mapdict=mapdict)
+        assert model.objects.objs == self.result
+
+    @raises(Exception)
+    def test_mapping_array_exceptional_case(self):
+        data2 = [
+            ["A", "B", "C"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        mapdict = ["X", "Y", "Z"]
+        model = FakeDjangoModel()
+        pe.save_as(array=data2,
                    dest_model=model, dest_mapdict=mapdict)
         assert model.objects.objs == self.result
 
