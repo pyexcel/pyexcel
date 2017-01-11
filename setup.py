@@ -67,9 +67,9 @@ if python_implementation == "PyPy":
 
 PACKAGES = find_packages(exclude=['ez_setup', 'examples', 'tests'])
 EXTRAS_REQUIRE = {
-    'xls': ['pyexcel-xls>=0.2.0'],
-    'xlsx': ['pyexcel-xlsx>=0.2.0'],
-    'ods': ['pyexcel-ods3>=0.2.0'],
+    'xls': ['pyexcel-xls>=0.3.0'],
+    'xlsx': ['pyexcel-xlsx>=0.3.0'],
+    'ods': ['pyexcel-ods>=0.3.0'],
 }
 
 
