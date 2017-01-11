@@ -381,6 +381,18 @@ class TestiGetRecords:
             {"X": 4, "Y": 5, "Z": 6}
         ])
 
+    def test_get_records_from_irregular_array(self):
+        data = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5]
+        ]
+        result = pe.iget_records(array=data)
+        eq_(list(result), [
+            {"X": 1, "Y": 2, "Z": 3},
+            {"X": 4, "Y": 5, "Z": ''}
+        ])
+
     def test_get_records_from_dict(self):
         data = {
             "X": [1, 4],

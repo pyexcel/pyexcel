@@ -11,7 +11,9 @@ Updated
    words, only sheet with column names could be saved to database. sheet with
    row names cannot be saved. The alternative is to tranpose the sheet, then
    name_columns_by_row and then save.
-
+#. fix iget_records where a non-uniform content should be given,
+   e.g. [["x", "y"], [1, 2], [3]], some record would become non-uniform, e.g.
+   key 'y' would be missing from the second record.
 
 0.4.1 - 23.12.2016
 --------------------------------------------------------------------------------

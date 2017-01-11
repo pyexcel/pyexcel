@@ -4,7 +4,7 @@
 
     A list of pyexcel signature functions
 
-    :copyright: (c) 2017-2016 by Onni Software Ltd.
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
 import re
@@ -15,6 +15,7 @@ from pyexcel.sheets import Sheet
 from pyexcel.book import Book
 import pyexcel.sources as sources
 import pyexcel.constants as constants
+from pyexcel._compact import zip_longest
 
 
 STARTS_WITH_DEST = '^dest_(.*)'
@@ -291,7 +292,7 @@ def iget_records(**keywords):
         if row_index == 0:
             headers = row
         else:
-            yield dict(zip(headers, row))
+            yield dict(zip_longest(headers, row, fillvalue=''))
 
 
 def get_book_dict(**keywords):
