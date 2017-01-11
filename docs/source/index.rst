@@ -115,7 +115,8 @@ For compatibility tables of pyexcel-io plugins, please click `here <http://pyexc
     ======= ========== ============
     pyexcel pyexcel-io pyexcel-text
     ======= ========== ============
-    0.3.0   0.2.3      0.2.4(dev)
+    0.4.0+  0.3.0      0.2.5
+    0.3.0+  0.2.3      0.2.4
     0.2.2+  0.2.0+     0.2.1+
     0.2.1   0.1.0      0.2.0
     0.2.0   0.1.0      0.1.0+
