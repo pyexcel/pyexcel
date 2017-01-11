@@ -20,75 +20,6 @@ from .column import Column
 from . import _shared as utils
 
 
-def _unique(seq):
-    """Return a unique list of the incoming list
-
-    Reference:
-    http://stackoverflow.com/questions/480214/
-    how-do-you-remove-duplicates-from-a-list-in-python-whilst-preserving-order
-    """
-    seen = set()
-    seen_add = seen.add
-    return [x for x in seq if not (x in seen or seen_add(x))]
-
-
-def longest_row_number(array):
-    """Find the length of the longest row in the array
-
-    :param list in_array: a list of arrays
-    """
-    if len(array) > 0:
-        # map runs len() against each member of the array
-        return max(map(len, array))
-    else:
-        return 0
-
-
-def uniform(array):
-    """Fill-in empty strings to empty cells to make it MxN
-
-    :param list in_array: a list of arrays
-    """
-    width = longest_row_number(array)
-    if width == 0:
-        return 0, array
-    else:
-        for row in array:
-            row_length = len(row)
-            for index in range(0, row_length):
-                if row[index] is None:
-                    row[index] = constants.DEFAULT_NA
-            if row_length < width:
-                row += [constants.DEFAULT_NA] * (width - row_length)
-        return width, array
-
-
-def transpose(in_array):
-    """Rotate clockwise by 90 degrees and flip horizontally
-
-    First column become first row.
-    :param list in_array: a list of arrays
-
-    The transformation is::
-
-        1 2 3       1  4
-        4 5 6 7 ->  2  5
-                    3  6
-                    '' 7
-    """
-    max_length = longest_row_number(in_array)
-    new_array = []
-    for i in range(0, max_length):
-        row_data = []
-        for c in in_array:
-            if i < len(c):
-                row_data.append(c[i])
-            else:
-                row_data.append('')
-        new_array.append(row_data)
-    return new_array
-
-
 class Matrix(object):
     """The internal representation of a sheet data. Each element
     can be of any python types
@@ -885,3 +816,72 @@ class Matrix(object):
         """Apply all added formatters and clear them
         """
         raise NotImplementedError(constants._IMPLEMENTATION_REMOVED)
+
+
+def _unique(seq):
+    """Return a unique list of the incoming list
+
+    Reference:
+    http://stackoverflow.com/questions/480214/
+    how-do-you-remove-duplicates-from-a-list-in-python-whilst-preserving-order
+    """
+    seen = set()
+    seen_add = seen.add
+    return [x for x in seq if not (x in seen or seen_add(x))]
+
+
+def longest_row_number(array):
+    """Find the length of the longest row in the array
+
+    :param list in_array: a list of arrays
+    """
+    if len(array) > 0:
+        # map runs len() against each member of the array
+        return max(map(len, array))
+    else:
+        return 0
+
+
+def uniform(array):
+    """Fill-in empty strings to empty cells to make it MxN
+
+    :param list in_array: a list of arrays
+    """
+    width = longest_row_number(array)
+    if width == 0:
+        return 0, array
+    else:
+        for row in array:
+            row_length = len(row)
+            for index in range(0, row_length):
+                if row[index] is None:
+                    row[index] = constants.DEFAULT_NA
+            if row_length < width:
+                row += [constants.DEFAULT_NA] * (width - row_length)
+        return width, array
+
+
+def transpose(in_array):
+    """Rotate clockwise by 90 degrees and flip horizontally
+
+    First column become first row.
+    :param list in_array: a list of arrays
+
+    The transformation is::
+
+        1 2 3       1  4
+        4 5 6 7 ->  2  5
+                    3  6
+                    '' 7
+    """
+    max_length = longest_row_number(in_array)
+    new_array = []
+    for i in range(0, max_length):
+        row_data = []
+        for c in in_array:
+            if i < len(c):
+                row_data.append(c[i])
+            else:
+                row_data.append('')
+        new_array.append(row_data)
+    return new_array

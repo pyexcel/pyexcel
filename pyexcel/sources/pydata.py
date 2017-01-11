@@ -7,6 +7,8 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
+from pyexcel_io.sheet import SheetReader
+
 from pyexcel._compact import OrderedDict
 from pyexcel.constants import DEFAULT_SHEET_NAME
 from pyexcel.sources import params
@@ -26,6 +28,28 @@ class _FakeIO:
         return self.__value
 
 
+class RecordsReader(SheetReader):
+
+    def row_iterator(self):
+        headers = []
+        for index, row in enumerate(self._native_sheet):
+            if index == 0:
+                if isinstance(row, OrderedDict):
+                    headers = row.keys()
+                else:
+                    headers = sorted(row.keys())
+                yield list(headers)
+
+            values = []
+            for k in headers:
+                values.append(row[k])
+            yield values
+
+    def column_iterator(self, row):
+        for cell in row:
+            yield cell
+
+
 class RecordsSource(Source):
     """
     A list of dictionaries as data source
@@ -38,13 +62,15 @@ class RecordsSource(Source):
     attributes = [params.RECORDS]
     key = params.RECORDS
 
-    def __init__(self, records, sheet_name=DEFAULT_SHEET_NAME):
+    def __init__(self, records, sheet_name=DEFAULT_SHEET_NAME, **keywords):
         self.__records = records
         self.__content = _FakeIO()
         self.__sheet_name = sheet_name
+        self.__keywords = keywords
 
     def get_data(self):
-        return {self.__sheet_name: yield_from_records(self.__records)}
+        records_reader = RecordsReader(self.__records, **self.__keywords)
+        return {self.__sheet_name: records_reader.to_array()}
 
     def get_source_info(self):
         return params.RECORDS, None
@@ -142,25 +168,6 @@ class BookDictSource(Source):
 
     def get_internal_stream(self):
         return self.__content
-
-
-def yield_from_records(records):
-    """Reverse function of to_records
-    """
-    if len(records) < 1:
-        yield []
-    else:
-        first_record = records[0]
-        if isinstance(first_record, OrderedDict):
-            keys = first_record.keys()
-        else:
-            keys = sorted(first_record.keys())
-        yield list(keys)
-        for r in records:
-            row = []
-            for k in keys:
-                row.append(r[k])
-            yield row
 
 
 def yield_dict_to_array(the_dict, with_keys=True):

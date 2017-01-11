@@ -114,7 +114,7 @@ class TestBugFixes(TestCase):
         self.assertEqual(str(s), content.strip('\n'))
 
     def test_issue_51_orderred_dict_in_records(self):
-        from pyexcel.sources.pydata import yield_from_records
+        from pyexcel.sources.pydata import RecordsReader
         records = []
         orderred_dict = OrderedDict()
         orderred_dict.update({"Zebra": 10})
@@ -126,12 +126,13 @@ class TestBugFixes(TestCase):
         orderred_dict2.update({"Hippo": 2})
         orderred_dict2.update({"Monkey": 3})
         records.append(orderred_dict2)
-        array = list(yield_from_records(records))
+        records_reader = RecordsReader(records)
+        array = list(records_reader.to_array())
         expected = [['Zebra', 'Hippo', 'Monkey'], [10, 9, 8], [1, 2, 3]]
         self.assertEqual(array, expected)
 
     def test_issue_51_normal_dict_in_records(self):
-        from pyexcel.sources.pydata import yield_from_records
+        from pyexcel.sources.pydata import RecordsReader
         records = []
         orderred_dict = {}
         orderred_dict.update({"Zebra": 10})
@@ -143,7 +144,8 @@ class TestBugFixes(TestCase):
         orderred_dict2.update({"Hippo": 2})
         orderred_dict2.update({"Monkey": 3})
         records.append(orderred_dict2)
-        array = list(yield_from_records(records))
+        records_reader = RecordsReader(records)
+        array = list(records_reader.to_array())
         expected = [['Hippo', 'Monkey', 'Zebra'], [9, 8, 10], [2, 3, 1]]
         self.assertEqual(array, expected)
 

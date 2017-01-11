@@ -28,7 +28,7 @@ class TestToRecord(TestCase):
             {u'Y': 4.0, u'X': 1.0, u'Z': 7.0},
             {u'Y': 5.0, u'X': 2.0, u'Z': 8.0},
             {u'Y': 6.0, u'X': 3.0, u'Z': 9.0}]
-        self.assertEqual(result, r.records)
+        eq_(result, r.records)
 
     @raises(ValueError)
     def test_index_sheet1(self):
@@ -43,7 +43,7 @@ class TestToRecord(TestCase):
             {'1': 4, 'X': 'Y', '3': 6, '2': 5},
             {'1': 7, 'X': 'Z', '3': 9, '2': 8}
         ]
-        self.assertEqual(result, s.records)
+        eq_(result, s.records)
 
     def test_index_sheet3(self):
         s = pe.ColumnSeriesReader(self.testfile, series=0)
@@ -54,7 +54,7 @@ class TestToRecord(TestCase):
             {'Row 4': 6.0, 'Row 2': 4.0, 'Row 1': 'Y', 'Row 3': 5.0},
             {'Row 4': 9.0, 'Row 2': 7.0, 'Row 1': 'Z', 'Row 3': 8.0}
         ]
-        self.assertEqual(result, actual)
+        eq_(result, actual)
 
     def test_book_reader_to_records_custom(self):
         """use custom header
@@ -66,12 +66,7 @@ class TestToRecord(TestCase):
             {u'P': 5.0, u'O': 2.0, u'Q': 8.0},
             {u'P': 6.0, u'O': 3.0, u'Q': 9.0}]
         actual = r.to_records(custom_headers)
-        self.assertEqual(result, actual)
-
-    def test_yield_from_records(self):
-        """give an empty records array"""
-        value = list(pe.sources.pydata.yield_from_records([]))
-        eq_(len(value[0]), 0)
+        eq_(result, actual)
 
     def tearDown(self):
         if os.path.exists(self.testfile):
