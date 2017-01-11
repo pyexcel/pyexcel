@@ -57,9 +57,9 @@ def uniform(array):
             row_length = len(row)
             for index in range(0, row_length):
                 if row[index] is None:
-                    row[index] = ""
+                    row[index] = constants.DEFAULT_NA
             if row_length < width:
-                row += [""] * (width - row_length)
+                row += [constants.DEFAULT_NA] * (width - row_length)
         return width, array
 
 
@@ -312,7 +312,7 @@ class Matrix(object):
             delta = insert_column_nrows - current_nrows
             base = current_nrows
             for i in range(0, delta):
-                new_array = [""] * current_ncols
+                new_array = [constants.DEFAULT_NA] * current_ncols
                 new_array += rows[base+i]
                 self.__array.append(new_array)
         self.__width, self.__array = uniform(self.__array)
@@ -380,7 +380,7 @@ class Matrix(object):
         region = self.region(topleft_corner, bottomright_corner)
         for row in range(topleft_corner[0], bottomright_corner[0]):
             for column in range(topleft_corner[1], bottomright_corner[1]):
-                self.cell_value(row, column, "")
+                self.cell_value(row, column, constants.DEFAULT_NA)
         return region
 
     def paste(self, topleft_corner, rows=None, columns=None):
@@ -452,7 +452,7 @@ class Matrix(object):
             number_of_columns = self.number_of_columns()
             if starting_row > number_of_rows:
                 for i in range(0, starting_row - number_of_rows):
-                    empty_row = [""] * number_of_columns
+                    empty_row = [constants.DEFAULT_NA] * number_of_columns
                     self._extend_row(empty_row)
             number_of_rows = self.number_of_rows()
             for index, row in enumerate(rows):
@@ -461,7 +461,7 @@ class Matrix(object):
                     self._set_row_at(set_index, row,
                                      starting=topleft_corner[1])
                 else:
-                    real_row = [""] * topleft_corner[1] + row
+                    real_row = [constants.DEFAULT_NA] * topleft_corner[1] + row
                     self._extend_row(real_row)
             self.__width, self.__array = uniform(self.__array)
         elif columns:
@@ -474,7 +474,8 @@ class Matrix(object):
                                        column,
                                        starting=topleft_corner[0])
                 else:
-                    real_column = [""] * topleft_corner[0] + column
+                    real_column = [constants.DEFAULT_NA] * topleft_corner[0]
+                    real_column += column
                     self.extend_columns([real_column])
             self.__width, self.__array = uniform(self.__array)
         else:

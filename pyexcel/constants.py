@@ -8,6 +8,7 @@
     :license: New BSD License
 """
 # flake8: noqa
+DEFAULT_NA = ''
 DEFAULT_NAME = 'pyexcel sheet'
 DEFAULT_SHEET_NAME = 'pyexcel_sheet1'
 

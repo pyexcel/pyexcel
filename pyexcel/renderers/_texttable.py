@@ -2,6 +2,7 @@ from texttable import Texttable
 
 from pyexcel.sheets.formatters import to_format
 from pyexcel._compact import is_generator
+import pyexcel.constants as constants
 
 from .factory import Renderer
 
@@ -40,7 +41,7 @@ def render_text_table(sheet, write_title):
 
 def _cleanse_a_row(row):
     for item in row:
-        if item == "":
+        if item == constants.DEFAULT_NA:
             yield(" ")
         else:
             yield(to_format(str, item))

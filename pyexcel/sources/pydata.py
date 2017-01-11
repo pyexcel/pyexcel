@@ -12,6 +12,7 @@ from pyexcel.constants import DEFAULT_SHEET_NAME
 from pyexcel.sources import params
 from pyexcel.sources.factory import Source
 from pyexcel._compact import zip_longest, PY2
+import pyexcel.constants as constants
 
 
 class _FakeIO:
@@ -195,7 +196,8 @@ def yield_dict_to_array(the_dict, with_keys=True):
     if with_keys:
         yield keys
     sorted_values = (the_dict[key] for key in keys)
-    for row in zip_longest(*sorted_values, fillvalue=''):
+    for row in zip_longest(*sorted_values,
+                           fillvalue=constants.DEFAULT_NA):
         yield list(row)
 
 

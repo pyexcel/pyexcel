@@ -317,7 +317,7 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
                 ret = list(ret)
         if len(self.colnames) > 0:
             if len(self.rownames) > 0:
-                ret.insert(0, [""] + self.colnames)
+                ret.insert(0, [constants.DEFAULT_NA] + self.colnames)
             else:
                 ret.insert(0, self.colnames)
         return ret

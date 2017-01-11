@@ -9,6 +9,7 @@
 """
 import datetime
 from pyexcel._compact import PY2
+import pyexcel.constants as constants
 
 
 def string_to_format(value, target_format):
@@ -88,7 +89,7 @@ def empty_to_format(value, target_format):
     elif target_format == int:
         ret = 0
     else:
-        ret = ""
+        ret = constants.DEFAULT_NA
     return ret
 
 
