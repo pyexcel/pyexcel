@@ -1,7 +1,7 @@
 Change log
 ================================================================================
 
-0.4.2 - unreleased
+0.4.2 - 17.01.2017
 --------------------------------------------------------------------------------
 
 Updated
@@ -19,6 +19,8 @@ Updated
    consisted of empty string, such as ['', '', '' ... ''], please specify
    `skip_empty_rows=False` in order to preserve it. This becomes subtle when
    you try save a python dictionary where empty rows is not easy to be spotted.
+#. `#69  <https://github.com/pyexcel/pyexcel/issues/69>`_: better documentation
+   for save_book_as.
 
 0.4.1 - 23.12.2016
 --------------------------------------------------------------------------------
@@ -26,7 +28,7 @@ Updated
 Updated
 ********************************************************************************
 
-#. `#68  <https://github.com/pyexcel/pyexcel/issues/66>`_: regression
+#. `#68  <https://github.com/pyexcel/pyexcel/issues/68>`_: regression
    save_to_memory() should have return a io stream instance.
 
 

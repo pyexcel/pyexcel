@@ -27,7 +27,7 @@ In order to update test environment, and documentation, additional setps are
 required:
 
 #. pip install moban
-#. git clone https://github.com/pyexcel/pyexcel-commons.git
+#. git clone https://github.com/pyexcel/pyexcel-commons.git commons
 #. make your changes in `.moban.d` directory, then issue command `moban`
 
 What is rnd_requirements.txt
