@@ -14,6 +14,11 @@ Updated
 #. fix iget_records where a non-uniform content should be given,
    e.g. [["x", "y"], [1, 2], [3]], some record would become non-uniform, e.g.
    key 'y' would be missing from the second record.
+#. `skip_empty_rows` is applicable when saving a python data structure to
+   another data source. For example, if your array contains a row which is
+   consisted of empty string, such as ['', '', '' ... ''], please specify
+   `skip_empty_rows=False` in order to preserve it. This becomes subtle when
+   you try save a python dictionary where empty rows is not easy to be spotted.
 
 0.4.1 - 23.12.2016
 --------------------------------------------------------------------------------

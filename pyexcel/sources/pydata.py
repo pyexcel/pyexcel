@@ -50,6 +50,26 @@ class RecordsReader(SheetReader):
             yield cell
 
 
+class DictReader(SheetReader):
+
+    def row_iterator(self):
+        keys = self._native_sheet.keys()
+        if not PY2:
+            keys = list(keys)
+        if not isinstance(self._native_sheet, OrderedDict):
+            keys = sorted(keys)
+        if self._keywords.get('with_keys', True):
+            yield keys
+        sorted_values = (self._native_sheet[key] for key in keys)
+        for row in zip_longest(*sorted_values,
+                               fillvalue=constants.DEFAULT_NA):
+            yield row
+
+    def column_iterator(self, row):
+        for cell in row:
+            yield cell
+
+
 class RecordsSource(Source):
     """
     A list of dictionaries as data source
@@ -92,15 +112,18 @@ class DictSource(Source):
     attributes = ["dict"]
     key = params.ADICT
 
-    def __init__(self, adict, with_keys=True, sheet_name=DEFAULT_SHEET_NAME):
+    def __init__(self, adict, with_keys=True, sheet_name=DEFAULT_SHEET_NAME,
+                 **keywords):
         self.__adict = adict
         self.__with_keys = with_keys
         self.__content = _FakeIO()
         self.__sheet_name = sheet_name
+        self.__keywords = keywords
 
     def get_data(self):
-        return {self.__sheet_name: yield_dict_to_array(
-            self.__adict, self.__with_keys)}
+        dict_reader = DictReader(self.__adict, with_keys=self.__with_keys,
+                                 **self.__keywords)
+        return {self.__sheet_name: dict_reader.to_array()}
 
     def get_source_info(self):
         return params.ADICT, None
@@ -168,44 +191,6 @@ class BookDictSource(Source):
 
     def get_internal_stream(self):
         return self.__content
-
-
-def yield_dict_to_array(the_dict, with_keys=True):
-    """Convert a dictionary of columns to an array
-
-    The example dict is::
-
-        {
-            "Column 1": [1, 2, 3],
-            "Column 2": [5, 6, 7, 8],
-            "Column 3": [9, 10, 11, 12, 13],
-        }
-
-    The output will be::
-
-        [
-            ["Column 1", "Column 2", "Column 3"],
-            [1, 5, 9],
-            [2, 6, 10],
-            [3, 7, 11],
-            ['', 8, 12],
-            ['', '', 13]
-        ]
-
-    :param dict the_dict: the dictionary to be converted.
-    :param bool with_keys: to write the keys as the first row or not
-    """
-    keys = the_dict.keys()
-    if not PY2:
-        keys = list(keys)
-    if not isinstance(the_dict, OrderedDict):
-        keys = sorted(keys)
-    if with_keys:
-        yield keys
-    sorted_values = (the_dict[key] for key in keys)
-    for row in zip_longest(*sorted_values,
-                           fillvalue=constants.DEFAULT_NA):
-        yield list(row)
 
 
 def convert_dict_to_ordered_dict(the_dict):
