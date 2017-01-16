@@ -70,6 +70,17 @@ class DictReader(SheetReader):
             yield cell
 
 
+class ArrayReader(SheetReader):
+
+    def row_iterator(self):
+        for row in self._native_sheet:
+            yield row
+
+    def column_iterator(self, row):
+        for cell in row:
+            yield cell
+
+
 class RecordsSource(Source):
     """
     A list of dictionaries as data source
@@ -145,13 +156,16 @@ class ArraySource(Source):
     attributes = ["array"]
     key = params.ARRAY
 
-    def __init__(self, array, sheet_name=DEFAULT_SHEET_NAME):
+    def __init__(self, array, sheet_name=DEFAULT_SHEET_NAME,
+                 **keywords):
         self.__array = array
         self.__content = _FakeIO()
         self.__sheet_name = sheet_name
+        self.__keywords = keywords
 
     def get_data(self):
-        return {self.__sheet_name: self.__array}
+        array_reader = ArrayReader(self.__array, **self.__keywords)
+        return {self.__sheet_name: array_reader.to_array()}
 
     def get_source_info(self):
         return params.ARRAY, None
