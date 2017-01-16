@@ -45,7 +45,7 @@ class Book(compact.with_metaclass(BookMeta, object)):
         Load content from existing sheets
 
         :param dict sheets: a dictionary of sheets. Each sheet is
-        a list of lists
+                            a list of lists
         """
         self.__sheets = compact.OrderedDict()
         if sheets is None:
@@ -166,7 +166,8 @@ class Book(compact.with_metaclass(BookMeta, object)):
         return output
 
     def __iadd__(self, other):
-        """Operator overloading +=
+        """
+        Operator overloading +=
 
         example::
 
@@ -216,14 +217,16 @@ class Book(compact.with_metaclass(BookMeta, object)):
         return self.__repr__()
 
     def save_as(self, filename):
-        """Save the content to a new file
+        """
+        Save the content to a new file
 
-        :param str filename: a file path
+        :param filename: a file path
         """
         return save_book(self, file_name=filename)
 
     def save_to_memory(self, file_type, stream=None, **keywords):
-        """Save the content to a memory stream
+        """
+        Save the content to a memory stream
 
         :param file_type: what format the stream is in
         :param stream: a memory stream.  Note in Python 3, for csv and tsv
@@ -237,7 +240,8 @@ class Book(compact.with_metaclass(BookMeta, object)):
     def save_to_django_models(self, models,
                               initializers=None, mapdicts=None,
                               batch_size=None):
-        """Save to database table through django model
+        """
+        Save to database table through django model
 
         :param models: a list of database models, that is accepted by
                        :meth:`Sheet.save_to_django_model`. The sequence
@@ -259,7 +263,8 @@ class Book(compact.with_metaclass(BookMeta, object)):
     def save_to_database(self, session, tables,
                          initializers=None, mapdicts=None,
                          auto_commit=True):
-        """Save data in sheets to database tables
+        """
+        Save data in sheets to database tables
 
         :param session: database session
         :param tables: a list of database tables, that is accepted by
