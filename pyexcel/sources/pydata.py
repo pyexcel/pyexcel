@@ -28,7 +28,18 @@ class _FakeIO:
         return self.__value
 
 
-class RecordsReader(SheetReader):
+class ArrayReader(SheetReader):
+
+    def row_iterator(self):
+        for row in self._native_sheet:
+            yield row
+
+    def column_iterator(self, row):
+        for cell in row:
+            yield cell
+
+
+class RecordsReader(ArrayReader):
 
     def row_iterator(self):
         headers = []
@@ -45,12 +56,8 @@ class RecordsReader(SheetReader):
                 values.append(row[k])
             yield values
 
-    def column_iterator(self, row):
-        for cell in row:
-            yield cell
 
-
-class DictReader(SheetReader):
+class DictReader(ArrayReader):
 
     def row_iterator(self):
         keys = self._native_sheet.keys()
@@ -64,21 +71,6 @@ class DictReader(SheetReader):
         for row in zip_longest(*sorted_values,
                                fillvalue=constants.DEFAULT_NA):
             yield row
-
-    def column_iterator(self, row):
-        for cell in row:
-            yield cell
-
-
-class ArrayReader(SheetReader):
-
-    def row_iterator(self):
-        for row in self._native_sheet:
-            yield row
-
-    def column_iterator(self, row):
-        for cell in row:
-            yield cell
 
 
 class RecordsSource(Source):
