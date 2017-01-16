@@ -117,8 +117,21 @@ def save_as(**keywords):
     set are exactly the same as the ones for :class:`pyexcel.Sheet.save_as`
     but require a 'dest' prefix.
 
-    :param keywords: additional keywords can be found at
-                     :meth:`pyexcel.get_sheet`
+    :param file_name: a file with supported file extension
+    :param file_content: the file content
+    :param file_stream: the file stream
+    :param file_type: the file type in *content*
+    :param session: database session
+    :param table: database table
+    :param model: a django model
+    :param adict: a dictionary of one dimensional arrays
+    :param url: a download http url for your excel file
+    :param with_keys: load with previous dictionary's keys, default is True
+    :param records: a list of dictionaries that have the same keys
+    :param array: a two dimensional array, a list of lists
+    :param keywords: additional parameters, see :meth:`Sheet.__init__`
+    :param sheet_name: sheet name. if sheet_name is not given,
+                       the default sheet at index 0 is loaded
     :param dest_file_name: another file name. **out_file** is deprecated
                            though is still accepted.
     :param dest_file_type: this is needed if you want to save to memory
@@ -140,6 +153,20 @@ def save_as(**keywords):
     for example: dest_lineterminator will replace default '\r\n'
     to the one you specified
     :returns: IO stream if saving to memory. None otherwise
+
+    ========================== =========================================
+    source                     parameters
+    ========================== =========================================
+    loading from file          file_name, sheet_name, keywords
+    loading from memory        file_type, content, sheet_name, keywords
+    loading from sql           session, table
+    loading from sql in django model
+    loading from query sets    any query sets(sqlalchemy or django)
+    loading from dictionary    adict, with_keys
+    loading from records       records
+    loading from array         array
+    loading from an url        url
+    ========================== =========================================
 
     ================= =============================================
     Saving to source  parameters
@@ -193,6 +220,15 @@ def isave_as(**keywords):
 def save_book_as(**keywords):
     """Save a book from a data source to another one
 
+    :param file_name: a file with supported file extension
+    :param file_content: the file content
+    :param file_stream: the file stream
+    :param file_type: the file type in *content*
+    :param session: database session
+    :param tables: a list of database table
+    :param models: a list of django models
+    :param bookdict: a dictionary of two dimensional arrays
+    :param url: a download http url for your excel file
     :param dest_file_name: another file name. **out_file** is
                            deprecated though is still accepted.
     :param dest_file_type: this is needed if you want to save to memory
@@ -206,6 +242,25 @@ def save_book_as(**keywords):
     :param keywords: additional keywords can be found at
                      :meth:`pyexcel.get_book`
     :returns: IO stream if saving to memory. None otherwise
+
+
+    see also :ref:`a-list-of-data-structures`
+
+    Here is a table of parameters:
+
+    ========================== ===============================
+    source                     parameters
+    ========================== ===============================
+    loading from file          file_name, keywords
+    loading from memory        file_type, content, keywords
+    loading from sql           session, tables
+    loading from django models models
+    loading from dictionary    bookdict
+    loading from an url        url
+    ========================== ===============================
+
+    Where the dictionary should have text as keys and two dimensional
+    array as values.
 
     ================ ============================================
     Saving to source parameters
@@ -228,7 +283,8 @@ def save_book_as(**keywords):
 def get_array(**keywords):
     """Obtain an array from an excel source
 
-    :param keywords: see :meth:`~pyexcel.get_sheet`
+    It accepts the same parameters as :meth:`~pyexcel.get_sheet`
+    but return an array instead.
     """
     sheet = get_sheet(**keywords)
     return sheet.to_array()
@@ -237,9 +293,12 @@ def get_array(**keywords):
 def get_dict(name_columns_by_row=0, **keywords):
     """Obtain a dictionary from an excel source
 
+    It accepts the same parameters as :meth:`~pyexcel.get_sheet`
+    but return a dictionary instead.
+
+    Specifically:
     :param name_columns_by_row: specify a row to be a dictionary key.
                                 It is default to 0 or first row.
-    :param keywords: see :meth:`~pyexcel.get_sheet`
 
     If you would use a column index 0 instead, you should do::
 
@@ -254,9 +313,12 @@ def get_dict(name_columns_by_row=0, **keywords):
 def get_records(name_columns_by_row=0, **keywords):
     """Obtain a list of records from an excel source
 
+    It accepts the same parameters as :meth:`~pyexcel.get_sheet`
+    but return a list of dictionary(records) instead.
+
+    Specifically:
     :param name_columns_by_row: specify a row to be a dictionary key.
                                 It is default to 0 or first row.
-    :param keywords: see :meth:`~pyexcel.get_sheet`
 
     If you would use a column index 0 instead, you should do::
 
@@ -299,7 +361,8 @@ def iget_records(**keywords):
 def get_book_dict(**keywords):
     """Obtain a dictionary of two dimensional arrays
 
-    :param keywords: see :meth:`~pyexcel.get_book`
+    It accepts the same parameters as :meth:`~pyexcel.get_book`
+    but return a dictionary instead.
     """
     book = get_book(**keywords)
     return book.to_dict()

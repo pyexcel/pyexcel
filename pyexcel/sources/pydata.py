@@ -1,6 +1,6 @@
 """
     pyexcel.sources.pydata
-    ~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~
 
     Representation of memory sources
 
