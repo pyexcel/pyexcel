@@ -60,7 +60,7 @@ class TestReader:
         assert value == ['b', 'f', 'j']
         value = r.column_at(100)  # bang
 
-    @raises(NotImplementedError)
+    @raises(pe.sources.factory.FileTypeNotSupported)
     def test_not_supported_file(self):
         pe.Reader("test.sylk")
 

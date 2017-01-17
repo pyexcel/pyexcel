@@ -44,6 +44,14 @@ attribute_registry = {
 keywords = {}
 
 
+class UnknownParameters(Exception):
+    pass
+
+
+class FileTypeNotSupported(Exception):
+    pass
+
+
 def register_class(cls):
     debug_registry = "Source registry: "
     debug_attribute = "Instance attribute: "
@@ -177,7 +185,28 @@ def _get_generic_source(target, action, **keywords):
             s = source(**keywords)
             log.info("Found %s for %s" % (s, key))
             return s
-    raise NotImplementedError("No source found for %s" % keywords)
+
+    _error_handler(target, action, **keywords)
+
+
+def _error_handler(target, action, **keywords):
+    if keywords:
+        formatter = "File type '%s' is not supported for %s."
+        file_name = keywords.get('file_name', None)
+        if file_name:
+            file_type = file_name.split('.')[-1]
+            raise FileTypeNotSupported(formatter % (file_type, action))
+        else:
+            file_type = keywords.get('file_type', None)
+            if file_type:
+                raise FileTypeNotSupported(formatter % (file_type, action))
+            else:
+                msg = "Please check if there were typos in "
+                msg += "function parameters: %s. Otherwise "
+                msg += "unrecognized parameters were given."
+                raise UnknownParameters(msg % keywords)
+    else:
+        raise UnknownParameters("No parameters found!")
 
 
 get_source = partial(

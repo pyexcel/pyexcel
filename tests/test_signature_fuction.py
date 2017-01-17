@@ -5,34 +5,56 @@ from _compact import OrderedDict
 from nose.tools import raises, eq_
 
 
-class TestNone:
-    @raises(NotImplementedError)
-    def test_get_array(self):
-        pe.get_array(x="something")
+def test_unknown_file_type_exception():
+    content = [[1]]
+    msg = "File type 'hd5' is not supported for write."
+    try:
+        pe.save_as(array=content, dest_file_name='test.hd5')
+    except pe.sources.factory.FileTypeNotSupported as e:
+        eq_(e.message, msg)
 
-    @raises(NotImplementedError)
-    def test_get_dict(self):
-        pe.get_dict(x="something")
 
-    @raises(NotImplementedError)
-    def test_get_records(self):
+def test_unknown_parameter_exception():
+    msg = "Please check if there were typos in "
+    msg += "function parameters: %s. Otherwise "
+    msg += "unrecognized parameters were given."
+
+    unknown_parameter = dict(something="else")
+
+    try:
+        pe.get_sheet(**unknown_parameter)
+    except pe.sources.factory.UnknownParameters as e:
+        eq_(e.message, msg % unknown_parameter)
+
+    try:
+        pe.save_as(**unknown_parameter)
+    except pe.sources.factory.UnknownParameters as e:
+        eq_(e.message, msg % unknown_parameter)
+
+    try:
+        pe.save_book_as(**unknown_parameter)
+    except pe.sources.factory.UnknownParameters as e:
+        eq_(e.message, msg % unknown_parameter)
+
+    try:
+        pe.isave_as(**unknown_parameter)
+    except pe.sources.factory.UnknownParameters as e:
+        eq_(e.message, msg % unknown_parameter)
+
+
+def test_out_file_parameter():
+    try:
+        pe.save_as(array=[[1]], out_file="b",
+                   colnames=["X", "Y", "Z"])
+    except pe.sources.factory.UnknownParameters as e:
+        eq_(e.message, 'No parameters found!')
+
+
+def test_nominal_parameters():
+    try:
         pe.get_records("something")
-
-    @raises(NotImplementedError)
-    def test_get_sheet(self):
-        pe.get_sheet(x="something")
-
-    @raises(NotImplementedError)
-    def test_get_book(self):
-        pe.get_book(x="something")
-
-    @raises(NotImplementedError)
-    def test_get_book_dict(self):
-        pe.get_book_dict(x="something")
-
-    def test_get_io_type(self):
-        result = pe.core.get_io_type(None)
-        eq_(result, "string")
+    except pe.sources.factory.UnknownParameters as e:
+        eq_(e.message, 'No parameters found!')
 
 
 class TestGetSheet:
@@ -733,20 +755,12 @@ class TestSQL:
                          [['A', 'B', 'C'], [1, 2, 3], [4, 5, 6]]})
         assert book_dict == expected
 
-    @raises(NotImplementedError)
+    @raises(pe.sources.factory.UnknownParameters)
     def test_save_book_as_file_from_sql_compactibility(self):
         test_file = "book_from_sql.xls"
         pe.save_book_as(out_file=test_file,
                         session=Session(),
                         tables=[Signature, Signature2])
-        book_dict = pe.get_book_dict(file_name=test_file)
-        expected = OrderedDict()
-        expected.update({'signature':
-                         [['X', 'Y', 'Z'], [1, 2, 3], [4, 5, 6]]})
-        expected.update({'signature2':
-                         [['A', 'B', 'C'], [1, 2, 3], [4, 5, 6]]})
-        assert book_dict == expected
-        os.unlink(test_file)
 
     def test_save_book_as_file_from_sql(self):
         test_file = "book_from_sql.xls"
@@ -880,19 +894,6 @@ class TestSaveAs:
         os.unlink(testfile)
         os.unlink(testfile2)
 
-    @raises(NotImplementedError)
-    def test_out_file_error(self):
-        data = [
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
-        sheet = pe.Sheet(data)
-        testfile = "testfile.xls"
-        testfile2 = "testfile.xls"
-        sheet.save_as(testfile)
-        pe.save_as(file_name=testfile, out_file=testfile2,
-                   colnames=["X", "Y", "Z"])
-
     def test_save_as_and_append_colnames(self):
         data = [
             [1, 2, 3],
@@ -910,14 +911,6 @@ class TestSaveAs:
             [1, 2, 3],
             [4, 5, 6]
         ])
-
-    @raises(NotImplementedError)
-    def test_wrong_parameters(self):
-        pe.save_as(something="else")
-
-    @raises(NotImplementedError)
-    def test_wrong_parameters_book(self):
-        pe.save_book_as(something="else")
 
 
 class TestiSaveAs:
@@ -953,23 +946,6 @@ class TestiSaveAs:
         pe.isave_as(file_name=testfile, dest_file_name=testfile2)
         os.unlink(testfile)
         os.unlink(testfile2)
-
-    @raises(Exception)
-    def test_out_file_error(self):
-        data = [
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
-        sheet = pe.Sheet(data)
-        testfile = "testfile.xls"
-        testfile2 = "testfile.xls"
-        sheet.save_as(testfile)
-        pe.isave_as(file_name=testfile, out_file=testfile2,
-                    colnames=["X", "Y", "Z"])
-
-    @raises(NotImplementedError)
-    def test_wrong_parameters(self):
-        pe.save_as(something="else")
 
 
 def _produce_ordered_dict():
