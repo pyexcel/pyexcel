@@ -11,7 +11,7 @@ def test_unknown_file_type_exception():
     try:
         pe.save_as(array=content, dest_file_name='test.hd5')
     except pe.sources.factory.FileTypeNotSupported as e:
-        eq_(e.message, msg)
+        eq_(str(e), msg)
 
 
 def test_unknown_parameter_exception():
@@ -24,22 +24,22 @@ def test_unknown_parameter_exception():
     try:
         pe.get_sheet(**unknown_parameter)
     except pe.sources.factory.UnknownParameters as e:
-        eq_(e.message, msg % unknown_parameter)
+        eq_(str(e), msg % unknown_parameter)
 
     try:
         pe.save_as(**unknown_parameter)
     except pe.sources.factory.UnknownParameters as e:
-        eq_(e.message, msg % unknown_parameter)
+        eq_(str(e), msg % unknown_parameter)
 
     try:
         pe.save_book_as(**unknown_parameter)
     except pe.sources.factory.UnknownParameters as e:
-        eq_(e.message, msg % unknown_parameter)
+        eq_(str(e), msg % unknown_parameter)
 
     try:
         pe.isave_as(**unknown_parameter)
     except pe.sources.factory.UnknownParameters as e:
-        eq_(e.message, msg % unknown_parameter)
+        eq_(str(e), msg % unknown_parameter)
 
 
 def test_out_file_parameter():
@@ -47,14 +47,14 @@ def test_out_file_parameter():
         pe.save_as(array=[[1]], out_file="b",
                    colnames=["X", "Y", "Z"])
     except pe.sources.factory.UnknownParameters as e:
-        eq_(e.message, 'No parameters found!')
+        eq_(str(e), 'No parameters found!')
 
 
 def test_nominal_parameters():
     try:
         pe.get_records("something")
     except pe.sources.factory.UnknownParameters as e:
-        eq_(e.message, 'No parameters found!')
+        eq_(str(e), 'No parameters found!')
 
 
 class TestGetSheet:
