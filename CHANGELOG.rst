@@ -4,11 +4,19 @@ Change log
 0.4.3 - unreleased
 --------------------------------------------------------------------------------
 
+Added
+********************************************************************************
+
+#. '.stream' attribte are attached to :class:`~pyexcel.Sheet` and
+   :class:`~pyexcel.Book` to get direct access the underneath stream
+   in responding to file type attributes, suchs sheet.xls
+
 Updated
 ********************************************************************************
 
 #. Better error reporting when an unknown parameters or unsupported file types
    were given to the signature functions.
+   
 
 Added
 ********************************************************************************

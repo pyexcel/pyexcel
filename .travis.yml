@@ -3,13 +3,13 @@ language: python
 notifications:
   email: false
 python:
-  - pypy
-  - 2.6
-  - 2.7
-  - 3.3
-  - 3.4
-  - 3.5
   - 3.6
+  - 3.5
+  - 3.4
+  - 3.3
+  - 2.7
+  - 2.6
+  - pypy
 matrix:
   include:
     - python: 2.7
