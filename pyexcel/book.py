@@ -10,7 +10,7 @@
 import sys
 from pyexcel.sheets import Sheet
 import pyexcel._compact as compact
-from pyexcel.sources import BookMeta, save_book
+from pyexcel.sources import BookMeta, save_book, StreamAttribute
 
 
 LOCAL_UUID = 0
@@ -39,6 +39,7 @@ class Book(compact.with_metaclass(BookMeta, object)):
         self._filename = filename
         self.__name_array = []
         self.load_from_sheets(sheets)
+        self.stream = StreamAttribute(self)
 
     def load_from_sheets(self, sheets):
         """

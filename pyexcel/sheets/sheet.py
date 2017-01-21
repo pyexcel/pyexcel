@@ -11,7 +11,7 @@ import sys
 
 import pyexcel._compact as compact
 import pyexcel.constants as constants
-from pyexcel.sources import SheetMeta, save_sheet
+from pyexcel.sources import SheetMeta, save_sheet, StreamAttribute
 from .matrix import Matrix
 from .row import Row as NamedRow
 from .column import Column as NamedColumn
@@ -129,6 +129,8 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
                 self.__row_names = rownames
         if transpose_after:
             self.transpose()
+
+        self.stream = StreamAttribute(self)
 
     def name_columns_by_row(self, row_index):
         """Use the elements of a specified row to represent individual columns

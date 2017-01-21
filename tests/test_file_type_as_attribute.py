@@ -58,6 +58,14 @@ def test_set_csv_attribute():
     eq_(str(sheet), expected)
 
 
+def test_get_csv_stream():
+    sheet = Sheet()
+    sheet.csv = "a,b,c"
+    stream = sheet.stream.csv
+    expected = 'a,b,c\r\n'
+    eq_(stream.getvalue(), expected)
+
+
 def test_book_attribute():
     book = get_book(file_name=os.path.join("tests",
                                            "fixtures",
@@ -78,6 +86,10 @@ def test_book_attribute():
                 "3,6,7\r\n" +
                 "---pyexcel---\r\n")
     eq_(book.csv, expected)
+    # hei, please note the following test
+    # get csv stream
+    stream = book.stream.csv
+    eq_(stream.getvalue(), expected)
 
 
 def test_set_book_attribute():

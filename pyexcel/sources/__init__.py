@@ -106,7 +106,7 @@ def book_io_presenter(attribute=None):
 
 
 def importer(attribute=None):
-    def custom_presenter1(self, content, **keywords):
+    def custom_importer1(self, content, **keywords):
         sheet_params = {}
         for field in constants.VALID_SHEET_PARAMETERS:
             if field in keywords:
@@ -120,8 +120,8 @@ def importer(attribute=None):
         named_content = get_sheet_stream(**keywords)
         self.init(named_content.payload,
                   named_content.name, **sheet_params)
-    custom_presenter1.__doc__ = "Set data in %s format" % attribute
-    return custom_presenter1
+    custom_importer1.__doc__ = "Set data in %s format" % attribute
+    return custom_importer1
 
 
 def book_importer(attribute=None):
@@ -150,6 +150,15 @@ def default_importer(attribute=None):
         raise NotImplementedError("%s setter is not defined." % attribute)
     none_importer.__doc__ = "%s setter is not defined." % attribute
     return none_importer
+
+
+class StreamAttribute:
+    def __init__(self, cls):
+        self.cls = cls
+
+    def __getattr__(self, name):
+        getter = getattr(self.cls, 'get_%s_stream' % name)
+        return getter()
 
 
 def _register_instance_input_and_output(
