@@ -39,7 +39,27 @@ class Book(compact.with_metaclass(BookMeta, object)):
         self._filename = filename
         self.__name_array = []
         self.load_from_sheets(sheets)
-        self.stream = StreamAttribute(self)
+
+    @property
+    def stream(self):
+        """Return a stream in which the book content is properly encoded
+
+        Example::
+
+            >>> import pyexcel as p
+            >>> b = p.get_book(bookdict={"A": [[1]]})
+            >>> csv_stream = b.stream.texttable
+            >>> print(csv_stream.getvalue())
+            A:
+            +---+
+            | 1 |
+            +---+
+
+        Where b.stream.xls.getvalue() is equivalent to b.xls. In some situation
+        b.stream.xls is prefered than b.xls.
+
+        """
+        return StreamAttribute(self)
 
     def load_from_sheets(self, sheets):
         """

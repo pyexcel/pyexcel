@@ -177,6 +177,7 @@ pyexcel.Sheet
       ~Sheet.rownames
       ~Sheet.rst
       ~Sheet.simple
+      ~Sheet.stream
       ~Sheet.texttable
       ~Sheet.tsv
       ~Sheet.tsvz

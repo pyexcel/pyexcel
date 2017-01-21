@@ -131,6 +131,7 @@ pyexcel.Book
       ~Book.records
       ~Book.rst
       ~Book.simple
+      ~Book.stream
       ~Book.texttable
       ~Book.tsv
       ~Book.tsvz

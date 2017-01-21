@@ -153,6 +153,7 @@ def default_importer(attribute=None):
 
 
 class StreamAttribute:
+    """Provide access to get_*_stream methods"""
     def __init__(self, cls):
         self.cls = cls
 

@@ -148,7 +148,7 @@ Conversions
    Book.latex_booktabs
    Book.json
    Book.html
-
+   Book.stream
 
 Save changes
 -------------
@@ -291,6 +291,7 @@ Conversion
    Sheet.latex_booktabs
    Sheet.json
    Sheet.html
+   Sheet.stream
 
 
 Formatting

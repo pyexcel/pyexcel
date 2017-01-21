@@ -130,8 +130,6 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
         if transpose_after:
             self.transpose()
 
-        self.stream = StreamAttribute(self)
-
     def name_columns_by_row(self, row_index):
         """Use the elements of a specified row to represent individual columns
 
@@ -375,6 +373,27 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
     def named_columns(self):
         for column_name in self.__column_names:
             yield {column_name: self.column[column_name]}
+
+    @property
+    def stream(self):
+        """Return a stream in which the sheet content is properly encoded
+
+        Example::
+
+            >>> import pyexcel as p
+            >>> s = p.Sheet([[1]], 'A')
+            >>> csv_stream = s.stream.texttable
+            >>> print(csv_stream.getvalue())
+            A:
+            +---+
+            | 1 |
+            +---+
+
+        Where s.stream.xls.getvalue() is equivalent to s.xls. In some situation
+        s.stream.xls is prefered than s.xls.
+
+        """
+        return StreamAttribute(self)
 
     @property
     def content(self):
