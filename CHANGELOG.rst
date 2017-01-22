@@ -54,7 +54,7 @@ Updated
 ********************************************************************************
 
 #. `#68  <https://github.com/pyexcel/pyexcel/issues/68>`_: regression
-   save_to_memory() should have return a io stream instance.
+   save_to_memory() should have returned a stream instance.
 
 
 0.4.0 - 22.12.2016

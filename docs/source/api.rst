@@ -135,6 +135,7 @@ Conversions
    Book.csvz
    Book.tsvz
    Book.xls
+   Book.xlsm
    Book.xlsx
    Book.ods
    Book.plain
@@ -278,6 +279,7 @@ Conversion
    Sheet.csvz
    Sheet.tsvz
    Sheet.xls
+   Sheet.xlsm
    Sheet.xlsx
    Sheet.ods
    Sheet.plain

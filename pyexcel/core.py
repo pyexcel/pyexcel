@@ -144,6 +144,7 @@ def save_as(**keywords):
     :param dest_mapdict: nominate headers
     :param dest_batch_size: object creation batch size.
                             it is Django specific
+    :returns: IO stream if saving to memory. None otherwise
 
     if csv file is destination format, python csv
     `fmtparams <https://docs.python.org/release/3.1.5/
@@ -152,7 +153,7 @@ def save_as(**keywords):
 
     for example: dest_lineterminator will replace default '\r\n'
     to the one you specified
-    :returns: IO stream if saving to memory. None otherwise
+
 
     ========================== =========================================
     source                     parameters
@@ -298,7 +299,7 @@ def get_dict(name_columns_by_row=0, **keywords):
 
     Specifically:
     :param name_columns_by_row: specify a row to be a dictionary key.
-                                It is default to 0 or first row.
+    It is default to 0 or first row.
 
     If you would use a column index 0 instead, you should do::
 
@@ -318,7 +319,7 @@ def get_records(name_columns_by_row=0, **keywords):
 
     Specifically:
     :param name_columns_by_row: specify a row to be a dictionary key.
-                                It is default to 0 or first row.
+    It is default to 0 or first row.
 
     If you would use a column index 0 instead, you should do::
 

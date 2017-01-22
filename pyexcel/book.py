@@ -2,7 +2,7 @@
     pyexcel.book
     ~~~~~~~~~~~~~~~~~~~
 
-    Uniform interface for describing a excel book
+    Excel book
 
     :copyright: (c) 2014-2017 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
@@ -22,15 +22,17 @@ class Book(compact.with_metaclass(BookMeta, object)):
 
     For csv file, there will be just one sheet
     """
+
     def __init__(self, sheets=None, filename="memory", path=None):
         """
         Book constructor
 
         Selecting a specific book according to filename extension
-        :param OrderedDict/dict sheets: a dictionary of data
-        :param str filename: the physical file
-        :param str path: the relative path or absolute path
-        :param set keywords: additional parameters to be passed on
+
+        :param sheets: a dictionary of data
+        :param filename: the physical file
+        :param path: the relative path or absolute path
+        :param keywords: additional parameters to be passed on
         """
         self.init(sheets=sheets, filename=filename, path=path)
 
