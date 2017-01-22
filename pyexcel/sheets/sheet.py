@@ -20,13 +20,13 @@ from .column import Column as NamedColumn
 class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
     """Two dimensional data container for filtering, formatting and iteration
 
-    :class:`Sheet` is a container for a two dimensional array, where individual
-    cell can be any Python types. Other than numbers, value of these
+    :class:`~pyexcel.Sheet` is a container for a two dimensional array, where
+    individual cell can be any Python types. Other than numbers, value of these
     types: string, date, time and boolean can be mixed in the array. This
     differs from Numpy's matrix where each cell are of the same number type.
 
     In order to prepare two dimensional data for your computation, formatting
-     functions help convert array cells to required types. Formatting can be
+    functions help convert array cells to required types. Formatting can be
     applied not only to the whole sheet but also to selected rows or columns.
     Custom conversion function can be passed to these formatting functions. For
     example, to remove extra spaces surrounding the content of a cell, a custom
@@ -34,6 +34,30 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
 
     Filtering functions are used to reduce the information contained in the
     array.
+
+    :ivar name: sheet name. use to change sheet name
+    :ivar row: access data row by row
+    :ivar column: access data column by column
+
+    Example::
+
+        >>> import pyexcel as p
+        >>> content = {'A': [[1]]}
+        >>> b = p.get_book(bookdict=content)
+        >>> b
+        A:
+        +---+
+        | 1 |
+        +---+
+        >>> b[0].name
+        'A'
+        >>> b[0].name = 'B'
+        >>> b
+        B:
+        +---+
+        | 1 |
+        +---+
+
     """
     def __init__(self, sheet=None,
                  name=constants.DEFAULT_NAME,
