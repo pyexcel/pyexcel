@@ -111,11 +111,11 @@ What we can do is to define a row renderer function as the following:
    ...     for element in row:
    ...         yield element + 1
 
-Then pass it onto save_as function:
+Then pass it onto save_as function using row_renderer:
 
    >>> pe.isave_as(file_name="your_file.csv",
-   ...             dest_file_name="your_file.xlsx",
-   ...             row_renderer=increment_by_one)
+   ...             row_renderer=increment_by_one,
+   ...             dest_file_name="your_file.xlsx")
 
 
 .. note::

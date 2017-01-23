@@ -36,6 +36,17 @@ What's more, you could as well set value to an attribute, for example:
     >>> sheet.array
     [[1, 2, 3], [3, 4, 5]]
 
+You can get the direct access to underneath stream object. In some situation,
+it is desired.
+
+
+.. code-block:: python
+
+    >>> stream = sheet.stream.tsv
+
+The returned stream object has tsv formatted content for reading.
+
+	
 Set content
 ************
 
@@ -163,6 +174,18 @@ Get content
     3.0  2.0  1.0
     4.0  3.0  2.0
     ===  ===  ===
+
+You can get the direct access to underneath stream object. In some situation,
+it is desired.
+
+
+.. code-block:: python
+
+    >>> stream = sheet.stream.plain
+
+The returned stream object has the content formatted in plain format
+for further reading.
+
 
 Set content
 ************
