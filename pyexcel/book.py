@@ -60,6 +60,7 @@ class Book(compact.with_metaclass(BookMeta, object)):
         Where b.stream.xls.getvalue() is equivalent to b.xls. In some situation
         b.stream.xls is prefered than b.xls.
 
+        It is similar to :meth:`~pyexcel.Book.save_to_memory`.
         """
         return StreamAttribute(self)
 
@@ -214,7 +215,7 @@ class Book(compact.with_metaclass(BookMeta, object)):
             if new_key in self.__name_array:
                 uid = local_uuid()
                 new_key = "%s_%s" % (other.name, uid)
-            self.__sheets[new_key] = Sheet(other.to_array(), new_key)
+            self.__sheets[new_key] = Sheet(other.array, new_key)
         else:
             raise TypeError
         self.__name_array = list(self.__sheets.keys())
