@@ -3,7 +3,7 @@ read_cell_by_cell.py
 :copyright: (c) 2014-2017 by Onni Software Ltd.
 :license: New BSD License, see LICENSE for more details
 
-This shows how to use **Reader** class to go through a single
+This shows how to use get_sheet() to go through a single
 page spreadsheet, The output is::
 
     1.0

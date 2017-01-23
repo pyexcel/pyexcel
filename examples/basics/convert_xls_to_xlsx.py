@@ -1,10 +1,10 @@
 """
-convert_xls_to_ods.py
+convert_xls_to_xlsx.py
 :copyright: (c) 2014-2017 by Onni Software Ltd.
 :license: New BSD License, see LICENSE for more details
 
-This shows how to use **Book** to convert
-xls file to ods file.
+This shows how to use **save_book_as** to convert
+xls file to xlsx file.
 
 What this example implies is that you can do the conversion in
 between these formats:
@@ -19,11 +19,11 @@ xlsx y   y   y   y   y    y
 xlsm y   y   y   y   y    y
 ---- --- --- --- --- ---- ----
 
-you will need to install pyexcel-ods or pyexcel-ods3
+you will need to install pyexcel-xls and pyexcel-xlsx
 depending on your python version
 
   pip install pyexcel-xls
-  pip install pyexcel-ods3
+  pip install pyexcel-xlsx
 
 """
 import os
@@ -31,7 +31,6 @@ import pyexcel as pe
 
 
 def main(base_dir):
-    # Simple open the file using Book
     pe.save_book_as(
         file_name=os.path.join(base_dir, "multiple-sheets.xls"),
         dest_file_name=os.path.join(base_dir, "multiple-sheets.xlsx")

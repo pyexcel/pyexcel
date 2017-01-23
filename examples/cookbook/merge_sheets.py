@@ -16,8 +16,8 @@ import os
 def main(base_dir):
     merged = pe.Book()
     files = glob.glob(os.path.join(base_dir, "scattered-csv-files", "*.csv"))
-    for file in files:
-        merged += pe.load(file)
+    for csv_file in files:
+        merged += pe.load(csv_file)
     merged.save_as("merged.xls")
 
 

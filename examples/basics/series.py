@@ -5,7 +5,7 @@ series.py
 
 This shows how to use `name_columns_by_row` to get the data in various ways.
 
-you will need to do  `pip install pyexcel-ods3`
+you will need to do  `pip install pyexcel-xls`
 
 """
 # please install pyexcel-ods

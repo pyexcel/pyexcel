@@ -3,7 +3,7 @@ read_column_by_column.py
 :copyright: (c) 2014-2017 by Onni Software Ltd.
 :license: New BSD License, see LICENSE for more details
 
-This shows a pythonic way to use **Reader** class to go through a single
+This shows a pythonic way to use get_sheet to go through a single
 page spreadsheet column by column. The output is::
 
     [1.0, 4.0, 7.0]

@@ -5,7 +5,7 @@ formatter02.py
 
 This example shows you how to use custom formatter function
 
-Please install pyexcel-ods3
+Please install pyexcel-xls
 """
 import os
 import pyexcel as pe
