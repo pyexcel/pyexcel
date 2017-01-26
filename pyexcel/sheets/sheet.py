@@ -128,11 +128,11 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
         if sheet is None:
             sheet = []
         Matrix.__init__(self, sheet)
-        if transpose_before:
-            self.transpose()
         self.name = name
         self.__column_names = []
         self.__row_names = []
+        if transpose_before:
+            self.transpose()
         self.row = NamedRow(self)
         self.column = NamedColumn(self)
         if name_columns_by_row != -1:
@@ -154,6 +154,10 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
         if transpose_after:
             self.transpose()
 
+    def transpose(self):
+        self.__column_names, self.__row_names = self.__row_names, self.__column_names
+        Matrix.transpose(self)
+
     def name_columns_by_row(self, row_index):
         """Use the elements of a specified row to represent individual columns
 
@@ -172,6 +176,33 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
         """
         self.__row_names = make_names_unique(self.column_at(column_index))
         del self.column[column_index]
+
+    def top(self, lines=5):
+        sheet = Sheet(self.row[:lines])
+        sheet.colnames = self.__column_names[:lines]
+        return sheet
+
+    def top_left(self, rows=5, columns=5):
+        return Sheet(self.region((0,0), (rows, columns)))
+
+    def region(self, topleft_corner, bottomright_corner):
+        """Get a rectangle shaped data out
+
+        :param slice topleft_corner: the top left corner of the rectangle
+        :param slice bottomright_corner: the bottom right
+                                         corner of the rectangle
+        """
+        max_row = min(bottomright_corner[0], self.number_of_rows())
+        max_col = min(bottomright_corner[1], self.number_of_columns())
+        region = Sheet(Matrix.region(self, topleft_corner, bottomright_corner))
+        if len(self.__row_names) > 0:
+            rownames = self.__row_names[topleft_corner[0]:max_row]
+            region.rownames = rownames
+        if len(self.__column_names) > 0:
+            columnnames = self.__column_names[topleft_corner[1]:max_col]
+            region.colnames = columnnames
+
+        return region.to_array()
 
     @property
     def colnames(self):

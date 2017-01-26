@@ -78,9 +78,15 @@ class Row:
             +---+
 
         """
+        new_indices = []
+        if compact.is_array_type(indices, str):
+            new_indices = utils.names_to_indices(indices,
+                                                 self.__ref.rownames)
+        else:
+            new_indices = indices
         to_remove = []
         for index in self.__ref.row_range():
-            if index not in indices:
+            if index not in new_indices:
                 to_remove.append(index)
         self.__ref.filter(row_indices=to_remove)
 
