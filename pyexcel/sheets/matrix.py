@@ -294,9 +294,11 @@ class Matrix(object):
                                          corner of the rectangle
         """
         region = []
-        for row in range(topleft_corner[0], bottomright_corner[0]):
+        max_row = min(bottomright_corner[0], self.number_of_rows())
+        max_col = min(bottomright_corner[1], self.number_of_columns())
+        for row in range(topleft_corner[0], max_row):
             tmp_row = []
-            for column in range(topleft_corner[1], bottomright_corner[1]):
+            for column in range(topleft_corner[1], max_col):
                 tmp_row.append(self.cell_value(row, column))
             region.append(tmp_row)
         return region
