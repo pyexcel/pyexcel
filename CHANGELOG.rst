@@ -1,7 +1,7 @@
 Change log
 ================================================================================
 
-0.4.3 - unreleased
+0.4.3 - 26.01.2017
 --------------------------------------------------------------------------------
 
 Added
@@ -9,22 +9,17 @@ Added
 
 #. '.stream' attribte are attached to :class:`~pyexcel.Sheet` and
    :class:`~pyexcel.Book` to get direct access the underneath stream
-   in responding to file type attributes, suchs sheet.xls
+   in responding to file type attributes, suchs sheet.xls. it helps provide a custom
+   stream to external world, for example, Sheet.stream.csv gives a text stream
+   that contains csv formatted data. Book.stream.xls returns a xls format
+   data in a byte stream.
 
 Updated
 ********************************************************************************
 
 #. Better error reporting when an unknown parameters or unsupported file types
    were given to the signature functions.
-   
 
-Added
-********************************************************************************
-
-#. New property: Sheet.stream and Book.stream which help provide a custom
-   stream to external world, for example, Sheet.stream.csv gives a text stream
-   that contains csv formatted data. Book.stream.xls returns a xls format
-   data in a byte stream.
 
 0.4.2 - 17.01.2017
 --------------------------------------------------------------------------------
