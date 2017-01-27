@@ -155,7 +155,9 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
             self.transpose()
 
     def transpose(self):
-        self.__column_names, self.__row_names = self.__row_names, self.__column_names
+        self.__column_names, self.__row_names = (
+            self.__row_names, self.__column_names
+        )
         Matrix.transpose(self)
 
     def name_columns_by_row(self, row_index):
@@ -184,7 +186,7 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
 
     def top_left(self, rows=5, columns=5):
 
-        region = Sheet(self.region((0,0), (rows, columns)))
+        region = Sheet(self.region((0, 0), (rows, columns)))
         if len(self.__row_names) > 0:
             rownames = self.__row_names[:rows]
             region.rownames = rownames
