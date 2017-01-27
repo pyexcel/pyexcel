@@ -179,13 +179,16 @@ def _register_instance_input_and_output(
                                instance_name))
     setattr(cls, file_type, file_type_property)
     setattr(cls, 'get_%s' % file_type, getter)
-    setattr(cls, 'get_%s_stream' % file_type, stream_getter)
     setattr(cls, 'set_%s' % file_type, setter)
     if file_type == 'html' and instance_name == "Sheet":
         def repr_html(self):
             html = getter(self)
             return html
         setattr(cls, '_repr_html_', repr_html)
+    if file_type == 'svg':
+        setattr(cls, 'plot', stream_getter)
+    else:
+        setattr(cls, 'get_%s_stream' % file_type, stream_getter)
 
 
 register_presentation = _register_instance_input_and_output
