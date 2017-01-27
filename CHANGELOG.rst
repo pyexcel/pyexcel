@@ -1,14 +1,26 @@
 Change log
 ================================================================================
 
+
+0.5.0 - unreleased
+--------------------------------------------------------------------------------
+
+Added
+********************************************************************************
+
+#. Sheet.top() and Sheet.top_left() for data browsing
+#. add html as default rich display in Jupyter notebook. It is dependent on
+   pyexcel-text.
+
+
 0.4.3 - 26.01.2017
 --------------------------------------------------------------------------------
 
 Added
 ********************************************************************************
 
-#. '.stream' attribte are attached to :class:`~pyexcel.Sheet` and
-   :class:`~pyexcel.Book` to get direct access the underneath stream
+#. '.stream' attribte are attached to `~pyexcel.Sheet` and
+   `~pyexcel.Book` to get direct access the underneath stream
    in responding to file type attributes, suchs sheet.xls. it helps provide a custom
    stream to external world, for example, Sheet.stream.csv gives a text stream
    that contains csv formatted data. Book.stream.xls returns a xls format

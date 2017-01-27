@@ -181,6 +181,11 @@ def _register_instance_input_and_output(
     setattr(cls, 'get_%s' % file_type, getter)
     setattr(cls, 'get_%s_stream' % file_type, stream_getter)
     setattr(cls, 'set_%s' % file_type, setter)
+    if file_type == 'html' and instance_name == "Sheet":
+        def repr_html(self):
+            html = getter(self)
+            return html
+        setattr(cls, '_repr_html_', repr_html)
 
 
 register_presentation = _register_instance_input_and_output
