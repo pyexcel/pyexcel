@@ -8,6 +8,8 @@
     :license: New BSD License, see LICENSE for more details
 """
 import datetime
+from decimal import Decimal
+
 from pyexcel._compact import PY2
 import pyexcel.constants as constants
 
@@ -102,6 +104,7 @@ CONVERSION_FUNCTIONS = {
     datetime.date: date_to_format,
     bool: boolean_to_format,
     None: empty_to_format,
+    Decimal: float_to_format
 }
 
 if PY2:
