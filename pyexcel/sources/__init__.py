@@ -73,18 +73,6 @@ def make_presenter(source_getter, attribute=None):
     return custom_presenter
 
 
-def make_io(source_getter, attribute=None):
-    def custom_io(self, **keywords):
-        keyword = _get_keyword_for_parameter(attribute)
-        keywords[keyword] = attribute
-        memory_source = source_getter(**keywords)
-        memory_source.write_data(self)
-        io_stream = memory_source.get_internal_stream()
-        return io_stream
-    custom_io.__doc__ = "Get data io in %s format" % attribute
-    return custom_io
-
-
 def sheet_presenter(attribute=None):
     source_getter = factory.get_writable_source
     return make_presenter(source_getter, attribute)
@@ -93,16 +81,6 @@ def sheet_presenter(attribute=None):
 def book_presenter(attribute=None):
     source_getter = factory.get_writable_book_source
     return make_presenter(source_getter, attribute)
-
-
-def sheet_io_presenter(attribute=None):
-    source_getter = factory.get_writable_source
-    return make_io(source_getter, attribute)
-
-
-def book_io_presenter(attribute=None):
-    source_getter = factory.get_writable_book_source
-    return make_io(source_getter, attribute)
 
 
 def importer(attribute=None):
@@ -158,19 +136,17 @@ class StreamAttribute:
         self.cls = cls
 
     def __getattr__(self, name):
-        getter = getattr(self.cls, 'get_%s_stream' % name)
-        return getter()
+        getter = getattr(self.cls, 'save_to_memory')
+        return getter(file_type=name)
 
 
 def _register_instance_input_and_output(
         cls, file_type, presenter_func=sheet_presenter,
         input_func=default_importer,
-        output_stream_func=sheet_io_presenter,
         instance_name="Sheet",
         description=constants._OUT_FILE_TYPE_DOC_STRING):
     getter = presenter_func(file_type)
     setter = input_func(file_type)
-    stream_getter = output_stream_func(file_type)
     file_type_property = property(
         # note:
         # without fget, fset, pypy 5.4.0 crashes randomly.
@@ -179,7 +155,6 @@ def _register_instance_input_and_output(
                                instance_name))
     setattr(cls, file_type, file_type_property)
     setattr(cls, 'get_%s' % file_type, getter)
-    setattr(cls, 'get_%s_stream' % file_type, stream_getter)
     setattr(cls, 'set_%s' % file_type, setter)
 
 
@@ -187,18 +162,15 @@ register_presentation = _register_instance_input_and_output
 register_book_presentation = partial(
     _register_instance_input_and_output,
     presenter_func=book_presenter,
-    output_stream_func=book_io_presenter,
     instance_name="Book")
 register_input = partial(
     _register_instance_input_and_output,
     presenter_func=default_presenter,
-    output_stream_func=default_presenter,
     input_func=importer,
     description=constants._IN_FILE_TYPE_DOC_STRING)
 register_book_input = partial(
     _register_instance_input_and_output,
     presenter_func=default_presenter,
-    output_stream_func=default_presenter,
     input_func=book_importer,
     instance_name="Book",
     description=constants._IN_FILE_TYPE_DOC_STRING)
@@ -209,7 +181,6 @@ register_io = partial(
 register_book_io = partial(
     _register_instance_input_and_output,
     presenter_func=book_presenter,
-    output_stream_func=book_io_presenter,
     input_func=book_importer,
     instance_name="Book",
     description=constants._IO_FILE_TYPE_DOC_STRING)

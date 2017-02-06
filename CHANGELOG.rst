@@ -1,7 +1,25 @@
 Change log
 ================================================================================
 
-0.4.3 - unreleased
+0.4.4 - unreleased
+--------------------------------------------------------------------------------
+
+Updated
+********************************************************************************
+
+#. `#68  <https://github.com/pyexcel/pyexcel/issues/68>`_: regression
+   save_to_memory() should have returned a stream instance which has
+   been reset to zero if possible. The exception is sys.stdout, which cannot
+   be reset.
+
+Removed
+********************************************************************************
+
+#. remove get_{{file_type}}_stream functions from pyexcel.Sheet and
+   pyexel.Book introduced since 0.4.3.
+
+
+0.4.3 - 26.01.2017
 --------------------------------------------------------------------------------
 
 Added

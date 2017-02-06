@@ -15,55 +15,31 @@ pyexcel.Book
    
       ~Book.__init__
       ~Book.get_array
-      ~Book.get_array_stream
       ~Book.get_bookdict
-      ~Book.get_bookdict_stream
       ~Book.get_csv
-      ~Book.get_csv_stream
       ~Book.get_csvz
-      ~Book.get_csvz_stream
       ~Book.get_dict
-      ~Book.get_dict_stream
       ~Book.get_grid
-      ~Book.get_grid_stream
       ~Book.get_html
-      ~Book.get_html_stream
       ~Book.get_json
-      ~Book.get_json_stream
       ~Book.get_latex
       ~Book.get_latex_booktabs
-      ~Book.get_latex_booktabs_stream
-      ~Book.get_latex_stream
       ~Book.get_mediawiki
-      ~Book.get_mediawiki_stream
       ~Book.get_ods
-      ~Book.get_ods_stream
       ~Book.get_orgtbl
-      ~Book.get_orgtbl_stream
       ~Book.get_pipe
-      ~Book.get_pipe_stream
       ~Book.get_plain
-      ~Book.get_plain_stream
       ~Book.get_records
-      ~Book.get_records_stream
       ~Book.get_rst
-      ~Book.get_rst_stream
       ~Book.get_simple
-      ~Book.get_simple_stream
+      ~Book.get_svg
       ~Book.get_texttable
-      ~Book.get_texttable_stream
       ~Book.get_tsv
-      ~Book.get_tsv_stream
       ~Book.get_tsvz
-      ~Book.get_tsvz_stream
       ~Book.get_url
-      ~Book.get_url_stream
       ~Book.get_xls
-      ~Book.get_xls_stream
       ~Book.get_xlsm
-      ~Book.get_xlsm_stream
       ~Book.get_xlsx
-      ~Book.get_xlsx_stream
       ~Book.init
       ~Book.load_from_sheets
       ~Book.number_of_sheets
@@ -93,6 +69,7 @@ pyexcel.Book
       ~Book.set_records
       ~Book.set_rst
       ~Book.set_simple
+      ~Book.set_svg
       ~Book.set_texttable
       ~Book.set_tsv
       ~Book.set_tsvz
@@ -132,6 +109,7 @@ pyexcel.Book
       ~Book.rst
       ~Book.simple
       ~Book.stream
+      ~Book.svg
       ~Book.texttable
       ~Book.tsv
       ~Book.tsvz

@@ -454,8 +454,8 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
                        pass an instance of StringIO. For xls, xlsx,
                        and ods, an instance of BytesIO.
         """
-        get_method = getattr(self, "get_%s_stream" % file_type)
-        stream = get_method(file_stream=stream, **keywords)
+        stream = save_sheet(self, file_type=file_type, file_stream=stream,
+                            **keywords)
         return stream
 
     def save_to_django_model(self,

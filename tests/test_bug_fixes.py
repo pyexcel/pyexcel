@@ -186,8 +186,8 @@ class TestBugFixes(TestCase):
         data = [[1]]
         sheet = pe.Sheet(data)
         stream = sheet.save_to_memory('csv')
-        eq_(stream.getvalue(), '1\r\n')
+        eq_(stream.read(), '1\r\n')
         data = {"sheet": [[1]]}
         book = pe.Book(data)
         stream = book.save_to_memory('csv')
-        eq_(stream.getvalue(), '1\r\n')
+        eq_(stream.read(), '1\r\n')
