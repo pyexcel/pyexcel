@@ -162,9 +162,10 @@ def _register_instance_input_and_output(
             return html
         setattr(cls, '_repr_html_', repr_html)
     if file_type == 'svg':
-        setattr(cls, 'plot', stream_getter)
-    else:
-        setattr(cls, 'get_%s_stream' % file_type, stream_getter)
+        def plot_svg(self, **keywords):
+            return self.save_to_memory('svg', **keywords)
+
+        setattr(cls, 'plot', plot_svg)
 
 
 register_presentation = _register_instance_input_and_output
