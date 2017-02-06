@@ -7,10 +7,13 @@ Change log
 Updated
 ********************************************************************************
 
-#. `#68  <https://github.com/pyexcel/pyexcel/issues/68>`_: regression
+#. `#68 <https://github.com/pyexcel/pyexcel/issues/68>`_: regression
    save_to_memory() should have returned a stream instance which has
    been reset to zero if possible. The exception is sys.stdout, which cannot
    be reset.
+
+#. `#74 <https://github.com/pyexcel/pyexcel/issues/74>`_: Not able to
+   handle decimal.Decimal
 
 Removed
 ********************************************************************************
