@@ -1,3 +1,11 @@
+Migrate away from 0.4.3
+==============================
+
+get_{{file_type}}_stream functions from pyexcel.Sheet and pyexel.Book were
+introduced since 0.4.3 but were removed since 0.4.4. Please be advised to
+use save_to_memory functions, Sheet.io.{{file_type}} or
+Book.io.{{file_type}}.
+
 Migrate from 0.2.x to 0.3.0+
 ================================
 

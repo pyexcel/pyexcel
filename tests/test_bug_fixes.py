@@ -186,8 +186,16 @@ class TestBugFixes(TestCase):
         data = [[1]]
         sheet = pe.Sheet(data)
         stream = sheet.save_to_memory('csv')
-        eq_(stream.getvalue(), '1\r\n')
+        eq_(stream.read(), '1\r\n')
         data = {"sheet": [[1]]}
         book = pe.Book(data)
         stream = book.save_to_memory('csv')
-        eq_(stream.getvalue(), '1\r\n')
+        eq_(stream.read(), '1\r\n')
+
+    def test_issue_74(self):
+        from decimal import Decimal
+        data = [[Decimal("1.1")]]
+        sheet = pe.Sheet(data)
+        table = sheet.texttable
+        expected = 'pyexcel sheet:\n+-----+\n| 1.1 |\n+-----+'
+        eq_(table, expected)

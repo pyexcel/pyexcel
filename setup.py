@@ -39,14 +39,13 @@ CLASSIFIERS = [
     'Programming Language :: Python',
     'License :: OSI Approved :: BSD License',
     'Intended Audience :: Developers',
-    'Development Status :: 3 - Alpha',
-    'Programming Language :: Python :: 2',
     'Programming Language :: Python :: 2.6',
     'Programming Language :: Python :: 2.7',
-    'Programming Language :: Python :: 3',
     'Programming Language :: Python :: 3.3',
     'Programming Language :: Python :: 3.4',
     'Programming Language :: Python :: 3.5',
+    'Programming Language :: Python :: 3.6',
+    'Development Status :: 3 - Alpha',
     'Programming Language :: Python :: Implementation :: PyPy'
 ]
 
