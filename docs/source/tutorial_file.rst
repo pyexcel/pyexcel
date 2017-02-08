@@ -58,8 +58,8 @@ What about reading a tab separated cs file? You can specify a delimiter paramete
 .. code-block:: python
 
     >>> with open('tab_example.csv', 'w') as f:
-    ...     f.write('I\tam\ttab\tseparated\tcsv\n')
-    ...     f.write('You\tneed\tdelimiter\tparameter\n')
+    ...     unused = f.write('I\tam\ttab\tseparated\tcsv\n') # for passing doctest
+    ...     unused = f.write('You\tneed\tdelimiter\tparameter\n') # unused is added
     >>> sheet = p.get_sheet(file_name="tab_example.csv", delimiter='\t')
     >>> sheet
     tab_example.csv:
