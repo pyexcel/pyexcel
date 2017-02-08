@@ -23,7 +23,7 @@ a book    is a dictionary of two dimensional array of data units.  :class:`~pyex
 Data source
 -------------
 
-The most popular data source is an excel file. Libre Office/Microsoft Excel could easily
+A data source is a storage format of structured data. The most popular data source is an excel file. Libre Office/Microsoft Excel could easily
 generate an new excel file of desired format. Besides a physical file, this library
 recognizes additional three additional sources:
 
@@ -33,6 +33,29 @@ recognizes additional three additional sources:
    an excel file and ask it to be sent to him.
 #. Python structures. For example, a developer may have scrapped a site and hence stored data
    in Python array or dictionary. He may want to save those information as a file.
+
+
+Reading from and writing to a data source is modelled in pyexcel. Excel data sources
+and database sources support read and write. Other data sources may be read only or
+write only.
+
+Here is a list of data sources:
+
+========================== ===========================
+Data source                Read and write properties
+========================== ===========================
+Array                      Read and write
+Dictionary                 Same as above
+Records                    Same as above
+Excel files                Same as above
+Excel files in memory      Same as above
+Excel files on the web     Read only
+Django models              Read and write
+SQL models                 Read and write
+Database querysets         Read only
+Textual sources            Write only
+========================== ===========================
+
 
 Data format
 -------------
