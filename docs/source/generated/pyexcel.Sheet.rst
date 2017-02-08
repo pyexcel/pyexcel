@@ -74,6 +74,7 @@ pyexcel.Sheet
       ~Sheet.number_of_columns
       ~Sheet.number_of_rows
       ~Sheet.paste
+      ~Sheet.plot
       ~Sheet.rcolumns
       ~Sheet.region
       ~Sheet.register_input
@@ -123,6 +124,8 @@ pyexcel.Sheet
       ~Sheet.to_array
       ~Sheet.to_dict
       ~Sheet.to_records
+      ~Sheet.top
+      ~Sheet.top_left
       ~Sheet.transpose
       ~Sheet.validate_filters
       ~Sheet.vertical

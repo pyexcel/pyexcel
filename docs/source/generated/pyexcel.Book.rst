@@ -43,6 +43,7 @@ pyexcel.Book
       ~Book.init
       ~Book.load_from_sheets
       ~Book.number_of_sheets
+      ~Book.plot
       ~Book.register_book_input
       ~Book.register_io
       ~Book.register_presentation

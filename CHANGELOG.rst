@@ -10,8 +10,10 @@ Added
 #. Sheet.top() and Sheet.top_left() for data browsing
 #. add html as default rich display in Jupyter notebook. It is dependent on
    pyexcel-text.
+#. new dictionary source supported: a dictionary of key value pair could be
+   read into a sheet.
 
-0.4.4 - unreleased
+0.4.4 - 06.02.2017
 --------------------------------------------------------------------------------
 
 Updated
