@@ -6,6 +6,77 @@ Work with excel files
 
     The pyexcel DOES NOT consider Fonts, Styles, Formulas and Charts at all. When you load a stylish excel and update it, you definitely will lose all those.
 
+Open a csv file
+--------------------------------------------------------------------------------
+
+.. testcode::
+   :hide:
+
+   >>> import os
+   >>> import pyexcel
+   >>> data = [
+   ...      [1, 4, 7],
+   ...      [2, 5, 8],
+   ...      [3, 6, 9]
+   ...  ]
+   >>> pyexcel.save_as(array=data, dest_file_name="example.csv")
+   >>> pyexcel.save_as(array=data, dest_file_name="example.tsv")
+
+Read a csv file is simple:
+
+.. code-block:: python
+
+    >>> import pyexcel as p
+    >>> sheet = p.get_sheet(file_name="example.csv")
+    >>> sheet
+    example.csv:
+    +---+---+---+
+    | 1 | 4 | 7 |
+    +---+---+---+
+    | 2 | 5 | 8 |
+    +---+---+---+
+    | 3 | 6 | 9 |
+    +---+---+---+
+
+The same applies to a tsv file:
+
+.. code-block:: python
+
+    >>> sheet = p.get_sheet(file_name="example.tsv")
+    >>> sheet
+    example.tsv:
+    +---+---+---+
+    | 1 | 4 | 7 |
+    +---+---+---+
+    | 2 | 5 | 8 |
+    +---+---+---+
+    | 3 | 6 | 9 |
+    +---+---+---+
+
+What about reading a tab separated cs file? You can specify a delimiter parameter.
+
+.. code-block:: python
+
+    >>> with open('tab_example.csv', 'w') as f:
+    ...     f.write('I\tam\ttab\tseparated\tcsv\n')
+    ...     f.write('You\tneed\tdelimiter\tparameter\n')
+    >>> sheet = p.get_sheet(file_name="tab_example.csv", delimiter='\t')
+    >>> sheet
+    tab_example.csv:
+    +-----+------+-----------+-----------+-----+
+    | I   | am   | tab       | separated | csv |
+    +-----+------+-----------+-----------+-----+
+    | You | need | delimiter | parameter |     |
+    +-----+------+-----------+-----------+-----+
+
+.. testcode::
+   :hide:
+
+   >>> os.unlink("example.csv")
+   >>> os.unlink("example.tsv")
+   >>> os.unlink("tab_example.csv")
+
+
 Add a new row to an existing file
 ----------------------------------
 
