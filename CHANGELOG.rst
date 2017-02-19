@@ -12,6 +12,11 @@ Added
    pyexcel-text.
 #. new dictionary source supported: a dictionary of key value pair could be
    read into a sheet.
+#. added dynamic external renderer loading. meaning if a pyexcel renderer
+   is installed, and has `__pyexcel_renderer_plugins__` signature in its
+   __init__.py, it will be loaded implicitly. And this change would remove
+   un-necessary info log for those who do not use pyexcel-text and pyexcel-chart
+
 
 0.4.4 - 06.02.2017
 --------------------------------------------------------------------------------
