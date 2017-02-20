@@ -212,3 +212,18 @@ def test_issue_74():
     table = sheet.texttable
     expected = 'pyexcel sheet:\n+-----+\n| 1.1 |\n+-----+'
     eq_(table, expected)
+
+
+def test_issue_76():
+    from pyexcel._compact import StringIO
+    tsv_stream = StringIO()
+    tsv_stream.write('1\t2\t3\t4\n')
+    tsv_stream.write('1\t2\t3\t4\n')
+    tsv_stream.seek(0)
+    sheet = pe.get_sheet(file_stream=tsv_stream, file_type='csv',
+                         delimiter='\t')
+    data = [
+        [1, 2, 3, 4],
+        [1, 2, 3, 4]
+    ]
+    eq_(sheet.array, data)
