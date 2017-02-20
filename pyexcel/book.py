@@ -240,13 +240,13 @@ class Book(compact.with_metaclass(BookMeta, object)):
     def __str__(self):
         return self.__repr__()
 
-    def save_as(self, filename):
+    def save_as(self, filename, **keywords):
         """
         Save the content to a new file
 
         :param filename: a file path
         """
-        return save_book(self, file_name=filename)
+        return save_book(self, file_name=filename, **keywords)
 
     def save_to_memory(self, file_type, stream=None, **keywords):
         """
@@ -313,9 +313,12 @@ class Book(compact.with_metaclass(BookMeta, object)):
 
 
 def to_book(bookstream):
-    return Book(bookstream.to_dict(),
-                filename=bookstream.filename,
-                path=bookstream.path)
+    if isinstance(bookstream, Book):
+        return bookstream
+    else:
+        return Book(bookstream.to_dict(),
+                    filename=bookstream.filename,
+                    path=bookstream.path)
 
 
 def local_uuid():

@@ -153,9 +153,13 @@ def _register_instance_input_and_output(
         fget=getter, fset=setter,
         doc=description.format(file_type,
                                instance_name))
-    setattr(cls, file_type, file_type_property)
-    setattr(cls, 'get_%s' % file_type, getter)
-    setattr(cls, 'set_%s' % file_type, setter)
+    if '.' in file_type:
+        attribute = file_type.replace('.', '_')
+    else:
+        attribute = file_type
+    setattr(cls, attribute, file_type_property)
+    setattr(cls, 'get_%s' % attribute, getter)
+    setattr(cls, 'set_%s' % attribute, setter)
     if file_type == 'html' and instance_name == "Sheet":
         def repr_html(self):
             html = getter(self)
