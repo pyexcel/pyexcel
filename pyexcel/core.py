@@ -48,7 +48,8 @@ def get_sheet(**keywords):
     source                     parameters
     ========================== =========================================
     loading from file          file_name, sheet_name, keywords
-    loading from memory        file_type, content, sheet_name, keywords
+    loading from string        file_content, file_type, sheet_name, keywords
+    loading from stream        file_stream, file_type, sheet_name, keywords
     loading from sql           session, table
     loading from sql in django model
     loading from query sets    any query sets(sqlalchemy or django)
@@ -90,7 +91,8 @@ def get_book(**keywords):
     source                     parameters
     ========================== ===============================
     loading from file          file_name, keywords
-    loading from memory        file_type, content, keywords
+    loading from string        file_content, file_type, keywords
+    loading from stream        file_stream, file_type, keywords
     loading from sql           session, tables
     loading from django models models
     loading from dictionary    bookdict
@@ -159,7 +161,8 @@ def save_as(**keywords):
     source                     parameters
     ========================== =========================================
     loading from file          file_name, sheet_name, keywords
-    loading from memory        file_type, content, sheet_name, keywords
+    loading from string        file_content, file_type, sheet_name, keywords
+    loading from stream        file_stream, file_type, sheet_name, keywords
     loading from sql           session, table
     loading from sql in django model
     loading from query sets    any query sets(sqlalchemy or django)
@@ -253,7 +256,8 @@ def save_book_as(**keywords):
     source                     parameters
     ========================== ===============================
     loading from file          file_name, keywords
-    loading from memory        file_type, content, keywords
+    loading from string        file_content, file_type, keywords
+    loading from stream        file_stream, file_type, keywords
     loading from sql           session, tables
     loading from django models models
     loading from dictionary    bookdict
