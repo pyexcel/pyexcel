@@ -6,12 +6,11 @@ from .factory import renderer_registry
 from . import _texttable, _excel
 from pkgutil import iter_modules
 
-
 log = logging.getLogger(__name__)
 
 
 black_list = ['pyexcel_io', 'pyexcel_webio',
-              'pyexcel_xlsx',
+              'pyexcel_xlsx', 'pyexcel_xls',
               'pyexcel_ods3', 'pyexcel_ods',
               'pyexcel_odsr', 'pyexcel_xlsxw']
 
@@ -25,7 +24,7 @@ for _, module_name, ispkg in iter_modules():
             if hasattr(plugin, '__pyexcel_renderer_plugins__'):
                 for p in plugin.__pyexcel_renderer_plugins__:
                     __import__("%s.%s" % (module_name, p))
-        except ImportError as e:
+        except Exception as e:
             log.info("Failed to import %s due to %s" % (module_name, str(e)),
                      exc_info=True)
             continue
