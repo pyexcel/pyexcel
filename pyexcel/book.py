@@ -84,7 +84,7 @@ class Book(compact.with_metaclass(BookMeta, object)):
             # this sheets keep sheet order
             self.__sheets.update({name: sheet})
             # this provide the convenience of access the sheet
-            self.__dict__[name] = sheet
+            self.__dict__[name.replace(' ', '_')] = sheet
         self.__name_array = list(self.__sheets.keys())
 
     def __iter__(self):
