@@ -12,7 +12,10 @@ from functools import partial
 from itertools import product
 
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
+from pyexcel_io.utils import AVAILABLE_READERS
+from pyexcel_io import manager
 
+import pyexcel.renderers as renderers
 from pyexcel._compact import is_string, with_metaclass
 from . import params
 
@@ -22,6 +25,7 @@ log = logging.getLogger(__name__)
 NO_DOT_NOTATION = (DB_DJANGO, DB_SQL)
 # registries
 REGISTRY_KEY_FORMAT = "%s-%s"
+FILE_TYPE_NOT_SUPPORTED_FMT = "File type '%s' is not supported for %s."
 
 SHEET_WRITE = REGISTRY_KEY_FORMAT % (params.SHEET, params.WRITE_ACTION)
 SHEET_READ = REGISTRY_KEY_FORMAT % (params.SHEET, params.READ_ACTION)
@@ -127,7 +131,8 @@ class FileSource(Source):
             file_name = keywords.get(params.FILE_NAME, None)
             if file_name:
                 if is_string(type(file_name)):
-                    file_type = file_name.split(".")[-1]
+                    file_type = _find_file_type_from_file_name(file_name,
+                                                               action)
                 else:
                     raise IOError("Wrong file name")
             else:
@@ -191,22 +196,49 @@ def _get_generic_source(target, action, **keywords):
 
 def _error_handler(target, action, **keywords):
     if keywords:
-        formatter = "File type '%s' is not supported for %s."
-        file_name = keywords.get('file_name', None)
-        if file_name:
-            file_type = file_name.split('.')[-1]
-            raise FileTypeNotSupported(formatter % (file_type, action))
+        file_type = keywords.get('file_type', None)
+        if file_type:
+            raise FileTypeNotSupported(
+                FILE_TYPE_NOT_SUPPORTED_FMT % (file_type, action))
         else:
-            file_type = keywords.get('file_type', None)
-            if file_type:
-                raise FileTypeNotSupported(formatter % (file_type, action))
-            else:
-                msg = "Please check if there were typos in "
-                msg += "function parameters: %s. Otherwise "
-                msg += "unrecognized parameters were given."
-                raise UnknownParameters(msg % keywords)
+            msg = "Please check if there were typos in "
+            msg += "function parameters: %s. Otherwise "
+            msg += "unrecognized parameters were given."
+            raise UnknownParameters(msg % keywords)
     else:
         raise UnknownParameters("No parameters found!")
+
+
+def _find_file_type_from_file_name(file_name, action):
+    if action == 'read':
+        list_of_file_types = supported_read_file_types()
+    else:
+        list_of_file_types = supported_write_file_types()
+    file_types = []
+    lowercase_file_name = file_name.lower()
+    for a_supported_type in list_of_file_types:
+        if lowercase_file_name.endswith(a_supported_type):
+            file_types.append(a_supported_type)
+    if len(file_types) > 1:
+        file_types = sorted(file_types, key=lambda x: len(x))
+        file_type = file_types[-1]
+    elif len(file_types) == 1:
+        file_type = file_types[0]
+    else:
+        file_type = lowercase_file_name.split('.')[-1]
+        raise FileTypeNotSupported(
+            FILE_TYPE_NOT_SUPPORTED_FMT % (file_type, action))
+
+    return file_type
+
+
+def supported_read_file_types():
+    return set(list(manager.reader_factories.keys()) +
+               list(AVAILABLE_READERS.keys()))
+
+
+def supported_write_file_types():
+    return renderers.get_all_file_types()
 
 
 get_source = partial(

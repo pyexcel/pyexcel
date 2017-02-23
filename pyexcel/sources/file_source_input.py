@@ -13,7 +13,7 @@ from pyexcel_io import get_data, manager
 from pyexcel_io.utils import AVAILABLE_READERS
 
 from pyexcel.sources import params
-from pyexcel.sources.factory import FileSource
+from pyexcel.sources.factory import FileSource, supported_read_file_types
 
 
 class InputSource(FileSource):
@@ -26,8 +26,7 @@ class InputSource(FileSource):
         if file_type:
             __file_type = file_type.lower()
         if action == params.READ_ACTION:
-            status = (__file_type in manager.reader_factories or
-                      __file_type in AVAILABLE_READERS)
+            status = __file_type in supported_read_file_types()
         else:
             status = False
         return status

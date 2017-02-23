@@ -8,7 +8,9 @@
     :license: New BSD License
 """
 import pyexcel.renderers as renderers
-from pyexcel.sources.factory import FileSource
+from pyexcel.sources.factory import (
+    FileSource, supported_write_file_types,
+    _find_file_type_from_file_name)
 from pyexcel.sources import params
 
 
@@ -16,7 +18,7 @@ class OutputSource(FileSource):
     """
     Get excel data from file source
     """
-    attributes = renderers.get_all_file_types()
+    attributes = supported_write_file_types()
     key = params.FILE_TYPE
 
     @classmethod
@@ -40,7 +42,7 @@ class WriteSheetToFile(OutputSource):
         self._keywords = keywords
         self._file_name = file_name
 
-        self.__file_type = file_name.split(".")[-1]
+        self.__file_type = _find_file_type_from_file_name(file_name, 'write')
         self._renderer = renderers.get_renderer(self.__file_type)
 
     def write_data(self, sheet):
