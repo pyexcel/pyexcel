@@ -27,6 +27,10 @@ class SheetStream(NamedContent):
         """
         return self.payload
 
+    @property
+    def array(self):
+        return list(self.payload)
+
 
 class BookStream(object):
     """
