@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+DESCRIPTION = (
+    'A wrapper library that provides one API to read, manipulate and write ' +
+    'data in different excel formats' +
+    ''
+)
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',
@@ -32,15 +37,19 @@ html_static_path = ['_static']
 htmlhelp_basename = 'pyexceldoc'
 latex_elements = {}
 latex_documents = [
-    ('index', 'pyexcel.tex', u'pyexcel Documentation',
+    ('index', 'pyexcel.tex',
+     'pyexcel Documentation',
      'Onni Software Ltd.', 'manual'),
 ]
 man_pages = [
-    ('index', 'pyexcel', u'pyexcel Documentation',
+    ('index', 'pyexcel',
+     'pyexcel Documentation',
      [u'Onni Software Ltd.'], 1)
 ]
 texinfo_documents = [
-    ('index', 'pyexcel', u'pyexcel Documentation',
-     'Onni Software Ltd.', 'pyexcel', 'One line description of project.',
+    ('index', 'pyexcel',
+     'pyexcel Documentation',
+     'Onni Software Ltd.', 'pyexcel',
+     DESCRIPTION,
      'Miscellaneous'),
 ]
