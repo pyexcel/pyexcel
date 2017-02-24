@@ -43,6 +43,7 @@ Saving data to excel file
    save_as
    isave_as
    save_book_as
+   isave_book_as
 
 
 These flags can be passed on all signature functions:

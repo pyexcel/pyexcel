@@ -20,4 +20,10 @@ pyexcel.generators.SheetStream
 
    
    
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SheetStream.array
+   
    

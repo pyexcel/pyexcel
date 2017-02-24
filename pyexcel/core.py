@@ -12,7 +12,7 @@ import re
 import pyexcel_io.manager as manager
 
 from pyexcel.sheets import Sheet
-from pyexcel.book import Book
+from pyexcel.book import Book, to_book
 import pyexcel.sources as sources
 import pyexcel.constants as constants
 from pyexcel._compact import zip_longest
@@ -279,6 +279,19 @@ def save_book_as(**keywords):
     django model     dest_models, dest_initializers,
                      dest_mapdict, dest_batch_size
     ================ ============================================
+    """
+    dest_keywords, source_keywords = _split_keywords(**keywords)
+    book = sources.get_book_stream(**source_keywords)
+    book = to_book(book)
+    return sources.save_book(book, **dest_keywords)
+
+
+def isave_book_as(**keywords):
+    """Save a book from a data source to another one
+
+    It is simliar to :meth:`pyexcel.save_book_as` but it read
+    when it writes. This function provide some speedup but
+    the output data is made uniform.
     """
     dest_keywords, source_keywords = _split_keywords(**keywords)
     book = sources.get_book_stream(**source_keywords)
