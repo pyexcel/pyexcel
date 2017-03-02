@@ -52,7 +52,7 @@ Although `nose` and `doctest` are both used in code testing, it is adviable that
 
 On Linux/Unix systems, please launch your tests like this::
 
-    $ make test
+    $ make
 
 On Windows systems, please issue this command::
 
