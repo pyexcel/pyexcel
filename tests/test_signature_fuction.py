@@ -957,3 +957,17 @@ def _produce_ordered_dict():
     data_dict.update({
         "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
     return data_dict
+
+
+def test_get_io_type():
+    file_type = pe.core.get_io_type('csv')
+    eq_(file_type, 'string')
+    file_type = pe.core.get_io_type('strange')
+    eq_(file_type, 'string')
+
+
+def test_isave_book_as():
+    content = _produce_ordered_dict()
+    io = pe.isave_book_as(dest_file_type="xls", bookdict=content)
+    book2 = pe.get_book(file_content=io.getvalue(), file_type="xls")
+    assert book2.to_dict() == content

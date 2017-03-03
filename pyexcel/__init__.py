@@ -30,7 +30,8 @@ from .core import (
     get_book,
     save_as,
     isave_as,
-    save_book_as)
+    save_book_as,
+    isave_book_as)
 from .book import Book
 from .sheets import Sheet
 from .deprecated import (

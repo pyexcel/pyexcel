@@ -181,7 +181,8 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
 
     def top(self, lines=5):
         sheet = Sheet(self.row[:lines])
-        sheet.colnames = self.__column_names[:lines]
+        if len(self.colnames) > 0:
+            sheet.colnames = self.__column_names
         return sheet
 
     def top_left(self, rows=5, columns=5):
