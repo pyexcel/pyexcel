@@ -767,7 +767,6 @@ class Matrix(object):
         raise NotImplementedError(constants.MESSAGE_NOT_IMPLEMENTED_01)
 
 
-
 def _unique(seq):
     """Return a unique list of the incoming list
 

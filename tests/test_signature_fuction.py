@@ -941,7 +941,8 @@ class TestiSaveAs:
         testfile = "testfile.xls"
         testfile2 = "testfile2.csv"
         sheet.save_as(testfile)
-        pe.isave_as(file_name=testfile, dest_file_name=testfile2, name_columns_by_row=0)
+        pe.isave_as(file_name=testfile, dest_file_name=testfile2,
+                    name_columns_by_row=0)
 
     def test_save_file_as_texttable(self):
         """
