@@ -930,6 +930,19 @@ class TestiSaveAs:
         os.unlink(testfile)
         os.unlink(testfile2)
 
+    @raises(Exception)
+    def test_save_as_invalid_params(self):
+        data = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        sheet = pe.Sheet(data)
+        testfile = "testfile.xls"
+        testfile2 = "testfile2.csv"
+        sheet.save_as(testfile)
+        pe.isave_as(file_name=testfile, dest_file_name=testfile2, name_columns_by_row=0)
+
     def test_save_file_as_texttable(self):
         """
         test if _texttable can render generator or not

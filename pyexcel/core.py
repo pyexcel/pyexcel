@@ -211,13 +211,10 @@ def isave_as(**keywords):
     """
 
     dest_keywords, source_keywords = _split_keywords(**keywords)
-    sheet_params = {}
     for field in constants.VALID_SHEET_PARAMETERS:
         if field in source_keywords:
-            sheet_params[field] = source_keywords.pop(field)
+            raise Exception(SAVE_AS_EXCEPTION)
     sheet = sources.get_sheet_stream(**source_keywords)
-    if sheet_params != {}:
-        raise Exception(SAVE_AS_EXCEPTION)
     return sources.save_sheet(sheet, **dest_keywords)
 
 
