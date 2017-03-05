@@ -766,58 +766,6 @@ class Matrix(object):
         """
         raise NotImplementedError(constants.MESSAGE_NOT_IMPLEMENTED_01)
 
-    def add_filter(self, afilter):
-        """Apply a filter
-        """
-        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED +
-                                  "Please use filter().")
-
-    def remove_filter(self, afilter):
-        """Remove a named filter
-        """
-        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED)
-
-    def clear_filters(self):
-        """Clears all filters"""
-        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED)
-
-    def validate_filters(self):
-        """Re-apply filters
-
-        It is called when some data is updated
-        """
-        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED)
-
-    def freeze_filters(self):
-        """Apply all filters and delete them"""
-        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED)
-
-    def apply_formatter(self, aformatter):
-        """Apply the formatter immediately
-        """
-        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED)
-
-    def add_formatter(self, aformatter):
-        """Add a lazy formatter.
-        """
-        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED)
-
-    def remove_formatter(self, aformatter):
-        """Remove a formatter
-
-        :param Formatter aformatter: a custom formatter
-        """
-        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED)
-
-    def clear_formatters(self):
-        """Clear all formatters
-        """
-        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED)
-
-    def freeze_formatters(self):
-        """Apply all added formatters and clear them
-        """
-        raise NotImplementedError(constants._IMPLEMENTATION_REMOVED)
 
 
 def _unique(seq):
