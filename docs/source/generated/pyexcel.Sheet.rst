@@ -14,12 +14,7 @@ pyexcel.Sheet
    .. autosummary::
    
       ~Sheet.__init__
-      ~Sheet.add_filter
-      ~Sheet.add_formatter
-      ~Sheet.apply_formatter
       ~Sheet.cell_value
-      ~Sheet.clear_filters
-      ~Sheet.clear_formatters
       ~Sheet.column_at
       ~Sheet.column_range
       ~Sheet.columns
@@ -35,13 +30,12 @@ pyexcel.Sheet
       ~Sheet.extend_rows
       ~Sheet.filter
       ~Sheet.format
-      ~Sheet.freeze_filters
-      ~Sheet.freeze_formatters
       ~Sheet.get_array
       ~Sheet.get_csv
       ~Sheet.get_csvz
       ~Sheet.get_dict
       ~Sheet.get_grid
+      ~Sheet.get_handsontable_html
       ~Sheet.get_html
       ~Sheet.get_internal_array
       ~Sheet.get_json
@@ -80,8 +74,6 @@ pyexcel.Sheet
       ~Sheet.register_input
       ~Sheet.register_io
       ~Sheet.register_presentation
-      ~Sheet.remove_filter
-      ~Sheet.remove_formatter
       ~Sheet.reverse
       ~Sheet.row_at
       ~Sheet.row_range
@@ -98,6 +90,7 @@ pyexcel.Sheet
       ~Sheet.set_csvz
       ~Sheet.set_dict
       ~Sheet.set_grid
+      ~Sheet.set_handsontable_html
       ~Sheet.set_html
       ~Sheet.set_json
       ~Sheet.set_latex
@@ -127,7 +120,6 @@ pyexcel.Sheet
       ~Sheet.top
       ~Sheet.top_left
       ~Sheet.transpose
-      ~Sheet.validate_filters
       ~Sheet.vertical
    
    
@@ -145,6 +137,7 @@ pyexcel.Sheet
       ~Sheet.csvz
       ~Sheet.dict
       ~Sheet.grid
+      ~Sheet.handsontable_html
       ~Sheet.html
       ~Sheet.json
       ~Sheet.latex

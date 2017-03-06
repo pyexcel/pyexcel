@@ -139,17 +139,6 @@ Conversions
    Book.xlsm
    Book.xlsx
    Book.ods
-   Book.plain
-   Book.simple
-   Book.grid
-   Book.pipe
-   Book.orgtbl
-   Book.rst
-   Book.mediawiki
-   Book.latex
-   Book.latex_booktabs
-   Book.json
-   Book.html
    Book.stream
 
 Save changes
@@ -283,17 +272,6 @@ Conversion
    Sheet.xlsm
    Sheet.xlsx
    Sheet.ods
-   Sheet.plain
-   Sheet.simple
-   Sheet.grid
-   Sheet.pipe
-   Sheet.orgtbl
-   Sheet.rst
-   Sheet.mediawiki
-   Sheet.latex
-   Sheet.latex_booktabs
-   Sheet.json
-   Sheet.html
    Sheet.stream
 
 
@@ -304,7 +282,6 @@ Formatting
    :toctree: generated/
 
    Sheet.format
-   Sheet.apply_formatter
 
 Filtering
 -----------

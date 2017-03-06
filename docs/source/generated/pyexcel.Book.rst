@@ -20,6 +20,7 @@ pyexcel.Book
       ~Book.get_csvz
       ~Book.get_dict
       ~Book.get_grid
+      ~Book.get_handsontable_html
       ~Book.get_html
       ~Book.get_json
       ~Book.get_latex
@@ -58,6 +59,7 @@ pyexcel.Book
       ~Book.set_csvz
       ~Book.set_dict
       ~Book.set_grid
+      ~Book.set_handsontable_html
       ~Book.set_html
       ~Book.set_json
       ~Book.set_latex
@@ -97,6 +99,7 @@ pyexcel.Book
       ~Book.csvz
       ~Book.dict
       ~Book.grid
+      ~Book.handsontable_html
       ~Book.html
       ~Book.json
       ~Book.latex
