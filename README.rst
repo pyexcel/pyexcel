@@ -38,25 +38,26 @@ Available Plugins
 
 .. table:: A list of file formats supported by external plugins
 
-   ================= ======================= ============= ==================
-   Package name      Supported file formats  Dependencies  Python versions
-   ================= ======================= ============= ==================
-   `pyexcel-io`_     csv, csvz [#f1]_, tsv,                2.6, 2.7, 3.3,
-                     tsvz [#f2]_                           3.4, 3.5, 3.6
-                                                           pypy
-   `pyexcel-xls`_    xls, xlsx(read only),   `xlrd`_,      same as above
-                     xlsm(read only)         `xlwt`_
-   `pyexcel-xlsx`_   xlsx                    `openpyxl`_   same as above
-   `pyexcel-xlsxw`_  xlsx(write only)        `XlsxWriter`_ same as above
-   `pyexcel-ods3`_   ods                     `ezodf`_,     2.6, 2.7, 3.3, 3.4
-                                             lxml          3.5, 3.6
-   `pyexcel-ods`_    ods                     `odfpy`_      same as above
-   `pyexcel-odsr`_   ods(read only)          lxml          same as above
-   `pyexcel-text`_   (write only)json, rst,  `tabulate`_   2.6, 2.7, 3.3, 3.4
-                     mediawiki, html,                      3.5, pypy, pypy3
-                     latex, grid, pipe,
-                     orgtbl, plain simple
-   ================= ======================= ============= ==================
+   ======================== ======================= =============== ==================
+   Package name              Supported file formats  Dependencies   Python versions
+   ======================== ======================= =============== ==================
+   `pyexcel-io`_            csv, csvz [#f1]_, tsv,                  2.6, 2.7, 3.3,
+                            tsvz [#f2]_                             3.4, 3.5, 3.6
+                                                                    pypy
+   `pyexcel-xls`_           xls, xlsx(read only),   `xlrd`_,        same as above
+                            xlsm(read only)         `xlwt`_
+   `pyexcel-xlsx`_          xlsx                    `openpyxl`_     same as above
+   `pyexcel-xlsxw`_         xlsx(write only)        `XlsxWriter`_   same as above
+   `pyexcel-ods3`_          ods                     `ezodf`_,       2.6, 2.7, 3.3, 3.4
+                                                    lxml            3.5, 3.6
+   `pyexcel-ods`_           ods                     `odfpy`_        same as above
+   `pyexcel-odsr`_          ods(read only)          lxml            same as above
+   `pyexcel-text`_          (write only)json, rst,  `tabulate`_     2.6, 2.7, 3.3, 3.4
+                            mediawiki, html,                        3.5, pypy, pypy3
+                            latex, grid, pipe,
+                            orgtbl, plain simple
+   `pyexcel-handsontable`_  handsontable in html    `handsontable`_  same as above
+   ======================== ======================= =============== ==================
 
 .. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
 .. _pyexcel-xls: https://github.com/pyexcel/pyexcel-xls
@@ -75,6 +76,8 @@ Available Plugins
 
 .. _pyexcel-text: https://github.com/pyexcel/pyexcel-text
 .. _tabulate: https://bitbucket.org/astanin/python-tabulate
+.. _pyexcel-handsontable: https://github.com/pyexcel/pyexcel-handsontable
+.. _handsontable: https://cdnjs.com/libraries/handsontable
 
 .. rubric:: Footnotes
 

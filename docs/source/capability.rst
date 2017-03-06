@@ -110,13 +110,15 @@ Functions                       Description
 :meth:`~pyexcel.isave_as`       Works well with big data files	  
 :meth:`~pyexcel.save_book_as`   Works with multiple sheet file
 	                            and big data files
+:meth:`~pyexcel.isave_book_as`  Works with multiple sheet file
+	                            and big data files
 =============================== =================================
 
 If you would only use these two functions to do format transcoding, you may enjoy a
-speed boost using :meth:`~pyexcel.isave_as` and :meth:`~pyexcel.save_book_as`,
-because they use `yield` keyword and minize memory footprint.
-:meth:`~pyexcel.save_as` uses :class:`~pyexcel.Sheet`, which reads all data into
-memory.
+speed boost using :meth:`~pyexcel.isave_as` and :meth:`~pyexcel.isave_book_as`,
+because they use `yield` keyword and minimize memory footprint.
+:meth:`~pyexcel.save_as` and :meth:`~pyexcel.save_book_as` reads all data into
+memory and **will make all rows the same width**.
 
 
 See also:

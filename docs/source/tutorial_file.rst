@@ -53,7 +53,7 @@ The same applies to a tsv file:
     | 3 | 6 | 9 |
     +---+---+---+
 
-What about reading a tab separated cs file? You can specify a delimiter parameter.
+Meanwhile, a tab separated file can be read as csv too. You can specify a delimiter parameter.
 
 .. code-block:: python
 
