@@ -546,6 +546,16 @@ class TestSheetTops:
         ]
         assert data.array == expected
 
+    def test_top_with_colnames(self):
+        data = [
+            ["column 1", "column 2"],
+            [1, 2]
+        ]
+        s = Sheet(data)
+        s.name_columns_by_row(0)
+        top_sheet = s.top()
+        assert top_sheet.array == data
+
     def test_top_left(self):
         data = [
             # 0 1  2  3  4 5   6
@@ -561,3 +571,50 @@ class TestSheetTops:
             [1]
         ]
         assert data.array == expected
+
+    def test_top_left_with_colnames(self):
+        data = [
+            ["col 1", "col 2", "col 3", "col 4", "col 5", "col 6"],
+            [1, 2, 3, 4, 5, 6],
+            [11, 2, 3, 4, 5, 6],
+            [21, 2, 3, 4, 5, 6],
+            [31, 2, 3, 4, 5, 6],
+            [41, 2, 3, 4, 5, 6],
+            [51, 2, 3, 4, 5, 6],
+        ]
+        s = Sheet(data)
+        s.name_columns_by_row(0)
+        top_sheet = s.top_left()
+        expected = [
+            ["col 1", "col 2", "col 3", "col 4", "col 5"],
+            [1, 2, 3, 4, 5],
+            [11, 2, 3, 4, 5],
+            [21, 2, 3, 4, 5],
+            [31, 2, 3, 4, 5],
+            [41, 2, 3, 4, 5]
+        ]
+        eq_(top_sheet.array, expected)
+
+    def test_top_left_with_colnames_and_rownames(self):
+        data = [
+            ["", "col 1", "col 2", "col 3", "col 4", "col 5", "col 6"],
+            ["row 1", 1, 2, 3, 4, 5, 6],
+            ["row 2", 11, 2, 3, 4, 5, 6],
+            ["row 3", 21, 2, 3, 4, 5, 6],
+            ["row 4", 31, 2, 3, 4, 5, 6],
+            ["row 5", 41, 2, 3, 4, 5, 6],
+            ["row 6", 51, 2, 3, 4, 5, 6],
+        ]
+        s = Sheet(data)
+        s.name_columns_by_row(0)
+        s.name_rows_by_column(0)
+        top_sheet = s.top_left()
+        expected = [
+            ["", "col 1", "col 2", "col 3", "col 4", "col 5"],
+            ["row 1", 1, 2, 3, 4, 5],
+            ["row 2", 11, 2, 3, 4, 5],
+            ["row 3", 21, 2, 3, 4, 5],
+            ["row 4", 31, 2, 3, 4, 5],
+            ["row 5", 41, 2, 3, 4, 5]
+        ]
+        eq_(top_sheet.array, expected)
