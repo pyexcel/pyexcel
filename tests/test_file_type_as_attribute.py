@@ -4,7 +4,7 @@ from pyexcel.sources import params
 from pyexcel import Sheet, Book
 from pyexcel import get_book, save_as
 from _compact import StringIO, OrderedDict
-from nose.tools import eq_
+from nose.tools import eq_, raises
 from textwrap import dedent
 
 FIXTURE = "dummy"
@@ -47,6 +47,19 @@ def test_book_register_presentation():
     assert b.dummy == FIXTURE
 
 
+@raises(NotImplementedError)
+def test_invalid_url_getter():
+    sheet = Sheet()
+    sheet.csv = "a,b,c"
+    sheet.url
+
+
+@raises(NotImplementedError)
+def test_invalid_json_stter():
+    sheet = Sheet()
+    sheet.json = "a,b,c"
+
+
 def test_set_csv_attribute():
     sheet = Sheet()
     sheet.csv = "a,b,c"
@@ -54,6 +67,19 @@ def test_set_csv_attribute():
     csv:
     +---+---+---+
     | a | b | c |
+    +---+---+---+""").strip('\n')
+    eq_(str(sheet), expected)
+
+
+def test_set_csv_attribute2():
+    sheet = Sheet()
+    content = "a,b,c"
+    sheet.set_csv(content, name_columns_by_row=0)
+    expected = dedent("""
+    csv:
+    +---+---+---+
+    | a | b | c |
+    +===+===+===+
     +---+---+---+""").strip('\n')
     eq_(str(sheet), expected)
 
