@@ -85,7 +85,8 @@ For individual excel file formats, please install them as you wish:
                             mediawiki, html,                        3.5, pypy, pypy3
                             latex, grid, pipe,
                             orgtbl, plain simple
-   `pyexcel-handsontable`_  handsontable in html    `handsontable`_  same as above
+   `pyexcel-handsontable`_  handsontable in html    `handsontable`_ same as above
+   `pyexcel-chart`_         svg chart               `chart`_        same as above
    ======================== ======================= =============== ==================
 
 .. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
@@ -107,6 +108,7 @@ For individual excel file formats, please install them as you wish:
 .. _tabulate: https://bitbucket.org/astanin/python-tabulate
 .. _pyexcel-handsontable: https://github.com/pyexcel/pyexcel-handsontable
 .. _handsontable: https://cdnjs.com/libraries/handsontable
+.. _pyexcel-chart: https://github.com/pyexcel/pyexcel-chart
 
 .. rubric:: Footnotes
 

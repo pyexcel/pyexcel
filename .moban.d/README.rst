@@ -44,11 +44,23 @@ Usage
     >>> import os
 	>>> os.unlink("myfile.xlsx")
 
-.. testcode::
-   :hide:
+Suppose you have the following data in a dictionary:
+
+========= ====
+Name      Age
+========= ====
+Adam      28
+Beatrice  29
+Ceri      30
+Dean      26
+========= ====
+
+you can easily save it into an excel file, using the following code.
+
+.. code-block:: python
 
    >>> import pyexcel
-   >>> # make sure you had pyexcel-xls pip-installed
+   >>> # make sure you had pyexcel-xls installed
    >>> a_list_of_dictionaries = [
    ...     {
    ...         "Name": 'Adam',
@@ -69,18 +81,8 @@ Usage
    ... ]
    >>> pyexcel.save_as(records=a_list_of_dictionaries, dest_file_name="your_file.xls")
 
-Suppose you want to process the following excel data :
 
-========= ====
-Name      Age
-========= ====
-Adam      28
-Beatrice  29
-Ceri      30
-Dean      26
-========= ====
-
-Here are the new method to obtain the records on demand:
+Here are the method to obtain the records:
 
 .. code-block:: python
    
