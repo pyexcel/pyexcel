@@ -86,7 +86,7 @@ For individual excel file formats, please install them as you wish:
                             latex, grid, pipe,
                             orgtbl, plain simple
    `pyexcel-handsontable`_  handsontable in html    `handsontable`_ same as above
-   `pyexcel-chart`_         svg chart               `chart`_        same as above
+   `pyexcel-chart`_         svg chart               `pygal`_        same as above
    ======================== ======================= =============== ==================
 
 .. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
@@ -109,6 +109,7 @@ For individual excel file formats, please install them as you wish:
 .. _pyexcel-handsontable: https://github.com/pyexcel/pyexcel-handsontable
 .. _handsontable: https://cdnjs.com/libraries/handsontable
 .. _pyexcel-chart: https://github.com/pyexcel/pyexcel-chart
+.. _pygal: https://github.com/Kozea/pygal
 
 .. rubric:: Footnotes
 
