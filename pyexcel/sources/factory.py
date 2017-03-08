@@ -32,7 +32,6 @@ SHEET_READ = REGISTRY_KEY_FORMAT % (params.SHEET, params.READ_ACTION)
 BOOK_WRITE = REGISTRY_KEY_FORMAT % (params.BOOK, params.WRITE_ACTION)
 BOOK_READ = REGISTRY_KEY_FORMAT % (params.BOOK, params.READ_ACTION)
 
-
 registry = {
     SHEET_WRITE: [],
     BOOK_WRITE: [],
@@ -40,10 +39,16 @@ registry = {
     SHEET_READ: []
 }
 attribute_registry = {
-    SHEET_WRITE: [],
-    BOOK_WRITE: [],
-    BOOK_READ: [],
-    SHEET_READ: []
+    params.SHEET: {
+        params.READ_ACTION: set(),
+        params.WRITE_ACTION: set(),
+        params.RW_ACTION: set()
+    },
+    params.BOOK: {
+        params.READ_ACTION: set(),
+        params.WRITE_ACTION: set(),
+        params.RW_ACTION: set()
+    }
 }
 keywords = {}
 
@@ -56,6 +61,20 @@ class FileTypeNotSupported(Exception):
     pass
 
 
+def register_an_attribute(target, action, attr):
+    if attr in attribute_registry[target][params.RW_ACTION]:
+        # No registration required
+        return
+    attribute_registry[target][action].add(attr)
+    intersection = (attr in attribute_registry[target][params.READ_ACTION]
+                    and
+                    attr in attribute_registry[target][params.WRITE_ACTION])
+    if intersection:
+        attribute_registry[target][params.RW_ACTION].add(attr)
+        attribute_registry[target][params.READ_ACTION].remove(attr)
+        attribute_registry[target][params.WRITE_ACTION].remove(attr)
+
+
 def register_class(cls):
     debug_registry = "Source registry: "
     debug_attribute = "Instance attribute: "
@@ -66,7 +85,7 @@ def register_class(cls):
         for attr in cls.attributes:
             if attr in NO_DOT_NOTATION:
                 continue
-            attribute_registry[key].append(attr)
+            register_an_attribute(target, action, attr)
             debug_attribute += "%s -> %s, " % (key, attr)
             keywords[attr] = cls.key
     log.debug(debug_registry)
@@ -154,33 +173,27 @@ def _has_field(field, keywords):
 
 
 def get_book_rw_attributes():
-    return set(attribute_registry[BOOK_READ]).intersection(
-        set(attribute_registry[BOOK_WRITE]))
+    return attribute_registry[params.BOOK][params.RW_ACTION]
 
 
 def get_book_w_attributes():
-    return set(attribute_registry[BOOK_WRITE]).difference(
-        set(attribute_registry[BOOK_READ]))
+    return attribute_registry[params.BOOK][params.WRITE_ACTION]
 
 
 def get_book_r_attributes():
-    return set(attribute_registry[BOOK_READ]).difference(
-        set(attribute_registry[BOOK_WRITE]))
+    return attribute_registry[params.BOOK][params.READ_ACTION]
 
 
 def get_sheet_rw_attributes():
-    return set(attribute_registry[SHEET_READ]).intersection(
-        set(attribute_registry[SHEET_WRITE]))
+    return attribute_registry[params.SHEET][params.RW_ACTION]
 
 
 def get_sheet_w_attributes():
-    return set(attribute_registry[SHEET_WRITE]).difference(
-        set(attribute_registry[SHEET_READ]))
+    return attribute_registry[params.SHEET][params.WRITE_ACTION]
 
 
 def get_sheet_r_attributes():
-    return set(attribute_registry[SHEET_READ]).difference(
-        set(attribute_registry[SHEET_WRITE]))
+    return attribute_registry[params.SHEET][params.READ_ACTION]
 
 
 def _get_generic_source(target, action, **keywords):

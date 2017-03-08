@@ -33,3 +33,4 @@ BOOK = 'book'
 # actions
 READ_ACTION = 'read'
 WRITE_ACTION = 'write'
+RW_ACTION = 'read-write'
