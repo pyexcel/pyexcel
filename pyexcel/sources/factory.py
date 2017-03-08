@@ -82,12 +82,14 @@ def register_class(cls):
         key = REGISTRY_KEY_FORMAT % (target, action)
         registry[key].append(cls)
         debug_registry += "%s -> %s, " % (key, cls)
+        debug_attribute += "%s -> " % key
         for attr in cls.attributes:
             if attr in NO_DOT_NOTATION:
                 continue
             register_an_attribute(target, action, attr)
-            debug_attribute += "%s -> %s, " % (key, attr)
+            debug_attribute += "%s " % attr
             keywords[attr] = cls.key
+        debug_attribute += ", "
     log.debug(debug_registry)
     log.debug(debug_attribute)
 
