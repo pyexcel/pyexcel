@@ -1,6 +1,6 @@
 from textwrap import dedent
 import pyexcel_io.manager as manager
-from pyexcel.generators import SheetStream
+from pyexcel.internal.generators import SheetStream
 from pyexcel.sources.file_source_output import WriteSheetToMemory
 
 

@@ -15,7 +15,7 @@ from pyexcel_io.database.querysets import QuerysetsReader
 
 from pyexcel._compact import OrderedDict, PY2
 from pyexcel.constants import DEFAULT_SHEET_NAME
-from pyexcel.generators import BookStream
+from pyexcel.internal.generators import BookStream
 from pyexcel.sources.factory import Source
 from . import params
 
