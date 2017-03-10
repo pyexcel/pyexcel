@@ -10,7 +10,8 @@
 import sys
 from pyexcel.sheets import Sheet
 import pyexcel._compact as compact
-from pyexcel.sources import BookMeta, save_book, StreamAttribute
+from pyexcel.internal.meta import BookMeta, StreamAttribute
+from pyexcel.internal.core import save_book
 
 
 LOCAL_UUID = 0

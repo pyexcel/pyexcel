@@ -11,7 +11,8 @@ import sys
 
 import pyexcel._compact as compact
 import pyexcel.constants as constants
-from pyexcel.sources import SheetMeta, save_sheet, StreamAttribute
+from pyexcel.internal.core import save_sheet
+from pyexcel.internal.meta import SheetMeta, StreamAttribute
 from .matrix import Matrix
 from .row import Row as NamedRow
 from .column import Column as NamedColumn

@@ -13,7 +13,7 @@ import pyexcel_io.manager as manager
 
 from pyexcel.sheets import Sheet
 from pyexcel.book import Book, to_book
-import pyexcel.sources as sources
+import pyexcel.internal.core as sources
 import pyexcel.constants as constants
 from pyexcel._compact import zip_longest
 
