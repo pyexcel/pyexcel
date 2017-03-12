@@ -1,0 +1,31 @@
+from pyexcel._compact import with_metaclass
+
+parser_registry = {}
+
+
+def _register_parser(parser_cls):
+    for file_type in parser_cls.file_types:
+        parser_registry[file_type] = parser_cls
+
+
+class MetaForParserRegistryOnly(type):
+    def __init__(cls, name, bases, nmspc):
+        super(MetaForParserRegistryOnly, cls).__init__(
+            name, bases, nmspc)
+        _register_parser(cls)
+
+
+class Parser(with_metaclass(MetaForParserRegistryOnly, object)):
+    file_types = ()
+
+    def __init__(self, file_type):
+        self._file_type = file_type
+
+    def parse_file(self, file_name, **keywords):
+        pass
+
+    def parse_file_stream(self, file_stream, **keywords):
+        pass
+
+    def parse_file_content(self, file_content, **keywords):
+        pass

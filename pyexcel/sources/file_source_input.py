@@ -9,11 +9,9 @@
 """
 import os
 
-from pyexcel_io import get_data, manager
-from pyexcel_io.utils import AVAILABLE_READERS
-
 from pyexcel.sources import params
 from pyexcel.sources.factory import FileSource, supported_read_file_types
+import pyexcel.parsers as parsers
 
 
 class InputSource(FileSource):
@@ -41,6 +39,9 @@ class ReadExcelFromFile(InputSource):
 
     def __init__(self, file_name=None, **keywords):
         self.__file_name = file_name
+
+        file_type = self.__file_name.split('.')[-1]
+        self.__parser = parsers.get_parser(file_type)
         self.__keywords = keywords
 
     def get_source_info(self):
@@ -51,7 +52,7 @@ class ReadExcelFromFile(InputSource):
         """
         Return a dictionary with only one key and one value
         """
-        sheets = get_data(self.__file_name, streaming=True, **self.__keywords)
+        sheets = self.__parser.parse_file(self.__file_name, **self.__keywords)
         return sheets
 
 
@@ -60,8 +61,7 @@ class ReadExcelFileMemory(InputSource):
     fields = [params.FILE_TYPE]
     targets = (params.SHEET, params.BOOK)
     actions = (params.READ_ACTION,)
-    attributes = (list(manager.reader_factories.keys()) +
-                  list(AVAILABLE_READERS.keys()))
+    attributes = parsers.get_all_file_types()
     key = params.FILE_TYPE
 
     def __init__(self,
@@ -73,18 +73,17 @@ class ReadExcelFileMemory(InputSource):
         self.__file_stream = file_stream
         self.__file_content = file_content
         self.__keywords = keywords
+        self.__parser = parsers.get_parser(file_type)
 
     def get_data(self):
         if self.__file_stream is not None:
-            sheets = get_data(self.__file_stream,
-                              file_type=self.__file_type,
-                              streaming=True,
-                              **self.__keywords)
+            sheets = self.__parser.parse_file_stream(
+                self.__file_stream,
+                **self.__keywords)
         else:
-            sheets = get_data(self.__file_content,
-                              file_type=self.__file_type,
-                              streaming=True,
-                              **self.__keywords)
+            sheets = self.__parser.parse_file_content(
+                self.__file_content,
+                **self.__keywords)
         return sheets
 
     def get_source_info(self):

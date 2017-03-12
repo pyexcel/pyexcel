@@ -7,11 +7,11 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel_io import get_data
 from pyexcel._compact import request, PY2
 
 from . import params
 from .factory import Source
+import pyexcel.parsers as parsers
 
 
 _xlsx = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -50,10 +50,10 @@ class HttpSource(Source):
         file_type = FILE_TYPE_MIME_TABLE.get(mime_type, None)
         if file_type is None:
             file_type = _get_file_type_from_url(self.__url)
+        parser = parsers.get_parser(file_type)
         content = f.read()
-        sheets = get_data(content,
-                          file_type=file_type,
-                          **self.__keywords)
+        sheets = parser.parse_file_content(content,
+                                           **self.__keywords)
         return sheets
 
     def get_source_info(self):
