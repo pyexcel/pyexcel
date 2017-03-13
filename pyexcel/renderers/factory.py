@@ -8,10 +8,11 @@ renderer_registry = {}
 
 
 def _register_renderer(renderer_cls):
-    log.debug("%s: %s" % (",".join(renderer_cls.file_types),
-                          renderer_cls))
-    for file_type in renderer_cls.file_types:
+    __file_types = []
+    for file_type in set(renderer_cls.file_types):
+        __file_types.append(file_type)
         renderer_registry[file_type] = renderer_cls
+    log.debug("%s: %s" % (",".join(__file_types), renderer_cls))
 
 
 class MetaForRendererRegistryOnly(type):

@@ -2,14 +2,21 @@ from pyexcel.constants import DEFAULT_SHEET_NAME
 from pyexcel_io import save_data
 import pyexcel_io.manager as manager
 from pyexcel_io.utils import AVAILABLE_WRITERS
+from pyexcel_io.constants import DB_SQL, DB_DJANGO
 
 from .factory import Renderer
 
 
+def get_excel_formats():
+    all_formats = set (tuple(AVAILABLE_WRITERS.keys()) +
+                       tuple(manager.get_writers()))
+    all_formats = all_formats.difference(set([DB_SQL, DB_DJANGO]))
+    return all_formats
+
+
 class ExcelRenderer(Renderer):
 
-    file_types = (tuple(AVAILABLE_WRITERS.keys()) +
-                  tuple(manager.get_writers()))
+    file_types = get_excel_formats()
 
     def get_io(self):
         return manager.get_io(self._file_type)

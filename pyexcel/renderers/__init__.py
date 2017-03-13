@@ -3,7 +3,7 @@ import logging
 
 
 from .factory import renderer_registry
-from . import _texttable, _excel
+from . import _texttable, _excel, _database
 from pkgutil import iter_modules
 
 log = logging.getLogger(__name__)
@@ -35,6 +35,8 @@ def get_renderer(file_type):
     if file_type:
         __file_type = file_type.lower()
     renderer_class = renderer_registry.get(__file_type)
+    if renderer_class is None:
+        raise Exception("No renderer found for %s" % file_type)
     return renderer_class(__file_type)
 
 

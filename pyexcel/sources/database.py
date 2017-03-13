@@ -1,6 +1,6 @@
 """
     pyexcel.sources.database
-    ~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
 
     Representation of database sources
 
@@ -17,6 +17,7 @@ from pyexcel._compact import OrderedDict, PY2
 from pyexcel.constants import DEFAULT_SHEET_NAME
 from pyexcel.internal.generators import BookStream
 from pyexcel.sources.factory import Source
+import pyexcel.renderers as renderers
 from . import params
 
 
@@ -98,18 +99,22 @@ class SheetSQLAlchemySource(Source):
         return data
 
     def write_data(self, sheet):
-        headers = sheet.colnames
-        if len(headers) == 0:
-            raise Exception(NO_COLUMN_NAMES)
-        importer = sql.SQLTableImporter(self.__session)
-        adapter = sql.SQLTableImportAdapter(self.__table)
-        adapter.column_names = headers
-        adapter.row_initializer = self.__keywords.get(params.INITIALIZER, None)
-        adapter.column_name_mapping_dict = self.__keywords.get(
-            params.MAPDICT, None)
-        importer.append(adapter)
-        save_data(importer, {adapter.get_name(): sheet.get_internal_array()},
-                  file_type=DB_SQL, **self.__keywords)
+        render = renderers.get_renderer(DB_SQL)
+        if params.INITIALIZER in self.__keywords:
+            init_func = self.__keywords.pop(params.INITIALIZER)
+        else:
+            init_func = None
+        if params.MAPDICT in self.__keywords:
+            map_dict = self.__keywords.pop(params.MAPDICT)
+        else:
+            map_dict = None
+        
+        render.render_sheet_to_stream(
+            (self.__session, self.__table),
+            sheet,
+            init=init_func,
+            mapdict=map_dict,
+            **self.__keywords)
 
 
 class SheetDjangoSource(Source):

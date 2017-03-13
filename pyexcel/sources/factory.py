@@ -78,6 +78,7 @@ def register_an_attribute(target, action, attr):
 def register_class(cls):
     debug_registry = "Source registry: "
     debug_attribute = "Instance attribute: "
+    anything = False
     for target, action in product(cls.targets, cls.actions):
         key = REGISTRY_KEY_FORMAT % (target, action)
         registry[key].append(cls)
@@ -89,9 +90,11 @@ def register_class(cls):
             register_an_attribute(target, action, attr)
             debug_attribute += "%s " % attr
             keywords[attr] = cls.key
+            anything = True
         debug_attribute += ", "
-    log.debug(debug_registry)
-    log.debug(debug_attribute)
+    if anything:
+        log.debug(debug_registry)
+        log.debug(debug_attribute)
 
 
 class MetaForSourceRegistryOnly(type):
