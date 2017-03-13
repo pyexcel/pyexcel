@@ -183,36 +183,23 @@ class BookSQLSource(Source):
     def get_source_info(self):
         return DB_SQL, None
 
-    def write_data(self, thebook):
-        from pyexcel.book import to_book
-        book = thebook
-        if isinstance(thebook, BookStream):
-            book = to_book(thebook)
-        initializers = self.__keywords.get(params.INITIALIZERS, None)
-        if initializers is None:
-            initializers = [None] * len(self.__tables)
-        mapdicts = self.__keywords.get(params.MAPDICTS, None)
-        if mapdicts is None:
-            mapdicts = [None] * len(self.__tables)
-        for sheet in book:
-            if len(sheet.colnames) == 0:
-                sheet.name_columns_by_row(0)
-        colnames_array = [sheet.colnames for sheet in book]
-        scattered = zip(self.__tables, colnames_array, mapdicts, initializers)
-
-        importer = sql.SQLTableImporter(self.__session)
-        for each_table in scattered:
-            adapter = sql.SQLTableImportAdapter(each_table[0])
-            adapter.column_names = each_table[1]
-            adapter.column_name_mapping_dict = each_table[2]
-            adapter.row_initializer = each_table[3]
-            importer.append(adapter)
-        to_store = OrderedDict()
-        for sheet_name in book.sheet_names():
-            # due book.to_dict() brings in column_names
-            # which corrupts the data
-            to_store[sheet_name] = book[sheet_name].get_internal_array()
-        save_data(importer, to_store, file_type=DB_SQL, **self.__keywords)
+    def write_data(self, book):
+        render = renderers.get_renderer(DB_SQL)
+        if params.INITIALIZERS in self.__keywords:
+            init_funcs = self.__keywords.pop(params.INITIALIZERS)
+        else:
+            init_funcs = None
+        if params.MAPDICTS in self.__keywords:
+            map_dicts = self.__keywords.pop(params.MAPDICTS)
+        else:
+            map_dicts = None
+        
+        render.render_book_to_stream(
+            (self.__session, self.__tables),
+            book,
+            inits=init_funcs,
+            mapdicts=map_dicts,
+            **self.__keywords)
 
 
 class BookDjangoSource(Source):
