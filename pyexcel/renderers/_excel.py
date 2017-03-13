@@ -8,8 +8,8 @@ from .factory import Renderer
 
 
 def get_excel_formats():
-    all_formats = set (tuple(AVAILABLE_WRITERS.keys()) +
-                       tuple(manager.get_writers()))
+    all_formats = set(tuple(AVAILABLE_WRITERS.keys()) +
+                      tuple(manager.get_writers()))
     all_formats = all_formats.difference(set([DB_SQL, DB_DJANGO]))
     return all_formats
 

@@ -12,6 +12,7 @@ def _register_parser(parser_cls):
         parser_registry[file_type] = parser_cls
     log.debug("%s: %s" % (",".join(__file_types), parser_cls))
 
+
 class MetaForParserRegistryOnly(type):
     def __init__(cls, name, bases, nmspc):
         super(MetaForParserRegistryOnly, cls).__init__(

@@ -7,15 +7,14 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel_io import get_data, save_data
+from pyexcel_io import get_data
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
 import pyexcel_io.database.sql as sql
 import pyexcel_io.database.django as django
 from pyexcel_io.database.querysets import QuerysetsReader
 
-from pyexcel._compact import OrderedDict, PY2
+from pyexcel._compact import PY2
 from pyexcel.constants import DEFAULT_SHEET_NAME
-from pyexcel.internal.generators import BookStream
 from pyexcel.sources.factory import Source
 import pyexcel.renderers as renderers
 from . import params
@@ -108,7 +107,7 @@ class SheetSQLAlchemySource(Source):
             map_dict = self.__keywords.pop(params.MAPDICT)
         else:
             map_dict = None
-        
+
         render.render_sheet_to_stream(
             (self.__session, self.__table),
             sheet,
@@ -144,18 +143,22 @@ class SheetDjangoSource(Source):
         return data
 
     def write_data(self, sheet):
-        headers = sheet.colnames
-        if len(headers) == 0:
-            raise Exception(NO_COLUMN_NAMES)
-        importer = django.DjangoModelImporter()
-        adapter = django.DjangoModelImportAdapter(self.__model)
-        adapter.column_names = headers
-        adapter.column_name_mapping_dict = self.__keywords.get(
-            params.MAPDICT, None)
-        adapter.row_initializer = self.__keywords.get(params.INITIALIZER, None)
-        importer.append(adapter)
-        save_data(importer, {adapter.get_name(): sheet.get_internal_array()},
-                  file_type=DB_DJANGO, **self.__keywords)
+        render = renderers.get_renderer(DB_DJANGO)
+        if params.INITIALIZER in self.__keywords:
+            init_func = self.__keywords.pop(params.INITIALIZER)
+        else:
+            init_func = None
+        if params.MAPDICT in self.__keywords:
+            map_dict = self.__keywords.pop(params.MAPDICT)
+        else:
+            map_dict = None
+
+        render.render_sheet_to_stream(
+            self.__model,
+            sheet,
+            init=init_func,
+            mapdict=map_dict,
+            **self.__keywords)
 
 
 class BookSQLSource(Source):
@@ -193,7 +196,7 @@ class BookSQLSource(Source):
             map_dicts = self.__keywords.pop(params.MAPDICTS)
         else:
             map_dicts = None
-        
+
         render.render_book_to_stream(
             (self.__session, self.__tables),
             book,
@@ -225,39 +228,22 @@ class BookDjangoSource(Source):
     def get_source_info(self):
         return DB_DJANGO, None
 
-    def write_data(self, thebook):
-        from pyexcel.book import to_book
-        book = thebook
-        if isinstance(thebook, BookStream):
-            book = to_book(thebook)
-        new_models = [model for model in self.__models if model is not None]
-        batch_size = self.__keywords.get(params.BATCH_SIZE, None)
-        initializers = self.__keywords.get(params.INITIALIZERS, None)
-        if initializers is None:
-            initializers = [None] * len(new_models)
-        mapdicts = self.__keywords.get(params.MAPDICTS, None)
-        if mapdicts is None:
-            mapdicts = [None] * len(new_models)
-        for sheet in book:
-            if len(sheet.colnames) == 0:
-                sheet.name_columns_by_row(0)
-        colnames_array = [sheet.colnames for sheet in book]
-        scattered = zip(new_models, colnames_array, mapdicts, initializers)
-
-        importer = django.DjangoModelImporter()
-        for each_model in scattered:
-            adapter = django.DjangoModelImportAdapter(each_model[0])
-            adapter.column_names = each_model[1]
-            adapter.column_name_mapping_dict = each_model[2]
-            adapter.row_initializer = each_model[3]
-            importer.append(adapter)
-        to_store = OrderedDict()
-        for sheet_name in book.sheet_names():
-            # due book.to_dict() brings in column_names
-            # which corrupts the data
-            to_store[sheet_name] = book[sheet_name].get_internal_array()
-        save_data(importer, to_store, file_type=DB_DJANGO,
-                  batch_size=batch_size)
+    def write_data(self, book):
+        render = renderers.get_renderer(DB_DJANGO)
+        if params.INITIALIZERS in self.__keywords:
+            init_funcs = self.__keywords.pop(params.INITIALIZERS)
+        else:
+            init_funcs = None
+        if params.MAPDICTS in self.__keywords:
+            map_dicts = self.__keywords.pop(params.MAPDICTS)
+        else:
+            map_dicts = None
+        render.render_book_to_stream(
+            self.__models,
+            book,
+            inits=init_funcs,
+            mapdicts=map_dicts,
+            **self.__keywords)
 
 
 def _set_dictionary_key(adict, sheet_name):
