@@ -8,8 +8,6 @@
     :license: New BSD License
 """
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
-import pyexcel_io.database.sql as sql
-import pyexcel_io.database.django as django
 from pyexcel_io.database.querysets import QuerysetsReader
 
 from pyexcel._compact import PY2
@@ -89,11 +87,10 @@ class SheetSQLAlchemySource(Source):
 
     def get_data(self):
         parser = parsers.get_parser(DB_SQL)
-        exporter = sql.SQLTableExporter(self.__session)
-        adapter = sql.SQLTableExportAdapter(
-            self.__table, self.__export_columns)
-        exporter.append(adapter)
-        data = parser.parse_file_stream(exporter, **self.__keywords)
+        data = parser.parse_file_stream(
+            (self.__session, [self.__table]),
+            export_columns_list=[self.__export_columns],
+            **self.__keywords)
         if self.__sheet_name is not None:
             _set_dictionary_key(data, self.__sheet_name)
         return data
@@ -135,11 +132,10 @@ class SheetDjangoSource(Source):
 
     def get_data(self):
         parser = parsers.get_parser(DB_DJANGO)
-        exporter = django.DjangoModelExporter()
-        adapter = django.DjangoModelExportAdapter(
-            self.__model, self.__export_columns)
-        exporter.append(adapter)
-        data = parser.parse_file_stream(exporter, **self.__keywords)
+        data = parser.parse_file_stream(
+            [self.__model],
+            export_columns_list=[self.__export_columns],
+            **self.__keywords)
         if self.__sheet_name is not None:
             _set_dictionary_key(data, self.__sheet_name)
         return data
@@ -179,11 +175,9 @@ class BookSQLSource(Source):
 
     def get_data(self):
         parser = parsers.get_parser(DB_SQL)
-        exporter = sql.SQLTableExporter(self.__session)
-        for table in self.__tables:
-            adapter = sql.SQLTableExportAdapter(table)
-            exporter.append(adapter)
-        data = parser.parse_file_stream(exporter, **self.__keywords)
+        data = parser.parse_file_stream(
+            (self.__session, self.__tables),
+            **self.__keywords)
         return data
 
     def get_source_info(self):
@@ -222,11 +216,8 @@ class BookDjangoSource(Source):
 
     def get_data(self):
         parser = parsers.get_parser(DB_DJANGO)
-        exporter = django.DjangoModelExporter()
-        for model in self.__models:
-            adapter = django.DjangoModelExportAdapter(model)
-            exporter.append(adapter)
-        data = parser.parse_file_stream(exporter, **self.__keywords)
+        data = parser.parse_file_stream(self.__models,
+                                        **self.__keywords)
         return data
 
     def get_source_info(self):
