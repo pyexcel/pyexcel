@@ -31,7 +31,7 @@ def dynamic_load_library(library_import_path):
     __import__(library_import_path[0])
 
 
-def preload_a_renderer(registry, file_type):
+def preload_a_plugin(registry, file_type):
     __file_type = file_type.lower()
     if __file_type in registry:
         debug_path = []
@@ -56,9 +56,12 @@ for _, module_name, ispkg in iter_modules():
     if ispkg and module_name.startswith('pyexcel_'):
         try:
             plugin = __import__(module_name)
-            if hasattr(plugin, '__pyexcel_renderer_plugins__'):
-                for meta in plugin.__pyexcel_renderer_plugins__:
-                    pre_register(soft_renderer_registry, meta, module_name)
+            if hasattr(plugin, '__pyexcel_plugins__'):
+                for meta in plugin.__pyexcel_plugins__:
+                    if meta['plugin_type'] == 'renderer':
+                        pre_register(soft_renderer_registry, meta, module_name)
+                    elif meta['plugin_type'] == 'parser':
+                        pre_register(soft_parser_registry, meta, module_name)
         except Exception as e:
             log.info("Failed to import %s due to %s" % (module_name, str(e)),
                      exc_info=True)
