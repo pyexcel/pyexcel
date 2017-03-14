@@ -12,10 +12,9 @@ from functools import partial
 from itertools import product
 
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
-from pyexcel_io.utils import AVAILABLE_READERS
-from pyexcel_io import manager
 
 import pyexcel.renderers as renderers
+import pyexcel.renderers as parsers
 from pyexcel._compact import is_string, with_metaclass
 from . import params
 
@@ -251,8 +250,7 @@ def _find_file_type_from_file_name(file_name, action):
 
 
 def supported_read_file_types():
-    return set(list(manager.reader_factories.keys()) +
-               list(AVAILABLE_READERS.keys()))
+    return parsers.get_all_file_types()
 
 
 def supported_write_file_types():
