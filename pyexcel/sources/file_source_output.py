@@ -18,7 +18,6 @@ class OutputSource(FileSource):
     """
     Get excel data from file source
     """
-    attributes = supported_write_file_types()
     key = params.FILE_TYPE
 
     @classmethod
@@ -64,6 +63,7 @@ class WriteSheetToMemory(OutputSource):
     fields = [params.FILE_TYPE]
     targets = (params.SHEET,)
     actions = (params.WRITE_ACTION,)
+    attributes = supported_write_file_types()
 
     def __init__(self, file_type=None, file_stream=None, **keywords):
         self._keywords = keywords

@@ -1,6 +1,6 @@
 """
     pyexcel.sources.factory
-    ~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~
 
     Data source registration
 
