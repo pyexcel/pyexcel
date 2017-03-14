@@ -1,6 +1,7 @@
 from .factory import renderer_registry
 from pyexcel.internal import soft_renderer_registry, preload_a_plugin
 from . import _texttable, _excel, _database  # noqa
+from pyexcel._compact import PY2
 
 
 def get_renderer(file_type):
@@ -15,4 +16,9 @@ def get_renderer(file_type):
 
 
 def get_all_file_types():
-    return renderer_registry.keys() + soft_renderer_registry.keys()
+    if PY2:
+        file_types = renderer_registry.keys() + soft_renderer_registry.keys()
+    else:
+        file_types = (list(renderer_registry.keys()) +
+                      list(soft_renderer_registry.keys()))
+    return file_types
