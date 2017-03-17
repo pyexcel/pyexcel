@@ -15,13 +15,6 @@ except ImportError as e:
     pass
 
 
-try:
-    import pyexcel_chart
-except ImportError as e:
-    log.info("Failed to import pyexcel_chart due to %s", exc_info=True)
-    pass
-
-
 def get_renderer(file_type):
     __file_type = None
     if file_type:
