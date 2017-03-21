@@ -2,9 +2,8 @@ from texttable import Texttable
 
 from pyexcel.sheets.formatters import to_format
 from pyexcel._compact import is_generator
+from pyexcel.renderers import Renderer
 import pyexcel.constants as constants
-
-from .factory import Renderer
 
 
 class TextTableRenderer(Renderer):

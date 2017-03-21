@@ -1,4 +1,4 @@
-from pyexcel.parsers.factory import Parser
+from pyexcel.parsers import Parser
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
 import pyexcel_io.database.sql as sql
 import pyexcel_io.database.django as django

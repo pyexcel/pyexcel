@@ -1,4 +1,4 @@
-from pyexcel.renderers.factory import Renderer
+from pyexcel.renderers import Renderer
 from nose.tools import raises
 
 

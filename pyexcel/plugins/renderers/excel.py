@@ -4,7 +4,7 @@ import pyexcel_io.manager as manager
 from pyexcel_io.utils import AVAILABLE_WRITERS
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
 
-from .factory import Renderer
+from pyexcel.renderers import Renderer
 
 
 def get_excel_formats():
