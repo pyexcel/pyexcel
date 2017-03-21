@@ -123,11 +123,7 @@ Usage
     >>> with open("myfile.xlsx", "wb") as output:
     ...     write_count_not_used = output.write(sheet.xlsx)
 
-.. testcode::
-   :hide:
 
-    >>> import os
-	>>> os.unlink("myfile.xlsx")
 
 Suppose you have the following data in a dictionary:
 
@@ -180,19 +176,19 @@ Here are the method to obtain the records:
    Ceri is aged at 30
    Dean is aged at 26
 
-.. testcode::
-   :hide:
-   
-   >>> import os
-   >>> os.unlink("your_file.xls")
-
-
 
 Acknowledgement
 ===============
 
 All great work have done by odf, ezodf, xlrd, xlwt, tabulate and other individual developers. This library unites only the data access code.
 
+
+.. testcode::
+   :hide:
+   
+   >>> import os
+   >>> os.unlink("your_file.xls")
+   >>> os.unlink("myfile.xlsx")
 
 
 Development guide
