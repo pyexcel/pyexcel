@@ -16,6 +16,7 @@ from pyexcel_io.constants import DB_SQL, DB_DJANGO
 import pyexcel.renderers as renderers
 import pyexcel.renderers as parsers
 from pyexcel._compact import is_string, with_metaclass
+from pyexcel.internal import preload_a_source
 from . import params
 
 
@@ -201,6 +202,7 @@ def get_sheet_r_attributes():
 
 
 def _get_generic_source(target, action, **keywords):
+    preload_a_source(target, action, **keywords)
     key = REGISTRY_KEY_FORMAT % (target, action)
     for source in registry[key]:
         if source.is_my_business(action, **keywords):

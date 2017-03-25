@@ -4,13 +4,16 @@ from pkgutil import iter_modules
 from collections import defaultdict
 import pyexcel.plugins.parsers as parsers
 import pyexcel.plugins.renderers as renderers
+import pyexcel.plugins.sources as sources
 from pyexcel.internal.generators import SheetStream, BookStream  # noqa
+from itertools import product
 
 
 log = logging.getLogger(__name__)
 
 soft_renderer_registry = defaultdict(list)
 soft_parser_registry = defaultdict(list)
+soft_source_registry = defaultdict(list)
 
 UPGRADE_MESSAGE = "Please upgrade the plugin '%s' according to \
 plugin compactibility table."
@@ -31,8 +34,23 @@ def pre_register(registry, library_meta, module_name):
     log.debug("pre-register :" + ','.join(library_meta['file_types']))
 
 
+def pre_register_source(registry, meta, module_name):
+    if not isinstance(meta, dict):
+        plugin = module_name.replace('_', '-')
+        raise UpgradePlugin(UPGRADE_MESSAGE % plugin)
+    library_import_path = "%s.%s" % (module_name, meta['submodule'])
+    for target, action in product(meta['targets'], meta['actions']):
+        key = "%s-%s" % (target, action)
+        registry[key].append(dict(
+            fields=meta['fields'],
+            path=library_import_path,
+            submodule=meta['submodule']
+        ))
+    log.debug("pre-register source:" + meta['submodule'])
+
+
 def dynamic_load_library(library_import_path):
-    __import__(library_import_path[0])
+    __import__(library_import_path)
 
 
 def preload_a_plugin(registry, file_type):
@@ -40,11 +58,32 @@ def preload_a_plugin(registry, file_type):
     if __file_type in registry:
         debug_path = []
         for path in registry[__file_type]:
-            dynamic_load_library(path)
+            dynamic_load_library(path[0])
             debug_path.append(path)
         log.debug("preload :" + __file_type + ":" + ','.join(path))
         # once loaded, forgot it
         registry.pop(__file_type)
+
+
+def preload_a_source(target, action, **keywords):
+    key = "%s-%s" % (target, action)
+    for source in soft_source_registry[key]:
+        if match_potential_source(source, action, **keywords):
+            dynamic_load_library(source['path'])
+    soft_source_registry.pop(key)
+
+
+def match_potential_source(source_meta, action, **keywords):
+    """
+    If all required keys are present, this source is activated
+    """
+    statuses = [_has_field(field, keywords) for field in source_meta['fields']]
+    results = [status for status in statuses if status is False]
+    return len(results) == 0
+
+
+def _has_field(field, keywords):
+    return field in keywords and keywords[field] is not None
 
 
 black_list = ['pyexcel_io', 'pyexcel_webio',
@@ -59,6 +98,8 @@ def register_plugins(plugin_metas, module_name):
             pre_register(soft_renderer_registry, meta, module_name)
         elif meta['plugin_type'] == 'parser':
             pre_register(soft_parser_registry, meta, module_name)
+        elif meta['plugin_type'] == 'source':
+            pre_register_source(soft_source_registry, meta, module_name)
 
 
 for _, module_name, ispkg in iter_modules():
@@ -78,3 +119,4 @@ for _, module_name, ispkg in iter_modules():
 
 register_plugins(renderers.__pyexcel_plugins__, renderers.__name__)
 register_plugins(parsers.__pyexcel_plugins__, parsers.__name__)
+register_plugins(sources.__pyexcel_plugins__, sources.__name__)

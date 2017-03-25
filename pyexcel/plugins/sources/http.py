@@ -9,8 +9,7 @@
 """
 from pyexcel._compact import request, PY2
 
-from . import params
-from .factory import Source
+from pyexcel.sources.factory import Source
 import pyexcel.parsers as parsers
 
 
@@ -30,11 +29,11 @@ class HttpSource(Source):
     """
     Multiple sheet data source via http protocol
     """
-    fields = [params.URL]
-    targets = (params.SHEET, params.BOOK)
-    actions = (params.READ_ACTION,)
-    attributes = [params.URL]
-    key = params.URL
+    fields = ['url']
+    targets = ('sheet', 'book')
+    actions = ('read',)
+    attributes = ['url']
+    key = 'url'
 
     def __init__(self, url=None, **keywords):
         self.__url = url
