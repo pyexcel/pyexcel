@@ -33,7 +33,7 @@ from .core import (
     save_book_as,
     isave_book_as)
 from .book import Book
-from .sheets import Sheet
+from .sheet import Sheet
 from .deprecated import (
     load_book,
     load_book_from_memory,

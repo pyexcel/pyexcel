@@ -11,7 +11,7 @@ import re
 
 import pyexcel_io.manager as manager
 
-from pyexcel.sheets import Sheet
+from pyexcel.sheet import Sheet
 from pyexcel.book import Book, to_book
 import pyexcel.internal.core as sources
 import pyexcel.constants as constants

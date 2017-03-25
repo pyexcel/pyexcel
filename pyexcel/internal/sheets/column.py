@@ -21,7 +21,7 @@ class Column:
 
         >>> import pyexcel as pe
         >>> data = [[1,2,3], [4,5,6], [7,8,9]]
-        >>> m = pe.sheets.Matrix(data)
+        >>> m = pe.internal.sheets.Matrix(data)
         >>> m.column[0]
         [1, 4, 7]
         >>> m.column[2] = [0, 0, 0]

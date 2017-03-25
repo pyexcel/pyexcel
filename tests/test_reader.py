@@ -233,7 +233,7 @@ class TestSeriesReader3:
             [4, 5, 6],
             ["Column 1", "Column 2", "Column 3"]
         ]
-        s.column += pe.sheets.transpose(test_data)
+        s.column += pe.internal.sheets.transpose(test_data)
         actual = s.array
         assert test_data == actual
         s.name_columns_by_row(2)

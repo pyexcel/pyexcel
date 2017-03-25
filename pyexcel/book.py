@@ -8,7 +8,7 @@
     :license: New BSD License, see LICENSE for more details
 """
 import sys
-from pyexcel.sheets import Sheet
+from pyexcel.sheet import Sheet
 import pyexcel._compact as compact
 from pyexcel.internal.meta import BookMeta, StreamAttribute
 from pyexcel.internal.core import save_book

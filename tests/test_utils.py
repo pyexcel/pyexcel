@@ -33,8 +33,8 @@ class TestToRecord(TestCase):
     @raises(ValueError)
     def test_index_sheet1(self):
         """Invalid input"""
-        s = pe.sheets.Sheet([[1, 2, 3]],
-                            "test")
+        s = pe.Sheet([[1, 2, 3]],
+                     "test")
         s.to_records()
 
     def test_index_sheet2(self):

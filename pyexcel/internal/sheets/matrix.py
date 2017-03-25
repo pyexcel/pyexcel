@@ -1,6 +1,6 @@
 """
-    pyexcel.sheets.matrix
-    ~~~~~~~~~~~~~~~~~~~~~~
+    pyexcel.internal.sheets.matrix
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     Matrix, a data model that accepts any types, spread sheet style
 of lookup.
@@ -14,7 +14,7 @@ from functools import partial
 
 import pyexcel._compact as compact
 import pyexcel.constants as constants
-from pyexcel.sheets.formatters import to_format
+from .formatters import to_format
 from .row import Row
 from .column import Column
 from . import _shared as utils
@@ -259,7 +259,7 @@ class Matrix(object):
             ...     [2],
             ...     [3]
             ... ]
-            >>> matrix = pe.sheets.Sheet(data)
+            >>> matrix = pe.Sheet(data)
             >>> matrix
             pyexcel sheet:
             +---+
@@ -492,7 +492,7 @@ class Matrix(object):
             ...     [5, 6, 7, 8],
             ...     [9, 10, 11, 12]
             ... ]
-            >>> m = pe.sheets.Matrix(data)
+            >>> m = pe.internal.sheets.Matrix(data)
             >>> print(list(m.enumerate()))
             [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
@@ -513,7 +513,7 @@ class Matrix(object):
             ...     [5, 6, 7, 8],
             ...     [9, 10, 11, 12]
             ... ]
-            >>> m = pe.sheets.Matrix(data)
+            >>> m = pe.internal.sheets.Matrix(data)
             >>> print(list(m.reverse()))
             [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
 
@@ -535,7 +535,7 @@ class Matrix(object):
                 [5, 6, 7, 8],
                 [9, 10, 11, 12]
             ]
-            m = pe.Matrix(data)
+            m = pe.internal.sheets.Matrix(data)
             print(list(m.vertical()))
 
         output::
@@ -558,7 +558,7 @@ class Matrix(object):
                 [5, 6, 7, 8],
                 [9, 10, 11, 12]
             ]
-            m = pe.Matrix(data)
+            m = pe.internal.sheets.Matrix(data)
             print(pe.utils.to_array(m.rvertical())
 
         output::
@@ -583,7 +583,7 @@ class Matrix(object):
                 [5, 6, 7, 8],
                 [9, 10, 11, 12]
             ]
-            m = pe.Matrix(data)
+            m = pe.internal.sheets.Matrix(data)
             print(pe.utils.to_array(m.rows()))
 
         output::
@@ -607,7 +607,7 @@ class Matrix(object):
                 [5, 6, 7, 8],
                 [9, 10, 11, 12]
             ]
-            m = pe.Matrix(data)
+            m = pe.internal.sheets.Matrix(data)
             print(pe.utils.to_array(m.rrows()))
 
         .. testoutput::
@@ -631,7 +631,7 @@ class Matrix(object):
                 [5, 6, 7, 8],
                 [9, 10, 11, 12]
             ]
-            m = pe.Matrix(data)
+            m = pe.internal.sheets.Matrix(data)
             print(list(m.columns()))
 
         .. testoutput::
@@ -655,7 +655,7 @@ class Matrix(object):
                 [5, 6, 7, 8],
                 [9, 10, 11, 12]
             ]
-            m = pe.Matrix(data)
+            m = pe.internal.sheets.Matrix(data)
             print(pe.utils.to_array(m.rcolumns()))
 
         output::
@@ -734,7 +734,7 @@ class Matrix(object):
 
         :returns: a new book
         """
-        from ..book import Book, local_uuid
+        from pyexcel.book import Book, local_uuid
         content = {}
         content[self.name] = self.__array
         if isinstance(other, Book):

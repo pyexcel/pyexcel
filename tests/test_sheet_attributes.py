@@ -1,6 +1,6 @@
 # since v0.2.2
 from textwrap import dedent
-from pyexcel.sheets import Sheet
+from pyexcel.sheet import Sheet
 from nose.tools import eq_
 import copy
 

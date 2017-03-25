@@ -23,7 +23,7 @@ class Row:
 
         >>> import pyexcel as pe
         >>> data = [[1,2,3], [4,5,6], [7,8,9]]
-        >>> m = pe.sheets.Matrix(data)
+        >>> m = pe.internal.sheets.Matrix(data)
         >>> m.row[0:2]
         [[1, 2, 3], [4, 5, 6]]
         >>> m.row[0:3] = [0, 0, 0]

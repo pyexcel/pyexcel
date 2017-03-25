@@ -1,4 +1,4 @@
-from pyexcel.sheets.sheet import Sheet
+from pyexcel import Sheet
 from pyexcel import load_from_dict, load_from_records
 from _compact import OrderedDict
 from nose.tools import raises, eq_

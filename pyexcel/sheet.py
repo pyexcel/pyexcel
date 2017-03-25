@@ -13,9 +13,9 @@ import pyexcel._compact as compact
 import pyexcel.constants as constants
 from pyexcel.internal.core import save_sheet
 from pyexcel.internal.meta import SheetMeta, StreamAttribute
-from .matrix import Matrix
-from .row import Row as NamedRow
-from .column import Column as NamedColumn
+from pyexcel.internal.sheets.matrix import Matrix
+from pyexcel.internal.sheets.row import Row as NamedRow
+from pyexcel.internal.sheets.column import Column as NamedColumn
 
 
 class Sheet(compact.with_metaclass(SheetMeta, Matrix)):

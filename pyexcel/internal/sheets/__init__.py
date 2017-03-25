@@ -1,6 +1,6 @@
 """
-    pyexcel.sheets
-    ~~~~~~~~~~~~~~~~~~~
+    pyexcel.internal.sheets
+    ~~~~~~~~~~~~~~~~~~~~~~~~
 
     Core functionality of pyexcel, data model
 
@@ -8,5 +8,4 @@
     :license: New BSD License, see LICENSE for more details
 """
 # flake8: noqa
-from .sheet import Sheet
 from .matrix import Matrix, transpose, Row, Column
