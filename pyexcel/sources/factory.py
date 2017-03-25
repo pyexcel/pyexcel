@@ -75,6 +75,24 @@ def register_an_attribute(target, action, attr):
         attribute_registry[target][params.WRITE_ACTION].remove(attr)
 
 
+def register_class_meta(meta):
+    debug_registry = "Source registry: "
+    debug_attribute = "Instance attribute: "
+    anything = False
+    for target, action in product(meta["targets"], meta["actions"]):
+        for attr in meta['attributes']:
+            if attr in NO_DOT_NOTATION:
+                continue
+            register_an_attribute(target, action, attr)
+            debug_attribute += "%s " % attr
+            keywords[attr] = meta['key']
+            anything = True
+        debug_attribute += ", "
+    if anything:
+        log.debug(debug_registry)
+        log.debug(debug_attribute)
+
+
 def register_class(cls):
     debug_registry = "Source registry: "
     debug_attribute = "Instance attribute: "

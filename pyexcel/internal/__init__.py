@@ -35,9 +35,11 @@ def pre_register(registry, library_meta, module_name):
 
 
 def pre_register_source(registry, meta, module_name):
+    from pyexcel.sources.factory import register_class_meta
     if not isinstance(meta, dict):
         plugin = module_name.replace('_', '-')
         raise UpgradePlugin(UPGRADE_MESSAGE % plugin)
+    register_class_meta(meta)
     library_import_path = "%s.%s" % (module_name, meta['submodule'])
     for target, action in product(meta['targets'], meta['actions']):
         key = "%s-%s" % (target, action)
@@ -46,7 +48,7 @@ def pre_register_source(registry, meta, module_name):
             path=library_import_path,
             submodule=meta['submodule']
         ))
-    log.debug("pre-register source:" + meta['submodule'])
+    log.debug("pre-register source:" + library_import_path)
 
 
 def dynamic_load_library(library_import_path):
@@ -71,6 +73,7 @@ def preload_a_source(target, action, **keywords):
         if match_potential_source(source, action, **keywords):
             dynamic_load_library(source['path'])
     soft_source_registry.pop(key)
+    log.debug("pre-load source:" + key)
 
 
 def match_potential_source(source_meta, action, **keywords):

@@ -4,6 +4,8 @@ __pyexcel_plugins__ = [
         'submodule': 'http',
         'fields': ['url'],
         'targets': ['sheet', 'book'],
-        'actions': ['read']
+        'actions': ['read'],
+        'attributes': ['url'],
+        'key': 'url'
     }
 ]
