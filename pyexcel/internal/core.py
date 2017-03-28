@@ -1,4 +1,4 @@
-import pyexcel.sources as factory
+import pyexcel.internal.source_meta as factory
 from pyexcel.internal.generators import BookStream, SheetStream
 from pyexcel._compact import PY2
 

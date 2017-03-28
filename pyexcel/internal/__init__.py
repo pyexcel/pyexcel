@@ -41,7 +41,7 @@ def pre_register(registry, library_meta, module_name):
 
 
 def pre_register_source(registry, meta, module_name):
-    from pyexcel.sources import register_class_meta
+    from .source_meta import register_class_meta
     if not isinstance(meta, dict):
         plugin = module_name.replace('_', '-')
         raise UpgradePlugin(UPGRADE_MESSAGE % plugin)

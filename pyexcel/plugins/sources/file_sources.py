@@ -1,6 +1,7 @@
 import pyexcel.renderers as renderers
 import pyexcel.parsers as parsers
-from pyexcel.sources import Source, FileTypeNotSupported
+from pyexcel.sources import Source
+from pyexcel.exceptions import FileTypeNotSupported
 from pyexcel._compact import is_string
 import pyexcel.constants as constants
 from . import params

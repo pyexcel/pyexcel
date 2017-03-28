@@ -1,6 +1,5 @@
 import logging
 import pyexcel.constants as constants
-from itertools import product
 from pyexcel_io.constants import DB_DJANGO, DB_SQL
 NO_DOT_NOTATION = (DB_DJANGO, DB_SQL)
 
@@ -17,6 +16,7 @@ attribute_registry = {
         constants.RW_ACTION: set()
     }
 }
+
 
 def register_an_attribute(target, action, attr):
     if attr in attribute_registry[target][constants.RW_ACTION]:

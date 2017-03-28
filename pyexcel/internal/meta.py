@@ -1,4 +1,4 @@
-import pyexcel.sources as sources
+import pyexcel.internal.source_meta as sources
 import pyexcel.internal.attributes as attributes
 import pyexcel.constants as constants
 from functools import partial
