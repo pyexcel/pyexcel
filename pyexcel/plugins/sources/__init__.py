@@ -30,7 +30,7 @@ __pyexcel_plugins__ = [
     },
     {
         'plugin_type': 'source',
-        'submodule': 'file_outputput',
+        'submodule': 'file_output',
         'fields': ['file_name'],
         'targets': ['sheet', 'book'],
         'attributes': [],

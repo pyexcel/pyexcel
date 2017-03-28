@@ -11,7 +11,7 @@ from pyexcel_io.database.querysets import QuerysetsReader
 
 from pyexcel.constants import DEFAULT_SHEET_NAME
 from pyexcel.sources.factory import Source
-from pyexcel.sources import params
+from . import params
 
 
 class SheetQuerySetSource(Source):

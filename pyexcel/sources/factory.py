@@ -17,7 +17,7 @@ import pyexcel.renderers as renderers
 import pyexcel.parsers as parsers
 from pyexcel._compact import is_string, with_metaclass
 from pyexcel.internal import preload_a_source
-from . import params
+from pyexcel.plugins.sources import params
 
 
 log = logging.getLogger(__name__)

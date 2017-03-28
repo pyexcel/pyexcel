@@ -12,7 +12,7 @@ from pyexcel_io.constants import DB_DJANGO
 from pyexcel.sources.factory import Source
 import pyexcel.renderers as renderers
 import pyexcel.parsers as parsers
-from pyexcel.sources import params
+from . import params
 from ._shared import _set_dictionary_key
 
 

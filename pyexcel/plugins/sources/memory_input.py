@@ -7,7 +7,7 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel.sources import params
+from . import params
 from pyexcel.sources.factory import InputSource
 import pyexcel.parsers as parsers
 

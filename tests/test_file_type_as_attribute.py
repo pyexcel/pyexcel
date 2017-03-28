@@ -1,6 +1,6 @@
 import os
 from pyexcel.sources.factory import Source
-from pyexcel.sources import params
+from pyexcel.plugins.sources import params
 from pyexcel import Sheet, Book
 from pyexcel import get_book, save_as
 from _compact import StringIO, OrderedDict

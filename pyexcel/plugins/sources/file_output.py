@@ -10,8 +10,8 @@
 import pyexcel.renderers as renderers
 from pyexcel.sources.factory import (
     _find_file_type_from_file_name)
-from pyexcel.sources import params
 from pyexcel.sources.factory import OutputSource
+from . import params
 
 
 class WriteSheetToFile(OutputSource):
