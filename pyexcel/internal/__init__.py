@@ -16,6 +16,15 @@ UPGRADE_MESSAGE = "Please upgrade the plugin '%s' according to \
 plugin compactibility table."
 
 
+def debug_registries():
+    print("Unloaded renderers:")
+    print(soft_renderer_registry)
+    print("Unloaded parsers:")
+    print(soft_parser_registry)
+    print("Unloaded sources:")
+    print(soft_source_registry)
+
+
 class UpgradePlugin(Exception):
     pass
 
@@ -66,11 +75,16 @@ def preload_a_plugin(registry, file_type):
 
 def preload_a_source(target, action, **keywords):
     key = "%s-%s" % (target, action)
+    selected_source = None
     for source in soft_source_registry[key]:
         if match_potential_source(source, action, **keywords):
             dynamic_load_library(source['path'])
-            soft_source_registry.pop(key)
-            log.debug("preload source:" + key)
+            selected_source = source
+            break
+
+    if selected_source:
+        soft_source_registry[key].remove(selected_source)
+        log.debug("preload source: %s - %s" % (key, selected_source['path']))
 
 
 def match_potential_source(source_meta, action, **keywords):

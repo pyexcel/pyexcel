@@ -16,7 +16,7 @@ from pyexcel_io.constants import DB_SQL, DB_DJANGO
 import pyexcel.renderers as renderers
 import pyexcel.parsers as parsers
 from pyexcel._compact import is_string, with_metaclass
-from pyexcel.internal import preload_a_source
+from pyexcel.internal import preload_a_source, debug_registries
 from pyexcel.plugins.sources import params
 
 
@@ -196,32 +196,40 @@ class FileSource(Source):
         return False
 
 
+class InputSource(FileSource):
+    """
+    Get excel data from file source
+    """
+    @classmethod
+    def can_i_handle(cls, action, file_type):
+        __file_type = None
+        if file_type:
+            __file_type = file_type.lower()
+        if action == params.READ_ACTION:
+            status = __file_type in supported_read_file_types()
+        else:
+            status = False
+        return status
+
+
+class OutputSource(FileSource):
+    """
+    Get excel data from file source
+    """
+    key = params.FILE_TYPE
+
+    @classmethod
+    def can_i_handle(cls, action, file_type):
+        if action == params.WRITE_ACTION:
+            status = file_type.lower() in tuple(
+                renderers.get_all_file_types())
+        else:
+            status = False
+        return status
+
+
 def _has_field(field, keywords):
     return field in keywords and keywords[field] is not None
-
-
-def get_book_rw_attributes():
-    return attribute_registry[params.BOOK][params.RW_ACTION]
-
-
-def get_book_w_attributes():
-    return attribute_registry[params.BOOK][params.WRITE_ACTION]
-
-
-def get_book_r_attributes():
-    return attribute_registry[params.BOOK][params.READ_ACTION]
-
-
-def get_sheet_rw_attributes():
-    return attribute_registry[params.SHEET][params.RW_ACTION]
-
-
-def get_sheet_w_attributes():
-    return attribute_registry[params.SHEET][params.WRITE_ACTION]
-
-
-def get_sheet_r_attributes():
-    return attribute_registry[params.SHEET][params.READ_ACTION]
 
 
 def _get_generic_source(target, action, **keywords):
@@ -243,6 +251,8 @@ def _error_handler(target, action, **keywords):
             raise FileTypeNotSupported(
                 FILE_TYPE_NOT_SUPPORTED_FMT % (file_type, action))
         else:
+            debug_registries()
+            debug_source_registries()
             msg = "Please check if there were typos in "
             msg += "function parameters: %s. Otherwise "
             msg += "unrecognized parameters were given."
@@ -295,33 +305,32 @@ get_writable_book_source = partial(
     _get_generic_source, params.BOOK, params.WRITE_ACTION)
 
 
-class InputSource(FileSource):
-    """
-    Get excel data from file source
-    """
-    @classmethod
-    def can_i_handle(cls, action, file_type):
-        __file_type = None
-        if file_type:
-            __file_type = file_type.lower()
-        if action == params.READ_ACTION:
-            status = __file_type in supported_read_file_types()
-        else:
-            status = False
-        return status
+def get_book_rw_attributes():
+    return attribute_registry[params.BOOK][params.RW_ACTION]
 
 
-class OutputSource(FileSource):
-    """
-    Get excel data from file source
-    """
-    key = params.FILE_TYPE
+def get_book_w_attributes():
+    return attribute_registry[params.BOOK][params.WRITE_ACTION]
 
-    @classmethod
-    def can_i_handle(cls, action, file_type):
-        if action == params.WRITE_ACTION:
-            status = file_type.lower() in tuple(
-                renderers.get_all_file_types())
-        else:
-            status = False
-        return status
+
+def get_book_r_attributes():
+    return attribute_registry[params.BOOK][params.READ_ACTION]
+
+
+def get_sheet_rw_attributes():
+    return attribute_registry[params.SHEET][params.RW_ACTION]
+
+
+def get_sheet_w_attributes():
+    return attribute_registry[params.SHEET][params.WRITE_ACTION]
+
+
+def get_sheet_r_attributes():
+    return attribute_registry[params.SHEET][params.READ_ACTION]
+
+
+def debug_source_registries():
+    print("Source registry:")
+    print(registry)
+    print("Attribute registry:")
+    print(attribute_registry)
