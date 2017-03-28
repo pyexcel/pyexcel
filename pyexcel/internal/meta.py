@@ -1,4 +1,5 @@
-import pyexcel.sources as factory
+import pyexcel.sources as sources
+import pyexcel.internal.attributes as attributes
 import pyexcel.constants as constants
 from functools import partial
 from pyexcel.internal.core import get_sheet_stream
@@ -22,12 +23,12 @@ def make_presenter(source_getter, attribute=None):
 
 
 def sheet_presenter(attribute=None):
-    source_getter = factory.get_writable_source
+    source_getter = sources.get_writable_source
     return make_presenter(source_getter, attribute)
 
 
 def book_presenter(attribute=None):
-    source_getter = factory.get_writable_book_source
+    source_getter = sources.get_writable_book_source
     return make_presenter(source_getter, attribute)
 
 
@@ -151,11 +152,11 @@ register_book_io = partial(
 class SheetMeta(type):
     def __init__(cls, name, bases, nmspc):
         super(SheetMeta, cls).__init__(name, bases, nmspc)
-        for attribute in factory.get_sheet_rw_attributes():
+        for attribute in attributes.get_sheet_rw_attributes():
             register_io(cls, attribute)
-        for attribute in factory.get_sheet_w_attributes():
+        for attribute in attributes.get_sheet_w_attributes():
             register_presentation(cls, attribute)
-        for attribute in factory.get_sheet_r_attributes():
+        for attribute in attributes.get_sheet_r_attributes():
             register_input(cls, attribute)
         setattr(cls, "register_io", classmethod(register_io))
         setattr(cls, "register_presentation",
@@ -167,11 +168,11 @@ class SheetMeta(type):
 class BookMeta(type):
     def __init__(cls, name, bases, nmspc):
         super(BookMeta, cls).__init__(name, bases, nmspc)
-        for attribute in factory.get_book_rw_attributes():
+        for attribute in attributes.get_book_rw_attributes():
             register_book_io(cls, attribute)
-        for attribute in factory.get_book_w_attributes():
+        for attribute in attributes.get_book_w_attributes():
             register_book_presentation(cls, attribute)
-        for attribute in factory.get_book_r_attributes():
+        for attribute in attributes.get_book_r_attributes():
             register_book_input(cls, attribute)
         setattr(cls, "register_io", classmethod(register_book_io))
         setattr(cls, "register_presentation",
@@ -186,11 +187,11 @@ def _get_book(**keywords):
     Where the dictionary should have text as keys and two dimensional
     array as values.
     """
-    source = factory.get_book_source(**keywords)
+    source = sources.get_book_source(**keywords)
     sheets = source.get_data()
     filename, path = source.get_source_info()
     return sheets, filename, path
 
 
 def _get_keyword_for_parameter(key):
-    return factory.keywords.get(key, None)
+    return sources.keywords.get(key, None)
