@@ -14,7 +14,7 @@ from itertools import product
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
 
 import pyexcel.renderers as renderers
-import pyexcel.renderers as parsers
+import pyexcel.parsers as parsers
 from pyexcel._compact import is_string, with_metaclass
 from pyexcel.internal import preload_a_source
 from . import params
@@ -65,6 +65,7 @@ def register_an_attribute(target, action, attr):
     if attr in attribute_registry[target][params.RW_ACTION]:
         # No registration required
         return
+    log.debug("%s-%s for %s" % (target, action, attr))
     attribute_registry[target][action].add(attr)
     intersection = (attr in attribute_registry[target][params.READ_ACTION]
                     and
@@ -80,7 +81,10 @@ def register_class_meta(meta):
     debug_attribute = "Instance attribute: "
     anything = False
     for target, action in product(meta["targets"], meta["actions"]):
-        for attr in meta['attributes']:
+        attributes = meta['attributes']
+        if not isinstance(attributes, list):
+            attributes = attributes()
+        for attr in attributes:
             if attr in NO_DOT_NOTATION:
                 continue
             register_an_attribute(target, action, attr)
@@ -89,8 +93,9 @@ def register_class_meta(meta):
             anything = True
         debug_attribute += ", "
     if anything:
-        log.debug(debug_registry)
+        log.debug("Preload class meta: ==>")
         log.debug(debug_attribute)
+        log.debug(debug_registry)
 
 
 def register_class(cls):
@@ -288,3 +293,19 @@ get_writable_source = partial(
 
 get_writable_book_source = partial(
     _get_generic_source, params.BOOK, params.WRITE_ACTION)
+
+
+class InputSource(FileSource):
+    """
+    Get excel data from file source
+    """
+    @classmethod
+    def can_i_handle(cls, action, file_type):
+        __file_type = None
+        if file_type:
+            __file_type = file_type.lower()
+        if action == params.READ_ACTION:
+            status = __file_type in supported_read_file_types()
+        else:
+            status = False
+        return status

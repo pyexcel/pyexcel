@@ -2,9 +2,6 @@ import logging
 
 from pkgutil import iter_modules
 from collections import defaultdict
-import pyexcel.plugins.parsers as parsers
-import pyexcel.plugins.renderers as renderers
-import pyexcel.plugins.sources as sources
 from pyexcel.internal.generators import SheetStream, BookStream  # noqa
 from itertools import product
 
@@ -72,8 +69,8 @@ def preload_a_source(target, action, **keywords):
     for source in soft_source_registry[key]:
         if match_potential_source(source, action, **keywords):
             dynamic_load_library(source['path'])
-    soft_source_registry.pop(key)
-    log.debug("pre-load source:" + key)
+            soft_source_registry.pop(key)
+            log.debug("preload source:" + key)
 
 
 def match_potential_source(source_meta, action, **keywords):
@@ -119,6 +116,9 @@ for _, module_name, ispkg in iter_modules():
                      exc_info=True)
             continue
 
+import pyexcel.plugins.parsers as parsers  # noqa
+import pyexcel.plugins.renderers as renderers  # noqa
+import pyexcel.plugins.sources as sources  # noqa
 
 register_plugins(renderers.__pyexcel_plugins__, renderers.__name__)
 register_plugins(parsers.__pyexcel_plugins__, parsers.__name__)
