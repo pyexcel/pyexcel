@@ -10,7 +10,7 @@
 from pyexcel_io.database.querysets import QuerysetsReader
 
 import pyexcel.constants as constants
-from pyexcel.sources import Source
+from pyexcel.source import Source
 from . import params
 
 

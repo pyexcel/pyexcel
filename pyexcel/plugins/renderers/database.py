@@ -1,4 +1,4 @@
-from pyexcel.renderers import Renderer
+from pyexcel.renderer import Renderer
 from pyexcel_io import save_data
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
 from pyexcel._compact import OrderedDict

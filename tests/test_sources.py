@@ -1,6 +1,6 @@
 from nose.tools import raises, eq_
 
-from pyexcel.sources import Source
+from pyexcel.source import Source
 from pyexcel.plugins.sources.file_sources import (
     FileSource,
     InputSource,

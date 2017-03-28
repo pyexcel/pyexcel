@@ -1,4 +1,4 @@
-from pyexcel.parsers import Parser
+from pyexcel.parser import Parser
 from pyexcel_io import get_data, manager
 from pyexcel_io.utils import AVAILABLE_READERS
 from pyexcel_io.constants import DB_SQL, DB_DJANGO

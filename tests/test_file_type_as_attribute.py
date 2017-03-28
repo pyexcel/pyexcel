@@ -1,5 +1,5 @@
 import os
-from pyexcel.sources import Source
+from pyexcel.source import Source
 import pyexcel.constants as constants
 from pyexcel import Sheet, Book
 from pyexcel import get_book, save_as

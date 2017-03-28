@@ -2,7 +2,7 @@ from texttable import Texttable
 
 from pyexcel.internal.sheets.formatters import to_format
 from pyexcel._compact import is_generator
-from pyexcel.renderers import Renderer
+from pyexcel.renderer import Renderer
 import pyexcel.constants as constants
 
 

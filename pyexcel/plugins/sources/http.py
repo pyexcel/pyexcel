@@ -1,5 +1,5 @@
 """
-    pyexcel.sources.http
+    pyexcel.source.http
     ~~~~~~~~~~~~~~~~~~~
 
     Representation of http sources
@@ -9,7 +9,7 @@
 """
 from pyexcel._compact import request, PY2
 
-from pyexcel.sources import Source
+from pyexcel.source import Source
 import pyexcel.constants as constants
 import pyexcel.internal.parser_meta as parsers
 
