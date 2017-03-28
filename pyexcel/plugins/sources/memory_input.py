@@ -8,7 +8,7 @@
     :license: New BSD License
 """
 import pyexcel.constants as constants
-import pyexcel.parsers as parsers
+import pyexcel.internal.parser_meta as parsers
 from . import params
 from .file_sources import InputSource
 

@@ -11,7 +11,7 @@ from pyexcel._compact import request, PY2
 
 from pyexcel.sources import Source
 import pyexcel.constants as constants
-import pyexcel.parsers as parsers
+import pyexcel.internal.parser_meta as parsers
 
 from . import params
 

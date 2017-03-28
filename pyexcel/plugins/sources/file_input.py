@@ -9,7 +9,7 @@
 """
 import os
 
-import pyexcel.parsers as parsers
+import pyexcel.internal.parser_meta as parsers
 import pyexcel.constants as constants
 from . import params
 from .file_sources import InputSource
