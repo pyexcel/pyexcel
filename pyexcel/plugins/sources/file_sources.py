@@ -46,7 +46,7 @@ class InputSource(FileSource):
         if file_type:
             __file_type = file_type.lower()
         if action == constants.READ_ACTION:
-            status = __file_type in supported_read_file_types()
+            status = __file_type in parsers.get_all_file_types()
         else:
             status = False
         return status
@@ -70,9 +70,9 @@ class OutputSource(FileSource):
 
 def _find_file_type_from_file_name(file_name, action):
     if action == 'read':
-        list_of_file_types = supported_read_file_types()
+        list_of_file_types = parsers.get_all_file_types()
     else:
-        list_of_file_types = supported_write_file_types()
+        list_of_file_types = renderers.get_all_file_types()
     file_types = []
     lowercase_file_name = file_name.lower()
     for a_supported_type in list_of_file_types:
@@ -89,11 +89,3 @@ def _find_file_type_from_file_name(file_name, action):
             constants.FILE_TYPE_NOT_SUPPORTED_FMT % (file_type, action))
 
     return file_type
-
-
-def supported_read_file_types():
-    return parsers.get_all_file_types()
-
-
-def supported_write_file_types():
-    return renderers.get_all_file_types()
