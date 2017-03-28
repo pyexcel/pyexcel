@@ -44,5 +44,41 @@ __pyexcel_plugins__ = [
         'actions': ['write'],
         'key': 'file_type',
         'attributes': get_renderer_file_types
+    },
+    {
+        'plugin_type': 'source',
+        'submodule': 'pydata',
+        'fields': ['bookdict'],
+        'targets': ['sheet', 'book'],
+        'actions': ['write', 'read'],
+        'key': 'bookdict',
+        'attributes': ['bookdict']
+    },
+    {
+        'plugin_type': 'source',
+        'submodule': 'pydata',
+        'fields': ['adict'],
+        'targets': ['sheet', 'book'],
+        'actions': ['write', 'read'],
+        'key': 'adict',
+        'attributes': ['dict']
+    },
+    {
+        'plugin_type': 'source',
+        'submodule': 'pydata',
+        'fields': ['array'],
+        'targets': ['sheet', 'book'],
+        'actions': ['write', 'read'],
+        'key': 'array',
+        'attributes': ['array']
+    },
+    {
+        'plugin_type': 'source',
+        'submodule': 'pydata',
+        'fields': ['records'],
+        'targets': ['sheet', 'book'],
+        'actions': ['write', 'read'],
+        'key': 'records',
+        'attributes': ['records']
     }
 ]
