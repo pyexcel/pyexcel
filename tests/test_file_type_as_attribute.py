@@ -1,6 +1,6 @@
 import os
 from pyexcel.sources import Source
-from pyexcel.plugins.sources import params
+import pyexcel.constants as constants
 from pyexcel import Sheet, Book
 from pyexcel import get_book, save_as
 from _compact import StringIO, OrderedDict
@@ -15,8 +15,8 @@ class DummySource(Source):
     Write into json file
     """
     fields = [FIXTURE]
-    targets = (params.BOOK, params.SHEET)
-    actions = (params.WRITE_ACTION,)
+    targets = (constants.BOOK, constants.SHEET)
+    actions = (constants.WRITE_ACTION,)
     attributes = [FIXTURE]
     key = FIXTURE
 

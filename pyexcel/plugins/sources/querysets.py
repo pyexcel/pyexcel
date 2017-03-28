@@ -9,7 +9,7 @@
 """
 from pyexcel_io.database.querysets import QuerysetsReader
 
-from pyexcel.constants import DEFAULT_SHEET_NAME
+import pyexcel.constants as constants
 from pyexcel.sources import Source
 from . import params
 
@@ -21,8 +21,8 @@ class SheetQuerySetSource(Source):
     SQLAlchemy and Django query sets are supported
     """
     fields = [params.COLUMN_NAMES, params.QUERY_SETS]
-    targets = (params.SHEET,)
-    actions = (params.READ_ACTION,)
+    targets = (constants.SHEET,)
+    actions = (constants.READ_ACTION,)
     attributes = []
 
     def __init__(self, column_names, query_sets,
@@ -32,7 +32,7 @@ class SheetQuerySetSource(Source):
                  skip_row_func=None, skip_column_func=None):
         self.__sheet_name = sheet_name
         if self.__sheet_name is None:
-            self.__sheet_name = DEFAULT_SHEET_NAME
+            self.__sheet_name = constants.DEFAULT_SHEET_NAME
         self.__column_names = column_names
         self.__query_sets = query_sets
         self.__row_renderer = row_renderer

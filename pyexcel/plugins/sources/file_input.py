@@ -9,17 +9,18 @@
 """
 import os
 
-from pyexcel.sources import InputSource
 import pyexcel.parsers as parsers
+import pyexcel.constants as constants
 from . import params
+from .file_sources import InputSource
 
 
 class ReadExcelFromFile(InputSource):
     """Pick up 'file_name' field and do single sheet based read and write
     """
     fields = [params.FILE_NAME]
-    targets = (params.SHEET, params.BOOK)
-    actions = (params.READ_ACTION,)
+    targets = (constants.SHEET, constants.BOOK)
+    actions = (constants.READ_ACTION,)
 
     def __init__(self, file_name=None, **keywords):
         self.__file_name = file_name

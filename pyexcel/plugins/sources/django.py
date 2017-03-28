@@ -12,6 +12,7 @@ from pyexcel_io.constants import DB_DJANGO
 from pyexcel.sources import Source
 import pyexcel.renderers as renderers
 import pyexcel.parsers as parsers
+import pyexcel.constants as constants
 from . import params
 from ._shared import _set_dictionary_key
 
@@ -24,8 +25,8 @@ class SheetDjangoSource(Source):
     Django model as data source
     """
     fields = [params.MODEL]
-    targets = (params.SHEET,)
-    actions = (params.READ_ACTION, params.WRITE_ACTION)
+    targets = (constants.SHEET,)
+    actions = (constants.READ_ACTION, constants.WRITE_ACTION)
     attributes = []
 
     def __init__(self, model=None, export_columns=None, sheet_name=None,
@@ -69,8 +70,8 @@ class BookDjangoSource(Source):
     multiple Django table as data source
     """
     fields = [params.MODELS]
-    targets = (params.BOOK,)
-    actions = (params.READ_ACTION, params.WRITE_ACTION)
+    targets = (constants.BOOK,)
+    actions = (constants.READ_ACTION, constants.WRITE_ACTION)
 
     def __init__(self, models, **keywords):
         self.__models = models

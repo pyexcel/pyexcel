@@ -11,6 +11,7 @@ from pyexcel_io.constants import DB_SQL
 from pyexcel.sources import Source
 import pyexcel.renderers as renderers
 import pyexcel.parsers as parsers
+import pyexcel.constants as constants
 from . import params
 from ._shared import _set_dictionary_key
 
@@ -20,8 +21,8 @@ class SheetSQLAlchemySource(Source):
     SQLAlchemy channeled sql database as data source
     """
     fields = [params.SESSION, params.TABLE]
-    targets = (params.SHEET,)
-    actions = (params.READ_ACTION, params.WRITE_ACTION)
+    targets = (constants.SHEET,)
+    actions = (constants.READ_ACTION, constants.WRITE_ACTION)
     attributes = []
 
     def __init__(self, session, table, export_columns=None,
@@ -66,8 +67,8 @@ class BookSQLSource(Source):
     SQLAlchemy bridged multiple table data source
     """
     fields = [params.SESSION, params.TABLES]
-    targets = (params.BOOK,)
-    actions = (params.READ_ACTION, params.WRITE_ACTION)
+    targets = (constants.BOOK,)
+    actions = (constants.READ_ACTION, constants.WRITE_ACTION)
     attributes = []
 
     def __init__(self, session, tables, **keywords):

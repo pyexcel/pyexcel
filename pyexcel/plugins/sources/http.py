@@ -10,8 +10,10 @@
 from pyexcel._compact import request, PY2
 
 from pyexcel.sources import Source
+import pyexcel.constants as constants
 import pyexcel.parsers as parsers
 
+from . import params
 
 _xlsx = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
@@ -29,11 +31,11 @@ class HttpSource(Source):
     """
     Multiple sheet data source via http protocol
     """
-    fields = ['url']
-    targets = ('sheet', 'book')
-    actions = ('read',)
-    attributes = ['url']
-    key = 'url'
+    fields = [params.URL]
+    targets = (constants.SHEET, constants.BOOK)
+    actions = (constants.READ_ACTION,)
+    attributes = [params.URL]
+    key = params.URL
 
     def __init__(self, url=None, **keywords):
         self.__url = url

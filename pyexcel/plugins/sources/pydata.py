@@ -86,8 +86,8 @@ class RecordsSource(Source):
     The dictionaries should have identical fields.
     """
     fields = [params.RECORDS]
-    targets = (params.SHEET, params.BOOK)
-    actions = (params.READ_ACTION, params.WRITE_ACTION)
+    targets = (constants.SHEET, constants.BOOK)
+    actions = (constants.READ_ACTION, constants.WRITE_ACTION)
     attributes = [params.RECORDS]
     key = params.RECORDS
 
@@ -116,8 +116,8 @@ class DictSource(Source):
     A dictionary of one dimensional array as sheet source
     """
     fields = [params.ADICT]
-    targets = (params.SHEET, params.BOOK)
-    actions = (params.READ_ACTION, params.WRITE_ACTION)
+    targets = (constants.SHEET, constants.BOOK)
+    actions = (constants.READ_ACTION, constants.WRITE_ACTION)
     attributes = ["dict"]
     key = params.ADICT
 
@@ -149,8 +149,8 @@ class ArraySource(Source):
     A two dimensional array as sheet source
     """
     fields = [params.ARRAY]
-    targets = (params.SHEET, params.BOOK)
-    actions = (params.READ_ACTION, params.WRITE_ACTION)
+    targets = (constants.SHEET, constants.BOOK)
+    actions = (constants.READ_ACTION, constants.WRITE_ACTION)
     attributes = ["array"]
     key = params.ARRAY
 
@@ -180,8 +180,8 @@ class BookDictSource(Source):
     Multiple sheet data source via a dictionary of two dimensional arrays
     """
     fields = [params.BOOKDICT]
-    targets = (params.BOOK,)
-    actions = (params.READ_ACTION, params.WRITE_ACTION)
+    targets = (constants.BOOK,)
+    actions = (constants.READ_ACTION, constants.WRITE_ACTION)
     attributes = [params.BOOKDICT]
     key = params.BOOKDICT
 

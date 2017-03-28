@@ -7,16 +7,17 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from . import params
-from pyexcel.sources import InputSource
+import pyexcel.constants as constants
 import pyexcel.parsers as parsers
+from . import params
+from .file_sources import InputSource
 
 
 class ReadExcelFileMemory(InputSource):
     """Pick up 'file_type' and read a sheet from memory"""
     fields = [params.FILE_TYPE]
-    targets = (params.SHEET, params.BOOK)
-    actions = (params.READ_ACTION,)
+    targets = (constants.SHEET, constants.BOOK)
+    actions = (constants.READ_ACTION,)
     attributes = parsers.get_all_file_types()
     key = params.FILE_TYPE
 

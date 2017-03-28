@@ -8,14 +8,15 @@
     :license: New BSD License
 """
 import pyexcel.renderers as renderers
-from pyexcel.sources import OutputSource
+import pyexcel.constants as constants
+from .file_sources import OutputSource
 from . import params
 
 
 class WriteSheetToMemory(OutputSource):
     fields = [params.FILE_TYPE]
-    targets = (params.SHEET,)
-    actions = (params.WRITE_ACTION,)
+    targets = (constants.SHEET,)
+    actions = (constants.WRITE_ACTION,)
     attributes = renderers.get_all_file_types()
 
     def __init__(self, file_type=None, file_stream=None, **keywords):
@@ -40,7 +41,7 @@ class WriteBookToMemory(WriteSheetToMemory):
     """
     Multiple sheet data source for writting back to memory
     """
-    targets = (params.BOOK,)
+    targets = (constants.BOOK,)
 
     def write_data(self, book):
         self._renderer.render_book_to_stream(self._content, book,

@@ -1,9 +1,10 @@
 from nose.tools import raises, eq_
 
 from pyexcel.sources import Source
-from pyexcel.sources import FileSource
-from pyexcel.sources import InputSource
-from pyexcel.sources import OutputSource
+from pyexcel.plugins.sources.file_sources import (
+    FileSource,
+    InputSource,
+    OutputSource)
 
 from pyexcel.plugins.sources.output_to_memory import WriteSheetToMemory
 

@@ -78,3 +78,15 @@ VALID_SHEET_PARAMETERS = ['name_columns_by_row',
                           'rownames',
                           'transpose_before',
                           'transpose_after']
+
+# for sources
+# targets
+SOURCE = 'source'
+SHEET = 'sheet'
+BOOK = 'book'
+
+# actions
+READ_ACTION = 'read'
+WRITE_ACTION = 'write'
+RW_ACTION = 'read-write'
+FILE_TYPE_NOT_SUPPORTED_FMT = "File type '%s' is not supported for %s."

@@ -11,13 +11,11 @@ import logging
 from functools import partial
 from itertools import product
 
-from pyexcel_io.constants import DB_SQL, DB_DJANGO
+from pyexcel_io.constants import DB_DJANGO, DB_SQL
 
-import pyexcel.renderers as renderers
-import pyexcel.parsers as parsers
-from pyexcel._compact import is_string, with_metaclass
+from pyexcel._compact import with_metaclass
 from pyexcel.internal import preload_a_source, debug_registries
-from pyexcel.plugins.sources import params
+import pyexcel.constants as constants
 
 
 log = logging.getLogger(__name__)
@@ -25,12 +23,11 @@ log = logging.getLogger(__name__)
 NO_DOT_NOTATION = (DB_DJANGO, DB_SQL)
 # registries
 REGISTRY_KEY_FORMAT = "%s-%s"
-FILE_TYPE_NOT_SUPPORTED_FMT = "File type '%s' is not supported for %s."
 
-SHEET_WRITE = REGISTRY_KEY_FORMAT % (params.SHEET, params.WRITE_ACTION)
-SHEET_READ = REGISTRY_KEY_FORMAT % (params.SHEET, params.READ_ACTION)
-BOOK_WRITE = REGISTRY_KEY_FORMAT % (params.BOOK, params.WRITE_ACTION)
-BOOK_READ = REGISTRY_KEY_FORMAT % (params.BOOK, params.READ_ACTION)
+SHEET_WRITE = REGISTRY_KEY_FORMAT % (constants.SHEET, constants.WRITE_ACTION)
+SHEET_READ = REGISTRY_KEY_FORMAT % (constants.SHEET, constants.READ_ACTION)
+BOOK_WRITE = REGISTRY_KEY_FORMAT % (constants.BOOK, constants.WRITE_ACTION)
+BOOK_READ = REGISTRY_KEY_FORMAT % (constants.BOOK, constants.READ_ACTION)
 
 registry = {
     SHEET_WRITE: [],
@@ -39,15 +36,15 @@ registry = {
     SHEET_READ: []
 }
 attribute_registry = {
-    params.SHEET: {
-        params.READ_ACTION: set(),
-        params.WRITE_ACTION: set(),
-        params.RW_ACTION: set()
+    constants.SHEET: {
+        constants.READ_ACTION: set(),
+        constants.WRITE_ACTION: set(),
+        constants.RW_ACTION: set()
     },
-    params.BOOK: {
-        params.READ_ACTION: set(),
-        params.WRITE_ACTION: set(),
-        params.RW_ACTION: set()
+    constants.BOOK: {
+        constants.READ_ACTION: set(),
+        constants.WRITE_ACTION: set(),
+        constants.RW_ACTION: set()
     }
 }
 keywords = {}
@@ -62,18 +59,18 @@ class FileTypeNotSupported(Exception):
 
 
 def register_an_attribute(target, action, attr):
-    if attr in attribute_registry[target][params.RW_ACTION]:
+    if attr in attribute_registry[target][constants.RW_ACTION]:
         # No registration required
         return
     log.debug("%s-%s for %s" % (target, action, attr))
     attribute_registry[target][action].add(attr)
-    intersection = (attr in attribute_registry[target][params.READ_ACTION]
+    intersection = (attr in attribute_registry[target][constants.READ_ACTION]
                     and
-                    attr in attribute_registry[target][params.WRITE_ACTION])
+                    attr in attribute_registry[target][constants.WRITE_ACTION])
     if intersection:
-        attribute_registry[target][params.RW_ACTION].add(attr)
-        attribute_registry[target][params.READ_ACTION].remove(attr)
-        attribute_registry[target][params.WRITE_ACTION].remove(attr)
+        attribute_registry[target][constants.RW_ACTION].add(attr)
+        attribute_registry[target][constants.READ_ACTION].remove(attr)
+        attribute_registry[target][constants.WRITE_ACTION].remove(attr)
 
 
 def register_class_meta(meta):
@@ -134,11 +131,11 @@ class Source(with_metaclass(MetaForSourceRegistryOnly, object)):
     This can be used to extend the function parameters once the custom
     class inherit this and register it with corresponding source registry
     """
-    fields = [params.SOURCE]
+    fields = [constants.SOURCE]
     attributes = []
     targets = []
     actions = []
-    key = params.SOURCE
+    key = constants.SOURCE
 
     def __init__(self, source=None, **keywords):
         self.__source = source
@@ -166,68 +163,6 @@ class Source(with_metaclass(MetaForSourceRegistryOnly, object)):
         raise NotImplementedError("")
 
 
-class FileSource(Source):
-    """
-    Write into presentational file
-    """
-    @classmethod
-    def is_my_business(cls, action, **keywords):
-        status = super(FileSource, cls).is_my_business(
-            action, **keywords)
-        if status:
-            file_name = keywords.get(params.FILE_NAME, None)
-            if file_name:
-                if is_string(type(file_name)):
-                    file_type = _find_file_type_from_file_name(file_name,
-                                                               action)
-                else:
-                    raise IOError("Wrong file name")
-            else:
-                file_type = keywords.get(params.FILE_TYPE)
-
-            if cls.can_i_handle(action, file_type):
-                status = True
-            else:
-                status = False
-        return status
-
-    @classmethod
-    def can_i_handle(cls, action, file_type):
-        return False
-
-
-class InputSource(FileSource):
-    """
-    Get excel data from file source
-    """
-    @classmethod
-    def can_i_handle(cls, action, file_type):
-        __file_type = None
-        if file_type:
-            __file_type = file_type.lower()
-        if action == params.READ_ACTION:
-            status = __file_type in supported_read_file_types()
-        else:
-            status = False
-        return status
-
-
-class OutputSource(FileSource):
-    """
-    Get excel data from file source
-    """
-    key = params.FILE_TYPE
-
-    @classmethod
-    def can_i_handle(cls, action, file_type):
-        if action == params.WRITE_ACTION:
-            status = file_type.lower() in tuple(
-                renderers.get_all_file_types())
-        else:
-            status = False
-        return status
-
-
 def _has_field(field, keywords):
     return field in keywords and keywords[field] is not None
 
@@ -249,7 +184,7 @@ def _error_handler(target, action, **keywords):
         file_type = keywords.get('file_type', None)
         if file_type:
             raise FileTypeNotSupported(
-                FILE_TYPE_NOT_SUPPORTED_FMT % (file_type, action))
+                constants.FILE_TYPE_NOT_SUPPORTED_FMT % (file_type, action))
         else:
             debug_registries()
             debug_source_registries()
@@ -261,72 +196,41 @@ def _error_handler(target, action, **keywords):
         raise UnknownParameters("No parameters found!")
 
 
-def _find_file_type_from_file_name(file_name, action):
-    if action == 'read':
-        list_of_file_types = supported_read_file_types()
-    else:
-        list_of_file_types = supported_write_file_types()
-    file_types = []
-    lowercase_file_name = file_name.lower()
-    for a_supported_type in list_of_file_types:
-        if lowercase_file_name.endswith(a_supported_type):
-            file_types.append(a_supported_type)
-    if len(file_types) > 1:
-        file_types = sorted(file_types, key=lambda x: len(x))
-        file_type = file_types[-1]
-    elif len(file_types) == 1:
-        file_type = file_types[0]
-    else:
-        file_type = lowercase_file_name.split('.')[-1]
-        raise FileTypeNotSupported(
-            FILE_TYPE_NOT_SUPPORTED_FMT % (file_type, action))
-
-    return file_type
-
-
-def supported_read_file_types():
-    return parsers.get_all_file_types()
-
-
-def supported_write_file_types():
-    return renderers.get_all_file_types()
-
-
 get_source = partial(
-    _get_generic_source, params.SHEET, params.READ_ACTION)
+    _get_generic_source, constants.SHEET, constants.READ_ACTION)
 
 get_book_source = partial(
-    _get_generic_source, params.BOOK, params.READ_ACTION)
+    _get_generic_source, constants.BOOK, constants.READ_ACTION)
 
 get_writable_source = partial(
-    _get_generic_source, params.SHEET, params.WRITE_ACTION)
+    _get_generic_source, constants.SHEET, constants.WRITE_ACTION)
 
 get_writable_book_source = partial(
-    _get_generic_source, params.BOOK, params.WRITE_ACTION)
+    _get_generic_source, constants.BOOK, constants.WRITE_ACTION)
 
 
 def get_book_rw_attributes():
-    return attribute_registry[params.BOOK][params.RW_ACTION]
+    return attribute_registry[constants.BOOK][constants.RW_ACTION]
 
 
 def get_book_w_attributes():
-    return attribute_registry[params.BOOK][params.WRITE_ACTION]
+    return attribute_registry[constants.BOOK][constants.WRITE_ACTION]
 
 
 def get_book_r_attributes():
-    return attribute_registry[params.BOOK][params.READ_ACTION]
+    return attribute_registry[constants.BOOK][constants.READ_ACTION]
 
 
 def get_sheet_rw_attributes():
-    return attribute_registry[params.SHEET][params.RW_ACTION]
+    return attribute_registry[constants.SHEET][constants.RW_ACTION]
 
 
 def get_sheet_w_attributes():
-    return attribute_registry[params.SHEET][params.WRITE_ACTION]
+    return attribute_registry[constants.SHEET][constants.WRITE_ACTION]
 
 
 def get_sheet_r_attributes():
-    return attribute_registry[params.SHEET][params.READ_ACTION]
+    return attribute_registry[constants.SHEET][constants.READ_ACTION]
 
 
 def debug_source_registries():

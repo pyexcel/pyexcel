@@ -1,6 +1,5 @@
 # keywords
 MEMORY = 'memory'
-SOURCE = 'source'
 FILE_TYPE = 'file_type'
 FILE_NAME = 'file_name'
 FILE_STREAM = 'file_stream'
@@ -26,11 +25,3 @@ URL = 'url'
 
 
 INPUT = 'input'
-# targets
-SHEET = 'sheet'
-BOOK = 'book'
-
-# actions
-READ_ACTION = 'read'
-WRITE_ACTION = 'write'
-RW_ACTION = 'read-write'
