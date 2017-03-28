@@ -80,5 +80,50 @@ __pyexcel_plugins__ = [
         'actions': ['write', 'read'],
         'key': 'records',
         'attributes': ['records']
+    },
+    {
+        'plugin_type': 'source',
+        'submodule': 'django',
+        'fields': ['model'],
+        'targets': ['sheet'],
+        'actions': ['write', 'read'],
+        'key': None,
+        'attributes': []
+    },
+    {
+        'plugin_type': 'source',
+        'submodule': 'django',
+        'fields': ['models'],
+        'targets': ['book'],
+        'actions': ['write', 'read'],
+        'key': None,
+        'attributes': []
+    },
+    {
+        'plugin_type': 'source',
+        'submodule': 'sqlalchemy',
+        'fields': ['session', 'table'],
+        'targets': ['sheet'],
+        'actions': ['write', 'read'],
+        'key': None,
+        'attributes': []
+    },
+    {
+        'plugin_type': 'source',
+        'submodule': 'sqlalchemy',
+        'fields': ['session', 'tables'],
+        'targets': ['book'],
+        'actions': ['write', 'read'],
+        'key': None,
+        'attributes': []
+    },
+    {
+        'plugin_type': 'source',
+        'submodule': 'querysets',
+        'fields': ['column_names', 'query_sets'],
+        'targets': ['sheet'],
+        'actions': ['read'],
+        'key': None,
+        'attributes': []
     }
 ]
