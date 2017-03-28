@@ -1,4 +1,4 @@
-import pyexcel.renderers as renderers
+import pyexcel.internal.renderer_meta as renderers
 import pyexcel.parsers as parsers
 from pyexcel.sources import Source
 from pyexcel.exceptions import FileTypeNotSupported

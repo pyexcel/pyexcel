@@ -9,7 +9,7 @@
 """
 from pyexcel_io.constants import DB_SQL
 from pyexcel.sources import Source
-import pyexcel.renderers as renderers
+import pyexcel.internal.renderer_meta as renderers
 import pyexcel.parsers as parsers
 import pyexcel.constants as constants
 from . import params

@@ -1,5 +1,5 @@
 from pyexcel.parsers import get_all_file_types as get_parser_file_types
-from pyexcel.renderers import get_all_file_types as get_renderer_file_types
+from pyexcel.internal.renderer_meta import get_all_file_types
 
 __pyexcel_plugins__ = [
     {
@@ -43,7 +43,7 @@ __pyexcel_plugins__ = [
         'targets': ['sheet', 'book'],
         'actions': ['write'],
         'key': 'file_type',
-        'attributes': get_renderer_file_types
+        'attributes': get_all_file_types
     },
     {
         'plugin_type': 'source',

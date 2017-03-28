@@ -7,7 +7,7 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-import pyexcel.renderers as renderers
+import pyexcel.internal.renderer_meta as renderers
 import pyexcel.constants as constants
 from .file_sources import OutputSource
 from . import params
