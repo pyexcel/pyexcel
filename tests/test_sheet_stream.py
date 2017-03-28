@@ -1,7 +1,7 @@
 from textwrap import dedent
 import pyexcel_io.manager as manager
 from pyexcel.internal.generators import SheetStream
-from pyexcel.sources.file_source_output import WriteSheetToMemory
+from pyexcel.plugins.sources.output_to_memory import WriteSheetToMemory
 
 
 def test_save_to():

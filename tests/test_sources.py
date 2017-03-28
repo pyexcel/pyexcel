@@ -3,9 +3,9 @@ from nose.tools import raises, eq_
 from pyexcel.sources.factory import Source
 from pyexcel.sources.factory import FileSource
 from pyexcel.sources.factory import InputSource
+from pyexcel.sources.factory import OutputSource
 
-from pyexcel.sources.file_source_output import WriteSheetToMemory
-from pyexcel.sources.file_source_output import OutputSource
+from pyexcel.plugins.sources.output_to_memory import WriteSheetToMemory
 
 
 def test_io_source():

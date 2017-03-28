@@ -309,3 +309,19 @@ class InputSource(FileSource):
         else:
             status = False
         return status
+
+
+class OutputSource(FileSource):
+    """
+    Get excel data from file source
+    """
+    key = params.FILE_TYPE
+
+    @classmethod
+    def can_i_handle(cls, action, file_type):
+        if action == params.WRITE_ACTION:
+            status = file_type.lower() in tuple(
+                renderers.get_all_file_types())
+        else:
+            status = False
+        return status
