@@ -9,7 +9,7 @@
 """
 from pyexcel._compact import request, PY2
 
-from pyexcel.sources.factory import Source
+from pyexcel.sources import Source
 import pyexcel.parsers as parsers
 
 

@@ -9,7 +9,7 @@
 """
 from pyexcel_io.constants import DB_DJANGO
 
-from pyexcel.sources.factory import Source
+from pyexcel.sources import Source
 import pyexcel.renderers as renderers
 import pyexcel.parsers as parsers
 from . import params

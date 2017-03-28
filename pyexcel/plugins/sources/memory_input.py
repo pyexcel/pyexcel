@@ -8,7 +8,7 @@
     :license: New BSD License
 """
 from . import params
-from pyexcel.sources.factory import InputSource
+from pyexcel.sources import InputSource
 import pyexcel.parsers as parsers
 
 

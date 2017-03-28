@@ -8,9 +8,8 @@
     :license: New BSD License
 """
 import pyexcel.renderers as renderers
-from pyexcel.sources.factory import (
-    _find_file_type_from_file_name)
-from pyexcel.sources.factory import OutputSource
+from pyexcel.sources import _find_file_type_from_file_name
+from pyexcel.sources import OutputSource
 from . import params
 
 

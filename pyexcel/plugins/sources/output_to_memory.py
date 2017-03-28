@@ -8,8 +8,8 @@
     :license: New BSD License
 """
 import pyexcel.renderers as renderers
+from pyexcel.sources import OutputSource
 from . import params
-from pyexcel.sources.factory import OutputSource
 
 
 class WriteSheetToMemory(OutputSource):

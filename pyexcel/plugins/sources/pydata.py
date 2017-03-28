@@ -11,7 +11,7 @@ from pyexcel_io.sheet import SheetReader
 
 from pyexcel._compact import OrderedDict
 from pyexcel.constants import DEFAULT_SHEET_NAME
-from pyexcel.sources.factory import Source
+from pyexcel.sources import Source
 from pyexcel._compact import zip_longest, PY2
 import pyexcel.constants as constants
 from . import params

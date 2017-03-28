@@ -1,4 +1,4 @@
-from pyexcel.sources import factory
+import pyexcel.sources as factory
 import pyexcel.constants as constants
 from functools import partial
 from pyexcel.internal.core import get_sheet_stream

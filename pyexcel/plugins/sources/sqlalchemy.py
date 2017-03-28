@@ -8,7 +8,7 @@
     :license: New BSD License
 """
 from pyexcel_io.constants import DB_SQL
-from pyexcel.sources.factory import Source
+from pyexcel.sources import Source
 import pyexcel.renderers as renderers
 import pyexcel.parsers as parsers
 from . import params
