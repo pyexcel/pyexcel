@@ -35,12 +35,14 @@ class Book(compact.with_metaclass(BookMeta, object)):
         :param path: the relative path or absolute path
         :param keywords: additional parameters to be passed on
         """
+        self.__path = None
+        self.__name_array = []
+        self._filename = None
         self.init(sheets=sheets, filename=filename, path=path)
 
     def init(self, sheets=None, filename="memory", path=None):
         self.__path = path
         self._filename = filename
-        self.__name_array = []
         self.load_from_sheets(sheets)
 
     @property
@@ -170,14 +172,14 @@ class Book(compact.with_metaclass(BookMeta, object)):
             content[new_key] = current_dict[k]
         if isinstance(other, Book):
             other_dict = other.to_dict()
-            for l in other_dict.keys():
-                new_key = l
+            for key in other_dict.keys():
+                new_key = key
                 if len(other_dict.keys()) == 1:
                     new_key = other._filename
                 if new_key in content:
                     uid = local_uuid()
-                    new_key = "%s_%s" % (l, uid)
-                content[new_key] = other_dict[l]
+                    new_key = "%s_%s" % (key, uid)
+                content[new_key] = other_dict[key]
         elif isinstance(other, Sheet):
             new_key = other.name
             if new_key in content:

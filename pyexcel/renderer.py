@@ -3,6 +3,9 @@ from pyexcel.internal.renderer_meta import MetaForRendererRegistryOnly
 
 
 class Renderer(with_metaclass(MetaForRendererRegistryOnly, object)):
+    """
+    Render pyexcel sheet or book into excel format as any other formats
+    """
     file_types = ()
     WRITE_FLAG = 'w'
 
@@ -12,6 +15,10 @@ class Renderer(with_metaclass(MetaForRendererRegistryOnly, object)):
         self._write_title = True
 
     def get_io(self):
+        """
+        If your renderer's output is binary, please override it and
+        return BytesIO instead
+        """
         return StringIO()
 
     def render_sheet_to_file(self, file_name, sheet,
@@ -47,6 +54,10 @@ class Renderer(with_metaclass(MetaForRendererRegistryOnly, object)):
         self._write_title = flag
 
     def render_sheet(self, sheet, **keywords):
+        """
+        If your renderer is kind of text format, you just
+        need to implement this function.
+        """
         raise NotImplementedError("Please render sheet")
 
     def render_book(self, book, **keywords):

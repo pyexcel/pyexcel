@@ -73,8 +73,8 @@ def merge_files(file_array, outfilename=DEFAULT_OUT_FILE):
     if os.path.exists(outfilename):
         raise NotImplementedError(MESSAGE_WARNING)
     content = []
-    for f in file_array:
-        sheet = get_sheet(file_name=f)
+    for file_name in file_array:
+        sheet = get_sheet(file_name=file_name)
         content.extend(list(sheet.columns()))
     merged_sheet = get_sheet(array=content)
     merged_sheet.transpose()
@@ -130,7 +130,7 @@ def merge_csv_to_a_book(filelist, outfilename=DEFAULT_OUT_XLS_FILE):
     merged = Book()
     for file_name in filelist:
         sheet = get_sheet(file_name=file_name)
-        head, tail = os.path.split(file_name)
+        _, tail = os.path.split(file_name)
         sheet.name = tail
         merged += sheet
     merged.save_as(outfilename)

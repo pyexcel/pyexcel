@@ -1,6 +1,8 @@
 import logging
 import pyexcel.constants as constants
 from pyexcel_io.constants import DB_DJANGO, DB_SQL
+
+
 NO_DOT_NOTATION = (DB_DJANGO, DB_SQL)
 
 log = logging.getLogger(__name__)

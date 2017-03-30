@@ -21,13 +21,13 @@ SHEET_READ = REGISTRY_KEY_FORMAT % (constants.SHEET, constants.READ_ACTION)
 BOOK_WRITE = REGISTRY_KEY_FORMAT % (constants.BOOK, constants.WRITE_ACTION)
 BOOK_READ = REGISTRY_KEY_FORMAT % (constants.BOOK, constants.READ_ACTION)
 
-registry = {
+REGISTRY = {
     SHEET_WRITE: [],
     BOOK_WRITE: [],
     BOOK_READ: [],
     SHEET_READ: []
 }
-keywords = {}
+KEYWORDS = {}
 
 
 def register_class_meta(meta):
@@ -43,11 +43,10 @@ def register_class_meta(meta):
                 continue
             register_an_attribute(target, action, attr)
             debug_attribute += "%s " % attr
-            keywords[attr] = meta['key']
+            KEYWORDS[attr] = meta['key']
             anything = True
         debug_attribute += ", "
     if anything:
-        log.debug("Preload class meta: ==>")
         log.debug(debug_attribute)
         log.debug(debug_registry)
 
@@ -58,7 +57,7 @@ def register_class(cls):
     anything = False
     for target, action in product(cls.targets, cls.actions):
         key = REGISTRY_KEY_FORMAT % (target, action)
-        registry[key].append(cls)
+        REGISTRY[key].append(cls)
         debug_registry += "%s -> %s, " % (key, cls)
         debug_attribute += "%s -> " % key
         for attr in cls.attributes:
@@ -66,7 +65,7 @@ def register_class(cls):
                 continue
             register_an_attribute(target, action, attr)
             debug_attribute += "%s " % attr
-            keywords[attr] = cls.key
+            KEYWORDS[attr] = cls.key
             anything = True
         debug_attribute += ", "
     if anything:
@@ -85,7 +84,7 @@ class MetaForSourceRegistryOnly(type):
 def _get_generic_source(target, action, **keywords):
     preload_a_source(target, action, **keywords)
     key = REGISTRY_KEY_FORMAT % (target, action)
-    for source in registry[key]:
+    for source in REGISTRY[key]:
         if source.is_my_business(action, **keywords):
             s = source(**keywords)
             log.info("Found %s for %s" % (s, key))
@@ -126,4 +125,8 @@ get_writable_book_source = partial(
 
 def debug_source_registries():
     print("Source registry:")
-    print(registry)
+    print(REGISTRY)
+
+
+def get_keyword_for_parameter(key):
+    return KEYWORDS.get(key, None)

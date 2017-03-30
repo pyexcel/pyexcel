@@ -396,10 +396,10 @@ def get_io_type(file_type):
 def _split_keywords(**keywords):
     dest_keywords = {}
     source_keywords = {}
-    for key in keywords.keys():
+    for key, value in keywords.items():
         result = re.match(STARTS_WITH_DEST, key)
         if result:
-            dest_keywords[result.group(1)] = keywords[key]
+            dest_keywords[result.group(1)] = value
         else:
-            source_keywords[key] = keywords[key]
+            source_keywords[key] = value
     return dest_keywords, source_keywords

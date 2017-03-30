@@ -116,19 +116,25 @@ def register_plugins(plugin_metas, module_name):
             pre_register_source(soft_source_registry, meta, module_name)
 
 
-for _, module_name, ispkg in iter_modules():
-    if module_name in black_list:
-        continue
-
-    if ispkg and module_name.startswith('pyexcel_'):
-        try:
-            plugin = __import__(module_name)
-            if hasattr(plugin, '__pyexcel_plugins__'):
-                register_plugins(plugin.__pyexcel_plugins__, module_name)
-        except Exception as e:
-            log.info("Failed to import %s due to %s" % (module_name, str(e)),
-                     exc_info=True)
+def auto_load_plugins():
+    for _, module_name, ispkg in iter_modules():
+        if module_name in black_list:
             continue
+
+        if ispkg and module_name.startswith('pyexcel_'):
+            try:
+                pyexcel_plugin = __import__(module_name)
+                if hasattr(pyexcel_plugin, '__pyexcel_plugins__'):
+                    register_plugins(pyexcel_plugin.__pyexcel_plugins__,
+                                     module_name)
+            except Exception as e:
+                log.info(
+                    "Failed to import %s due to %s" % (module_name, str(e)),
+                    exc_info=True)
+                continue
+
+
+auto_load_plugins()
 
 import pyexcel.plugins.parsers as parsers  # noqa
 import pyexcel.plugins.renderers as renderers  # noqa

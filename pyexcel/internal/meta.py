@@ -7,7 +7,7 @@ from pyexcel.internal.core import get_sheet_stream
 
 def make_presenter(source_getter, attribute=None):
     def custom_presenter(self, **keywords):
-        keyword = _get_keyword_for_parameter(attribute)
+        keyword = sources.get_keyword_for_parameter(attribute)
         keywords[keyword] = attribute
         memory_source = source_getter(**keywords)
         memory_source.write_data(self)
@@ -38,7 +38,7 @@ def importer(attribute=None):
         for field in constants.VALID_SHEET_PARAMETERS:
             if field in keywords:
                 sheet_params[field] = keywords.pop(field)
-        keyword = _get_keyword_for_parameter(attribute)
+        keyword = sources.get_keyword_for_parameter(attribute)
         if keyword == "file_type":
             keywords[keyword] = attribute
             keywords["file_content"] = content
@@ -53,7 +53,7 @@ def importer(attribute=None):
 
 def book_importer(attribute=None):
     def custom_book_importer(self, content, **keywords):
-        keyword = _get_keyword_for_parameter(attribute)
+        keyword = sources.get_keyword_for_parameter(attribute)
         if keyword == "file_type":
             keywords[keyword] = attribute
             keywords["file_content"] = content
@@ -191,7 +191,3 @@ def _get_book(**keywords):
     sheets = source.get_data()
     filename, path = source.get_source_info()
     return sheets, filename, path
-
-
-def _get_keyword_for_parameter(key):
-    return sources.keywords.get(key, None)
