@@ -4,8 +4,13 @@ from pyexcel.plugins import get_excel_formats, DB_SQL, DB_DJANGO
 __pyexcel_plugins__ = [
     {
         'plugin_type': 'renderer',
-        'submodule': 'database',
-        'file_types': [DB_SQL, DB_DJANGO]
+        'submodule': 'sqlalchemy',
+        'file_types': [DB_SQL]
+    },
+    {
+        'plugin_type': 'renderer',
+        'submodule': 'django',
+        'file_types': [DB_DJANGO]
     },
     {
         'plugin_type': 'renderer',
