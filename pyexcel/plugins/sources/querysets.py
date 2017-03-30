@@ -29,7 +29,8 @@ class SheetQuerySetSource(Source):
                  sheet_name=None, row_renderer=None,
                  start_row=0, row_limit=-1,
                  start_column=None, column_limit=None,
-                 skip_row_func=None, skip_column_func=None):
+                 skip_row_func=None, skip_column_func=None,
+                 **keywords):
         self.__sheet_name = sheet_name
         if self.__sheet_name is None:
             self.__sheet_name = constants.DEFAULT_SHEET_NAME
@@ -46,6 +47,7 @@ class SheetQuerySetSource(Source):
             print("column_limit is ignored")
         if skip_column_func is None:
             print("skip_column_func is ignored")
+        Source.__init__(self, **keywords)
 
     def get_data(self):
         params = dict(

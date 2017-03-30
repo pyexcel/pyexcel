@@ -34,26 +34,26 @@ class SheetDjangoSource(Source):
         self.__model = model
         self.__export_columns = export_columns
         self.__sheet_name = sheet_name
-        self.__keywords = keywords
+        Source.__init__(self, **keywords)
 
     def get_data(self):
         parser = parsers.get_parser(DB_DJANGO)
         data = parser.parse_file_stream(
             [self.__model],
             export_columns_list=[self.__export_columns],
-            **self.__keywords)
+            **self._keywords)
         if self.__sheet_name is not None:
             _set_dictionary_key(data, self.__sheet_name)
         return data
 
     def write_data(self, sheet):
         render = renderers.get_renderer(DB_DJANGO)
-        if params.INITIALIZER in self.__keywords:
-            init_func = self.__keywords.pop(params.INITIALIZER)
+        if params.INITIALIZER in self._keywords:
+            init_func = self._keywords.pop(params.INITIALIZER)
         else:
             init_func = None
-        if params.MAPDICT in self.__keywords:
-            map_dict = self.__keywords.pop(params.MAPDICT)
+        if params.MAPDICT in self._keywords:
+            map_dict = self._keywords.pop(params.MAPDICT)
         else:
             map_dict = None
 
@@ -62,7 +62,7 @@ class SheetDjangoSource(Source):
             sheet,
             init=init_func,
             mapdict=map_dict,
-            **self.__keywords)
+            **self._keywords)
 
 
 class BookDjangoSource(Source):
@@ -75,12 +75,12 @@ class BookDjangoSource(Source):
 
     def __init__(self, models, **keywords):
         self.__models = models
-        self.__keywords = keywords
+        Source.__init__(self, **keywords)
 
     def get_data(self):
         parser = parsers.get_parser(DB_DJANGO)
         data = parser.parse_file_stream(self.__models,
-                                        **self.__keywords)
+                                        **self._keywords)
         return data
 
     def get_source_info(self):
@@ -88,12 +88,12 @@ class BookDjangoSource(Source):
 
     def write_data(self, book):
         render = renderers.get_renderer(DB_DJANGO)
-        if params.INITIALIZERS in self.__keywords:
-            init_funcs = self.__keywords.pop(params.INITIALIZERS)
+        if params.INITIALIZERS in self._keywords:
+            init_funcs = self._keywords.pop(params.INITIALIZERS)
         else:
             init_funcs = None
-        if params.MAPDICTS in self.__keywords:
-            map_dicts = self.__keywords.pop(params.MAPDICTS)
+        if params.MAPDICTS in self._keywords:
+            map_dicts = self._keywords.pop(params.MAPDICTS)
         else:
             map_dicts = None
         render.render_book_to_stream(
@@ -101,4 +101,4 @@ class BookDjangoSource(Source):
             book,
             inits=init_funcs,
             mapdicts=map_dicts,
-            **self.__keywords)
+            **self._keywords)

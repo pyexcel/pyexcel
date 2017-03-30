@@ -23,7 +23,7 @@ class WriteSheetToFile(OutputSource):
     actions = (constants.WRITE_ACTION,)
 
     def __init__(self, file_name=None, **keywords):
-        self._keywords = keywords
+        super(OutputSource, self).__init__(**keywords)
         self._file_name = file_name
 
         self.__file_type = _find_file_type_from_file_name(file_name, 'write')

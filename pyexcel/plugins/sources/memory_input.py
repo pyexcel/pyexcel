@@ -29,18 +29,18 @@ class ReadExcelFileMemory(InputSource):
         self.__file_type = file_type
         self.__file_stream = file_stream
         self.__file_content = file_content
-        self.__keywords = keywords
         self.__parser = parsers.get_parser(file_type)
+        InputSource.__init__(self, **keywords)
 
     def get_data(self):
         if self.__file_stream is not None:
             sheets = self.__parser.parse_file_stream(
                 self.__file_stream,
-                **self.__keywords)
+                **self._keywords)
         else:
             sheets = self.__parser.parse_file_content(
                 self.__file_content,
-                **self.__keywords)
+                **self._keywords)
         return sheets
 
     def get_source_info(self):

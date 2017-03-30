@@ -1,8 +1,8 @@
 """
-    pyexcel.sources.factory
+    pyexcel.source
     ~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Data source registration
+    Generic data source definition
 
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
@@ -18,7 +18,8 @@ log = logging.getLogger(__name__)
 
 
 class Source(with_metaclass(MetaForSourceRegistryOnly, object)):
-    """ A command source for get_sheet, get_book, save_as and save_book_as
+    """
+    Define a data source for use with the signature functions
 
     This can be used to extend the function parameters once the custom
     class inherit this and register it with corresponding source registry
@@ -29,9 +30,8 @@ class Source(with_metaclass(MetaForSourceRegistryOnly, object)):
     actions = []
     key = constants.SOURCE
 
-    def __init__(self, source=None, **keywords):
-        self.__source = source
-        self.__keywords = keywords
+    def __init__(self, **keywords):
+        self._keywords = keywords
 
     def get_source_info(self):
         return (None, None)

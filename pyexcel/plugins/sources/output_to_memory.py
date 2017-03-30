@@ -20,7 +20,7 @@ class WriteSheetToMemory(OutputSource):
     attributes = renderers.get_all_file_types()
 
     def __init__(self, file_type=None, file_stream=None, **keywords):
-        self._keywords = keywords
+        OutputSource.__init__(self, **keywords)
 
         self._renderer = renderers.get_renderer(file_type)
         if file_stream:

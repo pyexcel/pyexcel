@@ -27,7 +27,7 @@ class ReadExcelFromFile(InputSource):
 
         file_type = self.__file_name.split('.')[-1]
         self.__parser = parsers.get_parser(file_type)
-        self.__keywords = keywords
+        InputSource.__init__(self, **keywords)
 
     def get_source_info(self):
         path, file_name = os.path.split(self.__file_name)
@@ -37,5 +37,5 @@ class ReadExcelFromFile(InputSource):
         """
         Return a dictionary with only one key and one value
         """
-        sheets = self.__parser.parse_file(self.__file_name, **self.__keywords)
+        sheets = self.__parser.parse_file(self.__file_name, **self._keywords)
         return sheets

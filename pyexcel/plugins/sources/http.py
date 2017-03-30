@@ -39,7 +39,7 @@ class HttpSource(Source):
 
     def __init__(self, url=None, **keywords):
         self.__url = url
-        self.__keywords = keywords
+        Source.__init__(self, **keywords)
 
     def get_data(self):
         f = request.urlopen(self.__url)
@@ -54,7 +54,7 @@ class HttpSource(Source):
         parser = parsers.get_parser(file_type)
         content = f.read()
         sheets = parser.parse_file_content(content,
-                                           **self.__keywords)
+                                           **self._keywords)
         return sheets
 
     def get_source_info(self):

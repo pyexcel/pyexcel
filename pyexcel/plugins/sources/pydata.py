@@ -95,10 +95,10 @@ class RecordsSource(Source):
         self.__records = records
         self.__content = _FakeIO()
         self.__sheet_name = sheet_name
-        self.__keywords = keywords
+        Source.__init__(self, **keywords)
 
     def get_data(self):
-        records_reader = RecordsReader(self.__records, **self.__keywords)
+        records_reader = RecordsReader(self.__records, **self._keywords)
         return {self.__sheet_name: records_reader.to_array()}
 
     def get_source_info(self):
@@ -127,11 +127,11 @@ class DictSource(Source):
         self.__with_keys = with_keys
         self.__content = _FakeIO()
         self.__sheet_name = sheet_name
-        self.__keywords = keywords
+        Source.__init__(self, **keywords)
 
     def get_data(self):
         dict_reader = DictReader(self.__adict, with_keys=self.__with_keys,
-                                 **self.__keywords)
+                                 **self._keywords)
         return {self.__sheet_name: dict_reader.to_array()}
 
     def get_source_info(self):
@@ -159,10 +159,10 @@ class ArraySource(Source):
         self.__array = array
         self.__content = _FakeIO()
         self.__sheet_name = sheet_name
-        self.__keywords = keywords
+        Source.__init__(self, **keywords)
 
     def get_data(self):
-        array_reader = ArrayReader(self.__array, **self.__keywords)
+        array_reader = ArrayReader(self.__array, **self._keywords)
         return {self.__sheet_name: array_reader.to_array()}
 
     def get_source_info(self):
@@ -185,9 +185,10 @@ class BookDictSource(Source):
     attributes = [params.BOOKDICT]
     key = params.BOOKDICT
 
-    def __init__(self, bookdict):
+    def __init__(self, bookdict, **keywords):
         self.__bookdict = bookdict
         self.__content = _FakeIO()
+        Source.__init__(self, **keywords)
 
     def get_data(self):
         the_dict = self.__bookdict
