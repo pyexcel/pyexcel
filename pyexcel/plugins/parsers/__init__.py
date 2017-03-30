@@ -9,7 +9,12 @@ __pyexcel_plugins__ = [
     },
     {
         'plugin_type': 'parser',
-        'submodule': 'database',
-        'file_types': [DB_SQL, DB_DJANGO]
+        'submodule': 'sqlalchemy',
+        'file_types': [DB_SQL]
+    },
+    {
+        'plugin_type': 'parser',
+        'submodule': 'django',
+        'file_types': [DB_DJANGO]
     }
 ]
