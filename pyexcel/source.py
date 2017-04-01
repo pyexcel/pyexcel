@@ -7,14 +7,9 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-import logging
-
 from pyexcel._compact import with_metaclass
 from pyexcel.internal.source_meta import MetaForSourceRegistryOnly
 import pyexcel.constants as constants
-
-
-log = logging.getLogger(__name__)
 
 
 class Source(with_metaclass(MetaForSourceRegistryOnly, object)):

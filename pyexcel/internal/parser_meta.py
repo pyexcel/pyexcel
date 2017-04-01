@@ -1,3 +1,12 @@
+"""
+    pyexcel.internal.parser_meta
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Parser registration and management
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 import logging
 
 from pyexcel.internal import soft_parser_registry, preload_a_plugin

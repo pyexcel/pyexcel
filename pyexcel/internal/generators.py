@@ -1,3 +1,12 @@
+"""
+    pyexcel.internal.generators
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Defintion for the sheet and book generators.
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 from pyexcel_io.sheet import NamedContent
 from pyexcel._compact import OrderedDict, SheetIterator
 

@@ -1,3 +1,12 @@
+"""
+    pyexcel.internal.core
+    ~~~~~~~~~~~~~~~~~~~~~~
+
+    elementary functions to read and write generic excel content
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 import pyexcel.internal.source_meta as factory
 from pyexcel.internal.generators import BookStream, SheetStream
 from pyexcel._compact import PY2

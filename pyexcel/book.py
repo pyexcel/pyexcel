@@ -38,6 +38,7 @@ class Book(compact.with_metaclass(BookMeta, object)):
         self.__path = None
         self.__name_array = []
         self._filename = None
+        self.__sheets = compact.OrderedDict()
         self.init(sheets=sheets, filename=filename, path=path)
 
     def init(self, sheets=None, filename="memory", path=None):
@@ -74,7 +75,6 @@ class Book(compact.with_metaclass(BookMeta, object)):
         :param dict sheets: a dictionary of sheets. Each sheet is
                             a list of lists
         """
-        self.__sheets = compact.OrderedDict()
         if sheets is None:
             return
         keys = sheets.keys()

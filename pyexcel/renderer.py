@@ -1,3 +1,12 @@
+"""
+    pyexcel.renderer
+    ~~~~~~~~~~~~~~~~~~~
+
+    Renders pyexcel.Book and pyexcel.Sheet to any format
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 from pyexcel._compact import StringIO, with_metaclass
 from pyexcel.internal.renderer_meta import MetaForRendererRegistryOnly
 

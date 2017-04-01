@@ -1,3 +1,13 @@
+"""
+    pyexcel.plugin.renderers._texttable
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Export data into texttable format. It also serves the default
+    presentation of pyexcel sheet and book.
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 from texttable import Texttable
 
 from pyexcel.internal.sheets.formatters import to_format

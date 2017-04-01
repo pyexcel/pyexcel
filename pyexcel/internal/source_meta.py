@@ -1,3 +1,12 @@
+"""
+    pyexcel.internal.source_meta
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Source registration and management
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 import logging
 from functools import partial
 from itertools import product

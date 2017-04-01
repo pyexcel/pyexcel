@@ -1,9 +1,19 @@
-import logging
+"""
+    pyexcel.internal
+    ~~~~~~~~~~~~~~~~~~~
 
+    Second level abstraction
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
+import logging
+from itertools import product
 from pkgutil import iter_modules
 from collections import defaultdict
+
+from pyexcel.exceptions import UpgradePlugin
 from pyexcel.internal.generators import SheetStream, BookStream  # noqa
-from itertools import product
 
 
 log = logging.getLogger(__name__)
@@ -23,10 +33,6 @@ def debug_registries():
     print(soft_parser_registry)
     print("Unloaded sources:")
     print(soft_source_registry)
-
-
-class UpgradePlugin(Exception):
-    pass
 
 
 def pre_register(registry, library_meta, module_name):

@@ -1,3 +1,12 @@
+"""
+    pyexcel.plugin.parsers.sqlalchemy
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Export data into database datables
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 from pyexcel.parser import Parser
 from pyexcel_io.constants import DB_SQL
 import pyexcel_io.database.sql as sql

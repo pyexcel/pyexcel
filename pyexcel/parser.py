@@ -1,3 +1,12 @@
+"""
+    pyexcel.parser
+    ~~~~~~~~~~~~~~~~~~~
+
+    Extract tabular data from external file, stream or content
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 from pyexcel._compact import with_metaclass
 from pyexcel.internal.parser_meta import MetaForParserRegistryOnly
 

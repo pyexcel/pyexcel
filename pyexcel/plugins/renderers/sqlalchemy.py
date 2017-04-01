@@ -1,25 +1,25 @@
-from pyexcel.renderer import Renderer
+"""
+    pyexcel.plugin.renderers.sqlalchemy
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Export data into database datables
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 from pyexcel_io import save_data
 from pyexcel_io.constants import DB_SQL
 from pyexcel._compact import OrderedDict
 import pyexcel_io.database.sql as sql
 from pyexcel.internal.generators import BookStream
+from pyexcel.plugins.renderers.db_renderer import DbRenderer
 
 
 NO_COLUMN_NAMES = "Only sheet with column names is accepted"
 
 
-class SQLAlchemyRenderer(Renderer):
+class SQLAlchemyRenderer(DbRenderer):
     file_types = [DB_SQL]
-
-    def get_io(self):
-        raise Exception("No io for this renderer")
-
-    def render_sheet_to_file(self, file_name, sheet, **keywords):
-        raise NotImplementedError("We are not writing to file")
-
-    def render_book_to_file(self, file_name, book, **keywords):
-        raise NotImplementedError("We are not writing to file")
 
     def render_sheet_to_stream(self, file_stream, sheet,
                                init=None, mapdict=None, **keywords):

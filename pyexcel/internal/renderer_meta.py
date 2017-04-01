@@ -1,3 +1,12 @@
+"""
+    pyexcel.internal.renderer_meta
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Renderer registration and management
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 import logging
 
 from pyexcel.internal import soft_renderer_registry, preload_a_plugin

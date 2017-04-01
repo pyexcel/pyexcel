@@ -1,17 +1,18 @@
+"""
+    pyexcel.plugin.renderers.excel
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Export data into excel files
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 from pyexcel.constants import DEFAULT_SHEET_NAME
 from pyexcel_io import save_data
 import pyexcel_io.manager as manager
-from pyexcel_io.utils import AVAILABLE_WRITERS
-from pyexcel_io.constants import DB_SQL, DB_DJANGO
 
+from pyexcel.plugins import get_excel_formats
 from pyexcel.renderer import Renderer
-
-
-def get_excel_formats():
-    all_formats = set(tuple(AVAILABLE_WRITERS.keys()) +
-                      tuple(manager.get_writers()))
-    all_formats = all_formats.difference(set([DB_SQL, DB_DJANGO]))
-    return all_formats
 
 
 class ExcelRenderer(Renderer):
