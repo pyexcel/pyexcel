@@ -8,9 +8,10 @@
     :license: New BSD License
 """
 from functools import partial
+import warnings
 
-from ._compact import deprecated
-from .core import get_sheet, get_book
+from pyexcel._compact import deprecated
+from pyexcel.core import get_sheet, get_book
 
 
 DEPRECATED_LOADER = partial(
@@ -234,16 +235,7 @@ def BookReader(file_name, **keywords):
     return load_book(file_name, **keywords)
 
 
-def Writer(*args, **keywords):
-    raise DeprecationWarning(
-        "Since v0.0.18, please use module function save_as")
-
-
-def BookWriter(*args, **keywords):
-    raise DeprecationWarning(
-        "Since v0.0.18, please use module function save_book_as")
-
-
 def deprecated_pyexcel_ext(version, module_name):
-    print("Deprecated usage since v%s! Explicit import " % version +
-          "is no longer required. %s is auto imported." % module_name)
+    warnings.warn(
+        "Deprecated usage since v%s! Explicit import " % version +
+        "is no longer required. %s is auto imported." % module_name)

@@ -11,6 +11,7 @@
 import sys
 import types
 import logging
+import warnings
 
 PY2 = sys.version_info[0] == 2
 PY26 = PY2 and sys.version_info[1] < 7
@@ -72,7 +73,7 @@ def is_generator(struct):
 
 def deprecated(func, message="Deprecated!"):
     def inner(*arg, **keywords):
-        print(message)
+        warnings.warn(message, DeprecationWarning)
         return func(*arg, **keywords)
     return inner
 

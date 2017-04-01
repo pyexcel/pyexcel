@@ -46,7 +46,5 @@ from .deprecated import (
     Reader,
     SeriesReader,
     ColumnSeriesReader,
-    BookReader,
-    Writer,
-    BookWriter
+    BookReader
 )
