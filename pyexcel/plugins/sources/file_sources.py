@@ -1,6 +1,6 @@
 import pyexcel.internal.renderer_meta as renderers
 import pyexcel.internal.parser_meta as parsers
-from pyexcel.source import Source
+from pyexcel.source import Source, MemorySourceMixin
 from pyexcel.exceptions import FileTypeNotSupported
 from pyexcel._compact import is_string
 import pyexcel.constants as constants
@@ -53,7 +53,7 @@ class InputSource(FileSource):
         return status
 
 
-class OutputSource(FileSource):
+class OutputSource(FileSource, MemorySourceMixin):
     """
     Get excel data from file source
     """

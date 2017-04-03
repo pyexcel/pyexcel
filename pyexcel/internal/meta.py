@@ -21,11 +21,12 @@ def make_presenter(source_getter, attribute=None):
         memory_source = source_getter(**keywords)
         memory_source.write_data(self)
         try:
-            content_stream = memory_source.get_internal_stream()
+            content_stream = memory_source.get_content()
             content = content_stream.getvalue()
         except AttributeError:
             # python 3 _io.TextWrapper
             content = None
+
         return content
     custom_presenter.__doc__ = "Get data in %s format" % attribute
     return custom_presenter

@@ -46,8 +46,11 @@ class Source(with_metaclass(MetaForSourceRegistryOnly, object)):
     def get_data(self):
         raise NotImplementedError("")
 
-    def get_internal_stream(self):
-        raise NotImplementedError("")
+
+class MemorySourceMixin(object):
+
+    def get_content(self):
+        return self._content
 
 
 def _has_field(field, keywords):

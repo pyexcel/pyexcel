@@ -11,7 +11,7 @@ from pyexcel_io.sheet import SheetReader
 
 from pyexcel._compact import OrderedDict
 from pyexcel.constants import DEFAULT_SHEET_NAME
-from pyexcel.source import Source
+from pyexcel.source import Source, MemorySourceMixin
 from pyexcel._compact import zip_longest, PY2
 import pyexcel.constants as constants
 from . import params
@@ -79,7 +79,7 @@ class DictReader(ArrayReader):
             yield row
 
 
-class RecordsSource(Source):
+class RecordsSource(Source, MemorySourceMixin):
     """
     A list of dictionaries as data source
 
@@ -93,7 +93,7 @@ class RecordsSource(Source):
 
     def __init__(self, records, sheet_name=DEFAULT_SHEET_NAME, **keywords):
         self.__records = records
-        self.__content = _FakeIO()
+        self._content = _FakeIO()
         self.__sheet_name = sheet_name
         Source.__init__(self, **keywords)
 
@@ -105,13 +105,13 @@ class RecordsSource(Source):
         return params.RECORDS, None
 
     def write_data(self, sheet):
-        self.__content.setvalue(sheet.to_records())
+        self._content.setvalue(sheet.to_records())
 
-    def get_internal_stream(self):
-        return self.__content
+    def get_content(self):
+        return self._content
 
 
-class DictSource(Source):
+class DictSource(Source, MemorySourceMixin):
     """
     A dictionary of one dimensional array as sheet source
     """
@@ -125,7 +125,7 @@ class DictSource(Source):
                  **keywords):
         self.__adict = adict
         self.__with_keys = with_keys
-        self.__content = _FakeIO()
+        self._content = _FakeIO()
         self.__sheet_name = sheet_name
         Source.__init__(self, **keywords)
 
@@ -138,13 +138,10 @@ class DictSource(Source):
         return params.ADICT, None
 
     def write_data(self, sheet):
-        self.__content.setvalue(sheet.to_dict())
-
-    def get_internal_stream(self):
-        return self.__content
+        self._content.setvalue(sheet.to_dict())
 
 
-class ArraySource(Source):
+class ArraySource(Source, MemorySourceMixin):
     """
     A two dimensional array as sheet source
     """
@@ -157,7 +154,7 @@ class ArraySource(Source):
     def __init__(self, array, sheet_name=DEFAULT_SHEET_NAME,
                  **keywords):
         self.__array = array
-        self.__content = _FakeIO()
+        self._content = _FakeIO()
         self.__sheet_name = sheet_name
         Source.__init__(self, **keywords)
 
@@ -169,13 +166,10 @@ class ArraySource(Source):
         return params.ARRAY, None
 
     def write_data(self, sheet):
-        self.__content.setvalue(sheet.to_array())
-
-    def get_internal_stream(self):
-        return self.__content
+        self._content.setvalue(sheet.to_array())
 
 
-class BookDictSource(Source):
+class BookDictSource(Source, MemorySourceMixin):
     """
     Multiple sheet data source via a dictionary of two dimensional arrays
     """
@@ -187,7 +181,7 @@ class BookDictSource(Source):
 
     def __init__(self, bookdict, **keywords):
         self.__bookdict = bookdict
-        self.__content = _FakeIO()
+        self._content = _FakeIO()
         Source.__init__(self, **keywords)
 
     def get_data(self):
@@ -200,10 +194,7 @@ class BookDictSource(Source):
         return params.BOOKDICT, None
 
     def write_data(self, book):
-        self.__content.setvalue(book.to_dict())
-
-    def get_internal_stream(self):
-        return self.__content
+        self._content.setvalue(book.to_dict())
 
 
 def convert_dict_to_ordered_dict(the_dict):

@@ -30,11 +30,8 @@ class WriteSheetToMemory(OutputSource):
         self.attributes = renderers.get_all_file_types()
 
     def write_data(self, sheet):
-        self._renderer.render_sheet_to_stream(self._content,
-                                              sheet, **self._keywords)
-
-    def get_internal_stream(self):
-        return self._content
+        self._renderer.render_sheet_to_stream(
+            self._content, sheet, **self._keywords)
 
 
 class WriteBookToMemory(WriteSheetToMemory):
@@ -44,5 +41,5 @@ class WriteBookToMemory(WriteSheetToMemory):
     targets = (constants.BOOK,)
 
     def write_data(self, book):
-        self._renderer.render_book_to_stream(self._content, book,
-                                             **self._keywords)
+        self._renderer.render_book_to_stream(
+            self._content, book, **self._keywords)

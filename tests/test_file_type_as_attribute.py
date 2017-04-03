@@ -1,5 +1,5 @@
 import os
-from pyexcel.source import Source
+from pyexcel.source import Source, MemorySourceMixin
 import pyexcel.constants as constants
 from pyexcel import Sheet, Book
 from pyexcel import get_book, save_as
@@ -10,7 +10,7 @@ from textwrap import dedent
 FIXTURE = "dummy"
 
 
-class DummySource(Source):
+class DummySource(Source, MemorySourceMixin):
     """
     Write into json file
     """
@@ -22,17 +22,14 @@ class DummySource(Source):
 
     def __init__(self, file_type=None, file_stream=None, **keywords):
         if file_stream:
-            self.content = file_stream
+            self._content = file_stream
         else:
-            self.content = StringIO()
+            self._content = StringIO()
         self.file_type = file_type
         self.keywords = keywords
 
     def write_data(self, sheet):
-        self.content.write(FIXTURE)
-
-    def get_internal_stream(self):
-        return self.content
+        self._content.write(FIXTURE)
 
 
 def test_sheet_register_presentation():

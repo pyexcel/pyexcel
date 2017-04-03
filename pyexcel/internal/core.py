@@ -54,10 +54,10 @@ def save_book(book, **keywords):
 def _save_any(source, instance):
     source.write_data(instance)
     try:
-        content_stream = source.get_internal_stream()
+        content_stream = source.get_content()
         _try_put_file_read_pointer_to_its_begining(content_stream)
         return content_stream
-    except NotImplementedError:
+    except AttributeError:
         return None
 
 
