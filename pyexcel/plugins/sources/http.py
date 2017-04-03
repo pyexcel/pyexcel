@@ -15,14 +15,14 @@ import pyexcel.internal.parser_meta as parsers
 
 from . import params
 
-_xlsx = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
 FILE_TYPE_MIME_TABLE = {
     "text/csv": "csv",
     "text/tab-separated-values": "tsv",
     "application/vnd.oasis.opendocument.spreadsheet": "ods",
     "application/vnd.ms-excel": "xls",
-    _xlsx: "xlsx",
+    XLSX: "xlsx",
     "application/vnd.ms-excel.sheet.macroenabled.12": "xlsm"
 }
 

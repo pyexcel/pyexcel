@@ -37,13 +37,13 @@ class Book(compact.with_metaclass(BookMeta, object)):
         """
         self.__path = None
         self.__name_array = []
-        self._filename = None
+        self.filename = None
         self.__sheets = compact.OrderedDict()
         self.init(sheets=sheets, filename=filename, path=path)
 
     def init(self, sheets=None, filename="memory", path=None):
         self.__path = path
-        self._filename = filename
+        self.filename = filename
         self.load_from_sheets(sheets)
 
     @property
@@ -168,14 +168,14 @@ class Book(compact.with_metaclass(BookMeta, object)):
         for k in current_dict.keys():
             new_key = k
             if len(current_dict.keys()) == 1:
-                new_key = "%s_%s" % (self._filename, k)
+                new_key = "%s_%s" % (self.filename, k)
             content[new_key] = current_dict[k]
         if isinstance(other, Book):
             other_dict = other.to_dict()
             for key in other_dict.keys():
                 new_key = key
                 if len(other_dict.keys()) == 1:
-                    new_key = other._filename
+                    new_key = other.filename
                 if new_key in content:
                     uid = local_uuid()
                     new_key = "%s_%s" % (key, uid)
@@ -207,7 +207,7 @@ class Book(compact.with_metaclass(BookMeta, object)):
             for name in names:
                 new_key = name
                 if len(names) == 1:
-                    new_key = other._filename
+                    new_key = other.filename
                 if new_key in self.__name_array:
                     uid = local_uuid()
                     new_key = "%s_%s" % (name, uid)
@@ -316,6 +316,8 @@ class Book(compact.with_metaclass(BookMeta, object)):
 
 
 def to_book(bookstream):
+    """Convert a bookstream to Book
+    """
     if isinstance(bookstream, Book):
         return bookstream
     else:
@@ -325,6 +327,7 @@ def to_book(bookstream):
 
 
 def local_uuid():
+    """create home made uuid"""
     global LOCAL_UUID
     LOCAL_UUID = LOCAL_UUID + 1
     return LOCAL_UUID

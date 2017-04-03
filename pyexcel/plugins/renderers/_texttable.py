@@ -17,7 +17,7 @@ import pyexcel.constants as constants
 
 
 class TextTableRenderer(Renderer):
-
+    """Default texttable presetation"""
     file_types = ('texttable',)
 
     def render_sheet(self, sheet):
@@ -51,6 +51,6 @@ def render_text_table(sheet, write_title):
 def _cleanse_a_row(row):
     for item in row:
         if item == constants.DEFAULT_NA:
-            yield(" ")
+            yield " "
         else:
-            yield(to_format(str, item))
+            yield to_format(str, item)
