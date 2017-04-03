@@ -363,8 +363,8 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
         ret = []
         ret += list(self.rows())
         if len(self.rownames) > 0:
-            ret = map(lambda value: [value[0]] + value[1],
-                      zip(self.rownames, ret))
+            ret = [[value[0]] + value[1] for value in
+                   zip(self.rownames, ret)]
             if not compact.PY2:
                 ret = list(ret)
         if len(self.colnames) > 0:
