@@ -475,7 +475,7 @@ class TestAddBooks:
         b1 = pe.BookReader(self.testfile)
         b1["Sheet1"] + 12  # bang, cannot add integer
 
-    @raises(NotImplementedError)
+    @raises(TypeError)
     def test_add_sheet_error2(self):
         b1 = pe.BookReader(self.testfile)
         b1["Sheet1"] += 12  # bang, cannot iadd integer

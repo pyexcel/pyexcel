@@ -3,7 +3,7 @@
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     Matrix, a data model that accepts any types, spread sheet style
-of lookup.
+    of lookup.
 
     :copyright: (c) 2014-2017 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
@@ -758,13 +758,6 @@ class Matrix(object):
         c = Book()
         c.load_from_sheets(content)
         return c
-
-    def __iadd__(self, other):
-        """Overload += sign
-
-        :return: self
-        """
-        raise NotImplementedError(constants.MESSAGE_NOT_IMPLEMENTED_01)
 
 
 def _unique(seq):

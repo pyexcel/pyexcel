@@ -77,6 +77,9 @@ class Sheet(compact.with_metaclass(SheetMeta, Matrix)):
         :param colnames: use an external list of strings to name the columns
         :param rownames: use an external list of strings to name the rows
         """
+        self.__column_names = []
+        self.__row_names = []
+        self.__row_index = 0
         self.init(
             sheet=sheet,
             name=name,
