@@ -1,3 +1,12 @@
+"""
+    pyexcel.plugins.sources.file_sources
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Representation of generic file sources
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 import pyexcel.internal.renderer_meta as renderers
 import pyexcel.internal.parser_meta as parsers
 from pyexcel.source import Source, MemorySourceMixin

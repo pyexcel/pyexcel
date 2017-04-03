@@ -1,3 +1,12 @@
+"""
+    pyexcel.plugins.sources.db_sources
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Generic database sources
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 import pyexcel.constants as constants
 from pyexcel.source import Source
 import pyexcel.internal.renderer_meta as renderers

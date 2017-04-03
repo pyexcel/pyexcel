@@ -1,3 +1,12 @@
+"""
+    pyexcel.internal.sheets.column
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Generic table column
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 import types
 from functools import partial
 

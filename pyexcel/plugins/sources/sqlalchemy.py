@@ -9,7 +9,7 @@
 """
 from pyexcel_io.constants import DB_SQL
 from . import params
-from ._shared import SheetDbSource, BookDbSource
+from .db_sources import SheetDbSource, BookDbSource
 
 
 class SheetSQLAlchemySource(SheetDbSource):

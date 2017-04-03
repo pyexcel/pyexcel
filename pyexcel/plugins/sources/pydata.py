@@ -2,7 +2,7 @@
     pyexcel.plugins.sources.pydata
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Representation of memory sources
+    Representation of array, dict, records and book dict sources
 
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License

@@ -1,6 +1,6 @@
 """
-    pyexcel.source.http
-    ~~~~~~~~~~~~~~~~~~~
+    pyexcel.plugins.sources.http
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     Representation of http sources
 

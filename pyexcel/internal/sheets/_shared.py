@@ -1,3 +1,12 @@
+"""
+    pyexcel.internal.sheets._shared
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Locally shared utility functions
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 import re
 from pyexcel._compact import PY2
 

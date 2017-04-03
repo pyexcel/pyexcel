@@ -1,6 +1,6 @@
 """
-    pyexcel.source.file_source_input
-    ~~~~~~~~~~~~~~~~~~~
+    pyexcel.plugins.sources.memory_input
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     Representation of input file sources
 

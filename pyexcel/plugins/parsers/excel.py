@@ -1,3 +1,12 @@
+"""
+    pyexcel.plugins.parsers.excel
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Parsing excel sources
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 from pyexcel.parser import Parser
 from pyexcel_io import get_data, manager
 from pyexcel_io.utils import AVAILABLE_READERS

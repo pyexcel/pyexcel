@@ -1,3 +1,12 @@
+"""
+    pyexcel.plugins.sources.params
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Local magic workds
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 # keywords
 MEMORY = 'memory'
 FILE_TYPE = 'file_type'

@@ -1,3 +1,12 @@
+"""
+    pyexcel.internal.attributes
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Book and sheet attributes
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 import logging
 import pyexcel.constants as constants
 from pyexcel_io.constants import DB_DJANGO, DB_SQL

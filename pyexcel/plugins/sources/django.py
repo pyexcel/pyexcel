@@ -10,7 +10,7 @@
 from pyexcel_io.constants import DB_DJANGO
 
 from . import params
-from ._shared import (SheetDbSource, BookDbSource)
+from .db_sources import (SheetDbSource, BookDbSource)
 
 
 class SheetDjangoSource(SheetDbSource):
