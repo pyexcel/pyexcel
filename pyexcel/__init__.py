@@ -37,11 +37,9 @@ from .sheet import Sheet
 from .deprecated import (
     load_book,
     load_book_from_memory,
-    load_book_from_sql,
     load,
     load_from_memory,
     load_from_dict,
-    load_from_sql,
     load_from_records,
     Reader,
     SeriesReader,

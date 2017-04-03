@@ -22,7 +22,11 @@ Added
 Removed
 ********************************************************************************
 
-#. pyexcel.Writer and pyexcel.BookWriter were removed.
+#. pyexcel.Writer and pyexcel.BookWriter were removed
+#. pyexcel.load_book_from_sql and pyexcel.load_from_sql were removed
+#. pyexcel.deprecated.load_from_query_sets,
+   pyexcel.deprecated.load_book_from_django_models and
+   pyexcel.deprecated.load_from_django_model were removed
 
 
 0.4.4 - 06.02.2017

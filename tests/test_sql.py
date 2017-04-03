@@ -24,7 +24,7 @@ class TestSQL(TestCase):
         session.commit()
 
     def test_sql(self):
-        sheet = pe.load_from_sql(Session(), Pyexcel)
+        sheet = pe.get_sheet(session=Session(), table=Pyexcel)
         content = dedent("""
         pyexcel:
         +------------+----+-------+--------+
@@ -58,7 +58,7 @@ class TestEmptyTable:
         Base.metadata.create_all(engine)
 
     def test_empty_table(self):
-        sheet = pe.load_from_sql(Session(), Pyexcel)
+        sheet = pe.get_sheet(session=Session(), table=Pyexcel)
         assert sheet is not None
 
     @raises(Exception)

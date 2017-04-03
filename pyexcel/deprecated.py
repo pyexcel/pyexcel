@@ -43,26 +43,6 @@ def load_book_from_memory(file_type, file_content, **keywords):
     return get_book(file_type=file_type, file_content=file_content, **keywords)
 
 
-@DEPRECATED_BOOK_LOADER
-def load_book_from_sql(session, tables):
-    """Get an instance of :class:`Book` from a list of tables
-
-    :param session: sqlalchemy session
-    :param tables: a list of database tables
-    """
-    return get_book(session=session, tables=tables)
-
-
-@DEPRECATED_BOOK_LOADER
-def load_book_from_django_models(models):
-    """Get an instance of :class:`Book` from a list of tables
-
-    :param session: sqlalchemy session
-    :param tables: a list of database tables
-    """
-    return get_book(models=models)
-
-
 @DEPRECATED_LOADER
 def load(file_name, sheetname=None, **keywords):
     """Constructs an instance :class:`Sheet` from a sheet of an excel file
@@ -105,38 +85,6 @@ def load_from_memory(file_type,
                      file_content=file_content,
                      sheet_name=sheetname,
                      **keywords)
-
-
-@DEPRECATED_LOADER
-def load_from_query_sets(column_names, query_sets, **keywords):
-    """Constructs an instance :class:`Sheet` from a database query sets
-    :param column_names: the field names
-    :param query_sets: the values
-    :returns: :class:`Sheet`
-    """
-    return get_sheet(column_names=column_names, query_sets=query_sets,
-                     **keywords)
-
-
-@DEPRECATED_LOADER
-def load_from_sql(session, table, **keywords):
-    """Constructs an instance :class:`Sheet` from database table
-
-    :param session: SQLAlchemy session object
-    :param table: SQLAlchemy database table
-    :returns: :class:`Sheet`
-    """
-    return get_sheet(session=session, table=table, **keywords)
-
-
-@DEPRECATED_LOADER
-def load_from_django_model(model, **keywords):
-    """Constructs an instance :class:`Sheet` from a django model
-
-    :param model: Django model
-    :returns: :class:`Sheet`
-    """
-    return get_sheet(model=model, **keywords)
 
 
 @DEPRECATED_LOADER
