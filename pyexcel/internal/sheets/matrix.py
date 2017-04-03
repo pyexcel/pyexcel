@@ -742,7 +742,7 @@ class Matrix(object):
             for l in b.keys():
                 new_key = l
                 if len(b.keys()) == 1:
-                    new_key = other._filename
+                    new_key = other.filename
                 if new_key in content:
                     uid = local_uuid()
                     new_key = "%s_%s" % (l, uid)
