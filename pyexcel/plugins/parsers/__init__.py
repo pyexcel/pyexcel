@@ -1,11 +1,12 @@
-from pyexcel.plugins import get_excel_reader_formats, DB_SQL, DB_DJANGO
+from pyexcel_io.plugins import iomanager
+from pyexcel_io.constants import DB_SQL, DB_DJANGO
 
 
 __pyexcel_plugins__ = [
     {
         'plugin_type': 'parser',
         'submodule': 'excel',
-        'file_types': get_excel_reader_formats()
+        'file_types': iomanager.get_all_reader_formats()
     },
     {
         'plugin_type': 'parser',

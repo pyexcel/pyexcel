@@ -7,7 +7,7 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-import pyexcel.internal.renderer_meta as renderers
+from pyexcel.internal import renderer
 from .file_sources import (
     OutputSource,
     _find_file_type_from_file_name)
@@ -27,7 +27,7 @@ class WriteSheetToFile(OutputSource):
         self._file_name = file_name
 
         self.__file_type = _find_file_type_from_file_name(file_name, 'write')
-        self._renderer = renderers.get_renderer(self.__file_type)
+        self._renderer = renderer.get_a_plugin(self.__file_type)
 
     def write_data(self, sheet):
         self._renderer.render_sheet_to_file(self._file_name,

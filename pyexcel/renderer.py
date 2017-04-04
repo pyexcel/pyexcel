@@ -8,7 +8,7 @@
     :license: New BSD License
 """
 from pyexcel._compact import StringIO, with_metaclass
-from pyexcel.internal.renderer_meta import MetaForRendererRegistryOnly
+from pyexcel.internal import MetaForRendererRegistryOnly
 
 
 class Renderer(with_metaclass(MetaForRendererRegistryOnly, object)):

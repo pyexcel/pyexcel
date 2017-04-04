@@ -7,8 +7,7 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-import pyexcel.internal.renderer_meta as renderers
-import pyexcel.internal.parser_meta as parsers
+from pyexcel.internal import renderer, parser
 from pyexcel.source import Source, MemorySourceMixin
 from pyexcel.exceptions import FileTypeNotSupported
 from pyexcel._compact import is_string
@@ -56,7 +55,7 @@ class InputSource(FileSource):
         if file_type:
             __file_type = file_type.lower()
         if action == constants.READ_ACTION:
-            status = __file_type in parsers.get_all_file_types()
+            status = __file_type in parser.get_all_file_types()
         else:
             status = False
         return status
@@ -72,7 +71,7 @@ class OutputSource(FileSource, MemorySourceMixin):
     def can_i_handle(cls, action, file_type):
         if action == constants.WRITE_ACTION:
             status = file_type.lower() in tuple(
-                renderers.get_all_file_types())
+                renderer.get_all_file_types())
         else:
             status = False
         return status
@@ -80,9 +79,9 @@ class OutputSource(FileSource, MemorySourceMixin):
 
 def _find_file_type_from_file_name(file_name, action):
     if action == 'read':
-        list_of_file_types = parsers.get_all_file_types()
+        list_of_file_types = parser.get_all_file_types()
     else:
-        list_of_file_types = renderers.get_all_file_types()
+        list_of_file_types = renderer.get_all_file_types()
     file_types = []
     lowercase_file_name = file_name.lower()
     for a_supported_type in list_of_file_types:

@@ -1,4 +1,4 @@
-from pyexcel.internal import parser_meta, renderer_meta
+from pyexcel.internal import parser, renderer
 
 __pyexcel_plugins__ = [
     {
@@ -25,7 +25,7 @@ __pyexcel_plugins__ = [
         'targets': ['sheet', 'book'],
         'actions': ['read'],
         'key': 'file_type',
-        'attributes': parser_meta.get_all_file_types
+        'attributes': parser.get_all_file_types
     },
     {
         'plugin_type': 'source',
@@ -42,7 +42,7 @@ __pyexcel_plugins__ = [
         'targets': ['sheet', 'book'],
         'actions': ['write'],
         'key': 'file_type',
-        'attributes': renderer_meta.get_all_file_types
+        'attributes': renderer.get_all_file_types
     },
     {
         'plugin_type': 'source',

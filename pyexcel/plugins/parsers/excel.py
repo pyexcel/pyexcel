@@ -8,20 +8,12 @@
     :license: New BSD License
 """
 from pyexcel.parser import Parser
-from pyexcel_io import get_data, manager
-from pyexcel_io.utils import AVAILABLE_READERS
-from pyexcel_io.constants import DB_SQL, DB_DJANGO
-
-
-def get_excel_formats():
-    all_formats = set(list(manager.reader_factories.keys()) +
-                      list(AVAILABLE_READERS.keys()))
-    all_formats = all_formats.difference(set([DB_SQL, DB_DJANGO]))
-    return all_formats
+from pyexcel_io import get_data
+from pyexcel_io.plugins import iomanager
 
 
 class ExcelParser(Parser):
-    file_types = get_excel_formats()
+    file_types = iomanager.get_all_reader_formats()
 
     def parse_file(self, file_name, **keywords):
         sheets = get_data(file_name, streaming=True, **keywords)

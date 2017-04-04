@@ -9,8 +9,8 @@
 """
 import pyexcel.constants as constants
 from pyexcel.source import Source
-import pyexcel.internal.renderer_meta as renderers
-import pyexcel.internal.parser_meta as parsers
+from pyexcel.internal import renderer
+from pyexcel.internal import parser
 from pyexcel._compact import PY2
 from . import params
 
@@ -33,9 +33,9 @@ class SheetDbSource(Source):
         Source.__init__(self, **keywords)
 
     def get_data(self):
-        parser = parsers.get_parser(self._db_type)
+        aparser = parser.get_a_plugin(self._db_type)
         export_params = self.get_export_params()
-        data = parser.parse_file_stream(
+        data = aparser.parse_file_stream(
             export_params,
             export_columns_list=[self.__export_columns],
             **self._keywords)
@@ -47,11 +47,11 @@ class SheetDbSource(Source):
         pass
 
     def write_data(self, sheet):
-        render = renderers.get_renderer(self._db_type)
+        arender = renderer.get_a_plugin(self._db_type)
         init_func, map_dict = transcode_sheet_db_keywords(
             self._keywords)
         import_params = self.get_import_params()
-        render.render_sheet_to_stream(
+        arender.render_sheet_to_stream(
             import_params,
             sheet,
             init=init_func,
@@ -74,10 +74,10 @@ class BookDbSource(Source):
         Source.__init__(self, **keywords)
 
     def get_data(self):
-        parser = parsers.get_parser(self.__db_type)
+        aparser = parser.get_a_plugin(self.__db_type)
         export_params = self.get_params()
-        data = parser.parse_file_stream(export_params,
-                                        **self._keywords)
+        data = aparser.parse_file_stream(export_params,
+                                         **self._keywords)
         return data
 
     def get_params(self):
@@ -87,12 +87,12 @@ class BookDbSource(Source):
         return self.__db_type, None
 
     def write_data(self, book):
-        render = renderers.get_renderer(self.__db_type)
+        arender = renderer.get_a_plugin(self.__db_type)
         init_funcs, map_dicts = transcode_book_db_keywords(
             self._keywords)
 
         import_params = self.get_params()
-        render.render_book_to_stream(
+        arender.render_book_to_stream(
             import_params,
             book,
             inits=init_funcs,

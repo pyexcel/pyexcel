@@ -8,7 +8,7 @@
     :license: New BSD License
 """
 import pyexcel.constants as constants
-import pyexcel.internal.parser_meta as parsers
+from pyexcel.internal import parser
 from . import params
 from .file_sources import InputSource
 
@@ -18,7 +18,7 @@ class ReadExcelFileMemory(InputSource):
     fields = [params.FILE_TYPE]
     targets = (constants.SHEET, constants.BOOK)
     actions = (constants.READ_ACTION,)
-    attributes = parsers.get_all_file_types()
+    attributes = parser.get_all_file_types()
     key = params.FILE_TYPE
 
     def __init__(self,
@@ -29,7 +29,7 @@ class ReadExcelFileMemory(InputSource):
         self.__file_type = file_type
         self.__file_stream = file_stream
         self.__file_content = file_content
-        self.__parser = parsers.get_parser(file_type)
+        self.__parser = parser.get_a_plugin(file_type)
         InputSource.__init__(self, **keywords)
 
     def get_data(self):

@@ -7,7 +7,7 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-import pyexcel.internal.renderer_meta as renderers
+from pyexcel.internal import renderer
 import pyexcel.constants as constants
 from .file_sources import OutputSource
 from . import params
@@ -17,17 +17,17 @@ class WriteSheetToMemory(OutputSource):
     fields = [params.FILE_TYPE]
     targets = (constants.SHEET,)
     actions = (constants.WRITE_ACTION,)
-    attributes = renderers.get_all_file_types()
+    attributes = renderer.get_all_file_types()
 
     def __init__(self, file_type=None, file_stream=None, **keywords):
         OutputSource.__init__(self, **keywords)
 
-        self._renderer = renderers.get_renderer(file_type)
+        self._renderer = renderer.get_a_plugin(file_type)
         if file_stream:
             self._content = file_stream
         else:
             self._content = self._renderer.get_io()
-        self.attributes = renderers.get_all_file_types()
+        self.attributes = renderer.get_all_file_types()
 
     def write_data(self, sheet):
         self._renderer.render_sheet_to_stream(

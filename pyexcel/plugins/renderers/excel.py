@@ -9,15 +9,15 @@
 """
 from pyexcel_io import save_data
 import pyexcel_io.manager as manager
+from pyexcel_io.plugins import iomanager
 
 from pyexcel.constants import DEFAULT_SHEET_NAME
-from pyexcel.plugins import get_excel_formats
 from pyexcel.renderer import Renderer
 
 
 class ExcelRenderer(Renderer):
 
-    file_types = get_excel_formats()
+    file_types = iomanager.get_all_writer_formats()
 
     def get_io(self):
         return manager.get_io(self._file_type)

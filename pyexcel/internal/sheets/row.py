@@ -15,7 +15,7 @@ import pyexcel._compact as compact
 from .formatters import to_format
 
 
-class Row:
+class Row(object):
     """Represent row of a matrix
 
     .. table:: "example.csv"

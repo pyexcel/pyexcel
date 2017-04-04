@@ -7,14 +7,12 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-import logging
 import pyexcel.constants as constants
 from pyexcel_io.constants import DB_DJANGO, DB_SQL
 
 
 NO_DOT_NOTATION = (DB_DJANGO, DB_SQL)
 
-log = logging.getLogger(__name__)
 attribute_registry = {
     constants.SHEET: {
         constants.READ_ACTION: set(),
@@ -33,7 +31,6 @@ def register_an_attribute(target, action, attr):
     if attr in attribute_registry[target][constants.RW_ACTION]:
         # No registration required
         return
-    log.debug("%s-%s for %s" % (target, action, attr))
     attribute_registry[target][action].add(attr)
     intersection = (attr in attribute_registry[target][constants.READ_ACTION]
                     and
