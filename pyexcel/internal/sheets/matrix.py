@@ -125,8 +125,8 @@ class Matrix(object):
         ncolumns = self.number_of_columns()
         if row_index < nrows and starting < ncolumns:
             real_len = len(data_array)+starting
-            to = min(real_len, ncolumns)
-            for i in range(starting, to):
+            end = min(real_len, ncolumns)
+            for i in range(starting, end):
                 self.cell_value(row_index, i, data_array[i-starting])
             if real_len > ncolumns:
                 left = ncolumns - starting
@@ -138,16 +138,15 @@ class Matrix(object):
 
     def _extend_row(self, row):
         array = copy.deepcopy(row)
-        self.__array.append(array)
+        if compact.is_array_type(array, list):
+            self.__array += array
+        else:
+            self.__array.append(array)
 
     def extend_rows(self, rows):
         """Inserts two dimensional data after the bottom row"""
         if isinstance(rows, list):
-            if compact.is_array_type(rows, list):
-                for r in rows:
-                    self._extend_row(r)
-            else:
-                self._extend_row(rows)
+            self._extend_row(rows)
             self.__width, self.__array = uniform(self.__array)
         else:
             raise TypeError("Cannot use %s" % type(rows))
@@ -199,8 +198,8 @@ class Matrix(object):
         ncolumns = self.number_of_columns()
         if column_index < ncolumns and starting < nrows:
             real_len = len(data_array)+starting
-            to = min(real_len, nrows)
-            for i in range(starting, to):
+            end = min(real_len, nrows)
+            for i in range(starting, end):
                 self.cell_value(i, column_index, data_array[i-starting])
             if real_len > nrows:
                 for i in range(nrows, real_len):
@@ -383,10 +382,12 @@ class Matrix(object):
             starting_row = topleft_corner[0]
             number_of_rows = self.number_of_rows()
             number_of_columns = self.number_of_columns()
-            if starting_row > number_of_rows:
-                for i in range(0, starting_row - number_of_rows):
-                    empty_row = [constants.DEFAULT_NA] * number_of_columns
-                    self._extend_row(empty_row)
+            delta = starting_row - number_of_rows
+            if delta > 0:
+                empty_row = [
+                    [constants.DEFAULT_NA] * number_of_columns
+                ] * delta
+                self._extend_row(empty_row)
             number_of_rows = self.number_of_rows()
             for index, row in enumerate(rows):
                 set_index = starting_row + index

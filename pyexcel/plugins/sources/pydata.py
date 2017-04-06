@@ -17,7 +17,7 @@ import pyexcel.constants as constants
 from . import params
 
 
-class _FakeIO:
+class _FakeIO(object):
     def __init__(self):
         self.__value = None
 

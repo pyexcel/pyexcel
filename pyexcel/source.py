@@ -8,7 +8,7 @@
     :license: New BSD License
 """
 from pyexcel._compact import with_metaclass
-from pyexcel.internal.source_meta import MetaForSourceRegistryOnly
+from pyexcel.internal import MetaForSourceRegistryOnly
 import pyexcel.constants as constants
 
 

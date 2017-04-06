@@ -7,7 +7,7 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-import pyexcel.internal.source_meta as sources
+from pyexcel.internal import source
 import pyexcel.internal.attributes as attributes
 import pyexcel.constants as constants
 from functools import partial
@@ -16,7 +16,7 @@ from pyexcel.internal.core import get_sheet_stream
 
 def make_presenter(source_getter, attribute=None):
     def custom_presenter(self, **keywords):
-        keyword = sources.get_keyword_for_parameter(attribute)
+        keyword = source.get_keyword_for_parameter(attribute)
         keywords[keyword] = attribute
         memory_source = source_getter(**keywords)
         memory_source.write_data(self)
@@ -33,12 +33,12 @@ def make_presenter(source_getter, attribute=None):
 
 
 def sheet_presenter(attribute=None):
-    source_getter = sources.get_writable_source
+    source_getter = source.get_writable_source
     return make_presenter(source_getter, attribute)
 
 
 def book_presenter(attribute=None):
-    source_getter = sources.get_writable_book_source
+    source_getter = source.get_writable_book_source
     return make_presenter(source_getter, attribute)
 
 
@@ -48,7 +48,7 @@ def importer(attribute=None):
         for field in constants.VALID_SHEET_PARAMETERS:
             if field in keywords:
                 sheet_params[field] = keywords.pop(field)
-        keyword = sources.get_keyword_for_parameter(attribute)
+        keyword = source.get_keyword_for_parameter(attribute)
         if keyword == "file_type":
             keywords[keyword] = attribute
             keywords["file_content"] = content
@@ -63,7 +63,7 @@ def importer(attribute=None):
 
 def book_importer(attribute=None):
     def custom_book_importer(self, content, **keywords):
-        keyword = sources.get_keyword_for_parameter(attribute)
+        keyword = source.get_keyword_for_parameter(attribute)
         if keyword == "file_type":
             keywords[keyword] = attribute
             keywords["file_content"] = content
@@ -76,20 +76,20 @@ def book_importer(attribute=None):
 
 
 def default_presenter(attribute=None):
-    def none_presenter(self, **keywords):
+    def none_presenter(_, **__):
         raise NotImplementedError("%s getter is not defined." % attribute)
     none_presenter.__doc__ = "%s getter is not defined." % attribute
     return none_presenter
 
 
 def default_importer(attribute=None):
-    def none_importer(self, content, **keywords):
+    def none_importer(_, __, **___):
         raise NotImplementedError("%s setter is not defined." % attribute)
     none_importer.__doc__ = "%s setter is not defined." % attribute
     return none_importer
 
 
-class StreamAttribute:
+class StreamAttribute(object):
     """Provide access to get_*_stream methods"""
     def __init__(self, cls):
         self.cls = cls
@@ -103,7 +103,7 @@ def _register_instance_input_and_output(
         cls, file_type, presenter_func=sheet_presenter,
         input_func=default_importer,
         instance_name="Sheet",
-        description=constants._OUT_FILE_TYPE_DOC_STRING):
+        description=constants.OUT_FILE_TYPE_DOC_STRING):
     getter = presenter_func(file_type)
     setter = input_func(file_type)
     file_type_property = property(
@@ -140,23 +140,23 @@ register_input = partial(
     _register_instance_input_and_output,
     presenter_func=default_presenter,
     input_func=importer,
-    description=constants._IN_FILE_TYPE_DOC_STRING)
+    description=constants.IN_FILE_TYPE_DOC_STRING)
 register_book_input = partial(
     _register_instance_input_and_output,
     presenter_func=default_presenter,
     input_func=book_importer,
     instance_name="Book",
-    description=constants._IN_FILE_TYPE_DOC_STRING)
+    description=constants.IN_FILE_TYPE_DOC_STRING)
 register_io = partial(
     _register_instance_input_and_output,
     input_func=importer,
-    description=constants._IO_FILE_TYPE_DOC_STRING)
+    description=constants.IO_FILE_TYPE_DOC_STRING)
 register_book_io = partial(
     _register_instance_input_and_output,
     presenter_func=book_presenter,
     input_func=book_importer,
     instance_name="Book",
-    description=constants._IO_FILE_TYPE_DOC_STRING)
+    description=constants.IO_FILE_TYPE_DOC_STRING)
 
 
 class SheetMeta(type):
@@ -197,7 +197,7 @@ def _get_book(**keywords):
     Where the dictionary should have text as keys and two dimensional
     array as values.
     """
-    source = sources.get_book_source(**keywords)
-    sheets = source.get_data()
-    filename, path = source.get_source_info()
+    a_source = source.get_book_source(**keywords)
+    sheets = a_source.get_data()
+    filename, path = a_source.get_source_info()
     return sheets, filename, path

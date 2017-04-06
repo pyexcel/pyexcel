@@ -1,4 +1,5 @@
-from pyexcel.plugins import get_excel_formats, DB_SQL, DB_DJANGO
+from pyexcel_io.plugins import iomanager
+from pyexcel_io.constants import DB_SQL, DB_DJANGO
 
 
 __pyexcel_plugins__ = [
@@ -15,7 +16,7 @@ __pyexcel_plugins__ = [
     {
         'plugin_type': 'renderer',
         'submodule': 'excel',
-        'file_types': get_excel_formats()
+        'file_types': iomanager.get_all_writer_formats()
     },
     {
         'plugin_type': 'renderer',

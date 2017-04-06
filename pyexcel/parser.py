@@ -8,7 +8,7 @@
     :license: New BSD License
 """
 from pyexcel._compact import with_metaclass
-from pyexcel.internal.parser_meta import MetaForParserRegistryOnly
+from pyexcel.internal import MetaForParserRegistryOnly
 
 
 class Parser(with_metaclass(MetaForParserRegistryOnly, object)):

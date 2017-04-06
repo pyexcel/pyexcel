@@ -9,7 +9,7 @@
 """
 import os
 
-import pyexcel.internal.parser_meta as parsers
+from pyexcel.internal import parser
 import pyexcel.constants as constants
 from . import params
 from .file_sources import InputSource
@@ -26,7 +26,7 @@ class ReadExcelFromFile(InputSource):
         self.__file_name = file_name
 
         file_type = self.__file_name.split('.')[-1]
-        self.__parser = parsers.get_parser(file_type)
+        self.__parser = parser.get_a_plugin(file_type)
         InputSource.__init__(self, **keywords)
 
     def get_source_info(self):
