@@ -4,6 +4,7 @@ nick_name: pyexcel
 version: 0.5.0
 release: 0.4.4
 dependencies:
+  - lml
   - pyexcel-io>=0.3.0
   - texttable>=0.8.1;python_version<"3"
   - texttable>=0.8.2;python_version>="3"
