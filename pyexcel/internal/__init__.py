@@ -21,26 +21,3 @@ WHITE_LIST = [
 MARKER = '__pyexcel_plugins__'
 
 scan_plugins('pyexcel_', MARKER, 'pyexcel', BLACK_LIST, WHITE_LIST)
-
-
-class MetaForRendererRegistryOnly(type):
-    """sole class registry"""
-    def __init__(cls, name, bases, nmspc):
-        super(MetaForRendererRegistryOnly, cls).__init__(
-            name, bases, nmspc)
-        renderer.register_a_plugin(cls)
-
-
-class MetaForParserRegistryOnly(type):
-    def __init__(cls, name, bases, nmspc):
-        super(MetaForParserRegistryOnly, cls).__init__(
-            name, bases, nmspc)
-        parser.register_a_plugin(cls)
-
-
-class MetaForSourceRegistryOnly(type):
-    """sole class registry"""
-    def __init__(cls, name, bases, nmspc):
-        super(MetaForSourceRegistryOnly, cls).__init__(
-            name, bases, nmspc)
-        source.register_a_plugin(cls)

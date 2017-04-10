@@ -7,14 +7,15 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
+from lml.manager import Plugin
 from pyexcel._compact import with_metaclass
-from pyexcel.internal import MetaForParserRegistryOnly
 
 
-class Parser(with_metaclass(MetaForParserRegistryOnly, object)):
+class Parser(with_metaclass(Plugin, object)):
     """
     Parsing data from tabular data such as excel file
     """
+    plugin_type = 'parser'
     file_types = []
 
     def __init__(self, file_type):

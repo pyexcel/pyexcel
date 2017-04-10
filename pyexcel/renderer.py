@@ -7,14 +7,16 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
+from lml.manager import Plugin
+
 from pyexcel._compact import StringIO, with_metaclass
-from pyexcel.internal import MetaForRendererRegistryOnly
 
 
-class Renderer(with_metaclass(MetaForRendererRegistryOnly, object)):
+class Renderer(with_metaclass(Plugin, object)):
     """
     Render pyexcel sheet or book into excel format as any other formats
     """
+    plugin_type = 'renderer'
     file_types = ()
     WRITE_FLAG = 'w'
 
