@@ -7,9 +7,9 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from lml.manager import Plugin
+from lml.manager import Plugin, with_metaclass
 
-from pyexcel._compact import StringIO, with_metaclass
+from pyexcel._compact import StringIO
 
 
 class Renderer(with_metaclass(Plugin, object)):

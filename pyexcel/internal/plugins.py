@@ -60,7 +60,7 @@ class PyexcelPluginManager(PluginManager):
 
     def register_a_plugin(self, plugin_cls):
         __file_types = []
+        PluginManager.register_a_plugin(self, plugin_cls)
         for file_type in plugin_cls.file_types:
             __file_types.append(file_type)
             self.loaded_registry[file_type] = plugin_cls
-        self._logger.debug("%s: %s" % (",".join(__file_types), plugin_cls))

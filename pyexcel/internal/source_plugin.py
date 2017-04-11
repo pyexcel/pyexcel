@@ -80,6 +80,7 @@ class SourcePluginManager(PluginManager):
             meta["attributes"], meta.get('key'))
 
     def register_a_plugin(self, plugin_cls):
+        PluginManager.register_a_plugin(self, plugin_cls)
         self._register_a_plugin(plugin_cls.targets,
                                 plugin_cls.actions,
                                 plugin_cls.attributes,

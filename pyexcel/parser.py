@@ -7,8 +7,7 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from lml.manager import Plugin
-from pyexcel._compact import with_metaclass
+from lml.manager import Plugin, with_metaclass
 
 
 class Parser(with_metaclass(Plugin, object)):

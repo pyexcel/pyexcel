@@ -8,6 +8,9 @@
     :license: New BSD License, see LICENSE for more details
 """
 import sys
+
+from lml.manager import with_metaclass
+
 from pyexcel.sheet import Sheet
 import pyexcel._compact as compact
 from pyexcel.internal.meta import BookMeta, StreamAttribute
@@ -17,7 +20,7 @@ from pyexcel.internal.core import save_book
 LOCAL_UUID = 0
 
 
-class Book(compact.with_metaclass(BookMeta, object)):
+class Book(with_metaclass(BookMeta, object)):
     """
     Read an excel book that has one or more sheets
 
