@@ -8,14 +8,12 @@
     :license: New BSD License
 """
 import types
-from functools import partial
 
 from . import _shared as utils
-from .formatters import to_format
 import pyexcel._compact as compact
 
 
-class Column(object):
+class Column(utils.CommonPropertyAmongRowNColumn):
     """Represent columns of a matrix
 
     .. table:: "example.csv"
@@ -45,9 +43,6 @@ class Column(object):
         IndexError
 
     """
-    def __init__(self, matrix):
-        self.__ref = matrix
-
     def select(self, indices):
         """
         Examples:
@@ -107,14 +102,14 @@ class Column(object):
         new_indices = []
         if compact.is_array_type(indices, str):
             new_indices = utils.names_to_indices(indices,
-                                                 self.__ref.colnames)
+                                                 self._ref.colnames)
         else:
             new_indices = indices
         to_remove = []
-        for index in self.__ref.column_range():
+        for index in self._ref.column_range():
             if index not in new_indices:
                 to_remove.append(index)
-        self.__ref.filter(column_indices=to_remove)
+        self._ref.filter(column_indices=to_remove)
 
     def __delitem__(self, aslice):
         """Override the operator to delete items
@@ -162,28 +157,28 @@ class Column(object):
 
         """
         is_sheet = (compact.is_string(type(aslice)) and
-                    hasattr(self.__ref, 'delete_named_column_at'))
+                    hasattr(self._ref, 'delete_named_column_at'))
         if is_sheet:
-            self.__ref.delete_named_column_at(aslice)
+            self._ref.delete_named_column_at(aslice)
         elif compact.is_tuple_consists_of_strings(aslice):
             indices = utils.names_to_indices(list(aslice),
-                                             self.__ref.colnames)
-            self.__ref.delete_columns(indices)
+                                             self._ref.colnames)
+            self._ref.delete_columns(indices)
         elif isinstance(aslice, slice):
             my_range = utils.analyse_slice(aslice,
-                                           self.__ref.number_of_columns())
-            self.__ref.delete_columns(my_range)
+                                           self._ref.number_of_columns())
+            self._ref.delete_columns(my_range)
         elif isinstance(aslice, str):
             index = utils.excel_column_index(aslice)
-            self.__ref.delete_columns([index])
+            self._ref.delete_columns([index])
         elif isinstance(aslice, tuple):
             indices = list(aslice)
-            self.__ref.filter(column_indices=indices)
+            self._ref.filter(column_indices=indices)
         elif isinstance(aslice, list):
             indices = aslice
-            self.__ref.filter(column_indices=indices)
+            self._ref.filter(column_indices=indices)
         elif isinstance(aslice, int):
-            self.__ref.delete_columns([aslice])
+            self._ref.delete_columns([aslice])
         elif isinstance(aslice, types.LambdaType):
             self._delete_columns_by_content(aslice)
         elif isinstance(aslice, types.FunctionType):
@@ -193,28 +188,28 @@ class Column(object):
 
     def _delete_columns_by_content(self, locator):
         to_remove = []
-        for index, column in enumerate(self.__ref.columns()):
+        for index, column in enumerate(self._ref.columns()):
             if locator(index, column):
                 to_remove.append(index)
         if len(to_remove) > 0:
-            self.__ref.delete_columns(to_remove)
+            self._ref.delete_columns(to_remove)
 
-    def __setitem__(self, aslice, c):
+    def __setitem__(self, aslice, a_column):
         """Override the operator to set items"""
         is_sheet = (compact.is_string(type(aslice)) and
-                    hasattr(self.__ref, 'set_named_column_at'))
+                    hasattr(self._ref, 'set_named_column_at'))
         if is_sheet:
-            self.__ref.set_named_column_at(aslice, c)
+            self._ref.set_named_column_at(aslice, a_column)
         elif isinstance(aslice, slice):
             my_range = utils.analyse_slice(aslice,
-                                           self.__ref.number_of_columns())
+                                           self._ref.number_of_columns())
             for i in my_range:
-                self.__ref.set_column_at(i, c)
+                self._ref.set_column_at(i, a_column)
         elif isinstance(aslice, str):
             index = utils.excel_column_index(aslice)
-            self.__ref.set_column_at(index, c)
+            self._ref.set_column_at(index, a_column)
         elif isinstance(aslice, int):
-            self.__ref.set_column_at(aslice, c)
+            self._ref.set_column_at(aslice, a_column)
         else:
             raise IndexError
 
@@ -223,20 +218,20 @@ class Column(object):
         from left to right"""
         index = aslice
         is_sheet = (compact.is_string(type(aslice)) and
-                    hasattr(self.__ref, 'named_column_at'))
+                    hasattr(self._ref, 'named_column_at'))
         if is_sheet:
-            return self.__ref.named_column_at(aslice)
+            return self._ref.named_column_at(aslice)
         elif isinstance(aslice, slice):
             my_range = utils.analyse_slice(aslice,
-                                           self.__ref.number_of_columns())
+                                           self._ref.number_of_columns())
             results = []
             for i in my_range:
-                results.append(self.__ref.column_at(i))
+                results.append(self._ref.column_at(i))
             return results
         elif isinstance(aslice, str):
             index = utils.excel_column_index(aslice)
-        if index in self.__ref.column_range():
-            return self.__ref.column_at(index)
+        if index in self._ref.column_range():
+            return self._ref.column_at(index)
         else:
             raise IndexError
 
@@ -246,11 +241,11 @@ class Column(object):
         :return: self
         """
         if isinstance(other, compact.OrderedDict):
-            self.__ref.extend_columns(other)
+            self._ref.extend_columns(other)
         elif isinstance(other, list):
-            self.__ref.extend_columns(other)
+            self._ref.extend_columns(other)
         elif hasattr(other, 'get_internal_array'):
-            self.__ref.extend_columns_with_rows(other.get_internal_array())
+            self._ref.extend_columns_with_rows(other.get_internal_array())
         else:
             raise TypeError
         return self
@@ -261,39 +256,36 @@ class Column(object):
         :return: self
         """
         self.__iadd__(other)
-        return self.__ref
+        return self._ref
 
     def format(self,
                column_index=None, formatter=None,
                format_specs=None):
         """Format a column
         """
-        def handle_one_formatter(columns, theformatter):
-            new_indices = columns
-            if len(self.__ref.colnames) > 0:
-                new_indices = utils.names_to_indices(columns,
-                                                     self.__ref.colnames)
-            converter = None
-            if isinstance(theformatter, types.FunctionType):
-                converter = theformatter
-            else:
-                converter = partial(to_format, theformatter)
-
-            if isinstance(new_indices, list):
-                for rcolumn in self.__ref.column_range():
-                    if rcolumn in new_indices:
-                        for row in self.__ref.row_range():
-                            value = self.__ref.cell_value(row, rcolumn)
-                            value = converter(value)
-                            self.__ref.cell_value(row, rcolumn, value)
-            else:
-                for row in self.__ref.row_range():
-                    value = self.__ref.cell_value(row, new_indices)
-                    value = converter(value)
-                    self.__ref.cell_value(row, new_indices, value)
-
         if column_index is not None:
-            handle_one_formatter(column_index, formatter)
+            self.handle_one_formatter(column_index, formatter)
         elif format_specs:
             for spec in format_specs:
-                handle_one_formatter(spec[0], spec[1])
+                self.handle_one_formatter(spec[0], spec[1])
+
+    def handle_one_formatter(self, columns, theformatter):
+        new_indices = columns
+        if len(self._ref.colnames) > 0:
+            new_indices = utils.names_to_indices(columns,
+                                                 self._ref.colnames)
+        converter = utils.CommonPropertyAmongRowNColumn.get_converter(
+            theformatter)
+
+        if isinstance(new_indices, list):
+            for rcolumn in self._ref.column_range():
+                if rcolumn in new_indices:
+                    for row in self._ref.row_range():
+                        value = self._ref.cell_value(row, rcolumn)
+                        value = converter(value)
+                        self._ref.cell_value(row, rcolumn, value)
+        else:
+            for row in self._ref.row_range():
+                value = self._ref.cell_value(row, new_indices)
+                value = converter(value)
+                self._ref.cell_value(row, new_indices, value)

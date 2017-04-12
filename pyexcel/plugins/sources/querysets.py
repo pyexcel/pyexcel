@@ -50,14 +50,14 @@ class SheetQuerySetSource(Source):
         Source.__init__(self, **keywords)
 
     def get_data(self):
-        params = dict(
+        local_params = dict(
             row_renderer=self.__row_renderer,
             start_row=self.__start_row,
             row_limit=self.__row_limit
         )
         if self.__skip_row_func is not None:
-            params['skip_row_func'] = self.__skip_row_func
+            local_params['skip_row_func'] = self.__skip_row_func
         reader = QuerysetsReader(
-            self.__query_sets, self.__column_names, **params)
+            self.__query_sets, self.__column_names, **local_params)
         data = reader.to_array()
         return {self.__sheet_name: data}

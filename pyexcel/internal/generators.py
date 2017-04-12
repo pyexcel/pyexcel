@@ -7,11 +7,11 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel_io.sheet import NamedContent
-from pyexcel._compact import OrderedDict, SheetIterator
+from pyexcel._compact import OrderedDict
+from pyexcel.internal.common import SheetIterator
 
 
-class SheetStream(NamedContent):
+class SheetStream(object):
     """
     Memory efficient sheet representation
 
@@ -27,7 +27,8 @@ class SheetStream(NamedContent):
 
     """
     def __init__(self, name, payload):
-        NamedContent.__init__(self, name, payload)
+        self.name = name
+        self.payload = payload
         self.colnames = []
 
     def to_array(self):
@@ -38,6 +39,7 @@ class SheetStream(NamedContent):
 
     @property
     def array(self):
+        """array attribute"""
         return list(self.payload)
 
 

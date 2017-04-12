@@ -8,7 +8,33 @@
     :license: New BSD License
 """
 import re
+import types
+from functools import partial
+
+from .formatters import to_format
 from pyexcel._compact import PY2
+
+
+class CommonPropertyAmongRowNColumn(object):
+    def __init__(self, matrix):
+        self._ref = matrix
+
+    def __add__(self, other):
+        """Overload += sign
+
+        :return: self
+        """
+        self.__iadd__(other)
+        return self._ref
+
+    @staticmethod
+    def get_converter(theformatter):
+        converter = None
+        if isinstance(theformatter, types.FunctionType):
+            converter = theformatter
+        else:
+            converter = partial(to_format, theformatter)
+        return converter
 
 
 def analyse_slice(aslice, upper_bound):

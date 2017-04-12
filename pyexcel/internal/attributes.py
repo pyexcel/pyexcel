@@ -28,6 +28,7 @@ attribute_registry = {
 
 
 def register_an_attribute(target, action, attr):
+    """Register a file type as an attribute"""
     if attr in attribute_registry[target][constants.RW_ACTION]:
         # No registration required
         return
@@ -42,24 +43,30 @@ def register_an_attribute(target, action, attr):
 
 
 def get_book_rw_attributes():
+    """return read and write attributes for a book"""
     return attribute_registry[constants.BOOK][constants.RW_ACTION]
 
 
 def get_book_w_attributes():
+    """return write attributes for a book"""
     return attribute_registry[constants.BOOK][constants.WRITE_ACTION]
 
 
 def get_book_r_attributes():
+    """return read attributes for a book"""
     return attribute_registry[constants.BOOK][constants.READ_ACTION]
 
 
 def get_sheet_rw_attributes():
+    """return read and write attributes for a sheet"""
     return attribute_registry[constants.SHEET][constants.RW_ACTION]
 
 
 def get_sheet_w_attributes():
+    """return write attributes for a sheet"""
     return attribute_registry[constants.SHEET][constants.WRITE_ACTION]
 
 
 def get_sheet_r_attributes():
+    """return read attributes for a sheet"""
     return attribute_registry[constants.SHEET][constants.READ_ACTION]

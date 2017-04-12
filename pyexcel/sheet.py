@@ -7,8 +7,6 @@
     :copyright: (c) 2014-2017 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-import sys
-
 from lml.manager import with_metaclass
 
 import pyexcel._compact as compact
@@ -186,13 +184,18 @@ class Sheet(with_metaclass(SheetMeta, Matrix)):
         del self.column[column_index]
 
     def top(self, lines=5):
+        """
+        Preview top most 5 rows
+        """
         sheet = Sheet(self.row[:lines])
         if len(self.colnames) > 0:
             sheet.colnames = self.__column_names
         return sheet
 
     def top_left(self, rows=5, columns=5):
-
+        """
+        Preview top corner: 5x5
+        """
         region = Sheet(self.region((0, 0), (rows, columns)))
         if len(self.__row_names) > 0:
             rownames = self.__row_names[:rows]
@@ -421,10 +424,12 @@ class Sheet(with_metaclass(SheetMeta, Matrix)):
         return the_dict
 
     def named_rows(self):
+        """iterate rows using row names"""
         for row_name in self.__row_names:
             yield {row_name: self.row[row_name]}
 
     def named_columns(self):
+        """iterate rows using column names"""
         for column_name in self.__column_names:
             yield {column_name: self.column[column_name]}
 
@@ -557,20 +562,8 @@ class Sheet(with_metaclass(SheetMeta, Matrix)):
         else:
             Matrix.__setitem__(self, aset, c)
 
-    def __repr__(self):
-        if compact.PY2:
-            default_encoding = sys.getdefaultencoding()
-            if default_encoding == "ascii":
-                result = self.texttable
-                return result.encode('utf-8')
 
-        return self.texttable
-
-    def __str__(self):
-        return self.__repr__()
-
-
-class _RepresentedString:
+class _RepresentedString(object):
     """present in text"""
     def __init__(self, text):
         self.text = text
@@ -583,6 +576,7 @@ class _RepresentedString:
 
 
 def make_names_unique(alist):
+    """Append the number of occurences to duplicated names"""
     duplicates = {}
     new_names = []
     for item in alist:

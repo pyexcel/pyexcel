@@ -119,7 +119,7 @@ def test_issue_29_nominablesheet():
 
 
 def test_issue_51_orderred_dict_in_records():
-    from pyexcel.plugins.sources.pydata import RecordsReader
+    from pyexcel.plugins.sources.pydata.records import RecordsReader
     records = []
     orderred_dict = OrderedDict()
     orderred_dict.update({"Zebra": 10})
@@ -138,7 +138,7 @@ def test_issue_51_orderred_dict_in_records():
 
 
 def test_issue_51_normal_dict_in_records():
-    from pyexcel.plugins.sources.pydata import RecordsReader
+    from pyexcel.plugins.sources.pydata.records import RecordsReader
     records = []
     orderred_dict = {}
     orderred_dict.update({"Zebra": 10})

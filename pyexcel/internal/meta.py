@@ -7,7 +7,7 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel.internal import source
+from pyexcel.internal import SOURCE
 import pyexcel.internal.attributes as attributes
 import pyexcel.constants as constants
 from functools import partial
@@ -15,8 +15,10 @@ from pyexcel.internal.core import get_sheet_stream
 
 
 def make_presenter(source_getter, attribute=None):
+    """make a custom presentation method for each file types
+    """
     def custom_presenter(self, **keywords):
-        keyword = source.get_keyword_for_parameter(attribute)
+        keyword = SOURCE.get_keyword_for_parameter(attribute)
         keywords[keyword] = attribute
         memory_source = source_getter(**keywords)
         memory_source.write_data(self)
@@ -33,22 +35,28 @@ def make_presenter(source_getter, attribute=None):
 
 
 def sheet_presenter(attribute=None):
-    source_getter = source.get_writable_source
+    """make a custom presentation method for sheet
+    """
+    source_getter = SOURCE.get_writable_source
     return make_presenter(source_getter, attribute)
 
 
 def book_presenter(attribute=None):
-    source_getter = source.get_writable_book_source
+    """make a custom presentation method for book
+    """
+    source_getter = SOURCE.get_writable_book_source
     return make_presenter(source_getter, attribute)
 
 
 def importer(attribute=None):
+    """make a custom input method for sheet
+    """
     def custom_importer1(self, content, **keywords):
         sheet_params = {}
         for field in constants.VALID_SHEET_PARAMETERS:
             if field in keywords:
                 sheet_params[field] = keywords.pop(field)
-        keyword = source.get_keyword_for_parameter(attribute)
+        keyword = SOURCE.get_keyword_for_parameter(attribute)
         if keyword == "file_type":
             keywords[keyword] = attribute
             keywords["file_content"] = content
@@ -62,8 +70,10 @@ def importer(attribute=None):
 
 
 def book_importer(attribute=None):
+    """make a custom input method for book
+    """
     def custom_book_importer(self, content, **keywords):
-        keyword = source.get_keyword_for_parameter(attribute)
+        keyword = SOURCE.get_keyword_for_parameter(attribute)
         if keyword == "file_type":
             keywords[keyword] = attribute
             keywords["file_content"] = content
@@ -76,6 +86,11 @@ def book_importer(attribute=None):
 
 
 def default_presenter(attribute=None):
+    """a default method for missing renderer method
+
+    for example, the support to write data in a specific file type
+    is missing but the support to read data exists
+    """
     def none_presenter(_, **__):
         raise NotImplementedError("%s getter is not defined." % attribute)
     none_presenter.__doc__ = "%s getter is not defined." % attribute
@@ -83,6 +98,11 @@ def default_presenter(attribute=None):
 
 
 def default_importer(attribute=None):
+    """a default method for missing parser method
+
+    for example, the support to read data in a specific file type
+    is missing but the support to write data exists
+    """
     def none_importer(_, __, **___):
         raise NotImplementedError("%s setter is not defined." % attribute)
     none_importer.__doc__ = "%s setter is not defined." % attribute
@@ -131,27 +151,27 @@ def _register_instance_input_and_output(
         setattr(cls, 'plot', plot_svg)
 
 
-register_presentation = _register_instance_input_and_output
-register_book_presentation = partial(
+REGISTER_PRESENTATION = _register_instance_input_and_output
+REGISTER_BOOK_PRESENTATION = partial(
     _register_instance_input_and_output,
     presenter_func=book_presenter,
     instance_name="Book")
-register_input = partial(
+REGISTER_INPUT = partial(
     _register_instance_input_and_output,
     presenter_func=default_presenter,
     input_func=importer,
     description=constants.IN_FILE_TYPE_DOC_STRING)
-register_book_input = partial(
+REGISTER_BOOK_INPUT = partial(
     _register_instance_input_and_output,
     presenter_func=default_presenter,
     input_func=book_importer,
     instance_name="Book",
     description=constants.IN_FILE_TYPE_DOC_STRING)
-register_io = partial(
+REGISTER_IO = partial(
     _register_instance_input_and_output,
     input_func=importer,
     description=constants.IO_FILE_TYPE_DOC_STRING)
-register_book_io = partial(
+REGISTER_BOOK_IO = partial(
     _register_instance_input_and_output,
     presenter_func=book_presenter,
     input_func=book_importer,
@@ -160,35 +180,37 @@ register_book_io = partial(
 
 
 class SheetMeta(type):
+    """Annotate sheet attributes"""
     def __init__(cls, name, bases, nmspc):
         super(SheetMeta, cls).__init__(name, bases, nmspc)
         for attribute in attributes.get_sheet_rw_attributes():
-            register_io(cls, attribute)
+            REGISTER_IO(cls, attribute)
         for attribute in attributes.get_sheet_w_attributes():
-            register_presentation(cls, attribute)
+            REGISTER_PRESENTATION(cls, attribute)
         for attribute in attributes.get_sheet_r_attributes():
-            register_input(cls, attribute)
-        setattr(cls, "register_io", classmethod(register_io))
+            REGISTER_INPUT(cls, attribute)
+        setattr(cls, "register_io", classmethod(REGISTER_IO))
         setattr(cls, "register_presentation",
-                classmethod(register_presentation))
+                classmethod(REGISTER_PRESENTATION))
         setattr(cls, "register_input",
-                classmethod(register_input))
+                classmethod(REGISTER_INPUT))
 
 
 class BookMeta(type):
+    """Annotate book attributes"""
     def __init__(cls, name, bases, nmspc):
         super(BookMeta, cls).__init__(name, bases, nmspc)
         for attribute in attributes.get_book_rw_attributes():
-            register_book_io(cls, attribute)
+            REGISTER_BOOK_IO(cls, attribute)
         for attribute in attributes.get_book_w_attributes():
-            register_book_presentation(cls, attribute)
+            REGISTER_BOOK_PRESENTATION(cls, attribute)
         for attribute in attributes.get_book_r_attributes():
-            register_book_input(cls, attribute)
-        setattr(cls, "register_io", classmethod(register_book_io))
+            REGISTER_BOOK_INPUT(cls, attribute)
+        setattr(cls, "register_io", classmethod(REGISTER_BOOK_IO))
         setattr(cls, "register_presentation",
-                classmethod(register_book_presentation))
+                classmethod(REGISTER_BOOK_PRESENTATION))
         setattr(cls, "register_book_input",
-                classmethod(register_book_input))
+                classmethod(REGISTER_BOOK_INPUT))
 
 
 def _get_book(**keywords):
@@ -197,7 +219,7 @@ def _get_book(**keywords):
     Where the dictionary should have text as keys and two dimensional
     array as values.
     """
-    a_source = source.get_book_source(**keywords)
+    a_source = SOURCE.get_book_source(**keywords)
     sheets = a_source.get_data()
     filename, path = a_source.get_source_info()
     return sheets, filename, path

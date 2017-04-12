@@ -13,6 +13,7 @@ import pyexcel_io.database.django as django
 from pyexcel_io import get_data
 
 
+# pylint: disable=W0223
 class DjangoExporter(Parser):
     file_types = [DB_DJANGO]
 

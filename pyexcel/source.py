@@ -30,6 +30,10 @@ class Source(with_metaclass(Plugin, object)):
         self._keywords = keywords
 
     def get_source_info(self):
+        """return filename and path, otherwise not useful
+
+        see also `:meth:pyexcel.internal.core.get_book_stream`
+        """
         return (None, None)
 
     @classmethod
@@ -42,15 +46,24 @@ class Source(with_metaclass(Plugin, object)):
         return len(results) == 0
 
     def write_data(self, content):
+        """Write data to a data source"""
         raise NotImplementedError("")
 
     def get_data(self):
+        """Get data from a data source"""
         raise NotImplementedError("")
 
 
 class MemorySourceMixin(object):
+    """A memory source should an internal memory stream
 
+    And it is desirable to get its internal stream
+    """
     def get_content(self):
+        """Get memory repsentation of the formatted data
+
+        e.g. StringIO instance which contains the csv formatted data
+        """
         return self._content
 
 

@@ -1,4 +1,13 @@
-from pyexcel.internal import parser, renderer
+"""
+    pyexcel.plugins.sources
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    A list of built-in sources
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
+from pyexcel.internal import PARSER, RENDERER
 
 __pyexcel_plugins__ = [
     {
@@ -25,7 +34,7 @@ __pyexcel_plugins__ = [
         'targets': ['sheet', 'book'],
         'actions': ['read'],
         'key': 'file_type',
-        'attributes': parser.get_all_file_types
+        'attributes': PARSER.get_all_file_types
     },
     {
         'plugin_type': 'source',
@@ -42,11 +51,11 @@ __pyexcel_plugins__ = [
         'targets': ['sheet', 'book'],
         'actions': ['write'],
         'key': 'file_type',
-        'attributes': renderer.get_all_file_types
+        'attributes': RENDERER.get_all_file_types
     },
     {
         'plugin_type': 'source',
-        'submodule': 'pydata',
+        'submodule': 'pydata.bookdict',
         'fields': ['bookdict'],
         'targets': ['sheet', 'book'],
         'actions': ['write', 'read'],
@@ -55,7 +64,7 @@ __pyexcel_plugins__ = [
     },
     {
         'plugin_type': 'source',
-        'submodule': 'pydata',
+        'submodule': 'pydata.dictsource',
         'fields': ['adict'],
         'targets': ['sheet', 'book'],
         'actions': ['write', 'read'],
@@ -64,7 +73,7 @@ __pyexcel_plugins__ = [
     },
     {
         'plugin_type': 'source',
-        'submodule': 'pydata',
+        'submodule': 'pydata.arraysource',
         'fields': ['array'],
         'targets': ['sheet', 'book'],
         'actions': ['write', 'read'],
@@ -73,7 +82,7 @@ __pyexcel_plugins__ = [
     },
     {
         'plugin_type': 'source',
-        'submodule': 'pydata',
+        'submodule': 'pydata.records',
         'fields': ['records'],
         'targets': ['sheet', 'book'],
         'actions': ['write', 'read'],

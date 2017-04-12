@@ -9,22 +9,20 @@
 """
 import types
 
-from lml.manager import PluginManager
-
-import pyexcel.constants as constants
-import pyexcel.exceptions as exceptions
+from pyexcel.internal.common import PyexcelPluginManager
 
 
-class PyexcelPluginManager(PluginManager):
+class IOPluginManager(PyexcelPluginManager):
+    """Generic plugin manager for renderer and parser
+    """
     def __init__(self, name):
-        PluginManager.__init__(self, name)
+        PyexcelPluginManager.__init__(self, name)
         self.loaded_registry = {}
 
     def load_me_later(self, plugin_meta, module_name):
-        PluginManager.load_me_later(self, plugin_meta, module_name)
-        if not isinstance(plugin_meta, dict):
-            plugin = module_name.replace('_', '-')
-            raise exceptions.UpgradePlugin(constants.MESSAGE_UPGRADE % plugin)
+        """map each file type against its supporting module
+        """
+        PyexcelPluginManager.load_me_later(self, plugin_meta, module_name)
         library_import_path = "%s.%s" % (module_name, plugin_meta['submodule'])
         file_types = plugin_meta['file_types']
         if isinstance(file_types, types.FunctionType):
@@ -34,7 +32,9 @@ class PyexcelPluginManager(PluginManager):
                 (library_import_path, plugin_meta['submodule']))
 
     def load_me_now(self, key, **keywords):
-        PluginManager.load_me_now(self, key, **keywords)
+        """load the corresponding supporting module for each file type
+        """
+        PyexcelPluginManager.load_me_now(self, key, **keywords)
         __key = key.lower()
         if __key in self.registry:
             for path in self.registry[__key]:
@@ -43,6 +43,8 @@ class PyexcelPluginManager(PluginManager):
             self.registry.pop(__key)
 
     def get_a_plugin(self, file_type):
+        """get a plugin to handle the file type
+        """
         __file_type = None
         if file_type:
             __file_type = file_type.lower()
@@ -54,13 +56,16 @@ class PyexcelPluginManager(PluginManager):
         return plugin_cls(__file_type)
 
     def get_all_file_types(self):
+        """get all supported file types
+        """
         file_types = (list(self.registry.keys()) +
                       list(self.loaded_registry.keys()))
         return file_types
 
     def register_a_plugin(self, plugin_cls):
+        """register loaded plugin classes"""
         __file_types = []
-        PluginManager.register_a_plugin(self, plugin_cls)
+        PyexcelPluginManager.register_a_plugin(self, plugin_cls)
         for file_type in plugin_cls.file_types:
             __file_types.append(file_type)
             self.loaded_registry[file_type] = plugin_cls

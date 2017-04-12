@@ -159,7 +159,7 @@ class PyexcelMultipleSheetBase:
         for s in b:
             data = s.array
             assert self.content[s.name] == data
-        si = pe._compact.SheetIterator(b)
+        si = pe.internal.common.SheetIterator(b)
         for s in si:
             data = s.array
             assert self.content[s.name] == data

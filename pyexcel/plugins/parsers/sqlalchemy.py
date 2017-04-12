@@ -13,6 +13,7 @@ import pyexcel_io.database.sql as sql
 from pyexcel_io import get_data
 
 
+# pylint: disable=W0223
 class SQLAlchemyExporter(Parser):
     file_types = [DB_SQL]
 

@@ -10,7 +10,6 @@
 # flake8: noqa
 import sys
 import types
-import logging
 import warnings
 
 PY2 = sys.version_info[0] == 2
@@ -20,13 +19,6 @@ if PY26:
     from ordereddict import OrderedDict
 else:
     from collections import OrderedDict
-
-try:
-    from logging import NullHandler
-except ImportError:
-    class NullHandler(logging.Handler):
-        def emit(self, record):
-            pass
 
 if PY2:
     from StringIO import StringIO
@@ -76,25 +68,3 @@ def deprecated(func, message="Deprecated!"):
         warnings.warn(message, DeprecationWarning)
         return func(*arg, **keywords)
     return inner
-
-
-class SheetIterator:
-    """
-    Sheet Iterator
-    """
-    def __init__(self, bookreader):
-        self.book_reader_ref = bookreader
-        self.current = 0
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        return self.next()
-
-    def next(self):
-        if self.current < self.book_reader_ref.number_of_sheets():
-            self.current += 1
-            return self.book_reader_ref[self.current-1]
-        else:
-            raise StopIteration

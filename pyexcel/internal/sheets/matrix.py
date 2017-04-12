@@ -14,13 +14,14 @@ from functools import partial
 
 import pyexcel._compact as compact
 import pyexcel.constants as constants
+from pyexcel.internal.common import PyexcelObject
 from .formatters import to_format
 from .row import Row
 from .column import Column
 from . import _shared as utils
 
 
-class Matrix(object):
+class Matrix(PyexcelObject):
     """The internal representation of a sheet data. Each element
     can be of any python types
     """
@@ -429,13 +430,13 @@ class Matrix(object):
                         del self.__array[i][j]
             self.__width = longest_row_number(self.__array)
 
-    def __setitem__(self, aset, c):
+    def __setitem__(self, aset, cell_value):
         """Override the operator to set items"""
         if isinstance(aset, tuple):
-            return self.cell_value(aset[0], aset[1], c)
+            return self.cell_value(aset[0], aset[1], cell_value)
         elif isinstance(aset, str):
             row, column = utils.excel_cell_position(aset)
-            return self.cell_value(row, column, c)
+            return self.cell_value(row, column, cell_value)
         else:
             raise IndexError
 
@@ -455,8 +456,8 @@ class Matrix(object):
 
     def contains(self, predicate):
         """Has something in the table"""
-        for r in self.rows():
-            if predicate(r):
+        for row in self.rows():
+            if predicate(row):
                 return True
         else:
             return False
@@ -739,15 +740,15 @@ class Matrix(object):
         content = {}
         content[self.name] = self.__array
         if isinstance(other, Book):
-            b = other.to_dict()
-            for l in b.keys():
-                new_key = l
-                if len(b.keys()) == 1:
+            other_in_dict = other.to_dict()
+            for key in other_in_dict.keys():
+                new_key = key
+                if len(other_in_dict.keys()) == 1:
                     new_key = other.filename
                 if new_key in content:
                     uid = local_uuid()
-                    new_key = "%s_%s" % (l, uid)
-                content[new_key] = b[l]
+                    new_key = "%s_%s" % (key, uid)
+                content[new_key] = other_in_dict[key]
         elif isinstance(other, Matrix):
             new_key = other.name
             if new_key in content:
@@ -756,9 +757,9 @@ class Matrix(object):
             content[new_key] = other.get_internal_array()
         else:
             raise TypeError
-        c = Book()
-        c.load_from_sheets(content)
-        return c
+        new_book = Book()
+        new_book.load_from_sheets(content)
+        return new_book
 
 
 def _unique(seq):
@@ -821,10 +822,10 @@ def transpose(in_array):
     new_array = []
     for i in range(0, max_length):
         row_data = []
-        for c in in_array:
-            if i < len(c):
-                row_data.append(c[i])
+        for row in in_array:
+            if i < len(row):
+                row_data.append(row[i])
             else:
-                row_data.append('')
+                row_data.append(constants.DEFAULT_NA)
         new_array.append(row_data)
     return new_array

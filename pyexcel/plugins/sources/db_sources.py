@@ -9,8 +9,7 @@
 """
 import pyexcel.constants as constants
 from pyexcel.source import Source
-from pyexcel.internal import renderer
-from pyexcel.internal import parser
+from pyexcel.internal import RENDERER, PARSER
 from pyexcel._compact import PY2
 from . import params
 
@@ -33,7 +32,7 @@ class SheetDbSource(Source):
         Source.__init__(self, **keywords)
 
     def get_data(self):
-        aparser = parser.get_a_plugin(self._db_type)
+        aparser = PARSER.get_a_plugin(self._db_type)
         export_params = self.get_export_params()
         data = aparser.parse_file_stream(
             export_params,
@@ -44,11 +43,12 @@ class SheetDbSource(Source):
         return data
 
     def get_export_params(self):
+        """form the parameters for the db renderer"""
         pass
 
     def write_data(self, sheet):
-        arender = renderer.get_a_plugin(self._db_type)
-        init_func, map_dict = transcode_sheet_db_keywords(
+        arender = RENDERER.get_a_plugin(self._db_type)
+        init_func, map_dict = _transcode_sheet_db_keywords(
             self._keywords)
         import_params = self.get_import_params()
         arender.render_sheet_to_stream(
@@ -59,6 +59,7 @@ class SheetDbSource(Source):
             **self._keywords)
 
     def get_import_params(self):
+        """form the parameters for the db parser"""
         pass
 
 
@@ -74,21 +75,22 @@ class BookDbSource(Source):
         Source.__init__(self, **keywords)
 
     def get_data(self):
-        aparser = parser.get_a_plugin(self.__db_type)
+        aparser = PARSER.get_a_plugin(self.__db_type)
         export_params = self.get_params()
         data = aparser.parse_file_stream(export_params,
                                          **self._keywords)
         return data
 
     def get_params(self):
+        """form the paraneters for the db parser and renderer"""
         pass
 
     def get_source_info(self):
         return self.__db_type, None
 
     def write_data(self, book):
-        arender = renderer.get_a_plugin(self.__db_type)
-        init_funcs, map_dicts = transcode_book_db_keywords(
+        arender = RENDERER.get_a_plugin(self.__db_type)
+        init_funcs, map_dicts = _transcode_book_db_keywords(
             self._keywords)
 
         import_params = self.get_params()
@@ -109,7 +111,7 @@ def _set_dictionary_key(adict, sheet_name):
     adict.pop(old_sheet_name)
 
 
-def transcode_sheet_db_keywords(keywords):
+def _transcode_sheet_db_keywords(keywords):
     if params.INITIALIZER in keywords:
         init_func = keywords.pop(params.INITIALIZER)
     else:
@@ -122,7 +124,7 @@ def transcode_sheet_db_keywords(keywords):
     return init_func, map_dict
 
 
-def transcode_book_db_keywords(keywords):
+def _transcode_book_db_keywords(keywords):
     if params.INITIALIZERS in keywords:
         init_funcs = keywords.pop(params.INITIALIZERS)
     else:

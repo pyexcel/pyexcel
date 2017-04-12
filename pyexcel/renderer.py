@@ -110,7 +110,9 @@ class Renderer(with_metaclass(Plugin, object)):
                 self._stream.write('\n')
 
     def set_output_stream(self, stream):
+        """update internal stream"""
         self._stream = stream
 
     def set_write_title(self, flag):
+        """update write title flag"""
         self._write_title = flag

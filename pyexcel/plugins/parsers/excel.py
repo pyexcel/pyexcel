@@ -13,6 +13,7 @@ from pyexcel_io.plugins import iomanager
 
 
 class ExcelParser(Parser):
+    """get data from excel files"""
     file_types = iomanager.get_all_reader_formats()
 
     def parse_file(self, file_name, **keywords):

@@ -7,20 +7,18 @@
     :copyright: (c) 2014-2017 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-import sys
-
 from lml.manager import with_metaclass
 
 from pyexcel.sheet import Sheet
 import pyexcel._compact as compact
 from pyexcel.internal.meta import BookMeta, StreamAttribute
 from pyexcel.internal.core import save_book
-
+from pyexcel.internal.common import PyexcelObject, SheetIterator
 
 LOCAL_UUID = 0
 
 
-class Book(with_metaclass(BookMeta, object)):
+class Book(with_metaclass(BookMeta, PyexcelObject)):
     """
     Read an excel book that has one or more sheets
 
@@ -45,6 +43,8 @@ class Book(with_metaclass(BookMeta, object)):
         self.init(sheets=sheets, filename=filename, path=path)
 
     def init(self, sheets=None, filename="memory", path=None):
+        """indpendent function so that it could be called multiple times
+        """
         self.__path = path
         self.filename = filename
         self.load_from_sheets(sheets)
@@ -94,7 +94,7 @@ class Book(with_metaclass(BookMeta, object)):
         self.__name_array = list(self.__sheets.keys())
 
     def __iter__(self):
-        return compact.SheetIterator(self)
+        return SheetIterator(self)
 
     def number_of_sheets(self):
         """
@@ -233,18 +233,6 @@ class Book(with_metaclass(BookMeta, object)):
         for sheet in self:
             the_dict.update({sheet.name: sheet.array})
         return the_dict
-
-    def __repr__(self):
-        if compact.PY2:
-            default_encoding = sys.getdefaultencoding()
-            if default_encoding == "ascii":
-                result = self.texttable
-                return result.encode('utf-8')
-
-        return self.texttable
-
-    def __str__(self):
-        return self.__repr__()
 
     def save_as(self, filename, **keywords):
         """

@@ -9,12 +9,13 @@
 """
 import os
 
-from pyexcel.internal import parser
+from pyexcel.internal import PARSER
 import pyexcel.constants as constants
 from . import params
 from .file_sources import InputSource
 
 
+# pylint: disable=W0223
 class ReadExcelFromFile(InputSource):
     """Pick up 'file_name' field and do single sheet based read and write
     """
@@ -26,7 +27,7 @@ class ReadExcelFromFile(InputSource):
         self.__file_name = file_name
 
         file_type = self.__file_name.split('.')[-1]
-        self.__parser = parser.get_a_plugin(file_type)
+        self.__parser = PARSER.get_a_plugin(file_type)
         InputSource.__init__(self, **keywords)
 
     def get_source_info(self):

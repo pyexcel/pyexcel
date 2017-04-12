@@ -1,12 +1,21 @@
+"""
+    pyexcel.internal
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Pyexcel internals that subjected to change
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 from lml.plugin import scan_plugins
-from pyexcel.internal.plugins import PyexcelPluginManager
+from pyexcel.internal.plugins import IOPluginManager
 from pyexcel.internal.source_plugin import SourcePluginManager
 from pyexcel.internal.generators import SheetStream, BookStream  # noqa
 
 
-renderer = PyexcelPluginManager('renderer')
-parser = PyexcelPluginManager('parser')
-source = SourcePluginManager()
+RENDERER = IOPluginManager('renderer')
+PARSER = IOPluginManager('parser')
+SOURCE = SourcePluginManager()
 
 BLACK_LIST = ['pyexcel_io', 'pyexcel_webio',
               'pyexcel_xlsx', 'pyexcel_xls',

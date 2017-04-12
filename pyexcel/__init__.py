@@ -10,10 +10,6 @@
     :license: New BSD License, see LICENSE for more details
 """
 # flake8: noqa
-import logging
-from ._compact import NullHandler
-logging.getLogger(__name__).addHandler(NullHandler())
-
 from .cookbook import (
     merge_csv_to_a_book,
     merge_all_to_a_book,

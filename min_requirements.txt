@@ -1,5 +1,5 @@
 lml
-pyexcel-io==0.3.0
+pyexcel-io==0.4.0
 texttable==0.8.3;python_version<"3"
 texttable==0.8.3;python_version>="3"
 ordereddict;python_version<"2.7"
