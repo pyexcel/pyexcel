@@ -8,7 +8,7 @@
     :license: New BSD License
 """
 from pyexcel.internal import RENDERER, PARSER
-from pyexcel.source import Source, MemorySourceMixin
+from pyexcel.source import AbstractSource, MemorySourceMixin
 from pyexcel.exceptions import FileTypeNotSupported
 from pyexcel._compact import is_string
 import pyexcel.constants as constants
@@ -16,7 +16,7 @@ from . import params
 
 
 # pylint: disable=W0223
-class FileSource(Source):
+class FileSource(AbstractSource):
     """
     Write into presentational file
     """

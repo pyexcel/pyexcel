@@ -1,5 +1,5 @@
 import os
-from pyexcel.source import Source, MemorySourceMixin
+from pyexcel.source import AbstractSource, MemorySourceMixin
 import pyexcel.constants as constants
 from pyexcel import Sheet, Book
 from pyexcel import get_book, save_as
@@ -10,7 +10,7 @@ from textwrap import dedent
 FIXTURE = "dummy"
 
 
-class DummySource(Source, MemorySourceMixin):
+class DummySource(AbstractSource, MemorySourceMixin):
     """
     Write into json file
     """

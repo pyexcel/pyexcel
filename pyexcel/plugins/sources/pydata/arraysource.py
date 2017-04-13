@@ -8,13 +8,13 @@
     :license: New BSD License
 """
 from pyexcel.constants import DEFAULT_SHEET_NAME
-from pyexcel.source import Source, MemorySourceMixin
+from pyexcel.source import AbstractSource, MemorySourceMixin
 import pyexcel.constants as constants
 from pyexcel.plugins.sources import params
 from .common import _FakeIO, ArrayReader
 
 
-class ArraySource(Source, MemorySourceMixin):
+class ArraySource(AbstractSource, MemorySourceMixin):
     """
     A two dimensional array as sheet source
     """
@@ -29,7 +29,7 @@ class ArraySource(Source, MemorySourceMixin):
         self.__array = array
         self._content = _FakeIO()
         self.__sheet_name = sheet_name
-        Source.__init__(self, **keywords)
+        AbstractSource.__init__(self, **keywords)
 
     def get_data(self):
         array_reader = ArrayReader(self.__array, **self._keywords)

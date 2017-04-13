@@ -8,8 +8,7 @@
     :license: New BSD License
 """
 from pyexcel._compact import request, PY2
-
-from pyexcel.source import Source
+from pyexcel.source import AbstractSource
 import pyexcel.constants as constants
 from pyexcel.internal import PARSER
 
@@ -28,7 +27,7 @@ FILE_TYPE_MIME_TABLE = {
 
 
 # pylint: disable=W0223
-class HttpSource(Source):
+class HttpSource(AbstractSource):
     """
     Multiple sheet data source via http protocol
     """
@@ -40,7 +39,7 @@ class HttpSource(Source):
 
     def __init__(self, url=None, **keywords):
         self.__url = url
-        Source.__init__(self, **keywords)
+        AbstractSource.__init__(self, **keywords)
 
     def get_data(self):
         connection = request.urlopen(self.__url)

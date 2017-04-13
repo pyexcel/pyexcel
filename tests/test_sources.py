@@ -1,6 +1,6 @@
 from nose.tools import raises, eq_
 
-from pyexcel.source import Source
+from pyexcel.source import AbstractSource
 from pyexcel.plugins.sources.file_sources import (
     FileSource,
     InputSource,
@@ -20,25 +20,25 @@ def test_input_source():
 
 
 def test_source():
-    source = Source(source="asource", params="params")
+    source = AbstractSource(source="asource", params="params")
     info = source.get_source_info()
     assert info, (None, None)
 
 
 def test_source_class_method():
-    assert Source.is_my_business('read', source="asource") is True
-    assert Source.is_my_business('read', file_name="asource") is False
+    assert AbstractSource.is_my_business('read', source="asource") is True
+    assert AbstractSource.is_my_business('read', file_name="asource") is False
 
 
 @raises(Exception)
 def test_read_only_source():
-    source = Source()
+    source = AbstractSource()
     source.write_data("something")
 
 
 @raises(Exception)
 def test_write_only_source():
-    source = Source()
+    source = AbstractSource()
     source.get_data()
 
 

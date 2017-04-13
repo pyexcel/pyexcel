@@ -7,12 +7,12 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel.parser import Parser
+from pyexcel.parser import AbstractParser
 from pyexcel_io import get_data
 from pyexcel_io.plugins import iomanager
 
 
-class ExcelParser(Parser):
+class ExcelParser(AbstractParser):
     """get data from excel files"""
     file_types = iomanager.get_all_reader_formats()
 

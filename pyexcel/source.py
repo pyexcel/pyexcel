@@ -12,7 +12,7 @@ from lml.manager import Plugin, with_metaclass
 import pyexcel.constants as constants
 
 
-class Source(with_metaclass(Plugin, object)):
+class AbstractSource(with_metaclass(Plugin, object)):
     """
     Define a data source for use with the signature functions
 

@@ -8,13 +8,13 @@
     :license: New BSD License
 """
 from pyexcel._compact import OrderedDict, PY2
-from pyexcel.source import Source, MemorySourceMixin
+from pyexcel.source import AbstractSource, MemorySourceMixin
 import pyexcel.constants as constants
 from pyexcel.plugins.sources import params
 from .common import _FakeIO
 
 
-class BookDictSource(Source, MemorySourceMixin):
+class BookDictSource(AbstractSource, MemorySourceMixin):
     """
     Multiple sheet data source via a dictionary of two dimensional arrays
     """
@@ -27,7 +27,7 @@ class BookDictSource(Source, MemorySourceMixin):
     def __init__(self, bookdict, **keywords):
         self.__bookdict = bookdict
         self._content = _FakeIO()
-        Source.__init__(self, **keywords)
+        AbstractSource.__init__(self, **keywords)
 
     def get_data(self):
         the_dict = self.__bookdict

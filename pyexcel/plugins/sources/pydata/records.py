@@ -8,13 +8,13 @@
     :license: New BSD License
 """
 from pyexcel.constants import DEFAULT_SHEET_NAME
-from pyexcel.source import Source, MemorySourceMixin
+from pyexcel.source import AbstractSource, MemorySourceMixin
 import pyexcel.constants as constants
 from pyexcel.plugins.sources import params
 from .common import _FakeIO, RecordsReader
 
 
-class RecordsSource(Source, MemorySourceMixin):
+class RecordsSource(AbstractSource, MemorySourceMixin):
     """
     A list of dictionaries as data source
 
@@ -30,7 +30,7 @@ class RecordsSource(Source, MemorySourceMixin):
         self.__records = records
         self._content = _FakeIO()
         self.__sheet_name = sheet_name
-        Source.__init__(self, **keywords)
+        AbstractSource.__init__(self, **keywords)
 
     def get_data(self):
         records_reader = RecordsReader(self.__records, **self._keywords)

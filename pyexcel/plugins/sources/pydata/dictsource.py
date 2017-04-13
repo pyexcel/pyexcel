@@ -8,13 +8,13 @@
     :license: New BSD License
 """
 from pyexcel.constants import DEFAULT_SHEET_NAME
-from pyexcel.source import Source, MemorySourceMixin
+from pyexcel.source import AbstractSource, MemorySourceMixin
 import pyexcel.constants as constants
 from pyexcel.plugins.sources import params
 from .common import _FakeIO, DictReader
 
 
-class DictSource(Source, MemorySourceMixin):
+class DictSource(AbstractSource, MemorySourceMixin):
     """
     A dictionary of one dimensional array as sheet source
     """
@@ -30,7 +30,7 @@ class DictSource(Source, MemorySourceMixin):
         self.__with_keys = with_keys
         self._content = _FakeIO()
         self.__sheet_name = sheet_name
-        Source.__init__(self, **keywords)
+        AbstractSource.__init__(self, **keywords)
 
     def get_data(self):
         dict_reader = DictReader(self.__adict, with_keys=self.__with_keys,

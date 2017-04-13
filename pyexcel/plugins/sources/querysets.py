@@ -10,12 +10,12 @@
 from pyexcel_io.database.querysets import QuerysetsReader
 
 import pyexcel.constants as constants
-from pyexcel.source import Source
+from pyexcel.source import AbstractSource
 from . import params
 
 
 # pylint: disable=W0223
-class SheetQuerySetSource(Source):
+class SheetQuerySetSource(AbstractSource):
     """
     Database query set as data source
 
@@ -48,7 +48,7 @@ class SheetQuerySetSource(Source):
             print("column_limit is ignored")
         if skip_column_func is None:
             print("skip_column_func is ignored")
-        Source.__init__(self, **keywords)
+        AbstractSource.__init__(self, **keywords)
 
     def get_data(self):
         local_params = dict(

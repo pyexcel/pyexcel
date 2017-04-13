@@ -8,7 +8,7 @@
     :license: New BSD License
 """
 import pyexcel.constants as constants
-from pyexcel.source import Source
+from pyexcel.source import AbstractSource
 from pyexcel.internal import RENDERER, PARSER
 from pyexcel._compact import PY2
 from . import params
@@ -16,7 +16,7 @@ from . import params
 NO_COLUMN_NAMES = "Only sheet with column names is accepted"
 
 
-class SheetDbSource(Source):
+class SheetDbSource(AbstractSource):
     """
     SQLAlchemy channeled sql database as data source
     """
@@ -29,7 +29,7 @@ class SheetDbSource(Source):
         self._db_type = db_type
         self.__export_columns = export_columns
         self.__sheet_name = sheet_name
-        Source.__init__(self, **keywords)
+        AbstractSource.__init__(self, **keywords)
 
     def get_data(self):
         aparser = PARSER.get_a_plugin(self._db_type)
@@ -63,7 +63,7 @@ class SheetDbSource(Source):
         pass
 
 
-class BookDbSource(Source):
+class BookDbSource(AbstractSource):
     """
     multiple Django table as data source
     """
@@ -72,7 +72,7 @@ class BookDbSource(Source):
 
     def __init__(self, db_type, **keywords):
         self.__db_type = db_type
-        Source.__init__(self, **keywords)
+        AbstractSource.__init__(self, **keywords)
 
     def get_data(self):
         aparser = PARSER.get_a_plugin(self.__db_type)

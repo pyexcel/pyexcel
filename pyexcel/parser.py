@@ -10,7 +10,7 @@
 from lml.manager import Plugin, with_metaclass
 
 
-class Parser(with_metaclass(Plugin, object)):
+class AbstractParser(with_metaclass(Plugin, object)):
     """
     Parsing data from tabular data such as excel file
     """
@@ -39,7 +39,7 @@ class Parser(with_metaclass(Plugin, object)):
         raise NotImplementedError("parse_file_content is not implemented")
 
 
-class DbParser(Parser):
+class DbParser(AbstractParser):
     """
     Change interface for db parser
     """
