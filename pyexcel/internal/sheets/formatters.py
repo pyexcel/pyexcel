@@ -84,7 +84,7 @@ def boolean_to_format(value, target_format):
     return ret
 
 
-def empty_to_format(value, target_format):
+def empty_to_format(_, target_format):
     """Convert empty value to specified format"""
     if target_format == float:
         ret = 0.0

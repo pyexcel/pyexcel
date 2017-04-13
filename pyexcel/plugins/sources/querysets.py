@@ -14,6 +14,7 @@ from pyexcel.source import Source
 from . import params
 
 
+# pylint: disable=W0223
 class SheetQuerySetSource(Source):
     """
     Database query set as data source

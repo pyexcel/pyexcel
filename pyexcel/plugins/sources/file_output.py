@@ -8,10 +8,10 @@
     :license: New BSD License
 """
 from pyexcel.internal import RENDERER
+import pyexcel.constants as constants
 from .file_sources import (
     OutputSource,
     _find_file_type_from_file_name)
-import pyexcel.constants as constants
 from . import params
 
 

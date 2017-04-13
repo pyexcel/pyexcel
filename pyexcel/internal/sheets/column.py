@@ -9,8 +9,8 @@
 """
 import types
 
-from . import _shared as utils
 import pyexcel._compact as compact
+from . import _shared as utils
 
 
 class Column(utils.CommonPropertyAmongRowNColumn):
@@ -258,18 +258,17 @@ class Column(utils.CommonPropertyAmongRowNColumn):
         self.__iadd__(other)
         return self._ref
 
-    def format(self,
-               column_index=None, formatter=None,
+    def format(self, column_index=None, formatter=None,
                format_specs=None):
         """Format a column
         """
         if column_index is not None:
-            self.handle_one_formatter(column_index, formatter)
+            self._handle_one_formatter(column_index, formatter)
         elif format_specs:
             for spec in format_specs:
-                self.handle_one_formatter(spec[0], spec[1])
+                self._handle_one_formatter(spec[0], spec[1])
 
-    def handle_one_formatter(self, columns, theformatter):
+    def _handle_one_formatter(self, columns, theformatter):
         new_indices = columns
         if len(self._ref.colnames) > 0:
             new_indices = utils.names_to_indices(columns,

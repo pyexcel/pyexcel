@@ -209,18 +209,17 @@ class Row(utils.CommonPropertyAmongRowNColumn):
             raise TypeError
         return self
 
-    def format(self,
-               row_index=None, formatter=None,
+    def format(self, row_index=None, formatter=None,
                format_specs=None):
         """Format a row
         """
         if row_index is not None:
-            self.handle_one_formatter(row_index, formatter)
+            self._handle_one_formatter(row_index, formatter)
         elif format_specs:
             for spec in format_specs:
-                self.handle_one_formatter(spec[0], spec[1])
+                self._handle_one_formatter(spec[0], spec[1])
 
-    def handle_one_formatter(self, rows, theformatter):
+    def _handle_one_formatter(self, rows, theformatter):
         new_indices = rows
         if len(self._ref.rownames) > 0:
             new_indices = utils.names_to_indices(rows, self._ref.rownames)

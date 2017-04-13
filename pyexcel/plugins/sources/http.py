@@ -27,6 +27,7 @@ FILE_TYPE_MIME_TABLE = {
 }
 
 
+# pylint: disable=W0223
 class HttpSource(Source):
     """
     Multiple sheet data source via http protocol
@@ -42,8 +43,8 @@ class HttpSource(Source):
         Source.__init__(self, **keywords)
 
     def get_data(self):
-        f = request.urlopen(self.__url)
-        info = f.info()
+        connection = request.urlopen(self.__url)
+        info = connection.info()
         if PY2:
             mime_type = info.type
         else:
@@ -52,7 +53,7 @@ class HttpSource(Source):
         if file_type is None:
             file_type = _get_file_type_from_url(self.__url)
         aparser = PARSER.get_a_plugin(file_type)
-        content = f.read()
+        content = connection.read()
         sheets = aparser.parse_file_content(content,
                                             **self._keywords)
         return sheets

@@ -15,6 +15,7 @@ import pyexcel.constants as constants
 from . import params
 
 
+# pylint: disable=W0223
 class FileSource(Source):
     """
     Write into presentational file
@@ -34,14 +35,12 @@ class FileSource(Source):
             else:
                 file_type = keywords.get(params.FILE_TYPE)
 
-            if cls.can_i_handle(action, file_type):
-                status = True
-            else:
-                status = False
+            status = cls.can_i_handle(action, file_type)
         return status
 
     @classmethod
     def can_i_handle(cls, action, file_type):
+        """Check if the file type can be handled for read or write"""
         return False
 
 

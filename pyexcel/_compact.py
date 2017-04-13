@@ -8,8 +8,14 @@
     :license: New BSD License, see LICENSE for more details
 """
 # flake8: noqa
+# pylint: disable=unused-import
+# pylint: disable=import-error
+# pylint: disable=no-name-in-module
+# pylint: disable=invalid-name
+# pylint: disable=redefined-variable-type
+# pylint: disable=too-few-public-methods
+# pylint: disable=ungrouped-imports
 import sys
-import types
 import warnings
 
 PY2 = sys.version_info[0] == 2
@@ -23,28 +29,32 @@ else:
 if PY2:
     from StringIO import StringIO
     from StringIO import StringIO as BytesIO
-    text_type = unicode
-    exec('def reraise(tp, value, tb=None):\n raise tp, value, tb')
-    class Iterator(object):
-        def next(self):
-            return type(self).__next__(self)
-    import urllib2 as request
-    irange = xrange
     from itertools import izip_longest as zip_longest
     from itertools import izip as czip
+    import urllib2 as request
+
+    class Iterator(object):
+        """Python 2 iterator"""
+        def next(self):
+            """Iterator interface get next value"""
+            return type(self).__next__(self)
+    irange = xrange
 else:
     from io import StringIO, BytesIO
-    text_type = str
-    Iterator = object
     import urllib.request as request
-    irange = range
     from itertools import zip_longest
+    Iterator = object
+    irange = range
     czip = zip
+
+
 def is_tuple_consists_of_strings(an_array):
+    """check if all member were string type"""
     return isinstance(an_array, tuple) and is_array_type(an_array, str)
 
 
 def is_array_type(an_array, atype):
+    """check if all members are of the same type"""
     tmp = [i for i in an_array if not isinstance(i, atype)]
     return len(tmp) == 0
 
@@ -59,12 +69,10 @@ def is_string(atype):
     return False
 
 
-def is_generator(struct):
-    return isinstance(struct, types.GeneratorType)
-
-
 def deprecated(func, message="Deprecated!"):
+    """Print deprecated message"""
     def inner(*arg, **keywords):
+        """Print deperecated message"""
         warnings.warn(message, DeprecationWarning)
         return func(*arg, **keywords)
     return inner

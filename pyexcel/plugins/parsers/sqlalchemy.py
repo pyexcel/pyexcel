@@ -7,19 +7,20 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel.parser import Parser
 from pyexcel_io.constants import DB_SQL
 import pyexcel_io.database.sql as sql
 from pyexcel_io import get_data
 
+from pyexcel.parser import DbParser
 
-# pylint: disable=W0223
-class SQLAlchemyExporter(Parser):
+
+class SQLAlchemyExporter(DbParser):
+    """export data via sqlalchmey"""
     file_types = [DB_SQL]
 
-    def parse_file_stream(self, file_stream,
-                          export_columns_list=None, **keywords):
-        session, tables = file_stream
+    def parse_db(self, argument,
+                 export_columns_list=None, **keywords):
+        session, tables = argument
         exporter = sql.SQLTableExporter(session)
         if export_columns_list is None:
             export_columns_list = [None] * len(tables)

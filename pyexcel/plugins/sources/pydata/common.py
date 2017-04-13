@@ -28,7 +28,6 @@ class _FakeIO(object):
         return self.__value
 
 
-# pylint: disable=R0921
 # pylint: disable=W0223
 class ArrayReader(SheetReader):
     """read data from an array via pyexcel-io interface"""
@@ -42,7 +41,6 @@ class ArrayReader(SheetReader):
             yield cell
 
 
-# pylint: disable=R0921
 # pylint: disable=W0223
 class RecordsReader(ArrayReader):
     """read data from a records via pyexcel-io interface"""
@@ -63,7 +61,6 @@ class RecordsReader(ArrayReader):
             yield values
 
 
-# pylint: disable=R0921
 # pylint: disable=W0223
 class DictReader(ArrayReader):
     """read data from a dictionary via pyexcel-io interface"""

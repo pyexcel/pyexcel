@@ -184,6 +184,7 @@ def BookReader(file_name, **keywords):
 
 
 def deprecated_pyexcel_ext(version, module_name):
+    """Warn the deprecated usage"""
     warnings.warn(
         "Deprecated usage since v%s! Explicit import " % version +
         "is no longer required. %s is auto imported." % module_name)

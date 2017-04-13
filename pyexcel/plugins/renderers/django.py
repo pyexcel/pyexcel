@@ -9,16 +9,18 @@
 """
 from pyexcel_io import save_data
 from pyexcel_io.constants import DB_DJANGO
+import pyexcel_io.database.django as django
+
 from pyexcel._compact import OrderedDict
 from pyexcel.internal.generators import BookStream
-from pyexcel.plugins.renderers.db_renderer import DbRenderer
-import pyexcel_io.database.django as django
+from pyexcel.renderer import DbRenderer
 
 
 NO_COLUMN_NAMES = "Only sheet with column names is accepted"
 
 
 class DjangoRenderer(DbRenderer):
+    """Import data into database"""
     file_types = [DB_DJANGO]
 
     def render_sheet_to_stream(self, model, sheet, init=None, mapdict=None,

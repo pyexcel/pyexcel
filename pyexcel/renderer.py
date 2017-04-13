@@ -12,9 +12,9 @@ from lml.manager import Plugin, with_metaclass
 from pyexcel._compact import StringIO
 
 
-class Renderer(with_metaclass(Plugin, object)):
+class AbstractRenderer(with_metaclass(Plugin, object)):
     """
-    Render pyexcel sheet or book into excel format as any other formats
+    Close some functions that will not be used
     """
     plugin_type = 'renderer'
     file_types = ()
@@ -30,10 +30,9 @@ class Renderer(with_metaclass(Plugin, object)):
         If your renderer's output is binary, please override it and
         return BytesIO instead
         """
-        return StringIO()
+        raise NotImplementedError("No io for this renderer")
 
-    def render_sheet_to_file(self, file_name, sheet,
-                             write_title=True, **keywords):
+    def render_sheet_to_file(self, file_name, sheet, **keywords):
         """Render a sheet to a physical file
 
         :param file_name: the output file name
@@ -41,13 +40,9 @@ class Renderer(with_metaclass(Plugin, object)):
         :param write_title: to write sheet name
         :param keywords: any other keywords to the renderer
         """
-        self.set_write_title(write_title)
-        with open(file_name, self.WRITE_FLAG) as outfile:
-            self.set_output_stream(outfile)
-            self.render_sheet(sheet, **keywords)
+        raise NotImplementedError("We are not writing to file")
 
-    def render_sheet_to_stream(self, file_stream, sheet,
-                               write_title=True, **keywords):
+    def render_sheet_to_stream(self, file_stream, sheet, **keywords):
         """Render a sheet to a file stream
 
         :param file_stream: the output file stream
@@ -55,12 +50,9 @@ class Renderer(with_metaclass(Plugin, object)):
         :param write_title: to write sheet name
         :param keywords: any other keywords to the renderer
         """
-        self.set_write_title(write_title)
-        self.set_output_stream(file_stream)
-        self.render_sheet(sheet, **keywords)
+        raise NotImplementedError("We are not writing to file")
 
-    def render_book_to_file(self, file_name, book,
-                            write_title=True, **keywords):
+    def render_book_to_file(self, file_name, book, **keywords):
         """Render a book to a physical file
 
         :param file_name: the output file name
@@ -68,13 +60,9 @@ class Renderer(with_metaclass(Plugin, object)):
         :param write_title: to write sheet names
         :param keywords: any other keywords to the renderer
         """
-        self.set_write_title(write_title)
-        with open(file_name, self.WRITE_FLAG) as outfile:
-            self.set_output_stream(outfile)
-            self.render_book(book, **keywords)
+        raise NotImplementedError("We are not writing to file")
 
-    def render_book_to_stream(self, file_stream, book,
-                              write_title=True, **keywords):
+    def render_book_to_stream(self, file_stream, book, **keywords):
         """Render a book to a file stream
 
         :param file_stream: the output file stream
@@ -82,6 +70,39 @@ class Renderer(with_metaclass(Plugin, object)):
         :param write_title: to write sheet names
         :param keywords: any other keywords to the renderer
         """
+        raise NotImplementedError("We are not writing to file")
+
+
+class Renderer(AbstractRenderer):
+    """
+    Render pyexcel sheet or book into excel format as any formats
+    """
+
+    def get_io(self):
+        return StringIO()
+
+    def render_sheet_to_file(self, file_name, sheet,
+                             write_title=True, **keywords):
+        self.set_write_title(write_title)
+        with open(file_name, self.WRITE_FLAG) as outfile:
+            self.set_output_stream(outfile)
+            self.render_sheet(sheet, **keywords)
+
+    def render_sheet_to_stream(self, file_stream, sheet,
+                               write_title=True, **keywords):
+        self.set_write_title(write_title)
+        self.set_output_stream(file_stream)
+        self.render_sheet(sheet, **keywords)
+
+    def render_book_to_file(self, file_name, book,
+                            write_title=True, **keywords):
+        self.set_write_title(write_title)
+        with open(file_name, self.WRITE_FLAG) as outfile:
+            self.set_output_stream(outfile)
+            self.render_book(book, **keywords)
+
+    def render_book_to_stream(self, file_stream, book,
+                              write_title=True, **keywords):
         self.set_write_title(write_title)
         self.set_output_stream(file_stream)
         self.render_book(book, **keywords)
@@ -116,3 +137,18 @@ class Renderer(with_metaclass(Plugin, object)):
     def set_write_title(self, flag):
         """update write title flag"""
         self._write_title = flag
+
+
+# pylint: disable=W0223
+class DbRenderer(AbstractRenderer):
+    """
+    Close some functions that will not be used
+    """
+    def get_io(self):
+        raise Exception("No io for this renderer")
+
+    def render_sheet_to_file(self, file_name, sheet, **keywords):
+        raise Exception("We are not writing to file")
+
+    def render_book_to_file(self, file_name, book, **keywords):
+        raise Exception("We are not writing to file")

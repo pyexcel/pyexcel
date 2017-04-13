@@ -11,13 +11,19 @@ import re
 import types
 from functools import partial
 
-from .formatters import to_format
 from pyexcel._compact import PY2
+from .formatters import to_format
 
 
 class CommonPropertyAmongRowNColumn(object):
+    """
+    Group reusable functions from row and column
+    """
     def __init__(self, matrix):
         self._ref = matrix
+
+    def __iadd__(self, other):
+        raise NotImplementedError("Not implemented")
 
     def __add__(self, other):
         """Overload += sign
@@ -29,6 +35,7 @@ class CommonPropertyAmongRowNColumn(object):
 
     @staticmethod
     def get_converter(theformatter):
+        """return the actual converter or a built-in converter"""
         converter = None
         if isinstance(theformatter, types.FunctionType):
             converter = theformatter
@@ -64,6 +71,7 @@ def analyse_slice(aslice, upper_bound):
 
 
 def excel_column_index(index_chars):
+    """translate MS excel column position to index"""
     if len(index_chars) < 1:
         return -1
     else:
@@ -71,6 +79,7 @@ def excel_column_index(index_chars):
 
 
 def excel_cell_position(pos_chars):
+    """translate MS excel position to index"""
     if len(pos_chars) < 2:
         return -1, -1
     group = re.match("([A-Za-z]+)([0-9]+)", pos_chars)
@@ -104,6 +113,7 @@ def _get_index(index_chars):
 
 
 def names_to_indices(names, series):
+    """translate names to indices"""
     if isinstance(names, str):
         indices = series.index(names)
     elif (isinstance(names, list) and

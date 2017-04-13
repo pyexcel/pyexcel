@@ -7,10 +7,11 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
+from functools import partial
+
 from pyexcel.internal import SOURCE
 import pyexcel.internal.attributes as attributes
 import pyexcel.constants as constants
-from functools import partial
 from pyexcel.internal.core import get_sheet_stream
 
 
@@ -18,6 +19,7 @@ def make_presenter(source_getter, attribute=None):
     """make a custom presentation method for each file types
     """
     def custom_presenter(self, **keywords):
+        """docstring is assigned a few lines down the line"""
         keyword = SOURCE.get_keyword_for_parameter(attribute)
         keywords[keyword] = attribute
         memory_source = source_getter(**keywords)
@@ -52,6 +54,7 @@ def importer(attribute=None):
     """make a custom input method for sheet
     """
     def custom_importer1(self, content, **keywords):
+        """docstring is assigned a few lines down the line"""
         sheet_params = {}
         for field in constants.VALID_SHEET_PARAMETERS:
             if field in keywords:
@@ -73,6 +76,7 @@ def book_importer(attribute=None):
     """make a custom input method for book
     """
     def custom_book_importer(self, content, **keywords):
+        """docstring is assigned a few lines down the line"""
         keyword = SOURCE.get_keyword_for_parameter(attribute)
         if keyword == "file_type":
             keywords[keyword] = attribute
@@ -92,6 +96,7 @@ def default_presenter(attribute=None):
     is missing but the support to read data exists
     """
     def none_presenter(_, **__):
+        """docstring is assigned a few lines down the line"""
         raise NotImplementedError("%s getter is not defined." % attribute)
     none_presenter.__doc__ = "%s getter is not defined." % attribute
     return none_presenter
@@ -104,6 +109,7 @@ def default_importer(attribute=None):
     is missing but the support to write data exists
     """
     def none_importer(_, __, **___):
+        """docstring is assigned a few lines down the line"""
         raise NotImplementedError("%s setter is not defined." % attribute)
     none_importer.__doc__ = "%s setter is not defined." % attribute
     return none_importer
@@ -119,7 +125,7 @@ class StreamAttribute(object):
         return getter(file_type=name)
 
 
-def _register_instance_input_and_output(
+def _annotate_pyexcel_object_attribute(
         cls, file_type, presenter_func=sheet_presenter,
         input_func=default_importer,
         instance_name="Sheet",
@@ -141,38 +147,40 @@ def _register_instance_input_and_output(
     setattr(cls, 'set_%s' % attribute, setter)
     if file_type == 'html' and instance_name == "Sheet":
         def repr_html(self):
+            """jupyter note book html representation"""
             html = getter(self)
             return html
         setattr(cls, '_repr_html_', repr_html)
     if file_type == 'svg':
         def plot_svg(self, **keywords):
+            """jupyter note book svg representation"""
             return self.save_to_memory('svg', **keywords)
 
         setattr(cls, 'plot', plot_svg)
 
 
-REGISTER_PRESENTATION = _register_instance_input_and_output
+REGISTER_PRESENTATION = _annotate_pyexcel_object_attribute
 REGISTER_BOOK_PRESENTATION = partial(
-    _register_instance_input_and_output,
+    _annotate_pyexcel_object_attribute,
     presenter_func=book_presenter,
     instance_name="Book")
 REGISTER_INPUT = partial(
-    _register_instance_input_and_output,
+    _annotate_pyexcel_object_attribute,
     presenter_func=default_presenter,
     input_func=importer,
     description=constants.IN_FILE_TYPE_DOC_STRING)
 REGISTER_BOOK_INPUT = partial(
-    _register_instance_input_and_output,
+    _annotate_pyexcel_object_attribute,
     presenter_func=default_presenter,
     input_func=book_importer,
     instance_name="Book",
     description=constants.IN_FILE_TYPE_DOC_STRING)
 REGISTER_IO = partial(
-    _register_instance_input_and_output,
+    _annotate_pyexcel_object_attribute,
     input_func=importer,
     description=constants.IO_FILE_TYPE_DOC_STRING)
 REGISTER_BOOK_IO = partial(
-    _register_instance_input_and_output,
+    _annotate_pyexcel_object_attribute,
     presenter_func=book_presenter,
     input_func=book_importer,
     instance_name="Book",

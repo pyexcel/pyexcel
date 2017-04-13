@@ -37,3 +37,23 @@ class Parser(with_metaclass(Plugin, object)):
         Parse data from a given file content
         """
         raise NotImplementedError("parse_file_content is not implemented")
+
+
+class DbParser(Parser):
+    """
+    Change interface for db parser
+    """
+    def parse_file(self, file_name, **keywords):
+        raise Exception("parse_file is not supported")
+
+    def parse_file_stream(self, file_stream, **keywords):
+        return self.parse_db(file_stream, **keywords)
+
+    def parse_file_content(self, file_content, **keywords):
+        raise Exception("parse_file_content is not supported")
+
+    def parse_db(self, argument, **keywords):
+        """
+        Parse data from database
+        """
+        raise NotImplementedError("parse_db is not implemented")

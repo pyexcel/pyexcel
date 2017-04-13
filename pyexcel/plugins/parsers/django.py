@@ -7,19 +7,20 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel.parser import Parser
 from pyexcel_io.constants import DB_DJANGO
 import pyexcel_io.database.django as django
 from pyexcel_io import get_data
 
+from pyexcel.parser import DbParser
 
-# pylint: disable=W0223
-class DjangoExporter(Parser):
+
+class DjangoExporter(DbParser):
+    """Export data from django model"""
     file_types = [DB_DJANGO]
 
-    def parse_file_stream(self, file_stream,
-                          export_columns_list=None, **keywords):
-        models = file_stream
+    def parse_db(self, argument,
+                 export_columns_list=None, **keywords):
+        models = argument
         exporter = django.DjangoModelExporter()
         if export_columns_list is None:
             export_columns_list = [None] * len(models)

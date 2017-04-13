@@ -40,7 +40,7 @@ class PyexcelPluginManager(PluginManager):
             raise exceptions.UpgradePlugin(constants.MESSAGE_UPGRADE % plugin)
 
 
-class SheetIterator:
+class SheetIterator(object):
     """
     Sheet Iterator
     """

@@ -8,10 +8,11 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
+from types import GeneratorType
+
 from texttable import Texttable
 
 from pyexcel.internal.sheets.formatters import to_format
-from pyexcel._compact import is_generator
 from pyexcel.renderer import Renderer
 import pyexcel.constants as constants
 
@@ -26,12 +27,13 @@ class TextTableRenderer(Renderer):
 
 
 def render_text_table(sheet, write_title):
+    """return data in text table presentation"""
     content = ""
     if write_title:
         content += "%s:\n" % sheet.name
     table = Texttable(max_width=0)
     data = sheet.to_array()
-    if is_generator(data):
+    if isinstance(data, GeneratorType):
         data = list(data)
     if len(data) == 0:
         return content

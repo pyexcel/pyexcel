@@ -9,16 +9,18 @@
 """
 from pyexcel_io import save_data
 from pyexcel_io.constants import DB_SQL
-from pyexcel._compact import OrderedDict
 import pyexcel_io.database.sql as sql
+
+from pyexcel._compact import OrderedDict
 from pyexcel.internal.generators import BookStream
-from pyexcel.plugins.renderers.db_renderer import DbRenderer
+from pyexcel.renderer import DbRenderer
 
 
 NO_COLUMN_NAMES = "Only sheet with column names is accepted"
 
 
 class SQLAlchemyRenderer(DbRenderer):
+    """Import data into database"""
     file_types = [DB_SQL]
 
     def render_sheet_to_stream(self, file_stream, sheet,

@@ -12,11 +12,11 @@ import pyexcel_io.manager as manager
 from pyexcel_io.plugins import iomanager
 
 from pyexcel.constants import DEFAULT_SHEET_NAME
-from pyexcel.renderer import Renderer
+from pyexcel.renderer import AbstractRenderer
 
 
-class ExcelRenderer(Renderer):
-
+class ExcelRenderer(AbstractRenderer):
+    """Output data into excel format"""
     file_types = iomanager.get_all_writer_formats()
 
     def get_io(self):

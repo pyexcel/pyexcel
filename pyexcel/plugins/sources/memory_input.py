@@ -13,6 +13,7 @@ from . import params
 from .file_sources import InputSource
 
 
+# pylint: disable=W0223
 class ReadExcelFileMemory(InputSource):
     """Pick up 'file_type' and read a sheet from memory"""
     fields = [params.FILE_TYPE]

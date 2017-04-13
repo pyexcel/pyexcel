@@ -37,8 +37,10 @@ class Matrix(PyexcelObject):
         self.__width, self.__array = uniform(list(array))
         self.row = Row(self)
         self.column = Column(self)
+        self.name = 'matrix'
 
     def get_internal_array(self):
+        """present internal array"""
         return self.__array
 
     def number_of_rows(self):
@@ -380,41 +382,47 @@ class Matrix(PyexcelObject):
 
         """
         if rows:
-            starting_row = topleft_corner[0]
-            number_of_rows = self.number_of_rows()
-            number_of_columns = self.number_of_columns()
-            delta = starting_row - number_of_rows
-            if delta > 0:
-                empty_row = [
-                    [constants.DEFAULT_NA] * number_of_columns
-                ] * delta
-                self._extend_row(empty_row)
-            number_of_rows = self.number_of_rows()
-            for index, row in enumerate(rows):
-                set_index = starting_row + index
-                if set_index < number_of_rows:
-                    self._set_row_at(set_index, row,
-                                     starting=topleft_corner[1])
-                else:
-                    real_row = [constants.DEFAULT_NA] * topleft_corner[1] + row
-                    self._extend_row(real_row)
-            self.__width, self.__array = uniform(self.__array)
+            self._paste_rows(topleft_corner, rows)
         elif columns:
-            starting_column = topleft_corner[1]
-            number_of_columns = self.number_of_columns()
-            for index, column in enumerate(columns):
-                set_index = starting_column + index
-                if set_index < number_of_columns:
-                    self.set_column_at(set_index,
-                                       column,
-                                       starting=topleft_corner[0])
-                else:
-                    real_column = [constants.DEFAULT_NA] * topleft_corner[0]
-                    real_column += column
-                    self.extend_columns([real_column])
-            self.__width, self.__array = uniform(self.__array)
+            self._paste_columns(topleft_corner, columns)
         else:
             raise ValueError(constants.MESSAGE_DATA_ERROR_EMPTY_CONTENT)
+
+    def _paste_rows(self, topleft_corner, rows):
+        starting_row = topleft_corner[0]
+        number_of_rows = self.number_of_rows()
+        number_of_columns = self.number_of_columns()
+        delta = starting_row - number_of_rows
+        if delta > 0:
+            empty_row = [
+                [constants.DEFAULT_NA] * number_of_columns
+            ] * delta
+            self._extend_row(empty_row)
+        number_of_rows = self.number_of_rows()
+        for index, row in enumerate(rows):
+            set_index = starting_row + index
+            if set_index < number_of_rows:
+                self._set_row_at(set_index, row,
+                                 starting=topleft_corner[1])
+            else:
+                real_row = [constants.DEFAULT_NA] * topleft_corner[1] + row
+                self._extend_row(real_row)
+        self.__width, self.__array = uniform(self.__array)
+
+    def _paste_columns(self, topleft_corner, columns):
+        starting_column = topleft_corner[1]
+        number_of_columns = self.number_of_columns()
+        for index, column in enumerate(columns):
+            set_index = starting_column + index
+            if set_index < number_of_columns:
+                self.set_column_at(set_index,
+                                   column,
+                                   starting=topleft_corner[0])
+            else:
+                real_column = [constants.DEFAULT_NA] * topleft_corner[0]
+                real_column += column
+                self.extend_columns([real_column])
+        self.__width, self.__array = uniform(self.__array)
 
     def delete_columns(self, column_indices):
         """Delete columns by specified list of indices
@@ -459,8 +467,7 @@ class Matrix(PyexcelObject):
         for row in self.rows():
             if predicate(row):
                 return True
-        else:
-            return False
+        return False
 
     def transpose(self):
         """Rotate the data table by 90 degrees

@@ -15,6 +15,9 @@ from . import params
 
 # pylint: disable=W0223
 class WriteSheetToMemory(OutputSource):
+    """
+    Single sheet to memory
+    """
     fields = [params.FILE_TYPE]
     targets = (constants.SHEET,)
     actions = (constants.WRITE_ACTION,)

@@ -125,7 +125,8 @@ class SourcePluginManager(PyexcelPluginManager):
         for source_cls in self.loaded_registry[key]:
             if source_cls.is_my_business(action, **keywords):
                 source_instance = source_cls(**keywords)
-                self._logger.info("Found %s for %s" % (source_instance, key))
+                self._logger.info(
+                    "Found %s for %s" % (str(source_instance), key))
                 return source_instance
 
         _error_handler(action, **keywords)
