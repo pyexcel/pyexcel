@@ -2,11 +2,14 @@
 pyexcel - Let you focus on data, instead of file formats
 ================================================================================
 
+.. image:: https://raw.githubusercontent.com/pyexcel/pyexcel.github.io/master/images/patreon.png
+   :target: https://www.patreon.com/pyexcel
+
 .. image:: https://api.travis-ci.org/pyexcel/pyexcel.svg?branch=master
    :target: http://travis-ci.org/pyexcel/pyexcel
 
 .. image:: https://codecov.io/github/pyexcel/pyexcel/coverage.png
-    :target: https://codecov.io/github/pyexcel/pyexcel
+   :target: https://codecov.io/github/pyexcel/pyexcel
 
 .. image:: https://readthedocs.org/projects/pyexcel/badge/?version=latest
    :target: http://pyexcel.readthedocs.org/en/latest/
@@ -250,3 +253,9 @@ License
 ================================================================================
 
 New BSD License
+
+Support the project
+================================================================================
+
+If your company has embedded pyexcel and its components into a revenue generating
+product, please `support me on patreon <https://www.patreon.com/pyexcel>`_.
