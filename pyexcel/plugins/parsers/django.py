@@ -8,7 +8,7 @@
     :license: New BSD License
 """
 from pyexcel_io.constants import DB_DJANGO
-import pyexcel_io.database.django as django
+import pyexcel_io.database.exporters.django as django
 from pyexcel_io import get_data
 
 from pyexcel.parser import DbParser

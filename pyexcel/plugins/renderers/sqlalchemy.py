@@ -9,7 +9,7 @@
 """
 from pyexcel_io import save_data
 from pyexcel_io.constants import DB_SQL
-import pyexcel_io.database.sql as sql
+import pyexcel_io.database.importers.sqlalchemy as sql
 
 from pyexcel._compact import OrderedDict
 from pyexcel.internal.generators import BookStream

@@ -7,7 +7,7 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel_io.plugins import iomanager
+from pyexcel_io.plugins import writers
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
 
 
@@ -25,7 +25,7 @@ __pyexcel_plugins__ = [
     {
         'plugin_type': 'renderer',
         'submodule': 'excel',
-        'file_types': iomanager.get_all_writer_formats()
+        'file_types': writers.get_all_formats()
     },
     {
         'plugin_type': 'renderer',

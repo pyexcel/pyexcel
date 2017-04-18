@@ -8,7 +8,7 @@
     :license: New BSD License
 """
 from pyexcel_io.constants import DB_SQL
-import pyexcel_io.database.sql as sql
+import pyexcel_io.database.exporters.sqlalchemy as sql
 from pyexcel_io import get_data
 
 from pyexcel.parser import DbParser

@@ -9,7 +9,7 @@
 """
 from pyexcel_io import save_data
 import pyexcel_io.manager as manager
-from pyexcel_io.plugins import iomanager
+from pyexcel_io.plugins import writers
 
 from pyexcel.constants import DEFAULT_SHEET_NAME
 from pyexcel.renderer import AbstractRenderer
@@ -17,7 +17,7 @@ from pyexcel.renderer import AbstractRenderer
 
 class ExcelRenderer(AbstractRenderer):
     """Output data into excel format"""
-    file_types = iomanager.get_all_writer_formats()
+    file_types = writers.get_all_formats()
 
     def get_io(self):
         return manager.get_io(self._file_type)
