@@ -10,21 +10,16 @@
 from pyexcel_io.plugins import readers
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
 
+from pyexcel.internal.common import PyexcelPluginList
 
-__pyexcel_plugins__ = [
-    {
-        'plugin_type': 'parser',
-        'submodule': 'excel',
-        'file_types': readers.get_all_formats()
-    },
-    {
-        'plugin_type': 'parser',
-        'submodule': 'sqlalchemy',
-        'file_types': [DB_SQL]
-    },
-    {
-        'plugin_type': 'parser',
-        'submodule': 'django',
-        'file_types': [DB_DJANGO]
-    }
-]
+
+__pyexcel_plugins__ = PyexcelPluginList(__name__).add_a_parser(
+    submodule='excel',
+    file_types=readers.get_all_formats()
+).add_a_parser(
+    submodule='sqlalchemy',
+    file_types=[DB_SQL]
+).add_a_parser(
+    submodule='django',
+    file_types=[DB_DJANGO]
+)

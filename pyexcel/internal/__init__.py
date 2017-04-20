@@ -27,6 +27,4 @@ WHITE_LIST = [
     'pyexcel.plugins.sources',
 ]
 
-MARKER = '__pyexcel_plugins__'
-
-scan_plugins('pyexcel_', MARKER, 'pyexcel', BLACK_LIST, WHITE_LIST)
+scan_plugins('pyexcel_', 'pyexcel', BLACK_LIST, WHITE_LIST)

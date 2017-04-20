@@ -19,17 +19,17 @@ class IOPluginManager(PyexcelPluginManager):
         PyexcelPluginManager.__init__(self, name)
         self.loaded_registry = {}
 
-    def load_me_later(self, plugin_meta, module_name):
+    def load_me_later(self, plugin_info, module_name):
         """map each file type against its supporting module
         """
-        PyexcelPluginManager.load_me_later(self, plugin_meta, module_name)
-        library_import_path = "%s.%s" % (module_name, plugin_meta['submodule'])
-        file_types = plugin_meta['file_types']
+        PyexcelPluginManager.load_me_later(self, plugin_info, module_name)
+        library_import_path = "%s.%s" % (module_name, plugin_info.submodule)
+        file_types = plugin_info.file_types
         if isinstance(file_types, types.FunctionType):
             file_types = file_types()
         for file_type in file_types:
             self.registry[file_type].append(
-                (library_import_path, plugin_meta['submodule']))
+                (library_import_path, plugin_info.submodule))
 
     def load_me_now(self, key, **keywords):
         """load the corresponding supporting module for each file type

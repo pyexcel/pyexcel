@@ -9,7 +9,7 @@
 """
 import sys
 
-from lml.manager import PluginManager
+from lml.manager import PluginManager, PluginInfo, PluginList
 
 import pyexcel.constants as constants
 import pyexcel.exceptions as exceptions
@@ -35,9 +35,37 @@ class PyexcelPluginManager(PluginManager):
     """pyexcel specific method for load_me_later"""
     def load_me_later(self, plugin_meta, module_name):
         PluginManager.load_me_later(self, plugin_meta, module_name)
-        if not isinstance(plugin_meta, dict):
+        if not isinstance(plugin_meta, PluginInfo):
             plugin = module_name.replace('_', '-')
             raise exceptions.UpgradePlugin(constants.MESSAGE_UPGRADE % plugin)
+
+
+class PyexcelPluginList(PluginList):
+    def add_a_source(self, **keywords):
+        default = {
+            'plugin_type': "source",
+            'key': None,
+            'attributes': []
+        }
+        default.update(keywords)
+        self._add_a_plugin(PluginInfo(**default))
+        return self
+
+    def add_a_parser(self, submodule=None, file_types=None):
+        default = dict(plugin_type='parser',
+                       submodule=submodule,
+                       file_types=file_types)
+        self._add_a_plugin(PluginInfo(**default))
+        return self
+
+    def add_a_renderer(self, submodule=None,
+                       file_types=None, stream_type=None):
+        default = dict(plugin_type='renderer',
+                       submodule=submodule,
+                       file_types=file_types,
+                       stream_type=stream_type)
+        self._add_a_plugin(PluginInfo(**default))
+        return self
 
 
 class SheetIterator(object):

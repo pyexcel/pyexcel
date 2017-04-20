@@ -42,19 +42,19 @@ class SourcePluginManager(PyexcelPluginManager):
         }
         self.keywords = {}
 
-    def load_me_later(self, plugin_meta, module_name):
+    def load_me_later(self, plugin_info, module_name):
         """map each source with its loading requirements"""
-        PyexcelPluginManager.load_me_later(self, plugin_meta, module_name)
-        self.register_class_meta(plugin_meta)
-        library_import_path = "%s.%s" % (module_name, plugin_meta['submodule'])
+        PyexcelPluginManager.load_me_later(self, plugin_info, module_name)
+        self.register_class_meta(plugin_info)
+        library_import_path = "%s.%s" % (module_name, plugin_info.submodule)
         target_action_list = product(
-            plugin_meta['targets'], plugin_meta['actions'])
+            plugin_info.targets, plugin_info.actions)
         for target, action in target_action_list:
             key = "%s-%s" % (target, action)
             self.registry[key].append(dict(
-                fields=plugin_meta['fields'],
+                fields=plugin_info.fields,
                 path=library_import_path,
-                submodule=plugin_meta['submodule']
+                submodule=plugin_info.submodule
             ))
 
     def load_me_now(self, key, **keywords):
@@ -84,8 +84,8 @@ class SourcePluginManager(PyexcelPluginManager):
         triggered.
         """
         self._register_a_plugin(
-            meta["targets"], meta["actions"],
-            meta["attributes"], meta.get('key'))
+            meta.targets, meta.actions,
+            meta.attributes, meta.key)
 
     def register_a_plugin(self, plugin_cls):
         """register a source plugin after it is imported"""
