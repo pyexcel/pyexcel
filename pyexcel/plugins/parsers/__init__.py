@@ -13,13 +13,13 @@ from pyexcel_io.constants import DB_SQL, DB_DJANGO
 from pyexcel.internal.common import PyexcelPluginList
 
 
-__pyexcel_plugins__ = PyexcelPluginList(__name__).add_a_parser(
-    submodule='excel',
+PyexcelPluginList(__name__).add_a_parser(
+    submodule='excel.ExcelParser',
     file_types=readers.get_all_formats()
 ).add_a_parser(
-    submodule='sqlalchemy',
+    submodule='sqlalchemy.SQLAlchemyExporter',
     file_types=[DB_SQL]
 ).add_a_parser(
-    submodule='django',
+    submodule='django.DjangoExporter',
     file_types=[DB_DJANGO]
 )

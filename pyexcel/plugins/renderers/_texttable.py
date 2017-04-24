@@ -19,8 +19,6 @@ import pyexcel.constants as constants
 
 class TextTableRenderer(Renderer):
     """Default texttable presetation"""
-    file_types = ('texttable',)
-
     def render_sheet(self, sheet):
         content = render_text_table(sheet, self._write_title)
         self._stream.write(content)

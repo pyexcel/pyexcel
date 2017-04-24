@@ -8,8 +8,11 @@
     :license: New BSD License
 """
 import sys
+import types
+from itertools import product
 
-from lml.manager import PluginManager, PluginInfo, PluginList
+from lml.plugin import PluginManager
+from lml.registry import PluginInfo, PluginList
 
 import pyexcel.constants as constants
 import pyexcel.exceptions as exceptions
@@ -33,38 +36,54 @@ class PyexcelObject(object):
 
 class PyexcelPluginManager(PluginManager):
     """pyexcel specific method for load_me_later"""
-    def load_me_later(self, plugin_meta, module_name):
-        PluginManager.load_me_later(self, plugin_meta, module_name)
-        if not isinstance(plugin_meta, PluginInfo):
-            plugin = module_name.replace('_', '-')
+    def validate_plugin_info(self, plugin_info):
+        if not isinstance(plugin_info, PluginInfo):
+            plugin = plugin_info.module_name.replace('_', '-')
             raise exceptions.UpgradePlugin(constants.MESSAGE_UPGRADE % plugin)
 
 
+class SourceInfo(PluginInfo):
+
+    def keywords(self):
+        target_action_list = product(
+            self.targets, self.actions)
+        for target, action in target_action_list:
+            yield "%s-%s" % (target, action)
+
+
+class IOPluginInfo(PluginInfo):
+
+    def keywords(self):
+        file_types = self.file_types
+        if isinstance(file_types, types.FunctionType):
+            file_types = file_types()
+        for file_type in file_types:
+            yield file_type
+
+
 class PyexcelPluginList(PluginList):
-    def add_a_source(self, **keywords):
+    def add_a_source(self, submodule=None, **keywords):
         default = {
-            'plugin_type': "source",
             'key': None,
             'attributes': []
         }
         default.update(keywords)
-        self._add_a_plugin(PluginInfo(**default))
+        self._add_a_plugin(SourceInfo("source",
+                                      self._get_abs_path(submodule),
+                                      **default))
         return self
 
     def add_a_parser(self, submodule=None, file_types=None):
-        default = dict(plugin_type='parser',
-                       submodule=submodule,
-                       file_types=file_types)
-        self._add_a_plugin(PluginInfo(**default))
+        self._add_a_plugin(IOPluginInfo(
+            "parser", self._get_abs_path(submodule), file_types=file_types))
         return self
 
     def add_a_renderer(self, submodule=None,
                        file_types=None, stream_type=None):
-        default = dict(plugin_type='renderer',
-                       submodule=submodule,
-                       file_types=file_types,
+        default = dict(file_types=file_types,
                        stream_type=stream_type)
-        self._add_a_plugin(PluginInfo(**default))
+        self._add_a_plugin(IOPluginInfo(
+            "renderer", self._get_abs_path(submodule), **default))
         return self
 
 

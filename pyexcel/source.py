@@ -7,19 +7,16 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from lml.manager import Plugin, with_metaclass
-
 import pyexcel.constants as constants
 
 
-class AbstractSource(with_metaclass(Plugin, object)):
+class AbstractSource(object):
     """
     Define a data source for use with the signature functions
 
     This can be used to extend the function parameters once the custom
     class inherit this and register it with corresponding source registry
     """
-    plugin_type = 'source'
     fields = [constants.SOURCE]
     attributes = []
     targets = []

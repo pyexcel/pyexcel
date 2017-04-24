@@ -7,7 +7,6 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel_io.constants import DB_SQL
 import pyexcel_io.database.exporters.sqlalchemy as sql
 from pyexcel_io import get_data
 
@@ -16,8 +15,6 @@ from pyexcel.parser import DbParser
 
 class SQLAlchemyExporter(DbParser):
     """export data via sqlalchmey"""
-    file_types = [DB_SQL]
-
     def parse_db(self, argument,
                  export_columns_list=None, **keywords):
         session, tables = argument

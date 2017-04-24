@@ -7,17 +7,13 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from lml.manager import Plugin, with_metaclass
-
 from pyexcel._compact import StringIO
 
 
-class AbstractRenderer(with_metaclass(Plugin, object)):
+class AbstractRenderer(object):
     """
     Close some functions that will not be used
     """
-    plugin_type = 'renderer'
-    file_types = ()
     WRITE_FLAG = 'w'
 
     def __init__(self, file_type):

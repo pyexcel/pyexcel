@@ -7,7 +7,7 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from lml.plugin import scan_plugins
+from lml.loader import scan_plugins
 from pyexcel.internal.plugins import IOPluginManager
 from pyexcel.internal.source_plugin import SourcePluginManager
 from pyexcel.internal.generators import SheetStream, BookStream  # noqa
@@ -27,6 +27,5 @@ WHITE_LIST = [
     'pyexcel.plugins.sources',
 ]
 
-MARKER = '__pyexcel_plugins__'
 
-scan_plugins('pyexcel_', MARKER, 'pyexcel', BLACK_LIST, WHITE_LIST)
+scan_plugins('pyexcel_', 'pyexcel', BLACK_LIST, WHITE_LIST)

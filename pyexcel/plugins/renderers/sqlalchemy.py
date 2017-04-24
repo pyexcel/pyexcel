@@ -8,7 +8,6 @@
     :license: New BSD License
 """
 from pyexcel_io import save_data
-from pyexcel_io.constants import DB_SQL
 import pyexcel_io.database.importers.sqlalchemy as sql
 
 from pyexcel._compact import OrderedDict
@@ -21,8 +20,6 @@ NO_COLUMN_NAMES = "Only sheet with column names is accepted"
 
 class SQLAlchemyRenderer(DbRenderer):
     """Import data into database"""
-    file_types = [DB_SQL]
-
     def render_sheet_to_stream(self, file_stream, sheet,
                                init=None, mapdict=None, **keywords):
         headers = sheet.colnames

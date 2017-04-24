@@ -8,7 +8,6 @@
     :license: New BSD License
 """
 from pyexcel_io import save_data
-from pyexcel_io.constants import DB_DJANGO
 import pyexcel_io.database.importers.django as django
 
 from pyexcel._compact import OrderedDict
@@ -21,8 +20,6 @@ NO_COLUMN_NAMES = "Only sheet with column names is accepted"
 
 class DjangoRenderer(DbRenderer):
     """Import data into database"""
-    file_types = [DB_DJANGO]
-
     def render_sheet_to_stream(self, model, sheet, init=None, mapdict=None,
                                **keywords):
         headers = sheet.colnames

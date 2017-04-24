@@ -7,7 +7,6 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel_io.constants import DB_DJANGO
 import pyexcel_io.database.exporters.django as django
 from pyexcel_io import get_data
 
@@ -16,8 +15,6 @@ from pyexcel.parser import DbParser
 
 class DjangoExporter(DbParser):
     """Export data from django model"""
-    file_types = [DB_DJANGO]
-
     def parse_db(self, argument,
                  export_columns_list=None, **keywords):
         models = argument

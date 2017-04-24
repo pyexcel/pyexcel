@@ -7,16 +7,12 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from lml.manager import Plugin, with_metaclass
 
 
-class AbstractParser(with_metaclass(Plugin, object)):
+class AbstractParser(object):
     """
     Parsing data from tabular data such as excel file
     """
-    plugin_type = 'parser'
-    file_types = []
-
     def __init__(self, file_type):
         self._file_type = file_type
 

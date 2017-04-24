@@ -6,14 +6,17 @@ from pyexcel import get_book, save_as
 from _compact import StringIO, OrderedDict
 from nose.tools import eq_, raises
 from textwrap import dedent
+from lml.plugin import Plugin, with_metaclass
+from itertools import product
 
 FIXTURE = "dummy"
 
 
-class DummySource(AbstractSource, MemorySourceMixin):
+class DummySource(with_metaclass(Plugin, AbstractSource, MemorySourceMixin)):
     """
     Write into json file
     """
+    plugin_name = 'source'
     fields = [FIXTURE]
     targets = (constants.BOOK, constants.SHEET)
     actions = (constants.WRITE_ACTION,)
@@ -30,6 +33,11 @@ class DummySource(AbstractSource, MemorySourceMixin):
 
     def write_data(self, sheet):
         self._content.write(FIXTURE)
+
+    @classmethod
+    def keywords(cls):
+        for target, action in product(cls.targets, cls.actions):
+            yield "%s-%s" % (target, action)
 
 
 def test_sheet_register_presentation():

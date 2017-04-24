@@ -34,47 +34,26 @@ class SourcePluginManager(PyexcelPluginManager):
     def __init__(self):
         PyexcelPluginManager.__init__(self, 'source')
         self.registry = defaultdict(list)
-        self.loaded_registry = {
-            SHEET_WRITE: [],
-            BOOK_WRITE: [],
-            BOOK_READ: [],
-            SHEET_READ: []
-        }
+        self.loaded_registry = defaultdict(list)
         self.keywords = {}
 
-    def load_me_later(self, plugin_info, module_name):
-        """map each source with its loading requirements"""
-        PyexcelPluginManager.load_me_later(self, plugin_info, module_name)
+    def load_me_later(self, plugin_info):
+        PyexcelPluginManager.load_me_later(self, plugin_info)
         self.register_class_meta(plugin_info)
-        library_import_path = "%s.%s" % (module_name, plugin_info.submodule)
-        target_action_list = product(
-            plugin_info.targets, plugin_info.actions)
-        for target, action in target_action_list:
-            key = "%s-%s" % (target, action)
-            self.registry[key].append(dict(
-                fields=plugin_info.fields,
-                path=library_import_path,
-                submodule=plugin_info.submodule
-            ))
 
     def load_me_now(self, key, **keywords):
         """get source module into memory for use"""
-        PyexcelPluginManager.load_me_now(self, key, **keywords)
+        self._logger.debug("load me now:" + key)
         selected_source = None
         for source in self.registry[key]:
             if match_potential_source(source, **keywords):
-                self.dynamic_load_library(source['path'])
+                cls = self.dynamic_load_library(source)
+                self.register_a_plugin(cls, source)
                 selected_source = source
                 break
 
         if selected_source:
             self.registry[key].remove(selected_source)
-
-    def dynamic_load_library(self, library_import_path):
-        """custom import a module
-        """
-        return PyexcelPluginManager.dynamic_load_library(
-            self, [library_import_path])
 
     def register_class_meta(self, meta):
         """register sheet and book attributes even though
@@ -87,15 +66,15 @@ class SourcePluginManager(PyexcelPluginManager):
             meta.targets, meta.actions,
             meta.attributes, meta.key)
 
-    def register_a_plugin(self, plugin_cls):
+    def register_a_plugin(self, plugin_cls, plugin_info):
         """register a source plugin after it is imported"""
         PyexcelPluginManager.register_a_plugin(self, plugin_cls)
-        self._register_a_plugin(plugin_cls.targets,
-                                plugin_cls.actions,
-                                plugin_cls.attributes,
-                                plugin_cls.key)
-        for target, action in product(plugin_cls.targets, plugin_cls.actions):
-            key = REGISTRY_KEY_FORMAT % (target, action)
+        self._register_a_plugin(plugin_info.targets,
+                                plugin_info.actions,
+                                plugin_info.attributes,
+                                plugin_info.key)
+        for key in plugin_info.keywords():
+            self._logger.debug(key)
             self.loaded_registry[key].append(plugin_cls)
 
     def _register_a_plugin(self, targets, actions, attributes, key):
@@ -117,11 +96,12 @@ class SourcePluginManager(PyexcelPluginManager):
             self._logger.debug(debug_attribute)
             self._logger.debug(debug_registry)
 
-    def get_a_plugin(self, target, action, **keywords):
+    def get_a_plugin(self, target=None, action=None, **keywords):
         """obtain a source plugin for pyexcel signature functions"""
-        key = "%s-%s" % (target, action)
-        self.load_me_now(key, **keywords)
+        PyexcelPluginManager.get_a_plugin(self, target=target,
+                                          action=action, **keywords)
         key = REGISTRY_KEY_FORMAT % (target, action)
+        self.load_me_now(key, **keywords)
         for source_cls in self.loaded_registry[key]:
             if source_cls.is_my_business(action, **keywords):
                 source_instance = source_cls(**keywords)
@@ -134,23 +114,31 @@ class SourcePluginManager(PyexcelPluginManager):
     def get_source(self, **keywords):
         """obtain a sheet read source plugin for pyexcel signature functions"""
         return self.get_a_plugin(
-            constants.SHEET, constants.READ_ACTION, **keywords)
+            target=constants.SHEET,
+            action=constants.READ_ACTION,
+            **keywords)
 
     def get_book_source(self, **keywords):
         """obtain a book read source plugin for pyexcel signature functions"""
         return self.get_a_plugin(
-            constants.BOOK, constants.READ_ACTION, **keywords)
+            target=constants.BOOK,
+            action=constants.READ_ACTION,
+            **keywords)
 
     def get_writable_source(self, **keywords):
         """obtain a sheet write source plugin for pyexcel signature functions
         """
         return self.get_a_plugin(
-            constants.SHEET, constants.WRITE_ACTION, **keywords)
+            target=constants.SHEET,
+            action=constants.WRITE_ACTION,
+            **keywords)
 
     def get_writable_book_source(self, **keywords):
         """obtain a book write source plugin for pyexcel signature functions"""
         return self.get_a_plugin(
-            constants.BOOK, constants.WRITE_ACTION, **keywords)
+            target=constants.BOOK,
+            action=constants.WRITE_ACTION,
+            **keywords)
 
     def get_keyword_for_parameter(self, key):
         """custom keyword for an attribute"""
@@ -176,7 +164,7 @@ def match_potential_source(source_meta, **keywords):
     """
     If all required keys are present, this source is activated
     """
-    statuses = [_has_field(field, keywords) for field in source_meta['fields']]
+    statuses = [_has_field(field, keywords) for field in source_meta.fields]
     results = [status for status in statuses if status is False]
     return len(results) == 0
 
