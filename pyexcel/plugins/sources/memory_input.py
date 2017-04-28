@@ -9,12 +9,12 @@
 """
 import pyexcel.constants as constants
 from pyexcel.internal import PARSER
+from pyexcel.source import AbstractSource
 from . import params
-from .file_sources import InputSource
 
 
 # pylint: disable=W0223
-class ReadExcelFileMemory(InputSource):
+class ReadExcelFileMemory(AbstractSource):
     """Pick up 'file_type' and read a sheet from memory"""
     fields = [params.FILE_TYPE]
     targets = (constants.SHEET, constants.BOOK)
@@ -31,7 +31,7 @@ class ReadExcelFileMemory(InputSource):
         self.__file_stream = file_stream
         self.__file_content = file_content
         self.__parser = PARSER.get_a_plugin(file_type)
-        InputSource.__init__(self, **keywords)
+        AbstractSource.__init__(self, **keywords)
 
     def get_data(self):
         if self.__file_stream is not None:

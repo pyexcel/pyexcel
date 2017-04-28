@@ -3,7 +3,7 @@
 Internal API reference
 ======================
 
-.. currentmodule:: pyexcel.sheets
+.. currentmodule:: pyexcel.internal.sheets
 .. _iapi:
 
 This is intended for developers and hackers of pyexcel. 
@@ -18,7 +18,7 @@ In inheritance order from parent to child
 
    Matrix
 
-.. currentmodule:: pyexcel.generators
+.. currentmodule:: pyexcel.internal.generators
 
 .. autosummary::
    :toctree: iapi
@@ -26,7 +26,7 @@ In inheritance order from parent to child
    SheetStream
    BookStream
 
-.. currentmodule:: pyexcel.sheets
+.. currentmodule:: pyexcel.internal.sheets
 
 Row representation
 ===================

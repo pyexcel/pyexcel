@@ -14,7 +14,9 @@ FIXTURE = "dummy"
 
 class DummySource(with_metaclass(Plugin, AbstractSource, MemorySourceMixin)):
     """
-    Write into json file
+    For a dynamically loaded plugin, you will need to create the following
+    fields. and implement to class level functions: keywords and
+    is_my_business.
     """
     plugin_name = 'source'
     fields = [FIXTURE]
@@ -35,9 +37,19 @@ class DummySource(with_metaclass(Plugin, AbstractSource, MemorySourceMixin)):
         self._content.write(FIXTURE)
 
     @classmethod
-    def keywords(cls):
-        for target, action in product(cls.targets, cls.actions):
+    def keywords(self):
+        for target, action in product(self.targets, self.actions):
             yield "%s-%s" % (target, action)
+
+    @classmethod
+    def is_my_business(self, action, **keywords):
+        statuses = [_has_field(field, keywords) for field in self.fields]
+        results = [status for status in statuses if status is False]
+        return len(results) == 0
+
+
+def _has_field(field, keywords):
+    return field in keywords and keywords[field] is not None
 
 
 def test_sheet_register_presentation():

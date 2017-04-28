@@ -1,7 +1,7 @@
-pyexcel.generators.SheetStream
-==============================
+pyexcel.internal.generators.SheetStream
+=======================================
 
-.. currentmodule:: pyexcel.generators
+.. currentmodule:: pyexcel.internal.generators
 
 .. autoclass:: SheetStream
 

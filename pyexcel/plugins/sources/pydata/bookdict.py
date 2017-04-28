@@ -9,7 +9,6 @@
 """
 from pyexcel._compact import OrderedDict, PY2
 from pyexcel.source import AbstractSource, MemorySourceMixin
-import pyexcel.constants as constants
 from pyexcel.plugins.sources import params
 from .common import _FakeIO
 
@@ -18,12 +17,6 @@ class BookDictSource(AbstractSource, MemorySourceMixin):
     """
     Multiple sheet data source via a dictionary of two dimensional arrays
     """
-    fields = [params.BOOKDICT]
-    targets = (constants.BOOK,)
-    actions = (constants.READ_ACTION, constants.WRITE_ACTION)
-    attributes = [params.BOOKDICT]
-    key = params.BOOKDICT
-
     def __init__(self, bookdict, **keywords):
         self.__bookdict = bookdict
         self._content = _FakeIO()

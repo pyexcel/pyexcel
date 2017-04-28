@@ -9,7 +9,6 @@
 """
 from pyexcel.constants import DEFAULT_SHEET_NAME
 from pyexcel.source import AbstractSource, MemorySourceMixin
-import pyexcel.constants as constants
 from pyexcel.plugins.sources import params
 from .common import _FakeIO, ArrayReader
 
@@ -18,12 +17,6 @@ class ArraySource(AbstractSource, MemorySourceMixin):
     """
     A two dimensional array as sheet source
     """
-    fields = [params.ARRAY]
-    targets = (constants.SHEET, constants.BOOK)
-    actions = (constants.READ_ACTION, constants.WRITE_ACTION)
-    attributes = ["array"]
-    key = params.ARRAY
-
     def __init__(self, array, sheet_name=DEFAULT_SHEET_NAME,
                  **keywords):
         self.__array = array

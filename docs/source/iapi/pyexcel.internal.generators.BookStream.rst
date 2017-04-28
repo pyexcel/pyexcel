@@ -1,7 +1,7 @@
-pyexcel.generators.BookStream
-=============================
+pyexcel.internal.generators.BookStream
+======================================
 
-.. currentmodule:: pyexcel.generators
+.. currentmodule:: pyexcel.internal.generators
 
 .. autoclass:: BookStream
 

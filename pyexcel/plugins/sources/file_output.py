@@ -8,23 +8,16 @@
     :license: New BSD License
 """
 from pyexcel.internal import RENDERER
-import pyexcel.constants as constants
-from .file_sources import (
-    OutputSource,
-    _find_file_type_from_file_name)
-from . import params
+from pyexcel.source import AbstractSource
+from pyexcel.internal.common import _find_file_type_from_file_name
 
 
 # pylint: disable=W0223
-class WriteSheetToFile(OutputSource):
+class WriteSheetToFile(AbstractSource):
     """Pick up 'file_name' field and do single sheet based read and write
     """
-    fields = [params.FILE_NAME]
-    targets = (constants.SHEET,)
-    actions = (constants.WRITE_ACTION,)
-
     def __init__(self, file_name=None, **keywords):
-        OutputSource.__init__(self, **keywords)
+        AbstractSource.__init__(self, **keywords)
         self._file_name = file_name
 
         self.__file_type = _find_file_type_from_file_name(file_name, 'write')
@@ -39,8 +32,6 @@ class WriteSheetToFile(OutputSource):
 class WriteBookToFile(WriteSheetToFile):
     """Pick up 'file_name' field and do multiple sheet based read and write
     """
-    targets = (constants.BOOK,)
-
     def write_data(self, book):
         self._renderer.render_book_to_file(self._file_name, book,
                                            **self._keywords)

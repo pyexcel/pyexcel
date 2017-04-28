@@ -1,7 +1,7 @@
-pyexcel.sheets.Matrix
-=====================
+pyexcel.internal.sheets.Matrix
+==============================
 
-.. currentmodule:: pyexcel.sheets
+.. currentmodule:: pyexcel.internal.sheets
 
 .. autoclass:: Matrix
 

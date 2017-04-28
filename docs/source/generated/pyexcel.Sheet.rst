@@ -31,6 +31,7 @@ pyexcel.Sheet
       ~Sheet.filter
       ~Sheet.format
       ~Sheet.get_array
+      ~Sheet.get_bookdict
       ~Sheet.get_csv
       ~Sheet.get_csvz
       ~Sheet.get_dict
@@ -85,6 +86,7 @@ pyexcel.Sheet
       ~Sheet.save_to_django_model
       ~Sheet.save_to_memory
       ~Sheet.set_array
+      ~Sheet.set_bookdict
       ~Sheet.set_column_at
       ~Sheet.set_csv
       ~Sheet.set_csvz
@@ -131,6 +133,7 @@ pyexcel.Sheet
    .. autosummary::
    
       ~Sheet.array
+      ~Sheet.bookdict
       ~Sheet.colnames
       ~Sheet.content
       ~Sheet.csv

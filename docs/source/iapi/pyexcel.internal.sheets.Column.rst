@@ -1,7 +1,7 @@
-pyexcel.sheets.Column
-=====================
+pyexcel.internal.sheets.Column
+==============================
 
-.. currentmodule:: pyexcel.sheets
+.. currentmodule:: pyexcel.internal.sheets
 
 .. autoclass:: Column
 
@@ -15,6 +15,7 @@ pyexcel.sheets.Column
    
       ~Column.__init__
       ~Column.format
+      ~Column.get_converter
       ~Column.select
    
    

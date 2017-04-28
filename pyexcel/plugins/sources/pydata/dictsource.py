@@ -9,7 +9,6 @@
 """
 from pyexcel.constants import DEFAULT_SHEET_NAME
 from pyexcel.source import AbstractSource, MemorySourceMixin
-import pyexcel.constants as constants
 from pyexcel.plugins.sources import params
 from .common import _FakeIO, DictReader
 
@@ -18,12 +17,6 @@ class DictSource(AbstractSource, MemorySourceMixin):
     """
     A dictionary of one dimensional array as sheet source
     """
-    fields = [params.ADICT]
-    targets = (constants.SHEET, constants.BOOK)
-    actions = (constants.READ_ACTION, constants.WRITE_ACTION)
-    attributes = ["dict"]
-    key = params.ADICT
-
     def __init__(self, adict, with_keys=True, sheet_name=DEFAULT_SHEET_NAME,
                  **keywords):
         self.__adict = adict

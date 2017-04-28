@@ -7,7 +7,6 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-import pyexcel.constants as constants
 from pyexcel.source import AbstractSource
 from pyexcel.internal import RENDERER, PARSER
 from pyexcel._compact import PY2
@@ -20,10 +19,6 @@ class SheetDbSource(AbstractSource):
     """
     SQLAlchemy channeled sql database as data source
     """
-    targets = (constants.SHEET,)
-    actions = (constants.READ_ACTION, constants.WRITE_ACTION)
-    attributes = []
-
     def __init__(self, db_type, export_columns=None,
                  sheet_name=None, **keywords):
         self._db_type = db_type
@@ -67,9 +62,6 @@ class BookDbSource(AbstractSource):
     """
     multiple Django table as data source
     """
-    targets = (constants.BOOK,)
-    actions = (constants.READ_ACTION, constants.WRITE_ACTION)
-
     def __init__(self, db_type, **keywords):
         self.__db_type = db_type
         AbstractSource.__init__(self, **keywords)

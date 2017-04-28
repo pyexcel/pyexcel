@@ -9,7 +9,6 @@
 """
 from pyexcel.constants import DEFAULT_SHEET_NAME
 from pyexcel.source import AbstractSource, MemorySourceMixin
-import pyexcel.constants as constants
 from pyexcel.plugins.sources import params
 from .common import _FakeIO, RecordsReader
 
@@ -20,12 +19,6 @@ class RecordsSource(AbstractSource, MemorySourceMixin):
 
     The dictionaries should have identical fields.
     """
-    fields = [params.RECORDS]
-    targets = (constants.SHEET, constants.BOOK)
-    actions = (constants.READ_ACTION, constants.WRITE_ACTION)
-    attributes = [params.RECORDS]
-    key = params.RECORDS
-
     def __init__(self, records, sheet_name=DEFAULT_SHEET_NAME, **keywords):
         self.__records = records
         self._content = _FakeIO()

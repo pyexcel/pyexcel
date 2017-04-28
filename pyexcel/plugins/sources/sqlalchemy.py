@@ -8,7 +8,6 @@
     :license: New BSD License
 """
 from pyexcel_io.constants import DB_SQL
-from . import params
 from .db_sources import SheetDbSource, BookDbSource
 
 
@@ -16,9 +15,6 @@ class SheetSQLAlchemySource(SheetDbSource):
     """
     SQLAlchemy channeled sql database as data source
     """
-    fields = [params.SESSION, params.TABLE]
-    attributes = []
-
     def __init__(self, session, table, export_columns=None,
                  sheet_name=None, **keywords):
         self.__session = session
@@ -38,9 +34,6 @@ class BookSQLSource(BookDbSource):
     """
     SQLAlchemy bridged multiple table data source
     """
-    fields = [params.SESSION, params.TABLES]
-    attributes = []
-
     def __init__(self, session, tables, **keywords):
         self.__session = session
         self.__tables = tables

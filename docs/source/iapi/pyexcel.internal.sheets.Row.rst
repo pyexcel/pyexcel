@@ -1,7 +1,7 @@
-pyexcel.sheets.Row
-==================
+pyexcel.internal.sheets.Row
+===========================
 
-.. currentmodule:: pyexcel.sheets
+.. currentmodule:: pyexcel.internal.sheets
 
 .. autoclass:: Row
 
@@ -15,6 +15,7 @@ pyexcel.sheets.Row
    
       ~Row.__init__
       ~Row.format
+      ~Row.get_converter
       ~Row.select
    
    

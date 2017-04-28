@@ -8,14 +8,10 @@
     :license: New BSD License
 """
 from lml.loader import scan_plugins
-from pyexcel.internal.plugins import IOPluginManager
-from pyexcel.internal.source_plugin import SourcePluginManager
+from pyexcel.internal.plugins import PARSER, RENDERER  # noqa
+from pyexcel.internal.source_plugin import SOURCE  # noqa
 from pyexcel.internal.generators import SheetStream, BookStream  # noqa
 
-
-RENDERER = IOPluginManager('renderer')
-PARSER = IOPluginManager('parser')
-SOURCE = SourcePluginManager()
 
 BLACK_LIST = ['pyexcel_io', 'pyexcel_webio',
               'pyexcel_xlsx', 'pyexcel_xls',

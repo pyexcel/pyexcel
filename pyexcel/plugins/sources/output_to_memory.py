@@ -8,23 +8,16 @@
     :license: New BSD License
 """
 from pyexcel.internal import RENDERER
-import pyexcel.constants as constants
-from .file_sources import OutputSource
-from . import params
+from pyexcel.source import AbstractSource, MemorySourceMixin
 
 
 # pylint: disable=W0223
-class WriteSheetToMemory(OutputSource):
+class WriteSheetToMemory(AbstractSource, MemorySourceMixin):
     """
     Single sheet to memory
     """
-    fields = [params.FILE_TYPE]
-    targets = (constants.SHEET,)
-    actions = (constants.WRITE_ACTION,)
-    attributes = RENDERER.get_all_file_types()
-
     def __init__(self, file_type=None, file_stream=None, **keywords):
-        OutputSource.__init__(self, **keywords)
+        AbstractSource.__init__(self, **keywords)
 
         self._renderer = RENDERER.get_a_plugin(file_type)
         if file_stream:
@@ -43,8 +36,6 @@ class WriteBookToMemory(WriteSheetToMemory):
     """
     Multiple sheet data source for writting back to memory
     """
-    targets = (constants.BOOK,)
-
     def write_data(self, book):
         self._renderer.render_book_to_stream(
             self._content, book, **self._keywords)
