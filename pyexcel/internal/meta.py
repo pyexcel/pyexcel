@@ -12,6 +12,7 @@ from functools import partial
 from pyexcel.internal import SOURCE
 import pyexcel.constants as constants
 from pyexcel.internal.core import get_sheet_stream
+from pyexcel.internal.common import PyexcelObject
 
 
 def make_presenter(source_getter, attribute=None):
@@ -186,7 +187,7 @@ REGISTER_BOOK_IO = partial(
     description=constants.IO_FILE_TYPE_DOC_STRING)
 
 
-class SheetMeta(object):
+class SheetMeta(PyexcelObject):
     """Annotate sheet attributes"""
     pass
 
@@ -196,7 +197,7 @@ setattr(SheetMeta, "register_presentation", classmethod(REGISTER_PRESENTATION))
 setattr(SheetMeta, "register_input", classmethod(REGISTER_INPUT))
 
 
-class BookMeta(object):
+class BookMeta(PyexcelObject):
     """Annotate book attributes"""
     pass
 

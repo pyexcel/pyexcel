@@ -14,14 +14,14 @@ from functools import partial
 
 import pyexcel._compact as compact
 import pyexcel.constants as constants
-from pyexcel.internal.common import PyexcelObject
+from pyexcel.internal.meta import SheetMeta
 from .formatters import to_format
 from .row import Row
 from .column import Column
 from . import _shared as utils
 
 
-class Matrix(PyexcelObject):
+class Matrix(SheetMeta):
     """The internal representation of a sheet data. Each element
     can be of any python types
     """

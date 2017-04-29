@@ -19,11 +19,6 @@ REGISTRY_KEY_FORMAT = "%s-%s"
 # ignore the following attributes
 NO_DOT_NOTATION = (io_constants.DB_DJANGO, io_constants.DB_SQL)
 
-SHEET_WRITE = REGISTRY_KEY_FORMAT % (constants.SHEET, constants.WRITE_ACTION)
-SHEET_READ = REGISTRY_KEY_FORMAT % (constants.SHEET, constants.READ_ACTION)
-BOOK_WRITE = REGISTRY_KEY_FORMAT % (constants.BOOK, constants.WRITE_ACTION)
-BOOK_READ = REGISTRY_KEY_FORMAT % (constants.BOOK, constants.READ_ACTION)
-
 
 class SourcePluginManager(PluginManager):
     """Data source plugin loader"""

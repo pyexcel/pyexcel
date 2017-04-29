@@ -36,6 +36,10 @@ class PyexcelObject(object):
 
 
 class SourceInfo(PluginInfo):
+    """Plugin description for a source"""
+    def __init__(self, absolute_import_path, **keywords):
+        PluginInfo.__init__(self, "source",
+                            absolute_import_path, **keywords)
 
     def keywords(self):
         target_action_list = product(
@@ -50,7 +54,7 @@ class SourceInfo(PluginInfo):
 
 
 class FileSourceInfo(SourceInfo):
-
+    """Plugin description for a file source"""
     def is_my_business(self, action, **keywords):
         status = SourceInfo.is_my_business(self, action, **keywords)
         if status:
@@ -72,6 +76,7 @@ class FileSourceInfo(SourceInfo):
 
 
 class InputSourceInfo(FileSourceInfo):
+    """Plugin description for an input source"""
     def can_i_handle(self, action, file_type):
         __file_type = None
         if file_type:
@@ -84,6 +89,7 @@ class InputSourceInfo(FileSourceInfo):
 
 
 class OutputSourceInfo(FileSourceInfo):
+    """Plugin description for a output file source"""
     def can_i_handle(self, action, file_type):
         if action == constants.WRITE_ACTION:
             status = file_type.lower() in tuple(
@@ -108,7 +114,7 @@ def _find_file_type_from_file_name(file_name, action):
         if lowercase_file_name.endswith(a_supported_type):
             file_types.append(a_supported_type)
     if len(file_types) > 1:
-        file_types = sorted(file_types, key=lambda x: len(x))
+        file_types = sorted(file_types, key=len)
         file_type = file_types[-1]
     elif len(file_types) == 1:
         file_type = file_types[0]
@@ -121,7 +127,7 @@ def _find_file_type_from_file_name(file_name, action):
 
 
 class IOPluginInfo(PluginInfo):
-
+    """Plugin description for a parser or a renderer"""
     def keywords(self):
         file_types = self.file_types
         if isinstance(file_types, types.FunctionType):
@@ -131,15 +137,15 @@ class IOPluginInfo(PluginInfo):
 
 
 class PyexcelPluginList(PluginList):
+    """A list for pyexcel plugins"""
     def add_a_source(self, submodule=None, **keywords):
         default = {
             'key': None,
             'attributes': []
         }
         default.update(keywords)
-        self._add_a_plugin(SourceInfo("source",
-                                      self._get_abs_path(submodule),
-                                      **default))
+        self._add_a_plugin(SourceInfo(
+            self._get_abs_path(submodule), **default))
         return self
 
     def add_an_input_source(self, submodule=None, **keywords):
@@ -148,9 +154,8 @@ class PyexcelPluginList(PluginList):
             'attributes': []
         }
         default.update(keywords)
-        self._add_a_plugin(InputSourceInfo("source",
-                                           self._get_abs_path(submodule),
-                                           **default))
+        self._add_a_plugin(InputSourceInfo(
+            self._get_abs_path(submodule), **default))
         return self
 
     def add_a_output_source(self, submodule=None, **keywords):
@@ -159,9 +164,8 @@ class PyexcelPluginList(PluginList):
             'attributes': []
         }
         default.update(keywords)
-        self._add_a_plugin(OutputSourceInfo("source",
-                                            self._get_abs_path(submodule),
-                                            **default))
+        self._add_a_plugin(OutputSourceInfo(
+            self._get_abs_path(submodule), **default))
         return self
 
     def add_a_parser(self, submodule=None, file_types=None):

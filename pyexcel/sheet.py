@@ -10,13 +10,13 @@
 import pyexcel._compact as compact
 import pyexcel.constants as constants
 from pyexcel.internal.core import save_sheet
-from pyexcel.internal.meta import SheetMeta, StreamAttribute
+from pyexcel.internal.meta import StreamAttribute
 from pyexcel.internal.sheets.matrix import Matrix
 from pyexcel.internal.sheets.row import Row as NamedRow
 from pyexcel.internal.sheets.column import Column as NamedColumn
 
 
-class Sheet(SheetMeta, Matrix):
+class Sheet(Matrix):
     """Two dimensional data container for filtering, formatting and iteration
 
     :class:`~pyexcel.Sheet` is a container for a two dimensional array, where

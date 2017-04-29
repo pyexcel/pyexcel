@@ -1,8 +1,8 @@
 """
-    pyexcel.internal
-    ~~~~~~~~~~~~~~~~~~~
+    pyexcel.internal.plugins
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Second level abstraction
+    Renderer and parser plugin manager
 
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License

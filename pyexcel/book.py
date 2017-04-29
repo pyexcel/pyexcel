@@ -11,12 +11,12 @@ from pyexcel.sheet import Sheet
 import pyexcel._compact as compact
 from pyexcel.internal.meta import BookMeta, StreamAttribute
 from pyexcel.internal.core import save_book
-from pyexcel.internal.common import PyexcelObject, SheetIterator
+from pyexcel.internal.common import SheetIterator
 
 LOCAL_UUID = 0
 
 
-class Book(BookMeta, PyexcelObject):
+class Book(BookMeta):
     """
     Read an excel book that has one or more sheets
 
