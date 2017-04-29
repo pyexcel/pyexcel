@@ -10,7 +10,7 @@
 import os
 
 from pyexcel.internal import PARSER
-from .file_sources import AbstractSource
+from pyexcel.source import AbstractSource
 
 
 # pylint: disable=W0223

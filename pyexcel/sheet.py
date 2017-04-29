@@ -7,8 +7,6 @@
     :copyright: (c) 2014-2017 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-from lml.plugin import with_metaclass
-
 import pyexcel._compact as compact
 import pyexcel.constants as constants
 from pyexcel.internal.core import save_sheet
@@ -18,7 +16,7 @@ from pyexcel.internal.sheets.row import Row as NamedRow
 from pyexcel.internal.sheets.column import Column as NamedColumn
 
 
-class Sheet(with_metaclass(SheetMeta, Matrix)):
+class Sheet(SheetMeta, Matrix):
     """Two dimensional data container for filtering, formatting and iteration
 
     :class:`~pyexcel.Sheet` is a container for a two dimensional array, where

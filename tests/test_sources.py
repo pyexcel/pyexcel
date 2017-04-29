@@ -1,22 +1,7 @@
-from nose.tools import raises, eq_
+from nose.tools import raises
 
 from pyexcel.source import AbstractSource
-from pyexcel.plugins.sources.file_sources import (
-    FileSource,
-    InputSource,
-    OutputSource)
-
 from pyexcel.plugins.sources.output_to_memory import WriteSheetToMemory
-
-
-def test_io_source():
-    status = OutputSource.can_i_handle("read", "xls")
-    eq_(status, False)
-
-
-def test_input_source():
-    status = InputSource.can_i_handle("write", "xls")
-    eq_(status, False)
 
 
 def test_source():
@@ -46,9 +31,3 @@ def test_write_only_source():
 def test_write_only_sheet_source():
     source = WriteSheetToMemory()
     source.get_data()
-
-
-def test_file_source_class_method():
-    assert FileSource.can_i_handle('read', "csv") is False
-    assert FileSource.can_i_handle('write', "csv") is False
-    assert FileSource.can_i_handle('wrong action', "csv") is False

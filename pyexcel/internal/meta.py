@@ -10,7 +10,6 @@
 from functools import partial
 
 from pyexcel.internal import SOURCE
-import pyexcel.internal.attributes as attributes
 import pyexcel.constants as constants
 from pyexcel.internal.core import get_sheet_stream
 
@@ -187,38 +186,26 @@ REGISTER_BOOK_IO = partial(
     description=constants.IO_FILE_TYPE_DOC_STRING)
 
 
-class SheetMeta(type):
+class SheetMeta(object):
     """Annotate sheet attributes"""
-    def __init__(cls, name, bases, nmspc):
-        super(SheetMeta, cls).__init__(name, bases, nmspc)
-        for attribute in attributes.get_sheet_rw_attributes():
-            REGISTER_IO(cls, attribute)
-        for attribute in attributes.get_sheet_w_attributes():
-            REGISTER_PRESENTATION(cls, attribute)
-        for attribute in attributes.get_sheet_r_attributes():
-            REGISTER_INPUT(cls, attribute)
-        setattr(cls, "register_io", classmethod(REGISTER_IO))
-        setattr(cls, "register_presentation",
-                classmethod(REGISTER_PRESENTATION))
-        setattr(cls, "register_input",
-                classmethod(REGISTER_INPUT))
+    pass
 
 
-class BookMeta(type):
+setattr(SheetMeta, "register_io", classmethod(REGISTER_IO))
+setattr(SheetMeta, "register_presentation", classmethod(REGISTER_PRESENTATION))
+setattr(SheetMeta, "register_input", classmethod(REGISTER_INPUT))
+
+
+class BookMeta(object):
     """Annotate book attributes"""
-    def __init__(cls, name, bases, nmspc):
-        super(BookMeta, cls).__init__(name, bases, nmspc)
-        for attribute in attributes.get_book_rw_attributes():
-            REGISTER_BOOK_IO(cls, attribute)
-        for attribute in attributes.get_book_w_attributes():
-            REGISTER_BOOK_PRESENTATION(cls, attribute)
-        for attribute in attributes.get_book_r_attributes():
-            REGISTER_BOOK_INPUT(cls, attribute)
-        setattr(cls, "register_io", classmethod(REGISTER_BOOK_IO))
-        setattr(cls, "register_presentation",
-                classmethod(REGISTER_BOOK_PRESENTATION))
-        setattr(cls, "register_book_input",
-                classmethod(REGISTER_BOOK_INPUT))
+    pass
+
+
+setattr(BookMeta, "register_io", classmethod(REGISTER_BOOK_IO))
+setattr(BookMeta, "register_presentation",
+        classmethod(REGISTER_BOOK_PRESENTATION))
+setattr(BookMeta, "register_input",
+        classmethod(REGISTER_BOOK_INPUT))
 
 
 def _get_book(**keywords):

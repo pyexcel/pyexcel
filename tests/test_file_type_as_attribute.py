@@ -72,7 +72,7 @@ def test_invalid_url_getter():
 
 
 @raises(NotImplementedError)
-def test_invalid_json_stter():
+def test_invalid_json_setter():
     sheet = Sheet()
     sheet.json = "a,b,c"
 

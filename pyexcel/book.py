@@ -7,8 +7,6 @@
     :copyright: (c) 2014-2017 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-from lml.plugin import with_metaclass
-
 from pyexcel.sheet import Sheet
 import pyexcel._compact as compact
 from pyexcel.internal.meta import BookMeta, StreamAttribute
@@ -18,7 +16,7 @@ from pyexcel.internal.common import PyexcelObject, SheetIterator
 LOCAL_UUID = 0
 
 
-class Book(with_metaclass(BookMeta, PyexcelObject)):
+class Book(BookMeta, PyexcelObject):
     """
     Read an excel book that has one or more sheets
 
