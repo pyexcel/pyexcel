@@ -7,8 +7,6 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from itertools import product
-
 import pyexcel_io.constants as io_constants
 
 import pyexcel.constants as constants
@@ -36,7 +34,7 @@ class SourcePluginManager(PluginManager):
 
     def load_me_later(self, plugin_info):
         PluginManager.load_me_later(self, plugin_info)
-        self.register_class_meta(plugin_info)
+        self._register_a_plugin_info(plugin_info)
 
     def load_me_now(self, key, action=None, **keywords):
         """get source module into memory for use"""
@@ -55,33 +53,18 @@ class SourcePluginManager(PluginManager):
             _error_handler(action, **keywords)
         return plugin
 
-    def register_class_meta(self, meta):
-        """register sheet and book attributes even though
-        the plugins will be loaded later
-
-        If this is missing, dot attribute will get
-        triggered.
-        """
-        self._register_a_plugin(
-            meta.targets, meta.actions,
-            meta.attributes, meta.key)
-
     def register_a_plugin(self, plugin_cls, plugin_info):
         """ for dynamically loaded plugin """
-        PluginManager.register_a_plugin(self, plugin_cls)
-        self._register_a_plugin(plugin_info.targets,
-                                plugin_info.actions,
-                                plugin_info.attributes,
-                                plugin_info.key)
-        for key in plugin_info.keywords():
-            self._logger.debug(key)
-            self.registry[key].append(plugin_cls)
+        PluginManager.register_a_plugin(self, plugin_cls, plugin_info)
+        self._register_a_plugin_info(plugin_info)
 
-    def _register_a_plugin(self, targets, actions, attributes, key):
+    def _register_a_plugin_info(self, plugin_info):
         debug_registry = "Source registry: "
         debug_attribute = "Instance attribute: "
         anything = False
-        for target, action in product(targets, actions):
+        for key in plugin_info.keywords():
+            target, action = key.split('-')
+            attributes = plugin_info.attributes
             if not isinstance(attributes, list):
                 attributes = attributes()
             for attr in attributes:
@@ -89,7 +72,7 @@ class SourcePluginManager(PluginManager):
                     continue
                 register_an_attribute(target, action, attr)
                 debug_attribute += "%s " % attr
-                self.keywords[attr] = key
+                self.keywords[attr] = plugin_info.key
                 anything = True
             debug_attribute += ", "
         if anything:

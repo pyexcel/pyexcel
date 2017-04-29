@@ -33,14 +33,6 @@ class IOPluginManager(PluginManager):
         file_types = list(self.registry.keys())
         return file_types
 
-    def register_a_plugin(self, plugin_cls, plugin_info):
-        """register loaded plugin classes"""
-        __file_types = []
-        PluginManager.register_a_plugin(self, plugin_cls)
-        for file_type in plugin_info.keywords():
-            __file_types.append(file_type)
-            self.registry[file_type].append(plugin_cls)
-
 
 RENDERER = IOPluginManager('renderer')
 PARSER = IOPluginManager('parser')
