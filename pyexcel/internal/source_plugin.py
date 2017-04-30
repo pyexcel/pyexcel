@@ -53,27 +53,6 @@ class SourcePluginManager(PluginManager):
         PluginManager.register_a_plugin(self, plugin_cls, plugin_info)
         self._register_a_plugin_info(plugin_info)
 
-    def _register_a_plugin_info(self, plugin_info):
-        debug_registry = "Source registry: "
-        debug_attribute = "Instance attribute: "
-        anything = False
-        for key in plugin_info.keywords():
-            target, action = key.split('-')
-            attributes = plugin_info.attributes
-            if not isinstance(attributes, list):
-                attributes = attributes()
-            for attr in attributes:
-                if attr in NO_DOT_NOTATION:
-                    continue
-                register_an_attribute(target, action, attr)
-                debug_attribute += "%s " % attr
-                self.keywords[attr] = plugin_info.key
-                anything = True
-            debug_attribute += ", "
-        if anything:
-            self._logger.debug(debug_attribute)
-            self._logger.debug(debug_registry)
-
     def get_a_plugin(self, target=None, action=None, **keywords):
         """obtain a source plugin for pyexcel signature functions"""
         PluginManager.get_a_plugin(self, target=target,
@@ -115,6 +94,27 @@ class SourcePluginManager(PluginManager):
     def get_keyword_for_parameter(self, key):
         """custom keyword for an attribute"""
         return self.keywords.get(key, None)
+
+    def _register_a_plugin_info(self, plugin_info):
+        debug_registry = "Source registry: "
+        debug_attribute = "Instance attribute: "
+        anything = False
+        for key in plugin_info.keywords():
+            target, action = key.split('-')
+            attributes = plugin_info.attributes
+            if not isinstance(attributes, list):
+                attributes = attributes()
+            for attr in attributes:
+                if attr in NO_DOT_NOTATION:
+                    continue
+                register_an_attribute(target, action, attr)
+                debug_attribute += "%s " % attr
+                self.keywords[attr] = plugin_info.key
+                anything = True
+            debug_attribute += ", "
+        if anything:
+            self._logger.debug(debug_attribute)
+            self._logger.debug(debug_registry)
 
 
 def _error_handler(action, **keywords):

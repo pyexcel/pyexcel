@@ -1,5 +1,5 @@
 """
-    pyexcel.sheets.sheet
+    pyexcel.sheet
     ~~~~~~~~~~~~~~~~~~~~~
 
     Building on top of matrix, adding named columns and rows support
