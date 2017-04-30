@@ -985,3 +985,58 @@ def test_isave_book_as():
     io = pe.isave_book_as(dest_file_type="xls", bookdict=content)
     book2 = pe.get_book(file_content=io.getvalue(), file_type="xls")
     assert book2.to_dict() == content
+
+
+@raises(Exception)
+def test_parser_library_parameter():
+    pe.get_sheet(file_name="test", parser_library="pyexcel-unknown")
+
+
+@raises(Exception)
+def test_renderer_library_parameter():
+    data = [
+        ["X", "Y", "Z"],
+        [1, 2, 3],
+        [4, 5, 6]
+    ]
+    sheet = pe.Sheet(data)
+    testfile = "testfile.xls"
+    sheet.save_as(testfile, renderer_library='pyexcel-unknown')
+
+
+@raises(Exception)
+def test_renderer_library_parameter_2():
+    data = [
+        ["X", "Y", "Z"],
+        [1, 2, 3],
+        [4, 5, 6]
+    ]
+    pe.save_as(array=data, dest_file_name="test_file.xls",
+               dest_renderer_library='pyexcel-unknown')
+
+
+@raises(Exception)
+def test_source_library_parameter():
+    pe.get_sheet(file_name="test", source_library="pyexcel-unknown")
+
+
+@raises(Exception)
+def test_source_library_parameter_1():
+    data = [
+        ["X", "Y", "Z"],
+        [1, 2, 3],
+        [4, 5, 6]
+    ]
+    pe.save_as(array=data, dest_file_name="test_file.xls",
+               dest_source_library='pyexcel-unknown')
+
+
+@raises(Exception)
+def test_source_library_parameter_2():
+    data = [
+        ["X", "Y", "Z"],
+        [1, 2, 3],
+        [4, 5, 6]
+    ]
+    pe.save_as(array=data, dest_file_name="test_file.xls",
+               source_library='pyexcel-unknown')

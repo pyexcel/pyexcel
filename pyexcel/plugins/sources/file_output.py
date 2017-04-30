@@ -16,12 +16,13 @@ from pyexcel.internal.common import _find_file_type_from_file_name
 class WriteSheetToFile(AbstractSource):
     """Pick up 'file_name' field and do single sheet based read and write
     """
-    def __init__(self, file_name=None, **keywords):
+    def __init__(self, file_name=None, renderer_library=None, **keywords):
         AbstractSource.__init__(self, **keywords)
         self._file_name = file_name
 
         self.__file_type = _find_file_type_from_file_name(file_name, 'write')
-        self._renderer = RENDERER.get_a_plugin(self.__file_type)
+        self._renderer = RENDERER.get_a_plugin(
+            self.__file_type, renderer_library)
 
     def write_data(self, sheet):
         self._renderer.render_sheet_to_file(self._file_name,

@@ -20,14 +20,18 @@ class SheetDbSource(AbstractSource):
     SQLAlchemy channeled sql database as data source
     """
     def __init__(self, db_type, export_columns=None,
-                 sheet_name=None, **keywords):
+                 sheet_name=None,
+                 parser_library=None, renderer_library=None,
+                 **keywords):
         self._db_type = db_type
         self.__export_columns = export_columns
         self.__sheet_name = sheet_name
+        self.__parser_library = parser_library
+        self.__renderer_library = renderer_library
         AbstractSource.__init__(self, **keywords)
 
     def get_data(self):
-        aparser = PARSER.get_a_plugin(self._db_type)
+        aparser = PARSER.get_a_plugin(self._db_type, self.__parser_library)
         export_params = self.get_export_params()
         data = aparser.parse_file_stream(
             export_params,
@@ -42,7 +46,7 @@ class SheetDbSource(AbstractSource):
         pass
 
     def write_data(self, sheet):
-        arender = RENDERER.get_a_plugin(self._db_type)
+        arender = RENDERER.get_a_plugin(self._db_type, self.__renderer_library)
         init_func, map_dict = _transcode_sheet_db_keywords(
             self._keywords)
         import_params = self.get_import_params()
@@ -62,12 +66,16 @@ class BookDbSource(AbstractSource):
     """
     multiple Django table as data source
     """
-    def __init__(self, db_type, **keywords):
+    def __init__(self, db_type,
+                 parser_library=None, renderer_library=None,
+                 **keywords):
         self.__db_type = db_type
+        self.__parser_library = parser_library
+        self.__renderer_library = renderer_library
         AbstractSource.__init__(self, **keywords)
 
     def get_data(self):
-        aparser = PARSER.get_a_plugin(self.__db_type)
+        aparser = PARSER.get_a_plugin(self.__db_type, self.__parser_library)
         export_params = self.get_params()
         data = aparser.parse_file_stream(export_params,
                                          **self._keywords)
@@ -81,7 +89,8 @@ class BookDbSource(AbstractSource):
         return self.__db_type, None
 
     def write_data(self, book):
-        arender = RENDERER.get_a_plugin(self.__db_type)
+        arender = RENDERER.get_a_plugin(
+            self.__db_type, self.__renderer_library)
         init_funcs, map_dicts = _transcode_book_db_keywords(
             self._keywords)
 

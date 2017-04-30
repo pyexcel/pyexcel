@@ -51,7 +51,8 @@ class HttpSource(AbstractSource):
         file_type = FILE_TYPE_MIME_TABLE.get(mime_type, None)
         if file_type is None:
             file_type = _get_file_type_from_url(self.__url)
-        aparser = PARSER.get_a_plugin(file_type)
+        parser_library = self._keywords.get('parser_library', None)
+        aparser = PARSER.get_a_plugin(file_type, parser_library)
         content = connection.read()
         sheets = aparser.parse_file_content(content,
                                             **self._keywords)

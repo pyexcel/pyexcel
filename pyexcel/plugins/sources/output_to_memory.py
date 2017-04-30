@@ -16,10 +16,11 @@ class WriteSheetToMemory(AbstractSource, MemorySourceMixin):
     """
     Single sheet to memory
     """
-    def __init__(self, file_type=None, file_stream=None, **keywords):
+    def __init__(self, file_type=None, file_stream=None,
+                 renderer_library=None, **keywords):
         AbstractSource.__init__(self, **keywords)
 
-        self._renderer = RENDERER.get_a_plugin(file_type)
+        self._renderer = RENDERER.get_a_plugin(file_type, renderer_library)
         if file_stream:
             self._content = file_stream
         else:

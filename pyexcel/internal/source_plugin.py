@@ -31,7 +31,7 @@ class SourcePluginManager(PluginManager):
         PluginManager.load_me_later(self, plugin_info)
         self._register_a_plugin_info(plugin_info)
 
-    def load_me_now(self, key, action=None, **keywords):
+    def load_me_now(self, key, action=None, library=None, **keywords):
         """get source module into memory for use"""
         self._logger.debug("load me now:" + key)
         plugin = None
@@ -40,11 +40,14 @@ class SourcePluginManager(PluginManager):
                 if isinstance(source, Plugin):
                     plugin = source
                 else:
-                    cls = self.dynamic_load_library(source)
-                    plugin = cls
-                break
+                    plugin = self.dynamic_load_library(source)
+                module_name = _get_me_pypi_package_name(plugin.__module__)
+                if library and module_name != library:
+                    continue
+                else:
+                    break
         else:
-            # nothing is found
+            # nothing is found, no break
             _error_handler(action, **keywords)
         return plugin
 
@@ -53,12 +56,14 @@ class SourcePluginManager(PluginManager):
         PluginManager.register_a_plugin(self, plugin_cls, plugin_info)
         self._register_a_plugin_info(plugin_info)
 
-    def get_a_plugin(self, target=None, action=None, **keywords):
+    def get_a_plugin(self, target=None, action=None, source_library=None,
+                     **keywords):
         """obtain a source plugin for pyexcel signature functions"""
         PluginManager.get_a_plugin(self, target=target,
                                    action=action, **keywords)
         key = REGISTRY_KEY_FORMAT % (target, action)
-        source_cls = self.load_me_now(key, action=action, **keywords)
+        source_cls = self.load_me_now(key, action=action,
+                                      library=source_library, **keywords)
         source_instance = source_cls(**keywords)
         return source_instance
 
@@ -130,6 +135,11 @@ def _error_handler(action, **keywords):
             raise exceptions.UnknownParameters(msg % keywords)
     else:
         raise exceptions.UnknownParameters("No parameters found!")
+
+
+def _get_me_pypi_package_name(module_name):
+    root_module_name = module_name.split('.')[0]
+    return root_module_name.replace('_', '-')
 
 
 SOURCE = SourcePluginManager()
