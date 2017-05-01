@@ -76,3 +76,10 @@ def deprecated(func, message="Deprecated!"):
         warnings.warn(message, DeprecationWarning)
         return func(*arg, **keywords)
     return inner
+
+
+def add_doc(value):
+    def _doc(func):
+        func.__doc__ = value
+        return func
+    return _doc
