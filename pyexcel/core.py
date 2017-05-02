@@ -16,7 +16,7 @@ from pyexcel.book import Book, to_book
 import pyexcel.internal.core as sources
 import pyexcel.constants as constants
 from pyexcel._compact import zip_longest, add_doc
-import pyexcel.docs as docs
+import pyexcel.docstrings as docs
 
 
 STARTS_WITH_DEST = '^dest_(.*)'
@@ -24,7 +24,7 @@ SAVE_AS_EXCEPTION = ("This function does not accept parameters for " +
                      "pyexce.Sheet. Please use pyexcel.save_as instead.")
 
 
-@add_doc(docs.GET_SHEET_DOC)
+@add_doc(docs.GET_SHEET)
 def get_sheet(**keywords):
     sheet_params = {}
     for field in constants.VALID_SHEET_PARAMETERS:
@@ -35,7 +35,7 @@ def get_sheet(**keywords):
     return sheet
 
 
-@add_doc(docs.GET_BOOK_DOC)
+@add_doc(docs.GET_BOOK)
 def get_book(**keywords):
     book_stream = sources.get_book_stream(**keywords)
     book = Book(book_stream.to_dict(),
@@ -44,7 +44,7 @@ def get_book(**keywords):
     return book
 
 
-@add_doc(docs.SAVE_AS_DOC)
+@add_doc(docs.SAVE_AS)
 def save_as(**keywords):
     dest_keywords, source_keywords = _split_keywords(**keywords)
     sheet_params = {}
@@ -57,14 +57,8 @@ def save_as(**keywords):
     return sources.save_sheet(sheet, **dest_keywords)
 
 
+@add_doc(docs.ISAVE_AS)
 def isave_as(**keywords):
-    """Save a sheet from a data source to another one with less memory
-
-    It is simliar to :meth:`pyexcel.save_as` except that it does
-    not accept parameters for :class:`pyexcel.Sheet`. And it read
-    when it writes.
-    """
-
     dest_keywords, source_keywords = _split_keywords(**keywords)
     for field in constants.VALID_SHEET_PARAMETERS:
         if field in source_keywords:
@@ -73,7 +67,7 @@ def isave_as(**keywords):
     return sources.save_sheet(sheet, **dest_keywords)
 
 
-@add_doc(docs.SAVE_BOOK_AS_DOC)
+@add_doc(docs.SAVE_BOOK_AS)
 def save_book_as(**keywords):
     dest_keywords, source_keywords = _split_keywords(**keywords)
     book = sources.get_book_stream(**source_keywords)
@@ -81,45 +75,40 @@ def save_book_as(**keywords):
     return sources.save_book(book, **dest_keywords)
 
 
+@add_doc(docs.ISAVE_BOOK_AS)
 def isave_book_as(**keywords):
-    """Save a book from a data source to another one
-
-    It is simliar to :meth:`pyexcel.save_book_as` but it read
-    when it writes. This function provide some speedup but
-    the output data is made uniform.
-    """
     dest_keywords, source_keywords = _split_keywords(**keywords)
     book = sources.get_book_stream(**source_keywords)
     return sources.save_book(book, **dest_keywords)
 
 
-@add_doc(docs.GET_ARRAY_DOC)
+@add_doc(docs.GET_ARRAY)
 def get_array(**keywords):
     sheet = get_sheet(**keywords)
     return sheet.to_array()
 
 
-@add_doc(docs.GET_DICT_DOC)
+@add_doc(docs.GET_DICT)
 def get_dict(name_columns_by_row=0, **keywords):
     sheet = get_sheet(name_columns_by_row=name_columns_by_row,
                       **keywords)
     return sheet.to_dict()
 
 
-@add_doc(docs.GET_RECORDS_DOC)
+@add_doc(docs.GET_RECORDS)
 def get_records(name_columns_by_row=0, **keywords):
     sheet = get_sheet(name_columns_by_row=name_columns_by_row,
                       **keywords)
     return sheet.to_records()
 
 
-@add_doc(docs.IGET_ARRAY_DOC)
+@add_doc(docs.IGET_ARRAY)
 def iget_array(**keywords):
     sheet_stream = sources.get_sheet_stream(**keywords)
     return sheet_stream.payload
 
 
-@add_doc(docs.IGET_RECORDS_DOC)
+@add_doc(docs.IGET_RECORDS)
 def iget_records(**keywords):
     sheet_stream = sources.get_sheet_stream(**keywords)
     headers = None
@@ -131,7 +120,7 @@ def iget_records(**keywords):
                                    fillvalue=constants.DEFAULT_NA))
 
 
-@add_doc(docs.GET_BOOK_DICT_DOC)
+@add_doc(docs.GET_BOOK_DICT)
 def get_book_dict(**keywords):
     book = get_book(**keywords)
     return book.to_dict()

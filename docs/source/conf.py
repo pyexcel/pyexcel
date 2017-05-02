@@ -12,9 +12,6 @@ extensions = [
     'sphinx.ext.autosummary'
 ]
 
-intersphinx_mapping = {
-    'pyexcel': ('http://pyexcel.readthedocs.org/en/latest/', None)
-}
 spelling_word_list_filename = 'spelling_wordlist.txt'
 templates_path = ['_templates']
 source_suffix = '.rst'
@@ -22,7 +19,7 @@ master_doc = 'index'
 
 project = u'pyexcel'
 copyright = u'2015-2017 Onni Software Ltd.'
-version = '0.4.4'
+version = '0.4.5'
 release = '0.5.0'
 exclude_patterns = []
 pygments_style = 'sphinx'
