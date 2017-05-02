@@ -1,61 +1,76 @@
 CSV_PARAMS = """
-**CSV format specifi parameters**
+delimiter :
+    csv specific, field separator
 
-delimiter : csv specific, field separator
-
-lineterminator : csv specific, line terminator
+lineterminator :
+    csv specific, line terminator
 """
 
 OPTIONAL_PARAMS = """
-auto_detect_float : defaults to True
+auto_detect_float :
+    defaults to True
 
-auto_detect_int : defaults to True
+auto_detect_int :
+    defaults to True
 
-auto_detect_datetime : defaults to True
+auto_detect_datetime :
+    defaults to True
 
-ignore_infinity : defaults to True
+ignore_infinity :
+    defaults to True
 
-library : choose a specific pyexcel-io plugin for reading
+library :
+    choose a specific pyexcel-io plugin for reading
 
-source_library : choose a specific data source plugin for reading
+source_library :
+    choose a specific data source plugin for reading
 
-parser_library : choose a pyexcel parser plugin for reading
+parser_library :
+    choose a pyexcel parser plugin for reading
 """
 
 FILE_PARAMS = """
-file_name : a file with supported file extension
+file_name :
+    a file with supported file extension
 
-file_content : the file content
+file_content :
+    the file content
 
-file_stream : the file stream
+file_stream :
+    the file stream
 
-file_type : the file type in *file_content* or *file_stream*
+file_type :
+     the file type in *file_content* or *file_stream*
 """
 
-SOURCE_PARAMS = """
+SOURCE_PARAMS = FILE_PARAMS + """
+session :
+    database session
 
-**Parameters**
+table :
+    database table
 
-""" + FILE_PARAMS + """
-session : database session
+model:
+    a django model
 
-table : database table
+adict:
+    a dictionary of one dimensional arrays
 
-model: a django model
+url :
+    a download http url for your excel file
 
-adict: a dictionary of one dimensional arrays
+with_keys :
+    load with previous dictionary's keys, default is True
 
-url : a download http url for your excel file
+records :
+    a list of dictionaries that have the same keys
 
-with_keys : load with previous dictionary's keys, default is True
+array :
+    a two dimensional array, a list of lists
 
-records : a list of dictionaries that have the same keys
-
-array : a two dimensional array, a list of lists
-
-sheet_name : sheet name. if sheet_name is not given, the default
-sheet at index 0 is loaded
-
+sheet_name :
+    sheet name. if sheet_name is not given, the default
+    sheet at index 0 is loaded
 """ + OPTIONAL_PARAMS + CSV_PARAMS
 
 SOURCE_PARAMS_TABLE = """
@@ -77,43 +92,106 @@ loading from an url        url
 ========================== =========================================
 """
 
-DEST_PARAMS = """
-dest_file_name: another file name.
+DEST_FILE_PARAMS = """
+dest_file_name:
+    another file name.
 
-dest_file_type: this is needed if you want to save to memory
-
-dest_session: the target database session
-
-dest_table: the target destination table
-
-dest_model: the target django model
-
-dest_mapdict: a mapping dictionary
-    see :meth:`pyexcel.Sheet.save_to_memory`
-
-dest_initializer: a custom initializer function for table or model
-
-dest_mapdict: nominate headers
-
-dest_batch_size: object creation batch size.
-     it is Django specific
-dest_library: choose a specific pyexcel-io plugin for writing
-
-dest_source_library: choose a specific data source plugin for writing
-
-deset_renderer_library: choose a pyexcel parser plugin for writing
+dest_file_type:
+    this is needed if you want to save to memory
 """
 
-SOURCE_BOOK_PARAMS = FILE_PARAMS + """
-session : database session
+DEST_PARAMS = DEST_FILE_PARAMS + """
+dest_session:
+    the target database session
 
-tables : a list of database table
+dest_table:
+    the target destination table
 
-models : a list of django models
+dest_model:
+    the target django model
 
-bookdict : a dictionary of two dimensional arrays
+dest_mapdict:
+    a mapping dictionary
+    see :meth:`pyexcel.Sheet.save_to_memory`
 
-url : a download http url for your excel file
+dest_initializer:
+    a custom initializer function for table or model
+
+dest_mapdict:
+    nominate headers
+
+dest_batch_size:
+    object creation batch size.
+    it is Django specific
+
+dest_library:
+    choose a specific pyexcel-io plugin for writing
+
+dest_source_library:
+    choose a specific data source plugin for writing
+
+deset_renderer_library:
+    choose a pyexcel parser plugin for writing
+"""
+
+DEST_PARAMS_TABLE = """
+================= =============================================
+Saving to source  parameters
+================= =============================================
+file              dest_file_name, dest_sheet_name,
+                  keywords with prefix 'dest'
+memory            dest_file_type, dest_content,
+                  dest_sheet_name, keywords with prefix 'dest'
+sql               dest_session, dest_table,
+                  dest_initializer, dest_mapdict
+django model      dest_model, dest_initializer,
+                  dest_mapdict, dest_batch_size
+================= =============================================
+"""
+
+DEST_BOOK_PARAMS = DEST_FILE_PARAMS + """
+dest_session :
+    the target database session
+
+dest_tables :
+    the list of target destination tables
+
+dest_models :
+    the list of target destination django models
+
+dest_mapdicts :
+    a list of mapping dictionaries
+
+dest_initializers :
+    table initialization functions
+
+dest_mapdicts :
+    to nominate a model or table fields. Optional
+
+dest_batch_size :
+    batch creation size. Optional
+"""
+
+SOURCE_BOOK_PARAMS = """
+
+Parameters
+-----------
+
+""" + FILE_PARAMS + """
+session :
+    database session
+
+tables :
+    a list of database table
+
+models :
+    a list of django models
+
+bookdict :
+    a dictionary of two dimensional arrays
+
+url :
+    a download http url for your excel file
 """ + OPTIONAL_PARAMS + CSV_PARAMS
 
 SOURCE_BOOK_PARAMS_TABLE = """

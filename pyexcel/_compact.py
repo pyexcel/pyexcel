@@ -17,6 +17,7 @@
 # pylint: disable=ungrouped-imports
 import sys
 import warnings
+from textwrap import dedent
 
 PY2 = sys.version_info[0] == 2
 PY26 = PY2 and sys.version_info[1] < 7
@@ -78,8 +79,8 @@ def deprecated(func, message="Deprecated!"):
     return inner
 
 
-def add_doc(value):
+def append_doc(value):
     def _doc(func):
-        func.__doc__ = value
+        func.__doc__ = dedent(func.__doc__) + '\n' + value
         return func
     return _doc
