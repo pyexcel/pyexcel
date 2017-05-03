@@ -7,7 +7,7 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel_io.plugins import writers
+from pyexcel_io.plugins import WRITERS
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
 
 from pyexcel.internal.common import PyexcelPluginList
@@ -21,7 +21,7 @@ PyexcelPluginList(__name__).add_a_renderer(
     file_types=[DB_DJANGO]
 ).add_a_renderer(
     submodule='excel.ExcelRenderer',
-    file_types=writers.get_all_formats()
+    file_types=WRITERS.get_all_formats()
 ).add_a_renderer(
     submodule='_texttable.TextTableRenderer',
     file_types=['texttable']

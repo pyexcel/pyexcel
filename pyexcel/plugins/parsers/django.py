@@ -7,7 +7,7 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-import pyexcel_io.database.exporters.django as django
+import pyexcel_io.database.common as django
 from pyexcel_io import get_data
 
 from pyexcel.parser import DbParser

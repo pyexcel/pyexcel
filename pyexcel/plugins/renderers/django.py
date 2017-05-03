@@ -8,7 +8,7 @@
     :license: New BSD License
 """
 from pyexcel_io import save_data
-import pyexcel_io.database.importers.django as django
+import pyexcel_io.database.common as django
 
 from pyexcel._compact import OrderedDict
 from pyexcel.internal.generators import BookStream
