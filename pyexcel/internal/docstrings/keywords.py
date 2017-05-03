@@ -43,6 +43,43 @@ file_type :
      the file type in *file_content* or *file_stream*
 """
 
+SKIPPING_FUNC_PROTOCOL = """
+    The protocol is
+    to return pyexcel_io.constants.SKIP_DATA if skipping data,
+    pyexcel_io.constants.TAKE_DATA to read data,
+    pyexcel_io.constants.STOP_ITERATION to exit the reading procedure
+"""
+
+PAGINATION_PARAMS = """
+start_row : int
+    defaults to 0. It allows you to skip rows at the begginning
+
+row_limit: int
+    defaults to -1, meaning till the end of the whole sheet. It allows
+    you to skip the tailing rows.
+
+start_column : int
+    defaults to 0. It allows you to skip columns on your left hand side
+
+column_limit: int
+    defaults to -1, meaning till the end of the columns. It allows
+    you to skip the tailing columns.
+
+skip_row_func:
+    It allows you to write your own row skipping functions.
+""" + SKIPPING_FUNC_PROTOCOL + """
+skip_column_func:
+    It allows you to write your own column skipping functions.
+""" + SKIPPING_FUNC_PROTOCOL + """
+skip_empty_rows: bool
+    Defaults to False. Toggle it to True if the rest of empty rows are
+    useless, but it does affect the number of rows.
+
+row_renderer:
+    You could choose to write a custom row renderer when the data is being
+    read.
+"""
+
 SOURCE_PARAMS = FILE_PARAMS + """
 session :
     database session
@@ -71,7 +108,7 @@ array :
 sheet_name :
     sheet name. if sheet_name is not given, the default
     sheet at index 0 is loaded
-""" + OPTIONAL_PARAMS + CSV_PARAMS
+""" + PAGINATION_PARAMS + OPTIONAL_PARAMS + CSV_PARAMS
 
 SOURCE_PARAMS_TABLE = """
 Not all parameters are needed. Here is a table
