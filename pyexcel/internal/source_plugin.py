@@ -129,6 +129,8 @@ def _error_handler(action, **keywords):
             raise exceptions.FileTypeNotSupported(
                 constants.FILE_TYPE_NOT_SUPPORTED_FMT % (file_type, action))
         else:
+            if "on_demand" in keywords:
+                keywords.pop("on_demand")
             msg = "Please check if there were typos in "
             msg += "function parameters: %s. Otherwise "
             msg += "unrecognized parameters were given."

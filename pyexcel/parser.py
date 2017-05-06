@@ -7,6 +7,7 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
+import pyexcel.internal.garbagecollector as gc
 
 
 class AbstractParser(object):
@@ -33,6 +34,9 @@ class AbstractParser(object):
         Parse data from a given file content
         """
         raise NotImplementedError("parse_file_content is not implemented")
+
+    def _free_me_up_later(self, reader):
+        gc.append(reader)
 
 
 class DbParser(AbstractParser):

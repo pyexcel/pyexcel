@@ -79,7 +79,7 @@ def isave_as(**keywords):
     for field in constants.VALID_SHEET_PARAMETERS:
         if field in source_keywords:
             raise Exception(SAVE_AS_EXCEPTION)
-    sheet = sources.get_sheet_stream(**source_keywords)
+    sheet = sources.get_sheet_stream(on_demand=True, **source_keywords)
     return sources.save_sheet(sheet, **dest_keywords)
 
 
@@ -104,7 +104,7 @@ def isave_book_as(**keywords):
     the output data is not made uniform.
     """
     dest_keywords, source_keywords = _split_keywords(**keywords)
-    book = sources.get_book_stream(**source_keywords)
+    book = sources.get_book_stream(on_demand=True, **source_keywords)
     return sources.save_book(book, **dest_keywords)
 
 
@@ -172,7 +172,7 @@ def iget_array(**keywords):
     It is similiar to :meth:`pyexcel.get_array` but it has less memory
     footprint.
     """
-    sheet_stream = sources.get_sheet_stream(**keywords)
+    sheet_stream = sources.get_sheet_stream(on_demand=True, **keywords)
     return sheet_stream.payload
 
 
@@ -186,7 +186,7 @@ def iget_records(**keywords):
     data matrix should be of equal length. It should consume less memory
     and should work well with large files.
     """
-    sheet_stream = sources.get_sheet_stream(**keywords)
+    sheet_stream = sources.get_sheet_stream(on_demand=True, **keywords)
     headers = None
     for row_index, row in enumerate(sheet_stream.payload):
         if row_index == 0:
