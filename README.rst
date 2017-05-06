@@ -106,7 +106,7 @@ or clone it and install it:
 
 .. code-block:: bash
 
-    $ git clone http://github.com/pyexcel/pyexcel.git
+    $ git clone https://github.com/pyexcel/pyexcel.git
     $ cd pyexcel
     $ python setup.py install
 
