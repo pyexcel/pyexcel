@@ -62,8 +62,14 @@ class SourcePluginManager(PluginManager):
         PluginManager.get_a_plugin(self, target=target,
                                    action=action, **keywords)
         key = REGISTRY_KEY_FORMAT % (target, action)
+        io_library = None
+        # backward support pyexcel-io library parameter
+        if 'library' in keywords:
+            io_library = keywords.pop('library')
         source_cls = self.load_me_now(key, action=action,
                                       library=source_library, **keywords)
+        if io_library is not None:
+            keywords['library'] = io_library
         source_instance = source_cls(**keywords)
         return source_instance
 
