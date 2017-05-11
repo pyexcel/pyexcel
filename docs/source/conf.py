@@ -10,7 +10,8 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.viewcode',
     'sphinx.ext.autosummary',
-    'sphinx.ext.napoleon'
+    'sphinx.ext.napoleon',
+    'sphinxcontrib.spelling'
 ]
 
 spelling_word_list_filename = 'spelling_wordlist.txt'

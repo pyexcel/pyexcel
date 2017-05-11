@@ -1,7 +1,7 @@
 Migrate away from 0.4.3
 ==============================
 
-get_{{file_type}}_stream functions from pyexcel.Sheet and pyexel.Book were
+get_{{file_type}}_stream functions from pyexcel.Sheet and pyexcel.Book were
 introduced since 0.4.3 but were removed since 0.4.4. Please be advised to
 use save_to_memory functions, Sheet.io.{{file_type}} or
 Book.io.{{file_type}}.
@@ -21,7 +21,7 @@ Formatting and filtering on row and/or column can be found with
 1. Updated filter function
 ------------------------------------------
 
-There is no alternative to replace the folowing code::
+There is no alternative to replace the following code::
 
     sheet.filter(pe.OddRowFilter())
 
@@ -78,7 +78,7 @@ can be replaced by::
 
     sheet.format(int)
 
-2.2 Repalcement of row formatters
+2.2 Replacement of row formatters
 ++++++++++++++++++++++++++++++++++++++++++++++
 
 The following code::

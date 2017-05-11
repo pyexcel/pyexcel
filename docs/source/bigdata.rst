@@ -7,8 +7,8 @@ Pagination
 --------------------------------------------------------------------------------
 
 When you are dealing with huge amount of data, e.g. 64GB, obviously you would not
-like to fill up your memory with those data. Hence pagnation feature is developed
-to read partial data into memory for processing. You can pagninate by row, by
+like to fill up your memory with those data. Hence pagination feature is developed
+to read partial data into memory for processing. You can paginate by row, by
 column and by both.
 
 .. testcode::
@@ -99,7 +99,7 @@ Formatting while transcoding a big data file
 --------------------------------------------------------------------------------
 
 If you are transcoding a big data set, conventional formatting method would not
-help unless a on-demand free RAM is available. However, there is a way to minize
+help unless a on-demand free RAM is available. However, there is a way to minimize
 the memory footprint of pyexcel while the formatting is performed.
 
 Let's continue from previous example. Suppose we want to transcode "your_file.csv"

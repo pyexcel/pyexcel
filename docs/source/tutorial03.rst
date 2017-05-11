@@ -9,7 +9,7 @@ use :meth:`~pyexcel.Sheet.format` to apply formatter immediately.
 
 .. note::
 
-   **int**, **float** andate **datetime** values are automatically detected in **csv** files
+   **int**, **float** and **datetime** values are automatically detected in **csv** files
    since **pyexcel** version 0.2.2
 
 

@@ -1,7 +1,9 @@
 {% extends 'docs/source/conf.py.jj2'%}
 
 {%block SPHINX_EXTENSIONS%}
-    'sphinx.ext.autosummary'
+    'sphinx.ext.autosummary',
+    'sphinx.ext.napoleon',
+    'sphinxcontrib.spelling'
 {%endblock%}
 
 {%block custom_doc_theme%}

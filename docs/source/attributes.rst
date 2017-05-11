@@ -102,7 +102,7 @@ Yet, it is possible assign a absolute url to an online excel file to an instance
 For book
 --------------------------------------------------------------------------------
 
-The same dot notation is avaiable to :class:`pyexcel.Book` as well.
+The same dot notation is available to :class:`pyexcel.Book` as well.
 
 Get content
 ************

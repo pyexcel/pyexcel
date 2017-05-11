@@ -95,7 +95,7 @@ list of data structures, and :ref:`vice versa<conversion-to>`.
 .. table:: A list of supported data structures
 
    ======================================= ================================ =========================
-   Psudo name                              Python name                      Related model
+   Pesudo name                             Python name                      Related model
    ======================================= ================================ =========================
    two dimensional array                   a list of lists                  :class:`~pyexcel.Sheet`
    a dictionary of key value pair          a dictionary                     :class:`~pyexcel.Sheet`

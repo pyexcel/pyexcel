@@ -88,7 +88,7 @@ Suppose you have two excel books and each had three sheets. You can merge them a
    >>> book.save_as("book1.xls")
    >>> book.save_as("book2.xlsx")
 
-You also can merge indivdual sheets::
+You also can merge individual sheets::
 
    >>> book1 = pyexcel.get_book(file_name="book1.xls")
    >>> book2 = pyexcel.get_book(file_name="book2.xlsx")

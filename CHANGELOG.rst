@@ -15,7 +15,7 @@ Added
 #. added dynamic external plugin loading. meaning if a pyexcel plugin
    is installed, and has `__pyexcel_plugins__` signature in its
    __init__.py, it will be loaded implicitly. And this change would remove
-   un-necessary info log for those who do not use pyexcel-text and pyexcel-chart
+   unnecessary info log for those who do not use pyexcel-text and pyexcel-chart
 #. save_book_as before 0.5.0 becomes isave_book_as and save_book_as in 0.5.0
    convert BookStream to Book before saving.
 
@@ -56,7 +56,7 @@ Removed
 ********************************************************************************
 
 #. remove get_{{file_type}}_stream functions from pyexcel.Sheet and
-   pyexel.Book introduced since 0.4.3.
+   pyexcel.Book introduced since 0.4.3.
 
 
 0.4.3 - 26.01.2017
@@ -65,9 +65,9 @@ Removed
 Added
 ********************************************************************************
 
-#. '.stream' attribte are attached to `~pyexcel.Sheet` and
+#. '.stream' attribute are attached to `~pyexcel.Sheet` and
    `~pyexcel.Book` to get direct access the underneath stream
-   in responding to file type attributes, suchs sheet.xls. it helps provide a custom
+   in responding to file type attributes, such as sheet.xls. it helps provide a custom
    stream to external world, for example, Sheet.stream.csv gives a text stream
    that contains csv formatted data. Book.stream.xls returns a xls format
    data in a byte stream.
@@ -87,7 +87,7 @@ Updated
 
 #. Raise exception if the incoming sheet does not have column names. In other
    words, only sheet with column names could be saved to database. sheet with
-   row names cannot be saved. The alternative is to tranpose the sheet, then
+   row names cannot be saved. The alternative is to transpose the sheet, then
    name_columns_by_row and then save.
 #. fix iget_records where a non-uniform content should be given,
    e.g. [["x", "y"], [1, 2], [3]], some record would become non-uniform, e.g.
@@ -119,7 +119,7 @@ Added
 #. `Flask-Excel issue 19 <https://github.com/pyexcel/Flask-Excel/issues/19>`_
    allow sheet_name parameter
 #. `pyexcel-xls issue 11 <https://github.com/pyexcel/pyexcel-xls/issues/11>`_
-   case-incenstive for file_type. `xls` and `XLS` are treated in the same way
+   case-insensitive for file_type. `xls` and `XLS` are treated in the same way
 
 
 Updated
