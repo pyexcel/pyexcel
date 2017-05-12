@@ -19,8 +19,6 @@ class IOPluginManager(PluginManager):
     def get_a_plugin(self, file_type=None, library=None):
         """get a plugin to handle the file type
         """
-        PluginManager.get_a_plugin(
-            self, file_type=file_type, library=library)
         __file_type = None
         if file_type:
             __file_type = file_type.lower()

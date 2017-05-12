@@ -59,8 +59,6 @@ class SourcePluginManager(PluginManager):
     def get_a_plugin(self, target=None, action=None, source_library=None,
                      **keywords):
         """obtain a source plugin for pyexcel signature functions"""
-        PluginManager.get_a_plugin(self, target=target,
-                                   action=action, **keywords)
         key = REGISTRY_KEY_FORMAT % (target, action)
         io_library = None
         # backward support pyexcel-io library parameter
