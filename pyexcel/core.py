@@ -177,7 +177,7 @@ def iget_array(**keywords):
 
 
 @append_doc(docs.IGET_RECORDS)
-def iget_records(**keywords):
+def iget_records(name_columns_by_row=0, **keywords):
     """
     Obtain a generator of a list of records from an excel source
 
@@ -187,13 +187,11 @@ def iget_records(**keywords):
     and should work well with large files.
     """
     sheet_stream = sources.get_sheet_stream(on_demand=True, **keywords)
-    headers = None
-    for row_index, row in enumerate(sheet_stream.payload):
-        if row_index == 0:
-            headers = row
-        else:
-            yield dict(zip_longest(headers, row,
-                                   fillvalue=constants.DEFAULT_NA))
+    iterator = enumerate(sheet_stream.payload, start=name_columns_by_row)
+    headers = next(iterator)[1]
+    for row_index, row in iterator:
+        yield dict(zip_longest(headers, row,
+                               fillvalue=constants.DEFAULT_NA))
 
 
 @append_doc(docs.GET_BOOK_DICT)
