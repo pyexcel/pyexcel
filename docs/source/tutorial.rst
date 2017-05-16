@@ -1,6 +1,47 @@
 Sheet: Data Access
 ===================
 
+Iterate a csv file
+----------------------------
+
+Here is the way to read the csv file and iterate through each row:
+
+.. testcode::
+   :hide:
+
+   >>> import pyexcel
+   >>> pyexcel.save_as(array=[['Name', 'Age'], ['Chu Chu', '10'], ['Mo mo', '11']],
+   ...     dest_file_name='tutorial.csv')
+
+.. code-block:: python
+
+    >>> sheet = pyexcel.get_sheet(file_name='tutorial.csv')
+    >>> for row in sheet:
+    ...     print "%s: %s" % (row[0], row[1])
+    Name: Age
+    Chu Chu: 10
+    Mo mo: 11
+
+Often people wanted to use csv.Dict reader to read it because it has a header. Here
+is how you do it with pyexcel:
+
+.. code-block:: python
+   :linenos:
+
+   >>> sheet = pyexcel.get_sheet(file_name='tutorial.csv')
+   >>> sheet.name_columns_by_row(0)
+   >>> for row in sheet:
+   ...     print "%s: %s" % (row[0], row[1])
+   Chu Chu: 10
+   Mo mo: 11
+
+Line 2 remove the header from the actual content. The removed header can be used
+to access its columns using the name itself, for example:
+
+.. code-block:: python
+   >>> sheet.column['Age']
+   [10, 11]
+
 .. _access-to-cell:
 
 Random access to individual cell
@@ -14,7 +55,7 @@ or::
 
     sheet['A1']
 
-The former syntax is handy when you know the row and column numbers. The latter syntax is introduced to help you convert the excel column header such as "AX" to integer numbers. 
+The former syntax is handy when you know the row and column numbers. The latter syntax is introduced to help you convert the excel column header such as "AX" to integer numbers.
 
 Suppose you have the following data, you can get value 5 by reader[2, 2].
 
@@ -27,8 +68,6 @@ c       7 8 9
 
 
 Here is the example code showing how you can randomly access a cell::
-
-   >>> import pyexcel
 
 .. testcode::
    :hide:
@@ -91,7 +130,7 @@ Alternatively, it is possible to use the first row to refer to each columns::
     >>> sheet.name_columns_by_row(0)
     >>> print(sheet[1, "Y"])
     5
-	>>> sheet[1, "Y"] = 100
+    >>> sheet[1, "Y"] = 100
     >>> print(sheet[1, "Y"])
     100
 
@@ -104,7 +143,7 @@ Hence access the same cell, this statement also works::
 
     >>> sheet.column['Y'][1]
     100
-  
+
 Further more, it is possible to use first column to refer to each rows::
 
     >>> sheet.name_rows_by_column(0)
@@ -252,7 +291,7 @@ Column 1 Column 2  Column 3
 The following code will give you data series in a dictionary:
 
 .. testcode::
-    
+
    >>> # "example.xls","example.xlsx","example.xlsm"
    >>> sheet = pyexcel.get_sheet(file_name="example_series.xls", name_columns_by_row=0)
 
@@ -331,7 +370,7 @@ The following code will write it as an excel file of your choice::
 
 .. testcode::
 
-    
+
     >>> array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     >>> # "output.xls" "output.xlsx" "output.ods" "output.xlsm"
     >>> sheet = pyexcel.Sheet(array)
@@ -350,7 +389,7 @@ Column 1 Column 2  Column 3
 
 The following code will write it as an excel file of your choice::
 
-    
+
     >>> example_dict = {"Column 1": [1, 2, 3], "Column 2": [4, 5, 6], "Column 3": [7, 8, 9]}
     >>> # "output.xls" "output.xlsx" "output.ods" "output.xlsm"
     >>> sheet = pyexcel.get_sheet(adict=example_dict)
@@ -363,24 +402,24 @@ Write multiple sheet excel file
 Suppose you have previous data as a dictionary and you want to save it as multiple sheet excel file::
 
     >>> content = {
-    ...     'Sheet 1': 
+    ...     'Sheet 1':
     ...         [
-    ...             [1.0, 2.0, 3.0], 
-    ...             [4.0, 5.0, 6.0], 
+    ...             [1.0, 2.0, 3.0],
+    ...             [4.0, 5.0, 6.0],
     ...             [7.0, 8.0, 9.0]
     ...         ],
-    ...     'Sheet 2': 
+    ...     'Sheet 2':
     ...         [
-    ...             ['X', 'Y', 'Z'], 
-    ...             [1.0, 2.0, 3.0], 
+    ...             ['X', 'Y', 'Z'],
+    ...             [1.0, 2.0, 3.0],
     ...             [4.0, 5.0, 6.0]
-    ...         ], 
-    ...     'Sheet 3': 
+    ...         ],
+    ...     'Sheet 3':
     ...         [
-    ...             ['O', 'P', 'Q'], 
-    ...             [3.0, 2.0, 1.0], 
+    ...             ['O', 'P', 'Q'],
+    ...             [3.0, 2.0, 1.0],
     ...             [4.0, 3.0, 2.0]
-    ...         ] 
+    ...         ]
     ... }
     >>> book = pyexcel.get_book(bookdict=content)
     >>> book.save_as("output.xls")
@@ -392,7 +431,7 @@ Read multiple sheet excel file
 ------------------------------
 
 Let's read the previous file back:
-    
+
     >>> book = pyexcel.get_book(file_name="output.xls")
     >>> sheets = book.to_dict()
     >>> for name in sheets.keys():
@@ -449,12 +488,12 @@ You can get data from the bottom to the top one by calling :meth:`~pyexcel.Sheet
     [[7, 8, 9], [4, 5, 6], [1, 2, 3]]
 
 You might want the data arranged vertically. You can call :meth:`~pyexcel.Sheet.columns()` instead::
-        
+
     >>> list(sheet.columns())
     [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
 
 You can get columns in reverse sequence as well by calling :meth:`~pyexcel.Sheet.rcolumns()` instead::
-        
+
     >>> list(sheet.rcolumns())
     [[3, 6, 9], [2, 5, 8], [1, 4, 7]]
 
