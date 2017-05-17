@@ -4,6 +4,12 @@ delimiter :
 
 lineterminator :
     csv specific, line terminator
+
+encoding:
+    csv specific. Specify the file encoding the csv file. For example:
+encoding='latin1'. Especially, encoding='utf-8-sig' would add utf 8
+bom header if used in renderer, or would parse a csv with utf brom header
+used in parser.
 """
 
 OPTIONAL_PARAMS = """
