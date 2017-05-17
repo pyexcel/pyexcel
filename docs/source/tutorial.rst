@@ -17,7 +17,7 @@ Here is the way to read the csv file and iterate through each row:
 
     >>> sheet = pyexcel.get_sheet(file_name='tutorial.csv')
     >>> for row in sheet:
-    ...     print "%s: %s" % (row[0], row[1])
+    ...     print("%s: %s" % (row[0], row[1]))
     Name: Age
     Chu Chu: 10
     Mo mo: 11
@@ -31,7 +31,7 @@ is how you do it with pyexcel:
    >>> sheet = pyexcel.get_sheet(file_name='tutorial.csv')
    >>> sheet.name_columns_by_row(0)
    >>> for row in sheet:
-   ...     print "%s: %s" % (row[0], row[1])
+   ...     print("%s: %s" % (row[0], row[1]))
    Chu Chu: 10
    Mo mo: 11
 
