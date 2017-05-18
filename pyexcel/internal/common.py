@@ -11,7 +11,7 @@ import sys
 import types
 from itertools import product
 
-from lml.registry import PluginInfo, PluginList
+from lml.registry import PluginInfo, PluginInfoList
 
 from pyexcel._compact import PY2
 from pyexcel._compact import is_string
@@ -136,7 +136,7 @@ class IOPluginInfo(PluginInfo):
             yield file_type
 
 
-class PyexcelPluginList(PluginList):
+class PyexcelPluginList(PluginInfoList):
     """A list for pyexcel plugins"""
     def add_a_source(self, submodule=None, **keywords):
         default = {
@@ -144,7 +144,7 @@ class PyexcelPluginList(PluginList):
             'attributes': []
         }
         default.update(keywords)
-        self._add_a_plugin(SourceInfo(
+        self.add_a_plugin_instance(SourceInfo(
             self._get_abs_path(submodule), **default))
         return self
 
@@ -154,7 +154,7 @@ class PyexcelPluginList(PluginList):
             'attributes': []
         }
         default.update(keywords)
-        self._add_a_plugin(InputSourceInfo(
+        self.add_a_plugin_instance(InputSourceInfo(
             self._get_abs_path(submodule), **default))
         return self
 
@@ -164,12 +164,12 @@ class PyexcelPluginList(PluginList):
             'attributes': []
         }
         default.update(keywords)
-        self._add_a_plugin(OutputSourceInfo(
+        self.add_a_plugin_instance(OutputSourceInfo(
             self._get_abs_path(submodule), **default))
         return self
 
     def add_a_parser(self, submodule=None, file_types=None):
-        self._add_a_plugin(IOPluginInfo(
+        self.add_a_plugin_instance(IOPluginInfo(
             "parser", self._get_abs_path(submodule), file_types=file_types))
         return self
 
@@ -177,7 +177,7 @@ class PyexcelPluginList(PluginList):
                        file_types=None, stream_type=None):
         default = dict(file_types=file_types,
                        stream_type=stream_type)
-        self._add_a_plugin(IOPluginInfo(
+        self.add_a_plugin_instance(IOPluginInfo(
             "renderer", self._get_abs_path(submodule), **default))
         return self
 
