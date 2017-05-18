@@ -229,6 +229,7 @@ Real world cases
 .. toctree::
 
    answers
+   showcases/db_injection
 
 API documentation
 ------------------
