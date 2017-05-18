@@ -31,7 +31,7 @@ I want to put this data in a MYSQL table in the form::
     c003	    234336	    0
     c003	    3549867	    5
 
-I have created table with the following code:
+I have created table with the following code::
 
     sql = """CREATE TABLE ALLPROTEINS (
              Protein_ID CHAR(20),
@@ -73,7 +73,6 @@ Here is the data mapping script vis sqlalchemy:
     >>> from sqlalchemy.ext.declarative import declarative_base
     >>> from sqlalchemy import Column, Integer, String
     >>> from sqlalchemy.orm import sessionmaker
-    
     >>> # checkout http://docs.sqlalchemy.org/en/latest/dialects/index.html
     >>> # for a different database server
     >>> engine = create_engine("sqlite:////tmp/stack2.db")
@@ -91,7 +90,6 @@ Here is the short script to get data inserted into the database:
 
     >>> import pyexcel as p
     >>> from itertools import product
-    
     >>> # data insertion code starts here
     >>> sheet = p.get_sheet(file_name="csv-to-mysql-in-matlab-code.csv", delimiter='\t')
     >>> sheet.name_columns_by_row(0)
@@ -144,7 +142,7 @@ Here is the short script to get data inserted into the database:
     +------------+-------------+--------------+
     >>> sheet2.save_to_database(session=Session(), table=Proteins)
 
-Here is the data inserted:
+Here is the data inserted::
 
     $ sqlite3 /tmp/stack2.db
     sqlite> select * from allproteins
