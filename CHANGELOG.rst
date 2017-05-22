@@ -18,6 +18,7 @@ Added
    unnecessary info log for those who do not use pyexcel-text and pyexcel-chart
 #. save_book_as before 0.5.0 becomes isave_book_as and save_book_as in 0.5.0
    convert BookStream to Book before saving.
+#. free_resource is added
 
 Removed
 ********************************************************************************

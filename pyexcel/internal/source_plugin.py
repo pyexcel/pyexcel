@@ -108,7 +108,7 @@ class SourcePluginManager(PluginManager):
         debug_registry = "Source registry: "
         debug_attribute = "Instance attribute: "
         anything = False
-        for key in plugin_info.keywords():
+        for key in plugin_info.tags():
             target, action = key.split('-')
             attributes = plugin_info.attributes
             if not isinstance(attributes, list):

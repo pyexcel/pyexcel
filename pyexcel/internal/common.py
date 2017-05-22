@@ -11,7 +11,7 @@ import sys
 import types
 from itertools import product
 
-from lml.registry import PluginInfo, PluginInfoList
+from lml.plugin import PluginInfo, PluginInfoChain
 
 from pyexcel._compact import PY2
 from pyexcel._compact import is_string
@@ -41,7 +41,7 @@ class SourceInfo(PluginInfo):
         PluginInfo.__init__(self, "source",
                             absolute_import_path, **keywords)
 
-    def keywords(self):
+    def tags(self):
         target_action_list = product(
             self.targets, self.actions)
         for target, action in target_action_list:
@@ -128,7 +128,7 @@ def _find_file_type_from_file_name(file_name, action):
 
 class IOPluginInfo(PluginInfo):
     """Plugin description for a parser or a renderer"""
-    def keywords(self):
+    def tags(self):
         file_types = self.file_types
         if isinstance(file_types, types.FunctionType):
             file_types = file_types()
@@ -136,49 +136,51 @@ class IOPluginInfo(PluginInfo):
             yield file_type
 
 
-class PyexcelPluginList(PluginInfoList):
+class PyexcelPluginChain(PluginInfoChain):
     """A list for pyexcel plugins"""
-    def add_a_source(self, submodule=None, **keywords):
+    def add_a_source(self, relative_plugin_class_path=None, **keywords):
         default = {
             'key': None,
             'attributes': []
         }
         default.update(keywords)
         self.add_a_plugin_instance(SourceInfo(
-            self._get_abs_path(submodule), **default))
+            self._get_abs_path(relative_plugin_class_path), **default))
         return self
 
-    def add_an_input_source(self, submodule=None, **keywords):
+    def add_an_input_source(self, relative_plugin_class_path=None, **keywords):
         default = {
             'key': None,
             'attributes': []
         }
         default.update(keywords)
         self.add_a_plugin_instance(InputSourceInfo(
-            self._get_abs_path(submodule), **default))
+            self._get_abs_path(relative_plugin_class_path), **default))
         return self
 
-    def add_a_output_source(self, submodule=None, **keywords):
+    def add_a_output_source(self, relative_plugin_class_path=None, **keywords):
         default = {
             'key': None,
             'attributes': []
         }
         default.update(keywords)
         self.add_a_plugin_instance(OutputSourceInfo(
-            self._get_abs_path(submodule), **default))
+            self._get_abs_path(relative_plugin_class_path), **default))
         return self
 
-    def add_a_parser(self, submodule=None, file_types=None):
+    def add_a_parser(self, relative_plugin_class_path=None, file_types=None):
         self.add_a_plugin_instance(IOPluginInfo(
-            "parser", self._get_abs_path(submodule), file_types=file_types))
+            "parser", self._get_abs_path(relative_plugin_class_path),
+            file_types=file_types))
         return self
 
-    def add_a_renderer(self, submodule=None,
+    def add_a_renderer(self, relative_plugin_class_path=None,
                        file_types=None, stream_type=None):
         default = dict(file_types=file_types,
                        stream_type=stream_type)
         self.add_a_plugin_instance(IOPluginInfo(
-            "renderer", self._get_abs_path(submodule), **default))
+            "renderer", self._get_abs_path(relative_plugin_class_path),
+            **default))
         return self
 
 

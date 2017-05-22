@@ -1,4 +1,5 @@
 import os
+from six import with_metaclass
 from pyexcel.source import AbstractSource, MemorySourceMixin
 import pyexcel.constants as constants
 from pyexcel import Sheet, Book
@@ -6,7 +7,7 @@ from pyexcel import get_book, save_as
 from _compact import StringIO, OrderedDict
 from nose.tools import eq_, raises
 from textwrap import dedent
-from lml.plugin import Plugin, with_metaclass
+from lml.plugin import Plugin
 from itertools import product
 
 FIXTURE = "dummy"
@@ -37,7 +38,7 @@ class DummySource(with_metaclass(Plugin, AbstractSource, MemorySourceMixin)):
         self._content.write(FIXTURE)
 
     @classmethod
-    def keywords(self):
+    def tags(self):
         for target, action in product(self.targets, self.actions):
             yield "%s-%s" % (target, action)
 

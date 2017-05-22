@@ -10,19 +10,19 @@
 from pyexcel_io.plugins import WRITERS
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
 
-from pyexcel.internal.common import PyexcelPluginList
+from pyexcel.internal.common import PyexcelPluginChain
 
 
-PyexcelPluginList(__name__).add_a_renderer(
-    submodule='sqlalchemy.SQLAlchemyRenderer',
+PyexcelPluginChain(__name__).add_a_renderer(
+    relative_plugin_class_path='sqlalchemy.SQLAlchemyRenderer',
     file_types=[DB_SQL]
 ).add_a_renderer(
-    submodule='django.DjangoRenderer',
+    relative_plugin_class_path='django.DjangoRenderer',
     file_types=[DB_DJANGO]
 ).add_a_renderer(
-    submodule='excel.ExcelRenderer',
+    relative_plugin_class_path='excel.ExcelRenderer',
     file_types=WRITERS.get_all_formats()
 ).add_a_renderer(
-    submodule='_texttable.TextTableRenderer',
+    relative_plugin_class_path='_texttable.TextTableRenderer',
     file_types=['texttable']
 )
