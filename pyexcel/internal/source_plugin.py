@@ -12,7 +12,7 @@ import pyexcel_io.constants as io_constants
 import pyexcel.constants as constants
 import pyexcel.exceptions as exceptions
 from pyexcel.internal.attributes import register_an_attribute
-from lml.plugin import PluginManager, Plugin
+from lml.plugin import PluginManager
 
 
 REGISTRY_KEY_FORMAT = "%s-%s"
@@ -37,10 +37,7 @@ class SourcePluginManager(PluginManager):
         plugin = None
         for source in self.registry[key]:
             if source.is_my_business(action, **keywords):
-                if isinstance(source, Plugin):
-                    plugin = source
-                else:
-                    plugin = self.dynamic_load_library(source)
+                plugin = self.dynamic_load_library(source)
                 module_name = _get_me_pypi_package_name(plugin.__module__)
                 if library and module_name != library:
                     continue

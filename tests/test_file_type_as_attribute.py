@@ -1,31 +1,31 @@
 import os
-from six import with_metaclass
 from pyexcel.source import AbstractSource, MemorySourceMixin
 import pyexcel.constants as constants
 from pyexcel import Sheet, Book
 from pyexcel import get_book, save_as
+from pyexcel.internal.common import SourceInfo
 from _compact import StringIO, OrderedDict
 from nose.tools import eq_, raises
 from textwrap import dedent
-from lml.plugin import Plugin
-from itertools import product
+
 
 FIXTURE = "dummy"
 
 
-class DummySource(with_metaclass(Plugin, AbstractSource, MemorySourceMixin)):
+@SourceInfo(
+    'source',
+    fields=[FIXTURE],
+    targets=(constants.BOOK, constants.SHEET),
+    actions=(constants.WRITE_ACTION,),
+    attributes=[FIXTURE],
+    key=FIXTURE
+)
+class DummySource(AbstractSource, MemorySourceMixin):
     """
     For a dynamically loaded plugin, you will need to create the following
     fields. and implement to class level functions: keywords and
     is_my_business.
     """
-    plugin_name = 'source'
-    fields = [FIXTURE]
-    targets = (constants.BOOK, constants.SHEET)
-    actions = (constants.WRITE_ACTION,)
-    attributes = [FIXTURE]
-    key = FIXTURE
-
     def __init__(self, file_type=None, file_stream=None, **keywords):
         if file_stream:
             self._content = file_stream
@@ -36,17 +36,6 @@ class DummySource(with_metaclass(Plugin, AbstractSource, MemorySourceMixin)):
 
     def write_data(self, sheet):
         self._content.write(FIXTURE)
-
-    @classmethod
-    def tags(self):
-        for target, action in product(self.targets, self.actions):
-            yield "%s-%s" % (target, action)
-
-    @classmethod
-    def is_my_business(self, action, **keywords):
-        statuses = [_has_field(field, keywords) for field in self.fields]
-        results = [status for status in statuses if status is False]
-        return len(results) == 0
 
 
 def _has_field(field, keywords):
