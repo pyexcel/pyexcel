@@ -4,7 +4,6 @@ codecov
 coverage
 flake8
 SQLAlchemy
-mock
 flask
 lxml
 pyexcel-xlsx>=0.1.0

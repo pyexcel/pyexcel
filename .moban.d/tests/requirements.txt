@@ -1,7 +1,6 @@
 {% extends 'tests/requirements.txt.jj2' %}
 {%block extras %}
 SQLAlchemy
-mock
 flask
 lxml
 pyexcel-xlsx>=0.1.0
