@@ -40,6 +40,7 @@ def test_unknown_parameter_exception():
         pe.isave_as(**unknown_parameter)
     except pe.exceptions.UnknownParameters as e:
         eq_(str(e), msg % unknown_parameter)
+    pe.free_resource()
 
 
 def test_out_file_parameter():
@@ -189,6 +190,9 @@ class TestiGetArray:
             [1, 2, 3],
             [4, 5, 6]
         ]
+
+    def tearDown(self):
+        pe.free_resource()
 
     def test_get_array_from_file(self):
         sheet = pe.Sheet(self.test_data)
@@ -361,6 +365,9 @@ class TestGetRecords:
 
 
 class TestiGetRecords:
+    def tearDown(self):
+        pe.free_resource()
+
     def test_get_records_from_file(self):
         data = [
             ["X", "Y", "Z"],
@@ -914,6 +921,9 @@ class TestSaveAs:
 
 
 class TestiSaveAs:
+    def tearDown(self):
+        pe.free_resource()
+
     def test_save_file_as_another_one(self):
         data = [
             ["X", "Y", "Z"],
@@ -985,6 +995,7 @@ def test_isave_book_as():
     io = pe.isave_book_as(dest_file_type="xls", bookdict=content)
     book2 = pe.get_book(file_content=io.getvalue(), file_type="xls")
     assert book2.to_dict() == content
+    pe.free_resource()
 
 
 @raises(Exception)

@@ -11,9 +11,17 @@ GARBAGE = []
 
 
 def append(item):
+    global GARBAGE
     GARBAGE.append(item)
 
 
 def free_resource():
     for item in GARBAGE:
         item.close()
+        item = None
+    reset()
+
+
+def reset():
+    global GARBAGE
+    GARBAGE = []
