@@ -12,6 +12,50 @@ bom header if used in renderer, or would parse a csv with utf brom header
 used in parser.
 """
 
+XLRD_PARAMS = """
+xlrd_params_start:
+    Please note the following parameters apply to pyexcel-xls.
+    xlrd_params_start is not a parameter but a section group.
+
+logfile:
+    An open file to which messages and diagnostics are written.
+
+verbosity:
+    Increases the volume of trace material written to the logfile.
+
+use_mmap:
+    Whether to use the mmap module is determined heuristically.
+    Use this arg to override the result.
+
+    Current heuristic: mmap is used if it exists.
+
+encoding_override:
+     Used to overcome missing or bad codepage information
+     in older-version files.
+
+formatting_info:
+     The default is False, which saves memory. In this case, “Blank” cells,
+     which are those with their own formatting information but no data,
+     are treated as empty by ignoring the file’s BLANK and MULBLANK records.
+     This cuts off any bottom or right “margin” of rows of empty or blank
+     cells. Only cell_value() and cell_type() are available.
+
+     When True, formatting information will be read from the spreadsheet
+     file. This provides all cells, including empty and blank cells.
+     Formatting information is available for each cell.
+
+ragged_rows:
+     The default of False means all rows are padded out with empty
+     cells so that all rows have the same size as found in ncols.
+
+     True means that there are no empty cells at the ends of rows. This
+     can result in substantial memory savings if rows are of widely
+     varying sizes. See also the row_len() method.
+xlrd_params_end:
+    more details can found in :meth:`xlrd.open_workbook`
+
+"""
+
 OPTIONAL_PARAMS = """
 auto_detect_float :
     defaults to True
@@ -114,7 +158,7 @@ array :
 sheet_name :
     sheet name. if sheet_name is not given, the default
     sheet at index 0 is loaded
-""" + PAGINATION_PARAMS + OPTIONAL_PARAMS + CSV_PARAMS
+""" + PAGINATION_PARAMS + OPTIONAL_PARAMS + CSV_PARAMS + XLRD_PARAMS
 
 SOURCE_PARAMS_TABLE = """
 Not all parameters are needed. Here is a table

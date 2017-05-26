@@ -16,3 +16,6 @@ def setup(app):
 
 {%endblock%}
 
+{%block additional_mapping%}
+    'xlrd': ('http://xlrd.readthedocs.io/en/latest/', None)
+{%endblock%}
