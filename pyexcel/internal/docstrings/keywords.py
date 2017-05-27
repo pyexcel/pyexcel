@@ -34,11 +34,7 @@ encoding_override:
      in older-version files.
 
 formatting_info:
-     The default is False, which saves memory. In this case, “Blank” cells,
-     which are those with their own formatting information but no data,
-     are treated as empty by ignoring the file’s BLANK and MULBLANK records.
-     This cuts off any bottom or right “margin” of rows of empty or blank
-     cells. Only cell_value() and cell_type() are available.
+     The default is False, which saves memory.
 
      When True, formatting information will be read from the spreadsheet
      file. This provides all cells, including empty and blank cells.
