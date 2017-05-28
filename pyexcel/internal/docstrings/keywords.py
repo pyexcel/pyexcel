@@ -1,4 +1,6 @@
 CSV_PARAMS = """
+**Parameters related to csv file format**
+
 delimiter :
     csv specific, field separator
 
@@ -7,15 +9,15 @@ lineterminator :
 
 encoding:
     csv specific. Specify the file encoding the csv file. For example:
-encoding='latin1'. Especially, encoding='utf-8-sig' would add utf 8
-bom header if used in renderer, or would parse a csv with utf brom header
-used in parser.
+    encoding='latin1'. Especially, encoding='utf-8-sig' would add utf 8
+    bom header if used in renderer, or would parse a csv with utf brom header
+    used in parser.
 """
 
 XLRD_PARAMS = """
-xlrd_params_start:
+**Parameters related to xls file format:**
     Please note the following parameters apply to pyexcel-xls.
-    xlrd_params_start is not a parameter but a section group.
+    more details can be found in :func:`xlrd.open_workbook`
 
 logfile:
     An open file to which messages and diagnostics are written.
@@ -47,9 +49,6 @@ ragged_rows:
      True means that there are no empty cells at the ends of rows. This
      can result in substantial memory savings if rows are of widely
      varying sizes. See also the row_len() method.
-xlrd_params_end:
-    more details can found in :meth:`xlrd.open_workbook`
-
 """
 
 OPTIONAL_PARAMS = """
@@ -213,7 +212,7 @@ dest_library:
 dest_source_library:
     choose a specific data source plugin for writing
 
-deset_renderer_library:
+dest_renderer_library:
     choose a pyexcel parser plugin for writing
 """
 

@@ -39,6 +39,7 @@ Line 2 remove the header from the actual content. The removed header can be used
 to access its columns using the name itself, for example:
 
 .. code-block:: python
+
    >>> sheet.column['Age']
    [10, 11]
 

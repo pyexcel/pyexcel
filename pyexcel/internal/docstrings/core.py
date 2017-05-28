@@ -1,17 +1,11 @@
 from . import keywords
 
 __GET_SHEET__ = keywords.SOURCE_PARAMS_TABLE + """
-
-Parameters
------------
-
+**Parameters**
 """ + keywords.SOURCE_PARAMS
 
 __GET_BOOK__ = keywords.SOURCE_BOOK_PARAMS_TABLE + """
-
-Parameters
------------
-
+**Parameters**
 """ + keywords.SOURCE_BOOK_PARAMS
 
 __SAVE_AS__ = """
