@@ -10,7 +10,6 @@
 from pyexcel.sheet import Sheet
 import pyexcel._compact as compact
 from pyexcel.internal.meta import BookMeta
-from pyexcel.internal.core import save_book
 from pyexcel.internal.common import SheetIterator
 
 LOCAL_UUID = 0
@@ -209,77 +208,6 @@ class Book(BookMeta):
         for sheet in self:
             the_dict.update({sheet.name: sheet.array})
         return the_dict
-
-    def save_as(self, filename, **keywords):
-        """
-        Save the content to a new file
-
-        :param filename: a file path
-        """
-        return save_book(self, file_name=filename, **keywords)
-
-    def save_to_memory(self, file_type, stream=None, **keywords):
-        """
-        Save the content to a memory stream
-
-        :param file_type: what format the stream is in
-        :param stream: a memory stream.  Note in Python 3, for csv and tsv
-                       format, please pass an instance of StringIO. For xls,
-                       xlsx, and ods, an instance of BytesIO.
-        """
-        stream = save_book(self, file_type=file_type, file_stream=stream,
-                           **keywords)
-        return stream
-
-    def save_to_django_models(self, models,
-                              initializers=None, mapdicts=None,
-                              batch_size=None):
-        """
-        Save to database table through django model
-
-        :param models: a list of database models, that is accepted by
-                       :meth:`Sheet.save_to_django_model`. The sequence
-                       of tables matters when there is dependencies in
-                       between the tables. For example, **Car** is made
-                       by **Car Maker**. **Car Maker** table should be
-                       specified before **Car** table.
-        :param initializers: a list of intialization functions for your
-                             tables and the sequence should match tables,
-        :param mapdicts: custom map dictionary for your data columns
-                         and the sequence should match tables
-        """
-        save_book(self,
-                  models=models,
-                  initializers=initializers,
-                  mapdicts=mapdicts,
-                  batch_size=batch_size)
-
-    def save_to_database(self, session, tables,
-                         initializers=None, mapdicts=None,
-                         auto_commit=True):
-        """
-        Save data in sheets to database tables
-
-        :param session: database session
-        :param tables: a list of database tables, that is accepted by
-                       :meth:`Sheet.save_to_database`. The sequence of tables
-                       matters when there is dependencies in between the
-                       tables. For example, **Car** is made by **Car Maker**.
-                       **Car Maker** table should
-                       be specified before **Car** table.
-        :param initializers: a list of intialization functions for your
-                             tables and the sequence should match tables,
-        :param mapdicts: custom map dictionary for your data columns
-                         and the sequence should match tables
-        :param auto_commit: by default, data is committed.
-
-        """
-        save_book(self,
-                  session=session,
-                  tables=tables,
-                  initializers=initializers,
-                  mapdicts=mapdicts,
-                  auto_commit=auto_commit)
 
 
 def to_book(bookstream):

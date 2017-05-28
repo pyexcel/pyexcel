@@ -9,7 +9,6 @@
 """
 import pyexcel._compact as compact
 import pyexcel.constants as constants
-from pyexcel.internal.core import save_sheet
 from pyexcel.internal.sheets.matrix import Matrix
 from pyexcel.internal.sheets.row import Row as NamedRow
 from pyexcel.internal.sheets.column import Column as NamedColumn
@@ -437,74 +436,6 @@ class Sheet(Matrix):
         """
         content = self.get_texttable(write_title=False)
         return _RepresentedString(content)
-
-    def save_as(self, filename, **keywords):
-        """Save the content to a named file
-
-        Keywords may vary depending on your file type, because the associated
-        file type employs different library.
-
-        for csv, `fmtparams <https://docs.python.org/release/3.1.5/
-        library/csv.html#dialects-and-formatting-parameters>`_ are accepted
-
-        for xls, 'auto_detect_int', 'encoding' and 'style_compression' are
-        supported
-
-        for ods, 'auto_detect_int' is supported
-        """
-        return save_sheet(self, file_name=filename,
-                          **keywords)
-
-    def save_to_memory(self, file_type, stream=None, **keywords):
-        """Save the content to memory
-
-        :param file_type: any value of 'csv', 'tsv', 'csvz',
-                          'tsvz', 'xls', 'xlsm', 'xlsm', 'ods'
-        :param stream: the memory stream to be written to. Note in
-                       Python 3, for csv  and tsv format, please
-                       pass an instance of StringIO. For xls, xlsx,
-                       and ods, an instance of BytesIO.
-        """
-        stream = save_sheet(self, file_type=file_type, file_stream=stream,
-                            **keywords)
-        return stream
-
-    def save_to_django_model(self,
-                             model,
-                             initializer=None,
-                             mapdict=None,
-                             batch_size=None):
-        """Save to database table through django model
-
-        :param model: a database model
-        :param initializer: a initialization functions for your model
-        :param mapdict: custom map dictionary for your data columns
-        :param batch_size: a parameter to Django concerning the size
-                           for bulk insertion
-        """
-        save_sheet(self,
-                   model=model, initializer=initializer,
-                   mapdict=mapdict, batch_size=batch_size)
-
-    def save_to_database(self, session, table,
-                         initializer=None,
-                         mapdict=None,
-                         auto_commit=True):
-        """Save data in sheet to database table
-
-        :param session: database session
-        :param table: a database table
-        :param initializer: a initialization functions for your table
-        :param mapdict: custom map dictionary for your data columns
-        :param auto_commit: by default, data is auto committed.
-
-        """
-        save_sheet(self,
-                   session=session,
-                   table=table,
-                   initializer=initializer,
-                   mapdict=mapdict,
-                   auto_commit=auto_commit)
 
     # python magic methods
 
