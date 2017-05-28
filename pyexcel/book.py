@@ -9,7 +9,7 @@
 """
 from pyexcel.sheet import Sheet
 import pyexcel._compact as compact
-from pyexcel.internal.meta import BookMeta, StreamAttribute
+from pyexcel.internal.meta import BookMeta
 from pyexcel.internal.core import save_book
 from pyexcel.internal.common import SheetIterator
 
@@ -46,28 +46,6 @@ class Book(BookMeta):
         self.__path = path
         self.filename = filename
         self.load_from_sheets(sheets)
-
-    @property
-    def stream(self):
-        """Return a stream in which the book content is properly encoded
-
-        Example::
-
-            >>> import pyexcel as p
-            >>> b = p.get_book(bookdict={"A": [[1]]})
-            >>> csv_stream = b.stream.texttable
-            >>> print(csv_stream.getvalue())
-            A:
-            +---+
-            | 1 |
-            +---+
-
-        Where b.stream.xls.getvalue() is equivalent to b.xls. In some situation
-        b.stream.xls is prefered than b.xls.
-
-        It is similar to :meth:`~pyexcel.Book.save_to_memory`.
-        """
-        return StreamAttribute(self)
 
     def load_from_sheets(self, sheets):
         """

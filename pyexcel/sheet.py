@@ -10,7 +10,6 @@
 import pyexcel._compact as compact
 import pyexcel.constants as constants
 from pyexcel.internal.core import save_sheet
-from pyexcel.internal.meta import StreamAttribute
 from pyexcel.internal.sheets.matrix import Matrix
 from pyexcel.internal.sheets.row import Row as NamedRow
 from pyexcel.internal.sheets.column import Column as NamedColumn
@@ -430,27 +429,6 @@ class Sheet(Matrix):
         """iterate rows using column names"""
         for column_name in self.__column_names:
             yield {column_name: self.column[column_name]}
-
-    @property
-    def stream(self):
-        """Return a stream in which the sheet content is properly encoded
-
-        Example::
-
-            >>> import pyexcel as p
-            >>> s = p.Sheet([[1]], 'A')
-            >>> csv_stream = s.stream.texttable
-            >>> print(csv_stream.getvalue())
-            A:
-            +---+
-            | 1 |
-            +---+
-
-        Where s.stream.xls.getvalue() is equivalent to s.xls. In some situation
-        s.stream.xls is prefered than s.xls.
-
-        """
-        return StreamAttribute(self)
 
     @property
     def content(self):

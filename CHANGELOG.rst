@@ -13,8 +13,7 @@ Added
 #. new dictionary source supported: a dictionary of key value pair could be
    read into a sheet.
 #. added dynamic external plugin loading. meaning if a pyexcel plugin
-   is installed, and has `__pyexcel_plugins__` signature in its
-   __init__.py, it will be loaded implicitly. And this change would remove
+   is installed, it will be loaded implicitly. And this change would remove
    unnecessary info log for those who do not use pyexcel-text and pyexcel-chart
 #. save_book_as before 0.5.0 becomes isave_book_as and save_book_as in 0.5.0
    convert BookStream to Book before saving.

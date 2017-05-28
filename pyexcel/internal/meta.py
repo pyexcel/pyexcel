@@ -115,16 +115,6 @@ def default_importer(attribute=None):
     return none_importer
 
 
-class StreamAttribute(object):
-    """Provide access to get_*_stream methods"""
-    def __init__(self, cls):
-        self.cls = cls
-
-    def __getattr__(self, name):
-        getter = getattr(self.cls, 'save_to_memory')
-        return getter(file_type=name)
-
-
 def _annotate_pyexcel_object_attribute(
         cls, file_type, presenter_func=sheet_presenter,
         input_func=default_importer,
