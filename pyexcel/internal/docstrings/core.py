@@ -8,6 +8,13 @@ __GET_BOOK__ = keywords.SOURCE_BOOK_PARAMS_TABLE + """
 **Parameters**
 """ + keywords.SOURCE_BOOK_PARAMS
 
+__I_NOTE__ = """
+When you use this function to work on physical files, this function
+will leave its file handle open. When you finish the operation
+on its data, you need to call :func:`pyexcel.free_resource` to
+close file hande(s).
+"""
+
 __SAVE_AS__ = """
 It accepts two sets of keywords. Why two sets? one set is
 source, the other set is destination. In order to distinguish
@@ -55,17 +62,17 @@ GET_SHEET = __GET_SHEET__
 
 GET_ARRAY = __GET_SHEET__
 
-IGET_ARRAY = __GET_SHEET__
+IGET_ARRAY = __GET_SHEET__ + __I_NOTE__
 
 GET_DICT = __GET_SHEET__
 
 GET_RECORDS = __GET_SHEET__
 
-IGET_RECORDS = __GET_SHEET__
+IGET_RECORDS = __GET_SHEET__ + __I_NOTE__
 
 SAVE_AS = __SAVE_AS__
 
-ISAVE_AS = __SAVE_AS__
+ISAVE_AS = __SAVE_AS__ + __I_NOTE__
 
 GET_BOOK = __GET_BOOK__
 
@@ -73,4 +80,4 @@ GET_BOOK_DICT = __GET_BOOK__
 
 SAVE_BOOK_AS = __SAVE_BOOK_AS__
 
-ISAVE_BOOK_AS = __SAVE_BOOK_AS__
+ISAVE_BOOK_AS = __SAVE_BOOK_AS__ + __I_NOTE__

@@ -16,6 +16,9 @@ def append(item):
 
 
 def free_resource():
+    """
+    Close file handles opened by signature functions that starts with 'i'
+    """
     for item in GARBAGE:
         item.close()
         item = None

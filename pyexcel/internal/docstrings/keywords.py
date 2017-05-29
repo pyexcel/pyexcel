@@ -254,12 +254,7 @@ dest_batch_size :
     batch creation size. Optional
 """
 
-SOURCE_BOOK_PARAMS = """
-
-Parameters
------------
-
-""" + FILE_PARAMS + """
+SOURCE_BOOK_PARAMS = FILE_PARAMS + """
 session :
     database session
 

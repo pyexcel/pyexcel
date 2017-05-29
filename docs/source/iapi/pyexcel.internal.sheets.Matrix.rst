@@ -72,6 +72,10 @@ pyexcel.internal.sheets.Matrix
       ~Matrix.rows
       ~Matrix.rrows
       ~Matrix.rvertical
+      ~Matrix.save_as
+      ~Matrix.save_to_database
+      ~Matrix.save_to_django_model
+      ~Matrix.save_to_memory
       ~Matrix.set_array
       ~Matrix.set_bookdict
       ~Matrix.set_column_at
@@ -132,6 +136,7 @@ pyexcel.internal.sheets.Matrix
       ~Matrix.records
       ~Matrix.rst
       ~Matrix.simple
+      ~Matrix.stream
       ~Matrix.svg
       ~Matrix.texttable
       ~Matrix.tsv
