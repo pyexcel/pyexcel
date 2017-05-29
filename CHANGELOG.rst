@@ -19,6 +19,12 @@ Added
    convert BookStream to Book before saving.
 #. free_resource is added
 
+Updated
+********************************************************************************
+
+#. array is passed to pyexcel.Sheet as reference. it means your array data will
+   be modified.
+
 Removed
 ********************************************************************************
 

@@ -9,6 +9,7 @@
     :license: New BSD License, see LICENSE for more details
 """
 import copy
+import types
 from itertools import chain
 from functools import partial
 
@@ -34,7 +35,10 @@ class Matrix(SheetMeta):
         copy every cell to a new memory area
         :param list array: a list of arrays
         """
-        self.__width, self.__array = uniform(list(array))
+        if isinstance(array, types.GeneratorType):
+            self.__width, self.__array = uniform(list(array))
+        else:
+            self.__width, self.__array = uniform(array)
         self.row = Row(self)
         self.column = Column(self)
         self.name = 'matrix'

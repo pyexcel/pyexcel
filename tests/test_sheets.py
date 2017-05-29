@@ -2,6 +2,7 @@ from pyexcel import Sheet
 from pyexcel import load_from_dict, load_from_records
 from _compact import OrderedDict
 from nose.tools import raises, eq_
+import copy
 
 
 @raises(TypeError)
@@ -551,7 +552,7 @@ class TestSheetTops:
             ["column 1", "column 2"],
             [1, 2]
         ]
-        s = Sheet(data)
+        s = Sheet(copy.deepcopy(data))
         s.name_columns_by_row(0)
         top_sheet = s.top()
         assert top_sheet.array == data

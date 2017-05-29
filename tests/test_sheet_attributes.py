@@ -30,7 +30,7 @@ def test_random_access():
 
 def test_random_access_to_unknown_area():
     test_content = [[1, 2]]
-    sheet = Sheet(test_content)
+    sheet = Sheet(copy.deepcopy(test_content))
     eq_(sheet.to_array(), test_content)
     expected = [
         [1, 2, ''],
@@ -43,7 +43,8 @@ def test_random_access_to_unknown_area():
 
 def test_named_sheet_access():
     test_content = [['A', 'B'], [1, 2]]
-    sheet = Sheet(test_content, name_columns_by_row=0)
+    sheet = Sheet(copy.deepcopy(test_content),
+                  name_columns_by_row=0)
     eq_(sheet.to_array(), test_content)
     expected = dedent("""
     pyexcel sheet:
@@ -59,7 +60,8 @@ def test_named_sheet_access():
 
 def test_named_sheet_access_to_unknown_area():
     test_content = [['A', 'B'], [1, 2]]
-    sheet = Sheet(test_content, name_columns_by_row=0)
+    sheet = Sheet(copy.deepcopy(test_content),
+                  name_columns_by_row=0)
     eq_(sheet.to_array(), test_content)
     expected = dedent("""
     pyexcel sheet:
