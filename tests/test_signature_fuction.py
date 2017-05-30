@@ -445,6 +445,20 @@ class TestiGetRecords:
             {"X": 4, "Y": 5, "Z": 6}
         ])
 
+    def test_iget_records_name_columns_by_row(self):
+        data = [
+            ["", "", ""],
+            ["", "", ""],
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        result = pe.iget_records(name_columns_by_row=2, array=data)
+        eq_(list(result), [
+            {"X": 1, "Y": 2, "Z": 3},
+            {"X": 4, "Y": 5, "Z": 6}
+        ])
+
 
 class TestSavingToDatabase:
     def setUp(self):
