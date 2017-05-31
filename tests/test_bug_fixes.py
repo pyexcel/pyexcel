@@ -261,7 +261,8 @@ def test_issue_83_file_handle_no_generator():
     proc = psutil.Process()
     test_files = [
         os.path.join("tests", "fixtures", "bug_01.csv"),
-        os.path.join("tests", "fixtures", "test-single.csvz")
+        os.path.join("tests", "fixtures", "test-single.csvz"),
+        os.path.join("tests", "fixtures", "date_field.xls")
     ]
     for test_file in test_files:
         open_files_l1 = proc.open_files()
@@ -297,4 +298,29 @@ def test_issue_83_csvz_file_handle():
     pe.free_resource()
     open_files_l4 = proc.open_files()
     # this confirms that no more open file handle
+    eq_(open_files_l1, open_files_l4)
+
+
+def test_issue_83_xls_file_handle():
+    proc = psutil.Process()
+    test_file = os.path.join("tests", "fixtures", "date_field.xls")
+    open_files_l1 = proc.open_files()
+
+    # start with a csv file
+    data = pe.iget_array(file_name=test_file)
+    open_files_l2 = proc.open_files()
+    delta = len(open_files_l2) - len(open_files_l1)
+    # interestingly, no open file using xlrd
+    assert delta == 0
+
+    # now the file handle get opened when we run through
+    # the generator
+    list(data)
+    open_files_l3 = proc.open_files()
+    delta = len(open_files_l3) - len(open_files_l1)
+    # still no open file
+    assert delta == 0
+
+    pe.free_resource()
+    open_files_l4 = proc.open_files()
     eq_(open_files_l1, open_files_l4)
