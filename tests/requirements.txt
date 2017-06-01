@@ -3,6 +3,7 @@ mock;python_version<"3"
 codecov
 coverage
 flake8
+six
 SQLAlchemy
 flask
 lxml
