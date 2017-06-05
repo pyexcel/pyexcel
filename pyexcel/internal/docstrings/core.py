@@ -13,6 +13,14 @@ When you use this function to work on physical files, this function
 will leave its file handle open. When you finish the operation
 on its data, you need to call :func:`pyexcel.free_resource` to
 close file hande(s).
+
+for csv, csvz file formats, file handles will be left open.
+for xls, ods file formats, the file is read all into memory and
+is close afterwards.
+for xlsx, file handles will be left open in python 2.7 - 3.5 by
+pyexcel-xlsx(openpyxl).
+In other words, pyexcel-xls, pyexcel-ods, pyexcel-ods3 won't leak
+file handles.
 """
 
 __SAVE_AS__ = """

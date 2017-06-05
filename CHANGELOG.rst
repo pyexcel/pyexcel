@@ -8,8 +8,10 @@ Added
 ********************************************************************************
 
 #. Sheet.top() and Sheet.top_left() for data browsing
-#. add html as default rich display in Jupyter notebook. It is dependent on
-   pyexcel-text.
+#. add html as default rich display in Jupyter notebook when pyexcel-text
+   and pyexcel-chart is installed
+#. add svg as default rich display in Jupyter notebook when pyexcel-chart and
+   one of its implementation plugin(pyexcel-pygal, etc.) are is installed
 #. new dictionary source supported: a dictionary of key value pair could be
    read into a sheet.
 #. added dynamic external plugin loading. meaning if a pyexcel plugin
@@ -17,7 +19,9 @@ Added
    unnecessary info log for those who do not use pyexcel-text and pyexcel-chart
 #. save_book_as before 0.5.0 becomes isave_book_as and save_book_as in 0.5.0
    convert BookStream to Book before saving.
-#. free_resource is added
+#. `#83 <https://github.com/pyexcel/pyexcel/issues/83>`_, file closing mechanism
+   is enfored. free_resource is added and it should be called when iget_array,
+   iget_records, isave_as and/or isave_book_as are used.
 
 Updated
 ********************************************************************************
@@ -33,6 +37,7 @@ Removed
 #. pyexcel.deprecated.load_from_query_sets,
    pyexcel.deprecated.load_book_from_django_models and
    pyexcel.deprecated.load_from_django_model were removed
+#. Removed plugin loading code and lml is used instead
 
 
 0.4.5 - 17.03.2017

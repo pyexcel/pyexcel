@@ -72,6 +72,10 @@ source_library :
 
 parser_library :
     choose a pyexcel parser plugin for reading
+
+skip_hidden_sheets:
+     default is True. Please toggle it to read hidden sheets
+
 """
 
 FILE_PARAMS = """
@@ -153,6 +157,13 @@ array :
 sheet_name :
     sheet name. if sheet_name is not given, the default
     sheet at index 0 is loaded
+
+sheets:
+    a list of mixed sheet names and sheet indices to be read. This is
+    done to keep Pandas compactibility. With this parameter, more than
+    one sheet can be read and you have the control to read the sheets
+    of your interest instead of all available sheets.
+
 """ + PAGINATION_PARAMS + OPTIONAL_PARAMS + CSV_PARAMS + XLRD_PARAMS
 
 SOURCE_PARAMS_TABLE = """

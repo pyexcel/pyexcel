@@ -1,16 +1,20 @@
 Introduction
-================================
+================================================================================
 
-This section introduces Excel data models, its representing data structures and provides
-an overview of formatting, transformation, manipulation supported by **pyexcel**
+This section introduces Excel data models, its representing data structures and
+provides an overview of formatting, transformation, manipulation supported by
+**pyexcel**.
 
 Data models and data structures
 --------------------------------
-When dealing with excel files, there are three primary objects: **cell**, **sheet** and **book**.
-A book contains one or more sheets and a sheet is consisted of a sheet
-name and a two dimensional array of cells. Although a sheet can contain charts and a cell can have
-formula, styling properties, this library ignores them and pay attention to the data in the cell
-and its data type. So, in the context of this library, the definition of those three concepts are:
+When dealing with excel files, **pyexcel** pay attention to three primary
+objects: **cell**, **sheet** and **book**.
+
+A book contains one or more sheets and a sheet is consisted of a sheet name and
+a two dimensional array of cells. Although a sheet can contain charts and a cell
+can have formula, styling properties, this library ignores them and pay
+attention to the data in the cell and its data type. So, in the context of this
+library, the definition of those three concepts are:
 
 ========= ======================================================== =======================
 concept   definition                                               pyexcel data model
@@ -21,23 +25,26 @@ a book    is a dictionary of two dimensional array of data units.  :class:`~pyex
 ========= ======================================================== =======================
 
 Data source
--------------
+--------------------------------------------------------------------------------
 
-A data source is a storage format of structured data. The most popular data source is an excel file. Libre Office/Microsoft Excel could easily
-generate an new excel file of desired format. Besides a physical file, this library
+A data source is a storage format of structured data. The most popular data
+source is an excel file. Libre Office/Microsoft Excel could easily generate a
+new excel file of desired format. Besides a physical file, this library
 recognizes additional three additional sources:
 
-#. Excel files in computer memory. For example when a file was uploaded to a Python server for
-   information processing, if it is relatively small, it will be stored in memory.
-#. Database tables. For example, a client would like to have a snapshot of some database table in
-   an excel file and ask it to be sent to him.
-#. Python structures. For example, a developer may have scrapped a site and hence stored data
-   in Python array or dictionary. He may want to save those information as a file.
+#. Excel files in computer memory. For example when a file was uploaded to
+   a Python server for information processing, if it is relatively small,
+   it will be stored in memory.
+#. Database tables. For example, a client would like to have a snapshot of some
+   database table in an excel file and ask it to be sent to him.
+#. Python structures. For example, a developer may have scrapped a site and hence
+   stored data in Python array or dictionary. He may want to save those
+   information as a file.
 
 
-Reading from and writing to a data source is modelled in pyexcel. Excel data sources
-and database sources support read and write. Other data sources may be read only or
-write only.
+Reading from and writing to a data source is modelled as parsers and renderers
+in pyexcel. Excel data sources and database sources support read and write. Other
+data sources may be read only or write only.
 
 Here is a list of data sources:
 
@@ -58,9 +65,10 @@ Textual sources            Write only
 
 
 Data format
--------------
+--------------------------------------------------------------------------------
 
-This library and its plugins support most of the frequently used excel file formats. 
+This library and its plugins support most of the frequently used excel file
+formats. 
 
 ============ =======================================================
 file format  definition
@@ -85,11 +93,12 @@ mediawiki    media wiki table
 See also :ref:`a-map-of-plugins-and-file-formats`.
 
 Data transformation
-----------------------
+--------------------------------------------------------------------------------
 
-Quite often, a developer would like to have the excel data in a Python data structures. This library
-supports the :ref:`conversions from<conversion-from>` previous three data source to the following
-list of data structures, and :ref:`vice versa<conversion-to>`.
+Quite often, a developer would like to have the excel data in a Python data
+structures. This library supports the :ref:`conversions from<conversion-from>`
+previous three data source to the following list of data structures, and
+:ref:`vice versa<conversion-to>`.
 
 .. _a-list-of-data-structures:
 .. table:: A list of supported data structures
@@ -97,14 +106,43 @@ list of data structures, and :ref:`vice versa<conversion-to>`.
    ======================================= ================================ =========================
    Pesudo name                             Python name                      Related model
    ======================================= ================================ =========================
-   two dimensional array                   a list of lists                  :class:`~pyexcel.Sheet`
-   a dictionary of key value pair          a dictionary                     :class:`~pyexcel.Sheet`
-   a dictionary of one dimensional arrays  a dictionary of lists            :class:`~pyexcel.Sheet`
-   a list of dictionaries                  a list of dictionaries           :class:`~pyexcel.Sheet`
-   a dictionary of two dimensional arrays  a dictionary of lists of lists   :class:`~pyexcel.Book`
+   two dimensional array                   a list of lists                  :class:`pyexcel.Sheet`
+   a dictionary of key value pair          a dictionary                     :class:`pyexcel.Sheet`
+   a dictionary of one dimensional arrays  a dictionary of lists            :class:`pyexcel.Sheet`
+   a list of dictionaries                  a list of dictionaries           :class:`pyexcel.Sheet`
+   a dictionary of two dimensional arrays  a dictionary of lists of lists   :class:`pyexcel.Book`
    ======================================= ================================ =========================
 
-Examples::
+
+Data manipulations
+--------------------------------------------------------------------------------
+
+The main operation on a cell involves :ref:`cell access<access-to-cell>`,
+:ref:`formatting<formatting>` and :ref:`cleansing<cleansing>`. The main
+operation on a sheet involves the group access to a row or a column, data
+filtering and data transformation. The main operation in a book is obtain access
+to individual sheets.
+
+
+Data transcoding
+--------------------------------------------------------------------------------
+
+For various reasons, the data in one format is to be transcoded into another
+format. This library provides the transcoding tunnel for data transcoding in
+between supported file formats.
+
+Data visualization
+--------------------------------------------------------------------------------
+
+Via :class:`pyexel.renderer.AbstractRenderer` interface, data visualization
+is made possible. **pyexcel-chart** is the interface plugin to formalize the
+effort. **pyexcel-pygal** is the first plugin to provide bar, pie, histogram
+charts and more.
+
+Examples of supported data structure
+--------------------------------------------------------------------------------
+
+Here is a list of examples::
 
     >>> import pyexcel as p
     >>> two_dimensional_list = [
@@ -227,20 +265,6 @@ Examples::
     | 4.0 | 3.0 | 2.0 |
     +-----+-----+-----+
 
-Data manipulations
---------------------
-
-The main operation on a cell involves :ref:`cell access<access-to-cell>`,
-:ref:`formatting<formatting>` and :ref:`cleansing<cleansing>`. The main operation on a sheet
-involves the group access to a row or a column, data filtering and data transformation. The
-main operation in a book is obtain access to individual sheets.
-
-
-Data transcoding
---------------------------
-
-For various reasons, the data in one format is to be transcoded into another format. This library
-provides the transcoding tunnel for data transcoding in between supported file formats.
 
 .. [#f1] quoted from `whatis.com <http://whatis.techtarget.com/fileformat/XLS-Worksheet-file-Microsoft-Excel>`_. Technical details can be found at `MSDN XLS <https://msdn.microsoft.com/en-us/library/office/gg615597(v=office.14).aspx>`_
 .. [#f2] xlsx is used by MS-Excel 2007, more information can be found at `MSDN XLSX <https://msdn.microsoft.com/en-us/library/dd922181(v=office.12).aspx>`_

@@ -2,7 +2,7 @@
     pyexcel.internal.garbagecollector
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Parsing excel sources
+    Simple garbage collector
 
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
