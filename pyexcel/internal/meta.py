@@ -138,18 +138,6 @@ def _annotate_pyexcel_object_attribute(
     setattr(cls, attribute, file_type_property)
     setattr(cls, 'get_%s' % attribute, getter)
     setattr(cls, 'set_%s' % attribute, setter)
-    if file_type == 'html' and instance_name == "Sheet":
-        def repr_html(self):
-            """jupyter note book html representation"""
-            html = getter(self)
-            return html
-        setattr(cls, '_repr_html_', repr_html)
-    if file_type == 'svg':
-        def plot_svg(self, **keywords):
-            """jupyter note book svg representation"""
-            return self.save_to_memory('svg', **keywords)
-
-        setattr(cls, 'plot', plot_svg)
 
 
 REGISTER_PRESENTATION = _annotate_pyexcel_object_attribute
@@ -240,6 +228,33 @@ class PyexcelObject(object):
     def __str__(self):
         return self.__repr__()
 
+    def save_to_memory(self):
+        """Save the content to memory
+
+        :param file_type: any value of 'csv', 'tsv', 'csvz',
+                          'tsvz', 'xls', 'xlsm', 'xlsm', 'ods'
+        :param stream: the memory stream to be written to. Note in
+                       Python 3, for csv  and tsv format, please
+                       pass an instance of StringIO. For xls, xlsx,
+                       and ods, an instance of BytesIO.
+        """
+        raise NotImplementedError("save to memory is not implemented")
+
+    def plot(self, file_type='svg', **keywords):
+        io = self.save_to_memory(file_type, **keywords)
+        if file_type in ['png', 'svg', 'jpeg']:
+            def get_content(self):
+                return self.getvalue().decode('utf-8')
+
+            setattr(io, '_repr_%s_' % file_type, get_content)
+        return io
+
+    def _repr_html_(self):
+        return self.html
+
+    def _repr_json_(self):
+        return self.json
+
 
 class SheetMeta(PyexcelObject):
     """Annotate sheet attributes"""
@@ -261,15 +276,6 @@ class SheetMeta(PyexcelObject):
                           **keywords)
 
     def save_to_memory(self, file_type, stream=None, **keywords):
-        """Save the content to memory
-
-        :param file_type: any value of 'csv', 'tsv', 'csvz',
-                          'tsvz', 'xls', 'xlsm', 'xlsm', 'ods'
-        :param stream: the memory stream to be written to. Note in
-                       Python 3, for csv  and tsv format, please
-                       pass an instance of StringIO. For xls, xlsx,
-                       and ods, an instance of BytesIO.
-        """
         stream = save_sheet(self, file_type=file_type, file_stream=stream,
                             **keywords)
         return stream

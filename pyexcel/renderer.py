@@ -7,7 +7,7 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel._compact import StringIO
+import pyexcel._compact as compact
 
 
 class AbstractRenderer(object):
@@ -75,7 +75,7 @@ class Renderer(AbstractRenderer):
     """
 
     def get_io(self):
-        return StringIO()
+        return compact.StringIO()
 
     def render_sheet_to_file(self, file_name, sheet,
                              write_title=True, **keywords):
@@ -133,6 +133,18 @@ class Renderer(AbstractRenderer):
     def set_write_title(self, flag):
         """update write title flag"""
         self._write_title = flag
+
+
+class BinaryRenderer(Renderer):
+
+    def __init__(self, file_type):
+        Renderer.__init__(self, file_type)
+        if not compact.PY2:
+            self.WRITE_FLAG = 'wb'
+
+    def get_io(self):
+        io = compact.BytesIO()
+        return io
 
 
 # pylint: disable=W0223
