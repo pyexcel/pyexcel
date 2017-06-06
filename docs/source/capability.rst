@@ -1,10 +1,11 @@
 Signature functions
-====================
+================================================================================
 
 Import data into Python
----------------------------
+--------------------------------------------------------------------------------
 
-This library provides one application programming interface to read data from one of the following data sources:
+This library provides one application programming interface to read data from
+one of the following data sources:
 
    * physical file
    * memory file
@@ -23,11 +24,14 @@ and to transform them into one of the data structures:
 
 
 Four data access functions
-++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-It is believed that once a Python developer could easily operate on list, dictionary and various mixture of both. This library provides four
-module level functions to help you obtain excel data in those formats. Please refer to "A list of module level functions",
-the first three functions operates on any one sheet from an excel book and the fourth one returns all data in all sheets in an excel book.
+It is believed that once a Python developer could easily operate on list,
+dictionary and various mixture of both. This library provides four module level
+functions to help you obtain excel data in those formats. Please refer to
+"A list of module level functions", the first three functions operates on any
+one sheet from an excel book and the fourth one returns all data in all sheets
+in an excel book.
 
 .. table:: A list of module level functions
 
@@ -60,12 +64,15 @@ The following two variants of the data access function use generator and should 
                                    list of dictionaries                    a list of dictionaries
    =============================== ======================================= ================================
 
+However, you will need to call :meth:`~pyexcel.free_resource` to make sure file
+handles are closed.
 
-Two native functions
-++++++++++++++++++++++
+Two pyexcel functions
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-In cases where the excel data needs custom manipulations, a pyexcel user got a few choices: one is to use :class:`~pyexcel.Sheet`
-and :class:`~pyexcel.Book`, the other is to look for more sophisticated ones:
+In cases where the excel data needs custom manipulations, a pyexcel user got a
+few choices: one is to use :class:`~pyexcel.Sheet` and :class:`~pyexcel.Book`,
+the other is to look for more sophisticated ones:
 
 * Pandas, for numerical analysis
 * Do-it-yourself
@@ -77,13 +84,15 @@ Functions                       Returns
 :meth:`~pyexcel.get_book`       :class:`~pyexcel.Book`
 =============================== ================================ 
 
-For all six functions, you can pass on the same command parameters while the return value is what the function says.
+For all six functions, you can pass on the same command parameters while the
+return value is what the function says.
 
 
 Export data from Python
--------------------------
+--------------------------------------------------------------------------------
 
-This library provides one application programming interface to transform them into one of the data structures:
+This library provides one application programming interface to transform them
+into one of the data structures:
 
    * two dimensional array
    * a (ordered) dictionary of one dimensional arrays
@@ -116,10 +125,10 @@ Functions                       Description
 
 If you would only use these two functions to do format transcoding, you may enjoy a
 speed boost using :meth:`~pyexcel.isave_as` and :meth:`~pyexcel.isave_book_as`,
-because they use `yield` keyword and minimize memory footprint.
-:meth:`~pyexcel.save_as` and :meth:`~pyexcel.save_book_as` reads all data into
+because they use `yield` keyword and minimize memory footprint. However, you will
+need to call :meth:`~pyexcel.free_resource` to make sure file handles are closed.
+And :meth:`~pyexcel.save_as` and :meth:`~pyexcel.save_book_as` reads all data into
 memory and **will make all rows the same width**.
-
 
 See also:
 
@@ -128,9 +137,10 @@ See also:
 * :ref:`save_an_array_to_a_csv_with_custom_delimiter`
 
 Data transportation/transcoding
-----------------------------------
+--------------------------------------------------------------------------------
 
-Based the capability of this library, it is capable of transporting your data in between any of these data sources:
+Based the capability of this library, it is capable of transporting your data in
+between any of these data sources:
 
    * physical file
    * memory file
