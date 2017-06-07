@@ -1,7 +1,8 @@
 # since v0.2.2
 from textwrap import dedent
 from pyexcel.sheet import Sheet
-from nose.tools import eq_
+from pyexcel.internal.meta import PyexcelObject
+from nose.tools import eq_, raises
 import copy
 
 
@@ -93,3 +94,35 @@ def test_data_frame_access():
     sheet['R', 'A'] = 100
     print(str(sheet))
     eq_(str(sheet), expected)
+
+
+def test_html_representation():
+    array = [[1, 2]]
+    sheet = Sheet(array)
+    expected = dedent("""
+    pyexcel sheet:
+    <table>
+    <tr><td style="text-align: right;">1</td><td style="text-align: right;">2</td></tr>
+    </table>""").strip('\n')  # flake8: noqa
+    eq_(str(sheet._repr_html_()), expected)
+
+
+def test_json_representation():
+    array = [[1, 2]]
+    sheet = Sheet(array)
+    expected = '{"pyexcel sheet": [[1, 2]]}'
+    eq_(str(sheet._repr_json_()), expected)
+
+
+def test_svg_representation():
+    array = [['a', 'b'], [1, 2]]
+    sheet = Sheet(array)
+    io = sheet.plot()
+    assert io._repr_svg_() is not None
+
+
+@raises(NotImplementedError)
+def test_pyexcel_object():
+    obj = PyexcelObject()
+    obj.save_to_memory()
+

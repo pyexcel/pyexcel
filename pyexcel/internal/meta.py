@@ -246,7 +246,7 @@ class PyexcelObject(object):
             def get_content(self):
                 return self.getvalue().decode('utf-8')
 
-            setattr(io, '_repr_%s_' % file_type, get_content)
+            setattr(io, '_repr_%s_' % file_type, partial(get_content, io))
         return io
 
     def _repr_html_(self):
