@@ -1,6 +1,7 @@
 from pyexcel.renderer import Renderer, AbstractRenderer
-from pyexcel.renderer import DbRenderer
+from pyexcel.renderer import DbRenderer, BinaryRenderer
 from nose.tools import raises
+from _compact import BytesIO
 
 
 @raises(NotImplementedError)
@@ -49,3 +50,9 @@ def test_db_renderer_1():
 def test_db_renderer_2():
     r = DbRenderer("xls")
     r.render_book_to_file("file_name", "a book")
+
+
+def test_binary_renderer():
+    r = BinaryRenderer('abc')
+    io = r.get_io()
+    assert isinstance(io, BytesIO)

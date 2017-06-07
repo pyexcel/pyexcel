@@ -21,6 +21,7 @@ from textwrap import dedent
 
 PY2 = sys.version_info[0] == 2
 PY26 = PY2 and sys.version_info[1] < 7
+PY3_AND_ABOVE = sys.version_info[0] >= 3
 
 if PY26:
     from ordereddict import OrderedDict
