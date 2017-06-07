@@ -102,7 +102,9 @@ def test_html_representation():
     expected = dedent("""
     pyexcel sheet:
     <table>
+    <tbody>
     <tr><td style="text-align: right;">1</td><td style="text-align: right;">2</td></tr>
+    </tbody>
     </table>""").strip('\n')  # flake8: noqa
     eq_(str(sheet._repr_html_()), expected)
 
