@@ -25,7 +25,4 @@ PyexcelPluginChain(__name__).add_a_renderer(
 ).add_a_renderer(
     relative_plugin_class_path='_texttable.TextTableRenderer',
     file_types=['texttable']
-).add_a_renderer(
-    relative_plugin_class_path='chart.ChartRenderer',
-    file_types=['svg']
 )

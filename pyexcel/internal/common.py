@@ -82,12 +82,6 @@ class OutputSourceInfo(FileSourceInfo):
         return status
 
 
-class ChartPluginChain(PluginInfoChain):
-    def add_a_plugin(self, submodule=None, **keywords):
-        return PluginInfoChain.add_a_plugin(
-            self, 'chart', submodule=submodule, **keywords)
-
-
 def _has_field(field, keywords):
     return field in keywords and keywords[field] is not None
 
