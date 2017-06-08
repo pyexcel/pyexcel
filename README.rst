@@ -82,12 +82,19 @@ Available Plugins
 .. _tabulate: https://bitbucket.org/astanin/python-tabulate
 .. _pyexcel-handsontable: https://github.com/pyexcel/pyexcel-handsontable
 .. _handsontable: https://cdnjs.com/libraries/handsontable
-.. _pyexcel-chart: https://github.com/pyexcel/pyexcel-chart
+.. _pyexcel-pygal: https://github.com/pyexcel/pyexcel-chart
 .. _pygal: https://github.com/Kozea/pygal
 .. _pyexcel-matplotlib: https://github.com/pyexcel/pyexcel-matplotlib
 .. _matplotlib: https://matplotlib.org
 
-.. [#f3]: coming soon
+.. [#f3] coming soon
+
+In order to manage the list of plugins installed, you need to use pip to add or remove
+a plugin. When you use virtualenv, you can have different plugins per virtual
+environment. In the situation where you have multiple plugins that does the same thing
+in your environment, you need to tell pyexcel which plugin to use per function call.
+For example, pyexcel-ods and pyexcel-odsr, and you want to get_array to use pyexcel-odsr.
+You need to append get_array(..., library='pyexcel-odsr').
 
 .. rubric:: Footnotes
 

@@ -118,8 +118,6 @@ Tutorial
    tutorial02
    tutorial03
    tutorial04
-   logging
-   migration_guide
 
 Cook book
 ----------
@@ -153,6 +151,7 @@ Developer's guide
 .. toctree::
 
    guide
+   logging
 
 Change log
 -------------------
@@ -160,6 +159,7 @@ Change log
 .. toctree::
    :maxdepth: 2
 
+   migration_guide
    changelog
 
 
