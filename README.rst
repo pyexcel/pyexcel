@@ -59,8 +59,8 @@ Available Plugins
                             mediawiki, html,                        3.5, pypy, pypy3
                             latex, grid, pipe,
                             orgtbl, plain simple
-   `pyexcel-handsontable`_  handsontable in html    `handsontable`_ same as above
-   `pyexcel-chart`_         svg chart               `pygal`_        same as above
+   `pyexcel-handsontable`_  handsontable in html    `handsontable`_ same as above [#f3]
+   `pyexcel-pygal`_         svg chart               `pygal`_        same as above [#f3]
    ======================== ======================= =============== ==================
 
 .. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
@@ -84,6 +84,10 @@ Available Plugins
 .. _handsontable: https://cdnjs.com/libraries/handsontable
 .. _pyexcel-chart: https://github.com/pyexcel/pyexcel-chart
 .. _pygal: https://github.com/Kozea/pygal
+.. _pyexcel-matplotlib: https://github.com/pyexcel/pyexcel-matplotlib
+.. _matplotlib: https://matplotlib.org
+
+.. [#f3]: coming soon
 
 .. rubric:: Footnotes
 

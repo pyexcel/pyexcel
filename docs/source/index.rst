@@ -1,8 +1,3 @@
-.. pyexcel documentation master file, created by
-   sphinx-quickstart on Tue Sep  9 08:53:12 2014.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 `pyexcel` - Let you focus on data, instead of file formats
 ================================================================================
 
@@ -35,12 +30,6 @@ to you application, all you need is to install an extra pyexcel plugin. No code 
 to your application. Looking at the community, this library and its associated ones try
 to become a small and easy to install alternative to Pandas.
 
-
-.. note::
-
-   Since version `0.2.2`, no longer a plugin should be explicitly imported.
-   They are imported if they are installed. Please use pip to manage the
-   plugins.
 
 Installation
 -------------
@@ -85,8 +74,8 @@ For individual excel file formats, please install them as you wish:
                             mediawiki, html,                        3.5, pypy, pypy3
                             latex, grid, pipe,
                             orgtbl, plain simple
-   `pyexcel-handsontable`_  handsontable in html    `handsontable`_ same as above
-   `pyexcel-chart`_         svg chart               `pygal`_        same as above
+   `pyexcel-handsontable`_  handsontable in html    `handsontable`_ same as above [#f3]
+   `pyexcel-pygal`_         svg chart               `pygal`_        same as above [#f3]
    ======================== ======================= =============== ==================
 
 .. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
@@ -110,6 +99,10 @@ For individual excel file formats, please install them as you wish:
 .. _handsontable: https://cdnjs.com/libraries/handsontable
 .. _pyexcel-chart: https://github.com/pyexcel/pyexcel-chart
 .. _pygal: https://github.com/Kozea/pygal
+.. _pyexcel-matplotlib: https://github.com/pyexcel/pyexcel-matplotlib
+.. _matplotlib: https://matplotlib.org
+
+.. [#f3]: coming soon
 
 .. rubric:: Footnotes
 
@@ -121,9 +114,9 @@ For compatibility tables of pyexcel-io plugins, please click `here <http://pyexc
 .. table:: Plugin compatibility table
 
     ======= ========== ============= ============= ====================
-    pyexcel pyexcel-io pyexcel-text  pyexcel-chart pyexcel-handsontable
+    pyexcel pyexcel-io pyexcel-text  pyexcel-pygal pyexcel-handsontable
     ======= ========== ============= ============= ====================
-    0.5.0+  0.4.0      0.2.6(coming) 0.0.1(coming) 0.0.1(coming)
+    0.5.0   0.4.0      0.2.6(coming) 0.0.1(coming) 0.0.1(coming)
     0.4.0+  0.3.0+     0.2.5
     0.3.0+  0.2.3      0.2.4
     0.2.2+  0.2.0+     0.2.1+
