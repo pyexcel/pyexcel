@@ -162,15 +162,16 @@ Usage
 
 Suppose you want to process the following excel data :
 
-========= ====
-Name      Age
-========= ====
-Adam      28
-Beatrice  29
-Ceri      30
-Dean      26
-========= ====
+.. pyexcel-table::
 
+   ---pyexcel:example table---
+   Name,Age
+   Adam,28
+   Beatrice,29
+   Ceri,30
+   Dean,26
+   
+   
 Here are the example usages:
 
 .. code-block:: python

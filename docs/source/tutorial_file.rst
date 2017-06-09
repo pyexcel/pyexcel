@@ -82,15 +82,14 @@ Add a new row to an existing file
 
 Suppose you have one data file as the following:
 
-example.xls
+.. pyexcel-table::
 
-======== ======== ========
-Column 1 Column 2 Column 3
-======== ======== ========
-1        4        7
-2        5        8
-3        6        9
-======== ======== ========
+   ---pyexcel:example.xls---
+   Column 1,Column 2,Column 3
+   1,4,7
+   2,5,8
+   3,6,9
+
 
 .. testcode::
    :hide:
