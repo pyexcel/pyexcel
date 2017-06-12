@@ -237,16 +237,15 @@ Alternatively, you could have done like this:
     +----------+----------+----------+
 
 
-How about the same alternative solution to previous row based example? Well, you'd better to have the 
-following kind of data
+How about the same alternative solution to previous row based example? Well,
+you'd better to have the following kind of data:
 
-row_example.xls
+.. pyexcel-table::
 
-========= ==== ==== ====
-Row 1     1    2    3
-Row 2     4    5    6
-Row 3     7    8    9
-========= ==== ==== ====
+   ---pyexcel:row_example.xls---
+   Row 1,1,2,3
+   Row 2,4,5,6
+   Row 3,7,8,9
 
 .. testcode::
    :hide:

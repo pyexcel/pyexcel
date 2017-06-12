@@ -60,12 +60,14 @@ The former syntax is handy when you know the row and column numbers. The latter 
 
 Suppose you have the following data, you can get value 5 by reader[2, 2].
 
-======= = = =
-Example X Y Z
-a       1 2 3
-b       4 5 6
-c       7 8 9
-======= = = =
+.. pyexcel-table::
+
+   ---pyexcel:example data---
+   Example,X,Y,Z
+   a,1,2,3
+   b,4,5,6
+   c,7,8,9
+
 
 
 Here is the example code showing how you can randomly access a cell:
@@ -177,29 +179,22 @@ or::
 
 Suppose you have the following sheets:
 
-.. table:: Sheet 1
+.. pyexcel-table::
 
-    = = =
-    1 2 3
-    4 5 6
-    7 8 9
-    = = =
-
-.. table:: Sheet 2
-
-    = = =
-    X Y Z
-    1 2 3
-    4 5 6
-    = = =
-
-.. table:: Sheet 3
-
-    = = =
-    O P Q
-    3 2 1
-    4 3 2
-    = = =
+   ---pyexcel:Sheet 1---
+   1,2,3
+   4,5,6
+   7,8,9
+   ---pyexcel---
+   ---pyexcel:Sheet 2---
+   X,Y,Z
+   1,2,3
+   4,5,6
+   ---pyexcel---
+   ---pyexcel:Sheet 3---
+   O,P,Q
+   3,2,1
+   4,3,2
 
 .. testcode::
    :hide:
@@ -243,11 +238,13 @@ Reading a single sheet excel file
 ---------------------------------
 Suppose you have a csv, xls, xlsx file as the following:
 
-= = =
-1 2 3
-4 5 6
-7 8 9
-= = =
+
+.. pyexcel-table::
+
+   ---pyexcel:example data---
+   1,2,3
+   4,5,6
+   7,8,9
 
 .. testcode::
    :hide:
@@ -268,13 +265,14 @@ Read the sheet as a dictionary
 ******************************
 Suppose you have a csv, xls, xlsx file as the following:
 
-======== ========= ========
-Column 1 Column 2  Column 3
-======== ========= ========
-1        4         7
-2        5         8
-3        6         9
-======== ========= ========
+
+.. pyexcel-table::
+
+   ---pyexcel:data with columns---
+   Column 1,Column 2,Column 3
+   1,4,7
+   2,5,8
+   3,6,9
 
 .. testcode::
    :hide:
@@ -311,12 +309,13 @@ Can I get an array of dictionaries per each row?
 
 Suppose you have the following data:
 
-= = =
-X Y Z
-1 2 3
-4 5 6
-7 8 9
-= = =
+.. pyexcel-table::
+
+   ---pyexcel:data with columns---
+   X,Y,Z
+   1,2,3
+   4,5,6
+   7,8,9
 
 .. testcode::
    :hide:
@@ -380,13 +379,13 @@ The following code will write it as an excel file of your choice::
 
 Suppose you have a dictionary as the following:
 
-======== ========= ========
-Column 1 Column 2  Column 3
-======== ========= ========
-1        4         7
-2        5         8
-3        6         9
-======== ========= ========
+.. pyexcel-table::
+
+   ---pyexcel:data with columns---
+   Column 1,Column 2,Column 3
+   1,4,7
+   2,5,8
+   3,6,9
 
 The following code will write it as an excel file of your choice::
 
@@ -446,14 +445,13 @@ Work with data series in a single sheet
 
 Suppose you have the following data in any of the supported excel formats again:
 
-======== ======== ========
-Column 1 Column 2 Column 3
-======== ======== ========
-1        4        7
-2        5        8
-3        6        9
-======== ======== ========
+.. pyexcel-table::
 
+   ---pyexcel:data with columns---
+   Column 1,Column 2,Column 3
+   1,4,7
+   2,5,8
+   3,6,9
 
 .. testcode::
 

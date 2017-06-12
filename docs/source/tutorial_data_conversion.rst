@@ -19,14 +19,14 @@ How to obtain records from an excel sheet
 
 Suppose you want to process the following excel data :
 
-========= ====
-Name      Age
-========= ====
-Adam      28
-Beatrice  29
-Ceri      30
-Dean      26
-========= ====
+.. pyexcel-table::
+
+   ---pyexcel:example table---
+   Name,Age
+   Adam,28
+   Beatrice,29
+   Ceri,30
+   Dean,26
 
 Here are the example code::
    
@@ -47,11 +47,12 @@ How to get an array from an excel sheet
 
 Suppose you have a csv, xls, xlsx file as the following:
 
-= = =
-1 2 3
-4 5 6
-7 8 9
-= = =
+.. pyexcel-table::
+
+   ---pyexcel:data example---
+   1,2,3
+   4,5,6
+   7,8,9
 
 .. testcode::
    :hide:
@@ -146,13 +147,14 @@ How to get a dictionary from an excel sheet
 
 Suppose you have a csv, xls, xlsx file as the following:
 
-======== ========= ========
-Column 1 Column 2  Column 3
-======== ========= ========
-1        4         7
-2        5         8
-3        6         9
-======== ========= ========
+
+.. pyexcel-table::
+
+   ---pyexcel:data with columns---
+   Column 1,Column 2,Column 3
+   1,4,7
+   2,5,8
+   3,6,9
 
 .. testcode::
    :hide:
@@ -227,29 +229,22 @@ How to obtain a dictionary from a multiple sheet book
 
 Suppose you have a multiple sheet book as the following:
 
-.. table:: Sheet 1
+.. pyexcel-table::
 
-    = = =
-    1 2 3
-    4 5 6
-    7 8 9
-    = = =
-
-.. table:: Sheet 2
-
-    = = =
-    X Y Z
-    1 2 3
-    4 5 6
-    = = =
-
-.. table:: Sheet 3
-
-    = = =
-    O P Q
-    3 2 1
-    4 3 2
-    = = =
+   ---pyexcel:Sheet 1---
+   1,2,3
+   4,5,6
+   7,8,9
+   ---pyexcel---
+   ---pyexcel:Sheet 2---
+   X,Y,Z
+   1,2,3
+   4,5,6
+   ---pyexcel---
+   ---pyexcel:Sheet 3---
+   O,P,Q
+   3,2,1
+   4,3,2
 
 Here is the code to obtain those sheets as a single dictionary::
 
@@ -368,12 +363,13 @@ Let's create the table::
 
 Now here is a sample excel file to be saved to the table:
 
-===== ====== ===========
-name  weight  birth     
-===== ====== ===========
-Adam  3.4    2015-02-03
-Smith 4.2    2014-11-12
-===== ====== ===========
+
+.. pyexcel-table::
+   
+   ---pyexcel:data table---
+   name,weight,birth     
+   Adam,3.4,2015-02-03
+   Smith,4.2,2014-11-12
 
 .. testcode::
    :hide:
