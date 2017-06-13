@@ -241,6 +241,18 @@ class PyexcelObject(object):
         raise NotImplementedError("save to memory is not implemented")
 
     def plot(self, file_type='svg', **keywords):
+        """
+        Visualize the data
+
+        Parameters:
+        -----------------
+
+        file_type:string
+           'svg' by default. 'png', 'jpeg' possible depending on plugins
+
+        chart_type:string
+           'bar' by default. other chart types are subjected to plugins.
+        """
         io = self.save_to_memory(file_type, **keywords)
         if file_type in ['png', 'svg', 'jpeg']:
             def get_content(self):
