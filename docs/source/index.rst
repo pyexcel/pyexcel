@@ -74,8 +74,8 @@ For individual excel file formats, please install them as you wish:
                             mediawiki, html,                        3.5, pypy, pypy3
                             latex, grid, pipe,
                             orgtbl, plain simple
-   `pyexcel-handsontable`_  handsontable in html    `handsontable`_ same as above [#f3]
-   `pyexcel-pygal`_         svg chart               `pygal`_        same as above [#f3]
+   `pyexcel-handsontable`_  handsontable in html    `handsontable`_ same as above [#f3]_
+   `pyexcel-pygal`_         svg chart               `pygal`_        same as above [#f3]_
    ======================== ======================= =============== ==================
 
 .. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
@@ -163,15 +163,14 @@ Usage
 Suppose you want to process the following excel data :
 
 .. pyexcel-table::
-
    ---pyexcel:example table---
    Name,Age
    Adam,28
    Beatrice,29
    Ceri,30
    Dean,26
-   
-   
+
+
 Here are the example usages:
 
 .. code-block:: python
