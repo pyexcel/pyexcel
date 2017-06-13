@@ -10,7 +10,7 @@
 from pyexcel_io.plugins import WRITERS
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
 
-from pyexcel.internal.common import PyexcelPluginChain
+from pyexcel.plugins import PyexcelPluginChain
 
 
 PyexcelPluginChain(__name__).add_a_renderer(

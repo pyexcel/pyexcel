@@ -9,7 +9,7 @@
 """
 from pyexcel.internal import RENDERER
 from pyexcel.source import AbstractSource
-from pyexcel.internal.common import _find_file_type_from_file_name
+from pyexcel.plugins import find_file_type_from_file_name
 
 
 # pylint: disable=W0223
@@ -20,7 +20,7 @@ class WriteSheetToFile(AbstractSource):
         AbstractSource.__init__(self, **keywords)
         self._file_name = file_name
 
-        self.__file_type = _find_file_type_from_file_name(file_name, 'write')
+        self.__file_type = find_file_type_from_file_name(file_name, 'write')
         self._renderer = RENDERER.get_a_plugin(
             self.__file_type, renderer_library)
 

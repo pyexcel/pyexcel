@@ -3,7 +3,7 @@ from pyexcel.source import AbstractSource, MemorySourceMixin
 import pyexcel.constants as constants
 from pyexcel import Sheet, Book
 from pyexcel import get_book, save_as
-from pyexcel.internal.common import SourceInfo
+from pyexcel.plugins import SourceInfo
 from _compact import StringIO, OrderedDict
 from nose.tools import eq_, raises
 from textwrap import dedent
