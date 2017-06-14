@@ -31,7 +31,7 @@ Obtaining data from excel file
    get_sheet
    iget_array
    iget_records
-   free_resource
+   free_resources
 
 .. _conversion-to:
 

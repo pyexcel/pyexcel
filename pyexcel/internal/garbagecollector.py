@@ -15,7 +15,7 @@ def append(item):
     GARBAGE.append(item)
 
 
-def free_resource():
+def free_resources():
     """
     Close file handles opened by signature functions that starts with 'i'
     """

@@ -126,5 +126,5 @@ def test_svg_representation():
 @raises(NotImplementedError)
 def test_pyexcel_object():
     obj = PyexcelObject()
-    obj.save_to_memory()
+    obj.save_to_memory('csv')
 

@@ -251,7 +251,7 @@ def test_issue_83_csv_file_handle():
     assert delta == 1
 
     # free the fish
-    pe.free_resource()
+    pe.free_resources()
     open_files_l4 = proc.open_files()
     # this confirms that no more open file handle
     eq_(open_files_l1, open_files_l4)
@@ -295,7 +295,7 @@ def test_issue_83_csvz_file_handle():
     assert delta == 1
 
     # free the fish
-    pe.free_resource()
+    pe.free_resources()
     open_files_l4 = proc.open_files()
     # this confirms that no more open file handle
     eq_(open_files_l1, open_files_l4)
@@ -321,6 +321,6 @@ def test_issue_83_xls_file_handle():
     # still no open file
     assert delta == 0
 
-    pe.free_resource()
+    pe.free_resources()
     open_files_l4 = proc.open_files()
     eq_(open_files_l1, open_files_l4)
