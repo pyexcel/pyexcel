@@ -14,3 +14,6 @@ from .core import (
     GET_BOOK_DICT
 )  # flake8: noqa
 
+from .meta import SAVE_AS_OPTIONS
+
+from .garbagecollector import FREE_RESOURCES

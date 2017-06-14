@@ -3,7 +3,7 @@ all: test
 test:
 	bash test.sh
 
-document:
+doc:
 	bash document.sh
 
 uml:

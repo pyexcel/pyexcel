@@ -16,6 +16,8 @@ import pyexcel.constants as constants
 from pyexcel.internal.core import get_sheet_stream
 from pyexcel.internal.core import save_sheet
 from pyexcel.internal.core import save_book
+from pyexcel._compact import append_doc
+import pyexcel.docstrings as docs
 
 
 def make_presenter(source_getter, attribute=None):
@@ -271,19 +273,9 @@ class PyexcelObject(object):
 class SheetMeta(PyexcelObject):
     """Annotate sheet attributes"""
 
+    @append_doc(docs.SAVE_AS_OPTIONS)
     def save_as(self, filename, **keywords):
         """Save the content to a named file
-
-        Keywords may vary depending on your file type, because the associated
-        file type employs different library.
-
-        for csv, `fmtparams <https://docs.python.org/release/3.1.5/
-        library/csv.html#dialects-and-formatting-parameters>`_ are accepted
-
-        for xls, 'auto_detect_int', 'encoding' and 'style_compression' are
-        supported
-
-        for ods, 'auto_detect_int' is supported
         """
         return save_sheet(self, file_name=filename,
                           **keywords)
@@ -338,11 +330,11 @@ setattr(SheetMeta, "register_input", classmethod(REGISTER_INPUT))
 
 class BookMeta(PyexcelObject):
     """Annotate book attributes"""
+
+    @append_doc(docs.SAVE_AS_OPTIONS)
     def save_as(self, filename, **keywords):
         """
         Save the content to a new file
-
-        :param filename: a file path
         """
         return save_book(self, file_name=filename, **keywords)
 

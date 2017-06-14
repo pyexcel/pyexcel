@@ -8,20 +8,13 @@ __GET_BOOK__ = keywords.SOURCE_BOOK_PARAMS_TABLE + """
 **Parameters**
 """ + keywords.SOURCE_BOOK_PARAMS
 
-__I_NOTE__ = """
+I_NOTE = """
 When you use this function to work on physical files, this function
 will leave its file handle open. When you finish the operation
-on its data, you need to call :func:`pyexcel.free_resource` to
+on its data, you need to call :func:`pyexcel.free_resources` to
 close file hande(s).
 
-for csv, csvz file formats, file handles will be left open.
-for xls, ods file formats, the file is read all into memory and
-is close afterwards.
-for xlsx, file handles will be left open in python 2.7 - 3.5 by
-pyexcel-xlsx(openpyxl).
-In other words, pyexcel-xls, pyexcel-ods, pyexcel-ods3 won't leak
-file handles.
-"""
+""" + keywords.I_NOTE
 
 __SAVE_AS__ = """
 It accepts two sets of keywords. Why two sets? one set is
@@ -70,17 +63,17 @@ GET_SHEET = __GET_SHEET__
 
 GET_ARRAY = __GET_SHEET__
 
-IGET_ARRAY = __GET_SHEET__ + __I_NOTE__
+IGET_ARRAY = __GET_SHEET__ + I_NOTE
 
 GET_DICT = __GET_SHEET__
 
 GET_RECORDS = __GET_SHEET__
 
-IGET_RECORDS = __GET_SHEET__ + __I_NOTE__
+IGET_RECORDS = __GET_SHEET__ + I_NOTE
 
 SAVE_AS = __SAVE_AS__
 
-ISAVE_AS = __SAVE_AS__ + __I_NOTE__
+ISAVE_AS = __SAVE_AS__ + I_NOTE
 
 GET_BOOK = __GET_BOOK__
 
@@ -88,4 +81,4 @@ GET_BOOK_DICT = __GET_BOOK__
 
 SAVE_BOOK_AS = __SAVE_BOOK_AS__
 
-ISAVE_BOOK_AS = __SAVE_BOOK_AS__ + __I_NOTE__
+ISAVE_BOOK_AS = __SAVE_BOOK_AS__ + I_NOTE

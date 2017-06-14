@@ -16,7 +16,7 @@ from pyexcel.book import Book, to_book
 import pyexcel.internal.core as sources
 import pyexcel.constants as constants
 from pyexcel._compact import zip_longest, append_doc
-import pyexcel.internal.docstrings as docs
+import pyexcel.docstrings as docs
 
 
 STARTS_WITH_DEST = '^dest_(.*)'
