@@ -31,6 +31,9 @@ class SourceInfo(PluginInfo):
             yield "%s-%s" % (target, action)
 
     def is_my_business(self, action, **keywords):
+        """
+        Check if incoming keywords match the parameters in source plugins
+        """
         statuses = [_has_field(field, keywords) for field in self.fields]
         results = [status for status in statuses if status is False]
         return len(results) == 0
@@ -87,6 +90,9 @@ def _has_field(field, keywords):
 
 
 def find_file_type_from_file_name(file_name, action):
+    """
+    Extract file type from file name
+    """
     if action == 'read':
         list_of_file_types = PARSER.get_all_file_types()
     else:
@@ -120,8 +126,12 @@ class IOPluginInfo(PluginInfo):
 
 
 class PyexcelPluginChain(PluginInfoChain):
-    """A list for pyexcel plugins"""
+    """It is used by pyexcel plugins
+    """
     def add_a_source(self, relative_plugin_class_path=None, **keywords):
+        """
+        Add a data source plugin for signature functions
+        """
         default = {
             'key': None,
             'attributes': []
@@ -132,6 +142,9 @@ class PyexcelPluginChain(PluginInfoChain):
         return self
 
     def add_an_input_source(self, relative_plugin_class_path=None, **keywords):
+        """
+        append file input source
+        """
         default = {
             'key': None,
             'attributes': []
@@ -142,6 +155,9 @@ class PyexcelPluginChain(PluginInfoChain):
         return self
 
     def add_a_output_source(self, relative_plugin_class_path=None, **keywords):
+        """
+        append file output source
+        """
         default = {
             'key': None,
             'attributes': []
@@ -152,6 +168,9 @@ class PyexcelPluginChain(PluginInfoChain):
         return self
 
     def add_a_parser(self, relative_plugin_class_path=None, file_types=None):
+        """
+        append an excel file reader
+        """
         self.add_a_plugin_instance(IOPluginInfo(
             "parser", self._get_abs_path(relative_plugin_class_path),
             file_types=file_types))
@@ -159,6 +178,9 @@ class PyexcelPluginChain(PluginInfoChain):
 
     def add_a_renderer(self, relative_plugin_class_path=None,
                        file_types=None, stream_type=None):
+        """
+        append an excel file writer
+        """
         default = dict(file_types=file_types,
                        stream_type=stream_type)
         self.add_a_plugin_instance(IOPluginInfo(

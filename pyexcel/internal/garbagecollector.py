@@ -15,6 +15,9 @@ GARBAGE = []
 
 
 def append(item):
+    """
+    add garbage to the global list of garbages
+    """
     global GARBAGE
     GARBAGE.append(item)
 
@@ -31,5 +34,8 @@ def free_resources():
 
 
 def reset():
+    """
+    After everything has been closed, reset the array
+    """
     global GARBAGE
     GARBAGE = []

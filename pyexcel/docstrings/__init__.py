@@ -1,3 +1,12 @@
+"""
+    pyexcel.docstrings
+    ~~~~~~~~~~~~~~~~~~~
+
+    Reusible docstrings
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 from .core import (
     GET_SHEET,
     GET_BOOK,
@@ -10,7 +19,6 @@ from .core import (
     GET_DICT,
     GET_RECORDS,
     IGET_RECORDS,
-    GET_SHEET,
     GET_BOOK_DICT
 )  # flake8: noqa
 

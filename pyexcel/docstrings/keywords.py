@@ -1,3 +1,12 @@
+"""
+    pyexcel.docstrings.keywords
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Reusible docstrings for keywords in signature functions
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 CSV_PARAMS = """
 **Parameters related to csv file format**
 

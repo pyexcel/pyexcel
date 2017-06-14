@@ -1,3 +1,12 @@
+"""
+    pyexcel.docstrings.core
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Reusible docstrings for pyexcel.core
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 from . import keywords
 
 __GET_SHEET__ = keywords.SOURCE_PARAMS_TABLE + """

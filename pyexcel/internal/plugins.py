@@ -16,13 +16,13 @@ class IOPluginManager(PluginManager):
     def __init__(self, name):
         PluginManager.__init__(self, name)
 
-    def get_a_plugin(self, file_type=None, library=None):
+    def get_a_plugin(self, key, library=None):
         """get a plugin to handle the file type
         """
         __file_type = None
-        if file_type:
-            __file_type = file_type.lower()
-        plugin_cls = self.load_me_now(file_type, library=library)
+        if key:
+            __file_type = key.lower()
+        plugin_cls = self.load_me_now(__file_type, library=library)
 
         return plugin_cls(__file_type)
 

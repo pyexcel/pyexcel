@@ -1,3 +1,12 @@
+"""
+    pyexcel.docstrings.meta
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Reusible docstrings for pyexcel.internal.meta
+
+    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :license: New BSD License
+"""
 from .keywords import CSV_PARAMS
 
 

@@ -30,7 +30,7 @@ from .core import (
     isave_book_as)
 from .book import Book
 from .sheet import Sheet
-from pyexcel.internal.garbagecollector import free_resources
+from .internal.garbagecollector import free_resources
 from .deprecated import (
     load_book,
     load_book_from_memory,

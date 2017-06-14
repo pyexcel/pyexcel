@@ -113,7 +113,7 @@ def default_importer(attribute=None):
     for example, the support to read data in a specific file type
     is missing but the support to write data exists
     """
-    def none_importer(_, __, **___):
+    def none_importer(_x, _y, **_z):
         """docstring is assigned a few lines down the line"""
         raise NotImplementedError("%s setter is not defined." % attribute)
     none_importer.__doc__ = "%s setter is not defined." % attribute
@@ -255,13 +255,16 @@ class PyexcelObject(object):
         chart_type:string
            'bar' by default. other chart types are subjected to plugins.
         """
-        io = self.save_to_memory(file_type, **keywords)
+        memory_content = self.save_to_memory(file_type, **keywords)
         if file_type in ['png', 'svg', 'jpeg']:
+            # make the signature for jypter notebook
             def get_content(self):
                 return self.getvalue().decode('utf-8')
 
-            setattr(io, '_repr_%s_' % file_type, partial(get_content, io))
-        return io
+            setattr(memory_content,
+                    '_repr_%s_' % file_type,
+                    partial(get_content, memory_content))
+        return memory_content
 
     def _repr_html_(self):
         return self.html
