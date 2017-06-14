@@ -2,10 +2,10 @@ CSV_PARAMS = """
 **Parameters related to csv file format**
 
 delimiter :
-    csv specific, field separator
+    field separator
 
 lineterminator :
-    csv specific, line terminator
+    line terminator
 
 encoding:
     csv specific. Specify the file encoding the csv file. For example:
@@ -49,6 +49,15 @@ ragged_rows:
      True means that there are no empty cells at the ends of rows. This
      can result in substantial memory savings if rows are of widely
      varying sizes. See also the row_len() method.
+"""
+
+OPTIONAL_BOOK_PARAMS = """
+sheets:
+    a list of mixed sheet names and sheet indices to be read. This is
+    done to keep Pandas compactibility. With this parameter, more than
+    one sheet can be read and you have the control to read the sheets
+    of your interest instead of all available sheets.
+
 """
 
 OPTIONAL_PARAMS = """
@@ -158,12 +167,6 @@ sheet_name :
     sheet name. if sheet_name is not given, the default
     sheet at index 0 is loaded
 
-sheets:
-    a list of mixed sheet names and sheet indices to be read. This is
-    done to keep Pandas compactibility. With this parameter, more than
-    one sheet can be read and you have the control to read the sheets
-    of your interest instead of all available sheets.
-
 """ + PAGINATION_PARAMS + OPTIONAL_PARAMS + CSV_PARAMS + XLRD_PARAMS
 
 SOURCE_PARAMS_TABLE = """
@@ -192,6 +195,15 @@ dest_file_name:
 dest_file_type:
     this is needed if you want to save to memory
 """
+
+SAVE_AS_OPTIONS = """
+library:
+    choose a specific pyexcel-io plugin for writing
+
+renderer_library:
+    choose a pyexcel parser plugin for writing
+
+""" + CSV_PARAMS
 
 DEST_PARAMS = DEST_FILE_PARAMS + """
 dest_session:
@@ -225,6 +237,7 @@ dest_source_library:
 
 dest_renderer_library:
     choose a pyexcel parser plugin for writing
+
 """
 
 DEST_PARAMS_TABLE = """
@@ -280,7 +293,7 @@ bookdict :
 
 url :
     a download http url for your excel file
-""" + OPTIONAL_PARAMS + CSV_PARAMS
+""" + OPTIONAL_BOOK_PARAMS + OPTIONAL_PARAMS + CSV_PARAMS
 
 SOURCE_BOOK_PARAMS_TABLE = """
 Here is a table of parameters:

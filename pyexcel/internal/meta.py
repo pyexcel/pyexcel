@@ -228,7 +228,7 @@ class PyexcelObject(object):
     def __str__(self):
         return self.__repr__()
 
-    def save_to_memory(self):
+    def save_to_memory(self, file_type, **keywords):
         """Save the content to memory
 
         :param file_type: any value of 'csv', 'tsv', 'csvz',
@@ -270,6 +270,7 @@ class PyexcelObject(object):
 
 class SheetMeta(PyexcelObject):
     """Annotate sheet attributes"""
+
     def save_as(self, filename, **keywords):
         """Save the content to a named file
 

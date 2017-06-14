@@ -163,6 +163,7 @@ Usage
 Suppose you want to process the following excel data :
 
 .. pyexcel-table::
+
    ---pyexcel:example table---
    Name,Age
    Adam,28
