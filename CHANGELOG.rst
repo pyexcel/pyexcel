@@ -16,7 +16,7 @@ Added
    read into a sheet.
 #. added dynamic external plugin loading. meaning if a pyexcel plugin
    is installed, it will be loaded implicitly. And this change would remove
-   unnecessary info log for those who do not use pyexcel-text and pyexcel-chart
+   unnecessary info log for those who do not use pyexcel-text and pyexcel-gal
 #. save_book_as before 0.5.0 becomes isave_book_as and save_book_as in 0.5.0
    convert BookStream to Book before saving.
 #. `#83 <https://github.com/pyexcel/pyexcel/issues/83>`_, file closing mechanism
@@ -323,3 +323,69 @@ Updated
 
 #. adopt pyexcel-io yield key word to return generator as content
 #. pyexcel.save_as and pyexcel.save_book_as get performance improvements
+
+
+0.1.7 - 03.07.2015
+--------------------------------------------------------------------------------
+
+Added
+********************************************************************************
+
+#. Support pyramid-excel which does the database commit on its own.
+
+
+0.1.6 - 13.06.2015
+--------------------------------------------------------------------------------
+
+Added
+********************************************************************************
+
+#. get excel data from a http url
+
+
+0.0.13 - 07.02.2015
+--------------------------------------------------------------------------------
+
+Added
+********************************************************************************
+
+#. Support django
+#. texttable as default renderer
+
+0.0.12 - 25.01.2015
+--------------------------------------------------------------------------------
+
+Added
+********************************************************************************
+
+#. Added sqlalchemy support
+
+
+0.0.10
+--------------------------------------------------------------------------------
+
+Added
+********************************************************************************
+
+#. added csvz and tsvz format
+
+
+0.0.4 - 12.10.2014
+--------------------------------------------------------------------------------
+
+Updated
+********************************************************************************
+
+#. Support python 3
+
+0.0.1 - 14.09.2014
+--------------------------------------------------------------------------------
+
+Features:
+
+#. read and write csv, ods, xls, xlsx and xlsm files(which are referred later
+   as excel files)
+#. various iterators for the reader
+#. row and column filters for the reader
+#. utilities to get array and dictionary out from excel files.
+#. cookbok receipes for some common and simple usage of this library.
