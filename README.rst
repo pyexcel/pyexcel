@@ -189,12 +189,14 @@ Here are the method to obtain the records:
    Beatrice is aged at 29
    Ceri is aged at 30
    Dean is aged at 26
+   >>> pe.free_resources()
 
 
 Acknowledgement
 ===============
 
-All great work have done by odf, ezodf, xlrd, xlwt, tabulate and other individual developers. This library unites only the data access code.
+All great work have been done by odf, ezodf, xlrd, xlwt, tabulate and other
+individual developers. This library unites only the data access code.
 
 
 .. testcode::
