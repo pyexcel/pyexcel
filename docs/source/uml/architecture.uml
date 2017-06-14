@@ -1,0 +1,83 @@
+@startuml
+
+package "pyexcel" {
+[pyexcel public api]
+[pyexcel internal api]
+[pyexcel plugin interfaces]
+folder "plugins" {
+  [data source plugins]
+  [data renderer plugins]
+  [data parsing plugins]
+ }
+}
+
+package "pyexcel-io" {
+[pyexcel-io public api]
+[pyexcel-io plugin interfaces]
+folder "io plugins" {
+  [csv, csvz, tsv, tsvz]
+  [django, sqlalchemy]
+ }
+}
+
+cloud "ods" {
+[pyexcel-ods]
+[pyexcel-ods3]
+[pyexcel-odsr]
+}
+
+cloud "xls, xlsx" {
+[pyexcel-xls]
+[pyexcel-xlsx]
+[pyexcel-xlsxw]
+}
+
+[tabulate] <<dependency>>
+[pygal] <<dependency>>
+[handsontable] <<dependency>>
+[xlrd] <<dependency>>
+[xlwt] <<dependency>>
+[openpyxl] <<dependency>>
+[xlsxwriter] <<dependency>>
+[ezodf] <<dependency>>
+[odfpy] <<dependency>>
+
+[pyexcel public api] -right-> [pyexcel internal api]
+[pyexcel internal api] -right-> [pyexcel plugin interfaces]
+[pyexcel plugin interfaces] .up.> [pyexcel-text]
+[pyexcel plugin interfaces] .up.> [pyexcel-pygal]
+[pyexcel plugin interfaces] .up.> [pyexcel-handsontable]
+[pyexcel plugin interfaces] --> [data source plugins]
+[pyexcel plugin interfaces] --> [data renderer plugins]
+[pyexcel plugin interfaces] --> [data parsing plugins]
+
+[data renderer plugins]  -down-> [pyexcel-io public api]
+[data parsing plugins] --> [pyexcel-io public api]
+
+[pyexcel-io public api] --> [pyexcel-io plugin interfaces]
+[pyexcel-io plugin interfaces] --> [csv, csvz, tsv, tsvz]
+[pyexcel-io plugin interfaces] --> [django, sqlalchemy]
+[pyexcel-io plugin interfaces] .up.> [pyexcel-xls]
+[pyexcel-io plugin interfaces] .up.> [pyexcel-xlsx]
+[pyexcel-io plugin interfaces] .left.> [pyexcel-ods]
+[pyexcel-io plugin interfaces] .right.> [pyexcel-ods3]
+[pyexcel-io plugin interfaces] .right.> [pyexcel-xlsxw]
+[pyexcel-io plugin interfaces] .right.> [pyexcel-odsr]
+
+[pyexcel-text] -up- [tabulate]
+[pyexcel-pygal] -up- [pygal]
+[pyexcel-handsontable] -up- [handsontable]
+[pyexcel-xls] -right- [xlrd]
+[pyexcel-xls] -right- [xlwt]
+[pyexcel-xlsx] -right- [openpyxl]
+[pyexcel-xlsxw] -down- [xlsxwriter]
+[pyexcel-ods3] --- [ezodf]
+[pyexcel-ods] --- [odfpy]
+
+skinparam component{
+
+backgroundColor<<dependency>> White
+
+}
+
+@enduml

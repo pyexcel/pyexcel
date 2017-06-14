@@ -1,12 +1,6 @@
 Developer's guide
 =================
 
-Here's the architecture of pyexcel
-
-.. image:: architecture.png
-
-Pull requests are welcome.
-
 {%include "developer_guide.rst.jj2" %}
 
 Acceptance criteria

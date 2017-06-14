@@ -184,6 +184,7 @@ Here are the example usages:
    Beatrice is aged at 29
    Ceri is aged at 30
    Dean is aged at 26
+   >>> pe.free_resources()
 
 .. testcode::
    :hide:
@@ -198,6 +199,7 @@ Design
 
    design
    capability
+   architecture
 
 Tutorial
 ----------
