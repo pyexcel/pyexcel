@@ -269,9 +269,6 @@ class PyexcelObject(object):
     def _repr_html_(self):
         return self.html
 
-    def _repr_json_(self):
-        return self.json
-
 
 class SheetMeta(PyexcelObject):
     """Annotate sheet attributes"""
