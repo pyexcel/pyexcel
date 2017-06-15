@@ -36,7 +36,6 @@ Feature Highlights
 Available Plugins
 =================
 
-.. _file-format-list:
 .. _a-map-of-plugins-and-file-formats:
 
 .. table:: A list of file formats supported by external plugins

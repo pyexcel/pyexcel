@@ -12,7 +12,7 @@ PY26 = PY2 and sys.version_info[1] < 7
 NAME = 'pyexcel'
 AUTHOR = 'C.W.'
 VERSION = '0.5.0'
-EMAIL = 'wangc_2011 (at) hotmail.com'
+EMAIL = 'wangc_2011@hotmail.com'
 LICENSE = 'New BSD'
 DESCRIPTION = (
     'A wrapper library that provides one API to read, manipulate and write ' +

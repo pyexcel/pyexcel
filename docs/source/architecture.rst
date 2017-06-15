@@ -14,8 +14,17 @@ the core functionality of pyexcel. Each plugin will bring in additional
 dependences. For example, if you choose pyexcel-xls, xlrd and xlwt will
 be brought in as 2nd level depndencies.
 
-Looking at the following architectural diagram, pyexcel is split into
-different small packages.
+Looking at the following architectural diagram, pyexcel hosts plugin
+interfaces for data source, data renderer and data parser. pyexel-pygal,
+pyexcel-matplotlib, and pyexce-handsontable extend pyexcel using data
+renderer interface. pyexcel-io package takes away the responsibilities
+to interface with excel libraries, for example: xlrd, openpyxl, ezodf.
+
+As in :ref:`a-map-of-plugins-and-file-formats`, there are overlapping
+capabilities in reading and writing xlsx, ods files. Because each
+third parties express different personalities although they may
+read and write data in the same file format, you as the pyexcel is
+left to pick which suit your task best.
 
 .. image:: _static/images/architecture.svg
 
