@@ -109,13 +109,6 @@ def test_html_representation():
     eq_(str(sheet._repr_html_()), expected)
 
 
-def test_json_representation():
-    array = [[1, 2]]
-    sheet = Sheet(array)
-    expected = '{"pyexcel sheet": [[1, 2]]}'
-    eq_(str(sheet._repr_json_()), expected)
-
-
 def test_svg_representation():
     array = [['a', 'b'], [1, 2]]
     sheet = Sheet(array)
