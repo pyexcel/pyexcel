@@ -74,7 +74,7 @@ For individual excel file formats, please install them as you wish:
                             mediawiki, html,                        3.5, pypy, pypy3
                             latex, grid, pipe,
                             orgtbl, plain simple
-   `pyexcel-handsontable`_  handsontable in html    `handsontable`_ same as above [#f3]_
+   `pyexcel-handsontable`_  handsontable in html    `handsontable`_ same as above
    `pyexcel-pygal`_         svg chart               `pygal`_        same as above [#f3]_
    ======================== ======================= =============== ==================
 
@@ -120,16 +120,12 @@ For compatibility tables of pyexcel-io plugins, please click `here <http://pyexc
 
 .. table:: Plugin compatibility table
 
-    ======= ========== ============= ============= ====================
-    pyexcel pyexcel-io pyexcel-text  pyexcel-pygal pyexcel-handsontable
-    ======= ========== ============= ============= ====================
-    0.5.0   0.4.0      0.2.6(coming) 0.0.1(coming) 0.0.1(coming)
+    ======= ========== ============= ==================== =============
+    pyexcel pyexcel-io pyexcel-text  pyexcel-handsontable pyexcel-pygal
+    ======= ========== ============= ==================== =============
+    0.5.0   0.4.0      0.2.6         0.0.1			      0.0.1(coming)
     0.4.0+  0.3.0+     0.2.5
-    0.3.0+  0.2.3      0.2.4
-    0.2.2+  0.2.0+     0.2.1+
-    0.2.1   0.1.0      0.2.0
-    0.2.0   0.1.0      0.1.0+
-    ======= ========== ============= ============= ====================
+    ======= ========== ============= ==================== =============
 
 
 Usage
