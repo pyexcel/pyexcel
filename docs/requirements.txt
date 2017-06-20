@@ -1,11 +1,3 @@
 sphinxcontrib-spelling
-https://github.com/chfw/lml/archive/master.zip
-https://github.com/pyexcel/pyexcel-io/archive/v0.4.x.zip
-.
-https://github.com/pyexcel/pyexcel-text/archive/master.zip
-https://github.com/pyexcel/pyexcel-chart/archive/master.zip
-https://github.com/pyexcel/pyexcel-handsontable/archive/master.zip
+https://github.com/pyexcel/pyexcel-pygal/archive/master.zip
 https://github.com/pyexcel/sphinxcontrib-excel/archive/master.zip
-https://github.com/pyexcel/pyexcel-xls/archive/v0.4.x.zip
-https://github.com/pyexcel/pyexcel-xlsx/archive/v0.4.x.zip
-https://github.com/pyexcel/pyexcel-ods/archive/v0.4.x.zip
