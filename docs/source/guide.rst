@@ -55,11 +55,11 @@ On Windows systems, please issue this command::
 Acceptance criteria
 -------------------
 
-#. Has fair amount of documentation
 #. Has Test cases written
 #. Has all code lines tested
 #. Passes all Travis CI builds
-#. Pythonic code please
+#. Has fair amount of documentation if your change is complex
 #. Agree on NEW BSD License for your contribution
+
 
 
