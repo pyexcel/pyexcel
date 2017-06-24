@@ -245,6 +245,7 @@ Developer's guide
 
    guide
    logging
+   pyinstaller
 
 Change log
 -------------------
