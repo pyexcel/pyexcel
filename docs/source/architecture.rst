@@ -26,5 +26,7 @@ third parties express different personalities although they may
 read and write data in the same file format, you as the pyexcel is
 left to pick which suit your task best.
 
+Dotted arrow means the package or module is loaded later.
+
 .. image:: _static/images/architecture.svg
 
