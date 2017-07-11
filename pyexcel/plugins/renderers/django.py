@@ -11,8 +11,8 @@ from pyexcel_io import save_data
 import pyexcel_io.database.common as django
 
 from pyexcel._compact import OrderedDict
-from pyexcel.internal.generators import BookStream, SheetStream
 from pyexcel.renderer import DbRenderer
+import pyexcel.internal.common as common
 
 
 NO_COLUMN_NAMES = "Only sheet with column names is accepted"
@@ -22,12 +22,7 @@ class DjangoRenderer(DbRenderer):
     """Import data into database"""
     def render_sheet_to_stream(self, model, sheet, init=None, mapdict=None,
                                **keywords):
-        if isinstance(sheet, SheetStream):
-            headers = next(sheet.payload)
-        else:
-            headers = sheet.colnames
-        if len(headers) == 0:
-            raise Exception(NO_COLUMN_NAMES)
+        headers = common.get_sheet_headers(sheet)
         importer = django.DjangoModelImporter()
         adapter = django.DjangoModelImportAdapter(model)
         adapter.column_names = headers
@@ -41,13 +36,7 @@ class DjangoRenderer(DbRenderer):
                               inits=None, mapdicts=None,
                               batch_size=None, **keywords):
         book = thebook
-        if isinstance(thebook, BookStream):
-            colnames_array = [next(sheet.payload) for sheet in book]
-        else:
-            for sheet in thebook:
-                if len(sheet.colnames) == 0:
-                    sheet.name_columns_by_row(0)
-            colnames_array = [sheet.colnames for sheet in book]
+        colnames_array = common.get_book_headers_in_array(thebook)
         new_models = [model for model in models if model is not None]
         initializers = inits
         if initializers is None:

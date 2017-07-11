@@ -1,7 +1,9 @@
+from nose.tools import eq_
 from textwrap import dedent
 import pyexcel_io.manager as manager
 from pyexcel.internal.generators import SheetStream
 from pyexcel.plugins.sources.output_to_memory import WriteSheetToMemory
+from pyexcel.internal.common import get_sheet_headers
 
 
 def test_save_to():
@@ -18,3 +20,10 @@ def test_save_to():
     3,4
     """)
     assert content == expected
+
+
+def test_get_sheet_headers():
+    data = iter([['a', 'b', 'c'], [1, 2, 3]])
+    sheet_stream = SheetStream('test', data)
+    colnames_array = get_sheet_headers(sheet_stream)
+    eq_(colnames_array, ['a', 'b', 'c'])

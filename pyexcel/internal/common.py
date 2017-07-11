@@ -7,6 +7,7 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
+NO_COLUMN_NAMES = "Only sheet with column names is accepted"
 
 
 class SheetIterator(object):
@@ -30,3 +31,26 @@ class SheetIterator(object):
             return self.book_reader_ref[self.current-1]
         else:
             raise StopIteration
+
+
+def get_sheet_headers(sheet):
+    from pyexcel.internal.generators import SheetStream
+    if isinstance(sheet, SheetStream):
+        headers = next(sheet.payload)
+    else:
+        headers = sheet.colnames
+    if len(headers) == 0:
+        raise Exception(NO_COLUMN_NAMES)
+    return headers
+
+
+def get_book_headers_in_array(book):
+    from pyexcel.internal.generators import BookStream
+    if isinstance(book, BookStream):
+        colnames_array = [next(sheet.payload) for sheet in book]
+    else:
+        for sheet in book:
+            if len(sheet.colnames) == 0:
+                sheet.name_columns_by_row(0)
+        colnames_array = [sheet.colnames for sheet in book]
+    return colnames_array

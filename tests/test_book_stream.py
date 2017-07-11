@@ -1,4 +1,7 @@
+from nose.tools import eq_
+
 from pyexcel.internal.generators import BookStream
+from pyexcel.internal.common import get_book_headers_in_array
 
 
 def test_book_stream():
@@ -20,3 +23,10 @@ def test_key_sorting():
     bs = BookStream(adict)
     # bs[0] should be 'ab' : SheetStream([[2,3]])
     assert bs[0].payload == [[2, 3]]
+
+
+def test_get_book_headers_in_array():
+    data = iter([['a', 'b', 'c'], [1, 2, 3]])
+    book_stream = BookStream({'test': data})
+    colnames_array = get_book_headers_in_array(book_stream)
+    eq_(colnames_array, [['a', 'b', 'c']])

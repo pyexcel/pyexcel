@@ -11,23 +11,15 @@ from pyexcel_io import save_data
 import pyexcel_io.database.common as sql
 
 from pyexcel._compact import OrderedDict
-from pyexcel.internal.generators import SheetStream, BookStream
 from pyexcel.renderer import DbRenderer
-
-
-NO_COLUMN_NAMES = "Only sheet with column names is accepted"
+import pyexcel.internal.common as common
 
 
 class SQLAlchemyRenderer(DbRenderer):
     """Import data into database"""
     def render_sheet_to_stream(self, file_stream, sheet,
                                init=None, mapdict=None, **keywords):
-        if isinstance(sheet, SheetStream):
-            headers = next(sheet.payload)
-        else:
-            headers = sheet.colnames
-        if len(headers) == 0:
-            raise Exception(NO_COLUMN_NAMES)
+        headers = common.get_sheet_headers(sheet)
         importer = sql.SQLTableImporter(file_stream[0])
         adapter = sql.SQLTableImportAdapter(file_stream[1])
         adapter.column_names = headers
@@ -41,14 +33,8 @@ class SQLAlchemyRenderer(DbRenderer):
                               inits=None, mapdicts=None, **keywords):
         session, tables = file_stream
         thebook = book
-        if isinstance(book, BookStream):
-            colnames_array = [next(sheet.payload) for sheet in book]
-        else:
-            for sheet in thebook:
-                if len(sheet.colnames) == 0:
-                    sheet.name_columns_by_row(0)
-            colnames_array = [sheet.colnames for sheet in book]
         initializers = inits
+        colnames_array = common.get_book_headers_in_array(book)
         if initializers is None:
             initializers = [None] * len(tables)
         if mapdicts is None:
