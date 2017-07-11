@@ -71,11 +71,12 @@ For individual excel file formats, please install them as you wish:
    `pyexcel-ods`_           ods                     `odfpy`_        same as above
    `pyexcel-odsr`_          ods(read only)          lxml            same as above
    `pyexcel-text`_          (write only)json, rst,  `tabulate`_     2.6, 2.7, 3.3, 3.4
-                            mediawiki, html,                        3.5, pypy, pypy3
+                            mediawiki, html,                        3.5, 3.6, pypy
                             latex, grid, pipe,
                             orgtbl, plain simple
    `pyexcel-handsontable`_  handsontable in html    `handsontable`_ same as above
-   `pyexcel-pygal`_         svg chart               `pygal`_        same as above [#f3]_
+   `pyexcel-pygal`_         svg chart               `pygal`_        2.7, 3.3, 3.4, 3.5
+                                                                    3.6, pypy
    ======================== ======================= =============== ==================
 
 .. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
@@ -102,7 +103,6 @@ For individual excel file formats, please install them as you wish:
 .. _pyexcel-matplotlib: https://github.com/pyexcel/pyexcel-matplotlib
 .. _matplotlib: https://matplotlib.org
 
-.. [#f3] coming soon
 
 In order to manage the list of plugins installed, you need to use pip to add or remove
 a plugin. When you use virtualenv, you can have different plugins per virtual
