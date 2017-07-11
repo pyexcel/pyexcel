@@ -5,13 +5,18 @@ Change log
 --------------------------------------------------------------------------------
 
 Planned
---------------------------------------------------------------------------------
+********************************************************************************
 
 #. investigate if hidden columns could be supported
 #. update cookbook.py using 0.5.0 api
 #. refactor test code
 #. suppert missing pandas io features: use custom boolean values, write stylish
    spreadsheets.
+
+Updated
+********************************************************************************
+
+#. support saving SheetStream and BookStream to database targets
 
 0.5.0 - 19.06.2017
 --------------------------------------------------------------------------------

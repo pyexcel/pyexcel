@@ -42,6 +42,9 @@ class SheetStream(object):
         """array attribute"""
         return list(self.payload)
 
+    def get_internal_array(self):
+        return self.payload
+
 
 class BookStream(object):
     """

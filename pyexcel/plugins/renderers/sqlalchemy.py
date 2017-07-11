@@ -11,7 +11,7 @@ from pyexcel_io import save_data
 import pyexcel_io.database.common as sql
 
 from pyexcel._compact import OrderedDict
-from pyexcel.internal.generators import BookStream
+from pyexcel.internal.generators import SheetStream, BookStream
 from pyexcel.renderer import DbRenderer
 
 
@@ -22,7 +22,10 @@ class SQLAlchemyRenderer(DbRenderer):
     """Import data into database"""
     def render_sheet_to_stream(self, file_stream, sheet,
                                init=None, mapdict=None, **keywords):
-        headers = sheet.colnames
+        if isinstance(sheet, SheetStream):
+            headers = next(sheet.payload)
+        else:
+            headers = sheet.colnames
         if len(headers) == 0:
             raise Exception(NO_COLUMN_NAMES)
         importer = sql.SQLTableImporter(file_stream[0])
@@ -36,20 +39,20 @@ class SQLAlchemyRenderer(DbRenderer):
 
     def render_book_to_stream(self, file_stream, book,
                               inits=None, mapdicts=None, **keywords):
-        from pyexcel.book import to_book
         session, tables = file_stream
         thebook = book
         if isinstance(book, BookStream):
-            thebook = to_book(book)
+            colnames_array = [next(sheet.payload) for sheet in book]
+        else:
+            for sheet in thebook:
+                if len(sheet.colnames) == 0:
+                    sheet.name_columns_by_row(0)
+            colnames_array = [sheet.colnames for sheet in book]
         initializers = inits
         if initializers is None:
             initializers = [None] * len(tables)
         if mapdicts is None:
             mapdicts = [None] * len(tables)
-        for sheet in thebook:
-            if len(sheet.colnames) == 0:
-                sheet.name_columns_by_row(0)
-        colnames_array = [sheet.colnames for sheet in book]
         scattered = zip(tables, colnames_array, mapdicts, initializers)
 
         importer = sql.SQLTableImporter(session)
@@ -60,8 +63,8 @@ class SQLAlchemyRenderer(DbRenderer):
             adapter.row_initializer = each_table[3]
             importer.append(adapter)
         to_store = OrderedDict()
-        for sheet_name in thebook.sheet_names():
+        for sheet in thebook:
             # due book.to_dict() brings in column_names
             # which corrupts the data
-            to_store[sheet_name] = book[sheet_name].get_internal_array()
+            to_store[sheet.name] = sheet.get_internal_array()
         save_data(importer, to_store, file_type=self._file_type, **keywords)

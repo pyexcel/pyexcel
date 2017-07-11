@@ -62,13 +62,13 @@ class Matrix(SheetMeta):
         """
         Utility function to get row range
         """
-        return compact.irange(0, self.number_of_rows())
+        return compact.irange(self.number_of_rows())
 
     def column_range(self):
         """
         Utility function to get column range
         """
-        return compact.irange(0, self.number_of_columns())
+        return compact.irange(self.number_of_columns())
 
     def cell_value(self, row, column, new_value=None):
         """Random access to table cells
