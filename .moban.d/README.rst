@@ -14,12 +14,6 @@ Feature Highlights
    * Python data stuctures: dictionary, records and array
 2. One application programming interface(API) to read and write data in various excel file formats.
 
-
-Available Plugins
-=================
-
-{% include "plugins-list.rst.jj2"%}
-
 {% endblock %}
 
 {%block usage%}
@@ -93,6 +87,12 @@ Here are the method to obtain the records:
    >>> pe.free_resources()
 
 
+Available Plugins
+=================
+
+{% include "plugins-list.rst.jj2"%}
+
+
 Acknowledgement
 ===============
 
@@ -109,3 +109,5 @@ individual developers. This library unites only the data access code.
 
 {%endblock%}
 
+{%block development_guide%}
+{%endblock%}
