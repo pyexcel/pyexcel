@@ -32,11 +32,10 @@ class DjangoRenderer(DbRenderer):
         save_data(importer, {adapter.get_name(): sheet.get_internal_array()},
                   file_type=self._file_type, **keywords)
 
-    def render_book_to_stream(self, models, thebook,
+    def render_book_to_stream(self, models, book,
                               inits=None, mapdicts=None,
                               batch_size=None, **keywords):
-        book = thebook
-        colnames_array = common.get_book_headers_in_array(thebook)
+        colnames_array = common.get_book_headers_in_array(book)
         new_models = [model for model in models if model is not None]
         initializers = inits
         if initializers is None:
@@ -53,7 +52,7 @@ class DjangoRenderer(DbRenderer):
             adapter.row_initializer = each_model[3]
             importer.append(adapter)
         to_store = OrderedDict()
-        for sheet in thebook:
+        for sheet in book:
             # due book.to_dict() brings in column_names
             # which corrupts the data
             to_store[sheet.name] = sheet.get_internal_array()
