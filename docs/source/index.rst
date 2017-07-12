@@ -77,6 +77,7 @@ For individual excel file formats, please install them as you wish:
    `pyexcel-handsontable`_  handsontable in html    `handsontable`_ same as above
    `pyexcel-pygal`_         svg chart               `pygal`_        2.7, 3.3, 3.4, 3.5
                                                                     3.6, pypy
+   `pyexcel-sortable`_      sortable table in html  `csvtotable`_   same as above
    ======================== ======================= =============== ==================
 
 .. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
@@ -102,6 +103,8 @@ For individual excel file formats, please install them as you wish:
 .. _pygal: https://github.com/Kozea/pygal
 .. _pyexcel-matplotlib: https://github.com/pyexcel/pyexcel-matplotlib
 .. _matplotlib: https://matplotlib.org
+.. _pyexcel-sortable: https://github.com/pyexcel/pyexcel-sortable
+.. _csvtotable: https://github.com/vividvilla/csvtotable
 
 
 In order to manage the list of plugins installed, you need to use pip to add or remove
