@@ -43,9 +43,6 @@ class DjangoRenderer(DbRenderer):
             initializers = [None] * len(new_models)
         if mapdicts is None:
             mapdicts = [None] * len(new_models)
-        for sheet in book:
-            if len(sheet.colnames) == 0:
-                sheet.name_columns_by_row(0)
         scattered = zip(new_models, colnames_array, mapdicts, initializers)
 
         importer = django.DjangoModelImporter()
