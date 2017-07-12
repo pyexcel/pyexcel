@@ -13,10 +13,14 @@ Planned
 #. suppert missing pandas io features: use custom boolean values, write stylish
    spreadsheets.
 
+0.5.1 - 12.06.2017
+--------------------------------------------------------------------------------
+
 Updated
 ********************************************************************************
 
-#. support saving SheetStream and BookStream to database targets
+#. support saving SheetStream and BookStream to database targets. This is needed
+   for pyexcel-webio and its downstream projects.
 
 0.5.0 - 19.06.2017
 --------------------------------------------------------------------------------
