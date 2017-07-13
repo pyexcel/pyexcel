@@ -75,6 +75,8 @@ or clone it and install it:
 Usage
 ===============
 
+.. image:: https://github.com/pyexcel/pyexcel-sortable/raw/master/sortable.gif
+
 .. code-block:: python
 
     >>> import pyexcel
