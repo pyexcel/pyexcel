@@ -89,10 +89,12 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# emacs
 *~
-commons/
-commons
+
+# moban hashes
 .moban.hashes
-doc/build/
-cover/
-coverage/
+
+docs/build/
+commons

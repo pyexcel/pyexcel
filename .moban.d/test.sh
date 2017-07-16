@@ -1,4 +1,4 @@
-{% extends "test.sh.jj2" %}
+{% extends "test.script.jj2" %}
 
 {%block pretest %}
 #/bin/bash

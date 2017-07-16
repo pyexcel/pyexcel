@@ -1,7 +1,0 @@
-{% extends '.gitignore.jj2' %}
-
-{%block extra%}
-doc/build/
-cover/
-coverage/
-{%endblock%}

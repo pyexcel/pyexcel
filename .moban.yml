@@ -2,6 +2,7 @@ configuration:
   configuration_dir: "commons/config"
   template_dir:
     - "commons/templates"
+    - "setupmobans/templates"
     - ".moban.d"
   configuration: pyexcel.yml
 targets:
@@ -11,11 +12,11 @@ targets:
   - requirements.txt: requirements.txt.jj2
   - min_requirements.txt: min_requirements.txt.jj2
   - "tests/requirements.txt": "tests/requirements.txt"
-  - LICENSE: LICENSE.jj2
+  - LICENSE: NEW_BSD_LICENSE.jj2
   - MANIFEST.in: MANIFEST.in.jj2
   - README.rst: README.rst
   - "docs/source/guide.rst": "docs/source/guide.rst"
   - test.sh: test.sh
   - test.bat: test.bat
-  - .gitignore: .gitignore
+  - .gitignore: commons-gitignore.jj2
   - "docs/source/index.rst": "docs/source/index.rst.jj2"

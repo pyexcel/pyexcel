@@ -37,6 +37,8 @@ Known constraints
 
 Fonts, colors and charts are not supported.
 
+Introduction
+================================================================================
 
 Feature Highlights
 ===================
