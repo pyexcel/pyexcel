@@ -8,8 +8,8 @@ pyexcel - Let you focus on data, instead of file formats
 .. image:: https://api.travis-ci.org/pyexcel/pyexcel.svg?branch=master
    :target: http://travis-ci.org/pyexcel/pyexcel
 
-.. image:: https://codecov.io/github/pyexcel/pyexcel/coverage.png
-   :target: https://codecov.io/github/pyexcel/pyexcel
+.. image:: https://codecov.io/gh/pyexcel/pyexcel/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/pyexcel/pyexcel
 
 .. image:: https://img.shields.io/gitter/room/gitterHQ/gitter.svg
    :target: https://gitter.im/pyexcel/Lobby
