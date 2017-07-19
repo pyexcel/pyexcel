@@ -19,6 +19,8 @@ DESCRIPTION = (
     'data in different excel formats' +
     ''
 )
+URL = 'https://github.com/pyexcel/pyexcel'
+DOWNLOAD_URL = '%s/archive/0.5.1.1.tar.gz' % URL
 FILES = ['README.rst', 'CHANGELOG.rst']
 KEYWORDS = [
     'excel',
@@ -118,6 +120,8 @@ if __name__ == '__main__':
         version=VERSION,
         author_email=EMAIL,
         description=DESCRIPTION,
+        url=URL,
+        download_url=DOWNLOAD_URL,
         long_description=read_files(*FILES),
         license=LICENSE,
         keywords=KEYWORDS,
