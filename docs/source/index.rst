@@ -78,6 +78,8 @@ For individual excel file formats, please install them as you wish:
    `pyexcel-pygal`_         svg chart               `pygal`_        2.7, 3.3, 3.4, 3.5
                                                                     3.6, pypy
    `pyexcel-sortable`_      sortable table in html  `csvtotable`_   same as above
+   `pyexcel-gantt`_         gantt chart in html     `frappe-gantt`_ except pypy, same
+                                                                    as above
    ======================== ======================= =============== ==================
 
 .. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
@@ -105,7 +107,8 @@ For individual excel file formats, please install them as you wish:
 .. _matplotlib: https://matplotlib.org
 .. _pyexcel-sortable: https://github.com/pyexcel/pyexcel-sortable
 .. _csvtotable: https://github.com/vividvilla/csvtotable
-
+.. _pyexcel-gantt: https://github.com/pyexcel/pyexcel-gantt
+.. _frappe-gantt: https://github.com/frappe/gantt
 
 In order to manage the list of plugins installed, you need to use pip to add or remove
 a plugin. When you use virtualenv, you can have different plugins per virtual
