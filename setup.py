@@ -11,7 +11,7 @@ PY26 = PY2 and sys.version_info[1] < 7
 
 NAME = 'pyexcel'
 AUTHOR = 'C.W.'
-VERSION = '0.5.1.1'
+VERSION = '0.5.2'
 EMAIL = 'wangc_2011@hotmail.com'
 LICENSE = 'New BSD'
 DESCRIPTION = (
@@ -23,9 +23,6 @@ URL = 'https://github.com/pyexcel/pyexcel'
 DOWNLOAD_URL = '%s/archive/0.5.1.1.tar.gz' % URL
 FILES = ['README.rst', 'CHANGELOG.rst']
 KEYWORDS = [
-    'excel',
-    'python',
-    'pyexcel',
     'tsv',
     'tsvz'
     'csv',
@@ -33,6 +30,7 @@ KEYWORDS = [
     'xls',
     'xlsx',
     'ods'
+    'python'
 ]
 
 CLASSIFIERS = [
@@ -112,7 +110,7 @@ def filter_out_test_code(file_handle):
         else:
             for keyword in ['|version|', '|today|']:
                 if keyword in line:
-                   break
+                    break
             else:
                 yield line
 
