@@ -110,7 +110,11 @@ def filter_out_test_code(file_handle):
                     found_test_code = False
                     yield line
         else:
-            yield line
+            for keyword in ['|version|', '|today|']:
+                if keyword in line:
+                   break
+            else:
+                yield line
 
 
 if __name__ == '__main__':
