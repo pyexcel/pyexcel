@@ -2,19 +2,17 @@ from unittest import TestCase
 from mock import patch, MagicMock
 import pyexcel as pe
 from textwrap import dedent
-from pyexcel._compact import PY2
+from pyexcel._compact import PY2, StringIO
 
 
 class TestHttpBookSource(TestCase):
     def setUp(self):
         self.patcher = patch('pyexcel._compact.request.urlopen')
         mock_open = self.patcher.start()
-        m = MagicMock()
         self.mocked_info = MagicMock()
-        m.info.return_value = self.mocked_info
-        m.read.side_effect = ["1,2,3\n", '']
-        m.seek.return_value = 0
-        mock_open.return_value = m
+        io = StringIO("1,2,3")
+        io.info = self.mocked_info
+        mock_open.return_value = io
 
     def tearDown(self):
         self.patcher.stop()
