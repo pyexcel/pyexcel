@@ -12,7 +12,8 @@ class TestHttpBookSource(TestCase):
         m = MagicMock()
         self.mocked_info = MagicMock()
         m.info.return_value = self.mocked_info
-        m.read.return_value = "1,2,3"
+        m.read.side_effect = ["1,2,3\n", '']
+        m.seek.return_value = 0
         mock_open.return_value = m
 
     def tearDown(self):

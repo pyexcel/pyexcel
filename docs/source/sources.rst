@@ -12,7 +12,7 @@ Loading from other sources
    >>> x = MagicMock()
    >>> x.type.return_value = "text/csv"
    >>> m.info.return_value = x
-   >>> m.read.return_value = "1,2,3"
+   >>> m.read.side_effect = ["1,2,3\n", '']
    >>> urlopen.return_value = m 
 
 
