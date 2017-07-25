@@ -6,14 +6,14 @@ Loading from other sources
 
    >>> from mock import patch, MagicMock
    >>> import pyexcel as pe
+   >>> from pyexcel._compact import StringIO
    >>> patcher = patch('pyexcel._compact.request.urlopen')
    >>> urlopen = patcher.start()
-   >>> m = MagicMock()
+   >>> io = StringIO("1,2,3")
    >>> x = MagicMock()
    >>> x.type.return_value = "text/csv"
-   >>> m.info.return_value = x
-   >>> m.read.side_effect = ["1,2,3\n", '']
-   >>> urlopen.return_value = m 
+   >>> io.info = x
+   >>> urlopen.return_value = io
 
 
 How to load a sheet from a url
