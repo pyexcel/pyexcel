@@ -20,7 +20,7 @@ DESCRIPTION = (
     ''
 )
 URL = 'https://github.com/pyexcel/pyexcel'
-DOWNLOAD_URL = '%s/archive/0.5.1.1.tar.gz' % URL
+DOWNLOAD_URL = '%s/archive/0.5.2.tar.gz' % URL
 FILES = ['README.rst', 'CHANGELOG.rst']
 KEYWORDS = [
     'tsv',
