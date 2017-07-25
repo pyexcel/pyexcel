@@ -13,6 +13,15 @@ Planned
 #. suppert missing pandas io features: use custom boolean values, write stylish
    spreadsheets.
 
+0.5.2 - unreleased
+--------------------------------------------------------------------------------
+
+Updated
+********************************************************************************
+
+#. embeded the enabler for pyexcel-htmlr. http source does not support text/html
+   as mime type.
+
 0.5.1 - 12.06.2017
 --------------------------------------------------------------------------------
 
