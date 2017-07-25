@@ -167,6 +167,7 @@ Available Plugins
                                                     lxml            3.5, 3.6
    `pyexcel-ods`_           ods                     `odfpy`_        same as above
    `pyexcel-odsr`_          ods(read only)          lxml            same as above
+   `pyexcel-htmlr`_         html(read only)         lxml,html5lib   same as above
    `pyexcel-text`_          (write only)json, rst,  `tabulate`_     2.6, 2.7, 3.3, 3.4
                             mediawiki, html,                        3.5, 3.6, pypy
                             latex, grid, pipe,
@@ -186,6 +187,7 @@ Available Plugins
 .. _pyexcel-ods3: https://github.com/pyexcel/pyexcel-ods3
 .. _pyexcel-odsr: https://github.com/pyexcel/pyexcel-odsr
 .. _pyexcel-xlsxw: https://github.com/pyexcel/pyexcel-xlsxw
+.. _pyexcel-htmlr: https://github.com/pyexcel/pyexcel-htmlr
 
 .. _xlrd: https://github.com/python-excel/xlrd
 .. _xlwt: https://github.com/python-excel/xlwt
