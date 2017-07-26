@@ -2,7 +2,7 @@ overrides: "pyexcel.yaml"
 name: "pyexcel"
 nick_name: pyexcel
 version: 0.6.0
-current_version: 0.5.2
+current_version: 0.5.3
 release: 0.5.2
 branch: master
 dependencies:
