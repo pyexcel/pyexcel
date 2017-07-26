@@ -43,21 +43,35 @@ class ArrayReader(SheetReader):
 
 # pylint: disable=W0223
 class RecordsReader(ArrayReader):
-    """read data from a records via pyexcel-io interface"""
+    """read data from a records via pyexcel-io interface
+
+    By default, all records are assumed to have the keys and
+    the keys of the first dictionary of the records will be
+    taken as a reference.
+
+    When the keys of the first dictionary is the full list,
+    The records reader will fill-in the missing key with
+    default n/a, which is ''.
+
+    Otherwise, please supply a complete list of keys as a
+    parameter to get_records method, or save_as
+
+    """
 
     def row_iterator(self):
-        headers = []
+        headers = self._keywords.get('keys')
         for index, row in enumerate(self._native_sheet):
             if index == 0:
-                if isinstance(row, OrderedDict):
-                    headers = row.keys()
-                else:
-                    headers = sorted(row.keys())
+                if headers is None:
+                    if isinstance(row, OrderedDict):
+                        headers = row.keys()
+                    else:
+                        headers = sorted(row.keys())
                 yield list(headers)
 
             values = []
             for k in headers:
-                values.append(row[k])
+                values.append(row.get(k, constants.DEFAULT_NA))
             yield values
 
 
