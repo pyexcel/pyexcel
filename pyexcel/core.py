@@ -15,7 +15,7 @@ from pyexcel.sheet import Sheet
 from pyexcel.book import Book, to_book
 import pyexcel.internal.core as sources
 import pyexcel.constants as constants
-from pyexcel._compact import zip_longest, append_doc
+from pyexcel._compact import zip_longest, append_doc, OrderedDict
 import pyexcel.docstrings as docs
 
 
@@ -177,7 +177,7 @@ def iget_array(**keywords):
 
 
 @append_doc(docs.IGET_RECORDS)
-def iget_records(**keywords):
+def iget_records(custom_headers=None, **keywords):
     """
     Obtain a generator of a list of records from an excel source
 
@@ -192,8 +192,18 @@ def iget_records(**keywords):
         if row_index == 0:
             headers = row
         else:
-            yield dict(zip_longest(headers, row,
-                                   fillvalue=constants.DEFAULT_NA))
+            if custom_headers:
+                # custom order
+                tmp_dict = dict(zip_longest(
+                    headers, row, fillvalue=constants.DEFAULT_NA))
+                ordered_dict = OrderedDict()
+                for name in custom_headers:
+                    ordered_dict[name] = tmp_dict[name]
+                yield ordered_dict
+            else:
+                # default order
+                yield OrderedDict(zip_longest(
+                    headers, row, fillvalue=constants.DEFAULT_NA))
 
 
 @append_doc(docs.GET_BOOK_DICT)

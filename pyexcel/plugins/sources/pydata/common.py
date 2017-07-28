@@ -59,15 +59,15 @@ class RecordsReader(ArrayReader):
     """
 
     def row_iterator(self):
-        headers = self._keywords.get('keys')
+        headers = self._keywords.get('custom_headers')
         for index, row in enumerate(self._native_sheet):
             if index == 0:
                 if headers is None:
                     if isinstance(row, OrderedDict):
-                        headers = row.keys()
+                        headers = list(row.keys())
                     else:
                         headers = sorted(row.keys())
-                yield list(headers)
+                yield headers
 
             values = []
             for k in headers:

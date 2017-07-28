@@ -391,7 +391,7 @@ class Sheet(Matrix):
             else:
                 headers = self.colnames
             for row in self.rows():
-                the_dict = dict(zip(headers, row))
+                the_dict = compact.OrderedDict(zip(headers, row))
                 ret.append(the_dict)
         elif len(self.rownames) > 0:
             if custom_headers:
@@ -399,7 +399,7 @@ class Sheet(Matrix):
             else:
                 headers = self.rownames
             for column in self.columns():
-                the_dict = dict(zip(headers, column))
+                the_dict = compact.OrderedDict(zip(headers, column))
                 ret.append(the_dict)
         else:
             raise ValueError(

@@ -332,7 +332,7 @@ def test_issue_92_non_uniform_records():
         {"b": 2},
         {"c": 3}
     ]
-    sheet = pe.get_sheet(records=records, keys=['a', 'b', 'c'])
+    sheet = pe.get_sheet(records=records, custom_headers=['a', 'b', 'c'])
     content = dedent("""
     +---+---+---+
     | a | b | c |
@@ -383,3 +383,75 @@ def test_issue_92_verify_save_as():
     csv_io = pe.save_as(records=records, dest_file_type='csv')
     content = "a,b,c\r\n1,2,3\r\n,2,\r\n,,3\r\n"
     eq_(csv_io.getvalue(), content)
+
+
+def test_issue_95_preserve_order_in_iget_orders():
+    test_data = [
+        ['a', 'b', 'c'],
+        ['1', '2', '3'],
+        ['4', '5', '6']
+    ]
+
+    records = pe.iget_records(array=test_data)
+    result = []
+    for record in records:
+        for key, value in record.items():
+            result.append([key, value])
+
+    expected = [
+        ['a', '1'],
+        ['b', '2'],
+        ['c', '3'],
+        ['a', '4'],
+        ['b', '5'],
+        ['c', '6']
+    ]
+    eq_(result, expected)
+
+
+def test_issue_95_preserve_custom_order_in_iget_orders():
+    test_data = [
+        ['a', 'b', 'c'],
+        ['1', '2', '3'],
+        ['4', '5', '6']
+    ]
+
+    records = pe.iget_records(array=test_data, custom_headers=['c', 'a', 'b'])
+    result = []
+    for record in records:
+        for key, value in record.items():
+            result.append([key, value])
+
+    expected = [
+        ['c', '3'],
+        ['a', '1'],
+        ['b', '2'],
+        ['c', '6'],
+        ['a', '4'],
+        ['b', '5']
+    ]
+    eq_(result, expected)
+
+
+def test_issue_95_preserve_order_in_get_orders():
+    test_data = [
+        ['a', 'b', 'c'],
+        ['1', '2', '3'],
+        ['4', '5', '6']
+    ]
+
+    records = pe.get_records(array=test_data)
+    result = []
+    for record in records:
+        for key, value in record.items():
+            result.append([key, value])
+
+    expected = [
+        ['a', '1'],
+        ['b', '2'],
+        ['c', '3'],
+        ['a', '4'],
+        ['b', '5'],
+        ['c', '6']
+    ]
+    eq_(result, expected)
