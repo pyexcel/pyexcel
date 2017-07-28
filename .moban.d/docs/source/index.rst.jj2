@@ -152,6 +152,7 @@ Developer's guide
    guide
    logging
    pyinstaller
+   plugin_howto
 
 Change log
 -------------------
