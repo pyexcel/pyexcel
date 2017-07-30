@@ -26,12 +26,12 @@ For compatibility tables of pyexcel-io plugins, please click `here <http://pyexc
 
 .. table:: Plugin compatibility table
 
-    ======= ========== ============= ==================== =============
-    pyexcel pyexcel-io pyexcel-text  pyexcel-handsontable pyexcel-pygal
-    ======= ========== ============= ==================== =============
-    0.5.0   0.4.0      0.2.6         0.0.1			      0.0.1(coming)
+    ======= ========== ============= ==================== ============= =============
+    pyexcel pyexcel-io pyexcel-text  pyexcel-handsontable pyexcel-pygal pyexcel-gantt
+    ======= ========== ============= ==================== ============= =============
+    0.5.0+   0.4.0+    0.2.6+        0.0.1                0.0.1         0.0.1
     0.4.0+  0.3.0+     0.2.5
-    ======= ========== ============= ==================== =============
+    ======= ========== ============= ==================== ============= =============
 
 
 Usage

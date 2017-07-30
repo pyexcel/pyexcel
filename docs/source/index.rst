@@ -71,10 +71,12 @@ For individual excel file formats, please install them as you wish:
    `pyexcel-ods`_           ods                     `odfpy`_        same as above
    `pyexcel-odsr`_          read only for ods, fods lxml            same as above
    `pyexcel-htmlr`_         html(read only)         lxml,html5lib   same as above
-   `pyexcel-text`_          (write only)json, rst,  `tabulate`_     2.6, 2.7, 3.3, 3.4
+   `pyexcel-text`_          write only:rst,         `tabulate`_     2.6, 2.7, 3.3, 3.4
                             mediawiki, html,                        3.5, 3.6, pypy
                             latex, grid, pipe,
                             orgtbl, plain simple
+                            read only: ndjson
+                            r/w: json
    `pyexcel-handsontable`_  handsontable in html    `handsontable`_ same as above
    `pyexcel-pygal`_         svg chart               `pygal`_        2.7, 3.3, 3.4, 3.5
                                                                     3.6, pypy
@@ -128,12 +130,12 @@ For compatibility tables of pyexcel-io plugins, please click `here <http://pyexc
 
 .. table:: Plugin compatibility table
 
-    ======= ========== ============= ==================== =============
-    pyexcel pyexcel-io pyexcel-text  pyexcel-handsontable pyexcel-pygal
-    ======= ========== ============= ==================== =============
-    0.5.0   0.4.0      0.2.6         0.0.1			      0.0.1(coming)
+    ======= ========== ============= ==================== ============= =============
+    pyexcel pyexcel-io pyexcel-text  pyexcel-handsontable pyexcel-pygal pyexcel-gantt
+    ======= ========== ============= ==================== ============= =============
+    0.5.0+   0.4.0+    0.2.6+        0.0.1                0.0.1         0.0.1
     0.4.0+  0.3.0+     0.2.5
-    ======= ========== ============= ==================== =============
+    ======= ========== ============= ==================== ============= =============
 
 
 Usage
@@ -254,6 +256,7 @@ Developer's guide
    guide
    logging
    pyinstaller
+   plugin_howto
 
 Change log
 -------------------

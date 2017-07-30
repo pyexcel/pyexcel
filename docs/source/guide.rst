@@ -46,7 +46,7 @@ How to update test environment and update documentation
 Additional steps are required:
 
 #. pip install moban
-#. git clone https://github.com/pyexcel/setupmobans.git # generic setup
+#. git clone https://github.com/moremoban/setupmobans.git # generic setup
 #. git clone https://github.com/pyexcel/pyexcel-commons.git commons
 #. make your changes in `.moban.d` directory, then issue command `moban`
 

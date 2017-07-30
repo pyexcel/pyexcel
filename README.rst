@@ -81,14 +81,24 @@ Usage
 
 .. code-block:: python
 
-    >>> import pyexcel
-    >>> content = "1,2,3\n3,4,5"
-    >>> sheet = pyexcel.Sheet()
-    >>> sheet.csv = content
-    >>> sheet.array
-    [[1, 2, 3], [3, 4, 5]]
-    >>> with open("myfile.xlsx", "wb") as output:
-    ...     write_count_not_used = output.write(sheet.xlsx)
+    >>> # pip install pyexcel-text==0.2.7.1
+    >>> import pyexcel as p
+    >>> ccs_insight2 = p.Sheet()
+    >>> ccs_insight2.name = "Worldwide Mobile Phone Shipments (Billions), 2017-2021"
+    >>> ccs_insight2.ndjson = """
+    ... {"year": ["2017", "2018", "2019", "2020", "2021"]}
+    ... {"smart phones": [1.53, 1.64, 1.74, 1.82, 1.90]}
+    ... {"feature phones": [0.46, 0.38, 0.30, 0.23, 0.17]}
+    ... """.strip()
+    >>> ccs_insight2
+    pyexcel sheet:
+    +----------------+------+------+------+------+------+
+    | year           | 2017 | 2018 | 2019 | 2020 | 2021 |
+    +----------------+------+------+------+------+------+
+    | smart phones   | 1.53 | 1.64 | 1.74 | 1.82 | 1.9  |
+    +----------------+------+------+------+------+------+
+    | feature phones | 0.46 | 0.38 | 0.3  | 0.23 | 0.17 |
+    +----------------+------+------+------+------+------+
 
 
 
@@ -168,10 +178,12 @@ Available Plugins
    `pyexcel-ods`_           ods                     `odfpy`_        same as above
    `pyexcel-odsr`_          read only for ods, fods lxml            same as above
    `pyexcel-htmlr`_         html(read only)         lxml,html5lib   same as above
-   `pyexcel-text`_          (write only)json, rst,  `tabulate`_     2.6, 2.7, 3.3, 3.4
+   `pyexcel-text`_          write only:rst,         `tabulate`_     2.6, 2.7, 3.3, 3.4
                             mediawiki, html,                        3.5, 3.6, pypy
                             latex, grid, pipe,
                             orgtbl, plain simple
+                            read only: ndjson
+                            r/w: json
    `pyexcel-handsontable`_  handsontable in html    `handsontable`_ same as above
    `pyexcel-pygal`_         svg chart               `pygal`_        2.7, 3.3, 3.4, 3.5
                                                                     3.6, pypy
@@ -234,7 +246,6 @@ individual developers. This library unites only the data access code.
    
    >>> import os
    >>> os.unlink("your_file.xls")
-   >>> os.unlink("myfile.xlsx")
 
 
 
