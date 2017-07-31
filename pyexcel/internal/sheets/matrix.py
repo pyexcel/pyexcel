@@ -38,7 +38,10 @@ class Matrix(SheetMeta):
         if isinstance(array, types.GeneratorType):
             self.__width, self.__array = uniform(list(array))
         else:
-            self.__width, self.__array = uniform(array)
+            try:
+                self.__width, self.__array = uniform(array)
+            except TypeError:
+                raise TypeError("Invalid two dimensional array")
         self.row = Row(self)
         self.column = Column(self)
         self.name = 'matrix'

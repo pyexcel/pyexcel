@@ -12,6 +12,12 @@ def test_non_filter():
     s.filter("abc")  # bang
 
 
+@raises(TypeError)
+def test_invalid_array_in_sheet():
+    sheet = Sheet([[1, 2]])
+    sheet2 = Sheet(sheet)
+
+
 class TestFormatter:
     def setUp(self):
         self.data = [

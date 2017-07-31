@@ -61,7 +61,13 @@ class Book(BookMeta):
             # we put alphatical order
             keys = sorted(keys)
         for name in keys:
-            sheet = Sheet(sheets[name], name)
+            value = sheets[name]
+            if isinstance(value, Sheet):
+                sheet = value
+                sheet.name = name
+            else:
+                # array
+                sheet = Sheet(value, name)
             # this sheets keep sheet order
             self.__sheets.update({name: sheet})
             # this provide the convenience of access the sheet
