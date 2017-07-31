@@ -15,7 +15,7 @@ def test_non_filter():
 @raises(TypeError)
 def test_invalid_array_in_sheet():
     sheet = Sheet([[1, 2]])
-    sheet2 = Sheet(sheet)
+    Sheet(sheet)
 
 
 class TestFormatter:
