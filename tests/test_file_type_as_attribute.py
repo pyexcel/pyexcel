@@ -64,7 +64,7 @@ def test_invalid_url_getter():
 @raises(NotImplementedError)
 def test_invalid_json_setter():
     sheet = Sheet()
-    sheet.json = "a,b,c"
+    sheet.simple = "a,b,c"
 
 
 def test_set_csv_attribute():
