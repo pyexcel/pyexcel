@@ -11,7 +11,7 @@ data source.
 Tutorial
 --------------------------------------------------------------------------------
 
-Let me walk you through the process of creating pyexcel-json package.
+Let me walk you through the process of creating pyexcel-pdfr package.
 
 Prerequisites:
 
@@ -34,25 +34,28 @@ Now let's get started.
 Step 1
 ********************************************************************************
 
-::
+Call `yehua` to get the basic scaffolding::
 
     $ yehua
     Yehua will walk you through creating a pyexcel package.
     Press ^C to quit at any time.
     
-    What is your project name? pyexcel-json
-    What is the description? parses and renders tabular data from/back to json format
+    What is your project name? pyexcel-pdfr
+    What is the description? parses tables in pdf file as tabular data
     What is project type?
     1. pyexcel plugins
     2. command line interface
     3. python's C externsion
     (1,2,3): 1
-    What is the nick name? json
+    What is the nick name? pdf
     $
 
-::
+Step 2
+********************************************************************************
 
-    $ cd pyexcel-json/
+Call `moban` to inflate all project files::
+
+    $ cd pyexcel-pdfr/
     $ ln -s ../pyexcel-commons/ commons
     $ ln -s ../setupmobans/ setupmobans
     $ moban
@@ -67,5 +70,9 @@ Step 1
     Templating travis.yml.jj2 to .travis.yml
     Templating gitignore.jj2 to .gitignore
     Templating docs/source/conf.py.jj2 to docs/source/conf.py
-    $
+
+Step 3 - Coding
+********************************************************************************
+
+Please put your code in pyexcel_pdfr
 
