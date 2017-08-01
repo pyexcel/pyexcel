@@ -13,6 +13,16 @@ Planned
 #. suppert missing pandas io features: use custom boolean values, write stylish
    spreadsheets.
 
+
+0.5.3 - 01-08-2017
+--------------------------------------------------------------------------------
+
+#. `#95 <https://github.com/pyexcel/pyexcel/issues/95>`_, respect the order of
+   records in iget_records, isave_as and save_as.
+#. `#97 <https://github.com/pyexcel/pyexcel/issues/97>`_, new feature to allow
+   intuitive initialization of pyexcel.Book.
+
+
 0.5.2 - 26-07-2017
 --------------------------------------------------------------------------------
 
