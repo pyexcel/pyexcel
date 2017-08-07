@@ -144,16 +144,49 @@ Here are the method to obtain the records:
 
 .. code-block:: python
    
-   >>> import pyexcel as pe
-   >>> records = pe.iget_records(file_name="your_file.xls")
+   >>> import pyexcel as p
+   >>> records = p.iget_records(file_name="your_file.xls")
    >>> for record in records:
    ...     print("%s is aged at %d" % (record['Name'], record['Age']))
    Adam is aged at 28
    Beatrice is aged at 29
    Ceri is aged at 30
    Dean is aged at 26
-   >>> pe.free_resources()
+   >>> p.free_resources()
 
+
+Advanced usage :fire:
+----------------------
+
+If you are dealing with big data, please consider these usages:
+
+   >>> def increase_everyones_age(generator):
+   ...     for row in generator:
+   ...         row['Age'] += 1
+   ...         yield row
+   >>> def duplicate_each_record(generator):
+   ...     for row in generator:
+   ...         yield row
+   ...         yield row
+   >>> records = p.iget_records(file_name="your_file.xls")
+   >>> io=p.isave_as(records=duplicate_each_record(increase_everyones_age(records)),
+   ...     dest_file_type='csv', dest_lineterminator='\n')
+   >>> print(io.getvalue())
+   Age,Name
+   29,Adam
+   29,Adam
+   30,Beatrice
+   30,Beatrice
+   31,Ceri
+   31,Ceri
+   27,Dean
+   27,Dean
+   <BLANKLINE>
+
+Two advantages of above method:
+
+#. Add as many wrapping functions as you want.
+#. Constant memory consumption
 
 Available Plugins
 =================
