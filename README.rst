@@ -17,6 +17,9 @@ pyexcel - Let you focus on data, instead of file formats
 .. image:: https://readthedocs.org/projects/pyexcel/badge/?version=latest
    :target: http://pyexcel.readthedocs.org/en/latest/
 
+.. image:: https://img.shields.io/badge/0.6.0--docs-preview-orange.svg
+   :target: http://pyexcel.readthedocs.io/en/v0.6.0/
+
 Support the project
 ================================================================================
 
