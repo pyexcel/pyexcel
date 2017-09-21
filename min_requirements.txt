@@ -1,7 +1,9 @@
 lml==0.0.1
-pyexcel-io==0.4.2
+pyexcel-io==0.4.4
 texttable==0.8.3;python_version<"3"
 texttable==0.8.3;python_version>="3"
 ordereddict;python_version<"2.7"
 weakrefset;python_version<"2.7"
 lxml==3.4.4;platform_python_implementation=="PyPy"
+pyexcel-xlsx==0.4.1
+pyexcel-xls==0.4.1

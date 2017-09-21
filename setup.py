@@ -1,3 +1,4 @@
+import codecs
 try:
     from setuptools import setup, find_packages
 except ImportError:
@@ -21,7 +22,7 @@ DESCRIPTION = (
 )
 URL = 'https://github.com/pyexcel/pyexcel'
 DOWNLOAD_URL = '%s/archive/0.5.3.tar.gz' % URL
-FILES = ['README.rst', 'CHANGELOG.rst']
+FILES = ['README.rst',  'CHANGELOG.rst']
 KEYWORDS = [
     'tsv',
     'tsvz'
@@ -38,7 +39,6 @@ CLASSIFIERS = [
     'Topic :: Utilities',
     'Topic :: Software Development :: Libraries',
     'Programming Language :: Python',
-    'License :: OSI Approved :: BSD License',
     'Intended Audience :: Developers',
     'Programming Language :: Python :: 2.6',
     'Programming Language :: Python :: 2.7',
@@ -52,7 +52,7 @@ CLASSIFIERS = [
 
 INSTALL_REQUIRES = [
     'lml==0.0.1',
-    'pyexcel-io>=0.4.2',
+    'pyexcel-io>=0.4.4',
 ]
 
 if PY2:
@@ -85,7 +85,7 @@ def read_files(*files):
 
 def read(afile):
     """Read a file into setup"""
-    with open(afile, 'r') as opened_file:
+    with codecs.open(afile, 'r', 'utf-8') as opened_file:
         content = filter_out_test_code(opened_file)
         content = "".join(list(content))
         return content

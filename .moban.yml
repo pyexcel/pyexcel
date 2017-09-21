@@ -10,7 +10,7 @@ targets:
   - "docs/source/conf.py": "docs/source/conf.py"
   - .travis.yml: travis.yml
   - requirements.txt: requirements.txt.jj2
-  - min_requirements.txt: min_requirements.txt.jj2
+  - min_requirements.txt: minimum_requirements.txt
   - "tests/requirements.txt": "tests/requirements.txt"
   - LICENSE: NEW_BSD_LICENSE.jj2
   - MANIFEST.in: MANIFEST.in.jj2
