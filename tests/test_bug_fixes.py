@@ -75,7 +75,7 @@ def test_issue_10():
     pe.save_as(adict=thedict, dest_file_name="issue10.xls")
     newdict = pe.get_dict(file_name="issue10.xls")
     assert isinstance(newdict, OrderedDict) is True
-    assert thedict == newdict
+    eq_(thedict, newdict)
     os.unlink("issue10.xls")
 
 
