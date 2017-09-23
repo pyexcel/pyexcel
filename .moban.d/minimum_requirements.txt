@@ -1,0 +1,3 @@
+{%include "min_requirements.txt.jj2" %}
+pyexcel-xlsx==0.4.1
+pyexcel-xls==0.4.1
