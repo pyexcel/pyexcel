@@ -422,12 +422,18 @@ class Sheet(Matrix):
     def named_rows(self):
         """iterate rows using row names"""
         for row_name in self.__row_names:
-            yield {row_name: self.row[row_name]}
+            try:
+                yield {row_name: self.row[row_name]}
+            except IndexError:
+                yield {row_name: []}
 
     def named_columns(self):
         """iterate rows using column names"""
         for column_name in self.__column_names:
-            yield {column_name: self.column[column_name]}
+            try:
+                yield {column_name: self.column[column_name]}
+            except IndexError:
+                yield {column_name: []}
 
     @property
     def content(self):

@@ -455,3 +455,10 @@ def test_issue_95_preserve_order_in_get_orders():
         ['c', '6']
     ]
     eq_(result, expected)
+
+
+def test_issue_100():
+    data = [['a', 'b']]
+    sheet = pe.Sheet(data)
+    sheet.name_columns_by_row(0)
+    eq_(sheet.to_dict(), {'a': [], 'b': []})
