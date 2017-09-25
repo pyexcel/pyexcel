@@ -12,7 +12,7 @@ PY26 = PY2 and sys.version_info[1] < 7
 
 NAME = 'pyexcel'
 AUTHOR = 'C.W.'
-VERSION = '0.5.3'
+VERSION = '0.5.4'
 EMAIL = 'wangc_2011@hotmail.com'
 LICENSE = 'New BSD'
 DESCRIPTION = (
@@ -68,9 +68,9 @@ if python_implementation == "PyPy":
 
 PACKAGES = find_packages(exclude=['ez_setup', 'examples', 'tests'])
 EXTRAS_REQUIRE = {
-    'xls': ['pyexcel-xls>=0.4.0'],
-    'xlsx': ['pyexcel-xlsx>=0.4.0'],
-    'ods': ['pyexcel-ods3>=0.4.0'],
+    'xls': ['pyexcel-xls>=0.4.1'],
+    'xlsx': ['pyexcel-xlsx>=0.4.1'],
+    'ods': ['pyexcel-ods3>=0.4.1'],
 }
 
 
