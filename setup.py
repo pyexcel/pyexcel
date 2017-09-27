@@ -21,7 +21,7 @@ DESCRIPTION = (
     ''
 )
 URL = 'https://github.com/pyexcel/pyexcel'
-DOWNLOAD_URL = '%s/archive/0.5.3.tar.gz' % URL
+DOWNLOAD_URL = '%s/archive/0.5.4.tar.gz' % URL
 FILES = ['README.rst',  'CHANGELOG.rst']
 KEYWORDS = [
     'tsv',
@@ -52,7 +52,7 @@ CLASSIFIERS = [
 
 INSTALL_REQUIRES = [
     'lml==0.0.1',
-    'pyexcel-io>=0.4.4',
+    'pyexcel-io>=0.5.1',
 ]
 
 if PY2:
@@ -68,9 +68,9 @@ if python_implementation == "PyPy":
 
 PACKAGES = find_packages(exclude=['ez_setup', 'examples', 'tests'])
 EXTRAS_REQUIRE = {
-    'xls': ['pyexcel-xls>=0.4.1'],
-    'xlsx': ['pyexcel-xlsx>=0.4.1'],
-    'ods': ['pyexcel-ods3>=0.4.1'],
+    'xls': ['pyexcel-xls>=0.5.0'],
+    'xlsx': ['pyexcel-xlsx>=0.5.0'],
+    'ods': ['pyexcel-ods3>=0.5.0'],
 }
 
 

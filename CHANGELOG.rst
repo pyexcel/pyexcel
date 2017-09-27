@@ -14,11 +14,12 @@ Planned
    spreadsheets.
 
 
-0.5.4 - unreleased
+0.5.4 - 27.09.2017 
 --------------------------------------------------------------------------------
 
 #. `#100 <https://github.com/pyexcel/pyexcel/issues/100>`_, Sheet.to_dict() gets
    out of range error because there is only one row.
+#. Updated the baseline of pyexcel-io to 0.5.1.
 
 0.5.3 - 01-08-2017
 --------------------------------------------------------------------------------

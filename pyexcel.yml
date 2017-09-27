@@ -3,11 +3,11 @@ name: "pyexcel"
 nick_name: pyexcel
 version: 0.6.0
 current_version: 0.5.4
-release: 0.5.3
+release: 0.5.4
 branch: master
 dependencies:
   - lml==0.0.1
-  - pyexcel-io>=0.4.4
+  - pyexcel-io>=0.5.1
   - texttable>=0.8.1;python_version<"3"
   - texttable>=0.8.2;python_version>="3"
   - ordereddict;python_version<"2.7"
@@ -15,9 +15,9 @@ dependencies:
   - lxml==3.4.4;platform_python_implementation=="PyPy"
 extra_dependencies:
   - xls:
-    - pyexcel-xls>=0.4.1
+    - pyexcel-xls>=0.5.0
   - xlsx:
-    - pyexcel-xlsx>=0.4.1
+    - pyexcel-xlsx>=0.5.0
   - ods:
-    - pyexcel-ods3>=0.4.1
+    - pyexcel-ods3>=0.5.0
 description: A wrapper library that provides one API to read, manipulate and write data in different excel formats
