@@ -242,7 +242,6 @@ Available Plugins
    ======================== ======================= ================= ==================
    Package name              Supported file formats  Dependencies     Python versions
    ======================== ======================= ================= ==================
-
    `pyexcel-text`_          write only:rst,         `tabulate`_       2.6, 2.7, 3.3, 3.4
                             mediawiki, html,                          3.5, 3.6, pypy
                             latex, grid, pipe,
