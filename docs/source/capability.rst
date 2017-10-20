@@ -13,7 +13,7 @@ one of the following data sources:
    * Django Model
    * Python data structures: dictionary, records and array
 
-and to transform them into one of the data structures:
+and to transform them into one of the following data structures:
 
    * two dimensional array
    * a dictionary of one dimensional arrays
@@ -26,9 +26,9 @@ and to transform them into one of the data structures:
 Four data access functions
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-It is believed that once a Python developer could easily operate on list,
-dictionary and various mixture of both. This library provides four module level
-functions to help you obtain excel data in those formats. Please refer to
+Python data can be handled well using lists,
+dictionaries and various mixture of both. This library provides four module level
+functions to help you obtain excel data in these data structures. Please refer to
 "A list of module level functions", the first three functions operates on any
 one sheet from an excel book and the fourth one returns all data in all sheets
 in an excel book.
@@ -139,8 +139,7 @@ See also:
 Data transportation/transcoding
 --------------------------------------------------------------------------------
 
-Based the capability of this library, it is capable of transporting your data in
-between any of these data sources:
+This library is capable of transporting your data between any of the following data sources:
 
    * physical file
    * memory file
