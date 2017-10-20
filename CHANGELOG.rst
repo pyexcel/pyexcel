@@ -14,7 +14,7 @@ Planned
    spreadsheets.
 
 
-0.5.5 - 27.09.2017 
+0.5.5 - 20.10.2017 
 --------------------------------------------------------------------------------
 
 #. `#103 <https://github.com/pyexcel/pyexcel/issues/103>`_, include LICENSE file
