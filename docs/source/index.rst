@@ -13,21 +13,21 @@ Introduction
 -------------
 
 **pyexcel** provides **one** application programming interface to read,
-manipulate and write data in different excel formats. This library makes
+manipulate and write data in various excel formats. This library makes
 information processing involving excel files an enjoyable task. The data in
 excel files can be turned into :ref:`array or dict<a-list-of-data-structures>`
-with least code, vice versa. This library focuses on data
+with minimal code - and vice versa. This library focuses on data
 processing using excel files as storage media hence fonts, colors and charts
 were not and will not be considered.
 
-The idea originated from the common usability problem when an excel file
-driven web applications is delivered for non-technical users: such as team assistant,
-human resource administrator. The fact is that not all people know the
-difference among various excel formats: csv, xls, xlsx. Instead of training those people
+The idea originated from the common usability problem: when an excel file
+driven web application is delivered for non-developer users (ie: team assistant,
+human resource administrator etc). The fact is that not everyone knows (or cares) about the
+differences between various excel formats: csv, xls, xlsx are all the same to them. Instead of training those users
 about file formats, this library helps web developers to handle most of the excel file
-formats by providing a common programming interface. To add a specific excel file format
-to you application, all you need is to install an extra pyexcel plugin. No code change
-to your application. No issues with excel file formats any more. Looking at the
+formats by providing a common programming interface. To add a specific excel file format type
+to you application, all you need is to install an extra pyexcel plugin. Hence no code changes
+to your application and no issues with excel file formats any more. Looking at the
 community, this library and its associated ones try to become a small and easy to
 install alternative to Pandas.
 
@@ -195,7 +195,7 @@ Suppose you want to process the following excel data :
    Dean,26
 
 
-Here are the example usages:
+Here are some example uses:
 
 .. code-block:: python
 

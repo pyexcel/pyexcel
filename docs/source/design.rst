@@ -12,7 +12,7 @@ objects: **cell**, **sheet** and **book**.
 
 A book contains one or more sheets and a sheet is consisted of a sheet name and
 a two dimensional array of cells. Although a sheet can contain charts and a cell
-can have formula, styling properties, this library ignores them and pay
+can have formula, styling properties, this library ignores them and only pays
 attention to the data in the cell and its data type. So, in the context of this
 library, the definition of those three concepts are:
 
@@ -28,23 +28,23 @@ Data source
 --------------------------------------------------------------------------------
 
 A data source is a storage format of structured data. The most popular data
-source is an excel file. Libre Office/Microsoft Excel could easily generate a
-new excel file of desired format. Besides a physical file, this library
-recognizes additional three additional sources:
+source is an excel file. Libre Office/Microsoft Excel can easily be used to generate an 
+excel file of your desired format. Besides a physical file, this library
+recognizes three additional types of source:
 
-#. Excel files in computer memory. For example when a file was uploaded to
-   a Python server for information processing, if it is relatively small,
-   it will be stored in memory.
-#. Database tables. For example, a client would like to have a snapshot of some
-   database table in an excel file and ask it to be sent to him.
-#. Python structures. For example, a developer may have scrapped a site and hence
-   stored data in Python array or dictionary. He may want to save those
+#. Excel files in computer memory. For example: when a file is uploaded to
+   a Python server for information processing. If it is relatively small,
+   it can be stored in memory.
+#. Database tables. For example: a client would like to have a snapshot of some
+   database table in an excel file and asks it to be sent to him.
+#. Python structures. For example: a developer may have scraped a site and have
+   stored data in Python array or dictionary. He may want to save this
    information as a file.
 
 
-Reading from and writing to a data source is modelled as parsers and renderers
+Reading from - and writing to - a data source is modelled as parsers and renderers
 in pyexcel. Excel data sources and database sources support read and write. Other
-data sources may be read only or write only.
+data sources may only support read only, or write only methods.
 
 Here is a list of data sources:
 
@@ -95,8 +95,8 @@ See also :ref:`a-map-of-plugins-and-file-formats`.
 Data transformation
 --------------------------------------------------------------------------------
 
-Quite often, a developer would like to have the excel data in a Python data
-structures. This library supports the :ref:`conversions from<conversion-from>`
+Often a developer would like to have excel data imported into a Python data
+structure. This library supports the :ref:`conversions from<conversion-from>`
 previous three data source to the following list of data structures, and
 :ref:`vice versa<conversion-to>`.
 
@@ -114,28 +114,28 @@ previous three data source to the following list of data structures, and
    ======================================= ================================ =========================
 
 
-Data manipulations
+Data manipulation
 --------------------------------------------------------------------------------
 
 The main operation on a cell involves :ref:`cell access<access-to-cell>`,
 :ref:`formatting<formatting>` and :ref:`cleansing<cleansing>`. The main
-operation on a sheet involves the group access to a row or a column, data
-filtering and data transformation. The main operation in a book is obtain access
+operation on a sheet involves group access to a row or a column; data
+filtering; and data transformation. The main operation in a book is obtain access
 to individual sheets.
 
 
 Data transcoding
 --------------------------------------------------------------------------------
 
-For various reasons, the data in one format is to be transcoded into another
-format. This library provides the transcoding tunnel for data transcoding in
+For various reasons the data in one format needs to be transcoded into another.
+This library provides a transcoding tunnel for data transcoding 
 between supported file formats.
 
 Data visualization
 --------------------------------------------------------------------------------
 
 Via :class:`pyexel.renderer.AbstractRenderer` interface, data visualization
-is made possible. **pyexcel-chart** is the interface plugin to formalize the
+is made possible. **pyexcel-chart** is the interface plugin to formalize this
 effort. **pyexcel-pygal** is the first plugin to provide bar, pie, histogram
 charts and more.
 

@@ -25,7 +25,7 @@ product, please `support me on patreon <https://www.patreon.com/bePatron?u=55376
 maintain the project and develop it further.
 
 If you are an individual, you are welcome to support me too on patreon and for however long
-you feel like to. As a patreon, you will receive
+you feel like. As a patreon, you will receive
 `early access to pyexcel related contents <https://www.patreon.com/pyexcel/posts>`_.
 
 With your financial support, I will be able to invest
@@ -49,7 +49,7 @@ Feature Highlights
    * memory file
    * SQLAlchemy table
    * Django Model
-   * Python data stuctures: dictionary, records and array
+   * Python data structures: dictionary, records and array
 2. One application programming interface(API) to read and write data in various excel file formats.
 
 
@@ -57,7 +57,7 @@ Feature Highlights
 
 Installation
 ================================================================================
-You can install it via pip:
+You can install pyexcel via pip:
 
 .. code-block:: bash
 
@@ -113,7 +113,7 @@ Ceri      30
 Dean      26
 ========= ====
 
-you can easily save it into an excel file, using the following code.
+you can easily save it into an excel file using the following code.
 
 .. code-block:: python
 
@@ -140,7 +140,7 @@ you can easily save it into an excel file, using the following code.
    >>> pyexcel.save_as(records=a_list_of_dictionaries, dest_file_name="your_file.xls")
 
 
-Here are the method to obtain the records:
+And here's how to obtain the records:
 
 .. code-block:: python
    
