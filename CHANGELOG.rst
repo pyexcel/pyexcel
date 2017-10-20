@@ -14,6 +14,12 @@ Planned
    spreadsheets.
 
 
+0.5.5 - 27.09.2017 
+--------------------------------------------------------------------------------
+
+#. `#103 <https://github.com/pyexcel/pyexcel/issues/103>`_, include LICENSE file
+   in MANIFEST.in, meaning LICENSE file will appear in the released tar ball.
+
 0.5.4 - 27.09.2017 
 --------------------------------------------------------------------------------
 
