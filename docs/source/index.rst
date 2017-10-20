@@ -16,7 +16,7 @@ Introduction
 manipulate and write data in various excel formats. This library makes
 information processing involving excel files an enjoyable task. The data in
 excel files can be turned into :ref:`array or dict<a-list-of-data-structures>`
-with minimal code - and vice versa. This library focuses on data
+with minimal code and vice versa. This library focuses on data
 processing using excel files as storage media hence fonts, colors and charts
 were not and will not be considered.
 
@@ -35,7 +35,8 @@ install alternative to Pandas.
 Installation
 -------------
 
-You can install it via pip:
+
+You can install pyexcel via pip:
 
 .. code-block:: bash
 

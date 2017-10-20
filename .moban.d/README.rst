@@ -5,14 +5,14 @@
 Feature Highlights
 ===================
 
-1. One API to handle multiple data sources:
+1. One application programming interface(API) to handle multiple data sources:
 
    * physical file
    * memory file
    * SQLAlchemy table
    * Django Model
-   * Python data stuctures: dictionary, records and array
-2. One application programming interface(API) to read and write data in various excel file formats.
+   * Python data structures: dictionary, records and array
+2. One API to read and write data in various excel file formats.
 
 {% endblock %}
 
@@ -57,7 +57,7 @@ Ceri      30
 Dean      26
 ========= ====
 
-you can easily save it into an excel file, using the following code.
+you can easily save it into an excel file using the following code:
 
 .. code-block:: python
 
@@ -84,7 +84,7 @@ you can easily save it into an excel file, using the following code.
    >>> pyexcel.save_as(records=a_list_of_dictionaries, dest_file_name="your_file.xls")
 
 
-Here are the method to obtain the records:
+And here's how to obtain the records:
 
 .. code-block:: python
    

@@ -43,20 +43,21 @@ Introduction
 Feature Highlights
 ===================
 
-1. One API to handle multiple data sources:
+1. One application programming interface(API) to handle multiple data sources:
 
    * physical file
    * memory file
    * SQLAlchemy table
    * Django Model
    * Python data structures: dictionary, records and array
-2. One application programming interface(API) to read and write data in various excel file formats.
+2. One API to read and write data in various excel file formats.
 
 
 
 
 Installation
 ================================================================================
+
 You can install pyexcel via pip:
 
 .. code-block:: bash
@@ -113,7 +114,7 @@ Ceri      30
 Dean      26
 ========= ====
 
-you can easily save it into an excel file using the following code.
+you can easily save it into an excel file using the following code:
 
 .. code-block:: python
 

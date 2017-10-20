@@ -4,10 +4,10 @@ Introduction
 -------------
 
 **pyexcel** provides **one** application programming interface to read,
-manipulate and write data in different excel formats. This library makes
+manipulate and write data in various excel formats. This library makes
 information processing involving excel files an enjoyable task. The data in
 excel files can be turned into :ref:`array or dict<a-list-of-data-structures>`
-with least code, vice versa. This library focuses on data
+with minimal code and vice versa. This library focuses on data
 processing using excel files as storage media hence fonts, colors and charts
 were not and will not be considered.
 
@@ -75,7 +75,7 @@ Suppose you want to process the following excel data :
    Dean,26
 
 
-Here are the example usages:
+Here are some example uses:
 
 .. code-block:: python
 
