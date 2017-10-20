@@ -1,10 +1,10 @@
 # Template by setupmobans
 import os
+import sys
 import codecs
 from shutil import rmtree
 from setuptools import setup, find_packages, Command
 from platform import python_implementation
-import sys
 PY2 = sys.version_info[0] == 2
 PY26 = PY2 and sys.version_info[1] < 7
 
@@ -96,12 +96,12 @@ class PublishCommand(Command):
 
     def run(self):
         try:
-            self.status('Removing previous builds…')
+            self.status('Removing previous builds...')
             rmtree(os.path.join(here, 'dist'))
         except OSError:
             pass
 
-        self.status('Building Source and Wheel (universal) distribution…')
+        self.status('Building Source and Wheel (universal) distribution...')
         if os.system(GS_COMMAND) == 0:
             os.system(PUBLISH_COMMAND)
 
