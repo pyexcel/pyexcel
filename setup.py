@@ -70,12 +70,11 @@ EXTRAS_REQUIRE = {
     'xlsx': ['pyexcel-xlsx>=0.5.0'],
     'ods': ['pyexcel-ods3>=0.5.0'],
 }
+# You do not need to read beyond this line
 PUBLISH_COMMAND = '{0} setup.py sdist bdist_wheel upload -r pypi'.format(
     sys.executable)
 GS_COMMAND = ('gs pyexcel v0.5.5 ' +
               "Find 0.5.5 in changelog for more details")
-NO_GS_MESSAGE = ('Automatic github release is disabled. ' +
-                 'Please install gease to enable it.')
 here = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -116,6 +115,11 @@ class PublishCommand(Command):
 
 
 def has_gease():
+    """
+    test if github release command is installed
+
+    visit http://github.com/moremoban/gease for more info
+    """
     try:
         import gease  # noqa
         return True

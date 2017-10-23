@@ -9,7 +9,6 @@ python:
   - 3.4
   - 3.3
   - 2.7
-  - 2.6
 matrix:
   include:
     - python: 2.7
