@@ -14,13 +14,20 @@ Planned
    spreadsheets.
 
 
-0.5.5 - 20.10.2017 
+0.5.6 - 23.10.2017
+--------------------------------------------------------------------------------
+
+#. `#105 <https://github.com/pyexcel/pyexcel/issues/105>`_, remove gease
+   from setup_requires, introduced by 0.5.5.
+#. removed testing against python 2.6
+
+0.5.5 - 20.10.2017
 --------------------------------------------------------------------------------
 
 #. `#103 <https://github.com/pyexcel/pyexcel/issues/103>`_, include LICENSE file
    in MANIFEST.in, meaning LICENSE file will appear in the released tar ball.
 
-0.5.4 - 27.09.2017 
+0.5.4 - 27.09.2017
 --------------------------------------------------------------------------------
 
 #. `#100 <https://github.com/pyexcel/pyexcel/issues/100>`_, Sheet.to_dict() gets
