@@ -142,9 +142,9 @@ class TestCSVReaderDialect:
         f = open(self.testfile)
         content = '1:2:3:45:6:7:89:10:11:12'
         expected = ''
-        for l in f:
-            l = l.rstrip()
-            expected += l
+        for line in f:
+            line = line.rstrip()
+            expected += line
         assert expected == content
 
     def test_read_delimiter(self):
