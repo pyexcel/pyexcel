@@ -74,6 +74,8 @@ PUBLISH_COMMAND = '{0} setup.py sdist bdist_wheel upload -r pypi'.format(
     sys.executable)
 GS_COMMAND = ('gs pyexcel v0.5.5 ' +
               "Find 0.5.5 in changelog for more details")
+NO_GS_MESSAGE = ('Automatic github release is disabled. ' +
+                 'Please install gease to enable it.')
 here = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -102,10 +104,23 @@ class PublishCommand(Command):
             pass
 
         self.status('Building Source and Wheel (universal) distribution...')
-        if os.system(GS_COMMAND) == 0:
+        run_status = True
+        if has_gease():
+            run_status = os.system(GS_COMMAND) == 0
+        else:
+            self.status(NO_GS_MESSAGE)
+        if run_status:
             os.system(PUBLISH_COMMAND)
 
         sys.exit()
+
+
+def has_gease():
+    try:
+        import gease  # noqa
+        return True
+    except ImportError:
+        return False
 
 
 def read_files(*files):
@@ -168,7 +183,6 @@ if __name__ == '__main__':
         include_package_data=True,
         zip_safe=False,
         classifiers=CLASSIFIERS,
-        setup_requires=['gease'],
         cmdclass={
             'publish': PublishCommand,
         }
