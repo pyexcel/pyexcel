@@ -77,6 +77,8 @@ GS_COMMAND = ('gs pyexcel v0.5.6 ' +
               "Find 0.5.6 in changelog for more details")
 NO_GS_MESSAGE = ('Automatic github release is disabled. ' +
                  'Please install gease to enable it.')
+UPLOAD_FAILED_MSG = (
+    'Upload failed. please run "%s" yourself.' % PUBLISH_COMMAND)
 HERE = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -111,7 +113,8 @@ class PublishCommand(Command):
         else:
             self.status(NO_GS_MESSAGE)
         if run_status:
-            os.system(PUBLISH_COMMAND)
+            if os.system(PUBLISH_COMMAND) != 0:
+                self.status(UPLOAD_FAILED_MSG % PUBLISH_COMMAND)
 
         sys.exit()
 
