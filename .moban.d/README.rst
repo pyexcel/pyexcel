@@ -13,6 +13,7 @@ Feature Highlights
    * Django Model
    * Python data structures: dictionary, records and array
 2. One API to read and write data in various excel file formats.
+3. For large data sets, data streaming are supported. A genenerator can be returned to you. Checkout iget_records, iget_array, isave_as and isave_book_as. 
 
 {% endblock %}
 
