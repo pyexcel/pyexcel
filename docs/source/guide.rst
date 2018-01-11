@@ -70,5 +70,3 @@ Acceptance criteria
 #. Please update CHANGELOG.rst
 #. Please add yourself to CONTRIBUTORS.rst
 #. Agree on NEW BSD License for your contribution
-
-

@@ -9,14 +9,13 @@ PY2 = sys.version_info[0] == 2
 PY26 = PY2 and sys.version_info[1] < 7
 
 NAME = 'pyexcel'
-AUTHOR = 'C.W.'
-VERSION = '0.5.6'
+AUTHOR = 'C. Wang'
+VERSION = '0.5.7'
 EMAIL = 'wangc_2011@hotmail.com'
 LICENSE = 'New BSD'
 DESCRIPTION = (
-    'A wrapper library that provides one API to read, manipulate and write ' +
-    'data in different excel formats' +
-    ''
+    'A wrapper library that provides one API to read, manipulate and write' +
+    'data in different excel formats'
 )
 URL = 'https://github.com/pyexcel/pyexcel'
 DOWNLOAD_URL = '%s/archive/0.5.6.tar.gz' % URL

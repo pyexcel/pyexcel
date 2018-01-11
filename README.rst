@@ -5,7 +5,7 @@ pyexcel - Let you focus on data, instead of file formats
 .. image:: https://raw.githubusercontent.com/pyexcel/pyexcel.github.io/master/images/patreon.png
    :target: https://www.patreon.com/pyexcel
 
-.. image:: https://api.travis-ci.org/pyexcel/pyexcel.svg?branch=master
+.. image:: https://travis-ci.org/pyexcel/pyexcel.svg?branch=master
    :target: http://travis-ci.org/pyexcel/pyexcel
 
 .. image:: https://codecov.io/gh/pyexcel/pyexcel/branch/master/graph/badge.svg
@@ -27,6 +27,8 @@ maintain the project and develop it further.
 If you are an individual, you are welcome to support me too on patreon and for however long
 you feel like. As a patreon, you will receive
 `early access to pyexcel related contents <https://www.patreon.com/pyexcel/posts>`_.
+
+And your issues will get prioritized if you would like to become my patreon as `pyexcel pro user`.
 
 With your financial support, I will be able to invest
 a little bit more time in coding, documentation and writing interesting posts.
