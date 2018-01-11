@@ -20,3 +20,6 @@ targets:
   - test.bat: test.bat
   - .gitignore: commons-gitignore.jj2
   - "docs/source/index.rst": "docs/source/index.rst.jj2"
+  - output: CHANGELOG.rst
+    configuration: changelog.yml
+    template: CHANGELOG.rst.jj2

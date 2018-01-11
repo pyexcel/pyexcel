@@ -1,0 +1,349 @@
+releases:
+- changes:
+  - action: Planned
+    details:
+    - investigate if hidden columns could be supported
+    - update cookbook.py using 0.5.0 api
+    - refactor test code
+    - 'suppert missing pandas io features: use custom boolean values, write stylish  spreadsheets.'
+  date: unreleased
+  version: 0.6.0
+- changes:
+  - action: added
+    details:
+    - '`pyexcel-io#46`, expose  `bulk_save` to developer.'
+  date: 11.01.2018
+  version: 0.5.7
+- changes:
+  - action: removed
+    details:
+    - '`#105`, remove gease  from setup_requires, introduced by 0.5.5.'
+    - removed testing against python 2.6
+    - '`#103`, include LICENSE file  in MANIFEST.in, meaning LICENSE file will appear
+      in the released tar ball.'
+  date: 23.10.2017
+  version: 0.5.6
+- changes:
+  - action: removed
+    details:
+    - '`#105`, remove gease  from setup_requires, introduced by 0.5.5.'
+    - removed testing against python 2.6
+    - '`#103`, include LICENSE file  in MANIFEST.in, meaning LICENSE file will appear
+      in the released tar ball.'
+  date: 20.10.2017
+  version: 0.5.5
+- changes:
+  - action: fixed
+    details:
+    - '`#100`, Sheet.to_dict() gets  out of range error because there is only one
+      row.'
+  - action: updated
+    details:
+    - Updated the baseline of pyexcel-io to 0.5.1.
+  date: 27.09.2017
+  version: 0.5.4
+- changes:
+  - action: added
+    details:
+    - '`#95`, respect the order of  records in iget_records, isave_as and save_as.'
+    - '`#97`, new feature to allow  intuitive initialization of pyexcel.Book.'
+  date: 01-08-2017
+  version: 0.5.3
+- changes:
+  - action: Updated
+    details:
+    - embeded the enabler for pyexcel-htmlr. http source does not support text/html  as
+      mime type.
+  date: 26-07-2017
+  version: 0.5.2
+- changes:
+  - action: Updated
+    details:
+    - support saving SheetStream and BookStream to database targets. This is needed  for
+      pyexcel-webio and its downstream projects.
+  date: 12.06.2017
+  version: 0.5.1
+- changes:
+  - action: Added
+    details:
+    - Sheet.top() and Sheet.top_left() for data browsing
+    - add html as default rich display in Jupyter notebook when pyexcel-text  and
+      pyexcel-chart is installed
+    - add svg as default rich display in Jupyter notebook when pyexcel-chart and  one
+      of its implementation plugin(pyexcel-pygal, etc.) are is installed
+    - 'new dictionary source supported: a dictionary of key value pair could be  read
+      into a sheet.'
+    - added dynamic external plugin loading. meaning if a pyexcel plugin  is installed,
+      it will be loaded implicitly. And this change would remove  unnecessary info
+      log for those who do not use pyexcel-text and pyexcel-gal
+    - save_book_as before 0.5.0 becomes isave_book_as and save_book_as in 0.5.0  convert
+      BookStream to Book before saving.
+    - '`#83`, file closing mechanism  is enfored. free_resource is added and it should
+      be called when iget_array,  iget_records, isave_as and/or isave_book_as are
+      used.'
+  - action: Updated
+    details:
+    - array is passed to pyexcel.Sheet as reference. it means your array data will  be
+      modified.
+  - action: Removed
+    details:
+    - pyexcel.Writer and pyexcel.BookWriter were removed
+    - pyexcel.load_book_from_sql and pyexcel.load_from_sql were removed
+    - pyexcel.deprecated.load_from_query_sets,  pyexcel.deprecated.load_book_from_django_models
+      and  pyexcel.deprecated.load_from_django_model were removed
+    - Removed plugin loading code and lml is used instead
+  date: 19.06.2017
+  version: 0.5.0
+- changes:
+  - action: Updated
+    details:
+    - '`#80`: remove pyexcel-chart  import from v0.4.x'
+  date: 17.03.2017
+  version: 0.4.5
+- changes:
+  - action: Updated
+    details:
+    - '`#68`: regression  save_to_memory() should have returned a stream instance
+      which has  been reset to zero if possible. The exception is sys.stdout, which
+      cannot  be reset.'
+    - '`#74`: Not able to  handle decimal.Decimal'
+  - action: Removed
+    details:
+    - remove get_{{file_type}}_stream functions from pyexcel.Sheet and  pyexcel.Book
+      introduced since 0.4.3.
+  date: 06.02.2017
+  version: 0.4.4
+- changes:
+  - action: Added
+    details:
+    - '''.stream'' attribute are attached to `~pyexcel.Sheet` and  `~pyexcel.Book`
+      to get direct access the underneath stream  in responding to file type attributes,
+      such as sheet.xls. it helps provide a custom  stream to external world, for
+      example, Sheet.stream.csv gives a text stream  that contains csv formatted data.
+      Book.stream.xls returns a xls format  data in a byte stream.'
+  - action: Updated
+    details:
+    - Better error reporting when an unknown parameters or unsupported file types  were
+      given to the signature functions.
+  date: 26.01.2017
+  version: 0.4.3
+- changes:
+  - action: Updated
+    details:
+    - Raise exception if the incoming sheet does not have column names. In other  words,
+      only sheet with column names could be saved to database. sheet with  row names
+      cannot be saved. The alternative is to transpose the sheet, then  name_columns_by_row
+      and then save.
+    - fix iget_records where a non-uniform content should be given,  e.g. [["x", "y"],
+      [1, 2], [3]], some record would become non-uniform, e.g.  key 'y' would be missing
+      from the second record.
+    - '`skip_empty_rows` is applicable when saving a python data structure to  another
+      data source. For example, if your array contains a row which is  consisted of
+      empty string, such as ['''', '''', '''' ... ''''], please specify  `skip_empty_rows=False`
+      in order to preserve it. This becomes subtle when  you try save a python dictionary
+      where empty rows is not easy to be spotted.'
+    - '`#69`: better documentation  for save_book_as.'
+  date: 17.01.2017
+  version: 0.4.2
+- changes:
+  - action: Updated
+    details:
+    - '`#68`: regression  save_to_memory() should have returned a stream instance.'
+  date: 23.12.2016
+  version: 0.4.1
+- changes:
+  - action: Added
+    details:
+    - '`Flask-Excel#19`  allow sheet_name parameter'
+    - '`pyexcel-xls#11`  case-insensitive for file_type. `xls` and `XLS` are treated
+      in the same way'
+  - action: Updated
+    details:
+    - '`#66`: `export_columns` is  ignored'
+    - Update dependency on pyexcel-io v0.3.0
+  date: 22.12.2016
+  version: 0.4.0
+- changes:
+  - action: Updated
+    details:
+    - '`#63`: cannot display  empty sheet(hence book with empty sheet) as texttable'
+  date: 07.11.2016
+  version: 0.3.3
+- changes:
+  - action: Updated
+    details:
+    - '`#62`: optional module  import error become visible.'
+  date: 02.11.2016
+  version: 0.3.2
+- changes:
+  - action: 'Added:'
+    details:
+    - file type setters for Sheet and Book, and its documentation
+    - '`iget_records` returns a generator for a list of records and should have  better
+      memory performance, especially dealing with large csv files.'
+    - '`iget_array` returns a generator for a list of two dimensional array and  should
+      have better memory performance, especially dealing with large csv  files.'
+    - Enable pagination support, and custom row renderer via pyexcel-io v0.2.3
+  - action: Updated
+    details:
+    - Take `isave_as` out from `save_as`. Hence two functions are there for save  a
+      sheet as
+    - '`#60`: encode ''utf-8'' if  the console is of ascii encoding.'
+    - '`#59`: custom row  renderer'
+    - '`#56`: set cell value does  not work'
+    - pyexcel.transpose becomes `pyexcel.sheets.transpose`
+    - iterator functions of `pyexcel.Sheet` were converted to generator  functions:
+      - '`pyexcel.Sheet.enumerate()`'
+      - '`pyexcel.Sheet.reverse()`'
+      - '`pyexcel.Sheet.vertical()`'
+      - '`pyexcel.Sheet.rvertical()`'
+      - '`pyexcel.Sheet.rows()`'
+      - '`pyexcel.Sheet.rrows()`'
+      - '`pyexcel.Sheet.columns()`'
+      - '`pyexcel.Sheet.rcolumns()`'
+      - '`pyexcel.Sheet.named_rows()`'
+      - '`pyexcel.Sheet.named_columns()`'
+    - '`~pyexcel.Sheet.save_to_memory` and `~pyexcel.Book.save_to_memory`  return
+      the actual content. No longer they will return a io object hence  you cannot
+      call getvalue() on them.'
+  - action: 'Removed:'
+    details:
+    - '`content` and `out_file` as function parameters to the signature functions
+      are  no longer supported.'
+    - SourceFactory and RendererFactory are removed
+    - The following methods are removed:
+      - '`pyexcel.to_array`'
+      - '`pyexcel.to_dict`'
+      - '`pyexcel.utils.to_one_dimensional_array`'
+      - '`pyexcel.dict_to_array`'
+      - '`pyexcel.from_records`'
+      - '`pyexcel.to_records`'
+    - '`pyexcel.Sheet.filter` has been re-implemented and all filters were  removed:':
+      - '`pyexcel.filters.ColumnIndexFilter`'
+      - '`pyexcel.filters.ColumnFilter`'
+      - '`pyexcel.filters.RowFilter`'
+      - '`pyexcel.filters.EvenColumnFilter`'
+      - '`pyexcel.filters.OddColumnFilter`'
+      - '`pyexcel.filters.EvenRowFilter`'
+      - '`pyexcel.filters.OddRowFilter`'
+      - '`pyexcel.filters.RowIndexFilter`'
+      - '`pyexcel.filters.SingleColumnFilter`'
+      - '`pyexcel.filters.RowValueFilter`'
+      - '`pyexcel.filters.NamedRowValueFilter`'
+      - '`pyexcel.filters.ColumnValueFilter`'
+      - '`pyexcel.filters.NamedColumnValueFilter`'
+      - '`pyexcel.filters.SingleRowFilter`'
+    - the following functions have been removed:
+      - '`add_formatter`'
+      - '`remove_formatter`'
+      - '`clear_formatters`'
+      - '`freeze_formatters`'
+      - '`add_filter`'
+      - '`remove_filter`'
+      - '`clear_filters`'
+      - '`freeze_formatters`'
+    - '`pyexcel.Sheet.filter` has been re-implemented and all filters were  removed:':
+      - pyexcel.formatters.SheetFormatter
+  date: 28.10.2016
+  version: 0.3.0
+- changes:
+  - action: 'Updated:'
+    details:
+    - '`#58`: texttable should  have been made as compulsory requirement'
+  date: 31.08.2016
+  version: 0.2.5
+- changes:
+  - action: 'Updated:'
+    details:
+    - For python 2, writing to sys.stdout by pyexcel-cli raise IOError.
+  date: 14.07.2016
+  version: 0.2.4
+- changes:
+  - action: 'Updated:'
+    details:
+    - For python 3, do not seek 0 when saving to memory if sys.stdout is passed on.  Hence,
+      adding support for sys.stdin and sys.stdout.
+  date: 11.07.2016
+  version: 0.2.3
+- changes:
+  - action: 'Updated:'
+    details:
+    - Explicit imports, no longer needed
+    - Depends on latest setuptools 18.0.1
+    - NotImplementedError will be raised if parameters to core functions are not supported,
+      e.g. get_sheet(cannot_find_me_option="will be thrown out as NotImplementedError")
+  date: 01.06.2016
+  version: 0.2.2
+- changes:
+  - action: 'Added:'
+    details:
+    - add pyexcel-text file types as attributes of pyexcel.Sheet and pyexcel.Book,
+      related to `#31`_
+    - auto import pyexcel-text if it is pip installed
+  - action: 'Updated:'
+    details:
+    - code refactoring done for easy addition of sources.
+    - bug fix `#29`_, Even if the format is a string it is displayed as a float
+    - pyexcel-text is no longer a plugin to pyexcel-io but to pyexcel.sources, see
+      `pyexcel-text#22`_
+  - action: 'Removed:'
+    details:
+    - pyexcel.presentation is removed. No longer the internal decorate @outsource
+      is used. related to `#31`
+  date: 23.04.2016
+  version: 0.2.1
+- changes:
+  - action: Updated
+    details:
+    - adopt pyexcel-io yield key word to return generator as content
+    - pyexcel.save_as and pyexcel.save_book_as get performance improvements
+  date: 17.01.2016
+  version: 0.2.0
+- changes:
+  - action: Added
+    details:
+    - Support pyramid-excel which does the database commit on its own.
+  date: 03.07.2015
+  version: 0.1.7
+- changes:
+  - action: Added
+    details:
+    - get excel data from a http url
+  date: 13.06.2015
+  version: 0.1.6
+- changes:
+  - action: Added
+    details:
+    - Support django
+    - texttable as default renderer
+  date: 07.02.2015
+  version: 0.0.13
+- changes:
+  - action: Added
+    details:
+    - Added sqlalchemy support
+  date: 25.01.2015
+  version: 0.0.12
+- changes:
+  - action: Added
+    details:
+    - added csvz and tsvz format
+  date: 15.12.2015
+  version: 0.0.10
+- changes:
+  - action: Updated
+    details:
+    - Support python 3
+  date: 12.10.2014
+  version: 0.0.4
+- changes:
+  - action: 'Features:'
+    details:
+    - read and write csv, ods, xls, xlsx and xlsm files(which are referred later  as
+      excel files)
+    - various iterators for the reader
+    - row and column filters for the reader
+    - utilities to get array and dictionary out from excel files.
+    - cookbok receipes for some common and simple usage of this library.
+  date: 14.09.2014
+  version: 0.0.1
