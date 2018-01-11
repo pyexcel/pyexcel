@@ -14,6 +14,7 @@ pyexcel.internal.generators.SheetStream
    .. autosummary::
    
       ~SheetStream.__init__
+      ~SheetStream.get_internal_array
       ~SheetStream.to_array
    
    

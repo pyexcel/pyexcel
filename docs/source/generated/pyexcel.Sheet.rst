@@ -35,6 +35,9 @@ pyexcel.Sheet
       ~Sheet.get_csv
       ~Sheet.get_csvz
       ~Sheet.get_dict
+      ~Sheet.get_echarts_html
+      ~Sheet.get_fods
+      ~Sheet.get_gantt_html
       ~Sheet.get_grid
       ~Sheet.get_handsontable_html
       ~Sheet.get_html
@@ -43,13 +46,16 @@ pyexcel.Sheet
       ~Sheet.get_latex
       ~Sheet.get_latex_booktabs
       ~Sheet.get_mediawiki
+      ~Sheet.get_ndjson
       ~Sheet.get_ods
       ~Sheet.get_orgtbl
+      ~Sheet.get_pdf
       ~Sheet.get_pipe
       ~Sheet.get_plain
       ~Sheet.get_records
       ~Sheet.get_rst
       ~Sheet.get_simple
+      ~Sheet.get_sortable_html
       ~Sheet.get_svg
       ~Sheet.get_texttable
       ~Sheet.get_tsv
@@ -91,6 +97,9 @@ pyexcel.Sheet
       ~Sheet.set_csv
       ~Sheet.set_csvz
       ~Sheet.set_dict
+      ~Sheet.set_echarts_html
+      ~Sheet.set_fods
+      ~Sheet.set_gantt_html
       ~Sheet.set_grid
       ~Sheet.set_handsontable_html
       ~Sheet.set_html
@@ -100,14 +109,17 @@ pyexcel.Sheet
       ~Sheet.set_mediawiki
       ~Sheet.set_named_column_at
       ~Sheet.set_named_row_at
+      ~Sheet.set_ndjson
       ~Sheet.set_ods
       ~Sheet.set_orgtbl
+      ~Sheet.set_pdf
       ~Sheet.set_pipe
       ~Sheet.set_plain
       ~Sheet.set_records
       ~Sheet.set_row_at
       ~Sheet.set_rst
       ~Sheet.set_simple
+      ~Sheet.set_sortable_html
       ~Sheet.set_svg
       ~Sheet.set_texttable
       ~Sheet.set_tsv
@@ -139,6 +151,9 @@ pyexcel.Sheet
       ~Sheet.csv
       ~Sheet.csvz
       ~Sheet.dict
+      ~Sheet.echarts_html
+      ~Sheet.fods
+      ~Sheet.gantt_html
       ~Sheet.grid
       ~Sheet.handsontable_html
       ~Sheet.html
@@ -146,14 +161,17 @@ pyexcel.Sheet
       ~Sheet.latex
       ~Sheet.latex_booktabs
       ~Sheet.mediawiki
+      ~Sheet.ndjson
       ~Sheet.ods
       ~Sheet.orgtbl
+      ~Sheet.pdf
       ~Sheet.pipe
       ~Sheet.plain
       ~Sheet.records
       ~Sheet.rownames
       ~Sheet.rst
       ~Sheet.simple
+      ~Sheet.sortable_html
       ~Sheet.stream
       ~Sheet.svg
       ~Sheet.texttable

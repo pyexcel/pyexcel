@@ -19,6 +19,9 @@ pyexcel.Book
       ~Book.get_csv
       ~Book.get_csvz
       ~Book.get_dict
+      ~Book.get_echarts_html
+      ~Book.get_fods
+      ~Book.get_gantt_html
       ~Book.get_grid
       ~Book.get_handsontable_html
       ~Book.get_html
@@ -26,13 +29,16 @@ pyexcel.Book
       ~Book.get_latex
       ~Book.get_latex_booktabs
       ~Book.get_mediawiki
+      ~Book.get_ndjson
       ~Book.get_ods
       ~Book.get_orgtbl
+      ~Book.get_pdf
       ~Book.get_pipe
       ~Book.get_plain
       ~Book.get_records
       ~Book.get_rst
       ~Book.get_simple
+      ~Book.get_sortable_html
       ~Book.get_svg
       ~Book.get_texttable
       ~Book.get_tsv
@@ -58,6 +64,9 @@ pyexcel.Book
       ~Book.set_csv
       ~Book.set_csvz
       ~Book.set_dict
+      ~Book.set_echarts_html
+      ~Book.set_fods
+      ~Book.set_gantt_html
       ~Book.set_grid
       ~Book.set_handsontable_html
       ~Book.set_html
@@ -65,13 +74,16 @@ pyexcel.Book
       ~Book.set_latex
       ~Book.set_latex_booktabs
       ~Book.set_mediawiki
+      ~Book.set_ndjson
       ~Book.set_ods
       ~Book.set_orgtbl
+      ~Book.set_pdf
       ~Book.set_pipe
       ~Book.set_plain
       ~Book.set_records
       ~Book.set_rst
       ~Book.set_simple
+      ~Book.set_sortable_html
       ~Book.set_svg
       ~Book.set_texttable
       ~Book.set_tsv
@@ -98,6 +110,9 @@ pyexcel.Book
       ~Book.csv
       ~Book.csvz
       ~Book.dict
+      ~Book.echarts_html
+      ~Book.fods
+      ~Book.gantt_html
       ~Book.grid
       ~Book.handsontable_html
       ~Book.html
@@ -105,13 +120,16 @@ pyexcel.Book
       ~Book.latex
       ~Book.latex_booktabs
       ~Book.mediawiki
+      ~Book.ndjson
       ~Book.ods
       ~Book.orgtbl
+      ~Book.pdf
       ~Book.pipe
       ~Book.plain
       ~Book.records
       ~Book.rst
       ~Book.simple
+      ~Book.sortable_html
       ~Book.stream
       ~Book.svg
       ~Book.texttable

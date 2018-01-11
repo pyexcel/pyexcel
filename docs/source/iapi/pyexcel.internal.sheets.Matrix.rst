@@ -33,6 +33,9 @@ pyexcel.internal.sheets.Matrix
       ~Matrix.get_csv
       ~Matrix.get_csvz
       ~Matrix.get_dict
+      ~Matrix.get_echarts_html
+      ~Matrix.get_fods
+      ~Matrix.get_gantt_html
       ~Matrix.get_grid
       ~Matrix.get_handsontable_html
       ~Matrix.get_html
@@ -41,13 +44,16 @@ pyexcel.internal.sheets.Matrix
       ~Matrix.get_latex
       ~Matrix.get_latex_booktabs
       ~Matrix.get_mediawiki
+      ~Matrix.get_ndjson
       ~Matrix.get_ods
       ~Matrix.get_orgtbl
+      ~Matrix.get_pdf
       ~Matrix.get_pipe
       ~Matrix.get_plain
       ~Matrix.get_records
       ~Matrix.get_rst
       ~Matrix.get_simple
+      ~Matrix.get_sortable_html
       ~Matrix.get_svg
       ~Matrix.get_texttable
       ~Matrix.get_tsv
@@ -82,6 +88,9 @@ pyexcel.internal.sheets.Matrix
       ~Matrix.set_csv
       ~Matrix.set_csvz
       ~Matrix.set_dict
+      ~Matrix.set_echarts_html
+      ~Matrix.set_fods
+      ~Matrix.set_gantt_html
       ~Matrix.set_grid
       ~Matrix.set_handsontable_html
       ~Matrix.set_html
@@ -89,14 +98,17 @@ pyexcel.internal.sheets.Matrix
       ~Matrix.set_latex
       ~Matrix.set_latex_booktabs
       ~Matrix.set_mediawiki
+      ~Matrix.set_ndjson
       ~Matrix.set_ods
       ~Matrix.set_orgtbl
+      ~Matrix.set_pdf
       ~Matrix.set_pipe
       ~Matrix.set_plain
       ~Matrix.set_records
       ~Matrix.set_row_at
       ~Matrix.set_rst
       ~Matrix.set_simple
+      ~Matrix.set_sortable_html
       ~Matrix.set_svg
       ~Matrix.set_texttable
       ~Matrix.set_tsv
@@ -122,6 +134,9 @@ pyexcel.internal.sheets.Matrix
       ~Matrix.csv
       ~Matrix.csvz
       ~Matrix.dict
+      ~Matrix.echarts_html
+      ~Matrix.fods
+      ~Matrix.gantt_html
       ~Matrix.grid
       ~Matrix.handsontable_html
       ~Matrix.html
@@ -129,13 +144,16 @@ pyexcel.internal.sheets.Matrix
       ~Matrix.latex
       ~Matrix.latex_booktabs
       ~Matrix.mediawiki
+      ~Matrix.ndjson
       ~Matrix.ods
       ~Matrix.orgtbl
+      ~Matrix.pdf
       ~Matrix.pipe
       ~Matrix.plain
       ~Matrix.records
       ~Matrix.rst
       ~Matrix.simple
+      ~Matrix.sortable_html
       ~Matrix.stream
       ~Matrix.svg
       ~Matrix.texttable
