@@ -51,6 +51,9 @@ class FakeDjangoModel:
     def __call__(self, **keywords):
         return keywords
 
+    def save(self):
+        pass
+
 
 class TestVerticalSheet:
     def setUp(self):
@@ -223,6 +226,16 @@ class TestBook:
         book.save_to_django_models([model1, model2])
         assert model1.objects.objs == self.result1
         assert model2.objects.objs == self.result2
+
+    @raises(AttributeError)
+    def test_book_save_to_models_with_bulk_save_false(self):
+        """
+        same to previous test but with different parameters
+        """
+        model1 = FakeDjangoModel("Sheet1")
+        model2 = FakeDjangoModel("Sheet2")
+        book = pe.Book(self.content)
+        book.save_to_django_models([model1, model2], bulk_save=False)
 
     def test_model_save_to_models(self):
         model = FakeDjangoModel("Sheet1")

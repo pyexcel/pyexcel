@@ -353,7 +353,7 @@ class BookMeta(PyexcelObject):
 
     def save_to_django_models(self, models,
                               initializers=None, mapdicts=None,
-                              batch_size=None):
+                              **keywords):
         """
         Save to database table through django model
 
@@ -367,12 +367,17 @@ class BookMeta(PyexcelObject):
                              tables and the sequence should match tables,
         :param mapdicts: custom map dictionary for your data columns
                          and the sequence should match tables
+
+        optional parameters:
+        :param batch_size: django bulk_create batch size
+        :param bulk_save: whether to use bulk_create or to use single save
+                          per record
         """
         save_book(self,
                   models=models,
                   initializers=initializers,
                   mapdicts=mapdicts,
-                  batch_size=batch_size)
+                  **keywords)
 
     def save_to_database(self, session, tables,
                          initializers=None, mapdicts=None,
