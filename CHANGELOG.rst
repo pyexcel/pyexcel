@@ -14,7 +14,7 @@ Planned
    spreadsheets.
 
 
-0.5.7 - unreleased
+0.5.7 - 11.01.2018
 --------------------------------------------------------------------------------
 
 #. `pyexcel-io#46 <https://github.com/pyexcel/pyexcel-io/issues/46>`_, expose
