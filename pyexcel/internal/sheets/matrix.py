@@ -80,7 +80,7 @@ class Matrix(SheetMeta):
         :param int column: column index which starts from 0
         :param any new_value: new value if this is to set the value
         """
-        if row in self.row_range() and column in self.column_range():
+        if row < self.number_of_rows() and column < self.number_of_columns():
             if new_value is None:
                 # get
                 return self.__array[row][column]
