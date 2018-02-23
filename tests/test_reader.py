@@ -321,3 +321,23 @@ class TestSeriesReader5:
 
     def tearDown(self):
         clean_up_files([self.testfile])
+
+
+def test_cell_value_boundary():
+    data = [
+        [0, 1],
+        [10, 11]
+    ]
+    sheet = Sheet(data)
+    value = sheet.cell_value(1, 1)
+    eq_(value, 11)
+
+
+@raises(IndexError)
+def test_cell_value_outside_boundary():
+    data = [
+        [0, 1],
+        [10, 11]
+    ]
+    sheet = Sheet(data)
+    sheet.cell_value(1, 2)
