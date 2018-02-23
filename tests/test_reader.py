@@ -328,7 +328,7 @@ def test_cell_value_boundary():
         [0, 1],
         [10, 11]
     ]
-    sheet = Sheet(data)
+    sheet = pe.Sheet(data)
     value = sheet.cell_value(1, 1)
     eq_(value, 11)
 
@@ -339,5 +339,5 @@ def test_cell_value_outside_boundary():
         [0, 1],
         [10, 11]
     ]
-    sheet = Sheet(data)
+    sheet = pe.Sheet(data)
     sheet.cell_value(1, 2)
