@@ -15,8 +15,8 @@ dependences. For example, if you choose pyexcel-xls, xlrd and xlwt will
 be brought in as 2nd level depndencies.
 
 Looking at the following architectural diagram, pyexcel hosts plugin
-interfaces for data source, data renderer and data parser. pyexel-pygal,
-pyexcel-matplotlib, and pyexce-handsontable extend pyexcel using data
+interfaces for data source, data renderer and data parser. pyexcel-pygal,
+pyexcel-matplotlib, and pyexcel-handsontable extend pyexcel using data
 renderer interface. pyexcel-io package takes away the responsibilities
 to interface with excel libraries, for example: xlrd, openpyxl, ezodf.
 

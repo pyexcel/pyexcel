@@ -94,16 +94,15 @@ Here is the code::
    >>> from pyexcel.cookbook import update_rows
    >>> custom_row = {"Row 1":[11, 12, 13]}
    >>> update_rows("example.xls", custom_row, "output.xls")
-
-Your output.xls will have these data:
-
-======== ======== ========
-Column 1 Column 2 Column 3
-======== ======== ========
-7        4        1
-2        5        8
-3        6        9
-======== ======== ========
+   >>> pyexcel.get_sheet(file_name="output.xls")
+   pyexcel sheet:
+   +-------+----+----+----+
+   | Row 1 | 11 | 12 | 13 |
+   +-------+----+----+----+
+   | Row 2 | 4  | 5  | 6  |
+   +-------+----+----+----+
+   | Row 3 | 7  | 8  | 9  |
+   +-------+----+----+----+
 
 .. testcode::
    :hide:
