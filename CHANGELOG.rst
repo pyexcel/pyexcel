@@ -13,13 +13,27 @@ Planned
 #. suppert missing pandas io features: use custom boolean values, write stylish
    spreadsheets.
 
+0.5.8 - unreleased
+--------------------------------------------------------------------------------
+
+added
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. `#125 <https://github.com/pyexcel/pyexcel/issues/125>`_, sort book sheets
+
+updated
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. `#126 <https://github.com/pyexcel/pyexcel/issues/126>`_, dest_sheet_name in
+   save_as will set the sheet name in the output
+
 0.5.7 - 11.01.2018
 --------------------------------------------------------------------------------
 
 added
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. `pyexcel-io#46 <https://github.com//pyexcel-io/issues/46>`_, expose
+#. `pyexcel-io#46 <https://github.com/pyexcel/pyexcel-io/issues/46>`_, expose
    `bulk_save` to developer.
 
 0.5.6 - 23.10.2017
@@ -28,11 +42,11 @@ added
 removed
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. `#105 <https://github.com///issues/105>`_, remove gease from setup_requires,
-   introduced by 0.5.5.
+#. `#105 <https://github.com/pyexcel/pyexcel/issues/105>`_, remove gease from
+   setup_requires, introduced by 0.5.5.
 #. removed testing against python 2.6
-#. `#103 <https://github.com///issues/103>`_, include LICENSE file in
-   MANIFEST.in, meaning LICENSE file will appear in the released tar ball.
+#. `#103 <https://github.com/pyexcel/pyexcel/issues/103>`_, include LICENSE file
+   in MANIFEST.in, meaning LICENSE file will appear in the released tar ball.
 
 0.5.5 - 20.10.2017
 --------------------------------------------------------------------------------
@@ -40,11 +54,11 @@ removed
 removed
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. `#105 <https://github.com///issues/105>`_, remove gease from setup_requires,
-   introduced by 0.5.5.
+#. `#105 <https://github.com/pyexcel/pyexcel/issues/105>`_, remove gease from
+   setup_requires, introduced by 0.5.5.
 #. removed testing against python 2.6
-#. `#103 <https://github.com///issues/103>`_, include LICENSE file in
-   MANIFEST.in, meaning LICENSE file will appear in the released tar ball.
+#. `#103 <https://github.com/pyexcel/pyexcel/issues/103>`_, include LICENSE file
+   in MANIFEST.in, meaning LICENSE file will appear in the released tar ball.
 
 0.5.4 - 27.09.2017
 --------------------------------------------------------------------------------
@@ -52,8 +66,8 @@ removed
 fixed
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. `#100 <https://github.com///issues/100>`_, Sheet.to_dict() gets out of range
-   error because there is only one row.
+#. `#100 <https://github.com/pyexcel/pyexcel/issues/100>`_, Sheet.to_dict() gets
+   out of range error because there is only one row.
 
 updated
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -66,10 +80,10 @@ updated
 added
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. `#95 <https://github.com///issues/95>`_, respect the order of records in
-   iget_records, isave_as and save_as.
-#. `#97 <https://github.com///issues/97>`_, new feature to allow intuitive
-   initialization of pyexcel.Book.
+#. `#95 <https://github.com/pyexcel/pyexcel/issues/95>`_, respect the order of
+   records in iget_records, isave_as and save_as.
+#. `#97 <https://github.com/pyexcel/pyexcel/issues/97>`_, new feature to allow
+   intuitive initialization of pyexcel.Book.
 
 0.5.2 - 26-07-2017
 --------------------------------------------------------------------------------
@@ -107,9 +121,9 @@ Added
    unnecessary info log for those who do not use pyexcel-text and pyexcel-gal
 #. save_book_as before 0.5.0 becomes isave_book_as and save_book_as in 0.5.0
    convert BookStream to Book before saving.
-#. `#83 <https://github.com///issues/83>`_, file closing mechanism is enfored.
-   free_resource is added and it should be called when iget_array, iget_records,
-   isave_as and/or isave_book_as are used.
+#. `#83 <https://github.com/pyexcel/pyexcel/issues/83>`_, file closing mechanism
+   is enfored. free_resource is added and it should be called when iget_array,
+   iget_records, isave_as and/or isave_book_as are used.
 
 Updated
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -133,8 +147,8 @@ Removed
 Updated
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. `#80 <https://github.com///issues/80>`_: remove pyexcel-chart import from
-   v0.4.x
+#. `#80 <https://github.com/pyexcel/pyexcel/issues/80>`_: remove pyexcel-chart
+   import from v0.4.x
 
 0.4.4 - 06.02.2017
 --------------------------------------------------------------------------------
@@ -142,10 +156,11 @@ Updated
 Updated
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. `#68 <https://github.com///issues/68>`_: regression save_to_memory() should
-   have returned a stream instance which has been reset to zero if possible. The
-   exception is sys.stdout, which cannot be reset.
-#. `#74 <https://github.com///issues/74>`_: Not able to handle decimal.Decimal
+#. `#68 <https://github.com/pyexcel/pyexcel/issues/68>`_: regression
+   save_to_memory() should have returned a stream instance which has been reset
+   to zero if possible. The exception is sys.stdout, which cannot be reset.
+#. `#74 <https://github.com/pyexcel/pyexcel/issues/74>`_: Not able to handle
+   decimal.Decimal
 
 Removed
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -189,8 +204,8 @@ Updated
    consisted of empty string, such as ['', '', '' ... ''], please specify
    `skip_empty_rows=False` in order to preserve it. This becomes subtle when you
    try save a python dictionary where empty rows is not easy to be spotted.
-#. `#69 <https://github.com///issues/69>`_: better documentation for
-   save_book_as.
+#. `#69 <https://github.com/pyexcel/pyexcel/issues/69>`_: better documentation
+   for save_book_as.
 
 0.4.1 - 23.12.2016
 --------------------------------------------------------------------------------
@@ -198,8 +213,8 @@ Updated
 Updated
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. `#68 <https://github.com///issues/68>`_: regression save_to_memory() should
-   have returned a stream instance.
+#. `#68 <https://github.com/pyexcel/pyexcel/issues/68>`_: regression
+   save_to_memory() should have returned a stream instance.
 
 0.4.0 - 22.12.2016
 --------------------------------------------------------------------------------
@@ -207,15 +222,16 @@ Updated
 Added
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. `Flask-Excel#19 <https://github.com//Flask-Excel/issues/19>`_ allow
+#. `Flask-Excel#19 <https://github.com/pyexcel/Flask-Excel/issues/19>`_ allow
    sheet_name parameter
-#. `pyexcel-xls#11 <https://github.com//pyexcel-xls/issues/11>`_
+#. `pyexcel-xls#11 <https://github.com/pyexcel/pyexcel-xls/issues/11>`_
    case-insensitive for file_type. `xls` and `XLS` are treated in the same way
 
 Updated
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. `#66 <https://github.com///issues/66>`_: `export_columns` is ignored
+#. `#66 <https://github.com/pyexcel/pyexcel/issues/66>`_: `export_columns` is
+   ignored
 #. Update dependency on pyexcel-io v0.3.0
 
 0.3.3 - 07.11.2016
@@ -224,8 +240,8 @@ Updated
 Updated
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. `#63 <https://github.com///issues/63>`_: cannot display empty sheet(hence
-   book with empty sheet) as texttable
+#. `#63 <https://github.com/pyexcel/pyexcel/issues/63>`_: cannot display empty
+   sheet(hence book with empty sheet) as texttable
 
 0.3.2 - 02.11.2016
 --------------------------------------------------------------------------------
@@ -233,8 +249,8 @@ Updated
 Updated
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. `#62 <https://github.com///issues/62>`_: optional module import error become
-   visible.
+#. `#62 <https://github.com/pyexcel/pyexcel/issues/62>`_: optional module import
+   error become visible.
 
 0.3.0 - 28.10.2016
 --------------------------------------------------------------------------------
@@ -255,10 +271,11 @@ Updated
 
 #. Take `isave_as` out from `save_as`. Hence two functions are there for save a
    sheet as
-#. `#60 <https://github.com///issues/60>`_: encode 'utf-8' if the console is of
-   ascii encoding.
-#. `#59 <https://github.com///issues/59>`_: custom row renderer
-#. `#56 <https://github.com///issues/56>`_: set cell value does not work
+#. `#60 <https://github.com/pyexcel/pyexcel/issues/60>`_: encode 'utf-8' if the
+   console is of ascii encoding.
+#. `#59 <https://github.com/pyexcel/pyexcel/issues/59>`_: custom row renderer
+#. `#56 <https://github.com/pyexcel/pyexcel/issues/56>`_: set cell value does
+   not work
 #. pyexcel.transpose becomes `pyexcel.sheets.transpose`
 #. iterator functions of `pyexcel.Sheet` were converted to generator functions
 
@@ -331,8 +348,8 @@ Removed:
 Updated:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. `#58 <https://github.com///issues/58>`_: texttable should have been made as
-   compulsory requirement
+#. `#58 <https://github.com/pyexcel/pyexcel/issues/58>`_: texttable should have
+   been made as compulsory requirement
 
 0.2.4 - 14.07.2016
 --------------------------------------------------------------------------------
@@ -370,23 +387,23 @@ Added:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 #. add pyexcel-text file types as attributes of pyexcel.Sheet and pyexcel.Book,
-   related to `#31 <https://github.com///issues/31>`__
+   related to `#31 <https://github.com/pyexcel/pyexcel/issues/31>`__
 #. auto import pyexcel-text if it is pip installed
 
 Updated:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 #. code refactoring done for easy addition of sources.
-#. bug fix `#29 <https://github.com///issues/29>`__, Even if the format is a
-   string it is displayed as a float
+#. bug fix `#29 <https://github.com/pyexcel/pyexcel/issues/29>`__, Even if the
+   format is a string it is displayed as a float
 #. pyexcel-text is no longer a plugin to pyexcel-io but to pyexcel.sources, see
-   `pyexcel-text#22 <https://github.com//pyexcel-text/issues/22>`__
+   `pyexcel-text#22 <https://github.com/pyexcel/pyexcel-text/issues/22>`__
 
 Removed:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 #. pyexcel.presentation is removed. No longer the internal decorate @outsource
-   is used. related to `#31 <https://github.com///issues/31>`_
+   is used. related to `#31 <https://github.com/pyexcel/pyexcel/issues/31>`_
 
 0.2.0 - 17.01.2016
 --------------------------------------------------------------------------------

@@ -1,3 +1,5 @@
+name: pyexcel
+organisation: pyexcel
 releases:
 - changes:
   - action: Planned
@@ -8,6 +10,15 @@ releases:
     - 'suppert missing pandas io features: use custom boolean values, write stylish  spreadsheets.'
   date: unreleased
   version: 0.6.0
+- changes:
+  - action: added
+    details:
+    - '`#125`, sort book sheets'
+  - action: updated
+    details:
+    - '`#126`, dest_sheet_name in save_as will set the sheet name in the output'
+  date: unreleased
+  version: 0.5.8
 - changes:
   - action: added
     details:
