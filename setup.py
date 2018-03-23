@@ -9,7 +9,7 @@ PY2 = sys.version_info[0] == 2
 PY26 = PY2 and sys.version_info[1] < 7
 
 NAME = 'pyexcel'
-AUTHOR = 'C. Wang'
+AUTHOR = 'C.W.'
 VERSION = '0.5.7'
 EMAIL = 'wangc_2011@hotmail.com'
 LICENSE = 'New BSD'
@@ -19,7 +19,7 @@ DESCRIPTION = (
 )
 URL = 'https://github.com/pyexcel/pyexcel'
 DOWNLOAD_URL = '%s/archive/0.5.7.tar.gz' % URL
-FILES = ['README.rst',  'CHANGELOG.rst']
+FILES = ['README.rst', 'CHANGELOG.rst']
 KEYWORDS = [
     'tsv',
     'tsvz'
@@ -51,6 +51,7 @@ INSTALL_REQUIRES = [
     'lml==0.0.1',
     'pyexcel-io>=0.5.6',
 ]
+SETUP_COMMANDS = {}
 
 if PY2:
     INSTALL_REQUIRES.append('texttable>=0.8.1')
@@ -102,6 +103,8 @@ class PublishCommand(Command):
         try:
             self.status('Removing previous builds...')
             rmtree(os.path.join(HERE, 'dist'))
+            rmtree(os.path.join(HERE, 'build'))
+            rmtree(os.path.join(HERE, 'pyexcel.egg-info'))
         except OSError:
             pass
 
@@ -116,6 +119,11 @@ class PublishCommand(Command):
                 self.status(UPLOAD_FAILED_MSG % PUBLISH_COMMAND)
 
         sys.exit()
+
+
+SETUP_COMMANDS.update({
+    'publish': PublishCommand
+})
 
 
 def has_gease():
@@ -191,7 +199,5 @@ if __name__ == '__main__':
         include_package_data=True,
         zip_safe=False,
         classifiers=CLASSIFIERS,
-        cmdclass={
-            'publish': PublishCommand,
-        }
+        cmdclass=SETUP_COMMANDS
     )

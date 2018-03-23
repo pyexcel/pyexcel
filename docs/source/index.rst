@@ -1,7 +1,7 @@
 `pyexcel` - Let you focus on data, instead of file formats
 ================================================================================
 
-:Author: C. Wang
+:Author: C.W.
 :Source code: http://github.com/pyexcel/pyexcel.git
 :Issues: http://github.com/pyexcel/pyexcel/issues
 :License: New BSD License
