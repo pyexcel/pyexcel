@@ -13,6 +13,11 @@ were not and will not be considered.
 
 {% include "origin.rst.jj2" %}
 
+Support the project
+================================================================================
+
+{%include "support.rst.jj2" %}
+
 Installation
 -------------
 
