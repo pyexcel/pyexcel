@@ -503,3 +503,13 @@ def test_issue_125_using_key():
     book2 = pe.get_book(file_name=test_file)
     eq_(book2.sheet_names(), ['A', 'C', 'B'])
     os.unlink(test_file)
+
+
+def test_issue_126():
+    data = [[1]]
+    test_file = "issue_126.xls"
+    test_name = "doyoufindme"
+    pe.save_as(array=data, dest_file_name=test_file, dest_sheet_name=test_name)
+    sheet = pe.get_sheet(file_name=test_file)
+    eq_(sheet.name, test_name)
+    os.unlink(test_file)
