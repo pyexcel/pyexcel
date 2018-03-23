@@ -3,7 +3,6 @@
 {%block SPHINX_EXTENSIONS%}
     'sphinx.ext.autosummary',
     'sphinx.ext.napoleon',
-    'sphinxcontrib.spelling',
     'sphinxcontrib.excel'
 {%endblock%}
 

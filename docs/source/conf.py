@@ -11,7 +11,6 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.autosummary',
     'sphinx.ext.napoleon',
-    'sphinxcontrib.spelling',
     'sphinxcontrib.excel'
 ]
 intersphinx_mapping = {
