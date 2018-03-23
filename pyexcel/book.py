@@ -75,6 +75,15 @@ class Book(BookMeta):
         self.__name_array = list(self.__sheets.keys())
 
     def sort_sheets(self, key=None, reverse=False):
+        """
+        Reorder the sheets.
+
+        It uses `sorted <https://docs.python.org/3/howto/sorting.html>`_
+        internally. So the `key`, `reverse` obeys sorted's interface
+
+        :param key: sorted's key
+        :param reverse: reverse order or not. default to False.
+        """
         self.__name_array = sorted(self.__name_array, key=key, reverse=reverse)
 
     def __iter__(self):
