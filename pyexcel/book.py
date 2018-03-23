@@ -74,6 +74,9 @@ class Book(BookMeta):
             self.__dict__[name.replace(' ', '_')] = sheet
         self.__name_array = list(self.__sheets.keys())
 
+    def sort_sheets(self, key=None, reverse=False):
+        self.__name_array = sorted(self.__name_array, key=key, reverse=reverse)
+
     def __iter__(self):
         return SheetIterator(self)
 
