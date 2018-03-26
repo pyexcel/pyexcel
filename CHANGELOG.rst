@@ -26,6 +26,8 @@ updated
 
 #. `#126 <https://github.com/pyexcel/pyexcel/issues/126>`_, dest_sheet_name in
    save_as will set the sheet name in the output
+#. `#115 <https://github.com/pyexcel/pyexcel/issues/115>`_, Fix set membership
+   test to run faster in python2
 
 0.5.7 - 11.01.2018
 --------------------------------------------------------------------------------

@@ -10,7 +10,7 @@ PY26 = PY2 and sys.version_info[1] < 7
 
 NAME = 'pyexcel'
 AUTHOR = 'C.W.'
-VERSION = '0.5.7'
+VERSION = '0.5.8'
 EMAIL = 'wangc_2011@hotmail.com'
 LICENSE = 'New BSD'
 DESCRIPTION = (
@@ -18,7 +18,7 @@ DESCRIPTION = (
     'data in different excel formats'
 )
 URL = 'https://github.com/pyexcel/pyexcel'
-DOWNLOAD_URL = '%s/archive/0.5.7.tar.gz' % URL
+DOWNLOAD_URL = '%s/archive/0.5.8.tar.gz' % URL
 FILES = ['README.rst', 'CHANGELOG.rst']
 KEYWORDS = [
     'tsv',
@@ -73,8 +73,8 @@ EXTRAS_REQUIRE = {
 # You do not need to read beyond this line
 PUBLISH_COMMAND = '{0} setup.py sdist bdist_wheel upload -r pypi'.format(
     sys.executable)
-GS_COMMAND = ('gs pyexcel v0.5.7 ' +
-              "Find 0.5.7 in changelog for more details")
+GS_COMMAND = ('gs pyexcel v0.5.8 ' +
+              "Find 0.5.8 in changelog for more details")
 NO_GS_MESSAGE = ('Automatic github release is disabled. ' +
                  'Please install gease to enable it.')
 UPLOAD_FAILED_MSG = (
