@@ -48,17 +48,16 @@ to access its columns using the name itself, for example:
 Random access to individual cell
 --------------------------------
 
-To randomly access a cell of :class:`~pyexcel.Sheet` instance, two syntax are available::
+Top left corner of a sheet is (0, 0), meaning both row index and column index start from 0. To randomly access a cell of :class:`~pyexcel.Sheet` instance, two syntax are available::
 
     sheet[row, column]
 
-or::
+This syntax helps you iterate the data by row and by column. If you use excel positions, the syntax below help you get the cell instantly without converting alphabet column index to integer::
 
     sheet['A1']
 
-The former syntax is handy when you know the row and column numbers. The latter syntax is introduced to help you convert the excel column header such as "AX" to integer numbers.
 
-Suppose you have the following data, you can get value 5 by reader[2, 2].
+For example: suppose you have the following data sheet,
 
 .. pyexcel-table::
 
@@ -69,8 +68,7 @@ Suppose you have the following data, you can get value 5 by reader[2, 2].
    c,7,8,9
 
 
-
-Here is the example code showing how you can randomly access a cell:
+here is the example code showing how you can randomly access a cell:
 
 .. testcode::
    :hide:
