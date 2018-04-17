@@ -330,8 +330,8 @@ Please notice that "Sheet 2" is the first item in the *book_dict*, meaning the o
 
 .. _import_excel_sheet_into_a_database_table:
 
-How to an excel sheet to a database using SQLAlchemy
-----------------------------------------------------
+How to import an excel sheet to a database using SQLAlchemy
+------------------------------------------------------------
 
 .. NOTE::
 

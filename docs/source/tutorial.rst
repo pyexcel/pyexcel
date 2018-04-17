@@ -57,6 +57,8 @@ This syntax helps you iterate the data by row and by column. If you use excel po
     sheet['A1']
 
 
+Please note that with excel positions, top left corner is 'A1'.
+
 For example: suppose you have the following data sheet,
 
 .. pyexcel-table::
@@ -90,12 +92,12 @@ here is the example code showing how you can randomly access a cell:
    +---------+---+---+---+
    | c       | 7 | 8 | 9 |
    +---------+---+---+---+
-   >>> print(sheet[2, 2])
-   5
-   >>> print(sheet["C3"])
-   5
-   >>> sheet[3, 3] = 10
-   >>> print(sheet[3, 3])
+   >>> print(sheet[3, 2])
+   8
+   >>> print(sheet["D3"])
+   6
+   >>> sheet[2, 4] = 10
+   >>> print(sheet[2, 4])
    10
 
 .. note::
