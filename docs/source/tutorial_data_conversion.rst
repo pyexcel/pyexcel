@@ -40,42 +40,6 @@ Here are the example code::
    Dean is aged at 26
 
 
-.. _get_an_array_from_an_excel_sheet:
-
-How to get an array from an excel sheet
------------------------------------------
-
-Suppose you have a csv, xls, xlsx file as the following:
-
-.. pyexcel-table::
-
-   ---pyexcel:data example---
-   1,2,3
-   4,5,6
-   7,8,9
-
-.. testcode::
-   :hide:
-
-   >>> import pyexcel as pe
-   >>> data = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-   >>> s = pe.Sheet(data)
-   >>> s.save_as("example.xls")
-
-The following code will give you the data in json::
-
-    >>> import pyexcel
-    >>> # "example.csv","example.xlsx","example.xlsm"
-    >>> my_array = pyexcel.get_array(file_name="example.xls")
-    >>> my_array
-    [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-
-.. testcode::
-   :hide:
-
-   >>> import os
-   >>> os.unlink("example.xls")
-
 .. _save_an_array_to_an_excel_sheet:
 
 How to save an python array as an excel file

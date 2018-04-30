@@ -1,6 +1,39 @@
 ================================================================================
-Work with big data sheet
+Read partial data
 ================================================================================
+
+.. _get_an_array_from_an_excel_sheet:
+
+Here the code to get an array of data from your excel file. 
+
+.. pyexcel-table::
+
+   ---pyexcel:data example---
+   1,2,3
+   4,5,6
+   7,8,9
+
+.. testcode::
+   :hide:
+
+   >>> import pyexcel as pe
+   >>> data = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+   >>> s = pe.Sheet(data)
+   >>> s.save_as("example.xls")
+
+The following code will give you the data in json::
+
+    >>> import pyexcel
+    >>> # "example.csv","example.xlsx","example.xlsm"
+    >>> my_array = pyexcel.get_array(file_name="example.xls")
+    >>> my_array
+    [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+.. testcode::
+   :hide:
+
+   >>> import os
+   >>> os.unlink("example.xls")
 
 
 Pagination
@@ -10,6 +43,12 @@ When you are dealing with huge amount of data, e.g. 64GB, obviously you would no
 like to fill up your memory with those data. Hence pagination feature is developed
 to read partial data into memory for processing. You can paginate by row, by
 column and by both.
+
+Please note that `pyexcel-xls`, `pyexcel-xlsx`, `pyexcel-ods` and `pyexcel-ods3`
+will read all data into memory. And pagination code here only limits the data
+returned to your program. With that said, csv readers, `pyexcel-xlsxr` and `pyexcel-odsr`
+DOES read partial data into memory.
+
 
 .. testcode::
    :hide:
