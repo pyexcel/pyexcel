@@ -96,8 +96,8 @@ here is the example code showing how you can randomly access a cell:
    8
    >>> print(sheet["D3"])
    6
-   >>> sheet[2, 4] = 10
-   >>> print(sheet[2, 4])
+   >>> sheet[2, 3] = 10
+   >>> print(sheet[2, 3])
    10
 
 .. note::
