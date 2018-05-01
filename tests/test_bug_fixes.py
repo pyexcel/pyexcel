@@ -524,3 +524,9 @@ def test_issue_126_isave_as():
     sheet = pe.get_sheet(file_name=test_file)
     eq_(sheet.name, test_name)
     os.unlink(test_file)
+
+
+def test_pyexcel_issue_138():
+    sheet = pe.Sheet()
+    sheet.csv = '123_122,'
+    eq_(sheet[0,0], '123_122')
