@@ -44,6 +44,10 @@ skipinitialspace :
     When True, whitespace immediately following the delimiter is ignored.
     The default is False.
 
+pep_0515_off :
+    When True in python version 3.6, PEP-0515 is turned on.
+    The default is False
+
 """
 
 XLRD_PARAMS = """
