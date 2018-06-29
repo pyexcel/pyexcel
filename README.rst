@@ -85,6 +85,8 @@ or clone it and install it:
 Usage
 ===============
 
+Please note that you will have to use '.sortable.html' in order to replicate the example.
+
 .. image:: https://github.com/pyexcel/pyexcel-sortable/raw/master/sortable.gif
 
 .. code-block:: python
