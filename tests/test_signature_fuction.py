@@ -141,7 +141,7 @@ class TestGetSheet:
 
     def test_get_sheet_from_txt(self):
         test_file = os.path.join("tests", "fixtures", "force_type.txt")
-        sheet = pe.get_sheet(file_name=test_file, file_type="csv")
+        sheet = pe.get_sheet(file_name=test_file, force_file_type="csv")
         expected = [[1, 2, 3]]
         eq_(sheet.to_array(), expected)
 

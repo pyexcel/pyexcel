@@ -49,7 +49,6 @@ class TestToRecord(TestCase):
         s = pe.ColumnSeriesReader(self.testfile, series=0)
         headers = ["Row 1", "Row 2", "Row 3", "Row 4"]
         actual = s.to_records(headers)
-        print(actual)
         result = [
             {'Row 4': 6.0, 'Row 2': 4.0, 'Row 1': 'Y', 'Row 3': 5.0},
             {'Row 4': 9.0, 'Row 2': 7.0, 'Row 1': 'Z', 'Row 3': 8.0}
