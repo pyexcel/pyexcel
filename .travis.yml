@@ -23,8 +23,6 @@ jobs:
           secure: "g8ASvOPB2ONWLODco+chDBpGzZVHwy+0YO+jSMsK2J9549DdciRDijcKaTv+Me9oSscU/xWi2G1RtIPXzRIY9cQEDdCEov2GGMI6nfp98VducSOJguGhfaErf63LWyC1Rqza63pGsW3hAhpvBRaGvQVAoEKqBCqyDC0q9dwV+Vw="
         distributions: sdist bdist_wheel
         server: https://test.pypi.org/legacy/
-        on:
-          branch: master
 before_install:
   - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then rm tests/test_examples.py; fi
   - if [[ $TRAVIS_PYTHON_VERSION == "2.6" ]]; then pip install flake8==2.6.2; fi
