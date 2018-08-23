@@ -42,8 +42,9 @@ def test_file_source_info_with_file_type():
             return file_type == 'csv'
 
     info = CustomInfo('apth')
-    expected = info.is_my_business('READ',
-                                   test='unit',
-                                   file_name="unknow.file",
-                                   file_type="csv")
+    expected = info.is_my_business(
+        'READ',
+        test='unit',
+        file_name="unknow.file",
+        force_file_type="csv")
     assert expected
