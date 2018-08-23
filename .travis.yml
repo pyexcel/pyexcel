@@ -3,38 +3,38 @@ language: python
 notifications:
   email: false
 python:
-  - pypy-5.3.1
-  - 3.7-dev
-  - 3.6
-  - 3.5
-  - 3.4
-  - 2.7
+- pypy-5.3.1
+- 3.7-dev
+- 3.6
+- 3.5
+- 3.4
+- 2.7
 matrix:
   include:
-    - python: 2.7
-      env: MINREQ=1
+  - python: 2.7
+    env: MINREQ=1
 jobs:
   include:
-    - stage: Release
-      deploy:
-        provider: pypi
-        user: "chfw"
-        password:
-          secure: "g8ASvOPB2ONWLODco+chDBpGzZVHwy+0YO+jSMsK2J9549DdciRDijcKaTv+Me9oSscU/xWi2G1RtIPXzRIY9cQEDdCEov2GGMI6nfp98VducSOJguGhfaErf63LWyC1Rqza63pGsW3hAhpvBRaGvQVAoEKqBCqyDC0q9dwV+Vw="
-        distributions: sdist bdist_wheel
-        server: https://test.pypi.org/legacy/
-        on:
-          all_branches: true
+  - stage: Release
+    deploy:
+      provider: pypi
+      user: chfw
+      password:
+        secure: g8ASvOPB2ONWLODco+chDBpGzZVHwy+0YO+jSMsK2J9549DdciRDijcKaTv+Me9oSscU/xWi2G1RtIPXzRIY9cQEDdCEov2GGMI6nfp98VducSOJguGhfaErf63LWyC1Rqza63pGsW3hAhpvBRaGvQVAoEKqBCqyDC0q9dwV+Vw=
+      distributions: sdist bdist_wheel
+      server: https://test.pypi.org/legacy/
+      on:
+        all_branches: true
 before_install:
-  - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then rm tests/test_examples.py; fi
-  - if [[ $TRAVIS_PYTHON_VERSION == "2.6" ]]; then pip install flake8==2.6.2; fi
-  - if [[ -f min_requirements.txt && "$MINREQ" -eq 1 ]]; then
-      mv min_requirements.txt requirements.txt ;
-    fi
-  - test ! -f rnd_requirements.txt || pip install --no-deps -r rnd_requirements.txt
-  - test ! -f rnd_requirements.txt || pip install -r rnd_requirements.txt ;
-  - pip install -r tests/requirements.txt
+- if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then rm tests/test_examples.py; fi
+- if [[ $TRAVIS_PYTHON_VERSION == "2.6" ]]; then pip install flake8==2.6.2; fi
+- if [[ -f min_requirements.txt && "$MINREQ" -eq 1 ]]; then mv min_requirements.txt
+  requirements.txt ; fi
+- test ! -f rnd_requirements.txt || pip install --no-deps -r rnd_requirements.txt
+- test ! -f rnd_requirements.txt || pip install -r rnd_requirements.txt ;
+- pip install -r tests/requirements.txt
 script:
-  - make test
-after_success:
-  codecov
+- make test
+after_success: codecov
+dd:
+  secure: NSjkCAtWNYyhBoNmkfQo3og8gQbxZevccxBwkZWTk3aTWY59fGX/7PRUPA5nChFn7TXzsxJxe7rNSdTzNef4O4jgN+9bHZ2NxMGbL5qitSld5ByMUjI+DlXZFI89bK03j08boaav7FgGJCysB+Xt9TmZuiDS+LRVW2ACSXl6ujU=
