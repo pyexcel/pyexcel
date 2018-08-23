@@ -14,7 +14,8 @@ from pyexcel_io import get_data, iget_data
 class ExcelParser(AbstractParser):
     """get data from excel files"""
     def parse_file(self, file_name, **keywords):
-        return self._parse_any(file_name, **keywords)
+        return self._parse_any(
+            file_name, force_file_type=self._file_type, **keywords)
 
     def parse_file_stream(self, file_stream, **keywords):
         return self._parse_any(

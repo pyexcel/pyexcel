@@ -12,7 +12,7 @@ PY26 = PY2 and sys.version_info[1] < 7
 
 NAME = 'pyexcel'
 AUTHOR = 'C.W.'
-VERSION = '0.5.8'
+VERSION = '0.5.9'
 EMAIL = 'wangc_2011@hotmail.com'
 LICENSE = 'New BSD'
 DESCRIPTION = (
@@ -29,8 +29,8 @@ KEYWORDS = [
     'csvz',
     'xls',
     'xlsx',
-    'ods'
-    'python'
+    'ods',
+    'python',
 ]
 
 CLASSIFIERS = [
@@ -49,7 +49,7 @@ CLASSIFIERS = [
 
 INSTALL_REQUIRES = [
     'lml==0.0.1',
-    'pyexcel-io>=0.5.6',
+    'pyexcel-io>=0.5.9',
 ]
 SETUP_COMMANDS = {}
 
