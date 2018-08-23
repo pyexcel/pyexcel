@@ -18,7 +18,7 @@ jobs:
         provider: pypi
         user: "chfw"
         password:
-          secure: "g8ASvOPB2ONWLODco+chDBpGzZVHwy+0YO+jSMsK2J9549DdciRDijcKaTv+Me9oSscU/xWi2G1RtIPXzRIY9cQEDdCEov2GGMI6nfp98VducSOJguGhfaErf63LWyC1Rqza63pGsW3hAhpvBRaGvQVAoEKqBCqyDC0q9dwV+Vw="
+          secure: DCSKeFhLZpR3Fbj0pksC/gFRwOKs5Y0Bme9/7I5Aa3C9dqkzm38K/k3w3vA1+LvGtenlaHf4c41qrI5oll5DgKorPN5l91YWdxgkTFmucKFhYWs/n5xlbEAi5f8DI564+hIBeQgirKEPsOAxHaYCLmXuMfA4HnYY1Hfxa4FFxwg=
         distributions: sdist bdist_wheel
         server: https://test.pypi.org/legacy/
         distributions: "sdist bdist_wheel"
