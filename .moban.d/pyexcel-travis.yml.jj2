@@ -1,13 +1,4 @@
 {% extends "travis.yml.jj2" %}
-{%block extra_matrix %}
-matrix:
-  include:
-    - python: 2.7
-      env: MINREQ=1
-{%endblock%}
-{%block custom_install%}
-  - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then rm tests/test_examples.py; fi
-{%endblock%}
 
 {%block pypi_deployment%}
 jobs:
