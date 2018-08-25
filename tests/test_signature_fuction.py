@@ -889,6 +889,90 @@ class TestGetBook:
         eq_(expected, result[test_sheet_name])
 
 
+class TestIGetBook:
+    def test_get_book_from_book_dict(self):
+        content = _produce_ordered_dict()
+        book = pe.iget_book(bookdict=content)
+        eq_(book.to_dict(), content)
+
+    def test_get_book_from_file(self):
+        test_file = "test_get_book.xls"
+        content = _produce_ordered_dict()
+
+        book = pe.Book(content)
+        book.save_as(test_file)
+        book_stream = pe.iget_book(file_name=test_file)
+        assert book_stream.to_dict() != content
+        book3 = pe.Book(book_stream.to_dict())
+        eq_(book3.to_dict(), content)
+        os.unlink(test_file)
+
+    def test_get_book_from_memory(self):
+        content = _produce_ordered_dict()
+        io = pe.save_book_as(dest_file_type="xls", bookdict=content)
+        book_stream = pe.iget_book(file_content=io.getvalue(), file_type="xls")
+        assert book_stream.to_dict() != content
+        book = pe.Book(book_stream.to_dict())
+        eq_(book.to_dict(), content)
+
+    def test_get_book_from_file_stream(self):
+        content = _produce_ordered_dict()
+
+        io = pe.save_book_as(dest_file_type="xls", bookdict=content)
+        book_stream = pe.iget_book(file_stream=io, file_type="xls")
+        assert book_stream.to_dict() != content
+        book = pe.Book(book_stream.to_dict())
+        eq_(book.to_dict(), content)
+
+    @raises(IOError)
+    def test_get_book_from_memory_compatibility(self):
+        content = _produce_ordered_dict()
+        io = pe.save_book_as(dest_file_type="xls", bookdict=content)
+        pe.iget_book(content=io.getvalue(), file_type="xls")
+
+    def test_get_sheet_from_array(self):
+        data = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        test_sheet_name = 'custom_sheet'
+        book = pe.iget_book(array=data, sheet_name=test_sheet_name)
+        result = book.to_dict()
+        eq_(data, list(result[test_sheet_name]))
+
+    def test_get_sheet_from_dict(self):
+        adict = {
+            "X": [1, 4],
+            "Y": [2, 5],
+            "Z": [3, 6]
+        }
+        test_sheet_name = 'custom_sheet'
+        book = pe.iget_book(adict=adict, sheet_name=test_sheet_name)
+        expected = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        result = book.to_dict()
+        eq_(expected, list(result[test_sheet_name]))
+
+    def test_get_sheet_from_records(self):
+        records = [
+            {"X": 1, "Y": 2, "Z": 3},
+            {"X": 4, "Y": 5, "Z": 6}
+        ]
+        test_sheet_name = 'custom_sheet'
+        book = pe.iget_book(records=records, sheet_name=test_sheet_name)
+        expected = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        result = book.to_dict()
+        eq_(expected, list(result[test_sheet_name]))
+
+
 class TestSaveAs:
     def test_save_file_as_another_one(self):
         data = [

@@ -50,6 +50,18 @@ def get_book(**keywords):
     return book
 
 
+@append_doc(docs.IGET_BOOK)
+def iget_book(**keywords):
+    """
+    Get an instance of :class:`BookStream` from an excel source
+
+    First use case is to get all sheet names without extracting
+    the sheets into memory.
+    """
+    return sources.get_book_stream(
+        on_demand=True, **keywords)
+
+
 @append_doc(docs.SAVE_AS)
 def save_as(**keywords):
     """

@@ -94,6 +94,9 @@ class BookStream(object):
             self.__dict__[name] = sheet
         self.name_array = list(self.sheets.keys())
 
+    def sheet_names(self):
+        return self.name_array
+
     def to_dict(self):
         """
         Get book data structure as a dictionary

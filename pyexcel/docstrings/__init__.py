@@ -10,6 +10,7 @@
 from .core import (
     GET_SHEET,
     GET_BOOK,
+    IGET_BOOK,
     SAVE_AS,
     ISAVE_AS,
     SAVE_BOOK_AS,
