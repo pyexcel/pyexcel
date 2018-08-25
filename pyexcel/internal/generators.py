@@ -114,6 +114,10 @@ class BookStream(object):
         return len(self.name_array)
 
     def __getitem__(self, index):
-        if index < len(self.name_array):
-            sheet_name = self.name_array[index]
+        if isinstance(index, int):
+            if index < len(self.name_array):
+                sheet_name = self.name_array[index]
+                return self.sheets[sheet_name]
+        else:
+            sheet_name = index
             return self.sheets[sheet_name]

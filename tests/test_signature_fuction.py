@@ -981,7 +981,7 @@ class TestIGetBook:
         book.save_as(test_file)
         book_stream = pe.iget_book(file_name=test_file)
         eq_(book_stream.sheet_names(), ['Sheet1', 'Sheet2', 'Sheet3'])
-        assert isinstance(book_stream.sheets['Sheet1'].payload, GeneratorType)
+        assert isinstance(book_stream['Sheet1'].payload, GeneratorType)
         os.unlink(test_file)
 
     def test_look_at_sheet_names_decides_to_read_seond_one(self):
@@ -991,7 +991,7 @@ class TestIGetBook:
         book = pe.Book(content)
         book.save_as(test_file)
         book_stream = pe.iget_book(file_name=test_file)
-        data = pe.iget_array(sheet_stream=book_stream.sheets['Sheet1'])
+        data = pe.iget_array(sheet_stream=book_stream['Sheet1'])
         assert isinstance(data, GeneratorType)
         eq_(list(data), [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]])
         os.unlink(test_file)
