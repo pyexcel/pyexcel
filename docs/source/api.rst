@@ -29,6 +29,7 @@ Obtaining data from excel file
    get_book_dict
    get_book
    get_sheet
+   iget_book
    iget_array
    iget_records
    free_resources

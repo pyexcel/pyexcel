@@ -34,9 +34,9 @@ pyexcel.internal.sheets.Matrix
       ~Matrix.get_csvz
       ~Matrix.get_dict
       ~Matrix.get_echarts_html
-      ~Matrix.get_fods
       ~Matrix.get_gantt_html
       ~Matrix.get_grid
+      ~Matrix.get_handsontable
       ~Matrix.get_handsontable_html
       ~Matrix.get_html
       ~Matrix.get_internal_array
@@ -89,9 +89,9 @@ pyexcel.internal.sheets.Matrix
       ~Matrix.set_csvz
       ~Matrix.set_dict
       ~Matrix.set_echarts_html
-      ~Matrix.set_fods
       ~Matrix.set_gantt_html
       ~Matrix.set_grid
+      ~Matrix.set_handsontable
       ~Matrix.set_handsontable_html
       ~Matrix.set_html
       ~Matrix.set_json
@@ -135,9 +135,9 @@ pyexcel.internal.sheets.Matrix
       ~Matrix.csvz
       ~Matrix.dict
       ~Matrix.echarts_html
-      ~Matrix.fods
       ~Matrix.gantt_html
       ~Matrix.grid
+      ~Matrix.handsontable
       ~Matrix.handsontable_html
       ~Matrix.html
       ~Matrix.json
