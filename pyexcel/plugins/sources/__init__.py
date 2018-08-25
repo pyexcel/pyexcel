@@ -17,6 +17,12 @@ PyexcelPluginChain(__name__).add_a_source(
     actions=['read'],
     attributes=['url'],
     key='url'
+).add_a_source(
+    relative_plugin_class_path='sheet_stream_source.SheetStreamSource',
+    fields=['sheet_stream'],
+    targets=['sheet'],
+    attributes=[],
+    actions=['read'],
 ).add_an_input_source(
     relative_plugin_class_path='file_input.ReadExcelFromFile',
     fields=['file_name'],

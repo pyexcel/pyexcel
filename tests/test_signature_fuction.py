@@ -3,6 +3,7 @@ import pyexcel as pe
 from db import Session, Base, Signature, Signature2, engine
 from _compact import OrderedDict
 from nose.tools import raises, eq_
+from types import GeneratorType
 
 
 def test_unknown_file_type_exception():
@@ -971,6 +972,29 @@ class TestIGetBook:
         ]
         result = book.to_dict()
         eq_(expected, list(result[test_sheet_name]))
+
+    def test_look_at_sheet_names_without_incurring_further_memory_cost(self):
+        test_file = "test_get_book.xls"
+        content = _produce_ordered_dict()
+
+        book = pe.Book(content)
+        book.save_as(test_file)
+        book_stream = pe.iget_book(file_name=test_file)
+        eq_(book_stream.sheet_names(), ['Sheet1', 'Sheet2', 'Sheet3'])
+        assert isinstance(book_stream.sheets['Sheet1'].payload, GeneratorType)
+        os.unlink(test_file)
+
+    def test_look_at_sheet_names_decides_to_read_seond_one(self):
+        test_file = "test_get_book.xls"
+        content = _produce_ordered_dict()
+
+        book = pe.Book(content)
+        book.save_as(test_file)
+        book_stream = pe.iget_book(file_name=test_file)
+        data = pe.iget_array(sheet_stream=book_stream.sheets['Sheet1'])
+        assert isinstance(data, GeneratorType)
+        eq_(list(data), [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]])
+        os.unlink(test_file)
 
 
 class TestSaveAs:

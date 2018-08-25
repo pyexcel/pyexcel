@@ -31,6 +31,6 @@ INITIALIZER = 'initializer'
 INITIALIZERS = 'initializers'
 BATCH_SIZE = 'batch_size'
 URL = 'url'
-
+SHEET_STREAM = 'sheet_stream'
 
 INPUT = 'input'
