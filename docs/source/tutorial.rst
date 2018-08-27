@@ -350,8 +350,6 @@ The following code will produce what you want::
     'Y':8
     'Z':9
     }
-    >>> print(records[0]["X"]) # access first row and first item
-    1
 
 
 Writing a single sheet excel file

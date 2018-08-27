@@ -9,9 +9,14 @@
 """
 from . import keywords
 
-__GET_SHEET__ = keywords.SOURCE_PARAMS_TABLE + """
+__GET_SHEET__ = (
+    keywords.EXAMPLE_NOTE_PAGINATION +
+    keywords.SOURCE_PARAMS_TABLE +
+    """
 **Parameters**
-""" + keywords.SOURCE_PARAMS
+    """ +
+    keywords.SOURCE_PARAMS
+)
 
 __GET_BOOK__ = keywords.SOURCE_BOOK_PARAMS_TABLE + """
 **Parameters**

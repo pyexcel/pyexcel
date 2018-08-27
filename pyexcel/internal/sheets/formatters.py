@@ -112,6 +112,10 @@ if PY2:
     CONVERSION_FUNCTIONS[long] = float_to_format
 
 
+def default_formatter(value, to_type):
+    return json.dumps(value)
+
+
 def to_format(to_type, value):
     """Wrapper utility function for format different formats
 
@@ -126,5 +130,5 @@ def to_format(to_type, value):
             from_type = type(value)
     else:
         from_type = None
-    func = CONVERSION_FUNCTIONS[from_type]
+    func = CONVERSION_FUNCTIONS.get(from_type, default_formatter)
     return func(value, to_type)

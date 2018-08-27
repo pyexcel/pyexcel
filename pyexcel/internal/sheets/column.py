@@ -43,6 +43,7 @@ class Column(utils.CommonPropertyAmongRowNColumn):
         IndexError
 
     """
+
     def select(self, indices):
         """
         Examples:
@@ -101,8 +102,7 @@ class Column(utils.CommonPropertyAmongRowNColumn):
         """
         new_indices = []
         if compact.is_array_type(indices, str):
-            new_indices = utils.names_to_indices(indices,
-                                                 self._ref.colnames)
+            new_indices = utils.names_to_indices(indices, self._ref.colnames)
         else:
             new_indices = indices
         to_remove = []
@@ -156,17 +156,19 @@ class Column(utils.CommonPropertyAmongRowNColumn):
             +---+---+---+---+
 
         """
-        is_sheet = (compact.is_string(type(aslice)) and
-                    hasattr(self._ref, 'delete_named_column_at'))
+        is_sheet = (
+            compact.is_string(type(aslice))
+            and hasattr(self._ref, 'delete_named_column_at')
+        )
         if is_sheet:
             self._ref.delete_named_column_at(aslice)
         elif compact.is_tuple_consists_of_strings(aslice):
-            indices = utils.names_to_indices(list(aslice),
-                                             self._ref.colnames)
+            indices = utils.names_to_indices(list(aslice), self._ref.colnames)
             self._ref.delete_columns(indices)
         elif isinstance(aslice, slice):
-            my_range = utils.analyse_slice(aslice,
-                                           self._ref.number_of_columns())
+            my_range = utils.analyse_slice(
+                aslice, self._ref.number_of_columns()
+            )
             self._ref.delete_columns(my_range)
         elif isinstance(aslice, str):
             index = utils.excel_column_index(aslice)
@@ -196,13 +198,16 @@ class Column(utils.CommonPropertyAmongRowNColumn):
 
     def __setitem__(self, aslice, a_column):
         """Override the operator to set items"""
-        is_sheet = (compact.is_string(type(aslice)) and
-                    hasattr(self._ref, 'set_named_column_at'))
+        is_sheet = (
+            compact.is_string(type(aslice))
+            and hasattr(self._ref, 'set_named_column_at')
+        )
         if is_sheet:
             self._ref.set_named_column_at(aslice, a_column)
         elif isinstance(aslice, slice):
-            my_range = utils.analyse_slice(aslice,
-                                           self._ref.number_of_columns())
+            my_range = utils.analyse_slice(
+                aslice, self._ref.number_of_columns()
+            )
             for i in my_range:
                 self._ref.set_column_at(i, a_column)
         elif isinstance(aslice, str):
@@ -217,21 +222,27 @@ class Column(utils.CommonPropertyAmongRowNColumn):
         """By default, this class recognize from top to bottom
         from left to right"""
         index = aslice
-        is_sheet = (compact.is_string(type(aslice)) and
-                    hasattr(self._ref, 'named_column_at'))
+        is_sheet = (
+            compact.is_string(type(aslice))
+            and hasattr(self._ref, 'named_column_at')
+        )
         if is_sheet:
             return self._ref.named_column_at(aslice)
+
         elif isinstance(aslice, slice):
-            my_range = utils.analyse_slice(aslice,
-                                           self._ref.number_of_columns())
+            my_range = utils.analyse_slice(
+                aslice, self._ref.number_of_columns()
+            )
             results = []
             for i in my_range:
                 results.append(self._ref.column_at(i))
             return results
-        elif isinstance(aslice, str):
+
+        if isinstance(aslice, str):
             index = utils.excel_column_index(aslice)
-        if index in self._ref.column_range():
+        if utils.abs(index) in self._ref.column_range():
             return self._ref.column_at(index)
+
         else:
             raise IndexError
 
@@ -248,6 +259,7 @@ class Column(utils.CommonPropertyAmongRowNColumn):
             self._ref.extend_columns_with_rows(other.get_internal_array())
         else:
             raise TypeError
+
         return self
 
     def __add__(self, other):
@@ -258,8 +270,19 @@ class Column(utils.CommonPropertyAmongRowNColumn):
         self.__iadd__(other)
         return self._ref
 
-    def format(self, column_index=None, formatter=None,
-               format_specs=None):
+    def __getattr__(self, attr):
+        """
+        Refer to sheet.column.name
+        """
+        the_attr = attr
+        if attr not in self._ref.colnames:
+            the_attr = the_attr.replace('_', ' ')
+            if the_attr not in self._ref.colnames:
+                raise AttributeError("%s is not found" % attr)
+
+        return self._ref.named_column_at(the_attr)
+
+    def format(self, column_index=None, formatter=None, format_specs=None):
         """Format a column
         """
         if column_index is not None:
@@ -271,10 +294,10 @@ class Column(utils.CommonPropertyAmongRowNColumn):
     def _handle_one_formatter(self, columns, theformatter):
         new_indices = columns
         if len(self._ref.colnames) > 0:
-            new_indices = utils.names_to_indices(columns,
-                                                 self._ref.colnames)
+            new_indices = utils.names_to_indices(columns, self._ref.colnames)
         converter = utils.CommonPropertyAmongRowNColumn.get_converter(
-            theformatter)
+            theformatter
+        )
 
         if isinstance(new_indices, list):
             for rcolumn in self._ref.column_range():

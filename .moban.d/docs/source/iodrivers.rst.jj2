@@ -1,0 +1,37 @@
+Pyexcel-io Plugin guide
+===============================
+
+There has been a lot of plugins for reading and writing a file types. Here is a guide
+for you to choose them.
+
+{%include "io-plugins-list.rst.jj2"%}
+
+Read and write with performance
+---------------------------------
+
+Partial reading
+*********************
+
+**csv**, **tsv** by `pyexcel-io`_, **ods** by `pyexcel-odsr`_, html by `pyexcel-htmlr`_ are implemented in partial
+read mode. If you only need first half of the file, the second half of the data will not be read
+into the memory if and only if you use igetters(iget_records, iget_array) and isaveer(isave_as and
+isave_book_as).
+
+Read on demand
+********************
+
+**xls** by `pyexcel-xls`_ promised to read sheet on demand. It means if you need only one sheet from a
+multi-sheet book, the rest of the sheets in the book will not be read.
+
+
+Streaming write
+*********************
+
+**csv**, **tsv** by `pyexce-io`_ can do streaming write.
+
+Write with constant memory
+*********************************
+
+**xlsx** by `pyexcel-xlsxw`_ can write big data with constant memory consumption.
+
+

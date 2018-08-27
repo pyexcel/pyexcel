@@ -178,7 +178,7 @@ def get_records(name_columns_by_row=0, **keywords):
     """
     sheet = get_sheet(name_columns_by_row=name_columns_by_row,
                       **keywords)
-    return sheet.to_records()
+    return list(sheet.to_records())
 
 
 @append_doc(docs.IGET_ARRAY)

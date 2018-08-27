@@ -7,6 +7,8 @@
     :copyright: (c) 2014-2017 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
+from collections import defaultdict
+
 import pyexcel._compact as compact
 import pyexcel.constants as constants
 from pyexcel.internal.sheets.matrix import Matrix
@@ -178,6 +180,52 @@ class Sheet(Matrix):
         """
         self.__row_names = make_names_unique(self.column_at(column_index))
         del self.column[column_index]
+
+    def group_rows_by_column(self, column_index_or_name):
+        """Group rows with similiar column into a two dimensional array.
+
+        Example::
+
+            >>> import pyexcel as p
+            >>> sample_data = [
+            ...     ["22/09/2017", "morning"],
+            ...     ["22/09/2017", "afternoon"],
+            ...     ["23/09/2017", "morning"],
+            ...     ["23/09/2017", "afternoon"]
+            ... ]
+            >>> sheet = p.Sheet(sample_data)
+            >>> sheet.group_rows_by_column(0)
+            22/09/2017:
+            +------------+-----------+
+            | 22/09/2017 | morning   |
+            +------------+-----------+
+            | 22/09/2017 | afternoon |
+            +------------+-----------+
+            23/09/2017:
+            +------------+-----------+
+            | 23/09/2017 | morning   |
+            +------------+-----------+
+            | 23/09/2017 | afternoon |
+            +------------+-----------+
+
+        :returns: an instance of a Book
+        """
+        from pyexcel import Book
+
+        groups = defaultdict(list)
+
+        if isinstance(column_index_or_name, int):
+            for row in self.to_array():
+                groups[row[column_index_or_name]].append(row)
+        else:
+            if len(self.colnames) == 0:
+                self.name_columns_by_row(0)
+            column_index = self.colnames.index(column_index_or_name)
+            for row in self.rows():
+                if len(groups[row[column_index]]) == 0:
+                    groups[row[column_index]].append(self.colnames)
+                groups[row[column_index]].append(row)
+        return Book(groups)
 
     def top(self, lines=5):
         """
@@ -384,7 +432,6 @@ class Sheet(Matrix):
         per each row. This is particularly helpful for
         database operations.
         """
-        ret = []
         if len(self.colnames) > 0:
             if custom_headers:
                 headers = custom_headers
@@ -392,7 +439,8 @@ class Sheet(Matrix):
                 headers = self.colnames
             for row in self.rows():
                 the_dict = compact.OrderedDict(zip(headers, row))
-                ret.append(the_dict)
+                yield the_dict
+
         elif len(self.rownames) > 0:
             if custom_headers:
                 headers = custom_headers
@@ -400,11 +448,10 @@ class Sheet(Matrix):
                 headers = self.rownames
             for column in self.columns():
                 the_dict = compact.OrderedDict(zip(headers, column))
-                ret.append(the_dict)
+                yield the_dict
+
         else:
-            raise ValueError(
-                constants.MESSAGE_DATA_ERROR_NO_SERIES)
-        return ret
+            raise ValueError(constants.MESSAGE_DATA_ERROR_NO_SERIES)
 
     def to_dict(self, row=False):
         """Returns a dictionary"""
@@ -474,6 +521,9 @@ class Sheet(Matrix):
             self.cell_value(row, column, c)
         else:
             Matrix.__setitem__(self, aset, c)
+
+    def __len__(self):
+        return self.number_of_rows()
 
 
 class _RepresentedString(object):

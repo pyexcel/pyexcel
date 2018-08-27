@@ -9,23 +9,19 @@ from nose.tools import raises, eq_
 
 class TestMatrixColumn:
     def setUp(self):
-        self.data = [
-            [1, 2, 3, 4, 5, 6],
-            [1, 2, 3, 4],
-            [1]
-        ]
+        self.data = [[1, 2, 3, 4, 5, 6], [1, 2, 3, 4], [1]]
         self.data3 = [[1, 1], [2, 2]]
         self.result = [
             [1, 2, 3, 4, 5, 6, 1, 2],
             [1, 2, 3, 4, '', '', 1, 2],
-            [1, '', '', '', '', '', '', '']
+            [1, '', '', '', '', '', '', ''],
         ]
 
     def test_to_array(self):
         m = Matrix(self.data)
-        result = [[1, 2, 3, 4, 5, 6],
-                  [1, 2, 3, 4, '', ''],
-                  [1, '', '', '', '', '']]
+        result = [
+            [1, 2, 3, 4, 5, 6], [1, 2, 3, 4, '', ''], [1, '', '', '', '', '']
+        ]
         eq_(result, m.get_internal_array())
 
     def test_get_slice_of_columns(self):
@@ -104,7 +100,7 @@ class TestMatrixColumn:
         result2 = [
             [1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6],
             [1, 2, 3, 4, '', '', 1, 2, 3, 4, '', ''],
-            [1, '', '', '', '', '', 1, '', '', '', '', '']
+            [1, '', '', '', '', '', 1, '', '', '', '', ''],
         ]
         eq_(result2, m7.get_internal_array())
 
@@ -137,13 +133,13 @@ class TestMatrixColumn:
         assert m.row[0] == [3, 4, 5, 6]
 
     def test_set_columns(self):
-        r = Matrix(self.data)
+        matrix = Matrix(self.data)
         content = ['r', 's', 't', 'o']
-        r.column[1] = content
-        assert r.column[1] == content
-        assert r.column[0] == [1, 1, 1, '']
-        r.column['B'] = ['p', 'q', 'r']
-        assert r.column['B'] == ['p', 'q', 'r', 'o']
+        matrix.column[1] = content
+        assert matrix.column[1] == content
+        assert matrix.column[0] == [1, 1, 1, '']
+        matrix.column['B'] = ['p', 'q', 'r']
+        eq_(matrix.column['B'], ['p', 'q', 'r', 'o'])
 
     def test_set_a_slice_of_column(self):
         r = Matrix(self.data)
@@ -176,14 +172,14 @@ class TestMatrixColumn:
 class TestMatrixRow:
     def setUp(self):
         self.data = [
-            ['a', 'b', 'c', 'd'],
-            ['e', 'f', 'g', 'h'],
-            ['i', 'j', 1.1, 1]
+            ['a', 'b', 'c', 'd'], ['e', 'f', 'g', 'h'], ['i', 'j', 1.1, 1]
         ]
-        self.content = [['r', 's', 't', 'o'],
-                        [1, 2, 3, 4],
-                        [True],
-                        [1.1, 2.2, 3.3, 4.4, 5.5]]
+        self.content = [
+            ['r', 's', 't', 'o'],
+            [1, 2, 3, 4],
+            [True],
+            [1.1, 2.2, 3.3, 4.4, 5.5],
+        ]
 
     def test_extend_rows(self):
         r = Matrix(self.data)
@@ -297,9 +293,7 @@ class TestMatrixRow:
 class TestMatrix:
     def setUp(self):
         self.data = [
-            ['a', 'b', 'c', 'd'],
-            ['e', 'f', 'g', 'h'],
-            ['i', 'j', 1.1, 1]
+            ['a', 'b', 'c', 'd'], ['e', 'f', 'g', 'h'], ['i', 'j', 1.1, 1]
         ]
 
     def test_empty_array_input(self):
@@ -337,15 +331,8 @@ class TestMatrix:
         r["string"] = 'k'  # bang, cannot set
 
     def test_transpose(self):
-        data = [
-            [1, 2, 3],
-            [4, 5, 6]
-        ]
-        result = [
-            [1, 4],
-            [2, 5],
-            [3, 6]
-        ]
+        data = [[1, 2, 3], [4, 5, 6]]
+        result = [[1, 4], [2, 5], [3, 6]]
         m = Matrix(data)
         m.transpose()
         eq_(result, m.get_internal_array())
@@ -375,7 +362,7 @@ class TestIteratableArray(PyexcelIteratorBase):
         """
         self.array = []
         for i in [0, 4, 8]:
-            array = [i+1, i+2, i+3, i+4]
+            array = [i + 1, i + 2, i + 3, i + 4]
             self.array.append(array)
         self.iteratable = Matrix(self.array)
 
@@ -407,16 +394,14 @@ class TestHatIterators:
             [1, 2, 3],
             [1, 2, 3],
             [1, 2, 3],
-            [1, 2, 3]
+            [1, 2, 3],
         ]
         save_as(dest_file_name=self.testfile, array=self.content)
 
     def test_hat_column_iterator(self):
         r = SeriesReader(self.testfile)
         actual = {
-            "X": [1, 1, 1, 1, 1],
-            "Y": [2, 2, 2, 2, 2],
-            "Z": [3, 3, 3, 3, 3],
+            "X": [1, 1, 1, 1, 1], "Y": [2, 2, 2, 2, 2], "Z": [3, 3, 3, 3, 3]
         }
         eq_(r.dict, actual)
 

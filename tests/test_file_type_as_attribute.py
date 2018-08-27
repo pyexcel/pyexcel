@@ -179,7 +179,7 @@ def test_set_records():
     +-----+------+""").strip()
     eq_(str(s), expected)
     s.name_columns_by_row(0)
-    eq_(s.records, test_records)
+    eq_(list(s.records), test_records)
 
 
 def test_set_dict():

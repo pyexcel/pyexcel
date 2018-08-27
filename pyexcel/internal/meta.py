@@ -16,6 +16,7 @@ import pyexcel.constants as constants
 from pyexcel.internal.core import get_sheet_stream
 from pyexcel.internal.core import save_sheet
 from pyexcel.internal.core import save_book
+from pyexcel.internal.utils import make_a_property
 from pyexcel._compact import append_doc
 import pyexcel.docstrings as docs
 
@@ -71,8 +72,8 @@ def importer(attribute=None):
         else:
             keywords[keyword] = content
         named_content = get_sheet_stream(**keywords)
-        self.init(named_content.payload,
-                  named_content.name, **sheet_params)
+        self.init(named_content.payload, named_content.name, **sheet_params)
+
     custom_importer1.__doc__ = "Set data in %s format" % attribute
     return custom_importer1
 
@@ -94,84 +95,60 @@ def book_importer(attribute=None):
     return custom_book_importer
 
 
-def default_presenter(attribute=None):
-    """a default method for missing renderer method
-
-    for example, the support to write data in a specific file type
-    is missing but the support to read data exists
+def attribute(
+    cls,
+    file_type,
+    instance_name="Sheet",
+    description=constants.OUT_FILE_TYPE_DOC_STRING,
+    **keywords
+):
     """
-    def none_presenter(_, **__):
-        """docstring is assigned a few lines down the line"""
-        raise NotImplementedError("%s getter is not defined." % attribute)
-    none_presenter.__doc__ = "%s getter is not defined." % attribute
-    return none_presenter
-
-
-def default_importer(attribute=None):
-    """a default method for missing parser method
-
-    for example, the support to read data in a specific file type
-    is missing but the support to write data exists
+    create custom attributes for each class
     """
-    def none_importer(_x, _y, **_z):
-        """docstring is assigned a few lines down the line"""
-        raise NotImplementedError("%s setter is not defined." % attribute)
-    none_importer.__doc__ = "%s setter is not defined." % attribute
-    return none_importer
+    doc_string = description.format(file_type, instance_name)
+    make_a_property(cls, file_type, doc_string, **keywords)
 
 
-def _annotate_pyexcel_object_attribute(
-        cls, file_type, presenter_func=sheet_presenter,
-        input_func=default_importer,
-        instance_name="Sheet",
-        description=constants.OUT_FILE_TYPE_DOC_STRING):
-    getter = presenter_func(file_type)
-    setter = input_func(file_type)
-    file_type_property = property(
-        # note:
-        # without fget, fset, pypy 5.4.0 crashes randomly.
-        fget=getter, fset=setter,
-        doc=description.format(file_type,
-                               instance_name))
-    if '.' in file_type:
-        attribute = file_type.replace('.', '_')
-    else:
-        attribute = file_type
-    setattr(cls, attribute, file_type_property)
-    setattr(cls, 'get_%s' % attribute, getter)
-    setattr(cls, 'set_%s' % attribute, setter)
-
-
-REGISTER_PRESENTATION = _annotate_pyexcel_object_attribute
+REGISTER_PRESENTATION = partial(
+    attribute,
+    getter_func=sheet_presenter,
+    description=constants.OUT_FILE_TYPE_DOC_STRING,
+)
 REGISTER_BOOK_PRESENTATION = partial(
-    _annotate_pyexcel_object_attribute,
-    presenter_func=book_presenter,
-    instance_name="Book")
+    attribute,
+    getter_func=book_presenter,
+    instance_name="Book",
+    description=constants.OUT_FILE_TYPE_DOC_STRING,
+)
 REGISTER_INPUT = partial(
-    _annotate_pyexcel_object_attribute,
-    presenter_func=default_presenter,
-    input_func=importer,
-    description=constants.IN_FILE_TYPE_DOC_STRING)
+    attribute,
+    setter_func=importer,
+    description=constants.IN_FILE_TYPE_DOC_STRING,
+)
 REGISTER_BOOK_INPUT = partial(
-    _annotate_pyexcel_object_attribute,
-    presenter_func=default_presenter,
-    input_func=book_importer,
+    attribute,
     instance_name="Book",
-    description=constants.IN_FILE_TYPE_DOC_STRING)
+    setter_func=book_importer,
+    description=constants.IN_FILE_TYPE_DOC_STRING,
+)
 REGISTER_IO = partial(
-    _annotate_pyexcel_object_attribute,
-    input_func=importer,
-    description=constants.IO_FILE_TYPE_DOC_STRING)
+    attribute,
+    getter_func=sheet_presenter,
+    setter_func=importer,
+    description=constants.IO_FILE_TYPE_DOC_STRING,
+)
 REGISTER_BOOK_IO = partial(
-    _annotate_pyexcel_object_attribute,
-    presenter_func=book_presenter,
-    input_func=book_importer,
+    attribute,
+    getter_func=book_presenter,
+    setter_func=book_importer,
     instance_name="Book",
-    description=constants.IO_FILE_TYPE_DOC_STRING)
+    description=constants.IO_FILE_TYPE_DOC_STRING,
+)
 
 
 class StreamAttribute(object):
     """Provide access to get_*_stream methods"""
+
     def __init__(self, cls):
         self.cls = cls
 
@@ -182,6 +159,7 @@ class StreamAttribute(object):
 
 class PyexcelObject(object):
     """parent class for pyexcel.Sheet and pyexcel.Book"""
+
     @property
     def stream(self):
         """Return a stream in which the content is properly encoded
@@ -217,18 +195,6 @@ class PyexcelObject(object):
         It is similar to :meth:`~pyexcel.Book.save_to_memory`.
         """
         return StreamAttribute(self)
-
-    def __repr__(self):
-        if PY2:
-            default_encoding = sys.getdefaultencoding()
-            if default_encoding == "ascii":
-                result = self.texttable
-                return result.encode('utf-8')
-
-        return self.texttable
-
-    def __str__(self):
-        return self.__repr__()
 
     def save_to_memory(self, file_type, **keywords):
         """Save the content to memory
@@ -269,27 +235,40 @@ class PyexcelObject(object):
     def _repr_html_(self):
         return self.html
 
+    def __repr__(self):
+        if PY2:
+            default_encoding = sys.getdefaultencoding()
+            if default_encoding == "ascii":
+                result = self.texttable
+                return result.encode('utf-8')
+
+        return self.texttable
+
+    def __str__(self):
+        return self.__repr__()
+
 
 class SheetMeta(PyexcelObject):
     """Annotate sheet attributes"""
+    register_io = classmethod(REGISTER_IO)
+    register_presentation = classmethod(REGISTER_PRESENTATION)
+    register_input = classmethod(REGISTER_INPUT)
 
     @append_doc(docs.SAVE_AS_OPTIONS)
     def save_as(self, filename, **keywords):
         """Save the content to a named file
         """
-        return save_sheet(self, file_name=filename,
-                          **keywords)
+        return save_sheet(self, file_name=filename, **keywords)
 
     def save_to_memory(self, file_type, stream=None, **keywords):
-        stream = save_sheet(self, file_type=file_type, file_stream=stream,
-                            **keywords)
+        stream = save_sheet(
+            self, file_type=file_type, file_stream=stream, **keywords
+        )
         return stream
 
-    def save_to_django_model(self,
-                             model,
-                             initializer=None,
-                             mapdict=None,
-                             batch_size=None):
+    def save_to_django_model(
+        self, model, initializer=None, mapdict=None, batch_size=None
+    ):
         """Save to database table through django model
 
         :param model: a database model
@@ -298,14 +277,17 @@ class SheetMeta(PyexcelObject):
         :param batch_size: a parameter to Django concerning the size
                            for bulk insertion
         """
-        save_sheet(self,
-                   model=model, initializer=initializer,
-                   mapdict=mapdict, batch_size=batch_size)
+        save_sheet(
+            self,
+            model=model,
+            initializer=initializer,
+            mapdict=mapdict,
+            batch_size=batch_size,
+        )
 
-    def save_to_database(self, session, table,
-                         initializer=None,
-                         mapdict=None,
-                         auto_commit=True):
+    def save_to_database(
+        self, session, table, initializer=None, mapdict=None, auto_commit=True
+    ):
         """Save data in sheet to database table
 
         :param session: database session
@@ -315,21 +297,22 @@ class SheetMeta(PyexcelObject):
         :param auto_commit: by default, data is auto committed.
 
         """
-        save_sheet(self,
-                   session=session,
-                   table=table,
-                   initializer=initializer,
-                   mapdict=mapdict,
-                   auto_commit=auto_commit)
-
-
-setattr(SheetMeta, "register_io", classmethod(REGISTER_IO))
-setattr(SheetMeta, "register_presentation", classmethod(REGISTER_PRESENTATION))
-setattr(SheetMeta, "register_input", classmethod(REGISTER_INPUT))
+        save_sheet(
+            self,
+            session=session,
+            table=table,
+            initializer=initializer,
+            mapdict=mapdict,
+            auto_commit=auto_commit,
+        )
 
 
 class BookMeta(PyexcelObject):
     """Annotate book attributes"""
+
+    register_io = classmethod(REGISTER_BOOK_IO)
+    register_presentation = classmethod(REGISTER_BOOK_PRESENTATION)
+    register_input = classmethod(REGISTER_BOOK_INPUT)
 
     @append_doc(docs.SAVE_AS_OPTIONS)
     def save_as(self, filename, **keywords):
@@ -347,13 +330,14 @@ class BookMeta(PyexcelObject):
                        format, please pass an instance of StringIO. For xls,
                        xlsx, and ods, an instance of BytesIO.
         """
-        stream = save_book(self, file_type=file_type, file_stream=stream,
-                           **keywords)
+        stream = save_book(
+            self, file_type=file_type, file_stream=stream, **keywords
+        )
         return stream
 
-    def save_to_django_models(self, models,
-                              initializers=None, mapdicts=None,
-                              **keywords):
+    def save_to_django_models(
+        self, models, initializers=None, mapdicts=None, **keywords
+    ):
         """
         Save to database table through django model
 
@@ -373,15 +357,22 @@ class BookMeta(PyexcelObject):
         :param bulk_save: whether to use bulk_create or to use single save
                           per record
         """
-        save_book(self,
-                  models=models,
-                  initializers=initializers,
-                  mapdicts=mapdicts,
-                  **keywords)
+        save_book(
+            self,
+            models=models,
+            initializers=initializers,
+            mapdicts=mapdicts,
+            **keywords
+        )
 
-    def save_to_database(self, session, tables,
-                         initializers=None, mapdicts=None,
-                         auto_commit=True):
+    def save_to_database(
+        self,
+        session,
+        tables,
+        initializers=None,
+        mapdicts=None,
+        auto_commit=True,
+    ):
         """
         Save data in sheets to database tables
 
@@ -399,19 +390,14 @@ class BookMeta(PyexcelObject):
         :param auto_commit: by default, data is committed.
 
         """
-        save_book(self,
-                  session=session,
-                  tables=tables,
-                  initializers=initializers,
-                  mapdicts=mapdicts,
-                  auto_commit=auto_commit)
-
-
-setattr(BookMeta, "register_io", classmethod(REGISTER_BOOK_IO))
-setattr(BookMeta, "register_presentation",
-        classmethod(REGISTER_BOOK_PRESENTATION))
-setattr(BookMeta, "register_input",
-        classmethod(REGISTER_BOOK_INPUT))
+        save_book(
+            self,
+            session=session,
+            tables=tables,
+            initializers=initializers,
+            mapdicts=mapdicts,
+            auto_commit=auto_commit,
+        )
 
 
 def _get_book(**keywords):
