@@ -13,6 +13,28 @@ Planned
 #. suppert missing pandas io features: use custom boolean values, write stylish
    spreadsheets.
 
+0.5.9 - unreleased
+--------------------------------------------------------------------------------
+
+added
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. support __len__. len(book) returns the number of sheets and len(sheet)
+   returns the number of rows
+#. `#144 <https://github.com/pyexcel/pyexcel/issues/144>`_: memory-efficient way
+   to read sheet names.
+#. `#148 <https://github.com/pyexcel/pyexcel/issues/148>`_: force_file_type is
+   introduced. When reading a file on a disk, this parameter allows you to
+   choose a reader. i.e. csv reader for a text file. xlsx reader for a xlsx file
+   but with .blob file suffix.
+
+updated
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. Sheet.to_records() returns a generator now, saving memory
+#. `#115 <https://github.com/pyexcel/pyexcel/issues/115>`_, Fix set membership
+   test to run faster in python2
+
 0.5.8 - unreleased
 --------------------------------------------------------------------------------
 
