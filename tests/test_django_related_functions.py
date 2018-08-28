@@ -159,7 +159,7 @@ class TestSheet:
         sheet2 = pe.get_sheet(model=model, sheet_name='test')
         sheet2.name_columns_by_row(0)
         assert sheet2.name == 'test'
-        assert sheet2.to_records() == sheet.to_records()
+        eq_(list(sheet2.to_records()), list(sheet.to_records()))
 
     def test_mapping_array(self):
         data2 = [

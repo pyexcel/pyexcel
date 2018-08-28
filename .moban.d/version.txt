@@ -1,0 +1,2 @@
+__version__ = '{{current_version}}'
+__author__ = '{{author}}'

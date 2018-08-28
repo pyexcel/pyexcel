@@ -154,11 +154,13 @@ class TestCSVSingleSheet:
         pe.load_book(self.testfile, sheet_name="Not exist")
 
     def tearDown(self):
-        clean_up_files([
-            "multiple1__Sheet1__0.csv",
-            "multiple1__Sheet2__1.csv",
-            "multiple1__Sheet3__2.csv",
-        ])
+        clean_up_files(
+            [
+                "multiple1__Sheet1__0.csv",
+                "multiple1__Sheet2__1.csv",
+                "multiple1__Sheet3__2.csv",
+            ]
+        )
 
 
 class TestCSVZSingleSheet:
@@ -198,9 +200,7 @@ class TestCSVZSingleSheet:
         pe.load_book(self.testfile, sheet_name="Not exist")
 
     def tearDown(self):
-        clean_up_files([
-            self.testfile
-        ])
+        clean_up_files([self.testfile])
 
 
 class TestAddBooks:
@@ -222,9 +222,7 @@ class TestAddBooks:
         self._write_test_file(self.testfile, self.content)
         self._write_test_file(self.testfile2, self.content)
         self.test_single_sheet_file = "single.xls"
-        self.content1 = {
-            "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
-        }
+        self.content1 = {"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]}
         self._write_test_file(self.test_single_sheet_file, self.content1)
 
     @raises(KeyError)
@@ -518,7 +516,7 @@ class TestMergeCSVsIntoOne:
             [u'g', u'h', u'i'],
             [1.1, 2.2, 3.3],
             [4.4, 5.5, 6.6],
-            [7.7, 8.8, 9.9]
+            [7.7, 8.8, 9.9],
         ]
         assert result == actual
         # verify
@@ -530,10 +528,9 @@ class TestMergeCSVsIntoOne:
 
 def _produce_ordered_dict():
     data_dict = OrderedDict()
-    data_dict.update({
-        "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
-    data_dict.update({
-        "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
-    data_dict.update({
-        "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
+    data_dict.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
+    data_dict.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
+    data_dict.update(
+        {"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]}
+    )
     return data_dict

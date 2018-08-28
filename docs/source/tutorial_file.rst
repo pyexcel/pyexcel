@@ -22,7 +22,7 @@ Open a csv file
    >>> pyexcel.save_as(array=data, dest_file_name="example.csv")
    >>> pyexcel.save_as(array=data, dest_file_name="example.tsv")
 
-Read a csv (comma separated values) file is simple:
+Read a csv file is simple:
 
 .. code-block:: python
 
@@ -38,7 +38,7 @@ Read a csv (comma separated values) file is simple:
     | 3 | 6 | 9 |
     +---+---+---+
 
-The same applies to a tsv (tab separated values) file:
+The same applies to a tsv file:
 
 .. code-block:: python
 
@@ -53,7 +53,7 @@ The same applies to a tsv (tab separated values) file:
     | 3 | 6 | 9 |
     +---+---+---+
 
-Note: a tab separated file can be read as csv: just specify tab as a delimiter parameter.
+Meanwhile, a tab separated file can be read as csv too. You can specify a delimiter parameter.
 
 .. code-block:: python
 
@@ -80,7 +80,7 @@ Note: a tab separated file can be read as csv: just specify tab as a delimiter p
 Add a new row to an existing file
 ----------------------------------
 
-Suppose you have a data file as:
+Suppose you have one data file as the following:
 
 .. pyexcel-table::
 
@@ -131,7 +131,7 @@ Here is the code:
     +----------+----------+----------+
 
 
-Update an existing row in an existing file
+Update an existing row to an existing file
 -------------------------------------------
 
 Suppose you want to update the last row of the example file as:
@@ -237,8 +237,8 @@ Alternatively, you could have done like this:
     +----------+----------+----------+
 
 
-How about the same alternative solution to previous row based example? 
-Let's use the following data:
+How about the same alternative solution to previous row based example? Well,
+you'd better to have the following kind of data:
 
 .. pyexcel-table::
 

@@ -84,8 +84,7 @@ class Row(utils.CommonPropertyAmongRowNColumn):
         """
         new_indices = []
         if compact.is_array_type(indices, str):
-            new_indices = utils.names_to_indices(indices,
-                                                 self._ref.rownames)
+            new_indices = utils.names_to_indices(indices, self._ref.rownames)
         else:
             new_indices = indices
         to_remove = []
@@ -138,12 +137,10 @@ class Row(utils.CommonPropertyAmongRowNColumn):
         if compact.is_string(type(locator)):
             self._ref.delete_named_row_at(locator)
         elif compact.is_tuple_consists_of_strings(locator):
-            indices = utils.names_to_indices(list(locator),
-                                             self._ref.rownames)
+            indices = utils.names_to_indices(list(locator), self._ref.rownames)
             self._ref.delete_rows(indices)
         elif isinstance(locator, slice):
-            my_range = utils.analyse_slice(locator,
-                                           self._ref.number_of_rows())
+            my_range = utils.analyse_slice(locator, self._ref.number_of_rows())
             self._ref.delete_rows(my_range)
         elif isinstance(locator, tuple):
             self._ref.filter(row_indices=(list(locator)))
@@ -155,6 +152,18 @@ class Row(utils.CommonPropertyAmongRowNColumn):
             self._delete_rows_by_content(locator)
         else:
             self._ref.delete_rows([locator])
+
+    def __getattr__(self, attr):
+        """
+        Refer to sheet.row.name
+        """
+        the_attr = attr
+        if attr not in self._ref.rownames:
+            the_attr = the_attr.replace('_', ' ')
+            if the_attr not in self._ref.rownames:
+                raise AttributeError("%s is not found" % attr)
+
+        return self._ref.named_row_at(the_attr)
 
     def _delete_rows_by_content(self, locator):
         to_remove = []
@@ -169,8 +178,7 @@ class Row(utils.CommonPropertyAmongRowNColumn):
         if compact.is_string(type(aslice)):
             self._ref.set_named_row_at(aslice, a_row)
         elif isinstance(aslice, slice):
-            my_range = utils.analyse_slice(
-                aslice, self._ref.number_of_rows())
+            my_range = utils.analyse_slice(aslice, self._ref.number_of_rows())
             for i in my_range:
                 self._ref.set_row_at(i, a_row)
         else:
@@ -183,13 +191,13 @@ class Row(utils.CommonPropertyAmongRowNColumn):
         if compact.is_string(type(aslice)):
             return self._ref.named_row_at(aslice)
         elif isinstance(aslice, slice):
-            my_range = utils.analyse_slice(aslice,
-                                           self._ref.number_of_rows())
+            my_range = utils.analyse_slice(aslice, self._ref.number_of_rows())
             results = []
             for i in my_range:
                 results.append(self._ref.row_at(i))
             return results
-        if index in self._ref.row_range():
+
+        if abs(index) in self._ref.row_range():
             return self._ref.row_at(index)
         else:
             raise IndexError
@@ -209,8 +217,7 @@ class Row(utils.CommonPropertyAmongRowNColumn):
             raise TypeError
         return self
 
-    def format(self, row_index=None, formatter=None,
-               format_specs=None):
+    def format(self, row_index=None, formatter=None, format_specs=None):
         """Format a row
         """
         if row_index is not None:
@@ -225,7 +232,8 @@ class Row(utils.CommonPropertyAmongRowNColumn):
             new_indices = utils.names_to_indices(rows, self._ref.rownames)
 
         converter = utils.CommonPropertyAmongRowNColumn.get_converter(
-            theformatter)
+            theformatter
+        )
         if isinstance(new_indices, list):
             for rindex in self._ref.row_range():
                 if rindex in new_indices:

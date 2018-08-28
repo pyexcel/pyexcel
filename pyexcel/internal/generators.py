@@ -94,6 +94,9 @@ class BookStream(object):
             self.__dict__[name] = sheet
         self.name_array = list(self.sheets.keys())
 
+    def sheet_names(self):
+        return self.name_array
+
     def to_dict(self):
         """
         Get book data structure as a dictionary
@@ -111,6 +114,10 @@ class BookStream(object):
         return len(self.name_array)
 
     def __getitem__(self, index):
-        if index < len(self.name_array):
-            sheet_name = self.name_array[index]
+        if isinstance(index, int):
+            if index < len(self.name_array):
+                sheet_name = self.name_array[index]
+                return self.sheets[sheet_name]
+        else:
+            sheet_name = index
             return self.sheets[sheet_name]

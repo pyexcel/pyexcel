@@ -24,6 +24,7 @@ from .core import (
     get_book_dict,
     get_sheet,
     get_book,
+    iget_book,
     save_as,
     isave_as,
     save_book_as,
@@ -43,3 +44,4 @@ from .deprecated import (
     ColumnSeriesReader,
     BookReader
 )
+from .__version__ import __version__, __author__

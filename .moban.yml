@@ -19,7 +19,8 @@ targets:
   - test.sh: test.sh
   - test.bat: test.bat
   - .gitignore: commons-gitignore.jj2
-  - "docs/source/index.rst": "docs/source/index.rst.jj2"
+  - "pyexcel/__version__.py": version.txt
+  - "docs/source/index.rst": "docs/source/pyexcel-index.rst.jj2"
   - output: CHANGELOG.rst
     configuration: changelog.yml
     template: CHANGELOG.rst.jj2

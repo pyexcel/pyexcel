@@ -46,14 +46,14 @@ class FileSourceInfo(SourceInfo):
         if status:
             file_name = keywords.get("file_name", None)
             if file_name:
-                force_file_type = keywords.get("force_file_type")
-                if force_file_type:
-                    file_type = force_file_type
-                elif is_string(type(file_name)):
-                    file_type = find_file_type_from_file_name(file_name,
-                                                              action)
-                else:
-                    raise IOError("Unsupported file type")
+                file_type = keywords.get("force_file_type")
+
+                if file_type is None:
+                    if is_string(type(file_name)):
+                        file_type = find_file_type_from_file_name(
+                            file_name, action)
+                    else:
+                        raise IOError("Unsupported file type")
             else:
                 file_type = keywords.get("file_type")
 

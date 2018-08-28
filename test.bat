@@ -1,2 +1,2 @@
 pip freeze
-nosetests --with-coverage --cover-package pyexcel --cover-package tests --with-doctest --doctest-extension=.rst README.rst tests docs/source pyexcel && flake8 . --exclude=.moban.d --builtins=unicode,xrange,long
+nosetests --with-coverage --cover-package pyexcel --cover-package tests tests --with-doctest --doctest-extension=.rst README.rst docs/source pyexcel && flake8 . --exclude=.moban.d,docs --builtins=unicode,xrange,long

@@ -11,7 +11,8 @@ import pyexcel_io.constants as io_constants
 
 import pyexcel.constants as constants
 import pyexcel.exceptions as exceptions
-from pyexcel.internal.attributes import register_an_attribute
+from pyexcel.internal.attributes import register_book_attribute
+from pyexcel.internal.attributes import register_sheet_attribute
 from lml.plugin import PluginManager
 
 
@@ -41,8 +42,10 @@ class SourcePluginManager(PluginManager):
                 module_name = _get_me_pypi_package_name(plugin.__module__)
                 if library and module_name != library:
                     continue
+
                 else:
                     break
+
         else:
             # nothing is found, no break
             _error_handler(action, **keywords)
@@ -53,16 +56,18 @@ class SourcePluginManager(PluginManager):
         PluginManager.register_a_plugin(self, plugin_cls, plugin_info)
         self._register_a_plugin_info(plugin_info)
 
-    def get_a_plugin(self, target=None, action=None, source_library=None,
-                     **keywords):
+    def get_a_plugin(
+        self, target=None, action=None, source_library=None, **keywords
+    ):
         """obtain a source plugin for pyexcel signature functions"""
         key = REGISTRY_KEY_FORMAT % (target, action)
         io_library = None
         # backward support pyexcel-io library parameter
         if 'library' in keywords:
             io_library = keywords.pop('library')
-        source_cls = self.load_me_now(key, action=action,
-                                      library=source_library, **keywords)
+        source_cls = self.load_me_now(
+            key, action=action, library=source_library, **keywords
+        )
         if io_library is not None:
             keywords['library'] = io_library
         source_instance = source_cls(**keywords)
@@ -71,31 +76,27 @@ class SourcePluginManager(PluginManager):
     def get_source(self, **keywords):
         """obtain a sheet read source plugin for pyexcel signature functions"""
         return self.get_a_plugin(
-            target=constants.SHEET,
-            action=constants.READ_ACTION,
-            **keywords)
+            target=constants.SHEET, action=constants.READ_ACTION, **keywords
+        )
 
     def get_book_source(self, **keywords):
         """obtain a book read source plugin for pyexcel signature functions"""
         return self.get_a_plugin(
-            target=constants.BOOK,
-            action=constants.READ_ACTION,
-            **keywords)
+            target=constants.BOOK, action=constants.READ_ACTION, **keywords
+        )
 
     def get_writable_source(self, **keywords):
         """obtain a sheet write source plugin for pyexcel signature functions
         """
         return self.get_a_plugin(
-            target=constants.SHEET,
-            action=constants.WRITE_ACTION,
-            **keywords)
+            target=constants.SHEET, action=constants.WRITE_ACTION, **keywords
+        )
 
     def get_writable_book_source(self, **keywords):
         """obtain a book write source plugin for pyexcel signature functions"""
         return self.get_a_plugin(
-            target=constants.BOOK,
-            action=constants.WRITE_ACTION,
-            **keywords)
+            target=constants.BOOK, action=constants.WRITE_ACTION, **keywords
+        )
 
     def get_keyword_for_parameter(self, key):
         """custom keyword for an attribute"""
@@ -113,7 +114,14 @@ class SourcePluginManager(PluginManager):
             for attr in attributes:
                 if attr in NO_DOT_NOTATION:
                     continue
-                register_an_attribute(target, action, attr)
+
+                if target == 'book':
+                    register_book_attribute(target, action, attr)
+                elif target == 'sheet':
+                    register_sheet_attribute(target, action, attr)
+                else:
+                    raise Exception("Known target: %s" % target)
+
                 debug_attribute += "%s " % attr
                 self.keywords[attr] = plugin_info.key
                 anything = True
@@ -128,7 +136,9 @@ def _error_handler(action, **keywords):
         file_type = keywords.get('file_type', None)
         if file_type:
             raise exceptions.FileTypeNotSupported(
-                constants.FILE_TYPE_NOT_SUPPORTED_FMT % (file_type, action))
+                constants.FILE_TYPE_NOT_SUPPORTED_FMT % (file_type, action)
+            )
+
         else:
             if "on_demand" in keywords:
                 keywords.pop("on_demand")
@@ -136,6 +146,7 @@ def _error_handler(action, **keywords):
             msg += "function parameters: %s. Otherwise "
             msg += "unrecognized parameters were given."
             raise exceptions.UnknownParameters(msg % keywords)
+
     else:
         raise exceptions.UnknownParameters("No parameters found!")
 

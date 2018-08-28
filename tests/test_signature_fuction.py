@@ -3,6 +3,7 @@ import pyexcel as pe
 from db import Session, Base, Signature, Signature2, engine
 from _compact import OrderedDict
 from nose.tools import raises, eq_
+from types import GeneratorType
 
 
 def test_unknown_file_type_exception():
@@ -138,6 +139,12 @@ class TestGetSheet:
             [4, 5, 6]
         ]
         assert expected == sheet.to_array()
+
+    def test_get_sheet_from_txt(self):
+        test_file = os.path.join("tests", "fixtures", "force_type.txt")
+        sheet = pe.get_sheet(file_name=test_file, force_file_type="csv")
+        expected = [[1, 2, 3]]
+        eq_(sheet.to_array(), expected)
 
 
 class TestGetArray:
@@ -881,6 +888,113 @@ class TestGetBook:
         ]
         result = book.to_dict()
         eq_(expected, result[test_sheet_name])
+
+
+class TestIGetBook:
+    def test_get_book_from_book_dict(self):
+        content = _produce_ordered_dict()
+        book = pe.iget_book(bookdict=content)
+        eq_(book.to_dict(), content)
+
+    def test_get_book_from_file(self):
+        test_file = "test_get_book.xls"
+        content = _produce_ordered_dict()
+
+        book = pe.Book(content)
+        book.save_as(test_file)
+        book_stream = pe.iget_book(file_name=test_file)
+        assert book_stream.to_dict() != content
+        book3 = pe.Book(book_stream.to_dict())
+        eq_(book3.to_dict(), content)
+        os.unlink(test_file)
+
+    def test_get_book_from_memory(self):
+        content = _produce_ordered_dict()
+        io = pe.save_book_as(dest_file_type="xls", bookdict=content)
+        book_stream = pe.iget_book(file_content=io.getvalue(), file_type="xls")
+        assert book_stream.to_dict() != content
+        book = pe.Book(book_stream.to_dict())
+        eq_(book.to_dict(), content)
+
+    def test_get_book_from_file_stream(self):
+        content = _produce_ordered_dict()
+
+        io = pe.save_book_as(dest_file_type="xls", bookdict=content)
+        book_stream = pe.iget_book(file_stream=io, file_type="xls")
+        assert book_stream.to_dict() != content
+        book = pe.Book(book_stream.to_dict())
+        eq_(book.to_dict(), content)
+
+    @raises(IOError)
+    def test_get_book_from_memory_compatibility(self):
+        content = _produce_ordered_dict()
+        io = pe.save_book_as(dest_file_type="xls", bookdict=content)
+        pe.iget_book(content=io.getvalue(), file_type="xls")
+
+    def test_get_sheet_from_array(self):
+        data = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        test_sheet_name = 'custom_sheet'
+        book = pe.iget_book(array=data, sheet_name=test_sheet_name)
+        result = book.to_dict()
+        eq_(data, list(result[test_sheet_name]))
+
+    def test_get_sheet_from_dict(self):
+        adict = {
+            "X": [1, 4],
+            "Y": [2, 5],
+            "Z": [3, 6]
+        }
+        test_sheet_name = 'custom_sheet'
+        book = pe.iget_book(adict=adict, sheet_name=test_sheet_name)
+        expected = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        result = book.to_dict()
+        eq_(expected, list(result[test_sheet_name]))
+
+    def test_get_sheet_from_records(self):
+        records = [
+            {"X": 1, "Y": 2, "Z": 3},
+            {"X": 4, "Y": 5, "Z": 6}
+        ]
+        test_sheet_name = 'custom_sheet'
+        book = pe.iget_book(records=records, sheet_name=test_sheet_name)
+        expected = [
+            ["X", "Y", "Z"],
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+        result = book.to_dict()
+        eq_(expected, list(result[test_sheet_name]))
+
+    def test_look_at_sheet_names_without_incurring_further_memory_cost(self):
+        test_file = "test_get_book.xls"
+        content = _produce_ordered_dict()
+
+        book = pe.Book(content)
+        book.save_as(test_file)
+        book_stream = pe.iget_book(file_name=test_file)
+        eq_(book_stream.sheet_names(), ['Sheet1', 'Sheet2', 'Sheet3'])
+        assert isinstance(book_stream['Sheet1'].payload, GeneratorType)
+        os.unlink(test_file)
+
+    def test_look_at_sheet_names_decides_to_read_seond_one(self):
+        test_file = "test_get_book.xls"
+        content = _produce_ordered_dict()
+
+        book = pe.Book(content)
+        book.save_as(test_file)
+        book_stream = pe.iget_book(file_name=test_file)
+        data = pe.iget_array(sheet_stream=book_stream['Sheet1'])
+        assert isinstance(data, GeneratorType)
+        eq_(list(data), [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]])
+        os.unlink(test_file)
 
 
 class TestSaveAs:

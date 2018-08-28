@@ -16,6 +16,7 @@ pyexcel.internal.generators.BookStream
       ~BookStream.__init__
       ~BookStream.load_from_sheets
       ~BookStream.number_of_sheets
+      ~BookStream.sheet_names
       ~BookStream.to_dict
    
    

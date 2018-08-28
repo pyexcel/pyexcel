@@ -8,3 +8,6 @@ matrix:
 {%block custom_install%}
   - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then rm tests/test_examples.py; fi
 {%endblock%}
+
+{%block pypi_deployment%}
+{%endblock %}

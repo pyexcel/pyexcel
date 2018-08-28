@@ -242,7 +242,8 @@ flycheck_*.el
 # Swap
 [._]*.s[a-v][a-z]
 [._]*.sw[a-p]
-[._]s[a-v][a-z]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
 [._]sw[a-p]
 
 # Session
@@ -263,6 +264,7 @@ tags
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
+.idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
 
@@ -280,8 +282,7 @@ tags
 .idea/**/libraries
 
 # CMake
-cmake-build-debug/
-cmake-build-release/
+cmake-build-*/
 
 # Mongo Explorer plugin
 .idea/**/mongoSettings.xml
@@ -414,7 +415,7 @@ local.properties
 # CDT-specific (C/C++ Development Tooling)
 .cproject
 
-# CDT- autotools 
+# CDT- autotools
 .autotools
 
 # Java annotation processor (APT)
@@ -437,6 +438,9 @@ local.properties
 
 # Code Recommenders
 .recommenders/
+
+# Annotation Processing
+.apt_generated/
 
 # Scala IDE specific (Scala & Java development for Eclipse)
 .cache-main

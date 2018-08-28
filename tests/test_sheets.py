@@ -12,10 +12,33 @@ def test_non_filter():
     s.filter("abc")  # bang
 
 
-@raises(TypeError)
 def test_invalid_array_in_sheet():
+    test_array = [[1, 2]]
+    sheet = Sheet(test_array)
+    sheet2 = Sheet(sheet)
+    eq_(sheet2.array, test_array)
+
+
+def test_sheet_len():
     sheet = Sheet([[1, 2]])
-    Sheet(sheet)
+    eq_(len(sheet), 1)
+
+
+class TestNegativeIndices:
+    def setUp(self):
+        self.data = [
+            [1, 2, 3, 4, 5, 6, 7, 8],
+            ["1", "2", "3", "4", "5", "6", "7", "8"],
+            [1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
+            ["1.1", "2.2", "3.3", "4.4", "5.5", "6.6", "7,7", "8.8"],
+            [2, 3, 4, 5, 6, 7, 8, 9],
+            ["2", "3", "4", "5", "6", "7", "8", "9"]
+        ]
+
+    def test_apply_row_form(self):
+        s = Sheet(self.data)
+        data = s.row_at(-2)
+        eq_(data, self.data[-2])
 
 
 class TestFormatter:

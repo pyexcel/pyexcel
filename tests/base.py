@@ -20,11 +20,7 @@ def create_generic_file(filename, array_content):
 
 
 def create_sample_file1(filename):
-    data = [
-        ['a', 'b', 'c', 'd'],
-        ['e', 'f', 'g', 'h'],
-        ['i', 'j', 1.1, 1]
-    ]
+    data = [['a', 'b', 'c', 'd'], ['e', 'f', 'g', 'h'], ['i', 'j', 1.1, 1]]
     create_generic_file(filename, data)
 
 
@@ -33,7 +29,7 @@ def create_sample_file1_series(filename):
         ['c1', 'c2', 'c3', 'c4'],
         ['a', 'b', 'c', 'd'],
         ['e', 'f', 'g', 'h'],
-        ['i', 'j', 1.1, 1]
+        ['i', 'j', 1.1, 1],
     ]
     create_generic_file(filename, data)
 
@@ -46,7 +42,7 @@ def create_sample_file2(filename):
     """
     table = []
     for i in [0, 4, 8]:
-        array = [i+1, i+2, i+3, i+4]
+        array = [i + 1, i + 2, i + 3, i + 4]
         table.append(array)
     create_generic_file(filename, table)
 
@@ -258,10 +254,12 @@ class PyexcelSheetRWBase:
     @raises(TypeError)
     def test_extend_rows(self):
         r2 = self.testclass(self.testfile)
-        content = [['r', 's', 't', 'o'],
-                   [1, 2, 3, 4],
-                   [True],
-                   [1.1, 2.2, 3.3, 4.4, 5.5]]
+        content = [
+            ['r', 's', 't', 'o'],
+            [1, 2, 3, 4],
+            [True],
+            [1.1, 2.2, 3.3, 4.4, 5.5],
+        ]
         r2.row += content
         assert r2.row[3] == ['r', 's', 't', 'o', '']
         assert r2.row[4] == [1, 2, 3, 4, '']

@@ -13,10 +13,16 @@ from pyexcel.internal.source_plugin import SOURCE  # noqa
 from pyexcel.internal.generators import SheetStream, BookStream  # noqa
 
 
-BLACK_LIST = ['pyexcel_io', 'pyexcel_webio',
-              'pyexcel_xlsx', 'pyexcel_xls',
-              'pyexcel_ods3', 'pyexcel_ods',
-              'pyexcel_odsr', 'pyexcel_xlsxw']
+BLACK_LIST = [
+    'pyexcel_io',
+    'pyexcel_webio',
+    'pyexcel_xlsx',
+    'pyexcel_xls',
+    'pyexcel_ods3',
+    'pyexcel_ods',
+    'pyexcel_odsr',
+    'pyexcel_xlsxw',
+]
 WHITE_LIST = [
     'pyexcel.plugins.parsers',
     'pyexcel.plugins.renderers',

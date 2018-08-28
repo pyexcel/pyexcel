@@ -116,10 +116,17 @@ def names_to_indices(names, series):
     """translate names to indices"""
     if isinstance(names, str):
         indices = series.index(names)
-    elif (isinstance(names, list) and
-          isinstance(names[0], str)):
+    elif (isinstance(names, list) and isinstance(names[0], str)):
         # translate each row name to index
         indices = [series.index(astr) for astr in names]
     else:
         return names
     return indices
+
+
+def abs(value):
+    if value < 0:
+        return value * -1
+
+    else:
+        return value
