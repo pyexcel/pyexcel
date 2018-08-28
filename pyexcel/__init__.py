@@ -44,4 +44,4 @@ from .deprecated import (
     ColumnSeriesReader,
     BookReader
 )
-from .__version__ import __version__
+from .__version__ import __version__, __author__

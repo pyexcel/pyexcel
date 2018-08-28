@@ -27,6 +27,7 @@ added
    introduced. When reading a file on a disk, this parameter allows you to
    choose a reader. i.e. csv reader for a text file. xlsx reader for a xlsx file
    but with .blob file suffix.
+#. finally, pyexcel got import pyexcel.__version__
 
 updated
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
