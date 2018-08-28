@@ -13,6 +13,11 @@ class TestSheetRow:
             ["Row 3", 7, 8, 9],
         ]
 
+    def test_negative_row_index(self):
+        s = Sheet(self.data, "test")
+        data = s.row[-1]
+        eq_(data, self.data[-1])
+
     def test_formatter_by_named_row(self):
         s = Sheet(self.data, "test")
         s.name_rows_by_column(0)

@@ -24,6 +24,23 @@ def test_sheet_len():
     eq_(len(sheet), 1)
 
 
+class TestNegativeIndices:
+    def setUp(self):
+        self.data = [
+            [1, 2, 3, 4, 5, 6, 7, 8],
+            ["1", "2", "3", "4", "5", "6", "7", "8"],
+            [1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
+            ["1.1", "2.2", "3.3", "4.4", "5.5", "6.6", "7,7", "8.8"],
+            [2, 3, 4, 5, 6, 7, 8, 9],
+            ["2", "3", "4", "5", "6", "7", "8", "9"]
+        ]
+
+    def test_apply_row_form(self):
+        s = Sheet(self.data)
+        data = s.row_at(-2)
+        eq_(data, self.data[-2])
+
+
 class TestFormatter:
     def setUp(self):
         self.data = [

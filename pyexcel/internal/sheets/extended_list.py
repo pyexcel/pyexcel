@@ -13,10 +13,3 @@ class PyexcelList(list):
         sheet = get_sheet(adict=c)
         sheet.rownames = ['N/A', 'counts']
         return sheet
-
-    @property
-    def plot(self):
-        from pyexcel import get_sheet
-
-        sheet = get_sheet(array=[self])
-        return sheet.plot
