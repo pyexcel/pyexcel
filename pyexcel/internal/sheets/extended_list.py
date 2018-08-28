@@ -11,5 +11,5 @@ class PyexcelList(list):
 
         c = Counter(self)
         sheet = get_sheet(adict=c)
-        sheet.rownames = ['N/A', 'counts']
+        sheet.rownames = ['names', 'counts']
         return sheet
