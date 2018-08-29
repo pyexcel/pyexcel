@@ -411,12 +411,16 @@ class Matrix(SheetMeta):
             raise ValueError(constants.MESSAGE_DATA_ERROR_EMPTY_CONTENT)
 
     def _paste_rows(self, topleft_corner, rows):
-        starting_row = topleft_corner[0]
+        starting_row, starting_column = topleft_corner
         number_of_rows = self.number_of_rows()
         number_of_columns = self.number_of_columns()
         delta = starting_row - number_of_rows
         if delta > 0:
-            empty_row = [[constants.DEFAULT_NA] * number_of_columns] * delta
+            max_columns = max(starting_column, number_of_columns)
+            empty_row = [
+                [constants.DEFAULT_NA for _ in compact.irange(max_columns)]
+                for __ in compact.irange(delta)
+            ]
             self._extend_row(empty_row)
         number_of_rows = self.number_of_rows()
         for index, row in enumerate(rows):

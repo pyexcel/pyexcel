@@ -530,3 +530,14 @@ def test_pyexcel_issue_138():
     sheet = pe.Sheet()
     sheet.csv = '123_122,'
     eq_(sheet[0, 0], '123_122')
+
+
+def test_pyexcel_issue_140():
+    TestSheet1 = pe.Sheet()
+    TestSheet1[4, 4] = "4x4"
+    TestSheet1[0, 0] = "0,0"
+    expected = [
+        ['0,0', '', '', '', ''], ['', '', '', '', ''],
+        ['', '', '', '', ''],
+        ['', '', '', '', ''], ['', '', '', '', '4x4']]
+    eq_(expected, TestSheet1.to_array())
