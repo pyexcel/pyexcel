@@ -13,7 +13,15 @@ Planned
 #. suppert missing pandas io features: use custom boolean values, write stylish
    spreadsheets.
 
-0.5.9 - unreleased
+0.5.9.1 - 30.08.2018
+--------------------------------------------------------------------------------
+
+updated
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. to require pyexcel-io 0.5.9.1 and use lml at least version 0.0.2
+
+0.5.9 - 30.08.2018
 --------------------------------------------------------------------------------
 
 added
