@@ -13,7 +13,7 @@ Planned
 #. suppert missing pandas io features: use custom boolean values, write stylish
    spreadsheets.
 
-0.5.9.1 - 
+0.5.9.1 - 30.08.2018
 --------------------------------------------------------------------------------
 
 updated
