@@ -1,3 +1,10 @@
+What's breaking in 0.5.9
+================================================================================
+
+:meth:`pyexcel.Sheet.to_records` returns a generator instead of a list of
+dictionaries.
+
+
 Migrate away from 0.4.3
 ==============================
 
