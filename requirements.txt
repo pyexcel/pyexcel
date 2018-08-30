@@ -1,4 +1,4 @@
-lml>=0.0.1
+lml==0.0.1
 pyexcel-io>=0.5.9
 texttable>=0.8.1;python_version<"3"
 texttable>=0.8.2;python_version>="3"

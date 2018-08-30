@@ -11,6 +11,12 @@ releases:
   date: unreleased
   version: 0.6.0
 - changes:
+  - action: updated
+    details:
+    - 'fix lml==0.0.1 again and plan for the update for next major version'
+  version: 0.5.9.1
+  date: 30.08.2018
+- changes:
   - action: added
     details:
     - 'support __len__. len(book) returns the number of sheets and len(sheet) returns the number of rows'
@@ -22,7 +28,7 @@ releases:
     - 'Sheet.to_records() returns a generator now, saving memory'
     - '`#115`, Fix set membership test to run faster in python2'
     - '`#140`, Direct writes to cells yield weird results'
-  date: unreleased
+  date: 30.08.2018
   version: 0.5.9
 - changes:
   - action: added
