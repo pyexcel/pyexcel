@@ -13,7 +13,15 @@ Planned
 #. suppert missing pandas io features: use custom boolean values, write stylish
    spreadsheets.
 
-0.5.9 - unreleased
+0.5.9.1 - 
+--------------------------------------------------------------------------------
+
+updated
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. fix lml==0.0.1 again and plan for the update for next major version
+
+0.5.9 - 30.08.2018
 --------------------------------------------------------------------------------
 
 added
