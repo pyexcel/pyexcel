@@ -48,8 +48,8 @@ CLASSIFIERS = [
 ]
 
 INSTALL_REQUIRES = [
-    'lml==0.0.1',
-    'pyexcel-io>=0.5.9',
+    'lml>=0.0.2',
+    'pyexcel-io>=0.5.9.1',
 ]
 SETUP_COMMANDS = {}
 

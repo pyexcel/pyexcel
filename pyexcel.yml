@@ -6,8 +6,8 @@ current_version: 0.5.9.1
 release: 0.5.9.1
 branch: master
 dependencies:
-  - lml==0.0.1
-  - pyexcel-io>=0.5.9
+  - lml>=0.0.2
+  - pyexcel-io>=0.5.9.1
   - texttable>=0.8.1;python_version<"3"
   - texttable>=0.8.2;python_version>="3"
   - ordereddict;python_version<"2.7"

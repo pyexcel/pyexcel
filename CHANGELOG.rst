@@ -19,7 +19,7 @@ Planned
 updated
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. fix lml==0.0.1 again and plan for the update for next major version
+#. to require pyexcel-io 0.5.9.1 and use lml at least version 0.0.2
 
 0.5.9 - 30.08.2018
 --------------------------------------------------------------------------------
