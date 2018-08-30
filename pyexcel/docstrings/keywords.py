@@ -144,7 +144,8 @@ SKIPPING_FUNC_PROTOCOL = """
     pyexcel_io.constants.STOP_ITERATION to exit the reading procedure
 """
 
-PAGINATION_PARAMS = """
+PAGINATION_PARAMS = (
+    """
 start_row : int
     defaults to 0. It allows you to skip rows at the begginning
 
@@ -161,10 +162,14 @@ column_limit: int
 
 skip_row_func:
     It allows you to write your own row skipping functions.
-""" + SKIPPING_FUNC_PROTOCOL + """
+"""
+    + SKIPPING_FUNC_PROTOCOL
+    + """
 skip_column_func:
     It allows you to write your own column skipping functions.
-""" + SKIPPING_FUNC_PROTOCOL + """
+"""
+    + SKIPPING_FUNC_PROTOCOL
+    + """
 skip_empty_rows: bool
     Defaults to False. Toggle it to True if the rest of empty rows are
     useless, but it does affect the number of rows.
@@ -173,8 +178,11 @@ row_renderer:
     You could choose to write a custom row renderer when the data is being
     read.
 """
+)
 
-SOURCE_PARAMS = FILE_PARAMS + """
+SOURCE_PARAMS = (
+    FILE_PARAMS
+    + """
 session :
     database session
 
@@ -203,7 +211,12 @@ sheet_name :
     sheet name. if sheet_name is not given, the default
     sheet at index 0 is loaded
 
-""" + PAGINATION_PARAMS + OPTIONAL_PARAMS + CSV_PARAMS + XLRD_PARAMS
+"""
+    + PAGINATION_PARAMS
+    + OPTIONAL_PARAMS
+    + CSV_PARAMS
+    + XLRD_PARAMS
+)
 
 SOURCE_PARAMS_TABLE = """
 Not all parameters are needed. Here is a table
@@ -232,7 +245,9 @@ dest_file_type:
     this is needed if you want to save to memory
 """
 
-DEST_PARAMS = DEST_FILE_PARAMS + """
+DEST_PARAMS = (
+    DEST_FILE_PARAMS
+    + """
 dest_session:
     the target database session
 
@@ -266,6 +281,7 @@ dest_renderer_library:
     choose a pyexcel parser plugin for writing
 
 """
+)
 
 DEST_PARAMS_TABLE = """
 ================= =============================================
@@ -282,7 +298,9 @@ django model      dest_model, dest_initializer,
 ================= =============================================
 """
 
-DEST_BOOK_PARAMS = DEST_FILE_PARAMS + """
+DEST_BOOK_PARAMS = (
+    DEST_FILE_PARAMS
+    + """
 dest_session :
     the target database session
 
@@ -304,8 +322,11 @@ dest_mapdicts :
 dest_batch_size :
     batch creation size. Optional
 """
+)
 
-SOURCE_BOOK_PARAMS = FILE_PARAMS + """
+SOURCE_BOOK_PARAMS = (
+    FILE_PARAMS
+    + """
 session :
     database session
 
@@ -320,7 +341,11 @@ bookdict :
 
 url :
     a download http url for your excel file
-""" + OPTIONAL_BOOK_PARAMS + OPTIONAL_PARAMS + CSV_PARAMS
+"""
+    + OPTIONAL_BOOK_PARAMS
+    + OPTIONAL_PARAMS
+    + CSV_PARAMS
+)
 
 SOURCE_BOOK_PARAMS_TABLE = """
 Here is a table of parameters:

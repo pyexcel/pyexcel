@@ -9,5 +9,6 @@ def test_seek_at_zero():
         stream.seek.side_effect = IOError()
     else:
         import io
+
         stream.seek.side_effect = io.UnsupportedOperation()
     _seek_at_zero(stream)

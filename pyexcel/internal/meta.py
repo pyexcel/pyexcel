@@ -24,6 +24,7 @@ import pyexcel.docstrings as docs
 def make_presenter(source_getter, attribute=None):
     """make a custom presentation method for each file types
     """
+
     def custom_presenter(self, **keywords):
         """docstring is assigned a few lines down the line"""
         keyword = SOURCE.get_keyword_for_parameter(attribute)
@@ -38,6 +39,7 @@ def make_presenter(source_getter, attribute=None):
             content = None
 
         return content
+
     custom_presenter.__doc__ = "Get data in %s format" % attribute
     return custom_presenter
 
@@ -59,6 +61,7 @@ def book_presenter(attribute=None):
 def importer(attribute=None):
     """make a custom input method for sheet
     """
+
     def custom_importer1(self, content, **keywords):
         """docstring is assigned a few lines down the line"""
         sheet_params = {}
@@ -81,6 +84,7 @@ def importer(attribute=None):
 def book_importer(attribute=None):
     """make a custom input method for book
     """
+
     def custom_book_importer(self, content, **keywords):
         """docstring is assigned a few lines down the line"""
         keyword = SOURCE.get_keyword_for_parameter(attribute)
@@ -91,6 +95,7 @@ def book_importer(attribute=None):
             keywords[keyword] = content
         sheets, filename, path = _get_book(**keywords)
         self.init(sheets=sheets, filename=filename, path=path)
+
     custom_book_importer.__doc__ = "Set data in %s format" % attribute
     return custom_book_importer
 
@@ -153,7 +158,7 @@ class StreamAttribute(object):
         self.cls = cls
 
     def __getattr__(self, name):
-        getter = getattr(self.cls, 'save_to_memory')
+        getter = getattr(self.cls, "save_to_memory")
         return getter(file_type=name)
 
 
@@ -208,7 +213,7 @@ class PyexcelObject(object):
         """
         raise NotImplementedError("save to memory is not implemented")
 
-    def plot(self, file_type='svg', **keywords):
+    def plot(self, file_type="svg", **keywords):
         """
         Visualize the data
 
@@ -222,14 +227,16 @@ class PyexcelObject(object):
            'bar' by default. other chart types are subjected to plugins.
         """
         memory_content = self.save_to_memory(file_type, **keywords)
-        if file_type in ['png', 'svg', 'jpeg']:
+        if file_type in ["png", "svg", "jpeg"]:
             # make the signature for jypter notebook
             def get_content(self):
-                return self.getvalue().decode('utf-8')
+                return self.getvalue().decode("utf-8")
 
-            setattr(memory_content,
-                    '_repr_%s_' % file_type,
-                    partial(get_content, memory_content))
+            setattr(
+                memory_content,
+                "_repr_%s_" % file_type,
+                partial(get_content, memory_content),
+            )
         return memory_content
 
     def _repr_html_(self):
@@ -240,7 +247,7 @@ class PyexcelObject(object):
             default_encoding = sys.getdefaultencoding()
             if default_encoding == "ascii":
                 result = self.texttable
-                return result.encode('utf-8')
+                return result.encode("utf-8")
 
         return self.texttable
 
@@ -250,6 +257,7 @@ class PyexcelObject(object):
 
 class SheetMeta(PyexcelObject):
     """Annotate sheet attributes"""
+
     register_io = classmethod(REGISTER_IO)
     register_presentation = classmethod(REGISTER_PRESENTATION)
     register_input = classmethod(REGISTER_INPUT)

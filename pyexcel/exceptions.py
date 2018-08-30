@@ -11,14 +11,17 @@
 
 class UnknownParameters(Exception):
     """Unknown parameter(s) were given to the signature functions"""
+
     pass
 
 
 class FileTypeNotSupported(Exception):
     """A file type is not supported"""
+
     pass
 
 
 class UpgradePlugin(Exception):
     """Please upgrade your plugin"""
+
     pass

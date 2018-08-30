@@ -10,7 +10,8 @@
 from .keywords import CSV_PARAMS
 
 
-SAVE_AS_OPTIONS = """
+SAVE_AS_OPTIONS = (
+    """
 Keywords may vary depending on your file type, because the associated
 file type employs different library.
 
@@ -24,4 +25,6 @@ library:
 renderer_library:
     choose a pyexcel parser plugin for writing
 
-""" + CSV_PARAMS
+"""
+    + CSV_PARAMS
+)

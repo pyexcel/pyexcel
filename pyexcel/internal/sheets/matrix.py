@@ -45,7 +45,7 @@ class Matrix(SheetMeta):
                 raise TypeError("Invalid two dimensional array")
         self.row = Row(self)
         self.column = Column(self)
-        self.name = 'matrix'
+        self.name = "matrix"
 
     def get_internal_array(self):
         """present internal array"""
@@ -228,7 +228,7 @@ class Matrix(SheetMeta):
                 self.cell_value(i, column_index, data_array[i - starting])
             if real_len > nrows:
                 for i in range(nrows, real_len):
-                    new_row = [''] * column_index + [data_array[i - starting]]
+                    new_row = [""] * column_index + [data_array[i - starting]]
                     self.__array.append(new_row)
             self.__width, self.__array = uniform(self.__array)
         else:
@@ -767,6 +767,7 @@ class Matrix(SheetMeta):
         :returns: a new book
         """
         from pyexcel.book import Book, local_uuid
+
         content = {}
         content[self.name] = self.__array
         if isinstance(other, Book):

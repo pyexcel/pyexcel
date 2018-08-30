@@ -15,9 +15,10 @@ from pyexcel.parser import DbParser
 
 class SQLAlchemyExporter(DbParser):
     """export data via sqlalchmey"""
-    def parse_db(self, argument,
-                 export_columns_list=None, on_demand=False,
-                 **keywords):
+
+    def parse_db(
+        self, argument, export_columns_list=None, on_demand=False, **keywords
+    ):
         session, tables = argument
         exporter = sql.SQLTableExporter(session)
         if export_columns_list is None:
@@ -27,7 +28,8 @@ class SQLAlchemyExporter(DbParser):
             exporter.append(adapter)
         if on_demand:
             sheets, _ = iget_data(
-                exporter, file_type=self._file_type, **keywords)
+                exporter, file_type=self._file_type, **keywords
+            )
         else:
             sheets = get_data(exporter, file_type=self._file_type, **keywords)
         return sheets

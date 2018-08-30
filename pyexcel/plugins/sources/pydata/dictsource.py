@@ -17,8 +17,10 @@ class DictSource(AbstractSource, MemorySourceMixin):
     """
     A dictionary of one dimensional array as sheet source
     """
-    def __init__(self, adict, with_keys=True, sheet_name=DEFAULT_SHEET_NAME,
-                 **keywords):
+
+    def __init__(
+        self, adict, with_keys=True, sheet_name=DEFAULT_SHEET_NAME, **keywords
+    ):
         self.__adict = adict
         self.__with_keys = with_keys
         self._content = _FakeIO()
@@ -26,8 +28,9 @@ class DictSource(AbstractSource, MemorySourceMixin):
         AbstractSource.__init__(self, **keywords)
 
     def get_data(self):
-        dict_reader = DictReader(self.__adict, with_keys=self.__with_keys,
-                                 **self._keywords)
+        dict_reader = DictReader(
+            self.__adict, with_keys=self.__with_keys, **self._keywords
+        )
         return {self.__sheet_name: dict_reader.to_array()}
 
     def get_source_info(self):

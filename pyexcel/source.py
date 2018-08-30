@@ -17,6 +17,7 @@ class AbstractSource(object):
     This can be used to extend the function parameters once the custom
     class inherit this and register it with corresponding source registry
     """
+
     fields = [constants.SOURCE]
     attributes = []
     targets = []
@@ -56,6 +57,7 @@ class MemorySourceMixin(object):
 
     And it is desirable to get its internal stream
     """
+
     def get_content(self):
         """Get memory repsentation of the formatted data
 

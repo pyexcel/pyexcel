@@ -14,6 +14,7 @@ class AbstractParser(object):
     """
     Parsing data from tabular data such as excel file
     """
+
     def __init__(self, file_type):
         self._file_type = file_type
 
@@ -43,6 +44,7 @@ class DbParser(AbstractParser):
     """
     Change interface for db parser
     """
+
     def parse_file(self, file_name, **keywords):
         raise Exception("parse_file is not supported")
 

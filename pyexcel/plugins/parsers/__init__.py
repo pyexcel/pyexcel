@@ -14,12 +14,11 @@ from pyexcel.plugins import PyexcelPluginChain
 
 
 PyexcelPluginChain(__name__).add_a_parser(
-    relative_plugin_class_path='excel.ExcelParser',
-    file_types=READERS.get_all_formats()
+    relative_plugin_class_path="excel.ExcelParser",
+    file_types=READERS.get_all_formats(),
 ).add_a_parser(
-    relative_plugin_class_path='sqlalchemy.SQLAlchemyExporter',
-    file_types=[DB_SQL]
+    relative_plugin_class_path="sqlalchemy.SQLAlchemyExporter",
+    file_types=[DB_SQL],
 ).add_a_parser(
-    relative_plugin_class_path='django.DjangoExporter',
-    file_types=[DB_DJANGO]
+    relative_plugin_class_path="django.DjangoExporter", file_types=[DB_DJANGO]
 )

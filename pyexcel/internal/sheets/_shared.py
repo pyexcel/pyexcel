@@ -19,6 +19,7 @@ class CommonPropertyAmongRowNColumn(object):
     """
     Group reusable functions from row and column
     """
+
     def __init__(self, matrix):
         self._ref = matrix
 
@@ -103,8 +104,9 @@ def _get_index(index_chars):
         index = 0
         for i in range(0, length):
             if i < (length - 1):
-                index += ((_INDICES.index(index_chars[i]) + 1) *
-                          (index_chars_length ** (length - 1 - i)))
+                index += (_INDICES.index(index_chars[i]) + 1) * (
+                    index_chars_length ** (length - 1 - i)
+                )
             else:
                 index += _INDICES.index(index_chars[i])
         return index
@@ -116,7 +118,7 @@ def names_to_indices(names, series):
     """translate names to indices"""
     if isinstance(names, str):
         indices = series.index(names)
-    elif (isinstance(names, list) and isinstance(names[0], str)):
+    elif isinstance(names, list) and isinstance(names[0], str):
         # translate each row name to index
         indices = [series.index(astr) for astr in names]
     else:

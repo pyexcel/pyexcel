@@ -17,14 +17,14 @@ from pyexcel.source import AbstractSource
 class ReadExcelFromFile(AbstractSource):
     """Pick up 'file_name' field and do single sheet based read and write
     """
-    def __init__(self, file_name=None, parser_library=None,
-                 **keywords):
+
+    def __init__(self, file_name=None, parser_library=None, **keywords):
         self.__file_name = file_name
 
         if "force_file_type" in keywords:
-            file_type = keywords.get('force_file_type')
+            file_type = keywords.get("force_file_type")
         else:
-            file_type = self.__file_name.split('.')[-1]
+            file_type = self.__file_name.split(".")[-1]
         self.__parser = PARSER.get_a_plugin(file_type, parser_library)
         AbstractSource.__init__(self, **keywords)
 

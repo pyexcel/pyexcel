@@ -14,13 +14,13 @@ ATTRIBUTE_REGISTRY = {
     constants.SHEET: {
         constants.READ_ACTION: set(),
         constants.WRITE_ACTION: set(),
-        constants.RW_ACTION: set()
+        constants.RW_ACTION: set(),
     },
     constants.BOOK: {
         constants.READ_ACTION: set(),
         constants.WRITE_ACTION: set(),
-        constants.RW_ACTION: set()
-    }
+        constants.RW_ACTION: set(),
+    },
 }
 
 

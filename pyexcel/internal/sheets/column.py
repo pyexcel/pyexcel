@@ -156,9 +156,8 @@ class Column(utils.CommonPropertyAmongRowNColumn):
             +---+---+---+---+
 
         """
-        is_sheet = (
-            compact.is_string(type(aslice))
-            and hasattr(self._ref, 'delete_named_column_at')
+        is_sheet = compact.is_string(type(aslice)) and hasattr(
+            self._ref, "delete_named_column_at"
         )
         if is_sheet:
             self._ref.delete_named_column_at(aslice)
@@ -198,9 +197,8 @@ class Column(utils.CommonPropertyAmongRowNColumn):
 
     def __setitem__(self, aslice, a_column):
         """Override the operator to set items"""
-        is_sheet = (
-            compact.is_string(type(aslice))
-            and hasattr(self._ref, 'set_named_column_at')
+        is_sheet = compact.is_string(type(aslice)) and hasattr(
+            self._ref, "set_named_column_at"
         )
         if is_sheet:
             self._ref.set_named_column_at(aslice, a_column)
@@ -222,9 +220,8 @@ class Column(utils.CommonPropertyAmongRowNColumn):
         """By default, this class recognize from top to bottom
         from left to right"""
         index = aslice
-        is_sheet = (
-            compact.is_string(type(aslice))
-            and hasattr(self._ref, 'named_column_at')
+        is_sheet = compact.is_string(type(aslice)) and hasattr(
+            self._ref, "named_column_at"
         )
         if is_sheet:
             return self._ref.named_column_at(aslice)
@@ -255,7 +252,7 @@ class Column(utils.CommonPropertyAmongRowNColumn):
             self._ref.extend_columns(other)
         elif isinstance(other, list):
             self._ref.extend_columns(other)
-        elif hasattr(other, 'get_internal_array'):
+        elif hasattr(other, "get_internal_array"):
             self._ref.extend_columns_with_rows(other.get_internal_array())
         else:
             raise TypeError
@@ -276,7 +273,7 @@ class Column(utils.CommonPropertyAmongRowNColumn):
         """
         the_attr = attr
         if attr not in self._ref.colnames:
-            the_attr = the_attr.replace('_', ' ')
+            the_attr = the_attr.replace("_", " ")
             if the_attr not in self._ref.colnames:
                 raise AttributeError("%s is not found" % attr)
 

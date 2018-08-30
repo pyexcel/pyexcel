@@ -15,12 +15,15 @@ from . import params
 # pylint: disable=W0223
 class ReadExcelFileMemory(AbstractSource):
     """Pick up 'file_type' and read a sheet from memory"""
-    def __init__(self,
-                 file_content=None,
-                 file_type=None,
-                 file_stream=None,
-                 parser_library=None,
-                 **keywords):
+
+    def __init__(
+        self,
+        file_content=None,
+        file_type=None,
+        file_stream=None,
+        parser_library=None,
+        **keywords
+    ):
         self.__file_type = file_type
         self.__file_stream = file_stream
         self.__file_content = file_content
@@ -30,12 +33,12 @@ class ReadExcelFileMemory(AbstractSource):
     def get_data(self):
         if self.__file_stream is not None:
             sheets = self.__parser.parse_file_stream(
-                self.__file_stream,
-                **self._keywords)
+                self.__file_stream, **self._keywords
+            )
         else:
             sheets = self.__parser.parse_file_content(
-                self.__file_content,
-                **self._keywords)
+                self.__file_content, **self._keywords
+            )
         return sheets
 
     def get_source_info(self):

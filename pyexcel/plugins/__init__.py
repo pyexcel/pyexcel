@@ -20,13 +20,12 @@ from pyexcel.exceptions import FileTypeNotSupported
 
 class SourceInfo(PluginInfo):
     """Plugin description for a source"""
+
     def __init__(self, absolute_import_path, **keywords):
-        PluginInfo.__init__(self, "source",
-                            absolute_import_path, **keywords)
+        PluginInfo.__init__(self, "source", absolute_import_path, **keywords)
 
     def tags(self):
-        target_action_list = product(
-            self.targets, self.actions)
+        target_action_list = product(self.targets, self.actions)
         for target, action in target_action_list:
             yield "%s-%s" % (target, action)
 
@@ -41,6 +40,7 @@ class SourceInfo(PluginInfo):
 
 class FileSourceInfo(SourceInfo):
     """Plugin description for a file source"""
+
     def is_my_business(self, action, **keywords):
         status = SourceInfo.is_my_business(self, action, **keywords)
         if status:
@@ -51,7 +51,8 @@ class FileSourceInfo(SourceInfo):
                 if file_type is None:
                     if is_string(type(file_name)):
                         file_type = find_file_type_from_file_name(
-                            file_name, action)
+                            file_name, action
+                        )
                     else:
                         raise IOError("Unsupported file type")
             else:
@@ -66,6 +67,7 @@ class FileSourceInfo(SourceInfo):
 
 class InputSourceInfo(FileSourceInfo):
     """Plugin description for an input source"""
+
     def can_i_handle(self, action, file_type):
         __file_type = None
         if file_type:
@@ -79,10 +81,10 @@ class InputSourceInfo(FileSourceInfo):
 
 class OutputSourceInfo(FileSourceInfo):
     """Plugin description for a output file source"""
+
     def can_i_handle(self, action, file_type):
         if action == constants.WRITE_ACTION:
-            status = file_type.lower() in tuple(
-                RENDERER.get_all_file_types())
+            status = file_type.lower() in tuple(RENDERER.get_all_file_types())
         else:
             status = False
         return status
@@ -96,7 +98,7 @@ def find_file_type_from_file_name(file_name, action):
     """
     Extract file type from file name
     """
-    if action == 'read':
+    if action == "read":
         list_of_file_types = PARSER.get_all_file_types()
     else:
         list_of_file_types = RENDERER.get_all_file_types()
@@ -111,15 +113,17 @@ def find_file_type_from_file_name(file_name, action):
     elif len(file_types) == 1:
         file_type = file_types[0]
     else:
-        file_type = lowercase_file_name.split('.')[-1]
+        file_type = lowercase_file_name.split(".")[-1]
         raise FileTypeNotSupported(
-            constants.FILE_TYPE_NOT_SUPPORTED_FMT % (file_type, action))
+            constants.FILE_TYPE_NOT_SUPPORTED_FMT % (file_type, action)
+        )
 
     return file_type
 
 
 class IOPluginInfo(PluginInfo):
     """Plugin description for a parser or a renderer"""
+
     def tags(self):
         file_types = self.file_types
         if isinstance(file_types, types.FunctionType):
@@ -131,62 +135,74 @@ class IOPluginInfo(PluginInfo):
 class PyexcelPluginChain(PluginInfoChain):
     """It is used by pyexcel plugins
     """
+
     def add_a_source(self, relative_plugin_class_path=None, **keywords):
         """
         Add a data source plugin for signature functions
         """
-        default = {
-            'key': None,
-            'attributes': []
-        }
+        default = {"key": None, "attributes": []}
         default.update(keywords)
-        self.add_a_plugin_instance(SourceInfo(
-            self._get_abs_path(relative_plugin_class_path), **default))
+        self.add_a_plugin_instance(
+            SourceInfo(
+                self._get_abs_path(relative_plugin_class_path), **default
+            )
+        )
         return self
 
     def add_an_input_source(self, relative_plugin_class_path=None, **keywords):
         """
         append file input source
         """
-        default = {
-            'key': None,
-            'attributes': []
-        }
+        default = {"key": None, "attributes": []}
         default.update(keywords)
-        self.add_a_plugin_instance(InputSourceInfo(
-            self._get_abs_path(relative_plugin_class_path), **default))
+        self.add_a_plugin_instance(
+            InputSourceInfo(
+                self._get_abs_path(relative_plugin_class_path), **default
+            )
+        )
         return self
 
     def add_a_output_source(self, relative_plugin_class_path=None, **keywords):
         """
         append file output source
         """
-        default = {
-            'key': None,
-            'attributes': []
-        }
+        default = {"key": None, "attributes": []}
         default.update(keywords)
-        self.add_a_plugin_instance(OutputSourceInfo(
-            self._get_abs_path(relative_plugin_class_path), **default))
+        self.add_a_plugin_instance(
+            OutputSourceInfo(
+                self._get_abs_path(relative_plugin_class_path), **default
+            )
+        )
         return self
 
     def add_a_parser(self, relative_plugin_class_path=None, file_types=None):
         """
         append an excel file reader
         """
-        self.add_a_plugin_instance(IOPluginInfo(
-            "parser", self._get_abs_path(relative_plugin_class_path),
-            file_types=file_types))
+        self.add_a_plugin_instance(
+            IOPluginInfo(
+                "parser",
+                self._get_abs_path(relative_plugin_class_path),
+                file_types=file_types,
+            )
+        )
         return self
 
-    def add_a_renderer(self, relative_plugin_class_path=None,
-                       file_types=None, stream_type=None):
+    def add_a_renderer(
+        self,
+        relative_plugin_class_path=None,
+        file_types=None,
+        stream_type=None,
+    ):
         """
         append an excel file writer
         """
-        default = dict(file_types=file_types,
-                       stream_type=stream_type)
-        self.add_a_plugin_instance(IOPluginInfo(
-            "renderer", self._get_abs_path(relative_plugin_class_path),
-            **default))
+        default = dict(file_types=file_types, stream_type=stream_type)
+        self.add_a_plugin_instance(
+            IOPluginInfo(
+                "renderer",
+                self._get_abs_path(relative_plugin_class_path),
+                **default
+            )
+        )
         return self

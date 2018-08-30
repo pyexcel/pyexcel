@@ -19,9 +19,11 @@ from pyexcel._compact import zip_longest, append_doc, OrderedDict
 import pyexcel.docstrings as docs
 
 
-STARTS_WITH_DEST = '^dest_(.*)'
-SAVE_AS_EXCEPTION = ("This function does not accept parameters for " +
-                     "pyexce.Sheet. Please use pyexcel.save_as instead.")
+STARTS_WITH_DEST = "^dest_(.*)"
+SAVE_AS_EXCEPTION = (
+    "This function does not accept parameters for "
+    + "pyexce.Sheet. Please use pyexcel.save_as instead."
+)
 
 
 @append_doc(docs.GET_SHEET)
@@ -44,9 +46,11 @@ def get_book(**keywords):
     Get an instance of :class:`Book` from an excel source
     """
     book_stream = sources.get_book_stream(**keywords)
-    book = Book(book_stream.to_dict(),
-                filename=book_stream.filename,
-                path=book_stream.path)
+    book = Book(
+        book_stream.to_dict(),
+        filename=book_stream.filename,
+        path=book_stream.path,
+    )
     return book
 
 
@@ -58,8 +62,7 @@ def iget_book(**keywords):
     First use case is to get all sheet names without extracting
     the sheets into memory.
     """
-    return sources.get_book_stream(
-        on_demand=True, **keywords)
+    return sources.get_book_stream(on_demand=True, **keywords)
 
 
 @append_doc(docs.SAVE_AS)
@@ -74,10 +77,9 @@ def save_as(**keywords):
             sheet_params[field] = source_keywords.pop(field)
     sheet_stream = sources.get_sheet_stream(**source_keywords)
     output_sheet_name = sheet_stream.name
-    if 'sheet_name' in dest_keywords:
-        output_sheet_name = dest_keywords['sheet_name']
-    sheet = Sheet(sheet_stream.payload, output_sheet_name,
-                  **sheet_params)
+    if "sheet_name" in dest_keywords:
+        output_sheet_name = dest_keywords["sheet_name"]
+    sheet = Sheet(sheet_stream.payload, output_sheet_name, **sheet_params)
     return sources.save_sheet(sheet, **dest_keywords)
 
 
@@ -95,8 +97,8 @@ def isave_as(**keywords):
         if field in source_keywords:
             raise Exception(SAVE_AS_EXCEPTION)
     sheet = sources.get_sheet_stream(on_demand=True, **source_keywords)
-    if 'sheet_name' in dest_keywords:
-        sheet.name = dest_keywords['sheet_name']
+    if "sheet_name" in dest_keywords:
+        sheet.name = dest_keywords["sheet_name"]
     return sources.save_sheet(sheet, **dest_keywords)
 
 
@@ -154,8 +156,7 @@ def get_dict(name_columns_by_row=0, **keywords):
         get_dict(name_columns_by_row=-1, name_rows_by_column=0)
 
     """
-    sheet = get_sheet(name_columns_by_row=name_columns_by_row,
-                      **keywords)
+    sheet = get_sheet(name_columns_by_row=name_columns_by_row, **keywords)
     return sheet.to_dict()
 
 
@@ -176,8 +177,7 @@ def get_records(name_columns_by_row=0, **keywords):
         get_records(name_columns_by_row=-1, name_rows_by_column=0)
 
     """
-    sheet = get_sheet(name_columns_by_row=name_columns_by_row,
-                      **keywords)
+    sheet = get_sheet(name_columns_by_row=name_columns_by_row, **keywords)
     return list(sheet.to_records())
 
 
@@ -211,16 +211,18 @@ def iget_records(custom_headers=None, **keywords):
         else:
             if custom_headers:
                 # custom order
-                tmp_dict = dict(zip_longest(
-                    headers, row, fillvalue=constants.DEFAULT_NA))
+                tmp_dict = dict(
+                    zip_longest(headers, row, fillvalue=constants.DEFAULT_NA)
+                )
                 ordered_dict = OrderedDict()
                 for name in custom_headers:
                     ordered_dict[name] = tmp_dict[name]
                 yield ordered_dict
             else:
                 # default order
-                yield OrderedDict(zip_longest(
-                    headers, row, fillvalue=constants.DEFAULT_NA))
+                yield OrderedDict(
+                    zip_longest(headers, row, fillvalue=constants.DEFAULT_NA)
+                )
 
 
 @append_doc(docs.GET_BOOK_DICT)

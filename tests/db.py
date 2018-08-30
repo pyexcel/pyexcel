@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 import platform
 
 engine = None
-if platform.python_implementation() == 'PyPy':
+if platform.python_implementation() == "PyPy":
     engine = create_engine("sqlite:///tmp.db")
 else:
     engine = create_engine("sqlite://")
@@ -14,7 +14,7 @@ Base = declarative_base()
 
 
 class Pyexcel(Base):
-    __tablename__ = 'pyexcel'
+    __tablename__ = "pyexcel"
     id = Column(Integer, primary_key=True)
     name = Column(String)
     weight = Column(Float)

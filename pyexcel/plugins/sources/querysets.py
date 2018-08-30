@@ -21,17 +21,26 @@ class SheetQuerySetSource(AbstractSource):
 
     SQLAlchemy and Django query sets are supported
     """
+
     fields = [params.COLUMN_NAMES, params.QUERY_SETS]
     targets = (constants.SHEET,)
     actions = (constants.READ_ACTION,)
     attributes = []
 
-    def __init__(self, column_names, query_sets,
-                 sheet_name=None, row_renderer=None,
-                 start_row=0, row_limit=-1,
-                 start_column=None, column_limit=None,
-                 skip_row_func=None, skip_column_func=None,
-                 **keywords):
+    def __init__(
+        self,
+        column_names,
+        query_sets,
+        sheet_name=None,
+        row_renderer=None,
+        start_row=0,
+        row_limit=-1,
+        start_column=None,
+        column_limit=None,
+        skip_row_func=None,
+        skip_column_func=None,
+        **keywords
+    ):
         self.__sheet_name = sheet_name
         if self.__sheet_name is None:
             self.__sheet_name = constants.DEFAULT_SHEET_NAME
@@ -54,11 +63,12 @@ class SheetQuerySetSource(AbstractSource):
         local_params = dict(
             row_renderer=self.__row_renderer,
             start_row=self.__start_row,
-            row_limit=self.__row_limit
+            row_limit=self.__row_limit,
         )
         if self.__skip_row_func is not None:
-            local_params['skip_row_func'] = self.__skip_row_func
+            local_params["skip_row_func"] = self.__skip_row_func
         reader = QuerysetsReader(
-            self.__query_sets, self.__column_names, **local_params)
+            self.__query_sets, self.__column_names, **local_params
+        )
         data = reader.to_array()
         return {self.__sheet_name: data}

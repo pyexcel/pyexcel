@@ -9,19 +9,25 @@
 """
 from pyexcel_io.constants import DB_DJANGO
 
-from .db_sources import (SheetDbSource, BookDbSource)
+from .db_sources import SheetDbSource, BookDbSource
 
 
 class SheetDjangoSource(SheetDbSource):
     """
     Django model as data source
     """
-    def __init__(self, model=None, export_columns=None, sheet_name=None,
-                 **keywords):
+
+    def __init__(
+        self, model=None, export_columns=None, sheet_name=None, **keywords
+    ):
         self.__model = model
-        SheetDbSource.__init__(self, DB_DJANGO,
-                               export_columns=export_columns,
-                               sheet_name=sheet_name, **keywords)
+        SheetDbSource.__init__(
+            self,
+            DB_DJANGO,
+            export_columns=export_columns,
+            sheet_name=sheet_name,
+            **keywords
+        )
 
     def get_export_params(self):
         return [self.__model]
@@ -34,6 +40,7 @@ class BookDjangoSource(BookDbSource):
     """
     multiple Django table as data source
     """
+
     def __init__(self, models, **keywords):
         self.__models = models
         BookDbSource.__init__(self, DB_DJANGO, **keywords)

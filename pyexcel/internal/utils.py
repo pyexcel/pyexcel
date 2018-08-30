@@ -43,12 +43,14 @@ def make_a_property(
     attribute_property = property(
         # note:
         # without fget, fset, pypy 5.4.0 crashes randomly.
-        fget=getter, fset=setter, doc=doc_string
+        fget=getter,
+        fset=setter,
+        doc=doc_string,
     )
-    if '.' in attribute:
-        attribute = attribute.replace('.', '_')
+    if "." in attribute:
+        attribute = attribute.replace(".", "_")
     else:
         attribute = attribute
     setattr(cls, attribute, attribute_property)
-    setattr(cls, 'get_%s' % attribute, getter)
-    setattr(cls, 'set_%s' % attribute, setter)
+    setattr(cls, "get_%s" % attribute, getter)
+    setattr(cls, "set_%s" % attribute, setter)

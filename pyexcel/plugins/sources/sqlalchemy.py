@@ -15,13 +15,19 @@ class SheetSQLAlchemySource(SheetDbSource):
     """
     SQLAlchemy channeled sql database as data source
     """
-    def __init__(self, session, table, export_columns=None,
-                 sheet_name=None, **keywords):
+
+    def __init__(
+        self, session, table, export_columns=None, sheet_name=None, **keywords
+    ):
         self.__session = session
         self.__table = table
-        SheetDbSource.__init__(self, DB_SQL,
-                               export_columns=export_columns,
-                               sheet_name=sheet_name, **keywords)
+        SheetDbSource.__init__(
+            self,
+            DB_SQL,
+            export_columns=export_columns,
+            sheet_name=sheet_name,
+            **keywords
+        )
 
     def get_export_params(self):
         return (self.__session, [self.__table])
@@ -34,6 +40,7 @@ class BookSQLSource(BookDbSource):
     """
     SQLAlchemy bridged multiple table data source
     """
+
     def __init__(self, session, tables, **keywords):
         self.__session = session
         self.__tables = tables

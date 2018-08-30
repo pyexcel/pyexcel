@@ -23,7 +23,7 @@ def test_key_sorting():
 
 
 def test_get_book_headers_in_array():
-    data = iter([['a', 'b', 'c'], [1, 2, 3]])
-    book_stream = BookStream({'test': data})
+    data = iter([["a", "b", "c"], [1, 2, 3]])
+    book_stream = BookStream({"test": data})
     colnames_array = get_book_headers_in_array(book_stream)
-    eq_(colnames_array, [['a', 'b', 'c']])
+    eq_(colnames_array, [["a", "b", "c"]])

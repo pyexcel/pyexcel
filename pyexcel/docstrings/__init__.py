@@ -20,7 +20,7 @@ from .core import (
     GET_DICT,
     GET_RECORDS,
     IGET_RECORDS,
-    GET_BOOK_DICT
+    GET_BOOK_DICT,
 )  # flake8: noqa
 
 from .meta import SAVE_AS_OPTIONS

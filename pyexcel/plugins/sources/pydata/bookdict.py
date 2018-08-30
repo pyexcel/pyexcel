@@ -17,6 +17,7 @@ class BookDictSource(AbstractSource, MemorySourceMixin):
     """
     Multiple sheet data source via a dictionary of two dimensional arrays
     """
+
     def __init__(self, bookdict, **keywords):
         self.__bookdict = bookdict
         self._content = _FakeIO()

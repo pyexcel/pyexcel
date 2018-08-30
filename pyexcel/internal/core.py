@@ -69,6 +69,7 @@ def _seek_at_zero(a_stream):
             pass
     else:
         import io
+
         try:
             a_stream.seek(0)
         except io.UnsupportedOperation:

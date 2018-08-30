@@ -4,7 +4,6 @@ from nose.tools import raises, eq_
 
 
 class TestSheetRow:
-
     def setUp(self):
         self.data = [
             ["Row 0", -1, -2, -3],

@@ -41,6 +41,7 @@ class Row(utils.CommonPropertyAmongRowNColumn):
         [0, 0, 0]
 
     """
+
     def select(self, indices):
         """Delete row indices other than specified
 
@@ -159,7 +160,7 @@ class Row(utils.CommonPropertyAmongRowNColumn):
         """
         the_attr = attr
         if attr not in self._ref.rownames:
-            the_attr = the_attr.replace('_', ' ')
+            the_attr = the_attr.replace("_", " ")
             if the_attr not in self._ref.rownames:
                 raise AttributeError("%s is not found" % attr)
 
@@ -211,7 +212,7 @@ class Row(utils.CommonPropertyAmongRowNColumn):
             self._ref.extend_rows(other)
         elif isinstance(other, list):
             self._ref.extend_rows(other)
-        elif hasattr(other, 'get_internal_array'):
+        elif hasattr(other, "get_internal_array"):
             self._ref.extend_rows(other.get_internal_array())
         else:
             raise TypeError

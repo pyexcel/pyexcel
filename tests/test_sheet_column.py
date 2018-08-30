@@ -4,7 +4,6 @@ from nose.tools import raises, eq_
 
 
 class TestSheetColumn:
-
     def setUp(self):
         self.data = [
             ["Column 1", "Column 2", "Column 3"],
@@ -16,7 +15,7 @@ class TestSheetColumn:
     def test_negative_row_index(self):
         s = Sheet(self.data, "test")
         data = s.column[-1]
-        eq_(data, ['Column 3', 3, 6, 9])
+        eq_(data, ["Column 3", 3, 6, 9])
 
     def test_formatter_by_named_column(self):
         """Test one named column"""
@@ -88,7 +87,6 @@ class TestSheetColumn:
 
 
 class TestSheetColumn2:
-
     def setUp(self):
         self.data = [
             [1, 2, 3],

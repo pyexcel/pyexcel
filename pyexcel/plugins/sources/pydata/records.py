@@ -19,6 +19,7 @@ class RecordsSource(AbstractSource, MemorySourceMixin):
 
     The dictionaries should have identical fields.
     """
+
     def __init__(self, records, sheet_name=DEFAULT_SHEET_NAME, **keywords):
         self.__records = records
         self._content = _FakeIO()

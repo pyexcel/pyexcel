@@ -15,8 +15,8 @@ class SheetStreamSource(AbstractSource, MemorySourceMixin):
     """
     Internal Sheet Stream as data source
     """
-    def __init__(self, sheet_stream,
-                 **keywords):
+
+    def __init__(self, sheet_stream, **keywords):
         self.__sheet_stream = sheet_stream
         AbstractSource.__init__(self, **keywords)
 
