@@ -13,6 +13,7 @@ from lml.plugin import PluginManager
 class IOPluginManager(PluginManager):
     """Generic plugin manager for renderer and parser
     """
+
     def __init__(self, name):
         PluginManager.__init__(self, name)
 
@@ -33,5 +34,5 @@ class IOPluginManager(PluginManager):
         return file_types
 
 
-RENDERER = IOPluginManager('renderer')
-PARSER = IOPluginManager('parser')
+RENDERER = IOPluginManager("renderer")
+PARSER = IOPluginManager("parser")

@@ -17,8 +17,8 @@ class ArraySource(AbstractSource, MemorySourceMixin):
     """
     A two dimensional array as sheet source
     """
-    def __init__(self, array, sheet_name=DEFAULT_SHEET_NAME,
-                 **keywords):
+
+    def __init__(self, array, sheet_name=DEFAULT_SHEET_NAME, **keywords):
         self.__array = array
         self._content = _FakeIO()
         self.__sheet_name = sheet_name

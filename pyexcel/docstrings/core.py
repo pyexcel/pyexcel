@@ -10,34 +10,46 @@
 from . import keywords
 
 __GET_SHEET__ = (
-    keywords.EXAMPLE_NOTE_PAGINATION +
-    keywords.SOURCE_PARAMS_TABLE +
-    """
+    keywords.EXAMPLE_NOTE_PAGINATION
+    + keywords.SOURCE_PARAMS_TABLE
+    + """
 **Parameters**
-    """ +
-    keywords.SOURCE_PARAMS
+    """
+    + keywords.SOURCE_PARAMS
 )
 
-__GET_BOOK__ = keywords.SOURCE_BOOK_PARAMS_TABLE + """
+__GET_BOOK__ = (
+    keywords.SOURCE_BOOK_PARAMS_TABLE
+    + """
 **Parameters**
-""" + keywords.SOURCE_BOOK_PARAMS
+"""
+    + keywords.SOURCE_BOOK_PARAMS
+)
 
-I_NOTE = """
+I_NOTE = (
+    """
 When you use this function to work on physical files, this function
 will leave its file handle open. When you finish the operation
 on its data, you need to call :func:`pyexcel.free_resources` to
 close file hande(s).
 
-""" + keywords.I_NOTE
+"""
+    + keywords.I_NOTE
+)
 
-__SAVE_AS__ = """
+__SAVE_AS__ = (
+    """
 It accepts two sets of keywords. Why two sets? one set is
 source, the other set is destination. In order to distinguish
 the two sets, source set will be exactly the same
 as the ones for :meth:`pyexcel.get_sheet`; destination
 set are exactly the same as the ones for :class:`pyexcel.Sheet.save_as`
 but require a 'dest' prefix.
-""" + keywords.DEST_PARAMS_TABLE + __GET_SHEET__ + keywords.DEST_PARAMS + """
+"""
+    + keywords.DEST_PARAMS_TABLE
+    + __GET_SHEET__
+    + keywords.DEST_PARAMS
+    + """
 
 if csv file is destination format, python csv
 `fmtparams <https://docs.python.org/release/3.1.5/
@@ -53,8 +65,12 @@ parameters for :class:`pyexcel.Sheet` can be passed on, e.g.
 `name_columns_by_row`.
 
 """
+)
 
-__SAVE_BOOK_AS__ = __GET_BOOK__ + keywords.DEST_BOOK_PARAMS + """
+__SAVE_BOOK_AS__ = (
+    __GET_BOOK__
+    + keywords.DEST_BOOK_PARAMS
+    + """
 
 Where the dictionary should have text as keys and two dimensional
 array as values.
@@ -72,6 +88,7 @@ django model     dest_models, dest_initializers,
                  dest_mapdict, dest_batch_size
 ================ ============================================
 """
+)
 
 GET_SHEET = __GET_SHEET__
 

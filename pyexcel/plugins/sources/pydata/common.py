@@ -16,6 +16,7 @@ import pyexcel.constants as constants
 
 class _FakeIO(object):
     """emulates a stream object"""
+
     def __init__(self):
         self.__value = None
 
@@ -59,7 +60,7 @@ class RecordsReader(ArrayReader):
     """
 
     def row_iterator(self):
-        headers = self._keywords.get('custom_headers')
+        headers = self._keywords.get("custom_headers")
         for index, row in enumerate(self._native_sheet):
             if index == 0:
                 if headers is None:
@@ -85,14 +86,14 @@ class DictReader(ArrayReader):
             keys = list(keys)
         if not isinstance(self._native_sheet, OrderedDict):
             keys = sorted(keys)
-        if self._keywords.get('with_keys', True):
+        if self._keywords.get("with_keys", True):
             yield keys
 
         if isinstance(self._native_sheet[keys[0]], list):
             sorted_values = (self._native_sheet[key] for key in keys)
             for row in zip_longest(
-                    *sorted_values,
-                    fillvalue=constants.DEFAULT_NA):
+                *sorted_values, fillvalue=constants.DEFAULT_NA
+            ):
                 yield row
         else:
             row = [self._native_sheet[key] for key in keys]

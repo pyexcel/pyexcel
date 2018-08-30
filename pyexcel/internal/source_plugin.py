@@ -25,7 +25,7 @@ class SourcePluginManager(PluginManager):
     """Data source plugin loader"""
 
     def __init__(self):
-        PluginManager.__init__(self, 'source')
+        PluginManager.__init__(self, "source")
         self.keywords = {}
 
     def load_me_later(self, plugin_info):
@@ -63,13 +63,13 @@ class SourcePluginManager(PluginManager):
         key = REGISTRY_KEY_FORMAT % (target, action)
         io_library = None
         # backward support pyexcel-io library parameter
-        if 'library' in keywords:
-            io_library = keywords.pop('library')
+        if "library" in keywords:
+            io_library = keywords.pop("library")
         source_cls = self.load_me_now(
             key, action=action, library=source_library, **keywords
         )
         if io_library is not None:
-            keywords['library'] = io_library
+            keywords["library"] = io_library
         source_instance = source_cls(**keywords)
         return source_instance
 
@@ -107,7 +107,7 @@ class SourcePluginManager(PluginManager):
         debug_attribute = "Instance attribute: "
         anything = False
         for key in plugin_info.tags():
-            target, action = key.split('-')
+            target, action = key.split("-")
             attributes = plugin_info.attributes
             if not isinstance(attributes, list):
                 attributes = attributes()
@@ -115,9 +115,9 @@ class SourcePluginManager(PluginManager):
                 if attr in NO_DOT_NOTATION:
                     continue
 
-                if target == 'book':
+                if target == "book":
                     register_book_attribute(target, action, attr)
-                elif target == 'sheet':
+                elif target == "sheet":
                     register_sheet_attribute(target, action, attr)
                 else:
                     raise Exception("Known target: %s" % target)
@@ -133,7 +133,7 @@ class SourcePluginManager(PluginManager):
 
 def _error_handler(action, **keywords):
     if keywords:
-        file_type = keywords.get('file_type', None)
+        file_type = keywords.get("file_type", None)
         if file_type:
             raise exceptions.FileTypeNotSupported(
                 constants.FILE_TYPE_NOT_SUPPORTED_FMT % (file_type, action)
@@ -152,8 +152,8 @@ def _error_handler(action, **keywords):
 
 
 def _get_me_pypi_package_name(module_name):
-    root_module_name = module_name.split('.')[0]
-    return root_module_name.replace('_', '-')
+    root_module_name = module_name.split(".")[0]
+    return root_module_name.replace("_", "-")
 
 
 SOURCE = SourcePluginManager()

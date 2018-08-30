@@ -3,10 +3,10 @@ name: "pyexcel"
 nick_name: pyexcel
 version: 0.6.0
 current_version: 0.5.9
-release: 0.5.8
+release: 0.5.9
 branch: master
 dependencies:
-  - lml==0.0.1
+  - lml>=0.0.1
   - pyexcel-io>=0.5.9
   - texttable>=0.8.1;python_version<"3"
   - texttable>=0.8.2;python_version>="3"

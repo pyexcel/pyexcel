@@ -135,15 +135,15 @@ class TestCSVSingleSheet:
 
     def test_load_a_single_sheet(self):
         b1 = pe.load_book(self.testfile, sheet_name="Sheet1")
-        b1['Sheet1'].format(int)
+        b1["Sheet1"].format(int)
         assert len(b1.sheet_names()) == 1
-        assert b1['Sheet1'].to_array() == self.content['Sheet1']
+        assert b1["Sheet1"].to_array() == self.content["Sheet1"]
 
     def test_load_a_single_sheet2(self):
         b1 = pe.load_book(self.testfile, sheet_index=1)
-        b1['Sheet2'].format(int)
+        b1["Sheet2"].format(int)
         assert len(b1.sheet_names()) == 1
-        assert b1['Sheet2'].to_array() == self.content['Sheet2']
+        assert b1["Sheet2"].to_array() == self.content["Sheet2"]
 
     @raises(IndexError)
     def test_load_a_single_sheet3(self):
@@ -181,15 +181,15 @@ class TestCSVZSingleSheet:
 
     def test_load_a_single_sheet(self):
         b1 = pe.load_book(self.testfile, sheet_name="Sheet1")
-        b1['Sheet1'].format(int)
+        b1["Sheet1"].format(int)
         assert len(b1.sheet_names()) == 1
-        assert b1['Sheet1'].to_array() == self.content['Sheet1']
+        assert b1["Sheet1"].to_array() == self.content["Sheet1"]
 
     def test_load_a_single_sheet2(self):
         b1 = pe.load_book(self.testfile, sheet_index=1)
-        b1['Sheet2'].format(int)
+        b1["Sheet2"].format(int)
         assert len(b1.sheet_names()) == 1
-        assert b1['Sheet2'].to_array() == self.content['Sheet2']
+        assert b1["Sheet2"].to_array() == self.content["Sheet2"]
 
     @raises(IndexError)
     def test_load_a_single_sheet3(self):
@@ -493,8 +493,9 @@ class TestMergeCSVsIntoOne:
     def test_merging(self):
         # set up
         import pyexcel as pe
+
         data = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-        data2 = [['a', 'b', 'c'], ['d', 'e', 'f'], ['g', 'h', 'i']]
+        data2 = [["a", "b", "c"], ["d", "e", "f"], ["g", "h", "i"]]
         data3 = [[1.1, 2.2, 3.3], [4.4, 5.5, 6.6], [7.7, 8.8, 9.9]]
         pe.save_as(dest_file_name="1.csv", array=data)
         pe.save_as(dest_file_name="2.csv", array=data2)
@@ -511,9 +512,9 @@ class TestMergeCSVsIntoOne:
             [1, 2, 3],
             [4, 5, 6],
             [7, 8, 9],
-            [u'a', u'b', u'c'],
-            [u'd', u'e', u'f'],
-            [u'g', u'h', u'i'],
+            [u"a", u"b", u"c"],
+            [u"d", u"e", u"f"],
+            [u"g", u"h", u"i"],
             [1.1, 2.2, 3.3],
             [4.4, 5.5, 6.6],
             [7.7, 8.8, 9.9],
@@ -531,6 +532,6 @@ def _produce_ordered_dict():
     data_dict.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
     data_dict.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
     data_dict.update(
-        {"Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]}
+        {"Sheet3": [[u"X", u"Y", u"Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]}
     )
     return data_dict

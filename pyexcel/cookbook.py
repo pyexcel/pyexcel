@@ -14,9 +14,9 @@ from pyexcel._compact import OrderedDict
 from pyexcel.constants import MESSAGE_WARNING
 
 
-DEFAULT_OUT_FILE = 'pyexcel_merged.csv'
-DEFAULT_OUT_XLS_FILE = 'merged.xls'
-OUT_FILE_FORMATTER = 'pyexcel_%s'
+DEFAULT_OUT_FILE = "pyexcel_merged.csv"
+DEFAULT_OUT_XLS_FILE = "merged.xls"
+OUT_FILE_FORMATTER = "pyexcel_%s"
 
 
 def update_columns(infilename, column_dicts, outfilename=None):

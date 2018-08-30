@@ -17,8 +17,10 @@ import pyexcel.internal.common as common
 
 class SQLAlchemyRenderer(DbRenderer):
     """Import data into database"""
-    def render_sheet_to_stream(self, file_stream, sheet,
-                               init=None, mapdict=None, **keywords):
+
+    def render_sheet_to_stream(
+        self, file_stream, sheet, init=None, mapdict=None, **keywords
+    ):
         headers = common.get_sheet_headers(sheet)
         importer = sql.SQLTableImporter(file_stream[0])
         adapter = sql.SQLTableImportAdapter(file_stream[1])
@@ -26,11 +28,16 @@ class SQLAlchemyRenderer(DbRenderer):
         adapter.row_initializer = init
         adapter.column_name_mapping_dict = mapdict
         importer.append(adapter)
-        save_data(importer, {adapter.get_name(): sheet.get_internal_array()},
-                  file_type=self._file_type, **keywords)
+        save_data(
+            importer,
+            {adapter.get_name(): sheet.get_internal_array()},
+            file_type=self._file_type,
+            **keywords
+        )
 
-    def render_book_to_stream(self, file_stream, book,
-                              inits=None, mapdicts=None, **keywords):
+    def render_book_to_stream(
+        self, file_stream, book, inits=None, mapdicts=None, **keywords
+    ):
         session, tables = file_stream
         thebook = book
         initializers = inits

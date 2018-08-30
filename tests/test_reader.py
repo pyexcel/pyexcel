@@ -6,7 +6,6 @@ from nose.tools import raises, eq_
 
 
 class TestReader:
-
     def setUp(self):
         """
         Make a test csv file as:
@@ -22,7 +21,7 @@ class TestReader:
     def test_cell_value(self):
         r = p.Reader(self.testfile)
         value = r.cell_value(0, 1)
-        assert value == 'b'
+        assert value == "b"
         value = r.cell_value(100, 100)
 
     def test_row_range(self):
@@ -38,27 +37,27 @@ class TestReader:
     @raises(ValueError)
     def test_named_column_at(self):
         r = p.SeriesReader(self.testfile)
-        data = r.named_column_at('a')
-        assert ['e', 'i'] == data
+        data = r.named_column_at("a")
+        assert ["e", "i"] == data
         r.named_column_at("A")
 
     def test_get_item_operator(self):
         r = p.Reader(self.testfile)
         value = r[0, 1]
-        assert value == 'b'
+        assert value == "b"
 
     @raises(IndexError)
     def test_row_at(self):
         r = p.Reader(self.testfile)
         value = r.row_at(2)
-        assert value == ['i', 'j', 1.1, 1]
+        assert value == ["i", "j", 1.1, 1]
         value = r.row_at(100)  # bang
 
     @raises(IndexError)
     def test_column_at(self):
         r = p.Reader(self.testfile)
         value = r.column_at(1)
-        assert value == ['b', 'f', 'j']
+        assert value == ["b", "f", "j"]
         value = r.column_at(100)  # bang
 
     @raises(p.exceptions.FileTypeNotSupported)
@@ -74,7 +73,7 @@ class TestReader:
         r = p.Reader(self.testfile)
 
         def f(row):
-            return row[0] == 'a' and row[1] == 'b'
+            return row[0] == "a" and row[1] == "b"
 
         assert r.contains(f) is True
 
@@ -103,7 +102,6 @@ class TestCSVReader(PyexcelBase):
 
 
 class TestCSVReader2:
-
     def setUp(self):
         """
         Make a test csv file as:
@@ -117,7 +115,7 @@ class TestCSVReader2:
 
     def test_data_types(self):
         r = p.Reader(self.testfile)
-        result = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 1.1, 1]
+        result = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", 1.1, 1]
         actual = list(r.enumerate())
         eq_(result, actual)
 
@@ -126,7 +124,6 @@ class TestCSVReader2:
 
 
 class TestCSVReaderDialect:
-
     def setUp(self):
         """
         Make a test csv file as:
@@ -146,8 +143,8 @@ class TestCSVReaderDialect:
 
     def test_delimiter(self):
         with open(self.testfile) as test_file:
-            content = '1:2:3:45:6:7:89:10:11:12'
-            expected = ''
+            content = "1:2:3:45:6:7:89:10:11:12"
+            expected = ""
             for line in test_file:
                 line = line.rstrip()
                 expected += line
@@ -163,7 +160,6 @@ class TestCSVReaderDialect:
 
 
 class TestXLSReader(PyexcelBase):
-
     def setUp(self):
         """
         Make a test csv file as:
@@ -184,7 +180,6 @@ class TestXLSReader(PyexcelBase):
 
 
 class TestXLSXReader(PyexcelBase):
-
     def setUp(self):
         """
         Make a test csv file as:
@@ -201,7 +196,6 @@ class TestXLSXReader(PyexcelBase):
 
 
 class TestXLSMReader(PyexcelBase):
-
     def setUp(self):
         """
         Make a test csv file as:
@@ -218,7 +212,6 @@ class TestXLSMReader(PyexcelBase):
 
 
 class TestSeriesReader3:
-
     def setUp(self):
         self.testfile = "test.xlsx"
         self.content = [
@@ -236,7 +229,9 @@ class TestSeriesReader3:
         s = p.Sheet()  # seriesreader is gone since v0.0.7
         assert s.name == "pyexcel sheet"
         test_data = [
-            [1, 2, 3], [4, 5, 6], ["Column 1", "Column 2", "Column 3"]
+            [1, 2, 3],
+            [4, 5, 6],
+            ["Column 1", "Column 2", "Column 3"],
         ]
         s.column += p.internal.sheets.transpose(test_data)
         actual = s.array
@@ -249,7 +244,6 @@ class TestSeriesReader3:
 
 
 class TestSeriesReader4:
-
     def setUp(self):
         self.testfile = "test.xls"
         self.content = [
@@ -291,7 +285,6 @@ class TestSeriesReader4:
 
 
 class TestSeriesReader5:
-
     def setUp(self):
         self.testfile = "test.xls"
         self.content = [

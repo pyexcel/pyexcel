@@ -71,7 +71,7 @@ class Book(BookMeta):
             # this sheets keep sheet order
             self.__sheets.update({name: sheet})
             # this provide the convenience of access the sheet
-            self.__dict__[name.replace(' ', '_')] = sheet
+            self.__dict__[name.replace(" ", "_")] = sheet
         self.__name_array = list(self.__sheets.keys())
 
     def __iter__(self):
@@ -201,8 +201,7 @@ class Book(BookMeta):
                 if new_key in self.__name_array:
                     uid = local_uuid()
                     new_key = "%s_%s" % (name, uid)
-                self.__sheets[new_key] = Sheet(other[name].array,
-                                               new_key)
+                self.__sheets[new_key] = Sheet(other[name].array, new_key)
         elif isinstance(other, Sheet):
             new_key = other.name
             if new_key in self.__name_array:
@@ -228,9 +227,11 @@ def to_book(bookstream):
     if isinstance(bookstream, Book):
         return bookstream
     else:
-        return Book(bookstream.to_dict(),
-                    filename=bookstream.filename,
-                    path=bookstream.path)
+        return Book(
+            bookstream.to_dict(),
+            filename=bookstream.filename,
+            path=bookstream.path,
+        )
 
 
 def local_uuid():

@@ -16,8 +16,14 @@ class WriteSheetToMemory(AbstractSource, MemorySourceMixin):
     """
     Single sheet to memory
     """
-    def __init__(self, file_type=None, file_stream=None,
-                 renderer_library=None, **keywords):
+
+    def __init__(
+        self,
+        file_type=None,
+        file_stream=None,
+        renderer_library=None,
+        **keywords
+    ):
         AbstractSource.__init__(self, **keywords)
 
         self._renderer = RENDERER.get_a_plugin(file_type, renderer_library)
@@ -29,7 +35,8 @@ class WriteSheetToMemory(AbstractSource, MemorySourceMixin):
 
     def write_data(self, sheet):
         self._renderer.render_sheet_to_stream(
-            self._content, sheet, **self._keywords)
+            self._content, sheet, **self._keywords
+        )
 
 
 # pylint: disable=W0223
@@ -37,6 +44,8 @@ class WriteBookToMemory(WriteSheetToMemory):
     """
     Multiple sheet data source for writting back to memory
     """
+
     def write_data(self, book):
         self._renderer.render_book_to_stream(
-            self._content, book, **self._keywords)
+            self._content, book, **self._keywords
+        )

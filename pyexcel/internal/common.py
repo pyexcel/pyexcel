@@ -14,6 +14,7 @@ class SheetIterator(object):
     """
     Sheet Iterator
     """
+
     def __init__(self, bookreader):
         self.book_reader_ref = bookreader
         self.current = 0
@@ -28,13 +29,14 @@ class SheetIterator(object):
         """get next sheet"""
         if self.current < self.book_reader_ref.number_of_sheets():
             self.current += 1
-            return self.book_reader_ref[self.current-1]
+            return self.book_reader_ref[self.current - 1]
         else:
             raise StopIteration
 
 
 def get_sheet_headers(sheet):
     from pyexcel.internal.generators import SheetStream
+
     if isinstance(sheet, SheetStream):
         headers = next(sheet.payload)
     else:
@@ -46,6 +48,7 @@ def get_sheet_headers(sheet):
 
 def get_book_headers_in_array(book):
     from pyexcel.internal.generators import BookStream
+
     if isinstance(book, BookStream):
         colnames_array = [next(sheet.payload) for sheet in book]
     else:

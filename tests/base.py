@@ -20,16 +20,16 @@ def create_generic_file(filename, array_content):
 
 
 def create_sample_file1(filename):
-    data = [['a', 'b', 'c', 'd'], ['e', 'f', 'g', 'h'], ['i', 'j', 1.1, 1]]
+    data = [["a", "b", "c", "d"], ["e", "f", "g", "h"], ["i", "j", 1.1, 1]]
     create_generic_file(filename, data)
 
 
 def create_sample_file1_series(filename):
     data = [
-        ['c1', 'c2', 'c3', 'c4'],
-        ['a', 'b', 'c', 'd'],
-        ['e', 'f', 'g', 'h'],
-        ['i', 'j', 1.1, 1],
+        ["c1", "c2", "c3", "c4"],
+        ["a", "b", "c", "d"],
+        ["e", "f", "g", "h"],
+        ["i", "j", 1.1, 1],
     ]
     create_generic_file(filename, data)
 
@@ -55,7 +55,7 @@ def create_sample_file2_in_memory(file_type):
     """
     table = []
     for i in [0, 4, 8]:
-        array = [i+1, i+2, i+3, i+4]
+        array = [i + 1, i + 2, i + 3, i + 4]
         table.append(array)
     io = pe.save_as(dest_file_type=file_type, array=table)
     return io
@@ -88,7 +88,7 @@ class PyexcelBase:
             row = i + 1
             assert row == r.cell_value(i, 1)
         for i in r.row_range():
-            assert i+1 == r.cell_value(i, 1)
+            assert i + 1 == r.cell_value(i, 1)
         assert 3 == r.cell_value(2, 3)
 
     def test_row_range(self):
@@ -117,7 +117,6 @@ class PyexcelBase:
 
 
 class PyexcelMultipleSheetBase:
-
     def _write_test_file(self, filename):
         pe.save_book_as(dest_file_name=filename, bookdict=self.content)
 
@@ -142,7 +141,7 @@ class PyexcelMultipleSheetBase:
         expected = [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]
         assert data == expected
         data = list(b["Sheet3"].rows())
-        expected = [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
+        expected = [[u"X", u"Y", u"Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
         assert data == expected
         sheet3 = b["Sheet3"]
         sheet3.name_columns_by_row(0)
@@ -173,7 +172,7 @@ class PyexcelMultipleSheetBase:
         value = r["Sheet1"].row[0][1]
         assert value == 1
         value = r["Sheet3"].row[0][1]
-        assert value == 'Y'
+        assert value == "Y"
         r["Sheet3"].name_columns_by_row(0)
         value = r["Sheet3"].row[0][1]
         assert value == 4
@@ -250,20 +249,19 @@ class PyexcelIteratorBase:
 
 
 class PyexcelSheetRWBase:
-
     @raises(TypeError)
     def test_extend_rows(self):
         r2 = self.testclass(self.testfile)
         content = [
-            ['r', 's', 't', 'o'],
+            ["r", "s", "t", "o"],
             [1, 2, 3, 4],
             [True],
             [1.1, 2.2, 3.3, 4.4, 5.5],
         ]
         r2.row += content
-        assert r2.row[3] == ['r', 's', 't', 'o', '']
-        assert r2.row[4] == [1, 2, 3, 4, '']
-        assert r2.row[5] == [True, "", "", "", '']
+        assert r2.row[3] == ["r", "s", "t", "o", ""]
+        assert r2.row[4] == [1, 2, 3, 4, ""]
+        assert r2.row[5] == [True, "", "", "", ""]
         assert r2.row[6] == [1.1, 2.2, 3.3, 4.4, 5.5]
         r2.row += 12  # bang
 

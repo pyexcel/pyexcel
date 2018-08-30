@@ -105,7 +105,7 @@ CONVERSION_FUNCTIONS = {
     datetime.date: date_to_format,
     bool: boolean_to_format,
     None: empty_to_format,
-    Decimal: float_to_format
+    Decimal: float_to_format,
 }
 
 if PY2:

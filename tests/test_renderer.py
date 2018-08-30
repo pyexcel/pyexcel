@@ -53,6 +53,6 @@ def test_db_renderer_2():
 
 
 def test_binary_renderer():
-    r = BinaryRenderer('abc')
+    r = BinaryRenderer("abc")
     io = r.get_io()
     assert isinstance(io, BytesIO)

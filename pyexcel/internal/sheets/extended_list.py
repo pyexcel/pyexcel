@@ -2,7 +2,6 @@ from collections import Counter
 
 
 class PyexcelList(list):
-
     def __init__(self, *args):
         list.__init__(self, *args)
 
@@ -11,5 +10,5 @@ class PyexcelList(list):
 
         c = Counter(self)
         sheet = get_sheet(adict=c)
-        sheet.rownames = ['names', 'counts']
+        sheet.rownames = ["names", "counts"]
         return sheet

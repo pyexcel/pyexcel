@@ -10,10 +10,9 @@ class TestSpliting:
         self.content4 = {
             "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
             "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
-            "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
+            "Sheet3": [[u"X", u"Y", u"Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]],
         }
-        pe.save_book_as(dest_file_name=self.testfile4,
-                        bookdict=self.content4)
+        pe.save_book_as(dest_file_name=self.testfile4, bookdict=self.content4)
 
     def test_split_a_book(self):
         pe.cookbook.split_a_book(self.testfile4, "extracted.csv")
@@ -29,8 +28,9 @@ class TestSpliting:
         assert os.path.exists("Sheet3_%s" % self.testfile4)
 
     def test_extract_a_book(self):
-        pe.cookbook.extract_a_sheet_from_a_book(self.testfile4,
-                                                "Sheet1", "extracted.csv")
+        pe.cookbook.extract_a_sheet_from_a_book(
+            self.testfile4, "Sheet1", "extracted.csv"
+        )
         assert os.path.exists("Sheet1_extracted.csv")
 
     def test_extract_a_book_2(self):
@@ -46,7 +46,8 @@ class TestSpliting:
             "Sheet3_extracted.csv",
             "Sheet1_multiple_sheets.xls",
             "Sheet2_multiple_sheets.xls",
-            "Sheet3_multiple_sheets.xls"]
+            "Sheet3_multiple_sheets.xls",
+        ]
         clean_up_files(file_list)
 
 
@@ -65,32 +66,28 @@ class TestCookbook:
             "Y": [6, 7, 8, 9, 10],
             "Z": [11, 12, 13, 14, 15],
         }
-        pe.save_as(dest_file_name=self.testfile,
-                   adict=self.content)
+        pe.save_as(dest_file_name=self.testfile, adict=self.content)
         self.testfile2 = "test.csv"
         self.content2 = {
             "O": [1, 2, 3, 4, 5],
             "P": [6, 7, 8, 9, 10],
             "Q": [11, 12, 13, 14, 15],
         }
-        pe.save_as(dest_file_name=self.testfile2,
-                   adict=self.content2)
+        pe.save_as(dest_file_name=self.testfile2, adict=self.content2)
         self.testfile3 = "test.xls"
         self.content3 = {
             "R": [1, 2, 3, 4, 5],
             "S": [6, 7, 8, 9, 10],
             "T": [11, 12, 13, 14, 15],
         }
-        pe.save_as(dest_file_name=self.testfile3,
-                   adict=self.content3)
+        pe.save_as(dest_file_name=self.testfile3, adict=self.content3)
         self.testfile4 = "multiple_sheets.xls"
         self.content4 = {
             "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
             "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
-            "Sheet3": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
+            "Sheet3": [[u"X", u"Y", u"Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]],
         }
-        pe.save_book_as(dest_file_name=self.testfile4,
-                        bookdict=self.content4)
+        pe.save_book_as(dest_file_name=self.testfile4, bookdict=self.content4)
 
     @raises(ValueError)
     def test_update_columns(self):
@@ -200,8 +197,12 @@ class TestCookbook:
         eq_(r.dict, content)
 
     def test_merge_any_files_to_a_book(self):
-        file_array = [self.testfile, self.testfile2,
-                      self.testfile3, self.testfile4]
+        file_array = [
+            self.testfile,
+            self.testfile2,
+            self.testfile3,
+            self.testfile4,
+        ]
         pe.cookbook.merge_all_to_a_book(file_array, "merged.xlsx")
         r = pe.BookReader("merged.xlsx")
         r[self.testfile].name_columns_by_row(0)
@@ -222,8 +223,7 @@ class TestCookbook:
         assert content6 == self.content4["Sheet3"]
 
     def test_merge_csv_files_to_a_book(self):
-        file_array = [self.testfile, self.testfile2,
-                      self.testfile3]
+        file_array = [self.testfile, self.testfile2, self.testfile3]
         pe.cookbook.merge_csv_to_a_book(file_array, "merged.xlsx")
         r = pe.BookReader("merged.xlsx")
         r[self.testfile].name_columns_by_row(0)
@@ -247,6 +247,6 @@ class TestCookbook:
             "pyexcel_merged.csv",
             "merged.xlsx",
             "merged.xls",
-            "test4.xls"
+            "test4.xls",
         ]
         clean_up_files(file_list)

@@ -7,7 +7,7 @@ from pyexcel._compact import PY2, StringIO
 
 class TestHttpBookSource(TestCase):
     def setUp(self):
-        self.patcher = patch('pyexcel._compact.request.urlopen')
+        self.patcher = patch("pyexcel._compact.request.urlopen")
         mock_open = self.patcher.start()
         self.mocked_info = MagicMock()
         io = StringIO("1,2,3")
@@ -23,27 +23,33 @@ class TestHttpBookSource(TestCase):
             self.mocked_info.type.return_value = "text/csv"
         else:
             self.mocked_info.get_content_type.return_value = "text/csv"
-        content = dedent("""
+        content = dedent(
+            """
         csv:
         +---+---+---+
         | 1 | 2 | 3 |
-        +---+---+---+""").strip('\n')
+        +---+---+---+"""
+        ).strip("\n")
         self.assertEqual(str(book), content)
 
     def test_url_source_via_file_suffix(self):
         book = pe.get_book(url="xx.csv")
-        content = dedent("""
+        content = dedent(
+            """
         csv:
         +---+---+---+
         | 1 | 2 | 3 |
-        +---+---+---+""").strip('\n')
+        +---+---+---+"""
+        ).strip("\n")
         self.assertEqual(str(book), content)
 
     def test_url_source_via_file_suffix_get_sheet(self):
         sheet = pe.get_sheet(url="xx.csv")
-        content = dedent("""
+        content = dedent(
+            """
         csv:
         +---+---+---+
         | 1 | 2 | 3 |
-        +---+---+---+""").strip('\n')
+        +---+---+---+"""
+        ).strip("\n")
         self.assertEqual(str(sheet), content)

@@ -35,6 +35,8 @@ updated
 #. Sheet.to_records() returns a generator now, saving memory
 #. `#115 <https://github.com/pyexcel/pyexcel/issues/115>`_, Fix set membership
    test to run faster in python2
+#. `#140 <https://github.com/pyexcel/pyexcel/issues/140>`_, Direct writes to
+   cells yield weird results
 
 0.5.8 - unreleased
 --------------------------------------------------------------------------------
