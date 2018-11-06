@@ -7,8 +7,8 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel.internal import PARSER
 from pyexcel.source import AbstractSource
+from pyexcel.internal import PARSER
 from . import params
 
 

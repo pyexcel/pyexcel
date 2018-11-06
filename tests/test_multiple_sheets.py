@@ -1,8 +1,9 @@
-from base import PyexcelMultipleSheetBase
-import pyexcel as pe
 import os
-from base import create_sample_file1, clean_up_files
+
+from base import PyexcelMultipleSheetBase, clean_up_files, create_sample_file1
 from _compact import OrderedDict
+
+import pyexcel as pe
 from nose.tools import raises
 
 

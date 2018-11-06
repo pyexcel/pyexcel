@@ -1,10 +1,12 @@
 import os
-from pyexcel.internal.sheets import Matrix, _shared
-from pyexcel import Reader, save_as, SeriesReader, get_sheet
-import datetime
 import copy
+import datetime
+
 from base import PyexcelIteratorBase, create_sample_file2
-from nose.tools import raises, eq_
+
+from pyexcel import Reader, SeriesReader, save_as, get_sheet
+from nose.tools import eq_, raises
+from pyexcel.internal.sheets import Matrix, _shared
 
 
 class TestMatrixColumn:

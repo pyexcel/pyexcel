@@ -1,5 +1,6 @@
-from unittest import TestCase
 from textwrap import dedent
+from unittest import TestCase
+
 import pyexcel as pe
 
 

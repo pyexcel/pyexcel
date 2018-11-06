@@ -12,14 +12,12 @@ created along with pyexcel v0.1.5.
 Please install pyexcel-xls
 """
 import os
-import pyexcel
 import datetime
 
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Float, Date
+import pyexcel
+from sqlalchemy import Date, Float, Column, String, Integer, create_engine
 from sqlalchemy.orm import sessionmaker
-
+from sqlalchemy.ext.declarative import declarative_base
 
 engine = create_engine("sqlite:///birth.db")
 Base = declarative_base()

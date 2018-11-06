@@ -1,7 +1,8 @@
 import os
 from unittest import TestCase
+
 import pyexcel as pe
-from nose.tools import raises, eq_
+from nose.tools import eq_, raises
 
 
 class TestToRecord(TestCase):

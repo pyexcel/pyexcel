@@ -1,9 +1,11 @@
 import os
-import pyexcel as pe
-from db import Session, Base, Signature, Signature2, engine
-from _compact import OrderedDict
-from nose.tools import raises, eq_
 from types import GeneratorType
+
+from db import Base, Session, Signature, Signature2, engine
+from _compact import OrderedDict
+
+import pyexcel as pe
+from nose.tools import eq_, raises
 
 
 def test_unknown_file_type_exception():

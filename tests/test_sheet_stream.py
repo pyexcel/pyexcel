@@ -1,9 +1,10 @@
-from nose.tools import eq_
 from textwrap import dedent
+
 import pyexcel_io.manager as manager
+from nose.tools import eq_
+from pyexcel.internal.common import get_sheet_headers
 from pyexcel.internal.generators import SheetStream
 from pyexcel.plugins.sources.output_to_memory import WriteSheetToMemory
-from pyexcel.internal.common import get_sheet_headers
 
 
 def test_save_to():

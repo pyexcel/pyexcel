@@ -8,8 +8,7 @@
     :license: New BSD License
 """
 from pyexcel_io.constants import DB_DJANGO
-
-from .db_sources import SheetDbSource, BookDbSource
+from .db_sources import BookDbSource, SheetDbSource
 
 
 class SheetDjangoSource(SheetDbSource):

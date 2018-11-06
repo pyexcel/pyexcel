@@ -9,15 +9,13 @@
 """
 import re
 
-import pyexcel_io.manager as manager
-
-from pyexcel.sheet import Sheet
-from pyexcel.book import Book, to_book
-import pyexcel.internal.core as sources
 import pyexcel.constants as constants
-from pyexcel._compact import zip_longest, append_doc, OrderedDict
 import pyexcel.docstrings as docs
-
+import pyexcel_io.manager as manager
+import pyexcel.internal.core as sources
+from pyexcel.book import Book, to_book
+from pyexcel.sheet import Sheet
+from pyexcel._compact import OrderedDict, append_doc, zip_longest
 
 STARTS_WITH_DEST = "^dest_(.*)"
 SAVE_AS_EXCEPTION = (

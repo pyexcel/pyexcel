@@ -7,8 +7,8 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel._compact import OrderedDict, PY2
 from pyexcel.source import AbstractSource, MemorySourceMixin
+from pyexcel._compact import PY2, OrderedDict
 from pyexcel.plugins.sources import params
 from .common import _FakeIO
 

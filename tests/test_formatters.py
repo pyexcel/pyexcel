@@ -1,8 +1,10 @@
 import datetime
 from unittest import TestCase
-from pyexcel.internal.sheets import formatters
-from pyexcel import save_as, SeriesReader, get_sheet
+
 from base import clean_up_files
+
+from pyexcel import SeriesReader, save_as, get_sheet
+from pyexcel.internal.sheets import formatters
 
 
 def increase_func(x):

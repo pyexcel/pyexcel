@@ -11,9 +11,9 @@ from collections import defaultdict
 
 import pyexcel._compact as compact
 import pyexcel.constants as constants
-from pyexcel.internal.sheets.matrix import Matrix
 from pyexcel.internal.sheets.row import Row as NamedRow
 from pyexcel.internal.sheets.column import Column as NamedColumn
+from pyexcel.internal.sheets.matrix import Matrix
 
 
 class Sheet(Matrix):

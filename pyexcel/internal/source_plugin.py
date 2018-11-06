@@ -7,14 +7,14 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-import pyexcel_io.constants as io_constants
-
 import pyexcel.constants as constants
 import pyexcel.exceptions as exceptions
-from pyexcel.internal.attributes import register_book_attribute
-from pyexcel.internal.attributes import register_sheet_attribute
+import pyexcel_io.constants as io_constants
 from lml.plugin import PluginManager
-
+from pyexcel.internal.attributes import (
+    register_book_attribute,
+    register_sheet_attribute,
+)
 
 REGISTRY_KEY_FORMAT = "%s-%s"
 # ignore the following attributes

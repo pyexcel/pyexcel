@@ -1,9 +1,10 @@
 # since v0.2.2
+import copy
 from textwrap import dedent
+
+from nose.tools import eq_, raises
 from pyexcel.sheet import Sheet
 from pyexcel.internal.meta import PyexcelObject
-from nose.tools import eq_, raises
-import copy
 
 
 def test_sheet_content():
@@ -113,9 +114,7 @@ def test_html_representation():
     <tr><td style="text-align: right;">1</td><td style="text-align: right;">2</td></tr>
     </tbody>
     </table>"""  # noqa: E501
-    ).strip(
-        "\n"
-    )
+    ).strip("\n")
     eq_(str(sheet._repr_html_()), expected)
 
 

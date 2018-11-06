@@ -1,7 +1,8 @@
-import json
 import os
+import json
+
 import pyexcel as pe
-from nose.tools import raises, eq_
+from nose.tools import eq_, raises
 
 
 def clean_up_files(file_list):

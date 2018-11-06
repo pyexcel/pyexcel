@@ -1,8 +1,9 @@
-from pyexcel import Sheet
-from pyexcel import load_from_dict, load_from_records
-from _compact import OrderedDict
-from nose.tools import raises, eq_
 import copy
+
+from _compact import OrderedDict
+
+from pyexcel import Sheet, load_from_dict, load_from_records
+from nose.tools import eq_, raises
 
 
 @raises(TypeError)

@@ -7,12 +7,11 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from functools import partial
 import warnings
+from functools import partial
 
+from pyexcel.core import get_book, get_sheet
 from pyexcel._compact import deprecated
-from pyexcel.core import get_sheet, get_book
-
 
 DEPRECATED_LOADER = partial(
     deprecated,

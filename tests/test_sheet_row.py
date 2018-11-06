@@ -1,6 +1,7 @@
-from pyexcel import Sheet
 from _compact import OrderedDict
-from nose.tools import raises, eq_
+
+from pyexcel import Sheet
+from nose.tools import eq_, raises
 
 
 class TestSheetRow:

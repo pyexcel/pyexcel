@@ -10,15 +10,15 @@
 """
 import copy
 import types
-from itertools import chain
 from functools import partial
+from itertools import chain
 
 import pyexcel._compact as compact
 import pyexcel.constants as constants
 from pyexcel.internal.meta import SheetMeta
-from pyexcel.internal.sheets.formatters import to_format
 from pyexcel.internal.sheets.row import Row
 from pyexcel.internal.sheets.column import Column
+from pyexcel.internal.sheets.formatters import to_format
 from pyexcel.internal.sheets.extended_list import PyexcelList
 from . import _shared as utils
 

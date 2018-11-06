@@ -1,8 +1,7 @@
 from nose.tools import raises
-
 from pyexcel.source import AbstractSource
-from pyexcel.plugins.sources.output_to_memory import WriteSheetToMemory
 from pyexcel.plugins import FileSourceInfo
+from pyexcel.plugins.sources.output_to_memory import WriteSheetToMemory
 
 
 def test_source():

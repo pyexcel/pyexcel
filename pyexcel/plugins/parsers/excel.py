@@ -7,8 +7,8 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel.parser import AbstractParser
 from pyexcel_io import get_data, iget_data
+from pyexcel.parser import AbstractParser
 
 
 class ExcelParser(AbstractParser):

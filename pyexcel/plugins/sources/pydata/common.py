@@ -7,11 +7,9 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel_io.sheet import SheetReader
-
-from pyexcel._compact import OrderedDict
-from pyexcel._compact import zip_longest, PY2
 import pyexcel.constants as constants
+from pyexcel._compact import PY2, OrderedDict, zip_longest
+from pyexcel_io.sheet import SheetReader
 
 
 class _FakeIO(object):
