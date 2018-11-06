@@ -112,10 +112,10 @@ def test_html_representation():
     <tbody>
     <tr><td style="text-align: right;">1</td><td style="text-align: right;">2</td></tr>
     </tbody>
-    </table>"""
+    </table>"""  # noqa: E501
     ).strip(
         "\n"
-    )  # flake8: noqa
+    )
     eq_(str(sheet._repr_html_()), expected)
 
 

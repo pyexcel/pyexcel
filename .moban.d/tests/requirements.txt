@@ -8,4 +8,8 @@ pyexcel-xls>=0.4.1
 pyexcel-text>=0.2.0
 pyexcel-handsontable
 psutil
+mock
+moban
+black;python_version>="3.6"
+isort;python_version>="3.6"
 {%endblock%}
