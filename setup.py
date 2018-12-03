@@ -5,16 +5,16 @@ import os
 import sys
 import codecs
 from shutil import rmtree
-from platform import python_implementation
 
 from setuptools import Command, setup, find_packages
 
+from platform import python_implementation
 PY2 = sys.version_info[0] == 2
 PY26 = PY2 and sys.version_info[1] < 7
 
 NAME = 'pyexcel'
 AUTHOR = 'C.W.'
-VERSION = '0.5.9.1'
+VERSION = '0.5.10'
 EMAIL = 'wangc_2011@hotmail.com'
 LICENSE = 'New BSD'
 DESCRIPTION = (
@@ -22,17 +22,17 @@ DESCRIPTION = (
     'data in different excel formats'
 )
 URL = 'https://github.com/pyexcel/pyexcel'
-DOWNLOAD_URL = '%s/archive/0.5.9.1.tar.gz' % URL
+DOWNLOAD_URL = '%s/archive/0.5.10.tar.gz' % URL
 FILES = ['README.rst', 'CHANGELOG.rst']
 KEYWORDS = [
+    'python',
     'tsv',
     'tsvz'
     'csv',
     'csvz',
     'xls',
     'xlsx',
-    'ods',
-    'python',
+    'ods'
 ]
 
 CLASSIFIERS = [
@@ -50,7 +50,7 @@ CLASSIFIERS = [
 ]
 
 INSTALL_REQUIRES = [
-    'lml>=0.0.2',
+    'lml>=0.0.4',
     'pyexcel-io>=0.5.9.1',
 ]
 SETUP_COMMANDS = {}
@@ -75,8 +75,8 @@ EXTRAS_REQUIRE = {
 # You do not need to read beyond this line
 PUBLISH_COMMAND = '{0} setup.py sdist bdist_wheel upload -r pypi'.format(
     sys.executable)
-GS_COMMAND = ('gs pyexcel v0.5.9.1 ' +
-              "Find 0.5.9.1 in changelog for more details")
+GS_COMMAND = ('gs pyexcel v0.5.10 ' +
+              "Find 0.5.10 in changelog for more details")
 NO_GS_MESSAGE = ('Automatic github release is disabled. ' +
                  'Please install gease to enable it.')
 UPLOAD_FAILED_MSG = (

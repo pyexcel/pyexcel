@@ -13,6 +13,15 @@ Planned
 #. suppert missing pandas io features: use custom boolean values, write stylish
    spreadsheets.
 
+0.5.10 - 3.12.2018
+--------------------------------------------------------------------------------
+
+updated
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. `#157 <https://github.com/pyexcel/pyexcel/issues/157>`_: Please use
+   scan_plugins_regex, which lml 0.7 complains about
+
 0.5.9.1 - 30.08.2018
 --------------------------------------------------------------------------------
 

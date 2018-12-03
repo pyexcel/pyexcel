@@ -29,7 +29,7 @@ copyright = u'2015-2018 Onni Software Ltd.'
 author = u'C.W.'
 
 # The short X.Y version
-version = u'0.5.9.1'
+version = u'0.5.10'
 # The full version, including alpha/beta/rc tags
 release = u'0.6.0'
 

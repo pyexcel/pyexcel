@@ -13,6 +13,12 @@ releases:
 - changes:
   - action: updated
     details:
+    - '`#157`: Please use scan_plugins_regex, which lml 0.7 complains about'
+  version: 0.5.10
+  date: 3.12.2018
+- changes:
+  - action: updated
+    details:
     - 'to require pyexcel-io 0.5.9.1 and use lml at least version 0.0.2'
   version: 0.5.9.1
   date: 30.08.2018
