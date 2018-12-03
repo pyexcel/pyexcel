@@ -7,7 +7,7 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-# noqa
+# flake8: noqa
 from .core import (
     GET_SHEET,
     GET_BOOK,
