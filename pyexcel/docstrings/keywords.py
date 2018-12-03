@@ -516,4 +516,4 @@ We can verify if it was done correctly:
     >>> os.unlink("your_file.csv")
     >>> os.unlink("your_file.xlsx")
 
-"""  # flake8: noqa
+"""  # noqa: W291
