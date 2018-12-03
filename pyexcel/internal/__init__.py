@@ -30,4 +30,4 @@ WHITE_LIST = [
 ]
 
 
-scan_plugins("pyexcel_", "pyexcel", BLACK_LIST, WHITE_LIST)
+scan_plugins_regex("^pyexcel_.+$", "pyexcel", BLACK_LIST, WHITE_LIST)
