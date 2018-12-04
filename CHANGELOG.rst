@@ -21,6 +21,7 @@ updated
 
 #. `#157 <https://github.com/pyexcel/pyexcel/issues/157>`_: Please use
    scan_plugins_regex, which lml 0.7 complains about
+#. updated dependency on pyexcel-io to 0.5.11
 
 0.5.9.1 - 30.08.2018
 --------------------------------------------------------------------------------
