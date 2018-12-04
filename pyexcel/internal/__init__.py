@@ -34,5 +34,5 @@ scan_plugins_regex(
     plugin_name_patterns="^pyexcel_.+$",
     pyinstaller_path="pyexcel",
     black_list=BLACK_LIST,
-    white_list=WHITE_LIST
+    white_list=WHITE_LIST,
 )
