@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import os
-import psutil
+from datetime import datetime
 from textwrap import dedent
 
-import pyexcel as pe
-from datetime import datetime
 from _compact import StringIO, OrderedDict
+
+import psutil
+import pyexcel as pe
 from nose.tools import eq_
 
 

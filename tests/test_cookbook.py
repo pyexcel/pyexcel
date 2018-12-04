@@ -1,7 +1,9 @@
-import pyexcel as pe
 import os
+
 from base import clean_up_files
-from nose.tools import raises, eq_
+
+import pyexcel as pe
+from nose.tools import eq_, raises
 
 
 class TestSpliting:

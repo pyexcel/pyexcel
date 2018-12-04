@@ -10,8 +10,9 @@ you will need to do  `pip install pyexcel-xls`
 """
 # please install pyexcel-ods
 import os
-import pyexcel as pe
 import json
+
+import pyexcel as pe
 
 
 def main(base_dir):

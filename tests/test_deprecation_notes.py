@@ -1,10 +1,11 @@
-from mock import patch
 import warnings
+
 import pyexcel.ext.ods
-import pyexcel.ext.ods3
 import pyexcel.ext.xls
-import pyexcel.ext.xlsx
+import pyexcel.ext.ods3
 import pyexcel.ext.text
+import pyexcel.ext.xlsx
+from mock import patch
 
 try:
     reload

@@ -462,17 +462,17 @@ The pagination support is available across all pyexcel plugins.
 
 .. note::
 
-   No column pagination support for query sets as data source. 
+   No column pagination support for query sets as data source.
 
 
 *Formatting while transcoding a big data file*
 
 If you are transcoding a big data set, conventional formatting method would not
-help unless a on-demand free RAM is available. However, there is a way to minimize
-the memory footprint of pyexcel while the formatting is performed.
+help unless a on-demand free RAM is available. However, there is a way to
+minimize the memory footprint of pyexcel while the formatting is performed.
 
-Let's continue from previous example. Suppose we want to transcode "your_file.csv"
-to "your_file.xls" but increase each element by 1.
+Let's continue from previous example. Suppose we want to transcode
+"your_file.csv" to "your_file.xls" but increase each element by 1.
 
 What we can do is to define a row renderer function as the following:
 
@@ -516,4 +516,4 @@ We can verify if it was done correctly:
     >>> os.unlink("your_file.csv")
     >>> os.unlink("your_file.xlsx")
 
-"""  # flake8: noqa
+"""  # noqa: W291

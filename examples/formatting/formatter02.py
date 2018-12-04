@@ -8,6 +8,7 @@ This example shows you how to use custom formatter function
 Please install pyexcel-xls
 """
 import os
+
 import pyexcel as pe
 
 

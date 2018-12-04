@@ -14,4 +14,3 @@
     'Development Status :: 3 - Alpha',
     'Programming Language :: Python :: Implementation :: PyPy'
 {% endblock %}}
-

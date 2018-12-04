@@ -1,7 +1,8 @@
 import os
+from textwrap import dedent
+
 import pyexcel as pe
 from nose.tools import eq_
-from textwrap import dedent
 
 
 def test_write_texttable():

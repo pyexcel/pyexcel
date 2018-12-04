@@ -7,8 +7,8 @@
     :copyright: (c) 2014-2017 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-from pyexcel.sheet import Sheet
 import pyexcel._compact as compact
+from pyexcel.sheet import Sheet
 from pyexcel.internal.meta import BookMeta
 from pyexcel.internal.common import SheetIterator
 

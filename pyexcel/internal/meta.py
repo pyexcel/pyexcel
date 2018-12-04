@@ -10,15 +10,12 @@
 import sys
 from functools import partial
 
-from pyexcel._compact import PY2
-from pyexcel.internal import SOURCE
 import pyexcel.constants as constants
-from pyexcel.internal.core import get_sheet_stream
-from pyexcel.internal.core import save_sheet
-from pyexcel.internal.core import save_book
-from pyexcel.internal.utils import make_a_property
-from pyexcel._compact import append_doc
 import pyexcel.docstrings as docs
+from pyexcel._compact import PY2, append_doc
+from pyexcel.internal import SOURCE
+from pyexcel.internal.core import save_book, save_sheet, get_sheet_stream
+from pyexcel.internal.utils import make_a_property
 
 
 def make_presenter(source_getter, attribute=None):

@@ -9,7 +9,6 @@
 """
 from .keywords import CSV_PARAMS
 
-
 SAVE_AS_OPTIONS = (
     """
 Keywords may vary depending on your file type, because the associated

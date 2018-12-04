@@ -1,9 +1,10 @@
 import os
-import sys
 import imp
-import json
+import sys
 import glob
+import json
 from unittest import TestCase
+
 import pyexcel as pe
 
 PY2 = sys.version_info[0] == 2

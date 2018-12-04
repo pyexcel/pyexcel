@@ -7,8 +7,8 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel.internal import RENDERER
 from pyexcel.source import AbstractSource, MemorySourceMixin
+from pyexcel.internal import RENDERER
 
 
 # pylint: disable=W0223

@@ -2,12 +2,12 @@ overrides: "pyexcel.yaml"
 name: "pyexcel"
 nick_name: pyexcel
 version: 0.6.0
-current_version: 0.5.9.1
-release: 0.5.9.1
+current_version: 0.5.10
+release: 0.5.10
 branch: master
 dependencies:
-  - lml>=0.0.2
-  - pyexcel-io>=0.5.9.1
+  - lml>=0.0.4
+  - pyexcel-io>=0.5.11
   - texttable>=0.8.1;python_version<"3"
   - texttable>=0.8.2;python_version>="3"
   - ordereddict;python_version<"2.7"

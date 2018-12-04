@@ -8,9 +8,10 @@ a directory into one excel book
 
 Please install pyexcel-xls
 """
-import pyexcel as pe
-import glob
 import os
+import glob
+
+import pyexcel as pe
 
 
 def main(base_dir):

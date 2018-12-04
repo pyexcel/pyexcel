@@ -7,9 +7,9 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
+from pyexcel._compact import PY2
 from pyexcel.internal import SOURCE
 from pyexcel.internal.generators import BookStream, SheetStream
-from pyexcel._compact import PY2
 
 
 def get_sheet_stream(**keywords):

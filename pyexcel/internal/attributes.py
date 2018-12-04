@@ -9,7 +9,6 @@
 """
 import pyexcel.constants as constants
 
-
 ATTRIBUTE_REGISTRY = {
     constants.SHEET: {
         constants.READ_ACTION: set(),

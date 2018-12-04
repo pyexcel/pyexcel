@@ -1,8 +1,13 @@
+requires:
+  - type: git
+    url: https://github.com/moremoban/pypi-mobans
+    submodule: true
+  - https://github.com/pyexcel/pyexcel-mobans
 configuration:
-  configuration_dir: "commons/config"
+  configuration_dir: "pyexcel-mobans:config"
   template_dir:
-    - "commons/templates"
-    - "setupmobans/templates"
+    - "pyexcel-mobans:templates"
+    - "pypi-mobans:templates"
     - ".moban.d"
   configuration: pyexcel.yml
 targets:

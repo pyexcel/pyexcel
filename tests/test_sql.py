@@ -1,8 +1,10 @@
-from unittest import TestCase
-import pyexcel as pe
 import datetime
 from textwrap import dedent
-from db import Session, Base, Pyexcel, engine
+from unittest import TestCase
+
+from db import Base, Pyexcel, Session, engine
+
+import pyexcel as pe
 from nose.tools import eq_, raises
 
 

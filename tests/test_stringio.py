@@ -1,9 +1,11 @@
 import os
 import sys
-import pyexcel as pe
-from _compact import BytesIO
+
 from base import create_sample_file1
-from nose.tools import raises, eq_
+from _compact import BytesIO
+
+import pyexcel as pe
+from nose.tools import eq_, raises
 
 
 def do_read_stringio(file_name):

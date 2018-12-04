@@ -7,10 +7,10 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel.constants import DEFAULT_SHEET_NAME
 from pyexcel.source import AbstractSource, MemorySourceMixin
+from pyexcel.constants import DEFAULT_SHEET_NAME
 from pyexcel.plugins.sources import params
-from .common import _FakeIO, RecordsReader
+from .common import RecordsReader, _FakeIO
 
 
 class RecordsSource(AbstractSource, MemorySourceMixin):

@@ -9,7 +9,6 @@
 """
 import pyexcel_io.database.common as django
 from pyexcel_io import get_data, iget_data
-
 from pyexcel.parser import DbParser
 
 

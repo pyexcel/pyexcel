@@ -1,5 +1,6 @@
-import pyexcel as pe
 from _compact import OrderedDict
+
+import pyexcel as pe
 from nose.tools import eq_, raises
 
 

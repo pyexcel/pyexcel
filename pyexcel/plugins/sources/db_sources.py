@@ -8,8 +8,8 @@
     :license: New BSD License
 """
 from pyexcel.source import AbstractSource
-from pyexcel.internal import RENDERER, PARSER
 from pyexcel._compact import PY2
+from pyexcel.internal import PARSER, RENDERER
 from . import params
 
 NO_COLUMN_NAMES = "Only sheet with column names is accepted"

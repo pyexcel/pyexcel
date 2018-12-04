@@ -15,8 +15,9 @@ Flask is a micro framework for web development. For more infomation,
 please visit: http://flask.pocoo.org
 """
 import sys
-from flask import Flask, request, render_template, jsonify, make_response
+
 import pyexcel as pe
+from flask import Flask, jsonify, request, make_response, render_template
 
 app = Flask(__name__)
 
