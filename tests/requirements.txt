@@ -9,7 +9,6 @@ lxml==3.4.4;platform_python_implementation=="PyPy"
 pyexcel-xlsx>=0.4.1
 pyexcel-xls>=0.4.1
 pyexcel-text>=0.2.0
-pyexcel-handsontable
 psutil
 mock
 moban
