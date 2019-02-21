@@ -19,9 +19,9 @@ Planned
 updated
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. `#157 <https://github.com/pyexcel/pyexcel/issues/157>`_: Please use
-   scan_plugins_regex, which lml 0.7 complains about
-#. updated dependency on pyexcel-io to 0.5.11
+#. `#169 <https://github.com/pyexcel/pyexcel/issues/169>`_: remove
+   pyexcel-handsontalbe in test
+#. add tests, and docs folder in distribution
 
 0.5.10 - 3.12.2018
 --------------------------------------------------------------------------------
