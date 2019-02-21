@@ -5,7 +5,6 @@
 :Source code: http://github.com/pyexcel/pyexcel.git
 :Issues: http://github.com/pyexcel/pyexcel/issues
 :License: New BSD License
-:Development: |release|
 :Released: |version|
 :Generated: |today|
 
@@ -170,6 +169,7 @@ For compatibility tables of pyexcel-io plugins, please click `here <http://pyexc
     ======== ========== ============= ==================== ============= =============
     pyexcel  pyexcel-io pyexcel-text  pyexcel-handsontable pyexcel-pygal pyexcel-gantt
     ======== ========== ============= ==================== ============= =============
+    0.5.10+  0.5.11+    0.2.6+        0.0.1+               0.0.1         0.0.1
     0.5.9.1+ 0.5.9.1+   0.2.6+        0.0.1                0.0.1         0.0.1
     0.5.4+   0.5.1+     0.2.6+        0.0.1                0.0.1         0.0.1
     0.5.0+   0.4.0+     0.2.6+        0.0.1                0.0.1         0.0.1
