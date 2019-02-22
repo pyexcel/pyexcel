@@ -346,6 +346,7 @@ Change log
 
    migration_guide
    changelog
+   note_on_pypy
 
 
 Indices and tables
