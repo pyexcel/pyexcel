@@ -79,7 +79,7 @@ if PY26:
 if PY26:
     INSTALL_REQUIRES.append('weakrefset')
 if platform.python_implementation == "PyPy":
-    INSTALL_REQUIRES.append('lxml==3.4.4')
+    INSTALL_REQUIRES.append('lxml>=3.4.4')
 
 PACKAGES = find_packages(exclude=['ez_setup', 'examples', 'tests'])
 EXTRAS_REQUIRE = {
