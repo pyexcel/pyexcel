@@ -4,7 +4,7 @@ from textwrap import dedent
 from _compact import StringIO, OrderedDict
 
 import pyexcel.constants as constants
-from pyexcel import Book, Sheet, save_as, get_book
+from pyexcel import Book, Sheet, get_book
 from nose.tools import eq_, raises
 from pyexcel.source import AbstractSource, MemorySourceMixin
 from pyexcel.plugins import SourceInfo
