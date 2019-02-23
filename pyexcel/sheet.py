@@ -4,7 +4,7 @@
 
     Building on top of matrix, adding named columns and rows support
 
-    :copyright: (c) 2014-2017 by Onni Software Ltd.
+    :copyright: (c) 2014-2019 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
 from collections import defaultdict
