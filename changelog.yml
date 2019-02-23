@@ -13,6 +13,13 @@ releases:
 - changes:
   - action: updated
     details:
+    - '`#169`: remove pyexcel-handsontalbe in test'
+    - 'add tests, and docs folder in distribution'
+  version: 0.5.11
+  date: 22.02.2019
+- changes:
+  - action: updated
+    details:
     - '`#157`: Please use scan_plugins_regex, which lml 0.7 complains about'
     - 'updated dependency on pyexcel-io to 0.5.11'
   version: 0.5.10

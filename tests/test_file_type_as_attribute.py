@@ -4,7 +4,7 @@ from textwrap import dedent
 from _compact import StringIO, OrderedDict
 
 import pyexcel.constants as constants
-from pyexcel import Book, Sheet, save_as, get_book
+from pyexcel import Book, Sheet, get_book
 from nose.tools import eq_, raises
 from pyexcel.source import AbstractSource, MemorySourceMixin
 from pyexcel.plugins import SourceInfo
@@ -232,14 +232,3 @@ def test_set_bookdict():
     eq_(str(b), expected)
     expected = OrderedDict([("sheet1", [[1]]), ("sheet2", [[2]])])
     eq_(b.bookdict, expected)
-
-
-def test_save_handsontable_html():
-    test_file = "1.handsontable.html"
-    save_as(array=[[1]], dest_file_name=test_file)
-
-    with open(test_file, "r") as f:
-        content = f.read()
-        assert "handsontable.full.min.js" in content
-
-    os.unlink(test_file)
