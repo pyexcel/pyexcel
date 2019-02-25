@@ -18,7 +18,7 @@ targets:
   - min_requirements.txt: minimum_requirements.txt
   - "tests/requirements.txt": "tests/requirements.txt"
   - LICENSE: NEW_BSD_LICENSE.jj2
-  - MANIFEST.in: MANIFEST.in.jj2
+  - MANIFEST.in: CUSTOM_MANIFEST.in.jj2
   - README.rst: README.rst
   - "docs/source/guide.rst": "docs/source/guide.rst"
   - test.sh: test.sh
