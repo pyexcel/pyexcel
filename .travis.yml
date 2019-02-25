@@ -15,6 +15,20 @@ matrix:
   include:
     - python: 2.7
       env: MINREQ=1
+
+stages:
+  - test
+  - lint
+jobs:
+  include:
+    - stage: lint
+      python: 3.6
+      script: make lint
+
+stage: test
+
+script: make test
+
 before_install:
   - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then rm tests/test_examples.py; fi
   - if [[ $TRAVIS_PYTHON_VERSION == "2.6" ]]; then pip install flake8==2.6.2; fi
