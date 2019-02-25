@@ -1,0 +1,5 @@
+{% extends "MANIFEST.in.jj2" %}
+
+{% block more_options %}
+recursive-include examples *
+{% endblock %}

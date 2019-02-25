@@ -13,6 +13,15 @@ Planned
 #. suppert missing pandas io features: use custom boolean values, write stylish
    spreadsheets.
 
+0.5.12 - 25.02.2019
+--------------------------------------------------------------------------------
+
+updated
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. `#174 <https://github.com/pyexcel/pyexcel/issues/174>`_: include examples in
+   tarbar
+
 0.5.11 - 22.02.2019
 --------------------------------------------------------------------------------
 
