@@ -29,3 +29,4 @@ targets:
   - output: CHANGELOG.rst
     configuration: changelog.yml
     template: CHANGELOG.rst.jj2
+  - lint.sh: lint.script.jj2
