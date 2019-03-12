@@ -6,7 +6,7 @@ releases:
     details:
     - "`#176`: get_sheet {IndexError}list index out of range // XLSX can't be opened"
   version: 0.5.13
-  date: unreleased
+  date: 12.03.2019
 - changes:
   - action: updated
     details:
