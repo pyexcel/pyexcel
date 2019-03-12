@@ -12,6 +12,7 @@ import types
 from functools import partial
 
 from pyexcel._compact import PY2
+
 from .formatters import to_format
 
 

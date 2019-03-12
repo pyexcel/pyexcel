@@ -11,6 +11,7 @@ import pyexcel.constants as constants
 from pyexcel.source import AbstractSource
 from pyexcel._compact import PY2, request
 from pyexcel.internal import PARSER
+
 from . import params
 
 XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"

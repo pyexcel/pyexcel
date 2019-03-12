@@ -1,3 +1,4 @@
+import pyexcel as pe
 from base import (
     PyexcelSheetRWBase,
     clean_up_files,
@@ -6,7 +7,6 @@ from base import (
 )
 from _compact import OrderedDict
 
-import pyexcel as pe
 from nose.tools import eq_, raises
 
 

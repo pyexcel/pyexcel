@@ -8,4 +8,4 @@
     :license: New BSD License, see LICENSE for more details
 """
 # flake8: noqa
-from .matrix import Matrix, transpose, Row, Column
+from .matrix import Row, Column, Matrix, transpose

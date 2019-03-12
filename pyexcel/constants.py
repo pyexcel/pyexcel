@@ -11,6 +11,7 @@
 DEFAULT_NA = ""
 DEFAULT_NAME = "pyexcel sheet"
 DEFAULT_SHEET_NAME = "pyexcel_sheet1"
+DEFAULT_NO_DATA = "<No data>"
 
 MESSAGE_WARNING = "We do not overwrite files"
 MESSAGE_WRITE_ERROR = "Cannot write sheet"

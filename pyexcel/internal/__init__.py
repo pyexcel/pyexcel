@@ -7,11 +7,11 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd.
     :license: New BSD License
 """
-from lml.loader import scan_plugins_regex
 from pyexcel.internal.plugins import PARSER, RENDERER  # noqa
+from pyexcel.internal.generators import BookStream, SheetStream  # noqa
 from pyexcel.internal.source_plugin import SOURCE  # noqa
-from pyexcel.internal.generators import SheetStream, BookStream  # noqa
 
+from lml.loader import scan_plugins_regex
 
 BLACK_LIST = [
     "pyexcel_io",

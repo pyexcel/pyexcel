@@ -1,6 +1,6 @@
+from pyexcel import Sheet
 from _compact import OrderedDict
 
-from pyexcel import Sheet
 from nose.tools import eq_, raises
 
 

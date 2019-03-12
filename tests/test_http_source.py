@@ -2,8 +2,9 @@ from textwrap import dedent
 from unittest import TestCase
 
 import pyexcel as pe
-from mock import MagicMock, patch
 from pyexcel._compact import PY2, StringIO
+
+from mock import MagicMock, patch
 
 
 class TestHttpBookSource(TestCase):

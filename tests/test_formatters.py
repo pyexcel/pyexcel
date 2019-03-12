@@ -2,7 +2,6 @@ import datetime
 from unittest import TestCase
 
 from base import clean_up_files
-
 from pyexcel import SeriesReader, save_as, get_sheet
 from pyexcel.internal.sheets import formatters
 

@@ -2,6 +2,7 @@ import os
 from textwrap import dedent
 
 import pyexcel as pe
+
 from nose.tools import eq_
 
 
