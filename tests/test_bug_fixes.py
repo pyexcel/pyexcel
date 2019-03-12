@@ -524,12 +524,15 @@ def test_pyexcel_issue_140():
 
 
 def test_pyexcel_issue_176():
-    sheet = p.get_sheet(file_name=os.path.join("tests", "fixtures", "bug_176.xlsx"))
+    sheet = p.get_sheet(
+        file_name=os.path.join("tests", "fixtures", "bug_176.xlsx")
+    )
     eq_("<No data>", sheet.name)
     eq_([[]], sheet.array)
 
 
 def test_pyexcel_issue_176_get_book():
-    book = p.get_book(file_name=os.path.join("tests", "fixtures", "bug_176.xlsx"))
+    book = p.get_book(
+        file_name=os.path.join("tests", "fixtures", "bug_176.xlsx")
+    )
     eq_({}, book.bookdict)
-    
