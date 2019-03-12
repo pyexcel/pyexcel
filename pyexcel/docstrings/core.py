@@ -10,8 +10,7 @@
 from . import keywords
 
 __GET_SHEET__ = (
-    keywords.NO_DATA_READ
-    + keywords.EXAMPLE_NOTE_PAGINATION
+    keywords.EXAMPLE_NOTE_PAGINATION
     + keywords.SOURCE_PARAMS_TABLE
     + """
 **Parameters**
@@ -20,8 +19,7 @@ __GET_SHEET__ = (
 )
 
 __GET_BOOK__ = (
-    keywords.NO_DATA_READ
-    + keywords.SOURCE_BOOK_PARAMS_TABLE
+    keywords.SOURCE_BOOK_PARAMS_TABLE
     + """
 **Parameters**
 """

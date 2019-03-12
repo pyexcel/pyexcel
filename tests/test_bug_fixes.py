@@ -523,11 +523,13 @@ def test_pyexcel_issue_140():
     eq_(expected, TestSheet1.to_array())
 
 
-@raises(p.exceptions.NoDataRead)
 def test_pyexcel_issue_176():
-    p.get_sheet(file_name=os.path.join("tests", "fixtures", "bug_176.xlsx"))
+    sheet = p.get_sheet(file_name=os.path.join("tests", "fixtures", "bug_176.xlsx"))
+    eq_("<No data>", sheet.name)
+    eq_([[]], sheet.array)
 
 
-@raises(p.exceptions.NoDataRead)
 def test_pyexcel_issue_176_get_book():
-    p.get_book(file_name=os.path.join("tests", "fixtures", "bug_176.xlsx"))
+    book = p.get_book(file_name=os.path.join("tests", "fixtures", "bug_176.xlsx"))
+    eq_({}, book.bookdict)
+    

@@ -517,8 +517,3 @@ We can verify if it was done correctly:
     >>> os.unlink("your_file.xlsx")
 
 """  # noqa: W291
-
-
-NO_DATA_READ = """
-When there is no valid data, NoDataRead exception will be raised.
-"""
