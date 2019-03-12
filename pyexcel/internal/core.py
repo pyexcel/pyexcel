@@ -9,6 +9,7 @@
 """
 from pyexcel._compact import PY2
 from pyexcel.internal import SOURCE
+from pyexcel.constants import DEFAULT_NO_DATA
 from pyexcel.internal.generators import BookStream, SheetStream
 
 
@@ -18,7 +19,11 @@ def get_sheet_stream(**keywords):
     """
     a_source = SOURCE.get_source(**keywords)
     sheets = a_source.get_data()
-    sheet_name, data = _one_sheet_tuple(sheets.items())
+    if sheets:
+        sheet_name, data = _one_sheet_tuple(sheets.items())
+    else:
+        sheet_name = DEFAULT_NO_DATA
+        data = [[]]
     return SheetStream(sheet_name, data)
 
 

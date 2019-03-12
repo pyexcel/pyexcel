@@ -5,10 +5,10 @@ import os
 from datetime import datetime
 from textwrap import dedent
 
+import pyexcel as p
 from _compact import StringIO, OrderedDict
 
 import psutil
-import pyexcel as pe
 from nose.tools import eq_
 
 
@@ -22,7 +22,7 @@ def test_bug_01():
     '2',3,4,5
     'b'       <- give '' for missing cells
     """
-    r = pe.Reader(os.path.join("tests", "fixtures", "bug_01.csv"))
+    r = p.Reader(os.path.join("tests", "fixtures", "bug_01.csv"))
     assert len(r.row[0]) == 4
     # test "" is append for empty cells
     assert r[0, 1] == ""
@@ -35,11 +35,11 @@ def test_issue_03():
     xls_file = "%s.xls" % file_prefix
     my_sheet_name = "mysheetname"
     data = [[1, 1]]
-    sheet = pe.Sheet(data, name=my_sheet_name)
+    sheet = p.Sheet(data, name=my_sheet_name)
     sheet.save_as(csv_file)
     assert os.path.exists(csv_file)
     sheet.save_as(xls_file)
-    book = pe.load_book(xls_file)
+    book = p.load_book(xls_file)
     assert book.sheet_names()[0] == my_sheet_name
     os.unlink(csv_file)
     os.unlink(xls_file)
@@ -54,16 +54,16 @@ def test_issue_06():
     ch.setLevel(logging.DEBUG)
     logger.addHandler(ch)
     output = StringIO()
-    book = pe.Book({"hoja1": [["datos", "de", "prueba"], [1, 2, 3]]})
+    book = p.Book({"hoja1": [["datos", "de", "prueba"], [1, 2, 3]]})
     book.save_to_memory("csv", output)
     logger.debug(output.getvalue())
 
 
 def test_issue_09():
-    pe.book.LOCAL_UUID = 0
-    merged = pe.Book()
-    sheet1 = pe.Sheet(sheet=[[1, 2]])
-    sheet2 = pe.Sheet(sheet=[[1, 2]])
+    p.book.LOCAL_UUID = 0
+    merged = p.Book()
+    sheet1 = p.Sheet(sheet=[[1, 2]])
+    sheet2 = p.Sheet(sheet=[[1, 2]])
     merged += sheet1
     merged += sheet2
     eq_(merged[1].name, "pyexcel sheet_1")
@@ -74,8 +74,8 @@ def test_issue_10():
     thedict.update({"Column 1": [1, 2, 3]})
     thedict.update({"Column 2": [1, 2, 3]})
     thedict.update({"Column 3": [1, 2, 3]})
-    pe.save_as(adict=thedict, dest_file_name="issue10.xls")
-    newdict = pe.get_dict(file_name="issue10.xls")
+    p.save_as(adict=thedict, dest_file_name="issue10.xls")
+    newdict = p.get_dict(file_name="issue10.xls")
     assert isinstance(newdict, OrderedDict) is True
     eq_(thedict, newdict)
     os.unlink("issue10.xls")
@@ -88,7 +88,7 @@ def test_issue_29():
         #  python types
         [datetime(2016, 4, 15, 17, 52, 11), 123, False, 456193284757],
     ]
-    s = pe.get_sheet(array=a)
+    s = p.get_sheet(array=a)
     content = dedent(
         """
     pyexcel_sheet1:
@@ -109,7 +109,7 @@ def test_issue_29_nominablesheet():
         #  python types
         [datetime(2016, 4, 15, 17, 52, 11), 123, False, 456193284757],
     ]
-    s = pe.get_sheet(array=a)
+    s = p.get_sheet(array=a)
     s.name_columns_by_row(0)
     content = dedent(
         """
@@ -168,7 +168,7 @@ def test_issue_51_normal_dict_in_records():
 def test_issue_55_unicode_in_headers():
     headers = [u"Äkkilähdöt", u"Matkakirjoituksia", u"Matkatoimistot"]
     content = [headers, [1, 2, 3]]
-    sheet = pe.Sheet(content)
+    sheet = p.Sheet(content)
     sheet.name_columns_by_row(0)
     eq_(sheet.colnames, headers)
 
@@ -177,7 +177,7 @@ def test_issue_60_chinese_text_in_python_2_stdout():
     import sys
 
     data = [["这", "是", "中", "文"], ["这", "是", "中", "文"]]
-    sheet = pe.Sheet(data)
+    sheet = p.Sheet(data)
     sys.stdout.write(repr(sheet))
 
 
@@ -185,20 +185,20 @@ def test_issue_60_chinese_text_in_python_2_stdout_on_book():
     import sys
 
     adict = {"Sheet 1": [["这", "是", "中", "文"], ["这", "是", "中", "文"]]}
-    book = pe.Book()
+    book = p.Book()
     book.bookdict = adict
     sys.stdout.write(repr(book))
 
 
 def test_issue_63_empty_array_crash_texttable_renderer():
-    sheet = pe.Sheet([])
+    sheet = p.Sheet([])
     print(sheet)
 
 
 def test_xls_issue_11():
     data = [[1, 2]]
-    sheet = pe.Sheet(data)
-    sheet2 = pe.get_sheet(file_content=sheet.xls, file_type="XLS")
+    sheet = p.Sheet(data)
+    sheet2 = p.get_sheet(file_content=sheet.xls, file_type="XLS")
     eq_(sheet.array, sheet2.array)
     test_file = "xls_issue_11.JSON"
     sheet2.save_as(test_file)
@@ -207,11 +207,11 @@ def test_xls_issue_11():
 
 def test_issue_68():
     data = [[1]]
-    sheet = pe.Sheet(data)
+    sheet = p.Sheet(data)
     stream = sheet.save_to_memory("csv")
     eq_(stream.read(), "1\r\n")
     data = {"sheet": [[1]]}
-    book = pe.Book(data)
+    book = p.Book(data)
     stream = book.save_to_memory("csv")
     eq_(stream.read(), "1\r\n")
 
@@ -220,7 +220,7 @@ def test_issue_74():
     from decimal import Decimal
 
     data = [[Decimal("1.1")]]
-    sheet = pe.Sheet(data)
+    sheet = p.Sheet(data)
     table = sheet.texttable
     expected = "pyexcel sheet:\n+-----+\n| 1.1 |\n+-----+"
     eq_(table, expected)
@@ -233,7 +233,7 @@ def test_issue_76():
     tsv_stream.write("1\t2\t3\t4\n")
     tsv_stream.write("1\t2\t3\t4\n")
     tsv_stream.seek(0)
-    sheet = pe.get_sheet(
+    sheet = p.get_sheet(
         file_stream=tsv_stream, file_type="csv", delimiter="\t"
     )
     data = [[1, 2, 3, 4], [1, 2, 3, 4]]
@@ -246,7 +246,7 @@ def test_issue_83_csv_file_handle():
     open_files_l1 = proc.open_files()
 
     # start with a csv file
-    data = pe.iget_array(file_name=test_file)
+    data = p.iget_array(file_name=test_file)
     open_files_l2 = proc.open_files()
     delta = len(open_files_l2) - len(open_files_l1)
     # interestingly, no open file handle yet
@@ -261,7 +261,7 @@ def test_issue_83_csv_file_handle():
     assert delta == 1
 
     # free the fish
-    pe.free_resources()
+    p.free_resources()
     open_files_l4 = proc.open_files()
     # this confirms that no more open file handle
     eq_(open_files_l1, open_files_l4)
@@ -277,7 +277,7 @@ def test_issue_83_file_handle_no_generator():
     for test_file in test_files:
         open_files_l1 = proc.open_files()
         # start with a csv file
-        pe.get_array(file_name=test_file)
+        p.get_array(file_name=test_file)
         open_files_l2 = proc.open_files()
         delta = len(open_files_l2) - len(open_files_l1)
         # no open file handle should be left
@@ -290,7 +290,7 @@ def test_issue_83_csvz_file_handle():
     open_files_l1 = proc.open_files()
 
     # start with a csv file
-    data = pe.iget_array(file_name=test_file)
+    data = p.iget_array(file_name=test_file)
     open_files_l2 = proc.open_files()
     delta = len(open_files_l2) - len(open_files_l1)
     # interestingly, file is already open :)
@@ -305,7 +305,7 @@ def test_issue_83_csvz_file_handle():
     assert delta == 1
 
     # free the fish
-    pe.free_resources()
+    p.free_resources()
     open_files_l4 = proc.open_files()
     # this confirms that no more open file handle
     eq_(open_files_l1, open_files_l4)
@@ -317,7 +317,7 @@ def test_issue_83_xls_file_handle():
     open_files_l1 = proc.open_files()
 
     # start with a csv file
-    data = pe.iget_array(file_name=test_file)
+    data = p.iget_array(file_name=test_file)
     open_files_l2 = proc.open_files()
     delta = len(open_files_l2) - len(open_files_l1)
     # interestingly, no open file using xlrd
@@ -331,14 +331,14 @@ def test_issue_83_xls_file_handle():
     # still no open file
     assert delta == 0
 
-    pe.free_resources()
+    p.free_resources()
     open_files_l4 = proc.open_files()
     eq_(open_files_l1, open_files_l4)
 
 
 def test_issue_92_non_uniform_records():
     records = [{"a": 1}, {"b": 2}, {"c": 3}]
-    sheet = pe.get_sheet(records=records, custom_headers=["a", "b", "c"])
+    sheet = p.get_sheet(records=records, custom_headers=["a", "b", "c"])
     content = dedent(
         """
     +---+---+---+
@@ -356,7 +356,7 @@ def test_issue_92_non_uniform_records():
 
 def test_issue_92_incomplete_records():
     records = [{"a": 1, "b": 2, "c": 3}, {"b": 2}, {"c": 3}]
-    sheet = pe.get_sheet(records=records)
+    sheet = p.get_sheet(records=records)
     content = dedent(
         """
     +---+---+---+
@@ -374,7 +374,7 @@ def test_issue_92_incomplete_records():
 
 def test_issue_92_verify_save_as():
     records = [{"a": 1, "b": 2, "c": 3}, {"b": 2}, {"c": 3}]
-    csv_io = pe.save_as(records=records, dest_file_type="csv")
+    csv_io = p.save_as(records=records, dest_file_type="csv")
     content = "a,b,c\r\n1,2,3\r\n,2,\r\n,,3\r\n"
     eq_(csv_io.getvalue(), content)
 
@@ -382,7 +382,7 @@ def test_issue_92_verify_save_as():
 def test_issue_95_preserve_order_in_iget_orders():
     test_data = [["a", "b", "c"], ["1", "2", "3"], ["4", "5", "6"]]
 
-    records = pe.iget_records(array=test_data)
+    records = p.iget_records(array=test_data)
     result = []
     for record in records:
         for key, value in record.items():
@@ -402,7 +402,7 @@ def test_issue_95_preserve_order_in_iget_orders():
 def test_issue_95_preserve_custom_order_in_iget_orders():
     test_data = [["a", "b", "c"], ["1", "2", "3"], ["4", "5", "6"]]
 
-    records = pe.iget_records(array=test_data, custom_headers=["c", "a", "b"])
+    records = p.iget_records(array=test_data, custom_headers=["c", "a", "b"])
     result = []
     for record in records:
         for key, value in record.items():
@@ -422,7 +422,7 @@ def test_issue_95_preserve_custom_order_in_iget_orders():
 def test_issue_95_preserve_order_in_get_orders():
     test_data = [["a", "b", "c"], ["1", "2", "3"], ["4", "5", "6"]]
 
-    records = pe.get_records(array=test_data)
+    records = p.get_records(array=test_data)
     result = []
     for record in records:
         for key, value in record.items():
@@ -441,15 +441,15 @@ def test_issue_95_preserve_order_in_get_orders():
 
 def test_issue_100():
     data = [["a", "b"]]
-    sheet = pe.Sheet(data)
+    sheet = p.Sheet(data)
     sheet.name_columns_by_row(0)
     eq_(sheet.to_dict(), {"a": [], "b": []})
 
 
 def test_issue_125():
-    book = pe.Book()
-    book += pe.Sheet([[1]], "A")
-    book += pe.Sheet([[2]], "B")
+    book = p.Book()
+    book += p.Sheet([[1]], "A")
+    book += p.Sheet([[2]], "B")
     eq_(book.sheet_names(), ["A", "B"])
     book.sort_sheets(reverse=True)
     eq_(book.sheet_names(), ["B", "A"])
@@ -457,28 +457,28 @@ def test_issue_125():
 
 def test_issue_125_saving_the_order():
     test_file = "issue_125.xls"
-    book = pe.Book()
-    book += pe.Sheet([[1]], "A")
-    book += pe.Sheet([[2]], "B")
+    book = p.Book()
+    book += p.Sheet([[1]], "A")
+    book += p.Sheet([[2]], "B")
     eq_(book.sheet_names(), ["A", "B"])
     book.sort_sheets(reverse=True)
     book.save_as(test_file)
-    book2 = pe.get_book(file_name=test_file)
+    book2 = p.get_book(file_name=test_file)
     eq_(book2.sheet_names(), ["B", "A"])
     os.unlink(test_file)
 
 
 def test_issue_125_using_key():
     test_file = "issue_125.xls"
-    book = pe.Book()
-    book += pe.Sheet([[1]], "A")
-    book += pe.Sheet([[2]], "B")
-    book += pe.Sheet([[3]], "C")
+    book = p.Book()
+    book += p.Sheet([[1]], "A")
+    book += p.Sheet([[2]], "B")
+    book += p.Sheet([[3]], "C")
 
     custom_order = {"A": 1, "B": 3, "C": 2}
     book.sort_sheets(key=lambda x: custom_order[x])
     book.save_as(test_file)
-    book2 = pe.get_book(file_name=test_file)
+    book2 = p.get_book(file_name=test_file)
     eq_(book2.sheet_names(), ["A", "C", "B"])
     os.unlink(test_file)
 
@@ -487,8 +487,8 @@ def test_issue_126():
     data = [[1]]
     test_file = "issue_126.xls"
     test_name = "doyoufindme"
-    pe.save_as(array=data, dest_file_name=test_file, dest_sheet_name=test_name)
-    sheet = pe.get_sheet(file_name=test_file)
+    p.save_as(array=data, dest_file_name=test_file, dest_sheet_name=test_name)
+    sheet = p.get_sheet(file_name=test_file)
     eq_(sheet.name, test_name)
     os.unlink(test_file)
 
@@ -497,22 +497,20 @@ def test_issue_126_isave_as():
     data = [[1]]
     test_file = "issue_126.xls"
     test_name = "doyoufindme"
-    pe.isave_as(
-        array=data, dest_file_name=test_file, dest_sheet_name=test_name
-    )
-    sheet = pe.get_sheet(file_name=test_file)
+    p.isave_as(array=data, dest_file_name=test_file, dest_sheet_name=test_name)
+    sheet = p.get_sheet(file_name=test_file)
     eq_(sheet.name, test_name)
     os.unlink(test_file)
 
 
 def test_pyexcel_issue_138():
-    sheet = pe.Sheet()
+    sheet = p.Sheet()
     sheet.csv = "123_122,"
     eq_(sheet[0, 0], "123_122")
 
 
 def test_pyexcel_issue_140():
-    TestSheet1 = pe.Sheet()
+    TestSheet1 = p.Sheet()
     TestSheet1[4, 4] = "4x4"
     TestSheet1[0, 0] = "0,0"
     expected = [
@@ -523,3 +521,18 @@ def test_pyexcel_issue_140():
         ["", "", "", "", "4x4"],
     ]
     eq_(expected, TestSheet1.to_array())
+
+
+def test_pyexcel_issue_176():
+    sheet = p.get_sheet(
+        file_name=os.path.join("tests", "fixtures", "bug_176.xlsx")
+    )
+    eq_([[]], sheet.array)
+    eq_("<No data>", sheet.name)
+
+
+def test_pyexcel_issue_176_get_book():
+    book = p.get_book(
+        file_name=os.path.join("tests", "fixtures", "bug_176.xlsx")
+    )
+    eq_({}, book.to_dict())
