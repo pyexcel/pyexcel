@@ -1,5 +1,5 @@
-pyexcel.Sheet.number_of_rows
-============================
+pyexcel.Sheet.number\_of\_rows
+==============================
 
 .. currentmodule:: pyexcel
 

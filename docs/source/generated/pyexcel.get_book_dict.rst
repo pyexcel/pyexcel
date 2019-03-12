@@ -1,5 +1,5 @@
-pyexcel.get_book_dict
-=====================
+pyexcel.get\_book\_dict
+=======================
 
 .. currentmodule:: pyexcel
 

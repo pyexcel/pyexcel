@@ -1,9 +1,9 @@
 import os
 
+import pyexcel as pe
 from base import PyexcelMultipleSheetBase, clean_up_files, create_sample_file1
 from _compact import OrderedDict
 
-import pyexcel as pe
 from nose.tools import raises
 
 

@@ -1,5 +1,5 @@
-pyexcel.Book.sheet_names
-========================
+pyexcel.Book.sheet\_names
+=========================
 
 .. currentmodule:: pyexcel
 

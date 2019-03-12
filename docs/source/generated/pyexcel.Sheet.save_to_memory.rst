@@ -1,5 +1,5 @@
-pyexcel.Sheet.save_to_memory
-============================
+pyexcel.Sheet.save\_to\_memory
+==============================
 
 .. currentmodule:: pyexcel
 

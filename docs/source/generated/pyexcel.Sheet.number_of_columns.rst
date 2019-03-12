@@ -1,5 +1,5 @@
-pyexcel.Sheet.number_of_columns
-===============================
+pyexcel.Sheet.number\_of\_columns
+=================================
 
 .. currentmodule:: pyexcel
 

@@ -2,6 +2,7 @@ import os
 from unittest import TestCase
 
 import pyexcel as pe
+
 from nose.tools import eq_, raises
 
 

@@ -1,3 +1,4 @@
+import pyexcel as p
 from base import (
     PyexcelBase,
     clean_up_files,
@@ -5,7 +6,6 @@ from base import (
     create_sample_file1,
 )
 
-import pyexcel as p
 from nose.tools import eq_, raises
 
 

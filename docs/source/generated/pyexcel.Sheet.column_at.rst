@@ -1,5 +1,5 @@
-pyexcel.Sheet.column_at
-=======================
+pyexcel.Sheet.column\_at
+========================
 
 .. currentmodule:: pyexcel
 

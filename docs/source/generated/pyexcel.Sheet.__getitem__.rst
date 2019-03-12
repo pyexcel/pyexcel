@@ -1,5 +1,5 @@
-pyexcel.Sheet.__getitem__
-=========================
+pyexcel.Sheet.\_\_getitem\_\_
+=============================
 
 .. currentmodule:: pyexcel
 

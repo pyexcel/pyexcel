@@ -1,5 +1,5 @@
-pyexcel.free_resources
-======================
+pyexcel.free\_resources
+=======================
 
 .. currentmodule:: pyexcel
 

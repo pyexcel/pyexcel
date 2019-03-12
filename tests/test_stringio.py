@@ -1,10 +1,10 @@
 import os
 import sys
 
+import pyexcel as pe
 from base import create_sample_file1
 from _compact import BytesIO
 
-import pyexcel as pe
 from nose.tools import eq_, raises
 
 

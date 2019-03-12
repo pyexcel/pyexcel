@@ -20,6 +20,7 @@ from pyexcel.internal.sheets.row import Row
 from pyexcel.internal.sheets.column import Column
 from pyexcel.internal.sheets.formatters import to_format
 from pyexcel.internal.sheets.extended_list import PyexcelList
+
 from . import _shared as utils
 
 

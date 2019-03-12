@@ -1,5 +1,5 @@
-pyexcel.Sheet.delete_named_row_at
-=================================
+pyexcel.Sheet.delete\_named\_row\_at
+====================================
 
 .. currentmodule:: pyexcel
 

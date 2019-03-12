@@ -1,5 +1,5 @@
-pyexcel.Book.number_of_sheets
-=============================
+pyexcel.Book.number\_of\_sheets
+===============================
 
 .. currentmodule:: pyexcel
 

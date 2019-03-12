@@ -1,5 +1,5 @@
-pyexcel.get_sheet
-=================
+pyexcel.get\_sheet
+==================
 
 .. currentmodule:: pyexcel
 

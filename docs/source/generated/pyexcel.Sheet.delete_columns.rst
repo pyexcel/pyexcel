@@ -1,5 +1,5 @@
-pyexcel.Sheet.delete_columns
-============================
+pyexcel.Sheet.delete\_columns
+=============================
 
 .. currentmodule:: pyexcel
 

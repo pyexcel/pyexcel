@@ -1,5 +1,5 @@
-pyexcel.split_a_book
-====================
+pyexcel.split\_a\_book
+======================
 
 .. currentmodule:: pyexcel
 

@@ -9,6 +9,7 @@
 """
 import pyexcel.constants as constants
 from pyexcel._compact import PY2, OrderedDict, zip_longest
+
 from pyexcel_io.sheet import SheetReader
 
 

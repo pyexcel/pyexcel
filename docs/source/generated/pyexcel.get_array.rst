@@ -1,5 +1,5 @@
-pyexcel.get_array
-=================
+pyexcel.get\_array
+==================
 
 .. currentmodule:: pyexcel
 

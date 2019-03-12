@@ -9,6 +9,7 @@
 """
 from pyexcel._compact import PY2
 from pyexcel.internal import SOURCE
+from pyexcel.constants import DEFAULT_NO_DATA
 from pyexcel.internal.generators import BookStream, SheetStream
 
 
@@ -17,9 +18,13 @@ def get_sheet_stream(**keywords):
     Get an instance of SheetStream from an excel source
     """
     a_source = SOURCE.get_source(**keywords)
+    filename, path = a_source.get_source_info()
     sheets = a_source.get_data()
-    sheet_name, data = _one_sheet_tuple(sheets.items())
-    return SheetStream(sheet_name, data)
+    if sheets:
+        sheet_name, data = _one_sheet_tuple(sheets.items())
+        return SheetStream(sheet_name, data)
+    else:
+        return SheetStream(DEFAULT_NO_DATA, [[]])
 
 
 def get_book_stream(**keywords):
@@ -30,8 +35,8 @@ def get_book_stream(**keywords):
     array as values.
     """
     a_source = SOURCE.get_book_source(**keywords)
-    sheets = a_source.get_data()
     filename, path = a_source.get_source_info()
+    sheets = a_source.get_data()
     return BookStream(sheets, filename=filename, path=path)
 
 

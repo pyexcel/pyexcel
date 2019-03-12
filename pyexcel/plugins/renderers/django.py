@@ -8,10 +8,11 @@
     :license: New BSD License
 """
 import pyexcel.internal.common as common
-import pyexcel_io.database.common as django
-from pyexcel_io import save_data
 from pyexcel._compact import OrderedDict
 from pyexcel.renderer import DbRenderer
+
+import pyexcel_io.database.common as django
+from pyexcel_io import save_data
 
 NO_COLUMN_NAMES = "Only sheet with column names is accepted"
 
