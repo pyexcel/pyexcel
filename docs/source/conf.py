@@ -28,7 +28,7 @@ author = 'Onni Software Ltd.'
 # The short X.Y version
 version = '0.5.13'
 # The full version, including alpha/beta/rc tags
-release = '0.5.12'
+release = '0.5.13'
 
 # -- General configuration ---------------------------------------------------
 

@@ -3,7 +3,7 @@ name: "pyexcel"
 nick_name: pyexcel
 version: 0.5.13
 current_version: 0.5.13
-release: 0.5.12
+release: 0.5.13
 copyright_year: 2014-2019
 branch: master
 dependencies:
