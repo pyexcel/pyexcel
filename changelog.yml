@@ -2,14 +2,11 @@ name: pyexcel
 organisation: pyexcel
 releases:
 - changes:
-  - action: Planned
+  - action: updated
     details:
-    - investigate if hidden columns could be supported
-    - update cookbook.py using 0.5.0 api
-    - refactor test code
-    - 'suppert missing pandas io features: use custom boolean values, write stylish  spreadsheets.'
+    - "`#176`: get_sheet {IndexError}list index out of range // XLSX can't be opened"
+  version: 0.5.13
   date: unreleased
-  version: 0.6.0
 - changes:
   - action: updated
     details:

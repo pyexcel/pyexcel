@@ -1,17 +1,14 @@
 Change log
 ================================================================================
 
-0.6.0 - unreleased
+0.5.13 - unreleased
 --------------------------------------------------------------------------------
 
-Planned
+updated
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. investigate if hidden columns could be supported
-#. update cookbook.py using 0.5.0 api
-#. refactor test code
-#. suppert missing pandas io features: use custom boolean values, write stylish
-   spreadsheets.
+#. `#176 <https://github.com/pyexcel/pyexcel/issues/176>`_: get_sheet
+   {IndexError}list index out of range // XLSX can't be opened
 
 0.5.12 - 25.02.2019
 --------------------------------------------------------------------------------
