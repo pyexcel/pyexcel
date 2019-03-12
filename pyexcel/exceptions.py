@@ -25,3 +25,7 @@ class UpgradePlugin(Exception):
     """Please upgrade your plugin"""
 
     pass
+
+
+class NoDataRead(Exception):
+    pass

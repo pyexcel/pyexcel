@@ -9,8 +9,10 @@
 """
 from pyexcel._compact import PY2
 from pyexcel.internal import SOURCE
-from pyexcel.constants import DEFAULT_NO_DATA
+from pyexcel.exceptions import NoDataRead
 from pyexcel.internal.generators import BookStream, SheetStream
+
+NO_DATA_IN_FILE_FMT = "No read is read in %s"
 
 
 def get_sheet_stream(**keywords):
@@ -18,13 +20,12 @@ def get_sheet_stream(**keywords):
     Get an instance of SheetStream from an excel source
     """
     a_source = SOURCE.get_source(**keywords)
+    filename, path = a_source.get_source_info()
     sheets = a_source.get_data()
     if sheets:
         sheet_name, data = _one_sheet_tuple(sheets.items())
-    else:
-        sheet_name = DEFAULT_NO_DATA
-        data = [[]]
-    return SheetStream(sheet_name, data)
+        return SheetStream(sheet_name, data)
+    raise NoDataRead(NO_DATA_IN_FILE_FMT % filename)
 
 
 def get_book_stream(**keywords):
@@ -35,9 +36,11 @@ def get_book_stream(**keywords):
     array as values.
     """
     a_source = SOURCE.get_book_source(**keywords)
-    sheets = a_source.get_data()
     filename, path = a_source.get_source_info()
-    return BookStream(sheets, filename=filename, path=path)
+    sheets = a_source.get_data()
+    if sheets:
+        return BookStream(sheets, filename=filename, path=path)
+    raise NoDataRead(NO_DATA_IN_FILE_FMT % filename)
 
 
 def save_sheet(sheet, **keywords):

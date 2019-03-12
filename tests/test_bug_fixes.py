@@ -9,7 +9,7 @@ import pyexcel as p
 from _compact import StringIO, OrderedDict
 
 import psutil
-from nose.tools import eq_
+from nose.tools import eq_, raises
 
 
 def test_bug_01():
@@ -523,16 +523,11 @@ def test_pyexcel_issue_140():
     eq_(expected, TestSheet1.to_array())
 
 
+@raises(p.exceptions.NoDataRead)
 def test_pyexcel_issue_176():
-    sheet = p.get_sheet(
-        file_name=os.path.join("tests", "fixtures", "bug_176.xlsx")
-    )
-    eq_([[]], sheet.array)
-    eq_("<No data>", sheet.name)
+    p.get_sheet(file_name=os.path.join("tests", "fixtures", "bug_176.xlsx"))
 
 
+@raises(p.exceptions.NoDataRead)
 def test_pyexcel_issue_176_get_book():
-    book = p.get_book(
-        file_name=os.path.join("tests", "fixtures", "bug_176.xlsx")
-    )
-    eq_({}, book.to_dict())
+    p.get_book(file_name=os.path.join("tests", "fixtures", "bug_176.xlsx"))
