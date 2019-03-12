@@ -1,5 +1,5 @@
-pyexcel.Sheet.row_range
-=======================
+pyexcel.Sheet.row\_range
+========================
 
 .. currentmodule:: pyexcel
 

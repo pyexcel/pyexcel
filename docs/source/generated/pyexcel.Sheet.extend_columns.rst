@@ -1,5 +1,5 @@
-pyexcel.Sheet.extend_columns
-============================
+pyexcel.Sheet.extend\_columns
+=============================
 
 .. currentmodule:: pyexcel
 

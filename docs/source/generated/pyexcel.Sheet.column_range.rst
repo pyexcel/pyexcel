@@ -1,5 +1,5 @@
-pyexcel.Sheet.column_range
-==========================
+pyexcel.Sheet.column\_range
+===========================
 
 .. currentmodule:: pyexcel
 

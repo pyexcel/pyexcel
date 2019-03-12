@@ -1,5 +1,5 @@
-pyexcel.Sheet.name_rows_by_column
-=================================
+pyexcel.Sheet.name\_rows\_by\_column
+====================================
 
 .. currentmodule:: pyexcel
 

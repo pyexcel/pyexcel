@@ -1,5 +1,5 @@
-pyexcel.Sheet.cell_value
-========================
+pyexcel.Sheet.cell\_value
+=========================
 
 .. currentmodule:: pyexcel
 

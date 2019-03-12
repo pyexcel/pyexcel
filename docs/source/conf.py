@@ -90,3 +90,5 @@ texinfo_documents = [
 intersphinx_mapping.update({
     'xlrd': ('http://xlrd.readthedocs.io/en/latest/', None)
 })
+
+master_doc = "index"

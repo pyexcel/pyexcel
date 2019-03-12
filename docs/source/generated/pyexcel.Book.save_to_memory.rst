@@ -1,5 +1,5 @@
-pyexcel.Book.save_to_memory
-===========================
+pyexcel.Book.save\_to\_memory
+=============================
 
 .. currentmodule:: pyexcel
 

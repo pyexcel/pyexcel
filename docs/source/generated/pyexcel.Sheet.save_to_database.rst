@@ -1,5 +1,5 @@
-pyexcel.Sheet.save_to_database
-==============================
+pyexcel.Sheet.save\_to\_database
+================================
 
 .. currentmodule:: pyexcel
 

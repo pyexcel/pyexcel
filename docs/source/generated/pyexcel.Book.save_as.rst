@@ -1,5 +1,5 @@
-pyexcel.Book.save_as
-====================
+pyexcel.Book.save\_as
+=====================
 
 .. currentmodule:: pyexcel
 

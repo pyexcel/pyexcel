@@ -1,5 +1,5 @@
-pyexcel.Sheet.extend_rows
-=========================
+pyexcel.Sheet.extend\_rows
+==========================
 
 .. currentmodule:: pyexcel
 

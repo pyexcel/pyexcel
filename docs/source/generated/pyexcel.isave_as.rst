@@ -1,5 +1,5 @@
-pyexcel.isave_as
-================
+pyexcel.isave\_as
+=================
 
 .. currentmodule:: pyexcel
 

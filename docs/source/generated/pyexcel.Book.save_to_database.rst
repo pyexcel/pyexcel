@@ -1,5 +1,5 @@
-pyexcel.Book.save_to_database
-=============================
+pyexcel.Book.save\_to\_database
+===============================
 
 .. currentmodule:: pyexcel
 

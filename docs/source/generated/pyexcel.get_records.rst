@@ -1,5 +1,5 @@
-pyexcel.get_records
-===================
+pyexcel.get\_records
+====================
 
 .. currentmodule:: pyexcel
 

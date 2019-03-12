@@ -1,5 +1,5 @@
-pyexcel.Sheet.save_to_django_model
-==================================
+pyexcel.Sheet.save\_to\_django\_model
+=====================================
 
 .. currentmodule:: pyexcel
 

@@ -1,5 +1,5 @@
-pyexcel.get_dict
-================
+pyexcel.get\_dict
+=================
 
 .. currentmodule:: pyexcel
 

@@ -1,5 +1,5 @@
-pyexcel.Sheet.delete_rows
-=========================
+pyexcel.Sheet.delete\_rows
+==========================
 
 .. currentmodule:: pyexcel
 

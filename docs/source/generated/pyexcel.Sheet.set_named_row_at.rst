@@ -1,5 +1,5 @@
-pyexcel.Sheet.set_named_row_at
-==============================
+pyexcel.Sheet.set\_named\_row\_at
+=================================
 
 .. currentmodule:: pyexcel
 

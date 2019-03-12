@@ -12,7 +12,7 @@ configuration:
   configuration: pyexcel.yml
 targets:
   - setup.py: setup.py
-  - "docs/source/conf.py": "docs/source/conf.py"
+  - "docs/source/conf.py": "docs/source/custom_conf.py.jj2"
   - .travis.yml: travis.yml
   - requirements.txt: requirements.txt.jj2
   - min_requirements.txt: minimum_requirements.txt
