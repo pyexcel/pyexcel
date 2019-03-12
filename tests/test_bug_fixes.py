@@ -9,7 +9,7 @@ import pyexcel as p
 from _compact import StringIO, OrderedDict
 
 import psutil
-from nose.tools import eq_, raises
+from nose.tools import eq_
 
 
 def test_bug_01():
