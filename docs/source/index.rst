@@ -96,8 +96,11 @@ For individual excel file formats, please install them as you wish:
    ======================== ======================= ================= ==================
    `pyexcel-xlsxw`_         xlsx(write only)        `XlsxWriter`_     Python 2 and 3
    `pyexcel-xlsxr`_         xlsx(read only)         lxml              same as above
+   `pyexcel-xlsbr`_         xlsx(read only)         pyxlsb            same as above
    `pyexcel-odsr`_          read only for ods, fods lxml              same as above
+   `pyexcel-odsw`_          write only for ods      loxun             same as above
    `pyexcel-htmlr`_         html(read only)         lxml,html5lib     same as above
+   `pyexcel-pdfr`_          pdf(read only)          pdftables         Python 2 only.
    ======================== ======================= ================= ==================
 
 
@@ -107,8 +110,12 @@ For individual excel file formats, please install them as you wish:
 .. _pyexcel-ods: https://github.com/pyexcel/pyexcel-ods
 .. _pyexcel-ods3: https://github.com/pyexcel/pyexcel-ods3
 .. _pyexcel-odsr: https://github.com/pyexcel/pyexcel-odsr
+.. _pyexcel-odsw: https://github.com/pyexcel/pyexcel-odsw
+.. _pyexcel-pdfr: https://github.com/pyexcel/pyexcel-pdfr
+
 .. _pyexcel-xlsxw: https://github.com/pyexcel/pyexcel-xlsxw
 .. _pyexcel-xlsxr: https://github.com/pyexcel/pyexcel-xlsxr
+.. _pyexcel-xlsbr: https://github.com/pyexcel/pyexcel-xlsbr
 .. _pyexcel-htmlr: https://github.com/pyexcel/pyexcel-htmlr
 
 .. _xlrd: https://github.com/python-excel/xlrd
