@@ -287,7 +287,7 @@ DEST_PARAMS_TABLE = """
 ================= =============================================
 Saving to source  parameters
 ================= =============================================
-file              dest_file_name, dest_sheet_name,
+file              dest_file_name, dest_sheet_name,dest_force_file_type
                   keywords with prefix 'dest'
 memory            dest_file_type, dest_content,
                   dest_sheet_name, keywords with prefix 'dest'
