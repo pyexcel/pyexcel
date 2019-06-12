@@ -680,6 +680,24 @@ class TestIGetBook:
 
 
 class TestSaveAs:
+    def test_force_file_type(self):
+        pe.save_as(
+            array=[[1, 2]], dest_file_name="a.txt", dest_force_file_type="csv"
+        )
+        actual = pe.get_array(file_name="a.txt", force_file_type="csv")
+        eq_([[1, 2]], actual)
+        os.unlink("a.txt")
+
+    def test_force_file_type_for_save_book_as(self):
+        pe.save_as(
+            bookdict={"sheet1": [[1, 2]]},
+            dest_file_name="a.bin",
+            dest_force_file_type="xls",
+        )
+        actual = pe.get_book_dict(file_name="a.bin", force_file_type="xls")
+        eq_({"sheet1": [[1, 2]]}, actual)
+        os.unlink("a.bin")
+
     def test_save_file_as_another_one(self):
         data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
         sheet = pe.Sheet(data)

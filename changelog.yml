@@ -4,6 +4,12 @@ releases:
 - changes:
   - action: updated
     details:
+    - "`#182`: support dest_force_file_type on save_as and save_book_as"
+  version: 0.5.14
+  date: 12.06.2019
+- changes:
+  - action: updated
+    details:
     - "`#176`: get_sheet {IndexError}list index out of range // XLSX can't be opened"
   version: 0.5.13
   date: 12.03.2019
