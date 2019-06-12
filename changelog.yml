@@ -4,7 +4,7 @@ releases:
 - changes:
   - action: updated
     details:
-    - "`#178`: support dest_force_file_type on save_as and save_book_as"
+    - "`#182`: support dest_force_file_type on save_as and save_book_as"
   version: 0.5.14
   date: 12.06.2019
 - changes:

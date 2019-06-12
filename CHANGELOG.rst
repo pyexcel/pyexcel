@@ -7,7 +7,7 @@ Change log
 updated
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. `#178 <https://github.com/pyexcel/pyexcel/issues/178>`_: support
+#. `#182 <https://github.com/pyexcel/pyexcel/issues/182>`_: support
    dest_force_file_type on save_as and save_book_as
 
 0.5.13 - 12.03.2019
