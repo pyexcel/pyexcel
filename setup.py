@@ -2,6 +2,7 @@
 
 import os
 import sys
+
 # Template by pypi-mobans
 import codecs
 import locale
@@ -33,22 +34,13 @@ VERSION = "0.5.14"
 EMAIL = "info@pyexcel.org"
 LICENSE = "New BSD"
 DESCRIPTION = (
-    "A wrapper library that provides one API to read, manipulate and write" +
-    "data in different excel formats"
+    "A wrapper library that provides one API to read, manipulate and write"
+    + "data in different excel formats"
 )
 URL = "https://github.com/pyexcel/pyexcel"
 DOWNLOAD_URL = "%s/archive/0.5.14.tar.gz" % URL
 FILES = ["README.rst", "CHANGELOG.rst"]
-KEYWORDS = [
-    "python",
-    'tsv',
-    'tsvz'
-    'csv',
-    'csvz',
-    'xls',
-    'xlsx',
-    'ods'
-]
+KEYWORDS = ["python", "tsv", "tsvz" "csv", "csvz", "xls", "xlsx", "ods"]
 
 CLASSIFIERS = [
     "Topic :: Software Development :: Libraries",
@@ -60,46 +52,46 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3.4",
     "Programming Language :: Python :: 3.5",
     "Programming Language :: Python :: 3.6",
-
     "Programming Language :: Python :: 3.7",
-
     "Programming Language :: Python :: 3.8",
-
-    'Development Status :: 3 - Alpha',
-    'Programming Language :: Python :: Implementation :: PyPy'
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: Implementation :: PyPy",
 ]
 
-INSTALL_REQUIRES = [
-    "lml>=0.0.4",
-    "pyexcel-io>=0.5.18",
-]
+INSTALL_REQUIRES = ["lml>=0.0.4", "pyexcel-io>=0.5.18"]
 SETUP_COMMANDS = {}
 
 if PY2:
-    INSTALL_REQUIRES.append('texttable>=0.8.1')
+    INSTALL_REQUIRES.append("texttable>=0.8.1")
 if not PY2:
-    INSTALL_REQUIRES.append('texttable>=0.8.2')
+    INSTALL_REQUIRES.append("texttable>=0.8.2")
 if PY26:
-    INSTALL_REQUIRES.append('ordereddict')
+    INSTALL_REQUIRES.append("ordereddict")
 if PY26:
-    INSTALL_REQUIRES.append('weakrefset')
+    INSTALL_REQUIRES.append("weakrefset")
 if platform.python_implementation == "PyPy":
-    INSTALL_REQUIRES.append('lxml>=3.4.4')
+    INSTALL_REQUIRES.append("lxml>=3.4.4")
 
 PACKAGES = find_packages(exclude=["ez_setup", "examples", "tests"])
 EXTRAS_REQUIRE = {
-    "xls": ['pyexcel-xls>=0.5.0'],
-    "xlsx": ['pyexcel-xlsx>=0.5.0'],
-    "ods": ['pyexcel-ods3>=0.5.0'],
+    "xls": ["pyexcel-xls>=0.5.0"],
+    "xlsx": ["pyexcel-xlsx>=0.5.0"],
+    "ods": ["pyexcel-ods3>=0.5.0"],
 }
 # You do not need to read beyond this line
-PUBLISH_COMMAND = "{0} setup.py sdist bdist_wheel upload -r pypi".format(sys.executable)
-GS_COMMAND = ("gs pyexcel v0.5.14 " +
-              "Find 0.5.14 in changelog for more details")
-NO_GS_MESSAGE = ("Automatic github release is disabled. " +
-                 "Please install gease to enable it.")
+PUBLISH_COMMAND = "{0} setup.py sdist bdist_wheel upload -r pypi".format(
+    sys.executable
+)
+GS_COMMAND = (
+    "gs pyexcel v0.5.14 " + "Find 0.5.14 in changelog for more details"
+)
+NO_GS_MESSAGE = (
+    "Automatic github release is disabled. "
+    + "Please install gease to enable it."
+)
 UPLOAD_FAILED_MSG = (
-    'Upload failed. please run "%s" yourself.' % PUBLISH_COMMAND)
+    'Upload failed. please run "%s" yourself.' % PUBLISH_COMMAND
+)
 HERE = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -142,9 +134,7 @@ class PublishCommand(Command):
         sys.exit()
 
 
-SETUP_COMMANDS.update({
-    "publish": PublishCommand
-})
+SETUP_COMMANDS.update({"publish": PublishCommand})
 
 
 def has_gease():
@@ -155,6 +145,7 @@ def has_gease():
     """
     try:
         import gease  # noqa
+
         return True
     except ImportError:
         return False
@@ -222,5 +213,5 @@ if __name__ == "__main__":
         include_package_data=True,
         zip_safe=False,
         classifiers=CLASSIFIERS,
-        cmdclass=SETUP_COMMANDS
+        cmdclass=SETUP_COMMANDS,
     )
