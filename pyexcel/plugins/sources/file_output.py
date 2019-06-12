@@ -21,10 +21,12 @@ class WriteSheetToFile(AbstractSource):
         AbstractSource.__init__(self, **keywords)
         self._file_name = file_name
 
-        self.__file_type = find_file_type_from_file_name(file_name, "write")
-        self._renderer = RENDERER.get_a_plugin(
-            self.__file_type, renderer_library
-        )
+        if "force_file_type" in keywords:
+            file_type = keywords.get("force_file_type")
+        else:
+            file_type = find_file_type_from_file_name(file_name, "write")
+
+        self._renderer = RENDERER.get_a_plugin(file_type, renderer_library)
 
     def write_data(self, sheet):
         self._renderer.render_sheet_to_file(
