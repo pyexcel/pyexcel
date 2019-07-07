@@ -56,8 +56,6 @@ class HttpSource(AbstractSource):
         parser_library = self._keywords.get("parser_library", None)
         aparser = PARSER.get_a_plugin(file_type, parser_library)
         content = connection.read()
-        if not PY2:
-            content = content.decode('utf-8')
         sheets = aparser.parse_file_content(content, **self._keywords)
         return sheets
 
