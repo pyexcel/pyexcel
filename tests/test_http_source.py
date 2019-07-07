@@ -2,7 +2,7 @@ from textwrap import dedent
 from unittest import TestCase
 
 import pyexcel as pe
-from pyexcel._compact import PY2, StringIO
+from pyexcel._compact import PY2, BytesIO
 
 from mock import MagicMock, patch
 
@@ -12,7 +12,7 @@ class TestHttpBookSource(TestCase):
         self.patcher = patch("pyexcel._compact.request.urlopen")
         mock_open = self.patcher.start()
         self.mocked_info = MagicMock()
-        io = StringIO("1,2,3")
+        io = BytesIO("1,2,3")
         io.info = self.mocked_info
         mock_open.return_value = io
 
