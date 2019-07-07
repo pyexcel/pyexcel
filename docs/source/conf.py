@@ -26,9 +26,9 @@ project = 'pyexcel'
 copyright = '2014-2019 Onni Software Ltd.'
 author = 'C.W.'
 # The short X.Y version
-version = '0.5.14'
+version = '0.5.15'
 # The full version, including alpha/beta/rc tags
-release = '0.5.14'
+release = '0.5.15'
 
 # -- General configuration ---------------------------------------------------
 
