@@ -6,7 +6,6 @@ notifications:
 python:
   - &pypy2 pypy2.7-6.0
   - &pypy3 pypy3.5-6.0
-  - 3.8-dev
   - 3.7
   - 3.6
   - 3.5
