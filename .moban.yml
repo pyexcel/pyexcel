@@ -2,6 +2,7 @@ requires:
   - type: git
     url: https://github.com/moremoban/pypi-mobans
     submodule: true
+    branch: dev
   - https://github.com/pyexcel/pyexcel-mobans
 configuration:
   configuration_dir: "pyexcel-mobans:config"

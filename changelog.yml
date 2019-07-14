@@ -4,6 +4,12 @@ releases:
 - changes:
   - action: updated
     details:
+    - "`#185`: fix a bug with http data source. The real fix lies in pyexcel-io v0.5.19. this release just put the version requirement in."
+  version: 0.5.15
+  date: 07.07.2019
+- changes:
+  - action: updated
+    details:
     - "`#182`: support dest_force_file_type on save_as and save_book_as"
   version: 0.5.14
   date: 12.06.2019

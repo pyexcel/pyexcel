@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 
-import os
-import sys
-
 # Template by pypi-mobans
 import codecs
 import locale
+import os
 import platform
+import sys
 from shutil import rmtree
 
-from setuptools import Command, setup, find_packages
+from setuptools import Command, find_packages, setup
 
 PY2 = sys.version_info[0] == 2
 PY26 = PY2 and sys.version_info[1] < 7
@@ -30,7 +29,7 @@ except (ValueError, UnicodeError, locale.Error):
 
 NAME = "pyexcel"
 AUTHOR = "C.W."
-VERSION = "0.5.14"
+VERSION = "0.5.15"
 EMAIL = "info@pyexcel.org"
 LICENSE = "New BSD"
 DESCRIPTION = (
@@ -38,7 +37,7 @@ DESCRIPTION = (
     + "data in different excel formats"
 )
 URL = "https://github.com/pyexcel/pyexcel"
-DOWNLOAD_URL = "%s/archive/0.5.14.tar.gz" % URL
+DOWNLOAD_URL = "%s/archive/0.5.15.tar.gz" % URL
 FILES = ["README.rst", "CHANGELOG.rst"]
 KEYWORDS = ["python", "tsv", "tsvz" "csv", "csvz", "xls", "xlsx", "ods"]
 
@@ -58,7 +57,7 @@ CLASSIFIERS = [
     "Programming Language :: Python :: Implementation :: PyPy",
 ]
 
-INSTALL_REQUIRES = ["lml>=0.0.4", "pyexcel-io>=0.5.18"]
+INSTALL_REQUIRES = ["lml>=0.0.4", "pyexcel-io>=0.5.19"]
 SETUP_COMMANDS = {}
 
 if PY2:
@@ -83,7 +82,7 @@ PUBLISH_COMMAND = "{0} setup.py sdist bdist_wheel upload -r pypi".format(
     sys.executable
 )
 GS_COMMAND = (
-    "gs pyexcel v0.5.14 " + "Find 0.5.14 in changelog for more details"
+    "gs pyexcel v0.5.15 " + "Find 0.5.15 in changelog for more details"
 )
 NO_GS_MESSAGE = (
     "Automatic github release is disabled. "
