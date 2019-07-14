@@ -8,7 +8,8 @@ updated
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 #. `#185 <https://github.com/pyexcel/pyexcel/issues/185>`_: fix a bug with http
-   data source
+   data source. The real fix lies in pyexcel-io v0.5.19. this release just put
+   the version requirement in.
 
 0.5.14 - 12.06.2019
 --------------------------------------------------------------------------------
