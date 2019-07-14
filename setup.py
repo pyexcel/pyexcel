@@ -71,7 +71,7 @@ CLASSIFIERS = [
 
 INSTALL_REQUIRES = [
     "lml>=0.0.4",
-    "pyexcel-io>=0.5.18",
+    "pyexcel-io>=0.5.19",
 ]
 SETUP_COMMANDS = {}
 

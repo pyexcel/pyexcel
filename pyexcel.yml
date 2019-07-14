@@ -6,9 +6,10 @@ current_version: 0.5.15
 release: 0.5.15
 copyright_year: 2014-2019
 branch: master
+moban_command: false
 dependencies:
   - lml>=0.0.4
-  - pyexcel-io>=0.5.18
+  - pyexcel-io>=0.5.19
   - texttable>=0.8.1;python_version<"3"
   - texttable>=0.8.2;python_version>="3"
   - ordereddict;python_version<"2.7"
