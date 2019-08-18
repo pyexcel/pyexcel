@@ -70,14 +70,9 @@ html_static_path = ['_static']
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'https://docs.python.org/': None}
+
 # TODO: html_theme not configurable upstream
 html_theme = 'default'
-
-
-def setup(app):
-    app.add_stylesheet('theme_overrides.css')
-
-
 
 # TODO: DESCRIPTION not configurable upstream
 texinfo_documents = [
@@ -88,7 +83,6 @@ texinfo_documents = [
      'Miscellaneous'),
 ]
 intersphinx_mapping.update({
-    'xlrd': ('http://xlrd.readthedocs.io/en/latest/', None)
 })
 
 master_doc = "index"

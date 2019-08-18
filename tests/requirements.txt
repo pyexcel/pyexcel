@@ -1,5 +1,5 @@
 nose
-mock;python_version<"3"
+mock
 codecov
 coverage
 flake8
