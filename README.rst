@@ -14,6 +14,9 @@ pyexcel - Let you focus on data, instead of file formats
 .. image:: https://codecov.io/gh/pyexcel/pyexcel/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/pyexcel/pyexcel
 
+.. image:: https://pepy.tech/badge/pyexcel/month
+   :target: https://pepy.tech/project/pyexcel/month
+
 .. image:: https://img.shields.io/gitter/room/gitterHQ/gitter.svg
    :target: https://gitter.im/pyexcel/Lobby
 

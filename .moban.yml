@@ -12,18 +12,18 @@ configuration:
     - ".moban.d"
   configuration: pyexcel.yml
 targets:
-  - setup.py: setup.py
+  - setup.py: custom_setup.py.jj2
   - "docs/source/conf.py": "docs/source/custom_conf.py.jj2"
-  - .travis.yml: travis.yml
+  - .travis.yml: pyexcel-travis.yml.jj2
   - requirements.txt: requirements.txt.jj2
   - min_requirements.txt: minimum_requirements.txt
-  - "tests/requirements.txt": "tests/requirements.txt"
+  - "tests/requirements.txt": "tests/custom_requirements.txt.jj2"
   - LICENSE: NEW_BSD_LICENSE.jj2
   - MANIFEST.in: CUSTOM_MANIFEST.in.jj2
-  - README.rst: README.rst
-  - "docs/source/guide.rst": "docs/source/guide.rst"
-  - test.sh: test.sh
-  - test.bat: test.bat
+  - README.rst: pyexcel-README.rst.jj2
+  - "docs/source/guide.rst": "docs/source/guide.rst.jj2"
+  - test.sh: test.sh.jj2
+  - test.bat: test.bat.jj2
   - .gitignore: commons-gitignore.jj2
   - "pyexcel/__version__.py": version.txt
   - "docs/source/index.rst": "docs/source/pyexcel-index.rst.jj2"
