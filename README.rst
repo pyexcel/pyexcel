@@ -3,16 +3,25 @@ pyexcel - Let you focus on data, instead of file formats
 ================================================================================
 
 .. image:: https://raw.githubusercontent.com/pyexcel/pyexcel.github.io/master/images/patreon.png
-   :target: https://www.patreon.com/pyexcel
-
-.. image:: https://api.bountysource.com/badge/team?team_id=288537
-   :target: https://salt.bountysource.com/teams/chfw-pyexcel
+   :target: https://www.patreon.com/chfw
 
 .. image:: https://travis-ci.org/pyexcel/pyexcel.svg?branch=master
    :target: http://travis-ci.org/pyexcel/pyexcel
 
 .. image:: https://codecov.io/gh/pyexcel/pyexcel/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/pyexcel/pyexcel
+
+.. image:: https://badge.fury.io/py/pyexcel.svg
+   :target: https://pypi.org/project/pyexcel
+
+.. image:: https://anaconda.org/conda-forge/pyexcel/badges/version.svg
+   :target: https://anaconda.org/conda-forge/pyexcel
+
+.. image:: https://pepy.tech/badge/pyexcel/month
+   :target: https://pepy.tech/project/pyexcel/month
+
+.. image:: https://anaconda.org/conda-forge/pyexcel/badges/downloads.svg
+   :target: https://anaconda.org/conda-forge/pyexcel
 
 .. image:: https://img.shields.io/gitter/room/gitterHQ/gitter.svg
    :target: https://gitter.im/pyexcel/Lobby
@@ -24,7 +33,7 @@ Support the project
 ================================================================================
 
 If your company has embedded pyexcel and its components into a revenue generating
-product, please support me on `patreon <https://www.patreon.com/bePatron?u=5537627>`_
+product, please support me on `github <https://github.com/sponsors/chfw>`_, `patreon <https://www.patreon.com/bePatron?u=5537627>`_
 or `bounty source <https://salt.bountysource.com/teams/chfw-pyexcel>`_ to maintain
 the project and develop it further.
 

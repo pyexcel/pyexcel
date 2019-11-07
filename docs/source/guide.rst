@@ -46,8 +46,6 @@ How to update test environment and update documentation
 Additional steps are required:
 
 #. pip install moban
-#. git clone https://github.com/moremoban/setupmobans.git # generic setup
-#. git clone https://github.com/pyexcel/pyexcel-commons.git commons
 #. make your changes in `.moban.d` directory, then issue command `moban`
 
 What is pyexcel-commons
@@ -59,15 +57,3 @@ What is .moban.d
 ---------------------------------
 
 `.moban.d` stores the specific meta data for the library.
-
-Acceptance criteria
--------------------
-
-#. Has Test cases written
-#. Has all code lines tested
-#. Passes all Travis CI builds
-#. Has fair amount of documentation if your change is complex
-#. run 'make format' so as to confirm the pyexcel organisation's coding style
-#. Please update CHANGELOG.rst
-#. Please add yourself to CONTRIBUTORS.rst
-#. Agree on NEW BSD License for your contribution

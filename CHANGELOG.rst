@@ -4,8 +4,7 @@ Change log
 0.5.15 - 07.07.2019
 --------------------------------------------------------------------------------
 
-updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**updated**
 
 #. `#185 <https://github.com/pyexcel/pyexcel/issues/185>`_: fix a bug with http
    data source. The real fix lies in pyexcel-io v0.5.19. this release just put
@@ -14,8 +13,7 @@ updated
 0.5.14 - 12.06.2019
 --------------------------------------------------------------------------------
 
-updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**updated**
 
 #. `#182 <https://github.com/pyexcel/pyexcel/issues/182>`_: support
    dest_force_file_type on save_as and save_book_as
@@ -23,8 +21,7 @@ updated
 0.5.13 - 12.03.2019
 --------------------------------------------------------------------------------
 
-updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**updated**
 
 #. `#176 <https://github.com/pyexcel/pyexcel/issues/176>`_: get_sheet
    {IndexError}list index out of range // XLSX can't be opened
@@ -32,8 +29,7 @@ updated
 0.5.12 - 25.02.2019
 --------------------------------------------------------------------------------
 
-updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**updated**
 
 #. `#174 <https://github.com/pyexcel/pyexcel/issues/174>`_: include examples in
    tarbar
@@ -41,8 +37,7 @@ updated
 0.5.11 - 22.02.2019
 --------------------------------------------------------------------------------
 
-updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**updated**
 
 #. `#169 <https://github.com/pyexcel/pyexcel/issues/169>`_: remove
    pyexcel-handsontalbe in test
@@ -51,8 +46,7 @@ updated
 0.5.10 - 3.12.2018
 --------------------------------------------------------------------------------
 
-updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**updated**
 
 #. `#157 <https://github.com/pyexcel/pyexcel/issues/157>`_: Please use
    scan_plugins_regex, which lml 0.7 complains about
@@ -61,16 +55,14 @@ updated
 0.5.9.1 - 30.08.2018
 --------------------------------------------------------------------------------
 
-updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**updated**
 
 #. to require pyexcel-io 0.5.9.1 and use lml at least version 0.0.2
 
 0.5.9 - 30.08.2018
 --------------------------------------------------------------------------------
 
-added
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**added**
 
 #. support __len__. len(book) returns the number of sheets and len(sheet)
    returns the number of rows
@@ -82,8 +74,7 @@ added
    but with .blob file suffix.
 #. finally, pyexcel got import pyexcel.__version__
 
-updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**updated**
 
 #. Sheet.to_records() returns a generator now, saving memory
 #. `#115 <https://github.com/pyexcel/pyexcel/issues/115>`_, Fix set membership
@@ -94,13 +85,11 @@ updated
 0.5.8 - unreleased
 --------------------------------------------------------------------------------
 
-added
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**added**
 
 #. `#125 <https://github.com/pyexcel/pyexcel/issues/125>`_, sort book sheets
 
-updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**updated**
 
 #. `#126 <https://github.com/pyexcel/pyexcel/issues/126>`_, dest_sheet_name in
    save_as will set the sheet name in the output
@@ -110,8 +99,7 @@ updated
 0.5.7 - 11.01.2018
 --------------------------------------------------------------------------------
 
-added
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**added**
 
 #. `pyexcel-io#46 <https://github.com/pyexcel/pyexcel-io/issues/46>`_, expose
    `bulk_save` to developer.
@@ -119,8 +107,7 @@ added
 0.5.6 - 23.10.2017
 --------------------------------------------------------------------------------
 
-removed
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**removed**
 
 #. `#105 <https://github.com/pyexcel/pyexcel/issues/105>`_, remove gease from
    setup_requires, introduced by 0.5.5.
@@ -131,8 +118,7 @@ removed
 0.5.5 - 20.10.2017
 --------------------------------------------------------------------------------
 
-removed
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**removed**
 
 #. `#105 <https://github.com/pyexcel/pyexcel/issues/105>`_, remove gease from
    setup_requires, introduced by 0.5.5.
@@ -143,22 +129,19 @@ removed
 0.5.4 - 27.09.2017
 --------------------------------------------------------------------------------
 
-fixed
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**fixed**
 
 #. `#100 <https://github.com/pyexcel/pyexcel/issues/100>`_, Sheet.to_dict() gets
    out of range error because there is only one row.
 
-updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**updated**
 
 #. Updated the baseline of pyexcel-io to 0.5.1.
 
 0.5.3 - 01-08-2017
 --------------------------------------------------------------------------------
 
-added
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**added**
 
 #. `#95 <https://github.com/pyexcel/pyexcel/issues/95>`_, respect the order of
    records in iget_records, isave_as and save_as.
@@ -168,8 +151,7 @@ added
 0.5.2 - 26-07-2017
 --------------------------------------------------------------------------------
 
-Updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Updated**
 
 #. embeded the enabler for pyexcel-htmlr. http source does not support text/html
    as mime type.
@@ -177,8 +159,7 @@ Updated
 0.5.1 - 12.06.2017
 --------------------------------------------------------------------------------
 
-Updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Updated**
 
 #. support saving SheetStream and BookStream to database targets. This is needed
    for pyexcel-webio and its downstream projects.
@@ -186,8 +167,7 @@ Updated
 0.5.0 - 19.06.2017
 --------------------------------------------------------------------------------
 
-Added
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Added**
 
 #. Sheet.top() and Sheet.top_left() for data browsing
 #. add html as default rich display in Jupyter notebook when pyexcel-text and
@@ -205,14 +185,12 @@ Added
    is enfored. free_resource is added and it should be called when iget_array,
    iget_records, isave_as and/or isave_book_as are used.
 
-Updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Updated**
 
 #. array is passed to pyexcel.Sheet as reference. it means your array data will
    be modified.
 
-Removed
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Removed**
 
 #. pyexcel.Writer and pyexcel.BookWriter were removed
 #. pyexcel.load_book_from_sql and pyexcel.load_from_sql were removed
@@ -224,8 +202,7 @@ Removed
 0.4.5 - 17.03.2017
 --------------------------------------------------------------------------------
 
-Updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Updated**
 
 #. `#80 <https://github.com/pyexcel/pyexcel/issues/80>`_: remove pyexcel-chart
    import from v0.4.x
@@ -233,8 +210,7 @@ Updated
 0.4.4 - 06.02.2017
 --------------------------------------------------------------------------------
 
-Updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Updated**
 
 #. `#68 <https://github.com/pyexcel/pyexcel/issues/68>`_: regression
    save_to_memory() should have returned a stream instance which has been reset
@@ -242,8 +218,7 @@ Updated
 #. `#74 <https://github.com/pyexcel/pyexcel/issues/74>`_: Not able to handle
    decimal.Decimal
 
-Removed
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Removed**
 
 #. remove get_{{file_type}}_stream functions from pyexcel.Sheet and pyexcel.Book
    introduced since 0.4.3.
@@ -251,8 +226,7 @@ Removed
 0.4.3 - 26.01.2017
 --------------------------------------------------------------------------------
 
-Added
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Added**
 
 #. '.stream' attribute are attached to `~pyexcel.Sheet` and `~pyexcel.Book` to
    get direct access the underneath stream in responding to file type
@@ -260,8 +234,7 @@ Added
    world, for example, Sheet.stream.csv gives a text stream that contains csv
    formatted data. Book.stream.xls returns a xls format data in a byte stream.
 
-Updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Updated**
 
 #. Better error reporting when an unknown parameters or unsupported file types
    were given to the signature functions.
@@ -269,8 +242,7 @@ Updated
 0.4.2 - 17.01.2017
 --------------------------------------------------------------------------------
 
-Updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Updated**
 
 #. Raise exception if the incoming sheet does not have column names. In other
    words, only sheet with column names could be saved to database. sheet with
@@ -290,8 +262,7 @@ Updated
 0.4.1 - 23.12.2016
 --------------------------------------------------------------------------------
 
-Updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Updated**
 
 #. `#68 <https://github.com/pyexcel/pyexcel/issues/68>`_: regression
    save_to_memory() should have returned a stream instance.
@@ -299,16 +270,14 @@ Updated
 0.4.0 - 22.12.2016
 --------------------------------------------------------------------------------
 
-Added
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Added**
 
 #. `Flask-Excel#19 <https://github.com/pyexcel/Flask-Excel/issues/19>`_ allow
    sheet_name parameter
 #. `pyexcel-xls#11 <https://github.com/pyexcel/pyexcel-xls/issues/11>`_
    case-insensitive for file_type. `xls` and `XLS` are treated in the same way
 
-Updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Updated**
 
 #. `#66 <https://github.com/pyexcel/pyexcel/issues/66>`_: `export_columns` is
    ignored
@@ -317,8 +286,7 @@ Updated
 0.3.3 - 07.11.2016
 --------------------------------------------------------------------------------
 
-Updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Updated**
 
 #. `#63 <https://github.com/pyexcel/pyexcel/issues/63>`_: cannot display empty
    sheet(hence book with empty sheet) as texttable
@@ -326,8 +294,7 @@ Updated
 0.3.2 - 02.11.2016
 --------------------------------------------------------------------------------
 
-Updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Updated**
 
 #. `#62 <https://github.com/pyexcel/pyexcel/issues/62>`_: optional module import
    error become visible.
@@ -335,8 +302,7 @@ Updated
 0.3.0 - 28.10.2016
 --------------------------------------------------------------------------------
 
-Added:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Added:**
 
 #. file type setters for Sheet and Book, and its documentation
 #. `iget_records` returns a generator for a list of records and should have
@@ -346,8 +312,7 @@ Added:
    files.
 #. Enable pagination support, and custom row renderer via pyexcel-io v0.2.3
 
-Updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Updated**
 
 #. Take `isave_as` out from `save_as`. Hence two functions are there for save a
    sheet as
@@ -374,8 +339,7 @@ Updated
    actual content. No longer they will return a io object hence you cannot call
    getvalue() on them.
 
-Removed:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Removed:**
 
 #. `content` and `out_file` as function parameters to the signature functions
    are no longer supported.
@@ -425,8 +389,7 @@ Removed:
 0.2.5 - 31.08.2016
 --------------------------------------------------------------------------------
 
-Updated:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Updated:**
 
 #. `#58 <https://github.com/pyexcel/pyexcel/issues/58>`_: texttable should have
    been made as compulsory requirement
@@ -434,16 +397,14 @@ Updated:
 0.2.4 - 14.07.2016
 --------------------------------------------------------------------------------
 
-Updated:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Updated:**
 
 #. For python 2, writing to sys.stdout by pyexcel-cli raise IOError.
 
 0.2.3 - 11.07.2016
 --------------------------------------------------------------------------------
 
-Updated:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Updated:**
 
 #. For python 3, do not seek 0 when saving to memory if sys.stdout is passed on.
    Hence, adding support for sys.stdin and sys.stdout.
@@ -451,8 +412,7 @@ Updated:
 0.2.2 - 01.06.2016
 --------------------------------------------------------------------------------
 
-Updated:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Updated:**
 
 #. Explicit imports, no longer needed
 #. Depends on latest setuptools 18.0.1
@@ -463,15 +423,13 @@ Updated:
 0.2.1 - 23.04.2016
 --------------------------------------------------------------------------------
 
-Added:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Added:**
 
 #. add pyexcel-text file types as attributes of pyexcel.Sheet and pyexcel.Book,
    related to `#31 <https://github.com/pyexcel/pyexcel/issues/31>`__
 #. auto import pyexcel-text if it is pip installed
 
-Updated:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Updated:**
 
 #. code refactoring done for easy addition of sources.
 #. bug fix `#29 <https://github.com/pyexcel/pyexcel/issues/29>`__, Even if the
@@ -479,8 +437,7 @@ Updated:
 #. pyexcel-text is no longer a plugin to pyexcel-io but to pyexcel.sources, see
    `pyexcel-text#22 <https://github.com/pyexcel/pyexcel-text/issues/22>`__
 
-Removed:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Removed:**
 
 #. pyexcel.presentation is removed. No longer the internal decorate @outsource
    is used. related to `#31 <https://github.com/pyexcel/pyexcel/issues/31>`_
@@ -488,8 +445,7 @@ Removed:
 0.2.0 - 17.01.2016
 --------------------------------------------------------------------------------
 
-Updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Updated**
 
 #. adopt pyexcel-io yield key word to return generator as content
 #. pyexcel.save_as and pyexcel.save_book_as get performance improvements
@@ -497,24 +453,21 @@ Updated
 0.1.7 - 03.07.2015
 --------------------------------------------------------------------------------
 
-Added
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Added**
 
 #. Support pyramid-excel which does the database commit on its own.
 
 0.1.6 - 13.06.2015
 --------------------------------------------------------------------------------
 
-Added
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Added**
 
 #. get excel data from a http url
 
 0.0.13 - 07.02.2015
 --------------------------------------------------------------------------------
 
-Added
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Added**
 
 #. Support django
 #. texttable as default renderer
@@ -522,32 +475,28 @@ Added
 0.0.12 - 25.01.2015
 --------------------------------------------------------------------------------
 
-Added
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Added**
 
 #. Added sqlalchemy support
 
 0.0.10 - 15.12.2015
 --------------------------------------------------------------------------------
 
-Added
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Added**
 
 #. added csvz and tsvz format
 
 0.0.4 - 12.10.2014
 --------------------------------------------------------------------------------
 
-Updated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Updated**
 
 #. Support python 3
 
 0.0.1 - 14.09.2014
 --------------------------------------------------------------------------------
 
-Features:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Features:**
 
 #. read and write csv, ods, xls, xlsx and xlsm files(which are referred later as
    excel files)

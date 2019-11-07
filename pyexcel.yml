@@ -6,7 +6,15 @@ current_version: 0.5.15
 release: 0.5.15
 copyright_year: 2014-2019
 branch: master
+is_on_conda: true
 moban_command: false
+sphinx_extensions:
+  - sphinx.ext.autosummary
+  - sphinx.ext.autodoc
+  - sphinx.ext.doctest
+  - sphinx.ext.intersphinx
+  - sphinx.ext.viewcode
+  - sphinxcontrib.excel
 dependencies:
   - lml>=0.0.4
   - pyexcel-io>=0.5.19
