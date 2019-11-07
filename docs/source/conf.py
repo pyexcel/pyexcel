@@ -73,6 +73,12 @@ intersphinx_mapping = {'https://docs.python.org/3/': None}
 # TODO: html_theme not configurable upstream
 html_theme = 'default'
 
+
+def setup(app):
+    app.add_stylesheet('theme_overrides.css')
+
+
+
 # TODO: DESCRIPTION not configurable upstream
 texinfo_documents = [
     ('index', 'pyexcel',
@@ -82,6 +88,7 @@ texinfo_documents = [
      'Miscellaneous'),
 ]
 intersphinx_mapping.update({
+    'xlrd': ('http://xlrd.readthedocs.io/en/latest/', None)
 })
 
 master_doc = "index"
