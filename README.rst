@@ -5,9 +5,6 @@ pyexcel - Let you focus on data, instead of file formats
 .. image:: https://raw.githubusercontent.com/pyexcel/pyexcel.github.io/master/images/patreon.png
    :target: https://www.patreon.com/chfw
 
-.. image:: https://api.bountysource.com/badge/team?team_id=288537
-   :target: https://salt.bountysource.com/teams/chfw-pyexcel
-
 .. image:: https://travis-ci.org/pyexcel/pyexcel.svg?branch=master
    :target: http://travis-ci.org/pyexcel/pyexcel
 
