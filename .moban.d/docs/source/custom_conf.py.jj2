@@ -1,3 +1,19 @@
-{% include 'docs/source/conf.py' %}
+{% extends 'docs/source/conf.py.jj2'%}
 
-master_doc = "index"
+{%block SPHINX_EXTENSIONS%}
+    'sphinx.ext.autosummary',
+    'sphinx.ext.napoleon',
+    'sphinxcontrib.excel'
+{%endblock%}
+
+{%block custom_doc_theme%}
+html_theme = 'default'
+def setup(app):
+    app.add_stylesheet('theme_overrides.css')
+
+
+{%endblock%}
+
+{%block additional_mapping%}
+    'xlrd': ('http://xlrd.readthedocs.io/en/latest/', None)
+{%endblock%}
