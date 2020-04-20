@@ -12,3 +12,4 @@ targets:
   - "pyexcel/__version__.py": version.txt
   - "docs/source/index.rst": "docs/source/pyexcel-index.rst.jj2"
   - "tests/requirements.txt": "tests/custom_requirements.txt.jj2"
+  - "min_requirements.txt": "minimum_requirements.txt.jj2"
