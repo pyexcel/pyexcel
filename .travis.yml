@@ -20,22 +20,8 @@ stages:
   - lint
   - test
 
-.disable_global: &disable_global
-  addons: false
-  cache: false
-  env: {}
-  python: false
-  before_install: false
-  install: false
-  before_script: false
-  script: false
-  after_success: false
-  after_failure: false
-  before_deploy: false
-  deploy: false
 
 .lint: &lint
-  <<: *disable_global
   git:
     submodules: false
   python: 3.6
