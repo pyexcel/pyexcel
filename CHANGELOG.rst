@@ -8,6 +8,7 @@ Change log
 
 #. `#199 <https://github.com/pyexcel/pyexcel/issues/199>`_: += in place; = +
    shall return new instance
+#. Dropping the test support for python version lower than 3.6.
 
 0.5.15 - 07.07.2019
 --------------------------------------------------------------------------------
