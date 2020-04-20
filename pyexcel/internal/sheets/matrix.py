@@ -763,38 +763,14 @@ class Matrix(SheetMeta):
                 self.cell_value(row, column, value)
 
     def __iadd__(self, other):
-        return self.__add__(other)
+        return _add(self.name, self.__array, other)
 
     def __add__(self, other):
         """Overload the + sign
 
         :returns: a new book
         """
-        from pyexcel.book import Book, local_uuid
-
-        content = {}
-        content[self.name] = self.__array
-        if isinstance(other, Book):
-            other_in_dict = other.to_dict()
-            for key in other_in_dict.keys():
-                new_key = key
-                if len(other_in_dict.keys()) == 1:
-                    new_key = other.filename
-                if new_key in content:
-                    uid = local_uuid()
-                    new_key = "%s_%s" % (key, uid)
-                content[new_key] = other_in_dict[key]
-        elif isinstance(other, Matrix):
-            new_key = other.name
-            if new_key in content:
-                uid = local_uuid()
-                new_key = "%s_%s" % (other.name, uid)
-            content[new_key] = other.get_internal_array()
-        else:
-            raise TypeError
-        new_book = Book()
-        new_book.load_from_sheets(content)
-        return new_book
+        return _add(self.name, copy.deepcopy(self.__array), other)
 
     def clone(self):
         return Matrix(copy.deepcopy(self.__array))
@@ -867,3 +843,32 @@ def transpose(in_array):
                 row_data.append(constants.DEFAULT_NA)
         new_array.append(row_data)
     return new_array
+
+
+def _add(name, left, right):
+    from pyexcel.book import Book, local_uuid
+
+    content = {}
+    content[name] = left
+    if isinstance(right, Book):
+        right_in_dict = right.to_dict()
+        for key in right_in_dict.keys():
+            new_key = key
+            if len(right_in_dict.keys()) == 1:
+                new_key = right.filename
+            if new_key in content:
+                uid = local_uuid()
+                new_key = "%s_%s" % (key, uid)
+            content[new_key] = right_in_dict[key]
+    elif isinstance(right, Matrix):
+        new_key = right.name
+        if new_key in content:
+            uid = local_uuid()
+            new_key = "%s_%s" % (right.name, uid)
+        content[new_key] = right.get_internal_array()
+    else:
+        raise TypeError
+    new_book = Book()
+    new_book.load_from_sheets(content)
+    return new_book
+    
