@@ -219,6 +219,22 @@ class Row(utils.CommonPropertyAmongRowNColumn):
             raise TypeError
         return self
 
+    def __add__(self, other):
+        """Overload + sign
+
+        :return: new instance
+        """
+        new_instance = self._ref.clone()
+        if isinstance(other, compact.OrderedDict):
+            new_instance.extend_rows(other)
+        elif isinstance(other, list):
+            new_instance.extend_rows(other)
+        elif hasattr(other, "get_internal_array"):
+            new_instance.extend_rows(other.get_internal_array())
+        else:
+            raise TypeError
+        return new_instance
+
     def format(self, row_index=None, formatter=None, format_specs=None):
         """Format a row
         """

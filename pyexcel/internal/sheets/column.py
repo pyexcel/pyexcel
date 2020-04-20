@@ -261,12 +261,20 @@ class Column(utils.CommonPropertyAmongRowNColumn):
         return self
 
     def __add__(self, other):
-        """Overload += sign
-
-        :return: self
+        """Overload + sign
+        :return: new instance
         """
-        self.__iadd__(other)
-        return self._ref
+        new_instance = self._ref.clone()
+        if isinstance(other, compact.OrderedDict):
+            new_instance.extend_columns(other)
+        elif isinstance(other, list):
+            new_instance.extend_columns(other)
+        elif hasattr(other, "get_internal_array"):
+            new_instance.extend_columns_with_rows(other.get_internal_array())
+        else:
+            raise TypeError
+
+        return new_instance
 
     def __getattr__(self, attr):
         """

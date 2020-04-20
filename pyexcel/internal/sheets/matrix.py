@@ -762,6 +762,9 @@ class Matrix(SheetMeta):
                 value = custom_function(value)
                 self.cell_value(row, column, value)
 
+    def __iadd__(self, other):
+        return self.__add__(other)
+
     def __add__(self, other):
         """Overload the + sign
 
@@ -792,6 +795,9 @@ class Matrix(SheetMeta):
         new_book = Book()
         new_book.load_from_sheets(content)
         return new_book
+
+    def clone(self):
+        return Matrix(copy.deepcopy(self.__array))
 
 
 def _unique(seq):
