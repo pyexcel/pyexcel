@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 
-# Template by pypi-mobans
+"""
+Template by pypi-mobans
+"""
+
+import os
+import sys
 import codecs
 import locale
-import os
 import platform
-import sys
 from shutil import rmtree
 
-from setuptools import Command, find_packages, setup
+from setuptools import Command, setup, find_packages
 
 PY2 = sys.version_info[0] == 2
 PY26 = PY2 and sys.version_info[1] < 7
@@ -29,7 +32,7 @@ except (ValueError, UnicodeError, locale.Error):
 
 NAME = "pyexcel"
 AUTHOR = "C.W."
-VERSION = "0.5.15"
+VERSION = "0.6.0"
 EMAIL = "info@pyexcel.org"
 LICENSE = "New BSD"
 DESCRIPTION = (
@@ -60,14 +63,13 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3.4",
     "Programming Language :: Python :: 3.5",
     "Programming Language :: Python :: 3.6",
-
     "Programming Language :: Python :: 3.7",
-
     "Programming Language :: Python :: 3.8",
 
     'Development Status :: 3 - Alpha',
     'Programming Language :: Python :: Implementation :: PyPy'
 ]
+
 
 INSTALL_REQUIRES = [
     "lml>=0.0.4",
@@ -75,18 +77,7 @@ INSTALL_REQUIRES = [
 ]
 SETUP_COMMANDS = {}
 
-if PY2:
-    INSTALL_REQUIRES.append('texttable>=0.8.1')
-if not PY2:
-    INSTALL_REQUIRES.append('texttable>=0.8.2')
-if PY26:
-    INSTALL_REQUIRES.append('ordereddict')
-if PY26:
-    INSTALL_REQUIRES.append('weakrefset')
-if platform.python_implementation == "PyPy":
-    INSTALL_REQUIRES.append('lxml>=3.4.4')
-
-PACKAGES = find_packages(exclude=["ez_setup", "examples", "tests"])
+PACKAGES = find_packages(exclude=["ez_setup", "examples", "tests", "tests.*"])
 EXTRAS_REQUIRE = {
     "xls": ['pyexcel-xls>=0.5.0'],
     "xlsx": ['pyexcel-xlsx>=0.5.0'],

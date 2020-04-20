@@ -1,3 +1,17 @@
+What's breaking in 0.6.0
+================================================================================
+
+In the following statements::
+
+    sheet_a = sheet.row + rows
+    sheet_b = sheet.column + columns
+    book = sheet_a + sheet_b
+
+`sheet_a` and `sheet_b` will no longer have access to the data of `sheet`. `book`
+will no longer have access to the data of `sheet_a` and `sheet_b`.
+
+Under Hyrum's Law, this enhancement in 0.6.0 will cause breakage otherwise.
+
 What's breaking in 0.5.9
 ================================================================================
 
