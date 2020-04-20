@@ -9,7 +9,7 @@ python:
   - 3.6
 matrix:
   include:
-    - python: 2.7
+    - python: 3.6
       env: MINREQ=1
 
 stages:
