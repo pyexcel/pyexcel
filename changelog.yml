@@ -4,6 +4,13 @@ releases:
 - changes:
   - action: updated
     details:
+    - "`#199`: += in place; = + shall return new instance"
+    - "Dropping the test support for python version lower than 3.6."
+  version: 0.6.0
+  date: tbd
+- changes:
+  - action: updated
+    details:
     - "`#185`: fix a bug with http data source. The real fix lies in pyexcel-io v0.5.19. this release just put the version requirement in."
   version: 0.5.15
   date: 07.07.2019

@@ -4,7 +4,7 @@ import pyexcel as pe
 from base import PyexcelMultipleSheetBase, clean_up_files, create_sample_file1
 from _compact import OrderedDict
 
-from nose.tools import raises
+from nose.tools import eq_, raises
 
 
 class TestXlsNXlsmMultipleSheets(PyexcelMultipleSheetBase):
@@ -446,12 +446,8 @@ class TestAddBooks:
         """
         b1 = pe.BookReader(self.testfile)
         b3 = b1["Sheet1"] + b1["Sheet1"]
-        content = b3.dict
-        sheet_names = content.keys()
-        assert len(sheet_names) == 2
-        for name in sheet_names:
-            if "Sheet1" in name:
-                assert content[name] == self.content["Sheet1"]
+        b3["Sheet1"].row[0] = [3, 3, 3, 3]
+        eq_(b1["Sheet1"].row[0], [1, 1, 1, 1])
 
     @raises(TypeError)
     def test_add_book_error(self):

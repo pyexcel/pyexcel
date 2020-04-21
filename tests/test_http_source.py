@@ -15,7 +15,7 @@ class TestHttpBookSource(TestCase):
         if PY2:
             io = StringIO("1,2,3")
         else:
-            io = BytesIO("1,2,3".encode('utf-8'))
+            io = BytesIO("1,2,3".encode("utf-8"))
         io.info = self.mocked_info
         mock_open.return_value = io
 

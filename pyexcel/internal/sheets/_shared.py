@@ -28,7 +28,7 @@ class CommonPropertyAmongRowNColumn(object):
         raise NotImplementedError("Not implemented")
 
     def __add__(self, other):
-        """Overload += sign
+        """Overload + sign
 
         :return: self
         """

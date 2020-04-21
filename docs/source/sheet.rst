@@ -398,11 +398,34 @@ Here is the example code to append two extra columns:
    ...    [12, 15]
    ... ]
    >>> sheet2 = pyexcel.Sheet(extra_data)
-   >>> sheet.column += sheet2
-   >>> sheet.column["Column 4"]
+   >>> sheet3 = sheet.column + sheet2
+   >>> sheet3.column["Column 4"]
    [10, 11, 12]
-   >>> sheet.column["Column 5"]
+   >>> sheet3.column["Column 5"]
    [13, 14, 15]
+
+Please note above column plus statement will not update original `sheet` instance, as
+pyexcel user demanded:
+
+.. code-block:: python
+
+    >>> sheet
+    pyexcel sheet:
+    +----------+----------+
+    | Column 1 | Column 3 |
+    +==========+==========+
+    | 1        | 7        |
+    +----------+----------+
+    | 2        | 8        |
+    +----------+----------+
+    | 3        | 9        |
+    +----------+----------+
+
+So, to change orginal `sheet` instance, you can elect to do:
+
+.. code-block:: python
+
+   >>> sheet.column += sheet2                
 
 Here is what you will get:
 
