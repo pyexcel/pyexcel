@@ -5,7 +5,7 @@
     Export data into texttable format. It also serves the default
     presentation of pyexcel sheet and book.
 
-    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
 from types import GeneratorType

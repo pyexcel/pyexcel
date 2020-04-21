@@ -4,7 +4,7 @@
 
     Defintion for the shared objects
 
-    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
 NO_COLUMN_NAMES = "Only sheet with column names is accepted"

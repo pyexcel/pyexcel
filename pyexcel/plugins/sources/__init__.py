@@ -4,7 +4,7 @@
 
     A list of built-in sources
 
-    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
 from pyexcel.plugins import PyexcelPluginChain
