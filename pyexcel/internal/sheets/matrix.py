@@ -851,7 +851,7 @@ def _add(name, left, right):
     content = {}
     content[name] = left
     if isinstance(right, Book):
-        right_in_dict = right.to_dict()
+        right_in_dict = copy.deepcopy(right.to_dict())
         for key in right_in_dict.keys():
             new_key = key
             if len(right_in_dict.keys()) == 1:
@@ -865,7 +865,7 @@ def _add(name, left, right):
         if new_key in content:
             uid = local_uuid()
             new_key = "%s_%s" % (right.name, uid)
-        content[new_key] = right.get_internal_array()
+        content[new_key] = copy.deepcopy(right.get_internal_array())
     else:
         raise TypeError
     new_book = Book()

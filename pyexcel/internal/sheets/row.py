@@ -8,6 +8,7 @@
     :license: New BSD License
 """
 import types
+import copy
 
 import pyexcel._compact as compact
 
@@ -210,11 +211,11 @@ class Row(utils.CommonPropertyAmongRowNColumn):
         :return: self
         """
         if isinstance(other, compact.OrderedDict):
-            self._ref.extend_rows(other)
+            self._ref.extend_rows(copy.deepcopy(other))
         elif isinstance(other, list):
-            self._ref.extend_rows(other)
+            self._ref.extend_rows(copy.deepcopy(other))
         elif hasattr(other, "get_internal_array"):
-            self._ref.extend_rows(other.get_internal_array())
+            self._ref.extend_rows(copy.deepcopy(other.get_internal_array()))
         else:
             raise TypeError
         return self
@@ -226,11 +227,11 @@ class Row(utils.CommonPropertyAmongRowNColumn):
         """
         new_instance = self._ref.clone()
         if isinstance(other, compact.OrderedDict):
-            new_instance.extend_rows(other)
+            new_instance.extend_rows(copy.deepcopy(other))
         elif isinstance(other, list):
-            new_instance.extend_rows(other)
+            new_instance.extend_rows(copy.deepcopy(other))
         elif hasattr(other, "get_internal_array"):
-            new_instance.extend_rows(other.get_internal_array())
+            new_instance.extend_rows(copy.deepcopy(other.get_internal_array()))
         else:
             raise TypeError
         return new_instance
