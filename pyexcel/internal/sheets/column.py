@@ -4,11 +4,12 @@
 
     Generic table column
 
-    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
-import types
 import copy
+import types
+
 import pyexcel._compact as compact
 
 from . import _shared as utils
@@ -254,7 +255,9 @@ class Column(utils.CommonPropertyAmongRowNColumn):
         elif isinstance(other, list):
             self._ref.extend_columns(copy.deepcopy(other))
         elif hasattr(other, "get_internal_array"):
-            self._ref.extend_columns_with_rows(copy.deepcopy(other.get_internal_array()))
+            self._ref.extend_columns_with_rows(
+                copy.deepcopy(other.get_internal_array())
+            )
         else:
             raise TypeError
 
@@ -271,7 +274,8 @@ class Column(utils.CommonPropertyAmongRowNColumn):
             new_instance.extend_columns(copy.deepcopy(other))
         elif hasattr(other, "get_internal_array"):
             new_instance.extend_columns_with_rows(
-                copy.deepcopy(other.get_internal_array()))
+                copy.deepcopy(other.get_internal_array())
+            )
         else:
             raise TypeError
 
