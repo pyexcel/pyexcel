@@ -871,4 +871,3 @@ def _add(name, left, right):
     new_book = Book()
     new_book.load_from_sheets(content)
     return new_book
-    
