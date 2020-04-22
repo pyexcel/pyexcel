@@ -40,7 +40,7 @@ DESCRIPTION = (
     + "data in different excel formats"
 )
 URL = "https://github.com/pyexcel/pyexcel"
-DOWNLOAD_URL = "%s/archive/0.5.15.tar.gz" % URL
+DOWNLOAD_URL = "%s/archive/0.6.0.tar.gz" % URL
 FILES = ["README.rst", "CHANGELOG.rst"]
 KEYWORDS = ["python", "tsv", "tsvz" "csv", "csvz", "xls", "xlsx", "ods"]
 
@@ -48,18 +48,14 @@ CLASSIFIERS = [
     "Topic :: Software Development :: Libraries",
     "Programming Language :: Python",
     "Intended Audience :: Developers",
-    "Programming Language :: Python :: 2.6",
-    "Programming Language :: Python :: 2.7",
-    "Programming Language :: Python :: 3.3",
-    "Programming Language :: Python :: 3.4",
-    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Development Status :: 3 - Alpha",
-    "Programming Language :: Python :: Implementation :: PyPy",
 ]
 
+PYTHON_REQUIRES = ">=3.6"
 
 INSTALL_REQUIRES = ["lml>=0.0.4", "pyexcel-io>=0.5.19"]
 SETUP_COMMANDS = {}
@@ -74,9 +70,7 @@ EXTRAS_REQUIRE = {
 PUBLISH_COMMAND = "{0} setup.py sdist bdist_wheel upload -r pypi".format(
     sys.executable
 )
-GS_COMMAND = (
-    "gs pyexcel v0.5.15 " + "Find 0.5.15 in changelog for more details"
-)
+GS_COMMAND = "gs pyexcel v0.6.0 " + "Find 0.6.0 in changelog for more details"
 NO_GS_MESSAGE = (
     "Automatic github release is disabled. "
     + "Please install gease to enable it."
@@ -198,6 +192,7 @@ if __name__ == "__main__":
         long_description=read_files(*FILES),
         license=LICENSE,
         keywords=KEYWORDS,
+        python_requires=PYTHON_REQUIRES,
         extras_require=EXTRAS_REQUIRE,
         tests_require=["nose"],
         install_requires=INSTALL_REQUIRES,
