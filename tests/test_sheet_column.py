@@ -1,7 +1,7 @@
 from pyexcel import Sheet
 from _compact import OrderedDict
 
-from nose.tools import eq_, raises
+from nose.tools import eq_, raises, assert_not_in
 
 
 class TestSheetColumn:
@@ -33,11 +33,20 @@ class TestSheetColumn:
         eq_(s.column["Column 1"], ["1", "4", "7"])
         eq_(s.column["Column 3"], ["3", "6", "9"])
 
+    @raises(AttributeError)
     def test_add(self):
         s = Sheet(self.data, "test")
         s.name_columns_by_row(0)
         data = OrderedDict({"Column 4": [10, 11, 12]})
-        s = s.column + data
+        s1 = s.column + data
+        eq_(s1.column.Column_4, [10, 11, 12])
+        eq_(s.column.Column_4, [10, 11, 12])
+
+    def test_iadd(self):
+        s = Sheet(self.data, "test")
+        s.name_columns_by_row(0)
+        data = OrderedDict({"Column 4": [10, 11, 12]})
+        s.column += data
         eq_(s.column.Column_4, [10, 11, 12])
 
     @raises(TypeError)
@@ -132,7 +141,15 @@ class TestSheetColumn2:
         s = Sheet(self.data, "test")
         s.name_columns_by_row(2)
         data = OrderedDict({"Column 4": [10, 11, 12]})
-        s = s.column + data
+        s1 = s.column + data
+        eq_(s1.column["Column 4"], [10, 11, 12])
+        assert_not_in("Column 4", s.column)
+
+    def test_iadd(self):
+        s = Sheet(self.data, "test")
+        s.name_columns_by_row(2)
+        data = OrderedDict({"Column 4": [10, 11, 12]})
+        s.column += data
         assert s.column["Column 4"] == [10, 11, 12]
 
     def test_dot_notation(self):

@@ -1,10 +1,10 @@
 overrides: "pyexcel.yaml"
 name: "pyexcel"
 nick_name: pyexcel
-version: 0.5.15
-current_version: 0.5.15
-release: 0.5.15
-copyright_year: 2014-2019
+version: 0.6.0
+current_version: 0.6.0
+release: 0.6.0
+copyright_year: 2014-2020
 branch: master
 is_on_conda: true
 moban_command: false
@@ -31,3 +31,5 @@ extra_dependencies:
   - ods:
     - pyexcel-ods3>=0.5.0
 description: A wrapper library that provides one API to read, manipulate and write data in different excel formats
+python_requires: ">=3.6"
+min_python_version: "3.6"

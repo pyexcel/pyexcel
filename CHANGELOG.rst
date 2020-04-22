@@ -1,6 +1,22 @@
 Change log
 ================================================================================
 
+0.6.0 - 21.04.2020
+--------------------------------------------------------------------------------
+
+**updated**
+
+#. `#199 <https://github.com/pyexcel/pyexcel/issues/199>`_: += in place; = +
+   shall return new instance
+#. `#195 <https://github.com/pyexcel/pyexcel/issues/195>`_: documentation
+   update. however small is welcome
+
+**removed**
+
+#. Dropping the test support for python version lower than 3.6. v0.6.0 should
+   work with python 2.7 but is not guaranteed to work. Please upgrade to python
+   3.6+.
+
 0.5.15 - 07.07.2019
 --------------------------------------------------------------------------------
 

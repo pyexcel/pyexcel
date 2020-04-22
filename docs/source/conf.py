@@ -23,12 +23,12 @@ DESCRIPTION = (
 # -- Project information -----------------------------------------------------
 
 project = 'pyexcel'
-copyright = '2014-2019 Onni Software Ltd.'
+copyright = '2014-2020 Onni Software Ltd.'
 author = 'C.W.'
 # The short X.Y version
-version = '0.5.15'
+version = '0.6.0'
 # The full version, including alpha/beta/rc tags
-release = '0.5.15'
+release = '0.6.0'
 
 # -- General configuration ---------------------------------------------------
 
@@ -72,8 +72,6 @@ html_static_path = ['_static']
 intersphinx_mapping = {'https://docs.python.org/3/': None}
 # TODO: html_theme not configurable upstream
 html_theme = 'default'
-
-
 def setup(app):
     app.add_stylesheet('theme_overrides.css')
 
@@ -90,5 +88,4 @@ texinfo_documents = [
 intersphinx_mapping.update({
     'xlrd': ('http://xlrd.readthedocs.io/en/latest/', None)
 })
-
 master_doc = "index"

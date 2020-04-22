@@ -4,9 +4,10 @@
 
     Generic table row
 
-    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
+import copy
 import types
 
 import pyexcel._compact as compact
@@ -210,14 +211,30 @@ class Row(utils.CommonPropertyAmongRowNColumn):
         :return: self
         """
         if isinstance(other, compact.OrderedDict):
-            self._ref.extend_rows(other)
+            self._ref.extend_rows(copy.deepcopy(other))
         elif isinstance(other, list):
-            self._ref.extend_rows(other)
+            self._ref.extend_rows(copy.deepcopy(other))
         elif hasattr(other, "get_internal_array"):
-            self._ref.extend_rows(other.get_internal_array())
+            self._ref.extend_rows(copy.deepcopy(other.get_internal_array()))
         else:
             raise TypeError
         return self
+
+    def __add__(self, other):
+        """Overload + sign
+
+        :return: new instance
+        """
+        new_instance = self._ref.clone()
+        if isinstance(other, compact.OrderedDict):
+            new_instance.extend_rows(copy.deepcopy(other))
+        elif isinstance(other, list):
+            new_instance.extend_rows(copy.deepcopy(other))
+        elif hasattr(other, "get_internal_array"):
+            new_instance.extend_rows(copy.deepcopy(other.get_internal_array()))
+        else:
+            raise TypeError
+        return new_instance
 
     def format(self, row_index=None, formatter=None, format_specs=None):
         """Format a row

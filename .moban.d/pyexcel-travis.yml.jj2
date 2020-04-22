@@ -2,12 +2,17 @@
 {%block extra_matrix %}
 matrix:
   include:
-    - python: 2.7
+    - python: 3.6
       env: MINREQ=1
 {%endblock%}
 {%block custom_install%}
   - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then rm tests/test_examples.py; fi
 {%endblock%}
-
+{%block custom_python_versions%}
+python:
+  - 3.8
+  - 3.7
+  - 3.6
+{%endblock%}
 {%block pypi_deployment%}
 {%endblock %}

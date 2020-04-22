@@ -40,18 +40,27 @@ On Windows systems, please issue this command::
 
     > test.bat
 
-How to update test environment and update documentation
+
+Before you commit
+------------------------------
+
+Please run::
+
+    $ make format
+
+so as to beautify your code otherwise travis-ci may fail your unit test.
+
+
+And make sure you would have run moban command
 ---------------------------------------------------------
 
 Additional steps are required:
 
 #. pip install moban
 #. make your changes in `.moban.d` directory, then issue command `moban`
+#. moban
 
-What is pyexcel-commons
----------------------------------
-
-Many information that are shared across pyexcel projects, such as: this developer guide, license info, etc. are stored in `pyexcel-commons` project.
+otherwise travis-ci may also fail your unit test.
 
 What is .moban.d
 ---------------------------------

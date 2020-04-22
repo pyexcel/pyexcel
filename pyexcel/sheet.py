@@ -81,7 +81,8 @@ class Sheet(Matrix):
         """
         self.__column_names = []
         self.__row_names = []
-        self.__row_index = 0
+        self.__row_index = -1
+        self.__column_index = -1
         self.init(
             sheet=sheet,
             name=name,
@@ -161,6 +162,16 @@ class Sheet(Matrix):
         if transpose_after:
             self.transpose()
 
+    def clone(self):
+        import copy
+
+        new_sheet = Sheet(
+            copy.deepcopy(self.get_internal_array()),
+            name_columns_by_row=self.__row_index,
+            name_rows_by_column=self.__column_index,
+        )
+        return new_sheet
+
     def transpose(self):
         self.__column_names, self.__row_names = (
             self.__row_names,
@@ -184,6 +195,7 @@ class Sheet(Matrix):
         The specified column will be deleted from the data
         :param column_index: the index of the column that has the row names
         """
+        self.__column_index = column_index
         self.__row_names = make_names_unique(self.column_at(column_index))
         del self.column[column_index]
 

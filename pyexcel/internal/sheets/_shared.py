@@ -4,7 +4,7 @@
 
     Locally shared utility functions
 
-    :copyright: (c) 2015-2017 by Onni Software Ltd.
+    :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
 import re
@@ -28,7 +28,7 @@ class CommonPropertyAmongRowNColumn(object):
         raise NotImplementedError("Not implemented")
 
     def __add__(self, other):
-        """Overload += sign
+        """Overload + sign
 
         :return: self
         """

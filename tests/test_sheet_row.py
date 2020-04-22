@@ -1,7 +1,7 @@
 from pyexcel import Sheet
 from _compact import OrderedDict
 
-from nose.tools import eq_, raises
+from nose.tools import eq_, raises, assert_not_in
 
 
 class TestSheetRow:
@@ -72,7 +72,15 @@ class TestSheetRow:
         s = Sheet(self.data, "test")
         s.name_rows_by_column(0)
         data = OrderedDict({"Row 5": [10, 11, 12]})
-        s = s.row + data
+        s1 = s.row + data
+        assert s1.row["Row 5"] == [10, 11, 12]
+        assert_not_in("Row 5", s.row)
+
+    def test_iadd(self):
+        s = Sheet(self.data, "test")
+        s.name_rows_by_column(0)
+        data = OrderedDict({"Row 5": [10, 11, 12]})
+        s.row += data
         assert s.row["Row 5"] == [10, 11, 12]
 
     def test_dot_notation(self):
