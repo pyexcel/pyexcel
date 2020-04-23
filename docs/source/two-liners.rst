@@ -288,3 +288,10 @@ Again let's verify what we have gotten:
    +-------+--------+----------+
    | Smith | 4.2    | 12/11/14 |
    +-------+--------+----------+
+
+.. testcode::
+   :hide:
+
+   >>> import os
+   >>> os.unlink('ccs.csv')
+   >>> os.unlink('book.xls')

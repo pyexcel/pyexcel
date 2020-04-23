@@ -43,4 +43,6 @@ Gantt chart visualization for your excel data
 .. _pyexcel-echarts: https://github.com/pyexcel-renderers/pyexcel-echarts
 .. _pyexcel-matplotlib: https://github.com/pyexcel-renderers/pyexcel-matplotlib
 .. _sphinxcontrib-excel: https://github.com/pyexcel-renderers/sphinxcontrib-excel
+.. _pyexcel-gantt: https://github.com/pyexcel-renderers/pyexcel-gantt
+
 
