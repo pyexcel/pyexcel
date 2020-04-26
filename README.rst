@@ -175,7 +175,7 @@ Advanced usage :fire:
 
 If you are dealing with big data, please consider these usages:
 
-.. code-block: python
+.. code-block:: python
 
    >>> def increase_everyones_age(generator):
    ...     for row in generator:
@@ -199,6 +199,7 @@ If you are dealing with big data, please consider these usages:
    27,Dean
    27,Dean
    <BLANKLINE>
+
 
 Two advantages of above method:
 
