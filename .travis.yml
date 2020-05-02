@@ -21,6 +21,8 @@ stages:
   git:
     submodules: false
   python: 3.6
+  env:
+    - MINREQ=0
   stage: lint
   script: make lint
 

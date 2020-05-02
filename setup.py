@@ -57,7 +57,7 @@ CLASSIFIERS = [
 
 PYTHON_REQUIRES = ">=3.6"
 
-INSTALL_REQUIRES = ["lml>=0.0.4", "pyexcel-io>=0.5.19"]
+INSTALL_REQUIRES = ["lml>=0.0.4", "pyexcel-io>=0.5.19", "texttable>=0.8.2"]
 SETUP_COMMANDS = {}
 
 PACKAGES = find_packages(exclude=["ez_setup", "examples", "tests", "tests.*"])
