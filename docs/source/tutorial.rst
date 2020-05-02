@@ -515,3 +515,4 @@ Do you want to flatten the data? You can get the content in one dimensional arra
    >>> os.unlink("output.csv")
    >>> os.unlink("example.xls")
    >>> os.unlink("example_series.xls")
+   >>> os.unlink("tutorial.csv")

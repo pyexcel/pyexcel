@@ -32,7 +32,7 @@ except (ValueError, UnicodeError, locale.Error):
 
 NAME = "pyexcel"
 AUTHOR = "C.W."
-VERSION = "0.6.0"
+VERSION = "0.6.1"
 EMAIL = "info@pyexcel.org"
 LICENSE = "New BSD"
 DESCRIPTION = (
@@ -40,7 +40,7 @@ DESCRIPTION = (
     + "data in different excel formats"
 )
 URL = "https://github.com/pyexcel/pyexcel"
-DOWNLOAD_URL = "%s/archive/0.6.0.tar.gz" % URL
+DOWNLOAD_URL = "%s/archive/0.6.1.tar.gz" % URL
 FILES = ["README.rst", "CHANGELOG.rst"]
 KEYWORDS = ["python", "tsv", "tsvz" "csv", "csvz", "xls", "xlsx", "ods"]
 
@@ -57,7 +57,7 @@ CLASSIFIERS = [
 
 PYTHON_REQUIRES = ">=3.6"
 
-INSTALL_REQUIRES = ["lml>=0.0.4", "pyexcel-io>=0.5.19"]
+INSTALL_REQUIRES = ["lml>=0.0.4", "pyexcel-io>=0.5.19", "texttable>=0.8.2"]
 SETUP_COMMANDS = {}
 
 PACKAGES = find_packages(exclude=["ez_setup", "examples", "tests", "tests.*"])
@@ -70,7 +70,7 @@ EXTRAS_REQUIRE = {
 PUBLISH_COMMAND = "{0} setup.py sdist bdist_wheel upload -r pypi".format(
     sys.executable
 )
-GS_COMMAND = "gs pyexcel v0.6.0 " + "Find 0.6.0 in changelog for more details"
+GS_COMMAND = "gs pyexcel v0.6.1 " + "Find 0.6.1 in changelog for more details"
 NO_GS_MESSAGE = (
     "Automatic github release is disabled. "
     + "Please install gease to enable it."

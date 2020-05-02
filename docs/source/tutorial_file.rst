@@ -251,13 +251,13 @@ you'd better to have the following kind of data:
    :hide:
 
    >>> import os
-   >>> import pyexcel
+   >>> import pyexcel as pe
    >>> data = [
    ...      ["Row 1", 1, 2, 3],
    ...      ["Row 2", 4, 5, 6],
    ...      ["Row 3", 7, 8, 9],
    ...  ]
-   >>> pyexcel.save_as(array=data, dest_file_name="row_example.xls")
+   >>> pe.save_as(array=data, dest_file_name="row_example.xls")
 
 And then you want to update "Row 3" with for example::
 

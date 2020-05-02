@@ -1,9 +1,9 @@
 overrides: "pyexcel.yaml"
 name: "pyexcel"
 nick_name: pyexcel
-version: 0.6.0
-current_version: 0.6.0
-release: 0.6.0
+version: 0.6.1
+current_version: 0.6.1
+release: 0.6.1
 copyright_year: 2014-2020
 branch: master
 is_on_conda: true
@@ -18,11 +18,7 @@ sphinx_extensions:
 dependencies:
   - lml>=0.0.4
   - pyexcel-io>=0.5.19
-  - texttable>=0.8.1;python_version<"3"
-  - texttable>=0.8.2;python_version>="3"
-  - ordereddict;python_version<"2.7"
-  - weakrefset;python_version<"2.7"
-  - lxml>=3.4.4;platform_python_implementation=="PyPy"
+  - texttable>=0.8.2
 extra_dependencies:
   - xls:
     - pyexcel-xls>=0.5.0

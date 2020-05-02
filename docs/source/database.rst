@@ -77,4 +77,5 @@ Done it. It is that simple. Let's verify what has been imported to make sure.
    :hide:
 
    >>> session.close()
+   >>> os.unlink('birth.xls')
    >>> os.unlink('birth.db')

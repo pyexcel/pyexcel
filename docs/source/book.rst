@@ -64,11 +64,11 @@ And you can randomly access a cell in a sheet::
     1
 
 .. TIP::
-  With pyexcel, you can regard single sheet reader as an
-  two dimensional array and multi-sheet excel book reader
-  as a ordered dictionary of two dimensional arrays.
+  With pyexcel, you can regard single sheet as an
+  two dimensional array and multi-sheet excel book
+  as an ordered dictionary of two dimensional arrays.
 
-**Write multiple sheet excel file**
+**Write multiple sheet excel book**
 
 Suppose you have previous data as a dictionary and you want to 
 save it as multiple sheet excel file::

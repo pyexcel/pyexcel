@@ -1,6 +1,16 @@
 Change log
 ================================================================================
 
+0.6.1 - 2.05.2020
+--------------------------------------------------------------------------------
+
+**fixed**
+
+#. `#203 <https://github.com/pyexcel/pyexcel/issues/203>`_: texttable was
+   dropped out in 0.6.0 as compulsary dependency. end user may experience it
+   when a sheet/table is printed in a shell. otherwise, new user of pyexcel
+   won't see it. As of release date, no issues were created
+
 0.6.0 - 21.04.2020
 --------------------------------------------------------------------------------
 

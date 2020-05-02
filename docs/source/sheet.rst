@@ -1,6 +1,12 @@
 Sheet
 ==========
 
+The sheet api here is much less powerful than pandas DataFrame when the array is of
+significant size. With true honesty, pandas DataFrame is much more powerful and
+provide rich data manipulation apis. When would you consider the sheet api here?
+if your data manipulation steps are not complex, you could elect to use.
+
+
 Random access
 -----------------
 
@@ -204,21 +210,6 @@ You can get columns in reverse sequence as well by calling
 
     >>> list(sheet.rcolumns())
     [[3, 6, 9], [2, 5, 8], [1, 4, 7]]
-
-Do you want to flatten the data? You can get the content in one
-dimensional array. If you are interested in playing with one
-dimensional enumeration, you can check out these functions
-:meth:`~pyexcel.Sheet.enumerate`, :meth:`~pyexcel.Sheet.reverse`,
-:meth:`~pyexcel.Sheet.vertical`, and :meth:`~pyexcel.Sheet.rvertical()`::
-
-    >>> list(sheet.enumerate())
-    [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    >>> list(sheet.reverse())
-    [9, 8, 7, 6, 5, 4, 3, 2, 1]
-    >>> list(sheet.vertical())
-    [1, 4, 7, 2, 5, 8, 3, 6, 9]
-    >>> list(sheet.rvertical())
-    [9, 6, 3, 8, 5, 2, 7, 4, 1]
 
 
 **attributes**
