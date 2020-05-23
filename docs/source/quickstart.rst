@@ -146,20 +146,20 @@ Suppose you have a multiple sheet book as the following:
 
 .. pyexcel-table::
 
----pyexcel:Sheet 1---
-1,2,3
-4,5,6
-7,8,9
----pyexcel---
----pyexcel:Sheet 2---
-X,Y,Z
-1,2,3
-4,5,6
----pyexcel---
----pyexcel:Sheet 3---
-O,P,Q
-3,2,1
-4,3,2
+   ---pyexcel:Sheet 1---
+   1,2,3
+   4,5,6
+   7,8,9
+   ---pyexcel---
+   ---pyexcel:Sheet 2---
+   X,Y,Z
+   1,2,3
+   4,5,6
+   ---pyexcel---
+   ---pyexcel:Sheet 3---
+   O,P,Q
+   3,2,1
+   4,3,2
 
 
 Here is the code to obtain those sheets as a single dictionary:
