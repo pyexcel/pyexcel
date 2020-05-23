@@ -108,6 +108,7 @@ Suppose you want to process the :download:`following coffee data <coffee.csv>` (
 
 
 Top 5 coffeine drinks:
+
 =====================================  ===============  =============
 Coffees                                Serving Size     Caffeine (mg)
 Starbucks Coffee Blonde Roast          venti(20 oz)     475
@@ -117,11 +118,15 @@ Panera Coffee Light Roast              regular(16 oz.)  300
 =====================================  ===============  =============
 
 
-Let's get a list of dictionary out from the xls file::
+Let's get a list of dictionary out from the xls file:
+
+.. code-block:: python
    
    >>> records = p.get_records(file_name="your_file.xls")
 
-And let's check what do we have::
+And let's check what do we have:
+
+.. code-block:: python
 
    >>> for record in records:
    ...     print("%s of %s has %s mg" % (
@@ -139,6 +144,8 @@ Get two dimensional array
 
 Instead, what if you have to use :meth:`pyexcel.get_array` to do the same:
 
+.. code-block:: python
+
    >>> for row in p.get_array(file_name="your_file.xls", start_row=1):
    ...     print("%s of %s has %s mg" % (
    ...         row[1],
@@ -148,6 +155,7 @@ Instead, what if you have to use :meth:`pyexcel.get_array` to do the same:
    large(20 oz.) of Dunkin' Donuts Coffee with Turbo Shot has 398 mg
    grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg
    regular(16 oz.) of Panera Coffee Light Roast has 300 mg
+
 
 where `start_row` skips the header row.
 
@@ -163,7 +171,9 @@ Now let's get a dictionary out from the spreadsheet:
     
    >>> my_dict = p.get_dict(file_name="your_file.xls", name_columns_by_row=0)
 
-And check what do we have::
+And check what do we have:
+
+.. code-block:: python
 
    >>> from pyexcel._compact import OrderedDict
    >>> isinstance(my_dict, OrderedDict)
@@ -184,14 +194,15 @@ Suppose you have a multiple sheet book as the following:
 
 
 pyexcel:Sheet 1:
+
 =====================  =  =
 1                      2  3
 4                      5  6
 7                      8  9
 =====================  =  =
 
-
 pyexcel:Sheet 2:
+
 =====================  =  =
 X                      Y  Z
 1                      2  3
@@ -199,6 +210,7 @@ X                      Y  Z
 =====================  =  =
 
 pyexcel:Sheet 3:
+
 =====================  =  =
 O                      P  Q
 3                      2  1
@@ -206,11 +218,16 @@ O                      P  Q
 =====================  =  =
 
 
-Here is the code to obtain those sheets as a single dictionary::
+Here is the code to obtain those sheets as a single dictionary:
+
+.. code-block:: python
 
    >>> book_dict = p.get_book_dict(file_name="book.xls")
 
-And check::
+And check:
+
+.. code-block:: python
+
    >>> isinstance(book_dict, OrderedDict)
    True
    >>> import json
@@ -227,15 +244,21 @@ Data export in one line
 Export an array
 **********************
 
-Suppose you have the following array::
+Suppose you have the following array:
+
+.. code-block:: python
 
    >>> data = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
-And here is the code to save it as an excel file ::
+And here is the code to save it as an excel file :
+
+.. code-block:: python
 
    >>> p.save_as(array=data, dest_file_name="example.xls")
 
-Let's verify it::
+Let's verify it:
+
+.. code-block:: python
 
     >>> p.get_sheet(file_name="example.xls")
     pyexcel_sheet1:
@@ -248,13 +271,17 @@ Let's verify it::
     +---+---+---+
 
 
-And here is the code to save it as a csv file ::
+And here is the code to save it as a csv file :
+
+.. code-block:: python
 
    >>> p.save_as(array=data,
    ...           dest_file_name="example.csv",
    ...           dest_delimiter=':')
 
-Let's verify it::
+Let's verify it:
+
+.. code-block:: python
 
    >>> with open("example.csv") as f:
    ...     for line in f.readlines():
@@ -267,7 +294,7 @@ Let's verify it::
 Export a list of dictionaries
 **********************************
 
-::
+.. code-block:: python
 
     >>> records = [
     ...     {"year": 1903, "country": "Germany", "speed": "206.7km/h"},
@@ -280,7 +307,7 @@ Export a list of dictionaries
 Export a dictionary of single key value pair
 ********************************************************************************
 
-::
+.. code-block:: python
 
     >>> henley_on_thames_facts = {
     ...     "area": "5.58 square meters",
@@ -295,6 +322,8 @@ Export a dictionary of single key value pair
 Export a dictionary of single dimensonal array
 ********************************************************************************
 
+.. code-block:: python
+
     >>> ccs_insights = {
     ...     "year": ["2017", "2018", "2019", "2020", "2021"],
     ...     "smart phones": [1.53, 1.64, 1.74, 1.82, 1.90],
@@ -306,8 +335,10 @@ Export a dictionary of single dimensonal array
 Export a dictionary of two dimensional array as a book
 ********************************************************************************
 
-Suppose you want to save the below dictionary to an excel file ::
-  
+Suppose you want to save the below dictionary to an excel file :
+
+.. code-block:: python
+
    >>> a_dictionary_of_two_dimensional_arrays = {
    ...      'Sheet 1':
    ...          [
@@ -329,7 +360,9 @@ Suppose you want to save the below dictionary to an excel file ::
    ...          ]
    ...  }
 
-Here is the code::
+Here is the code:
+
+.. code-block:: python
 
    >>> p.save_book_as(
    ...    bookdict=a_dictionary_of_two_dimensional_arrays,
@@ -337,7 +370,9 @@ Here is the code::
    ... )
 
 If you want to preserve the order of sheets in your dictionary, you have to
-pass on an ordered dictionary to the function itself. For example::
+pass on an ordered dictionary to the function itself. For example:
+
+.. code-block:: python
 
    >>> data = OrderedDict()
    >>> data.update({"Sheet 2": a_dictionary_of_two_dimensional_arrays['Sheet 2']})
@@ -345,7 +380,9 @@ pass on an ordered dictionary to the function itself. For example::
    >>> data.update({"Sheet 3": a_dictionary_of_two_dimensional_arrays['Sheet 3']})
    >>> p.save_book_as(bookdict=data, dest_file_name="book.xls")
 
-Let's verify its order::
+Let's verify its order:
+
+.. code-block:: python
 
    >>> book_dict = p.get_book_dict(file_name="book.xls")
    >>> for key, item in book_dict.items():
@@ -367,11 +404,15 @@ File format transcoding on one line
    open your editor, save the problem, then python run.
 
 
-The following code does a simple file format transcoding from xls to csv::
+The following code does a simple file format transcoding from xls to csv:
+
+.. code-block:: python
 
    >>> p.save_as(file_name="birth.xls", dest_file_name="birth.csv")
 
 Again it is really simple. Let's verify what we have gotten:
+
+.. code-block:: python
 
    >>> sheet = p.get_sheet(file_name="birth.csv")
    >>> sheet
@@ -391,10 +432,14 @@ Again it is really simple. Let's verify what we have gotten:
 
 Let use previous example and save it as xlsx instead
 
+.. code-block:: python
+
    >>> p.save_as(file_name="birth.xls",
    ...           dest_file_name="birth.xlsx") # change the file extension
 
 Again let's verify what we have gotten:
+
+.. code-block:: python
 
    >>> sheet = p.get_sheet(file_name="birth.xlsx")
    >>> sheet
@@ -414,7 +459,9 @@ Excel book merge and split operation in one line
 Merge all excel files in directory into  a book where each file become a sheet
 ********************************************************************************
 
-The following code will merge every excel files into one file, say "output.xls"::
+The following code will merge every excel files into one file, say "output.xls":
+
+.. code-block:: python
 
     from pyexcel.cookbook import merge_all_to_a_book
     import glob
@@ -422,7 +469,9 @@ The following code will merge every excel files into one file, say "output.xls":
 
     merge_all_to_a_book(glob.glob("your_csv_directory\*.csv"), "output.xls")
 
-You can mix and match with other excel formats: xls, xlsm and ods. For example, if you are sure you have only xls, xlsm, xlsx, ods and csv files in `your_excel_file_directory`, you can do the following::
+You can mix and match with other excel formats: xls, xlsm and ods. For example, if you are sure you have only xls, xlsm, xlsx, ods and csv files in `your_excel_file_directory`, you can do the following:
+
+.. code-block:: python
 
     from pyexcel.cookbook import merge_all_to_a_book
     import glob
@@ -434,7 +483,9 @@ Split a book into single sheet files
 ****************************************
 
 
-Suppose you have many sheets in a work book and you would like to separate each into a single sheet excel file. You can easily do this::
+Suppose you have many sheets in a work book and you would like to separate each into a single sheet excel file. You can easily do this:
+
+.. code-block:: python
 
    >>> from pyexcel.cookbook import split_a_book
    >>> split_a_book("megabook.xls", "output.xls")
@@ -454,7 +505,9 @@ Extract just one sheet from a book
 *************************************
 
 
-Suppose you just want to extract one sheet from many sheets that exists in a work book and you would like to separate it into a single sheet excel file. You can easily do this::
+Suppose you just want to extract one sheet from many sheets that exists in a work book and you would like to separate it into a single sheet excel file. You can easily do this:
+
+.. code-block:: python
 
     >>> from pyexcel.cookbook import extract_a_sheet_from_a_book
     >>> extract_a_sheet_from_a_book("megabook.xls", "Sheet 1", "output.xls")
