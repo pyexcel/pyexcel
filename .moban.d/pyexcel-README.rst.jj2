@@ -21,6 +21,8 @@ Feature Highlights
 
 {%include "one-liners.rst.jj2"%}
 
+{%include "two-liners.rst.jj2"%}
+
 Suppose you have the following data in a dictionary:
 
 ========= ====
