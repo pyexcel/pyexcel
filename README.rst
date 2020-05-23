@@ -61,6 +61,10 @@ Introduction
 Feature Highlights
 ===================
 
+.. image:: https://github.com/moremoban/yehua/raw/dev/docs/source/_static/images/architecture.svg
+   :width: 600px
+
+
 1. One application programming interface(API) to handle multiple data sources:
 
    * physical file
