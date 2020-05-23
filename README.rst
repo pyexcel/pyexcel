@@ -5,6 +5,9 @@ pyexcel - Let you focus on data, instead of file formats
 .. image:: https://raw.githubusercontent.com/pyexcel/pyexcel.github.io/master/images/patreon.png
    :target: https://www.patreon.com/chfw
 
+.. image:: https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg
+   :target: https://awesome-python.com/#specific-formats-processing
+
 .. image:: https://travis-ci.org/pyexcel/pyexcel.svg?branch=master
    :target: http://travis-ci.org/pyexcel/pyexcel
 
@@ -33,7 +36,7 @@ Support the project
 ================================================================================
 
 If your company has embedded pyexcel and its components into a revenue generating
-product, please support me on `patreon <https://www.patreon.com/bePatron?u=5537627>`_
+product, please support me on github, `patreon <https://www.patreon.com/bePatron?u=5537627>`_
 or `bounty source <https://salt.bountysource.com/teams/chfw-pyexcel>`_ to maintain
 the project and develop it further.
 
@@ -57,6 +60,9 @@ Introduction
 
 Feature Highlights
 ===================
+
+.. image:: https://github.com/pyexcel/pyexcel/raw/dev/docs/source/_static/images/architecture.svg
+
 
 1. One application programming interface(API) to handle multiple data sources:
 
