@@ -66,7 +66,7 @@ Feature Highlights
    * Django Model
    * Python data structures: dictionary, records and array
 2. One API to read and write data in various excel file formats.
-3. For large data sets, data streaming are supported. A genenerator can be returned to you. Checkout iget_records, iget_array, isave_as and isave_book_as. 
+3. For large data sets, data streaming are supported. A genenerator can be returned to you. Checkout iget_records, iget_array, isave_as and isave_book_as.
 
 
 
@@ -121,7 +121,7 @@ Panera Coffee Light Roast              regular(16 oz.)  300
 Let's get a list of dictionary out from the xls file:
 
 .. code-block:: python
-   
+
    >>> records = p.get_records(file_name="your_file.xls")
 
 And let's check what do we have:
@@ -168,7 +168,7 @@ You can get a dictionary too:
 Now let's get a dictionary out from the spreadsheet:
 
 .. code-block:: python
-    
+
    >>> my_dict = p.get_dict(file_name="your_file.xls", name_columns_by_row=0)
 
 And check what do we have:
@@ -548,7 +548,7 @@ Panera Coffee Light Roast              regular(16 oz.)  300
 
 
 Let's get a list of dictionary out from the xls file:
-   
+
 .. code-block:: python
 
    >>> records = p.iget_records(file_name="your_file.xls")
@@ -595,7 +595,7 @@ Again, do not forgot the second line:
 .. code-block:: python
 
    >>> p.free_resources()
-   
+
 where `start_row` skips the header row.
 
 Data export in one liners
@@ -613,7 +613,7 @@ Suppose you have the following array:
 And here is the code to save it as an excel file :
 
 .. code-block:: python
-                
+
    >>> p.isave_as(array=data, dest_file_name="example.xls")
 
 But the following line is not required because the data source
@@ -641,7 +641,7 @@ Let's verify it:
 And here is the code to save it as a csv file :
 
 .. code-block:: python
-                
+
    >>> p.isave_as(array=data,
    ...            dest_file_name="example.csv",
    ...            dest_delimiter=':')
@@ -649,7 +649,7 @@ And here is the code to save it as a csv file :
 Let's verify it:
 
 .. code-block:: python
-                
+
    >>> with open("example.csv") as f:
    ...     for line in f.readlines():
    ...         print(line.rstrip())
@@ -688,7 +688,7 @@ Export a dictionary of single dimensonal array
 ********************************************************************************
 
 .. code-block:: python
-               
+
     >>> ccs_insights = {
     ...     "year": ["2017", "2018", "2019", "2020", "2021"],
     ...     "smart phones": [1.53, 1.64, 1.74, 1.82, 1.90],
@@ -703,7 +703,7 @@ Export a dictionary of two dimensional array as a book
 Suppose you want to save the below dictionary to an excel file :
 
 .. code-block:: python
-                
+
    >>> a_dictionary_of_two_dimensional_arrays = {
    ...      'Sheet 1':
    ...          [
@@ -728,7 +728,7 @@ Suppose you want to save the below dictionary to an excel file :
 Here is the code:
 
 .. code-block:: python
-                
+
    >>> p.isave_book_as(
    ...    bookdict=a_dictionary_of_two_dimensional_arrays,
    ...    dest_file_name="book.xls"
@@ -750,7 +750,7 @@ pass on an ordered dictionary to the function itself. For example:
 Let's verify its order:
 
 .. code-block:: python
-                
+
    >>> import json
    >>> book_dict = p.get_book_dict(file_name="book.xls")
    >>> for key, item in book_dict.items():
@@ -775,14 +775,14 @@ File format transcoding on one line
 The following code does a simple file format transcoding from xls to csv:
 
 .. code-block:: python
-                
+
    >>> import pyexcel
    >>> p.save_as(file_name="birth.xls", dest_file_name="birth.csv")
 
 Again it is really simple. Let's verify what we have gotten:
 
 .. code-block:: python
-                
+
    >>> sheet = p.get_sheet(file_name="birth.csv")
    >>> sheet
    birth.csv:
@@ -802,7 +802,7 @@ Again it is really simple. Let's verify what we have gotten:
 Let use previous example and save it as xlsx instead
 
 .. code-block:: python
-                
+
    >>> import pyexcel
    >>> p.isave_as(file_name="birth.xls",
    ...            dest_file_name="birth.xlsx") # change the file extension
@@ -810,7 +810,7 @@ Let use previous example and save it as xlsx instead
 Again let's verify what we have gotten:
 
 .. code-block:: python
-                
+
    >>> sheet = p.get_sheet(file_name="birth.xlsx")
    >>> sheet
    pyexcel_sheet1:
@@ -823,117 +823,6 @@ Again let's verify what we have gotten:
    +-------+--------+----------+
 
 
-Suppose you have the following data in a dictionary:
-
-========= ====
-Name      Age
-========= ====
-Adam      28
-Beatrice  29
-Ceri      30
-Dean      26
-========= ====
-
-you can easily save it into an excel file using the following code:
-
-.. code-block:: python
-
-   >>> import pyexcel
-   >>> # make sure you had pyexcel-xls installed
-   >>> a_list_of_dictionaries = [
-   ...     {
-   ...         "Name": 'Adam',
-   ...         "Age": 28
-   ...     },
-   ...     {
-   ...         "Name": 'Beatrice',
-   ...         "Age": 29
-   ...     },
-   ...     {
-   ...         "Name": 'Ceri',
-   ...         "Age": 30
-   ...     },
-   ...     {
-   ...         "Name": 'Dean',
-   ...         "Age": 26
-   ...     }
-   ... ]
-   >>> pyexcel.save_as(records=a_list_of_dictionaries, dest_file_name="your_file.xls")
-
-And here's how to obtain the records:
-
-.. code-block:: python
-   
-   >>> import pyexcel as p
-   >>> records = p.iget_records(file_name="your_file.xls")
-   >>> for record in records:
-   ...     print("%s is aged at %d" % (record['Name'], record['Age']))
-   Adam is aged at 28
-   Beatrice is aged at 29
-   Ceri is aged at 30
-   Dean is aged at 26
-   >>> p.free_resources()
-
-
-Custom data rendering:
-
-.. code-block:: python
-
-    >>> # pip install pyexcel-text==0.2.7.1
-    >>> import pyexcel as p
-    >>> ccs_insight2 = p.Sheet()
-    >>> ccs_insight2.name = "Worldwide Mobile Phone Shipments (Billions), 2017-2021"
-    >>> ccs_insight2.ndjson = """
-    ... {"year": ["2017", "2018", "2019", "2020", "2021"]}
-    ... {"smart phones": [1.53, 1.64, 1.74, 1.82, 1.90]}
-    ... {"feature phones": [0.46, 0.38, 0.30, 0.23, 0.17]}
-    ... """.strip()
-    >>> ccs_insight2
-    pyexcel sheet:
-    +----------------+------+------+------+------+------+
-    | year           | 2017 | 2018 | 2019 | 2020 | 2021 |
-    +----------------+------+------+------+------+------+
-    | smart phones   | 1.53 | 1.64 | 1.74 | 1.82 | 1.9  |
-    +----------------+------+------+------+------+------+
-    | feature phones | 0.46 | 0.38 | 0.3  | 0.23 | 0.17 |
-    +----------------+------+------+------+------+------+
-
-
-Advanced usage :fire:
-----------------------
-
-If you are dealing with big data, please consider these usages:
-
-.. code-block:: python
-
-   >>> def increase_everyones_age(generator):
-   ...     for row in generator:
-   ...         row['Age'] += 1
-   ...         yield row
-   >>> def duplicate_each_record(generator):
-   ...     for row in generator:
-   ...         yield row
-   ...         yield row
-   >>> records = p.iget_records(file_name="your_file.xls")
-   >>> io=p.isave_as(records=duplicate_each_record(increase_everyones_age(records)),
-   ...     dest_file_type='csv', dest_lineterminator='\n')
-   >>> print(io.getvalue())
-   Age,Name
-   29,Adam
-   29,Adam
-   30,Beatrice
-   30,Beatrice
-   31,Ceri
-   31,Ceri
-   27,Dean
-   27,Dean
-   <BLANKLINE>
-
-
-Two advantages of above method:
-
-#. Add as many wrapping functions as you want.
-#. Constant memory consumption
 
 Available Plugins
 =================
@@ -1044,12 +933,6 @@ Acknowledgement
 All great work have been done by odf, ezodf, xlrd, xlwt, tabulate and other
 individual developers. This library unites only the data access code.
 
-
-.. testcode::
-   :hide:
-   
-   >>> import os
-   >>> os.unlink("your_file.xls")
 
 
 

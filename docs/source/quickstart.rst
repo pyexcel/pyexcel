@@ -43,7 +43,7 @@ Suppose you want to process the :download:`following coffee data <coffee.csv>` (
 Let's get a list of dictionary out from the xls file:
 
 .. code-block:: python
-   
+
    >>> records = p.get_records(file_name="your_file.xls")
 
 And let's check what do we have:
@@ -90,7 +90,7 @@ You can get a dictionary too:
 Now let's get a dictionary out from the spreadsheet:
 
 .. code-block:: python
-    
+
    >>> my_dict = p.get_dict(file_name="your_file.xls", name_columns_by_row=0)
 
 And check what do we have:
@@ -453,24 +453,24 @@ Split a book into single sheet files
    :hide:
 
     >>> content = {
-    ...     'Sheet 1': 
+    ...     'Sheet 1':
     ...         [
-    ...             [1.0, 2.0, 3.0], 
-    ...             [4.0, 5.0, 6.0], 
+    ...             [1.0, 2.0, 3.0],
+    ...             [4.0, 5.0, 6.0],
     ...             [7.0, 8.0, 9.0]
     ...         ],
-    ...     'Sheet 2': 
+    ...     'Sheet 2':
     ...         [
-    ...             ['X', 'Y', 'Z'], 
-    ...             [1.0, 2.0, 3.0], 
+    ...             ['X', 'Y', 'Z'],
+    ...             [1.0, 2.0, 3.0],
     ...             [4.0, 5.0, 6.0]
-    ...         ], 
-    ...     'Sheet 3': 
+    ...         ],
+    ...     'Sheet 3':
     ...         [
-    ...             ['O', 'P', 'Q'], 
-    ...             [3.0, 2.0, 1.0], 
+    ...             ['O', 'P', 'Q'],
+    ...             [3.0, 2.0, 1.0],
     ...             [4.0, 3.0, 2.0]
-    ...         ] 
+    ...         ]
     ... }
     >>> book = p.Book(content)
     >>> book.save_as("megabook.xls")
