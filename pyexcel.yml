@@ -8,6 +8,7 @@ copyright_year: 2014-2020
 branch: master
 is_on_conda: true
 moban_command: false
+setup_use_markers: true
 sphinx_extensions:
   - sphinx.ext.autosummary
   - sphinx.ext.autodoc
@@ -30,3 +31,4 @@ description: A wrapper library that provides one API to read, manipulate and wri
 python_requires: ">=3.6"
 min_python_version: "3.6"
 skip_readme: true
+
