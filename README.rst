@@ -61,7 +61,7 @@ Introduction
 Feature Highlights
 ===================
 
-.. image:: https://github.com/moremoban/yehua/raw/dev/docs/source/_static/images/architecture.svg
+.. image:: https://github.com/pyexcel/pyexcel/raw/dev/docs/source/_static/images/architecture.svg
    :width: 600px
 
 
