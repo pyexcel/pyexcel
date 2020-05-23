@@ -30,3 +30,5 @@ extra_dependencies:
 description: A wrapper library that provides one API to read, manipulate and write data in different excel formats
 python_requires: ">=3.6"
 min_python_version: "3.6"
+skip_readme: true
+
