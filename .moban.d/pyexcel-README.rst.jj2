@@ -6,7 +6,6 @@ Feature Highlights
 ===================
 
 .. image:: https://github.com/pyexcel/pyexcel/raw/dev/docs/source/_static/images/architecture.svg
-   :width: 600px
 
 
 1. One application programming interface(API) to handle multiple data sources:
