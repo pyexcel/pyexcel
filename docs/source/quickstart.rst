@@ -1,3 +1,4 @@
+
 One liners
 ================================================================================
 
@@ -25,7 +26,9 @@ Get a list of dictionaries
    >>> sheet = p.get_sheet(file_content=content, file_type='csv')
    >>> sheet.save_as("your_file.xls")
 
+
 Suppose you want to process the :download:`following coffee data <coffee.csv>` (data source `coffee chart <https://cspinet.org/eating-healthy/ingredients-of-concern/caffeine-chart>`_ on the center for science in the public interest):
+
 
 .. pyexcel-table::
 
@@ -35,6 +38,7 @@ Suppose you want to process the :download:`following coffee data <coffee.csv>` (
    Dunkin' Donuts Coffee with Turbo Shot,large(20 oz.),398
    Starbucks Coffee Pike Place Roast,grande(16 oz.),310
    Panera Coffee Light Roast,regular(16 oz.),300
+
 
 Let's get a list of dictionary out from the xls file::
    
@@ -127,24 +131,27 @@ Get a dictionary of two dimensional array
    >>> data.update({"Sheet 3": a_dictionary_of_two_dimensional_arrays['Sheet 3']})
    >>> p.save_book_as(bookdict=data, dest_file_name="book.xls")
 
+
 Suppose you have a multiple sheet book as the following:
+
 
 .. pyexcel-table::
 
-   ---pyexcel:Sheet 1---
-   1,2,3
-   4,5,6
-   7,8,9
-   ---pyexcel---
-   ---pyexcel:Sheet 2---
-   X,Y,Z
-   1,2,3
-   4,5,6
-   ---pyexcel---
-   ---pyexcel:Sheet 3---
-   O,P,Q
-   3,2,1
-   4,3,2
+---pyexcel:Sheet 1---
+1,2,3
+4,5,6
+7,8,9
+---pyexcel---
+---pyexcel:Sheet 2---
+X,Y,Z
+1,2,3
+4,5,6
+---pyexcel---
+---pyexcel:Sheet 3---
+O,P,Q
+3,2,1
+4,3,2
+
 
 Here is the code to obtain those sheets as a single dictionary::
 
@@ -159,6 +166,7 @@ And check::
    {"Sheet 1": [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}
    {"Sheet 2": [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]}
    {"Sheet 3": [["O", "P", "Q"], [3, 2, 1], [4, 3, 2]]}
+
 
 .. testcode::
    :hide:
@@ -198,7 +206,6 @@ Let's verify it::
 
    >>> import os
    >>> os.unlink("example.xls")
-
 
 And here is the code to save it as a csv file ::
 
@@ -318,7 +325,6 @@ File format transcoding on one line
    install pyexcel-cli and you will do the transcode in one command. No need to
    open your editor, save the problem, then python run.
 
-
 .. testcode::
    :hide:
 
@@ -329,6 +335,7 @@ File format transcoding on one line
    ...    ["Smith", 4.2, datetime.date(2014, 11, 12)]
    ... ]
    >>> p.save_as(array=data, dest_file_name="birth.xls")
+
 
 The following code does a simple file format transcoding from xls to csv::
 
@@ -421,6 +428,7 @@ Split a book into single sheet files
     ... }
     >>> book = p.Book(content)
     >>> book.save_as("megabook.xls")
+
 
 Suppose you have many sheets in a work book and you would like to separate each into a single sheet excel file. You can easily do this::
 

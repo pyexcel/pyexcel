@@ -90,6 +90,7 @@ or clone it and install it:
     $ python setup.py install
 
 
+
 One liners
 ================================================================================
 
@@ -102,31 +103,19 @@ One liner to get data from the excel files
 Get a list of dictionaries
 ********************************************************************************
 
-.. testcode::
-   :hide:
-
-   >>> import os
-   >>> import pyexcel as p
-   >>> content="""
-   ... Coffees,Serving Size,Caffeine (mg)
-   ... Starbucks Coffee Blonde Roast,venti(20 oz),475
-   ... Dunkin' Donuts Coffee with Turbo Shot,large(20 oz.),398
-   ... Starbucks Coffee Pike Place Roast,grande(16 oz.),310
-   ... Panera Coffee Light Roast,regular(16 oz.),300
-   ... """.strip()
-   >>> sheet = p.get_sheet(file_content=content, file_type='csv')
-   >>> sheet.save_as("your_file.xls")
 
 Suppose you want to process the :download:`following coffee data <coffee.csv>` (data source `coffee chart <https://cspinet.org/eating-healthy/ingredients-of-concern/caffeine-chart>`_ on the center for science in the public interest):
 
-.. pyexcel-table::
 
-   ---pyexcel:Top 5 coffeine drinks---
-   Coffees,Serving Size,Caffeine (mg)
-   Starbucks Coffee Blonde Roast,venti(20 oz),475
-   Dunkin' Donuts Coffee with Turbo Shot,large(20 oz.),398
-   Starbucks Coffee Pike Place Roast,grande(16 oz.),310
-   Panera Coffee Light Roast,regular(16 oz.),300
+Top 5 coffeine drinks:
+=====================================  ===============  =============
+Coffees                                Serving Size     Caffeine (mg)
+Starbucks Coffee Blonde Roast          venti(20 oz)     475
+Dunkin' Donuts Coffee with Turbo Shot  large(20 oz.)    398
+Starbucks Coffee Pike Place Roast      grande(16 oz.)   310
+Panera Coffee Light Roast              regular(16 oz.)  300
+=====================================  ===============  =============
+
 
 Let's get a list of dictionary out from the xls file::
    
@@ -190,53 +179,32 @@ Please note that my_dict is an OrderedDict.
 Get a dictionary of two dimensional array
 ********************************************************************************
 
-.. testcode::
-   :hide:
-
-   >>> a_dictionary_of_two_dimensional_arrays = {
-   ...      'Sheet 1':
-   ...          [
-   ...              [1.0, 2.0, 3.0],
-   ...              [4.0, 5.0, 6.0],
-   ...              [7.0, 8.0, 9.0]
-   ...          ],
-   ...      'Sheet 2':
-   ...          [
-   ...              ['X', 'Y', 'Z'],
-   ...              [1.0, 2.0, 3.0],
-   ...              [4.0, 5.0, 6.0]
-   ...          ],
-   ...      'Sheet 3':
-   ...          [
-   ...              ['O', 'P', 'Q'],
-   ...              [3.0, 2.0, 1.0],
-   ...              [4.0, 3.0, 2.0]
-   ...          ]
-   ...  }
-   >>> data = OrderedDict()
-   >>> data.update({"Sheet 1": a_dictionary_of_two_dimensional_arrays['Sheet 1']})
-   >>> data.update({"Sheet 2": a_dictionary_of_two_dimensional_arrays['Sheet 2']})
-   >>> data.update({"Sheet 3": a_dictionary_of_two_dimensional_arrays['Sheet 3']})
-   >>> p.save_book_as(bookdict=data, dest_file_name="book.xls")
 
 Suppose you have a multiple sheet book as the following:
 
-.. pyexcel-table::
 
-   ---pyexcel:Sheet 1---
-   1,2,3
-   4,5,6
-   7,8,9
-   ---pyexcel---
-   ---pyexcel:Sheet 2---
-   X,Y,Z
-   1,2,3
-   4,5,6
-   ---pyexcel---
-   ---pyexcel:Sheet 3---
-   O,P,Q
-   3,2,1
-   4,3,2
+pyexcel:Sheet 1:
+=====================  =  =
+1                      2  3
+4                      5  6
+7                      8  9
+=====================  =  =
+
+
+pyexcel:Sheet 2:
+=====================  =  =
+X                      Y  Z
+1                      2  3
+4                      5  6
+=====================  =  =
+
+pyexcel:Sheet 3:
+=====================  =  =
+O                      P  Q
+3                      2  1
+4                      3  2
+=====================  =  =
+
 
 Here is the code to obtain those sheets as a single dictionary::
 
@@ -251,12 +219,6 @@ And check::
    {"Sheet 1": [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}
    {"Sheet 2": [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]}
    {"Sheet 3": [["O", "P", "Q"], [3, 2, 1], [4, 3, 2]]}
-
-.. testcode::
-   :hide:
-
-   >>> import os
-   >>> os.unlink("book.xls")
 
 
 Data export in one line
@@ -284,12 +246,6 @@ Let's verify it::
     +---+---+---+
     | 7 | 8 | 9 |
     +---+---+---+
-
-.. testcode::
-   :hide:
-
-   >>> import os
-   >>> os.unlink("example.xls")
 
 
 And here is the code to save it as a csv file ::
@@ -411,17 +367,6 @@ File format transcoding on one line
    open your editor, save the problem, then python run.
 
 
-.. testcode::
-   :hide:
-
-   >>> import datetime
-   >>> data = [
-   ...    ["name", "weight", "birth"],
-   ...    ["Adam", 3.4, datetime.date(2015, 2, 3)],
-   ...    ["Smith", 4.2, datetime.date(2014, 11, 12)]
-   ... ]
-   >>> p.save_as(array=data, dest_file_name="birth.xls")
-
 The following code does a simple file format transcoding from xls to csv::
 
    >>> p.save_as(file_name="birth.xls", dest_file_name="birth.csv")
@@ -488,31 +433,6 @@ You can mix and match with other excel formats: xls, xlsm and ods. For example, 
 Split a book into single sheet files
 ****************************************
 
-.. testcode::
-   :hide:
-
-    >>> content = {
-    ...     'Sheet 1': 
-    ...         [
-    ...             [1.0, 2.0, 3.0], 
-    ...             [4.0, 5.0, 6.0], 
-    ...             [7.0, 8.0, 9.0]
-    ...         ],
-    ...     'Sheet 2': 
-    ...         [
-    ...             ['X', 'Y', 'Z'], 
-    ...             [1.0, 2.0, 3.0], 
-    ...             [4.0, 5.0, 6.0]
-    ...         ], 
-    ...     'Sheet 3': 
-    ...         [
-    ...             ['O', 'P', 'Q'], 
-    ...             [3.0, 2.0, 1.0], 
-    ...             [4.0, 3.0, 2.0]
-    ...         ] 
-    ... }
-    >>> book = p.Book(content)
-    >>> book.save_as("megabook.xls")
 
 Suppose you have many sheets in a work book and you would like to separate each into a single sheet excel file. You can easily do this::
 
@@ -529,12 +449,6 @@ Suppose you have many sheets in a work book and you would like to separate each 
 
 for the output file, you can specify any of the supported formats
 
-.. testcode::
-   :hide:
-
-   >>> os.unlink("Sheet 1_output.xls")
-   >>> os.unlink("Sheet 2_output.xls")
-   >>> os.unlink("Sheet 3_output.xls")
 
 Extract just one sheet from a book
 *************************************
@@ -551,23 +465,6 @@ Suppose you just want to extract one sheet from many sheets that exists in a wor
 
 for the output file, you can specify any of the supported formats
 
-.. testcode::
-   :hide:
-
-   >>> os.unlink("Sheet 1_output.xls")
-   >>> os.unlink("megabook.xls")
-   >>> os.unlink('birth.xls')
-   >>> os.unlink('birth.csv')
-   >>> os.unlink('birth.xlsx')
-   >>> os.unlink('high_speed_rail.xls')
-   >>> os.unlink('henley.xlsx')
-   >>> os.unlink('ccs.csv')
-   >>> os.unlink("book.xls")
-   >>> os.unlink("your_file.xls")
-   >>> os.unlink("example.csv")
-
-Usage
-===============
 
 Suppose you have the following data in a dictionary:
 
