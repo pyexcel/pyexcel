@@ -1,6 +1,6 @@
-pyexcel.Sheet.columns
+pyexcel.Sheet.project
 =====================
 
 .. currentmodule:: pyexcel
 
-.. automethod:: Sheet.columns
+.. automethod:: Sheet.project
