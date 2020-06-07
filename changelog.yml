@@ -4,9 +4,15 @@ releases:
 - changes:
   - action: fixed
     details:
+    - "`#109`: Control the column order when write the data output"
+  version: 0.6.2
+  date: 8.06.2020
+- changes:
+  - action: fixed
+    details:
     - "`#203`: texttable was dropped out in 0.6.0 as compulsary dependency. end user may experience it when a sheet/table is printed in a shell. otherwise, new user of pyexcel won't see it. As of release date, no issues were created"
   version: 0.6.1
-  date: 2.05.2020
+  date: 02.05.2020
 - changes:
   - action: updated
     details:
