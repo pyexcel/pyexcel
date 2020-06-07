@@ -69,7 +69,7 @@ Please do not forgot the second line:
 Get two dimensional array
 ********************************************************************************
 
-Instead, what if you have to use :meth:`pyexcel.get_array` to do the same:
+Instead, what if you have to use `pyexcel.get_array` to do the same:
 
 .. code-block:: python
 
