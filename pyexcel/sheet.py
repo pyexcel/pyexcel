@@ -11,6 +11,7 @@ from collections import defaultdict
 
 import pyexcel._compact as compact
 import pyexcel.constants as constants
+from pyexcel._compact import OrderedDict
 from pyexcel.internal.sheets.row import Row as NamedRow
 from pyexcel.internal.sheets.column import Column as NamedColumn
 from pyexcel.internal.sheets.matrix import Matrix
@@ -475,6 +476,65 @@ class Sheet(Matrix):
 
         else:
             raise ValueError(constants.MESSAGE_DATA_ERROR_NO_SERIES)
+
+    def project(self, new_ordered_columns, exclusion=False):
+        """
+        Rearrange the sheet.
+
+        Example:
+
+           >>> sheet = Sheet(
+           ... [["A", "B", "C"], [1, 2, 3], [11, 22, 33], [111, 222, 333]],
+           ... name_columns_by_row=0)
+           >>> sheet.project(["B", "A", "C"])
+           pyexcel sheet:
+           +-----+-----+-----+
+           |  B  |  A  |  C  |
+           +=====+=====+=====+
+           | 2   | 1   | 3   |
+           +-----+-----+-----+
+           | 22  | 11  | 33  |
+           +-----+-----+-----+
+           | 222 | 111 | 333 |
+           +-----+-----+-----+
+           >>> sheet.project(["B", "C"])
+           pyexcel sheet:
+           +-----+-----+
+           |  B  |  C  |
+           +=====+=====+
+           | 2   | 3   |
+           +-----+-----+
+           | 22  | 33  |
+           +-----+-----+
+           | 222 | 333 |
+           +-----+-----+
+           >>> sheet.project(["B", "C"], exclusion=True)
+           pyexcel sheet:
+           +-----+
+           |  A  |
+           +=====+
+           | 1   |
+           +-----+
+           | 11  |
+           +-----+
+           | 111 |
+           +-----+
+
+        """
+        from pyexcel import get_array
+
+        the_dict = self.to_dict()
+        new_dict = OrderedDict()
+        if exclusion:
+            for column in the_dict.keys():
+                if column not in new_ordered_columns:
+                    new_dict[column] = the_dict[column]
+        else:
+            for column in new_ordered_columns:
+                new_dict[column] = the_dict[column]
+
+        array = get_array(adict=new_dict)
+        return Sheet(array, name=self.name, name_columns_by_row=0)
 
     def to_dict(self, row=False):
         """Returns a dictionary"""
