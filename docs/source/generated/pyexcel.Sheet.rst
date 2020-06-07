@@ -15,6 +15,7 @@ pyexcel.Sheet
    
       ~Sheet.__init__
       ~Sheet.cell_value
+      ~Sheet.clone
       ~Sheet.column_at
       ~Sheet.column_range
       ~Sheet.columns
@@ -74,6 +75,7 @@ pyexcel.Sheet
       ~Sheet.number_of_rows
       ~Sheet.paste
       ~Sheet.plot
+      ~Sheet.project
       ~Sheet.rcolumns
       ~Sheet.region
       ~Sheet.register_input

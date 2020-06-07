@@ -35,7 +35,7 @@ Support the project
 ================================================================================
 
 If your company has embedded pyexcel and its components into a revenue generating
-product, please support me on `patreon <https://www.patreon.com/bePatron?u=5537627>`_
+product, please support me on github, `patreon <https://www.patreon.com/bePatron?u=5537627>`_
 or `bounty source <https://salt.bountysource.com/teams/chfw-pyexcel>`_ to maintain
 the project and develop it further.
 
@@ -67,6 +67,127 @@ or clone it and install it:
     $ git clone https://github.com/pyexcel/pyexcel.git
     $ cd pyexcel
     $ python setup.py install
+
+Suppose you have the following data in a dictionary:
+
+========= ====
+Name      Age
+========= ====
+Adam      28
+Beatrice  29
+Ceri      30
+Dean      26
+========= ====
+
+you can easily save it into an excel file using the following code:
+
+.. code-block:: python
+
+   >>> import pyexcel
+   >>> # make sure you had pyexcel-xls installed
+   >>> a_list_of_dictionaries = [
+   ...     {
+   ...         "Name": 'Adam',
+   ...         "Age": 28
+   ...     },
+   ...     {
+   ...         "Name": 'Beatrice',
+   ...         "Age": 29
+   ...     },
+   ...     {
+   ...         "Name": 'Ceri',
+   ...         "Age": 30
+   ...     },
+   ...     {
+   ...         "Name": 'Dean',
+   ...         "Age": 26
+   ...     }
+   ... ]
+   >>> pyexcel.save_as(records=a_list_of_dictionaries, dest_file_name="your_file.xls")
+
+And here's how to obtain the records:
+
+.. code-block:: python
+
+   >>> import pyexcel as p
+   >>> records = p.iget_records(file_name="your_file.xls")
+   >>> for record in records:
+   ...     print("%s is aged at %d" % (record['Name'], record['Age']))
+   Adam is aged at 28
+   Beatrice is aged at 29
+   Ceri is aged at 30
+   Dean is aged at 26
+   >>> p.free_resources()
+
+
+Custom data rendering:
+
+.. code-block:: python
+
+    >>> # pip install pyexcel-text==0.2.7.1
+    >>> import pyexcel as p
+    >>> ccs_insight2 = p.Sheet()
+    >>> ccs_insight2.name = "Worldwide Mobile Phone Shipments (Billions), 2017-2021"
+    >>> ccs_insight2.ndjson = """
+    ... {"year": ["2017", "2018", "2019", "2020", "2021"]}
+    ... {"smart phones": [1.53, 1.64, 1.74, 1.82, 1.90]}
+    ... {"feature phones": [0.46, 0.38, 0.30, 0.23, 0.17]}
+    ... """.strip()
+    >>> ccs_insight2
+    pyexcel sheet:
+    +----------------+------+------+------+------+------+
+    | year           | 2017 | 2018 | 2019 | 2020 | 2021 |
+    +----------------+------+------+------+------+------+
+    | smart phones   | 1.53 | 1.64 | 1.74 | 1.82 | 1.9  |
+    +----------------+------+------+------+------+------+
+    | feature phones | 0.46 | 0.38 | 0.3  | 0.23 | 0.17 |
+    +----------------+------+------+------+------+------+
+
+
+Advanced usage :fire:
+----------------------
+
+If you are dealing with big data, please consider these usages:
+
+.. code-block:: python
+
+   >>> def increase_everyones_age(generator):
+   ...     for row in generator:
+   ...         row['Age'] += 1
+   ...         yield row
+   >>> def duplicate_each_record(generator):
+   ...     for row in generator:
+   ...         yield row
+   ...         yield row
+   >>> records = p.iget_records(file_name="your_file.xls")
+   >>> io=p.isave_as(records=duplicate_each_record(increase_everyones_age(records)),
+   ...     dest_file_type='csv', dest_lineterminator='\n')
+   >>> print(io.getvalue())
+   Age,Name
+   29,Adam
+   29,Adam
+   30,Beatrice
+   30,Beatrice
+   31,Ceri
+   31,Ceri
+   27,Dean
+   27,Dean
+   <BLANKLINE>
+
+
+Two advantages of above method:
+
+#. Add as many wrapping functions as you want.
+#. Constant memory consumption
+
+
+.. testcode::
+   :hide:
+
+   >>> import os
+   >>> os.unlink("your_file.xls")
+
+
 
 For individual excel file formats, please install them as you wish:
 

@@ -1,4 +1,3 @@
-
 Stream APIs for big file : A set of two liners
 ================================================================================
 
@@ -12,6 +11,7 @@ Two liners for get data from big excel files
 Get a list of dictionaries
 ********************************************************************************
 
+{% if sphinx %}
 .. testcode::
    :hide:
 
@@ -27,8 +27,10 @@ Get a list of dictionaries
    >>> sheet = p.get_sheet(file_content=content, file_type='csv')
    >>> sheet.save_as("your_file.xls")
 
+{% endif %}
 
 
+{% if sphinx %}
 Suppose you want to process the following coffee data:
 
 .. pyexcel-table::
@@ -39,6 +41,20 @@ Suppose you want to process the following coffee data:
    Dunkin' Donuts Coffee with Turbo Shot,large(20 oz.),398
    Starbucks Coffee Pike Place Roast,grande(16 oz.),310
    Panera Coffee Light Roast,regular(16 oz.),300
+{% else %}
+Suppose you want to process the following coffee data again:
+
+Top 5 coffeine drinks:
+
+=====================================  ===============  =============
+Coffees                                Serving Size     Caffeine (mg)
+Starbucks Coffee Blonde Roast          venti(20 oz)     475
+Dunkin' Donuts Coffee with Turbo Shot  large(20 oz.)    398
+Starbucks Coffee Pike Place Roast      grande(16 oz.)   310
+Panera Coffee Light Roast              regular(16 oz.)  300
+=====================================  ===============  =============
+
+{% endif %}
 
 Let's get a list of dictionary out from the xls file:
 
@@ -130,6 +146,7 @@ Let's verify it:
     | 7 | 8 | 9 |
     +---+---+---+
 
+{% if sphinx %}
 
 .. testcode::
    :hide:
@@ -137,6 +154,7 @@ Let's verify it:
    >>> import os
    >>> os.unlink("example.xls")
 
+{% endif %}
 
 And here is the code to save it as a csv file :
 
@@ -271,6 +289,7 @@ File format transcoding on one line
    install pyexcel-cli and you will do the transcode in one command. No need to
    open your editor, save the problem, then python run.
 
+{% if sphinx %}
 
 .. testcode::
    :hide:
@@ -283,6 +302,7 @@ File format transcoding on one line
    ... ]
    >>> p.isave_as(array=data, dest_file_name="birth.xls")
 
+{% endif %}
 
 The following code does a simple file format transcoding from xls to csv:
 
@@ -334,9 +354,12 @@ Again let's verify what we have gotten:
    | Smith | 4.2    | 12/11/14 |
    +-------+--------+----------+
 
+{% if sphinx %}
 .. testcode::
    :hide:
 
    >>> import os
    >>> os.unlink('ccs.csv')
    >>> os.unlink('book.xls')
+
+{% endif %}

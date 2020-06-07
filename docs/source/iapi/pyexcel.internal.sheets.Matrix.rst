@@ -15,6 +15,7 @@ pyexcel.internal.sheets.Matrix
    
       ~Matrix.__init__
       ~Matrix.cell_value
+      ~Matrix.clone
       ~Matrix.column_at
       ~Matrix.column_range
       ~Matrix.columns

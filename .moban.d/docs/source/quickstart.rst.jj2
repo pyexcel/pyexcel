@@ -1,0 +1,3 @@
+{% set sphinx=True %}
+
+{% include "one-liners.rst.jj2" %}
