@@ -481,7 +481,10 @@ class Sheet(Matrix):
         """
         Rearrange the sheet.
 
-        Example:
+        :ivar new_ordered_columns: new columns
+        :ivar exclusion: to exlucde named column or not. defaults to False
+
+        Example::
 
            >>> sheet = Sheet(
            ... [["A", "B", "C"], [1, 2, 3], [11, 22, 33], [111, 222, 333]],
