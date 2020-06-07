@@ -27,7 +27,7 @@ Get a list of dictionaries
    >>> sheet.save_as("your_file.xls")
 
 
-Suppose you want to process the :download:`following coffee data <coffee.csv>` (data source `coffee chart <https://cspinet.org/eating-healthy/ingredients-of-concern/caffeine-chart>`_ on the center for science in the public interest):
+Suppose you want to process the following coffee data (data source `coffee chart <https://cspinet.org/eating-healthy/ingredients-of-concern/caffeine-chart>`_ on the center for science in the public interest):
 
 
 .. pyexcel-table::
@@ -64,7 +64,7 @@ And let's check what do we have:
 Get two dimensional array
 ********************************************************************************
 
-Instead, what if you have to use :meth:`pyexcel.get_array` to do the same:
+Instead, what if you have to use `pyexcel.get_array` to do the same:
 
 .. code-block:: python
 

@@ -179,21 +179,6 @@ Attributes
    Sheet.row_range
    Sheet.column_range
 
-Iteration
------------------
-
-.. autosummary::
-   :toctree: generated/
-
-   Sheet.rows
-   Sheet.rrows
-   Sheet.columns
-   Sheet.rcolumns
-   Sheet.enumerate
-   Sheet.reverse
-   Sheet.vertical
-   Sheet.rvertical
-
 
 Cell access
 ------------------
@@ -306,6 +291,7 @@ Transformation
    Sheet.region
    Sheet.cut
    Sheet.paste
+   Sheet.project
         
 Save changes
 --------------
