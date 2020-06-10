@@ -1,8 +1,3 @@
-================================================================================
-Read partial data
-================================================================================
-
-
 
 When you are dealing with huge amount of data, e.g. 64GB, obviously you would not
 like to fill up your memory with those data. What you may want to do is, record
@@ -38,6 +33,19 @@ In addition, pyexcel's csv readers can read partial data into memory too.
 
 ** BIG memory savings here **
 
+{% if sphinx %}
+
+.. testcode::
+   :hide:
+
+    >>> import sys
+    >>> if sys.version_info[0] < 3:
+    ...     from StringIO import StringIO
+    ... else:
+    ...     from io import StringIO
+    >>> from pyexcel_io._compact import OrderedDict
+
+{% endif %}
 
 Let's assume the following file is a huge csv file:
 
@@ -161,3 +169,14 @@ We can verify if it was done correctly:
    +---+----+----+
    | 7 | 27 | 37 |
    +---+----+----+
+
+{% if sphinx %}
+
+.. testcode::
+   :hide:
+
+    >>> import os
+    >>> os.unlink("your_file.csv")
+    >>> os.unlink("your_file.xlsx")
+
+{% endif %}

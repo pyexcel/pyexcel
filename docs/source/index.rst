@@ -405,7 +405,7 @@ Design
    architecture
 
 New tutorial
-----------
+--------------
 .. toctree::
 
    quickstart
@@ -418,7 +418,7 @@ New tutorial
    database
 
 Old tutorial
-----------
+--------------
 .. toctree::
 
    tutorial_file
