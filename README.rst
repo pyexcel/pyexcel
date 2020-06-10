@@ -829,7 +829,7 @@ Again let's verify what we have gotten:
    +-------+--------+----------+
 
 
-Hidden feature: Pagination
+Hidden feature: partial read
 ===============================================
 
 Most pyexcel users do not know, but other library users were requesting `the similar features <https://github.com/jazzband/tablib/issues/467>`_
