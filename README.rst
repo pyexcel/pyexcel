@@ -846,7 +846,7 @@ data to read back. But remember only row limit features help you save memory. Le
 you use this feature to record data from Nth column, take M number of columns and skip
 the rest. You are not going to reduce your memory footprint.
 
-Why am I not see above benefit?
+Why did not I see above benefit?
 
 This feature depends heavily on the implementation details.
 
@@ -866,8 +866,6 @@ have read designated portion of the data, they stop, even if they are half way t
 
 In addition, pyexcel's csv readers can read partial data into memory too.
 
-
-** BIG memory savings here **
 
 
 Let's assume the following file is a huge csv file:
