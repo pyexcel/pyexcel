@@ -30,6 +30,7 @@ cloud "xls, xlsx" {
 [pyexcel-xls]
 [pyexcel-xlsx]
 [pyexcel-xlsxw]
+[pyexcel-xlsxr]
 }
 
 [tabulate] <<dependency>>
@@ -41,6 +42,7 @@ cloud "xls, xlsx" {
 [xlsxwriter] <<dependency>>
 [ezodf] <<dependency>>
 [odfpy] <<dependency>>
+[lxml] <<dependency>>
 
 [pyexcel public api] -right-> [pyexcel internal api]
 [pyexcel internal api] -right-> [pyexcel plugin interfaces]
@@ -59,6 +61,7 @@ cloud "xls, xlsx" {
 [pyexcel-io plugin interfaces] ..> [django, sqlalchemy]
 [pyexcel-io plugin interfaces] .up.> [pyexcel-xls]
 [pyexcel-io plugin interfaces] .up.> [pyexcel-xlsx]
+[pyexcel-io plugin interfaces] .up.> [pyexcel-xlsxr]
 [pyexcel-io plugin interfaces] .left.> [pyexcel-ods]
 [pyexcel-io plugin interfaces] .right.> [pyexcel-ods3]
 [pyexcel-io plugin interfaces] .right.> [pyexcel-xlsxw]
@@ -73,6 +76,8 @@ cloud "xls, xlsx" {
 [pyexcel-xlsxw] -down- [xlsxwriter]
 [pyexcel-ods3] --- [ezodf]
 [pyexcel-ods] --- [odfpy]
+[pyexcel-xlsxr] -right- [lxml]
+[sphinxcontrib-excel] -right-> [pyexcel-handsontable]
 
 skinparam component{
 
