@@ -24,7 +24,6 @@ Feature Highlights
 
 {%include "one-liners.rst.jj2" %}
 
-{%include "two-liners.rst.jj2" %}
 
 Hidden feature: partial read
 ===============================================
@@ -33,6 +32,7 @@ Most pyexcel users do not know, but other library users were requesting `the sim
 
 {%include "partial-data.rst.jj2" %}
 
+{%include "two-liners.rst.jj2" %}
 
 Available Plugins
 =================

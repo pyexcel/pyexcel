@@ -19,7 +19,7 @@ Why did not I see above benefit?
 
 This feature depends heavily on the implementation details.
 
-`pyexcel-xls(xlrd)`, `pyexcel-xlsx(openpyxl)`, `pyexcel-ods(odfpy)` and `pyexcel-ods3(pyexcel-ezodf)`
+`pyexcel-xls`_(xlrd), `pyexcel-xlsx`_(openpyxl), `pyexcel-ods`_(odfpy) and `pyexcel-ods3`_(pyexcel-ezodf)
 will read all data into memory. Because xls, xlsx and ods file are effective a zipped folder,
 all four will unzip the folder and read the content in xml format in **full**, so as to make sense
 of all details.
@@ -29,7 +29,7 @@ consumption won't differ from reading the whole data back. Only after the partia
 data is returned, the memory comsumption curve shall jump the cliff. So pagination
 code here only limits the data returned to your program.
 
-With that said, `pyexcel-xlsxr`, `pyexcel-odsr` and `pyexcel-htmlr` DOES read partial data into memory.
+With that said, `pyexcel-xlsxr`_, `pyexcel-odsr`_ and `pyexcel-htmlr`_ DOES read partial data into memory.
 Those three are implemented in such a way that they consume the xml(html) when needed. When they
 have read designated portion of the data, they stop, even if they are half way through.
 
