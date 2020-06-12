@@ -9,32 +9,35 @@ like to fill up your memory with those data. What you may want to do is, record
 data from Nth line, take M records and stop. And you only want to use your memory
 for the M records, not for beginning part nor for the tail part.
 
-Hence partial read feature is developed to read partial data into memory for processing. 
+Hence partial read feature is developed to read partial data into memory for
+processing. 
+
 You can paginate by row, by column and by both, hence you dictate what portion of the
 data to read back. But remember only row limit features help you save memory. Let's
 you use this feature to record data from Nth column, take M number of columns and skip
 the rest. You are not going to reduce your memory footprint.
 
 Why did not I see above benefit?
+--------------------------------------------------------------------------------
 
 This feature depends heavily on the implementation details.
 
-`pyexcel-xls`_(xlrd), `pyexcel-xlsx`_(openpyxl), `pyexcel-ods`_(odfpy) and `pyexcel-ods3`_(pyexcel-ezodf)
-will read all data into memory. Because xls, xlsx and ods file are effective a zipped folder,
-all four will unzip the folder and read the content in xml format in **full**, so as to make sense
-of all details.
+`pyexcel-xls`_ (xlrd), `pyexcel-xlsx`_ (openpyxl), `pyexcel-ods`_ (odfpy) and
+`pyexcel-ods3`_ (pyexcel-ezodf) will read all data into memory. Because xls,
+xlsx and ods file are effective a zipped folder, all four will unzip the folder
+and read the content in xml format in **full**, so as to make sense of all details.
 
-Hence, during the partial data is been returned, the memory
-consumption won't differ from reading the whole data back. Only after the partial
+Hence, during the partial data is been returned, the memory consumption won't
+differ from reading the whole data back. Only after the partial
 data is returned, the memory comsumption curve shall jump the cliff. So pagination
 code here only limits the data returned to your program.
 
-With that said, `pyexcel-xlsxr`_, `pyexcel-odsr`_ and `pyexcel-htmlr`_ DOES read partial data into memory.
-Those three are implemented in such a way that they consume the xml(html) when needed. When they
-have read designated portion of the data, they stop, even if they are half way through.
+With that said, `pyexcel-xlsxr`_, `pyexcel-odsr`_ and `pyexcel-htmlr`_ DOES read
+partial data into memory. Those three are implemented in such a way that they
+consume the xml(html) when needed. When they have read designated portion of the
+data, they stop, even if they are half way through.
 
 In addition, pyexcel's csv readers can read partial data into memory too.
-
 
 
 Let's assume the following file is a huge csv file:

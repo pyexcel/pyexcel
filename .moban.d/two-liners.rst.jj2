@@ -4,6 +4,8 @@ Stream APIs for big file : A set of two liners
 This section shows you how to get data from your **BIG** excel files and how to
 export data to excel files in **two lines** at most.
 
+Please use dedicated readers to gain the extra memory savings.
+
 
 Two liners for get data from big excel files
 --------------------------------------------------------------------------------
