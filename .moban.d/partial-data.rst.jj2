@@ -136,11 +136,15 @@ to "your_file.xls" but increase each element by 1.
 
 What we can do is to define a row renderer function as the following:
 
+.. code-block:: python
+
    >>> def increment_by_one(row):
    ...     for element in row:
    ...         yield element + 1
 
 Then pass it onto save_as function using row_renderer:
+
+.. code-block:: python
 
    >>> pe.isave_as(file_name="your_file.csv",
    ...             row_renderer=increment_by_one,

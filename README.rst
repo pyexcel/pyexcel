@@ -135,11 +135,8 @@ And let's check what do we have:
 
 .. code-block:: python
 
-   >>> for record in records:
-   ...     print("%s of %s has %s mg" % (
-   ...         record['Serving Size'],
-   ...         record['Coffees'],
-   ...         record['Caffeine (mg)']))
+   >>> for r in records:
+   ...     print(f"{r['Serving Size']} of {r['Coffees']} has {r['Caffeine (mg)']} mg")
    venti(20 oz) of Starbucks Coffee Blonde Roast has 475 mg
    large(20 oz.) of Dunkin' Donuts Coffee with Turbo Shot has 398 mg
    grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg
@@ -154,10 +151,7 @@ Instead, what if you have to use `pyexcel.get_array` to do the same:
 .. code-block:: python
 
    >>> for row in p.get_array(file_name="your_file.xls", start_row=1):
-   ...     print("%s of %s has %s mg" % (
-   ...         row[1],
-   ...         row[0],
-   ...         row[2]))
+   ...     print(f"{row[1]} of {row[0]} has {row[2]} mg")
    venti(20 oz) of Starbucks Coffee Blonde Roast has 475 mg
    large(20 oz.) of Dunkin' Donuts Coffee with Turbo Shot has 398 mg
    grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg
@@ -656,11 +650,15 @@ to "your_file.xls" but increase each element by 1.
 
 What we can do is to define a row renderer function as the following:
 
+.. code-block:: python
+
    >>> def increment_by_one(row):
    ...     for element in row:
    ...         yield element + 1
 
 Then pass it onto save_as function using row_renderer:
+
+.. code-block:: python
 
    >>> pe.isave_as(file_name="your_file.csv",
    ...             row_renderer=increment_by_one,
@@ -733,16 +731,13 @@ And let's check what do we have:
 .. code-block:: python
 
    >>> for record in records:
-   ...     print("%s of %s has %s mg" % (
-   ...         record['Serving Size'],
-   ...         record['Coffees'],
-   ...         record['Caffeine (mg)']))
+   ...     print(f"{r['Serving Size']} of {r['Coffees']} has {r['Caffeine (mg)']} mg")
    venti(20 oz) of Starbucks Coffee Blonde Roast has 475 mg
    large(20 oz.) of Dunkin' Donuts Coffee with Turbo Shot has 398 mg
    grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg
    regular(16 oz.) of Panera Coffee Light Roast has 300 mg
 
-Please do not forgot the second line:
+Please do not forgot the second line to close the opened file handle:
 
 .. code-block:: python
 
@@ -756,10 +751,7 @@ Instead, what if you have to use `pyexcel.get_array` to do the same:
 .. code-block:: python
 
    >>> for row in p.iget_array(file_name="your_file.xls", start_row=1):
-   ...     print("%s of %s has %s mg" % (
-   ...         row[1],
-   ...         row[0],
-   ...         row[2]))
+   ...     print(f"{row[1]} of {row[0]} has {row[2]} mg")
    venti(20 oz) of Starbucks Coffee Blonde Roast has 475 mg
    large(20 oz.) of Dunkin' Donuts Coffee with Turbo Shot has 398 mg
    grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg
@@ -969,7 +961,7 @@ Again it is really simple. Let's verify what we have gotten:
    | Smith | 4.2    | 12/11/14 |
    +-------+--------+----------+
 
-.. NOTE::
+.. note::
 
    Please note that csv(comma separate value) file is pure text file. Formula, charts, images and formatting in xls file will disappear no matter which transcoding tool you use. Hence, pyexcel is a quick alternative for this transcoding job.
 
