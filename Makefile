@@ -1,18 +1,19 @@
 all: test
 
-test:
+test: lint
 	bash test.sh
 
-doc:
-	bash document.sh
+install_test:
+	pip install -r tests/requirements.txt
 
-uml:
-	plantuml -tsvg -o ../_static/images/ docs/source/uml/*.uml
+git-diff-check:
+	git diff --exit-code
 
-format:
-	isort -y $(find pyexcel -name "*.py"|xargs echo) $(find tests -name "*.py"|xargs echo)
-	black -l 79 pyexcel
-	black -l 79 tests
-	black -l 79 setup.py
 lint:
 	bash lint.sh
+
+format:
+	bash format.sh
+
+git-diff-check:
+	git diff --exit-code

@@ -52,7 +52,7 @@ And let's check what do we have:
 
 .. code-block:: python
 
-   >>> for record in records:
+   >>> for r in records:
    ...     print(f"{r['Serving Size']} of {r['Coffees']} has {r['Caffeine (mg)']} mg")
    venti(20 oz) of Starbucks Coffee Blonde Roast has 475 mg
    large(20 oz.) of Dunkin' Donuts Coffee with Turbo Shot has 398 mg
