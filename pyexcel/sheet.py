@@ -632,6 +632,7 @@ def make_names_unique(alist):
     for item in alist:
         if not compact.is_string(type(item)):
             item = str(item)
+        item = item.strip()
         if item in duplicates:
             duplicates[item] = duplicates[item] + 1
             new_names.append("%s-%d" % (item, duplicates[item]))
