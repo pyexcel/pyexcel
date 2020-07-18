@@ -5,10 +5,10 @@ import os
 from datetime import datetime
 from textwrap import dedent
 
+import psutil
 import pyexcel as p
 from _compact import StringIO, OrderedDict
 
-import psutil
 from nose.tools import eq_
 
 

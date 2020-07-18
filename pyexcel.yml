@@ -34,6 +34,7 @@ test_dependencies:
   - pyexcel-xls>=0.4.1
   - pyexcel-text>=0.2.0
   - psutil
+  - pyexcel-pygal
 description: A wrapper library that provides one API to read, manipulate and write data in different excel formats
 python_requires: ">=3.6"
 min_python_version: "3.6"

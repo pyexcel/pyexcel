@@ -29,11 +29,12 @@ else:
     from collections import OrderedDict
 
 if PY2:
+    from itertools import izip as czip
+    from itertools import izip_longest as zip_longest
+
+    import urllib2 as request
     from StringIO import StringIO
     from StringIO import StringIO as BytesIO
-    from itertools import izip_longest as zip_longest
-    from itertools import izip as czip
-    import urllib2 as request
 
     class Iterator(object):
         """Python 2 iterator"""
@@ -44,8 +45,8 @@ if PY2:
 
     irange = xrange
 else:
-    from io import StringIO, BytesIO
     import urllib.request as request
+    from io import BytesIO, StringIO
     from itertools import zip_longest
 
     Iterator = object

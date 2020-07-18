@@ -11,11 +11,10 @@ import types
 from itertools import product
 
 import pyexcel.constants as constants
+from lml.plugin import PluginInfo, PluginInfoChain
 from pyexcel._compact import is_string
 from pyexcel.exceptions import FileTypeNotSupported
 from pyexcel.internal.plugins import PARSER, RENDERER
-
-from lml.plugin import PluginInfo, PluginInfoChain
 
 
 class SourceInfo(PluginInfo):

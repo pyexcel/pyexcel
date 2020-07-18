@@ -9,13 +9,13 @@
 """
 import pyexcel.constants as constants
 import pyexcel.exceptions as exceptions
+from lml.plugin import PluginManager
 from pyexcel.internal.attributes import (
     register_book_attribute,
     register_sheet_attribute,
 )
 
 import pyexcel_io.constants as io_constants
-from lml.plugin import PluginManager
 
 REGISTRY_KEY_FORMAT = "%s-%s"
 # ignore the following attributes

@@ -1,7 +1,7 @@
+from unittest.mock import MagicMock
+
 from pyexcel._compact import PY2
 from pyexcel.internal.core import _seek_at_zero
-
-from mock import MagicMock
 
 
 def test_seek_at_zero():

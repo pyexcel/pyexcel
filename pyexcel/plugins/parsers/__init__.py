@@ -14,7 +14,7 @@ from pyexcel_io.constants import DB_SQL, DB_DJANGO
 
 PyexcelPluginChain(__name__).add_a_parser(
     relative_plugin_class_path="excel.ExcelParser",
-    file_types=READERS.get_all_formats()
+    file_types=READERS.get_all_formats(),
 ).add_a_parser(
     relative_plugin_class_path="sqlalchemy.SQLAlchemyExporter",
     file_types=[DB_SQL],
