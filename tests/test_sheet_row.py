@@ -1,7 +1,7 @@
-from _compact import OrderedDict
-from nose.tools import assert_not_in, eq_, raises
-
 from pyexcel import Sheet
+from _compact import OrderedDict
+
+from nose.tools import eq_, raises, assert_not_in
 
 
 class TestSheetRow:

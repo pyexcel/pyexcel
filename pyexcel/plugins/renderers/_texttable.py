@@ -10,11 +10,10 @@
 """
 from types import GeneratorType
 
-from texttable import Texttable
-
 from pyexcel import constants as constants
-from pyexcel.internal.sheets.formatters import to_format
+from texttable import Texttable
 from pyexcel.renderer import Renderer
+from pyexcel.internal.sheets.formatters import to_format
 
 
 class TextTableRenderer(Renderer):

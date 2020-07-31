@@ -16,10 +16,10 @@ from itertools import chain
 from pyexcel import _compact as compact
 from pyexcel import constants as constants
 from pyexcel.internal.meta import SheetMeta
-from pyexcel.internal.sheets.column import Column
-from pyexcel.internal.sheets.extended_list import PyexcelList
-from pyexcel.internal.sheets.formatters import to_format
 from pyexcel.internal.sheets.row import Row
+from pyexcel.internal.sheets.column import Column
+from pyexcel.internal.sheets.formatters import to_format
+from pyexcel.internal.sheets.extended_list import PyexcelList
 
 from . import _shared as utils
 

@@ -14,7 +14,7 @@ from pyexcel import constants as constants
 from pyexcel import docstrings as docs
 from pyexcel._compact import PY2, append_doc
 from pyexcel.internal import SOURCE
-from pyexcel.internal.core import get_sheet_stream, save_book, save_sheet
+from pyexcel.internal.core import save_book, save_sheet, get_sheet_stream
 from pyexcel.internal.utils import make_a_property
 
 

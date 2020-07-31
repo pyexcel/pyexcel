@@ -9,10 +9,10 @@
 """
 import os
 
-from pyexcel._compact import OrderedDict
 from pyexcel.book import Book
+from pyexcel.core import save_as, get_book, get_sheet
+from pyexcel._compact import OrderedDict
 from pyexcel.constants import MESSAGE_WARNING
-from pyexcel.core import get_book, get_sheet, save_as
 
 DEFAULT_OUT_FILE = "pyexcel_merged.csv"
 DEFAULT_OUT_XLS_FILE = "merged.xls"

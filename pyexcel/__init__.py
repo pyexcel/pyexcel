@@ -9,42 +9,42 @@
     :copyright: (c) 2014-2019 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-from .__version__ import __author__, __version__
 from .book import Book
+from .core import (
+    save_as,
+    get_book,
+    get_dict,
+    isave_as,
+    get_array,
+    get_sheet,
+    iget_book,
+    iget_array,
+    get_records,
+    iget_records,
+    save_book_as,
+    get_book_dict,
+    isave_book_as,
+)
+from .sheet import Sheet
 
 # flake8: noqa
 from .cookbook import (
-    extract_a_sheet_from_a_book,
+    split_a_book,
     merge_all_to_a_book,
     merge_csv_to_a_book,
-    split_a_book,
-)
-from .core import (
-    get_array,
-    get_book,
-    get_book_dict,
-    get_dict,
-    get_records,
-    get_sheet,
-    iget_array,
-    iget_book,
-    iget_records,
-    isave_as,
-    isave_book_as,
-    save_as,
-    save_book_as,
+    extract_a_sheet_from_a_book,
 )
 from .deprecated import (
-    BookReader,
-    ColumnSeriesReader,
     Reader,
+    BookReader,
     SeriesReader,
+    ColumnSeriesReader,
     load,
     load_book,
-    load_book_from_memory,
     load_from_dict,
     load_from_memory,
     load_from_records,
+    load_book_from_memory,
 )
+from .__version__ import __author__, __version__
 from .internal.garbagecollector import free_resources
-from .sheet import Sheet

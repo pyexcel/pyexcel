@@ -7,8 +7,8 @@
     :copyright: (c) 2014-2019 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-import datetime
 import json
+import datetime
 from decimal import Decimal
 
 from pyexcel import constants as constants

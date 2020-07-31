@@ -12,9 +12,9 @@ from collections import defaultdict
 from pyexcel import _compact as compact
 from pyexcel import constants as constants
 from pyexcel._compact import OrderedDict
+from pyexcel.internal.sheets.row import Row as NamedRow
 from pyexcel.internal.sheets.column import Column as NamedColumn
 from pyexcel.internal.sheets.matrix import Matrix
-from pyexcel.internal.sheets.row import Row as NamedRow
 
 
 class Sheet(Matrix):

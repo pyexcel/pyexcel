@@ -7,12 +7,12 @@
     :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel_io import save_data
-from pyexcel_io.database import common as sql
-
 from pyexcel._compact import OrderedDict
 from pyexcel.internal import common as common
 from pyexcel.renderer import DbRenderer
+
+from pyexcel_io import save_data
+from pyexcel_io.database import common as sql
 
 
 class SQLAlchemyRenderer(DbRenderer):

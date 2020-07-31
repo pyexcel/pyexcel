@@ -1,8 +1,8 @@
 import platform
 
-from sqlalchemy import Column, Date, Float, Integer, String, create_engine
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Date, Float, Column, String, Integer, create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
 engine = None
 if platform.python_implementation() == "PyPy":

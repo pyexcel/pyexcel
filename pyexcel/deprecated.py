@@ -10,8 +10,8 @@
 import warnings
 from functools import partial
 
-from pyexcel._compact import deprecated
 from pyexcel.core import get_book, get_sheet
+from pyexcel._compact import deprecated
 
 DEPRECATED_LOADER = partial(
     deprecated,

@@ -1,13 +1,13 @@
-from _compact import OrderedDict
+import pyexcel as pe
 from base import (
     PyexcelSheetRWBase,
     clean_up_files,
     create_sample_file1,
     create_sample_file1_series,
 )
-from nose.tools import eq_, raises
+from _compact import OrderedDict
 
-import pyexcel as pe
+from nose.tools import eq_, raises
 
 
 class TestReader:

@@ -8,7 +8,6 @@
     :license: New BSD License
 """
 from pyexcel_io.constants import DB_SQL
-
 from .db_sources import BookDbSource, SheetDbSource
 
 
