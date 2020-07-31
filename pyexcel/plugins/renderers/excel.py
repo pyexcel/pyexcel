@@ -10,7 +10,7 @@
 from pyexcel.renderer import AbstractRenderer
 from pyexcel.constants import DEFAULT_SHEET_NAME
 
-import pyexcel_io.manager as manager
+from pyexcel_io import manager as manager
 from pyexcel_io import save_data
 
 

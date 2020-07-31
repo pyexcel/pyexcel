@@ -7,7 +7,7 @@
     :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
-import pyexcel._compact as compact
+from pyexcel import _compact as compact
 
 
 class AbstractRenderer(object):

@@ -10,7 +10,7 @@
 import copy
 import types
 
-import pyexcel._compact as compact
+from pyexcel import _compact as compact
 
 from . import _shared as utils
 
