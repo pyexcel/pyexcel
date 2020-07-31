@@ -7,9 +7,9 @@
     :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel.source import AbstractSource, MemorySourceMixin
 from pyexcel.constants import DEFAULT_SHEET_NAME
 from pyexcel.plugins.sources import params
+from pyexcel.source import AbstractSource, MemorySourceMixin
 
 from .common import DictReader, _FakeIO
 

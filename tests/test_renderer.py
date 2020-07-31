@@ -1,12 +1,12 @@
 from _compact import BytesIO
-from pyexcel.renderer import (
-    Renderer,
-    DbRenderer,
-    BinaryRenderer,
-    AbstractRenderer,
-)
-
 from nose.tools import raises
+
+from pyexcel.renderer import (
+    AbstractRenderer,
+    BinaryRenderer,
+    DbRenderer,
+    Renderer,
+)
 
 
 @raises(NotImplementedError)

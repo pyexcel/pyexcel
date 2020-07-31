@@ -7,10 +7,10 @@
     :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
-import pyexcel.constants as constants
-from pyexcel.source import AbstractSource
+from pyexcel import constants as constants
 from pyexcel._compact import PY2, request
 from pyexcel.internal import PARSER
+from pyexcel.source import AbstractSource
 
 from . import params
 

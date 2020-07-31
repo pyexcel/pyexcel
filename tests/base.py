@@ -1,9 +1,9 @@
-import os
 import json
-
-import pyexcel as pe
+import os
 
 from nose.tools import eq_, raises
+
+import pyexcel as pe
 
 
 def clean_up_files(file_list):
