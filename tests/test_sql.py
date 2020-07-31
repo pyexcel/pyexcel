@@ -2,10 +2,10 @@ import datetime
 from textwrap import dedent
 from unittest import TestCase
 
-import pyexcel as pe
 from db import Base, Pyexcel, Session, engine
-
 from nose.tools import eq_, raises
+
+import pyexcel as pe
 
 
 class TestSQL(TestCase):

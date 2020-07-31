@@ -7,7 +7,7 @@
     :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
-import pyexcel.docstrings as docs
+from pyexcel import docstrings as docs
 from pyexcel._compact import append_doc
 
 GARBAGE = []

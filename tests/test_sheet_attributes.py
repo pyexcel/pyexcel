@@ -2,10 +2,10 @@
 import copy
 from textwrap import dedent
 
-from pyexcel.sheet import Sheet
-from pyexcel.internal.meta import PyexcelObject
-
 from nose.tools import eq_, raises
+
+from pyexcel.internal.meta import PyexcelObject
+from pyexcel.sheet import Sheet, make_names_unique
 
 
 def test_sheet_content():
@@ -130,3 +130,31 @@ def test_svg_representation():
 def test_pyexcel_object():
     obj = PyexcelObject()
     obj.save_to_memory("csv")
+
+
+def test_make_names_unique():
+    alist = ["a", "a"]
+    new_names = make_names_unique(alist)
+    expected = ["a", "a-1"]
+    eq_(new_names, expected)
+
+
+def test_make_names_unique_includes_leading_whitespace():
+    alist = ["a", " a"]
+    new_names = make_names_unique(alist)
+    expected = ["a", "a-1"]
+    eq_(new_names, expected)
+
+
+def test_make_names_unique_includes_trailing_whitespace():
+    alist = ["a", "a "]
+    new_names = make_names_unique(alist)
+    expected = ["a", "a-1"]
+    eq_(new_names, expected)
+
+
+def test_make_names_unique_includes_whitespace():
+    alist = ["a", "   a   ", "   ", "   "]
+    new_names = make_names_unique(alist)
+    expected = ["a", "a-1", "", "-1"]
+    eq_(new_names, expected)
