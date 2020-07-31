@@ -10,9 +10,9 @@ In alphabetical order:
 * `Ayan Banerjee <https://github.com/ayan-b>`_
 * `Chris Hill-Scott <https://github.com/quis>`_
 * `Daryl Yu <https://github.com/darylyu>`_
-* `J Harley <https://github.com/julzhk>>`_
+* `J Harley <https://github.com/julzhk>`_
 * `Joel Nothman <https://github.com/jnothman>`_
-* `John Vandenberg <https://github.com/jayvdb>>`_
+* `John Vandenberg <https://github.com/jayvdb>`_
 * `Linghui Zeng <https://github.com/mathsyouth>`_
 * `nikolas <https://github.com/nikolas>`_
 * `Rintze M. Zelle <https://github.com/rmzelle>`_

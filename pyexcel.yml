@@ -41,9 +41,9 @@ min_python_version: "3.6"
 skip_readme: true
 contributors:
   - name: J Harley
-    url: https://github.com/julzhk>
+    url: https://github.com/julzhk
   - name: John Vandenberg
-    url: https://github.com/jayvdb>
+    url: https://github.com/jayvdb
   - name: Linghui Zeng
     url: https://github.com/mathsyouth
   - name: Chris Hill-Scott
