@@ -1,13 +1,23 @@
 import os
 from textwrap import dedent
 
+<<<<<<< HEAD
 from pyexcel import Book, Sheet, get_book
 from pyexcel import constants as constants
 from _compact import StringIO, OrderedDict
 from pyexcel.source import AbstractSource, MemorySourceMixin
 from pyexcel.plugins import SourceInfo
 
+=======
+from _compact import OrderedDict, StringIO
+>>>>>>> 62383fee9556689d5e506cf5effeee04fe82a597
 from nose.tools import eq_, raises
+
+from pyexcel import Book, Sheet
+from pyexcel import constants as constants
+from pyexcel import get_book
+from pyexcel.plugins import SourceInfo
+from pyexcel.source import AbstractSource, MemorySourceMixin
 
 FIXTURE = "dummy"
 

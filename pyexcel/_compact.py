@@ -23,10 +23,14 @@ PY2 = sys.version_info[0] == 2
 PY26 = PY2 and sys.version_info[1] < 7
 PY3_AND_ABOVE = sys.version_info[0] >= 3
 
+<<<<<<< HEAD
+=======
+from collections import OrderedDict
+>>>>>>> 62383fee9556689d5e506cf5effeee04fe82a597
 from io import BytesIO, StringIO
 from urllib import request as request
 from itertools import zip_longest
-from collections import OrderedDict
+from urllib import request as request
 
 Iterator = object
 irange = range

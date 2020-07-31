@@ -7,13 +7,22 @@
     :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
+<<<<<<< HEAD
+=======
+from pyexcel_io import save_data
+from pyexcel_io.database import common as sql
+
+>>>>>>> 62383fee9556689d5e506cf5effeee04fe82a597
 from pyexcel._compact import OrderedDict
 from pyexcel.internal import common as common
 from pyexcel.renderer import DbRenderer
 
+<<<<<<< HEAD
 from pyexcel_io import save_data
 from pyexcel_io.database import common as sql
 
+=======
+>>>>>>> 62383fee9556689d5e506cf5effeee04fe82a597
 
 class SQLAlchemyRenderer(DbRenderer):
     """Import data into database"""

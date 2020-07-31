@@ -8,8 +8,8 @@
     :license: New BSD License
 """
 from pyexcel._compact import PY2
-from pyexcel.internal import SOURCE
 from pyexcel.constants import DEFAULT_NO_DATA
+from pyexcel.internal import SOURCE
 from pyexcel.internal.generators import BookStream, SheetStream
 
 

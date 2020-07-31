@@ -8,9 +8,13 @@
     :license: New BSD License
 """
 from pyexcel import constants as constants
+<<<<<<< HEAD
 from pyexcel.source import AbstractSource
+=======
+>>>>>>> 62383fee9556689d5e506cf5effeee04fe82a597
 from pyexcel._compact import PY2, request
 from pyexcel.internal import PARSER
+from pyexcel.source import AbstractSource
 
 from . import params
 

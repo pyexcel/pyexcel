@@ -7,11 +7,17 @@
     :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
+<<<<<<< HEAD
 from pyexcel.renderer import AbstractRenderer
 from pyexcel.constants import DEFAULT_SHEET_NAME
 
+=======
+>>>>>>> 62383fee9556689d5e506cf5effeee04fe82a597
 from pyexcel_io import manager as manager
 from pyexcel_io import save_data
+
+from pyexcel.constants import DEFAULT_SHEET_NAME
+from pyexcel.renderer import AbstractRenderer
 
 
 class ExcelRenderer(AbstractRenderer):

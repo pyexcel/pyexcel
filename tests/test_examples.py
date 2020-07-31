@@ -1,8 +1,8 @@
-import os
-import imp
-import sys
 import glob
+import imp
 import json
+import os
+import sys
 from unittest import TestCase
 
 import pyexcel as pe

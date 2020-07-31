@@ -7,9 +7,9 @@
     :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel.source import AbstractSource
 from pyexcel._compact import PY2
 from pyexcel.internal import PARSER, RENDERER
+from pyexcel.source import AbstractSource
 
 from . import params
 

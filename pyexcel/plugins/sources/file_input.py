@@ -9,8 +9,8 @@
 """
 import os
 
-from pyexcel.source import AbstractSource
 from pyexcel.internal import PARSER
+from pyexcel.source import AbstractSource
 
 
 # pylint: disable=W0223

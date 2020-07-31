@@ -7,8 +7,8 @@
     :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel.plugins import PyexcelPluginChain
 from pyexcel.internal import PARSER, RENDERER
+from pyexcel.plugins import PyexcelPluginChain
 
 PyexcelPluginChain(__name__).add_a_source(
     relative_plugin_class_path="http.HttpSource",

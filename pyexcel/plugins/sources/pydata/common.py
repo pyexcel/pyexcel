@@ -7,10 +7,16 @@
     :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
+<<<<<<< HEAD
 from pyexcel import constants as constants
 from pyexcel._compact import PY2, OrderedDict, zip_longest
 
+=======
+>>>>>>> 62383fee9556689d5e506cf5effeee04fe82a597
 from pyexcel_io.sheet import SheetReader
+
+from pyexcel import constants as constants
+from pyexcel._compact import PY2, OrderedDict, zip_longest
 
 
 class _FakeIO(object):

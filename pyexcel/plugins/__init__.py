@@ -10,8 +10,13 @@
 import types
 from itertools import product
 
+<<<<<<< HEAD
 from pyexcel import constants as constants
+=======
+>>>>>>> 62383fee9556689d5e506cf5effeee04fe82a597
 from lml.plugin import PluginInfo, PluginInfoChain
+
+from pyexcel import constants as constants
 from pyexcel._compact import is_string
 from pyexcel.exceptions import FileTypeNotSupported
 from pyexcel.internal.plugins import PARSER, RENDERER

@@ -8,9 +8,14 @@
     :license: New BSD License, see LICENSE for more details
 """
 from pyexcel import _compact as compact
+<<<<<<< HEAD
 from pyexcel.sheet import Sheet
 from pyexcel.internal.meta import BookMeta
+=======
+>>>>>>> 62383fee9556689d5e506cf5effeee04fe82a597
 from pyexcel.internal.common import SheetIterator
+from pyexcel.internal.meta import BookMeta
+from pyexcel.sheet import Sheet
 
 LOCAL_UUID = 0
 

@@ -7,10 +7,17 @@
     :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
+<<<<<<< HEAD
 from pyexcel.parser import DbParser
 
 from pyexcel_io import get_data, iget_data
 from pyexcel_io.database import common as django
+=======
+from pyexcel_io import get_data, iget_data
+from pyexcel_io.database import common as django
+
+from pyexcel.parser import DbParser
+>>>>>>> 62383fee9556689d5e506cf5effeee04fe82a597
 
 
 class DjangoExporter(DbParser):

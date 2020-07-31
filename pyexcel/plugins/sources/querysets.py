@@ -7,10 +7,14 @@
     :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
+<<<<<<< HEAD
+=======
+from pyexcel_io.database.querysets import QuerysetsReader
+
+>>>>>>> 62383fee9556689d5e506cf5effeee04fe82a597
 from pyexcel import constants as constants
 from pyexcel.source import AbstractSource
 
-from pyexcel_io.database.querysets import QuerysetsReader
 from . import params
 
 

@@ -1,9 +1,15 @@
 import os
 
+<<<<<<< HEAD
 from pyexcel import iget_array
 from pyexcel.internal import garbagecollector as gc
 
+=======
+>>>>>>> 62383fee9556689d5e506cf5effeee04fe82a597
 from nose.tools import eq_
+
+from pyexcel import iget_array
+from pyexcel.internal import garbagecollector as gc
 
 
 def test_gc():

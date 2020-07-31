@@ -1,12 +1,18 @@
 from textwrap import dedent
 
+from nose.tools import eq_
+from pyexcel_io import manager as manager
+
 from pyexcel.internal.common import get_sheet_headers
 from pyexcel.internal.generators import SheetStream
 from pyexcel.plugins.sources.output_to_memory import WriteSheetToMemory
 
+<<<<<<< HEAD
 from nose.tools import eq_
 from pyexcel_io import manager as manager
 
+=======
+>>>>>>> 62383fee9556689d5e506cf5effeee04fe82a597
 
 def test_save_to():
     file_type = "csv"

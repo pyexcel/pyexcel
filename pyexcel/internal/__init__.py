@@ -8,8 +8,9 @@
     :license: New BSD License
 """
 from lml.loader import scan_plugins_regex
-from pyexcel.internal.plugins import PARSER, RENDERER  # noqa
+
 from pyexcel.internal.generators import BookStream, SheetStream  # noqa
+from pyexcel.internal.plugins import PARSER, RENDERER  # noqa
 from pyexcel.internal.source_plugin import SOURCE  # noqa
 
 BLACK_LIST = [

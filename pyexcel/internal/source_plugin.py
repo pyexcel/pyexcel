@@ -7,16 +7,26 @@
     :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
+<<<<<<< HEAD
 from pyexcel import constants as constants
 from pyexcel import exceptions as exceptions
+=======
+>>>>>>> 62383fee9556689d5e506cf5effeee04fe82a597
 from lml.plugin import PluginManager
+from pyexcel_io import constants as io_constants
+
+from pyexcel import constants as constants
+from pyexcel import exceptions as exceptions
 from pyexcel.internal.attributes import (
     register_book_attribute,
     register_sheet_attribute,
 )
 
+<<<<<<< HEAD
 from pyexcel_io import constants as io_constants
 
+=======
+>>>>>>> 62383fee9556689d5e506cf5effeee04fe82a597
 REGISTRY_KEY_FORMAT = "%s-%s"
 # ignore the following attributes
 NO_DOT_NOTATION = (io_constants.DB_DJANGO, io_constants.DB_SQL)
