@@ -4,6 +4,15 @@ releases:
 - changes:
   - action: fixed
     details:
+    - "`#214`: remove leading and trailing whitespace for column names"
+  - action: removed
+    details:
+    - python 2 compatibility have been permanently removed.
+  version: 0.6.3
+  date: 01.08.2020
+- changes:
+  - action: fixed
+    details:
     - "`#109`: Control the column order when write the data output"
   version: 0.6.2
   date: 8.06.2020

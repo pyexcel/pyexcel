@@ -13,3 +13,7 @@
 {% block additional_classifiers %}
     'Development Status :: 3 - Alpha',
 {% endblock %}}
+
+{%- block morefiles %}
+ "CONTRIBUTORS.rst",
+{%- endblock %}
