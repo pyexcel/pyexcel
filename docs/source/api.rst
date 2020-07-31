@@ -286,12 +286,12 @@ Transformation
 .. autosummary::
    :toctree: generated/
 
+   Sheet.project
    Sheet.transpose
    Sheet.map
    Sheet.region
    Sheet.cut
    Sheet.paste
-   Sheet.project
         
 Save changes
 --------------

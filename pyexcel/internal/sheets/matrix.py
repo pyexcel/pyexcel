@@ -13,8 +13,8 @@ import types
 from functools import partial
 from itertools import chain
 
-import pyexcel._compact as compact
-import pyexcel.constants as constants
+from pyexcel import _compact as compact
+from pyexcel import constants as constants
 from pyexcel.internal.meta import SheetMeta
 from pyexcel.internal.sheets.row import Row
 from pyexcel.internal.sheets.column import Column

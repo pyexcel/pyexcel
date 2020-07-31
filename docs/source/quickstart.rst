@@ -50,11 +50,8 @@ And let's check what do we have:
 
 .. code-block:: python
 
-   >>> for record in records:
-   ...     print("%s of %s has %s mg" % (
-   ...         record['Serving Size'],
-   ...         record['Coffees'],
-   ...         record['Caffeine (mg)']))
+   >>> for r in records:
+   ...     print(f"{r['Serving Size']} of {r['Coffees']} has {r['Caffeine (mg)']} mg")
    venti(20 oz) of Starbucks Coffee Blonde Roast has 475 mg
    large(20 oz.) of Dunkin' Donuts Coffee with Turbo Shot has 398 mg
    grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg
@@ -69,10 +66,7 @@ Instead, what if you have to use `pyexcel.get_array` to do the same:
 .. code-block:: python
 
    >>> for row in p.get_array(file_name="your_file.xls", start_row=1):
-   ...     print("%s of %s has %s mg" % (
-   ...         row[1],
-   ...         row[0],
-   ...         row[2]))
+   ...     print(f"{row[1]} of {row[0]} has {row[2]} mg")
    venti(20 oz) of Starbucks Coffee Blonde Roast has 475 mg
    large(20 oz.) of Dunkin' Donuts Coffee with Turbo Shot has 398 mg
    grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg

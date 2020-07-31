@@ -71,6 +71,7 @@ Feature Highlights
    * SQLAlchemy table
    * Django Model
    * Python data structures: dictionary, records and array
+
 2. One API to read and write data in various excel file formats.
 3. For large data sets, data streaming are supported. A genenerator can be returned to you. Checkout iget_records, iget_array, isave_as and isave_book_as.
 
@@ -134,11 +135,8 @@ And let's check what do we have:
 
 .. code-block:: python
 
-   >>> for record in records:
-   ...     print("%s of %s has %s mg" % (
-   ...         record['Serving Size'],
-   ...         record['Coffees'],
-   ...         record['Caffeine (mg)']))
+   >>> for r in records:
+   ...     print(f"{r['Serving Size']} of {r['Coffees']} has {r['Caffeine (mg)']} mg")
    venti(20 oz) of Starbucks Coffee Blonde Roast has 475 mg
    large(20 oz.) of Dunkin' Donuts Coffee with Turbo Shot has 398 mg
    grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg
@@ -153,10 +151,7 @@ Instead, what if you have to use `pyexcel.get_array` to do the same:
 .. code-block:: python
 
    >>> for row in p.get_array(file_name="your_file.xls", start_row=1):
-   ...     print("%s of %s has %s mg" % (
-   ...         row[1],
-   ...         row[0],
-   ...         row[2]))
+   ...     print(f"{row[1]} of {row[0]} has {row[2]} mg")
    venti(20 oz) of Starbucks Coffee Blonde Roast has 475 mg
    large(20 oz.) of Dunkin' Donuts Coffee with Turbo Shot has 398 mg
    grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg
@@ -525,11 +520,183 @@ Suppose you just want to extract one sheet from many sheets that exists in a wor
 for the output file, you can specify any of the supported formats
 
 
+Hidden feature: partial read
+===============================================
+
+Most pyexcel users do not know, but other library users were requesting `the similar features <https://github.com/jazzband/tablib/issues/467>`_
+
+
+When you are dealing with huge amount of data, e.g. 64GB, obviously you would not
+like to fill up your memory with those data. What you may want to do is, record
+data from Nth line, take M records and stop. And you only want to use your memory
+for the M records, not for beginning part nor for the tail part.
+
+Hence partial read feature is developed to read partial data into memory for
+processing. 
+
+You can paginate by row, by column and by both, hence you dictate what portion of the
+data to read back. But remember only row limit features help you save memory. Let's
+you use this feature to record data from Nth column, take M number of columns and skip
+the rest. You are not going to reduce your memory footprint.
+
+Why did not I see above benefit?
+--------------------------------------------------------------------------------
+
+This feature depends heavily on the implementation details.
+
+`pyexcel-xls`_ (xlrd), `pyexcel-xlsx`_ (openpyxl), `pyexcel-ods`_ (odfpy) and
+`pyexcel-ods3`_ (pyexcel-ezodf) will read all data into memory. Because xls,
+xlsx and ods file are effective a zipped folder, all four will unzip the folder
+and read the content in xml format in **full**, so as to make sense of all details.
+
+Hence, during the partial data is been returned, the memory consumption won't
+differ from reading the whole data back. Only after the partial
+data is returned, the memory comsumption curve shall jump the cliff. So pagination
+code here only limits the data returned to your program.
+
+With that said, `pyexcel-xlsxr`_, `pyexcel-odsr`_ and `pyexcel-htmlr`_ DOES read
+partial data into memory. Those three are implemented in such a way that they
+consume the xml(html) when needed. When they have read designated portion of the
+data, they stop, even if they are half way through.
+
+In addition, pyexcel's csv readers can read partial data into memory too.
+
+
+Let's assume the following file is a huge csv file:
+
+.. code-block:: python
+
+   >>> import datetime
+   >>> import pyexcel as pe
+   >>> data = [
+   ...     [1, 21, 31],
+   ...     [2, 22, 32],
+   ...     [3, 23, 33],
+   ...     [4, 24, 34],
+   ...     [5, 25, 35],
+   ...     [6, 26, 36]
+   ... ]
+   >>> pe.save_as(array=data, dest_file_name="your_file.csv")
+
+
+And let's pretend to read partial data:
+
+
+.. code-block:: python
+
+   >>> pe.get_sheet(file_name="your_file.csv", start_row=2, row_limit=3)
+   your_file.csv:
+   +---+----+----+
+   | 3 | 23 | 33 |
+   +---+----+----+
+   | 4 | 24 | 34 |
+   +---+----+----+
+   | 5 | 25 | 35 |
+   +---+----+----+
+
+And you could as well do the same for columns:
+
+.. code-block:: python
+
+   >>> pe.get_sheet(file_name="your_file.csv", start_column=1, column_limit=2)
+   your_file.csv:
+   +----+----+
+   | 21 | 31 |
+   +----+----+
+   | 22 | 32 |
+   +----+----+
+   | 23 | 33 |
+   +----+----+
+   | 24 | 34 |
+   +----+----+
+   | 25 | 35 |
+   +----+----+
+   | 26 | 36 |
+   +----+----+
+
+Obvious, you could do both at the same time:
+
+.. code-block:: python
+
+   >>> pe.get_sheet(file_name="your_file.csv",
+   ...     start_row=2, row_limit=3,
+   ...     start_column=1, column_limit=2)
+   your_file.csv:
+   +----+----+
+   | 23 | 33 |
+   +----+----+
+   | 24 | 34 |
+   +----+----+
+   | 25 | 35 |
+   +----+----+
+
+
+The pagination support is available across all pyexcel plugins.
+
+.. note::
+
+   No column pagination support for query sets as data source. 
+
+
+Formatting while transcoding a big data file
+--------------------------------------------------------------------------------
+
+If you are transcoding a big data set, conventional formatting method would not
+help unless a on-demand free RAM is available. However, there is a way to minimize
+the memory footprint of pyexcel while the formatting is performed.
+
+Let's continue from previous example. Suppose we want to transcode "your_file.csv"
+to "your_file.xls" but increase each element by 1.
+
+What we can do is to define a row renderer function as the following:
+
+.. code-block:: python
+
+   >>> def increment_by_one(row):
+   ...     for element in row:
+   ...         yield element + 1
+
+Then pass it onto save_as function using row_renderer:
+
+.. code-block:: python
+
+   >>> pe.isave_as(file_name="your_file.csv",
+   ...             row_renderer=increment_by_one,
+   ...             dest_file_name="your_file.xlsx")
+
+
+.. note::
+
+   If the data content is from a generator, isave_as has to be used.
+   
+We can verify if it was done correctly:
+
+.. code-block:: python
+
+   >>> pe.get_sheet(file_name="your_file.xlsx")
+   your_file.csv:
+   +---+----+----+
+   | 2 | 22 | 32 |
+   +---+----+----+
+   | 3 | 23 | 33 |
+   +---+----+----+
+   | 4 | 24 | 34 |
+   +---+----+----+
+   | 5 | 25 | 35 |
+   +---+----+----+
+   | 6 | 26 | 36 |
+   +---+----+----+
+   | 7 | 27 | 37 |
+   +---+----+----+
+
+
 Stream APIs for big file : A set of two liners
 ================================================================================
 
 This section shows you how to get data from your **BIG** excel files and how to
 export data to excel files in **two lines** at most.
+
+Please use dedicated readers to gain the extra memory savings.
 
 
 Two liners for get data from big excel files
@@ -563,17 +730,14 @@ And let's check what do we have:
 
 .. code-block:: python
 
-   >>> for record in records:
-   ...     print("%s of %s has %s mg" % (
-   ...         record['Serving Size'],
-   ...         record['Coffees'],
-   ...         record['Caffeine (mg)']))
+   >>> for r in records:
+   ...     print(f"{r['Serving Size']} of {r['Coffees']} has {r['Caffeine (mg)']} mg")
    venti(20 oz) of Starbucks Coffee Blonde Roast has 475 mg
    large(20 oz.) of Dunkin' Donuts Coffee with Turbo Shot has 398 mg
    grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg
    regular(16 oz.) of Panera Coffee Light Roast has 300 mg
 
-Please do not forgot the second line:
+Please do not forgot the second line to close the opened file handle:
 
 .. code-block:: python
 
@@ -587,10 +751,7 @@ Instead, what if you have to use `pyexcel.get_array` to do the same:
 .. code-block:: python
 
    >>> for row in p.iget_array(file_name="your_file.xls", start_row=1):
-   ...     print("%s of %s has %s mg" % (
-   ...         row[1],
-   ...         row[0],
-   ...         row[2]))
+   ...     print(f"{row[1]} of {row[0]} has {row[2]} mg")
    venti(20 oz) of Starbucks Coffee Blonde Roast has 475 mg
    large(20 oz.) of Dunkin' Donuts Coffee with Turbo Shot has 398 mg
    grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg
@@ -800,7 +961,7 @@ Again it is really simple. Let's verify what we have gotten:
    | Smith | 4.2    | 12/11/14 |
    +-------+--------+----------+
 
-.. NOTE::
+.. note::
 
    Please note that csv(comma separate value) file is pure text file. Formula, charts, images and formatting in xls file will disappear no matter which transcoding tool you use. Hence, pyexcel is a quick alternative for this transcoding job.
 
@@ -827,7 +988,6 @@ Again let's verify what we have gotten:
    +-------+--------+----------+
    | Smith | 4.2    | 12/11/14 |
    +-------+--------+----------+
-
 
 
 Available Plugins

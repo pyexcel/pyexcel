@@ -161,7 +161,7 @@ book dict
 .. testcode::
    :hide:
 
-   >>> from mock import patch, MagicMock
+   >>> from unittest.mock import patch, MagicMock
    >>> import pyexcel as pe
    >>> from pyexcel._compact import StringIO, PY2, BytesIO
    >>> patcher = patch('pyexcel._compact.request.urlopen')
@@ -201,7 +201,7 @@ Get content
 .. testcode::
    :hide:
 
-   >>> from mock import patch, MagicMock
+   >>> from unittest.mock import patch, MagicMock
    >>> import os
    >>> patcher = patch('pyexcel._compact.request.urlopen')
    >>> fake_url_open = patcher.start()
@@ -241,7 +241,7 @@ How about setting content via a url?
 .. testcode::
    :hide:
 
-   >>> from mock import patch, MagicMock
+   >>> from unittest.mock import patch, MagicMock
    >>> import os
    >>> patcher = patch('pyexcel._compact.request.urlopen')
    >>> fake_url_open = patcher.start()

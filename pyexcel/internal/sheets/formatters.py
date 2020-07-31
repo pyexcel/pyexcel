@@ -11,7 +11,7 @@ import json
 import datetime
 from decimal import Decimal
 
-import pyexcel.constants as constants
+from pyexcel import constants as constants
 from pyexcel._compact import PY2
 
 

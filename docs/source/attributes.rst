@@ -68,7 +68,7 @@ Yet, it is possible assign a absolute url to an online excel file to an instance
 .. testcode::
    :hide:
 
-   >>> from mock import patch, MagicMock
+   >>> from unittest.mock import patch, MagicMock
    >>> import os
    >>> patcher = patch('pyexcel._compact.request.urlopen')
    >>> fake_url_open = patcher.start()
@@ -254,7 +254,7 @@ How about setting content via a url?
 .. testcode::
    :hide:
 
-   >>> from mock import patch, MagicMock
+   >>> from unittest.mock import patch, MagicMock
    >>> import os
    >>> patcher = patch('pyexcel._compact.request.urlopen')
    >>> fake_url_open = patcher.start()

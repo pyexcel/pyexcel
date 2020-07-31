@@ -1,6 +1,18 @@
 Change log
 ================================================================================
 
+0.6.3 - 01.08.2020
+--------------------------------------------------------------------------------
+
+**fixed**
+
+#. `#214 <https://github.com/pyexcel/pyexcel/issues/214>`_: remove leading and
+   trailing whitespace for column names
+
+**removed**
+
+#. python 2 compatibility have been permanently removed.
+
 0.6.2 - 8.06.2020
 --------------------------------------------------------------------------------
 

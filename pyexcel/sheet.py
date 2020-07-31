@@ -9,8 +9,8 @@
 """
 from collections import defaultdict
 
-import pyexcel._compact as compact
-import pyexcel.constants as constants
+from pyexcel import _compact as compact
+from pyexcel import constants as constants
 from pyexcel._compact import OrderedDict
 from pyexcel.internal.sheets.row import Row as NamedRow
 from pyexcel.internal.sheets.column import Column as NamedColumn
@@ -481,7 +481,10 @@ class Sheet(Matrix):
         """
         Rearrange the sheet.
 
-        Example:
+        :ivar new_ordered_columns: new columns
+        :ivar exclusion: to exlucde named column or not. defaults to False
+
+        Example::
 
            >>> sheet = Sheet(
            ... [["A", "B", "C"], [1, 2, 3], [11, 22, 33], [111, 222, 333]],
@@ -629,6 +632,7 @@ def make_names_unique(alist):
     for item in alist:
         if not compact.is_string(type(item)):
             item = str(item)
+        item = item.strip()
         if item in duplicates:
             duplicates[item] = duplicates[item] + 1
             new_names.append("%s-%d" % (item, duplicates[item]))

@@ -23,34 +23,14 @@ PY2 = sys.version_info[0] == 2
 PY26 = PY2 and sys.version_info[1] < 7
 PY3_AND_ABOVE = sys.version_info[0] >= 3
 
-if PY26:
-    from ordereddict import OrderedDict
-else:
-    from collections import OrderedDict
+from io import BytesIO, StringIO
+from urllib import request as request
+from itertools import zip_longest
+from collections import OrderedDict
 
-if PY2:
-    from StringIO import StringIO
-    from StringIO import StringIO as BytesIO
-    from itertools import izip_longest as zip_longest
-    from itertools import izip as czip
-    import urllib2 as request
-
-    class Iterator(object):
-        """Python 2 iterator"""
-
-        def next(self):
-            """Iterator interface get next value"""
-            return type(self).__next__(self)
-
-    irange = xrange
-else:
-    from io import StringIO, BytesIO
-    import urllib.request as request
-    from itertools import zip_longest
-
-    Iterator = object
-    irange = range
-    czip = zip
+Iterator = object
+irange = range
+czip = zip
 
 
 def is_tuple_consists_of_strings(an_array):
