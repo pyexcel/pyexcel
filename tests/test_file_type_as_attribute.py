@@ -1,8 +1,8 @@
 import os
 from textwrap import dedent
 
-import pyexcel.constants as constants
 from pyexcel import Book, Sheet, get_book
+from pyexcel import constants as constants
 from _compact import StringIO, OrderedDict
 from pyexcel.source import AbstractSource, MemorySourceMixin
 from pyexcel.plugins import SourceInfo

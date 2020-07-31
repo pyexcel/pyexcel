@@ -7,7 +7,7 @@
     :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
-import pyexcel.internal.garbagecollector as gc
+from pyexcel.internal import garbagecollector as gc
 
 
 class AbstractParser(object):

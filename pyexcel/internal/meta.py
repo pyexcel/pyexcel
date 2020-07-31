@@ -10,8 +10,8 @@
 import sys
 from functools import partial
 
-import pyexcel.constants as constants
-import pyexcel.docstrings as docs
+from pyexcel import constants as constants
+from pyexcel import docstrings as docs
 from pyexcel._compact import PY2, append_doc
 from pyexcel.internal import SOURCE
 from pyexcel.internal.core import save_book, save_sheet, get_sheet_stream
