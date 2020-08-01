@@ -349,9 +349,8 @@ Transcoding
 
 .. note::
 
-   Please note that the following file transcoding could be with zero line. Please
-   install pyexcel-cli and you will do the transcode in one command. No need to
-   open your editor, save the problem, then python run.
+   Please note that `pyexcel-cli` can file transcoding at command line.
+   No need to open your editor, save the problem, then python run.
 
 .. testcode::
    :hide:
