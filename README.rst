@@ -400,7 +400,7 @@ Transcoding
 
 .. note::
 
-   Please note that `pyexcel-cli` can file transcoding at command line.
+   Please note that `pyexcel-cli` can perform file transcoding at command line.
    No need to open your editor, save the problem, then python run.
 
 
