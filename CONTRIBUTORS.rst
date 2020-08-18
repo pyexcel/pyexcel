@@ -1,4 +1,4 @@
-16 contributors
+17 contributors
 ================================================================================
 
 In alphabetical order:
@@ -8,6 +8,7 @@ In alphabetical order:
 * `Arunkumar Rajendran <https://github.com/arunkumar-ra>`_
 * `Ayan Banerjee <https://github.com/ayan-b>`_
 * `Chris Hill-Scott <https://github.com/quis>`_
+* `Craig Anderson <https://github.com/craiga>`_
 * `Daryl Yu <https://github.com/darylyu>`_
 * `J Harley <https://github.com/julzhk>`_
 * `Joel Nothman <https://github.com/jnothman>`_

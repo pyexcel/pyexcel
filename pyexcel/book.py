@@ -56,10 +56,6 @@ class Book(BookMeta):
         if sheets is None:
             return
         keys = sheets.keys()
-        if not isinstance(sheets, compact.OrderedDict):
-            # if the end user does not care about the order
-            # we put alphatical order
-            keys = sorted(keys)
         for name in keys:
             value = sheets[name]
             if isinstance(value, Sheet):

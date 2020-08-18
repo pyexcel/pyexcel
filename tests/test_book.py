@@ -19,3 +19,12 @@ def test_book_len():
 
     book = p.Book(book_dict)
     eq_(len(book.test.array), 1)
+
+
+def test_sheet_ordering():
+    test_data = [["a", "b"]]
+
+    book_dict = {"first": test_data, "middle": test_data, "last": test_data}
+
+    book = p.Book(book_dict)
+    eq_(book.sheet_names(), ["first", "middle", "last"])
