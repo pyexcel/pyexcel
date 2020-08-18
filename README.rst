@@ -1028,6 +1028,24 @@ Available Plugins
    ======================== ======================= ================= ==================
 
 
+Plugin shopping guide
+------------------------
+
+Except csv files, xls, xlsx and ods files are a zip of a folder containing a lot of
+xml files 
+
+The dedicated readers for excel files can stream read 
+
+
+In order to manage the list of plugins installed, you need to use pip to add or remove
+a plugin. When you use virtualenv, you can have different plugins per virtual
+environment. In the situation where you have multiple plugins that does the same thing
+in your environment, you need to tell pyexcel which plugin to use per function call.
+For example, pyexcel-ods and pyexcel-odsr, and you want to get_array to use pyexcel-odsr.
+You need to append get_array(..., library='pyexcel-odsr').
+
+
+
 .. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
 .. _pyexcel-xls: https://github.com/pyexcel/pyexcel-xls
 .. _pyexcel-xlsx: https://github.com/pyexcel/pyexcel-xlsx
@@ -1080,13 +1098,6 @@ Available Plugins
 .. _csvtotable: https://github.com/vividvilla/csvtotable
 .. _pyexcel-gantt: https://github.com/pyexcel/pyexcel-gantt
 .. _frappe-gantt: https://github.com/frappe/gantt
-
-In order to manage the list of plugins installed, you need to use pip to add or remove
-a plugin. When you use virtualenv, you can have different plugins per virtual
-environment. In the situation where you have multiple plugins that does the same thing
-in your environment, you need to tell pyexcel which plugin to use per function call.
-For example, pyexcel-ods and pyexcel-odsr, and you want to get_array to use pyexcel-odsr.
-You need to append get_array(..., library='pyexcel-odsr').
 
 .. rubric:: Footnotes
 
