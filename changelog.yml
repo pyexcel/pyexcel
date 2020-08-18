@@ -2,6 +2,12 @@ name: pyexcel
 organisation: pyexcel
 releases:
 - changes:
+  - action: Updated
+    details:
+    - "`#219`: book created from dict no longer discards order."
+  version: 0.6.4
+  date: 18.08.2020
+- changes:
   - action: fixed
     details:
     - "`#214`: remove leading and trailing whitespace for column names"
