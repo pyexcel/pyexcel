@@ -1,4 +1,4 @@
-Contributors
+{{ contributors|length }} contributors
 ================================================================================
 
 In alphabetical order:

@@ -104,7 +104,7 @@ One liners
 This section shows you how to get data from your excel files and how to
 export data to excel files in **one line**
 
-One liner to get data from the excel files
+Read from the excel files
 --------------------------------------------------------------------------------
 
 Get a list of dictionaries
@@ -239,7 +239,7 @@ And check:
    {"Sheet 3": [["O", "P", "Q"], [3, 2, 1], [4, 3, 2]]}
 
 
-Data export in one line
+Write data
 ---------------------------------------------
 
 Export an array
@@ -395,14 +395,13 @@ Let's verify its order:
 Please notice that "Sheet 2" is the first item in the *book_dict*, meaning the order of sheets are preserved.
 
 
-File format transcoding on one line
+Transcoding
 -------------------------------------------
 
 .. note::
 
-   Please note that the following file transcoding could be with zero line. Please
-   install pyexcel-cli and you will do the transcode in one command. No need to
-   open your editor, save the problem, then python run.
+   Please note that `pyexcel-cli` can perform file transcoding at command line.
+   No need to open your editor, save the problem, then python run.
 
 
 The following code does a simple file format transcoding from xls to csv:
@@ -693,10 +692,12 @@ We can verify if it was done correctly:
 Stream APIs for big file : A set of two liners
 ================================================================================
 
-This section shows you how to get data from your **BIG** excel files and how to
-export data to excel files in **two lines** at most.
+When you are dealing with **BIG** excel files, you will want **pyexcel** to use
+constant memory.
 
-Please use dedicated readers to gain the extra memory savings.
+This section shows you how to get data from your **BIG** excel files and how to
+export data to excel files in **two lines** at most, without eating all
+your computer memory.
 
 
 Two liners for get data from big excel files
@@ -1027,6 +1028,24 @@ Available Plugins
    ======================== ======================= ================= ==================
 
 
+Plugin shopping guide
+------------------------
+
+Except csv files, xls, xlsx and ods files are a zip of a folder containing a lot of
+xml files 
+
+The dedicated readers for excel files can stream read 
+
+
+In order to manage the list of plugins installed, you need to use pip to add or remove
+a plugin. When you use virtualenv, you can have different plugins per virtual
+environment. In the situation where you have multiple plugins that does the same thing
+in your environment, you need to tell pyexcel which plugin to use per function call.
+For example, pyexcel-ods and pyexcel-odsr, and you want to get_array to use pyexcel-odsr.
+You need to append get_array(..., library='pyexcel-odsr').
+
+
+
 .. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
 .. _pyexcel-xls: https://github.com/pyexcel/pyexcel-xls
 .. _pyexcel-xlsx: https://github.com/pyexcel/pyexcel-xlsx
@@ -1079,13 +1098,6 @@ Available Plugins
 .. _csvtotable: https://github.com/vividvilla/csvtotable
 .. _pyexcel-gantt: https://github.com/pyexcel/pyexcel-gantt
 .. _frappe-gantt: https://github.com/frappe/gantt
-
-In order to manage the list of plugins installed, you need to use pip to add or remove
-a plugin. When you use virtualenv, you can have different plugins per virtual
-environment. In the situation where you have multiple plugins that does the same thing
-in your environment, you need to tell pyexcel which plugin to use per function call.
-For example, pyexcel-ods and pyexcel-odsr, and you want to get_array to use pyexcel-odsr.
-You need to append get_array(..., library='pyexcel-odsr').
 
 .. rubric:: Footnotes
 

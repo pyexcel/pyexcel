@@ -2,10 +2,12 @@
 Stream APIs for big file : A set of two liners
 ================================================================================
 
-This section shows you how to get data from your **BIG** excel files and how to
-export data to excel files in **two lines** at most.
+When you are dealing with **BIG** excel files, you will want **pyexcel** to use
+constant memory.
 
-Please use dedicated readers to gain the extra memory savings.
+This section shows you how to get data from your **BIG** excel files and how to
+export data to excel files in **two lines** at most, without eating all
+your computer memory.
 
 
 Two liners for get data from big excel files

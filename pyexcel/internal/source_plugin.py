@@ -9,12 +9,12 @@
 """
 from pyexcel import constants as constants
 from pyexcel import exceptions as exceptions
-from lml.plugin import PluginManager
 from pyexcel.internal.attributes import (
     register_book_attribute,
     register_sheet_attribute,
 )
 
+from lml.plugin import PluginManager
 from pyexcel_io import constants as io_constants
 
 REGISTRY_KEY_FORMAT = "%s-%s"

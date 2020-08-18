@@ -5,7 +5,7 @@ One liners
 This section shows you how to get data from your excel files and how to
 export data to excel files in **one line**
 
-One liner to get data from the excel files
+Read from the excel files
 --------------------------------------------------------------------------------
 
 Get a list of dictionaries
@@ -183,7 +183,7 @@ And check:
    >>> os.unlink("book.xls")
 
 
-Data export in one line
+Write data
 ---------------------------------------------
 
 Export an array
@@ -344,14 +344,13 @@ Let's verify its order:
 Please notice that "Sheet 2" is the first item in the *book_dict*, meaning the order of sheets are preserved.
 
 
-File format transcoding on one line
+Transcoding
 -------------------------------------------
 
 .. note::
 
-   Please note that the following file transcoding could be with zero line. Please
-   install pyexcel-cli and you will do the transcode in one command. No need to
-   open your editor, save the problem, then python run.
+   Please note that `pyexcel-cli` can perform file transcoding at command line.
+   No need to open your editor, save the problem, then python run.
 
 .. testcode::
    :hide:
