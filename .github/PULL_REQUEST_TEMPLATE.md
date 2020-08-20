@@ -9,4 +9,3 @@ With your PR, here is a check list:
 - [ ] run 'make format' so as to confirm the pyexcel organisation's coding style
 - [ ] Please add yourself to 'contributors' section of pyexcel.yml (if not found, please use CONTRIBUTORS.rst)
 - [ ] Agree on NEW BSD License for your contribution
-- [ ] Has `moban` been run?
