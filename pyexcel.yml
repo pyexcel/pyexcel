@@ -18,7 +18,7 @@ sphinx_extensions:
   - sphinxcontrib.excel
 dependencies:
   - lml>=0.0.4
-  - pyexcel-io>=0.5.19
+  - pyexcel-io>=0.6.0
   - texttable>=0.8.2
 extra_dependencies:
   - xls:
