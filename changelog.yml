@@ -4,6 +4,12 @@ releases:
 - changes:
   - action: Updated
     details:
+    - "update queryset source to work with pyexcel-io 0.6.0"
+  version: 0.6.5
+  date: 10.2020
+- changes:
+  - action: Updated
+    details:
     - "`#219`: book created from dict no longer discards order."
   version: 0.6.4
   date: 18.08.2020
