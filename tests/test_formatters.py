@@ -222,8 +222,7 @@ class TestRowFormatter(TestCase):
         save_as(dest_file_name=self.testfile, adict=self.data)
 
     def test_general_usage(self):
-        """format a row
-        """
+        """format a row"""
         r = get_sheet(file_name=self.testfile)
         r.row.format(1, str)
         c1 = r.row_at(1)
@@ -231,8 +230,7 @@ class TestRowFormatter(TestCase):
         self.assertEqual(c1, c2)
 
     def test_general_usage2(self):
-        """format a row
-        """
+        """format a row"""
         r = get_sheet(file_name=self.testfile)
         r.row.format(1, str)
         c1 = r.row_at(1)
@@ -240,8 +238,7 @@ class TestRowFormatter(TestCase):
         self.assertEqual(c1, c2)
 
     def test_one_formatter_for_two_rows(self):
-        """format more than one row
-        """
+        """format more than one row"""
         r = get_sheet(file_name=self.testfile)
         r.row.format([1, 2], str)
         c1 = r.row_at(2)

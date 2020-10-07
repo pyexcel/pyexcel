@@ -237,8 +237,7 @@ class Row(utils.CommonPropertyAmongRowNColumn):
         return new_instance
 
     def format(self, row_index=None, formatter=None, format_specs=None):
-        """Format a row
-        """
+        """Format a row"""
         if row_index is not None:
             self._handle_one_formatter(row_index, formatter)
         elif format_specs:

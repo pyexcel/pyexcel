@@ -53,8 +53,7 @@ class TestToRecord(TestCase):
         eq_(result, list(actual))
 
     def test_book_reader_to_records_custom(self):
-        """use custom header
-        """
+        """use custom header"""
         r = pe.SeriesReader(self.testfile)
         custom_headers = ["O", "P", "Q"]
         result = [

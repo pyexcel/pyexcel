@@ -47,8 +47,7 @@ class CommonPropertyAmongRowNColumn(object):
 
 
 def analyse_slice(aslice, upper_bound):
-    """An internal function to analyze a given slice
-    """
+    """An internal function to analyze a given slice"""
     if aslice.start is None:
         start = 0
     else:

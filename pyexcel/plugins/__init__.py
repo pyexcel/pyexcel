@@ -11,11 +11,10 @@ import types
 from itertools import product
 
 from pyexcel import constants as constants
+from lml.plugin import PluginInfo, PluginInfoChain
 from pyexcel._compact import is_string
 from pyexcel.exceptions import FileTypeNotSupported
 from pyexcel.internal.plugins import PARSER, RENDERER
-
-from lml.plugin import PluginInfo, PluginInfoChain
 
 
 class SourceInfo(PluginInfo):
@@ -133,8 +132,7 @@ class IOPluginInfo(PluginInfo):
 
 
 class PyexcelPluginChain(PluginInfoChain):
-    """It is used by pyexcel plugins
-    """
+    """It is used by pyexcel plugins"""
 
     def add_a_source(self, relative_plugin_class_path=None, **keywords):
         """
