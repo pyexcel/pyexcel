@@ -1,5 +1,5 @@
 lml==0.0.4
-pyexcel-io==0.5.19
+pyexcel-io==0.6.2
 texttable==0.8.3
 pyexcel-xlsx==0.4.1
 pyexcel-xls==0.4.1

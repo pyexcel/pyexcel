@@ -11,15 +11,13 @@ from lml.plugin import PluginManager
 
 
 class IOPluginManager(PluginManager):
-    """Generic plugin manager for renderer and parser
-    """
+    """Generic plugin manager for renderer and parser"""
 
     def __init__(self, name):
         PluginManager.__init__(self, name)
 
     def get_a_plugin(self, key, library=None):
-        """get a plugin to handle the file type
-        """
+        """get a plugin to handle the file type"""
         __file_type = None
         if key:
             __file_type = key.lower()
@@ -28,8 +26,7 @@ class IOPluginManager(PluginManager):
         return plugin_cls(__file_type)
 
     def get_all_file_types(self):
-        """get all supported file types
-        """
+        """get all supported file types"""
         file_types = list(self.registry.keys())
         return file_types
 

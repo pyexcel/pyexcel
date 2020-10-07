@@ -542,5 +542,8 @@ cscope.in.out
 cscope.po.out
 
 
+# remove moban hash dictionary
+.moban.hashes
+
 docs/build/
 commons

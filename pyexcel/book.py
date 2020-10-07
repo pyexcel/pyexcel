@@ -40,8 +40,7 @@ class Book(BookMeta):
         self.init(sheets=sheets, filename=filename, path=path)
 
     def init(self, sheets=None, filename="memory", path=None):
-        """indpendent function so that it could be called multiple times
-        """
+        """indpendent function so that it could be called multiple times"""
         self.__path = path
         self.filename = filename
         self.load_from_sheets(sheets)
@@ -218,8 +217,7 @@ class Book(BookMeta):
 
 
 def to_book(bookstream):
-    """Convert a bookstream to Book
-    """
+    """Convert a bookstream to Book"""
     if isinstance(bookstream, Book):
         return bookstream
     else:
