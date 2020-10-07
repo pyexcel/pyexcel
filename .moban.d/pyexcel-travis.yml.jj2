@@ -1,4 +1,10 @@
 {% extends "travis.yml.jj2" %}
+{%block extra_matrix %}
+matrix:
+  include:
+    - python: 3.6
+      env: MINREQ=1
+{%endblock%}
 {%block custom_python_versions%}
 python:
   - 3.8
