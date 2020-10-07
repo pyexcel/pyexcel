@@ -7,14 +7,9 @@ python:
   - 3.8
   - 3.7
   - 3.6
-matrix:
-  include:
-    - python: 3.6
-      env: MINREQ=1
 
 stages:
   - lint
-  - moban
   - test
 
 
@@ -27,16 +22,6 @@ stages:
   stage: lint
   script: make lint
 
-.moban: &moban
-  python: 3.6
-  env:
-    - MINREQ=0
-  stage: moban
-  install: pip install moban gitfs2 pypifs moban-jinja2-github moban-ansible
-  script:
-    - moban
-    - git diff --exit-code
-
 jobs:
   include:
     - *moban
@@ -45,7 +30,6 @@ jobs:
 stage: test
 
 before_install:
-  - if [[ $TRAVIS_PYTHON_VERSION == "pypy" ]]; then rm tests/test_examples.py; fi
   - if [[ -f min_requirements.txt && "$MINREQ" -eq 1 ]]; then
       mv min_requirements.txt requirements.txt ;
     fi
