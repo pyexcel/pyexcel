@@ -14,7 +14,7 @@ jobs:
         python-version: '3.7'
     - name: check changes
       run: |
-        pip install moban gitfs2 pypifs
+        pip install moban gitfs2 pypifs moban-ansible moban-jinja2-github
         moban
         git status
         git diff --exit-code
