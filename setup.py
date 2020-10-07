@@ -73,7 +73,7 @@ PYTHON_REQUIRES = ">=3.6"
 
 INSTALL_REQUIRES = [
     "lml>=0.0.4",
-    "pyexcel-io>=0.6.1",
+    "pyexcel-io>=0.6.2",
     "texttable>=0.8.2",
 ]
 SETUP_COMMANDS = {}
