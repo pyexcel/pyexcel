@@ -1,3 +1,5 @@
+
+
 17 contributors
 ================================================================================
 
@@ -16,7 +18,7 @@ In alphabetical order:
 * `Linghui Zeng <https://github.com/mathsyouth>`_
 * `nikolas <https://github.com/nikolas>`_
 * `Rintze M. Zelle <https://github.com/rmzelle>`_
-* `Simeon Visser <http://simeonvisser.com>`_
+* `Simeon Visser <https://github.com/svisser>`_
 * `Simon Allen <https://github.com/garfunkel>`_
 * `Tim Gates <https://github.com/timgates42>`_
 * `William Jamir Silva <https://github.com/williamjamir>`_

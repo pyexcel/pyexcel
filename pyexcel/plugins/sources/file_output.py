@@ -14,8 +14,7 @@ from pyexcel.internal import RENDERER
 
 # pylint: disable=W0223
 class WriteSheetToFile(AbstractSource):
-    """Pick up 'file_name' field and do single sheet based read and write
-    """
+    """Pick up 'file_name' field and do single sheet based read and write"""
 
     def __init__(self, file_name=None, renderer_library=None, **keywords):
         AbstractSource.__init__(self, **keywords)
@@ -36,8 +35,7 @@ class WriteSheetToFile(AbstractSource):
 
 # pylint: disable=W0223
 class WriteBookToFile(WriteSheetToFile):
-    """Pick up 'file_name' field and do multiple sheet based read and write
-    """
+    """Pick up 'file_name' field and do multiple sheet based read and write"""
 
     def write_data(self, book):
         self._renderer.render_book_to_file(

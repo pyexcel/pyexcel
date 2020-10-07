@@ -10,7 +10,8 @@
 from pyexcel import constants as constants
 from pyexcel.source import AbstractSource
 
-from pyexcel_io.database.querysets import QuerysetsReader
+from pyexcel_io import get_data
+from pyexcel_io.constants import DB_QUERYSET
 from . import params
 
 
@@ -67,8 +68,11 @@ class SheetQuerySetSource(AbstractSource):
         )
         if self.__skip_row_func is not None:
             local_params["skip_row_func"] = self.__skip_row_func
-        reader = QuerysetsReader(
-            self.__query_sets, self.__column_names, **local_params
+
+        data = get_data(
+            self.__query_sets,
+            file_type=DB_QUERYSET,
+            column_names=self.__column_names,
+            **local_params
         )
-        data = reader.to_array()
-        return {self.__sheet_name: data}
+        return data

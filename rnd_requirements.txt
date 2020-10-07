@@ -1,2 +1,0 @@
-https://github.com/pyexcel-renderers/pyexcel-pygal/archive/master.zip
-https://github.com/pyexcel/pyexcel-io/archive/master.zip

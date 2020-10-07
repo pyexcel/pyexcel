@@ -9,12 +9,12 @@
 """
 from pyexcel import constants as constants
 from pyexcel import exceptions as exceptions
+from lml.plugin import PluginManager
 from pyexcel.internal.attributes import (
     register_book_attribute,
     register_sheet_attribute,
 )
 
-from lml.plugin import PluginManager
 from pyexcel_io import constants as io_constants
 
 REGISTRY_KEY_FORMAT = "%s-%s"
@@ -60,7 +60,7 @@ class SourcePluginManager(PluginManager):
     def get_a_plugin(
         self, target=None, action=None, source_library=None, **keywords
     ):
-        """obtain a source plugin for pyexcel signature functions"""
+        """obtain a source plugin for signature functions"""
         key = REGISTRY_KEY_FORMAT % (target, action)
         io_library = None
         # backward support pyexcel-io library parameter
@@ -75,26 +75,25 @@ class SourcePluginManager(PluginManager):
         return source_instance
 
     def get_source(self, **keywords):
-        """obtain a sheet read source plugin for pyexcel signature functions"""
+        """obtain a sheet read source plugin for signature functions"""
         return self.get_a_plugin(
             target=constants.SHEET, action=constants.READ_ACTION, **keywords
         )
 
     def get_book_source(self, **keywords):
-        """obtain a book read source plugin for pyexcel signature functions"""
+        """obtain a book read source plugin for signature functions"""
         return self.get_a_plugin(
             target=constants.BOOK, action=constants.READ_ACTION, **keywords
         )
 
     def get_writable_source(self, **keywords):
-        """obtain a sheet write source plugin for pyexcel signature functions
-        """
+        """obtain a sheet write source plugin for signature functions"""
         return self.get_a_plugin(
             target=constants.SHEET, action=constants.WRITE_ACTION, **keywords
         )
 
     def get_writable_book_source(self, **keywords):
-        """obtain a book write source plugin for pyexcel signature functions"""
+        """obtain a book write source plugin for signature functions"""
         return self.get_a_plugin(
             target=constants.BOOK, action=constants.WRITE_ACTION, **keywords
         )

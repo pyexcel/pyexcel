@@ -111,8 +111,7 @@ class Matrix(SheetMeta):
             raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
 
     def set_row_at(self, row_index, data_array):
-        """Update a row data range
-        """
+        """Update a row data range"""
         nrows = self.number_of_rows()
         if row_index < nrows:
             self.__array[row_index] = data_array
@@ -449,8 +448,7 @@ class Matrix(SheetMeta):
         self.__width, self.__array = uniform(self.__array)
 
     def delete_columns(self, column_indices):
-        """Delete columns by specified list of indices
-        """
+        """Delete columns by specified list of indices"""
         if isinstance(column_indices, list) is False:
             raise TypeError(constants.MESSAGE_DATA_ERROR_DATA_TYPE_MISMATCH)
         if len(column_indices) > 0:
@@ -502,8 +500,7 @@ class Matrix(SheetMeta):
         self.__width, self.__array = uniform(self.__array)
 
     def to_array(self):
-        """Get an array out
-        """
+        """Get an array out"""
         return self.__array
 
     def __iter__(self):

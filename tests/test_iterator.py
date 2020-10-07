@@ -82,15 +82,13 @@ class TestMatrixColumn:
         m.extend_columns(1.1)
 
     def test_iadd_list(self):
-        """Test in place add a list
-        """
+        """Test in place add a list"""
         m2 = Matrix(self.data)
         m2.column += self.data3
         eq_(self.result, m2.get_internal_array())
 
     def test_add(self):
-        """Test operator add overload
-        """
+        """Test operator add overload"""
         # +
         m3 = Matrix(self.data)
         m4 = m3.column + self.data3

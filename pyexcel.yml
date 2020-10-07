@@ -1,13 +1,13 @@
 overrides: "pyexcel.yaml"
 name: "pyexcel"
+author: chfw
 nick_name: pyexcel
-version: 0.6.4
-current_version: 0.6.4
-release: 0.6.4
+version: 0.6.5
+current_version: 0.6.5
+release: 0.6.5
 copyright_year: 2014-2020
 branch: master
 is_on_conda: true
-moban_command: false
 setup_use_markers: true
 sphinx_extensions:
   - sphinx.ext.autosummary
@@ -18,7 +18,7 @@ sphinx_extensions:
   - sphinxcontrib.excel
 dependencies:
   - lml>=0.0.4
-  - pyexcel-io>=0.5.19
+  - pyexcel-io>=0.6.2
   - texttable>=0.8.2
 extra_dependencies:
   - xls:
@@ -39,38 +39,4 @@ description: A wrapper library that provides one API to read, manipulate and wri
 python_requires: ">=3.6"
 min_python_version: "3.6"
 skip_readme: true
-contributors:
-  - name: J Harley
-    url: https://github.com/julzhk
-  - name: John Vandenberg
-    url: https://github.com/jayvdb
-  - name: Linghui Zeng
-    url: https://github.com/mathsyouth
-  - name: Chris Hill-Scott
-    url: https://github.com/quis
-  - name: nikolas
-    url: https://github.com/nikolas
-  - name: Rintze M. Zelle
-    url: https://github.com/rmzelle
-  - name: William Jamir Silva
-    url: https://github.com/williamjamir
-  - name: Joel Nothman
-    url: https://github.com/jnothman
-  - name: Simon Allen
-    url: https://github.com/garfunkel
-  - name: Daryl Yu
-    url: https://github.com/darylyu
-  - name: Ayan Banerjee
-    url: https://github.com/ayan-b
-  - name: Arunkumar Rajendran
-    url: https://github.com/arunkumar-ra
-  - name: Andre Almar
-    url: https://github.com/andrealmar
-  - name: Akshaya Kumar Sharma
-    url: https://github.com/akshayakrsh
-  - name: Tim Gates
-    url: https://github.com/timgates42
-  - name: Simeon Visser
-    url: http://simeonvisser.com
-  - name: Craig Anderson
-    url: https://github.com/craiga
+moban_command: false

@@ -294,8 +294,7 @@ class Column(utils.CommonPropertyAmongRowNColumn):
         return self._ref.named_column_at(the_attr)
 
     def format(self, column_index=None, formatter=None, format_specs=None):
-        """Format a column
-        """
+        """Format a column"""
         if column_index is not None:
             self._handle_one_formatter(column_index, formatter)
         elif format_specs:

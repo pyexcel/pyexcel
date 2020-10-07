@@ -1,8 +1,0 @@
-{{ contributors|length }} contributors
-================================================================================
-
-In alphabetical order:
-
-{% for contributor in contributors|sort(attribute='name') %}
-* `{{ contributor.name }} <{{ contributor.url }}>`_
-{% endfor %}

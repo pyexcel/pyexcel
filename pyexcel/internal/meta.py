@@ -19,8 +19,7 @@ from pyexcel.internal.utils import make_a_property
 
 
 def make_presenter(source_getter, attribute=None):
-    """make a custom presentation method for each file types
-    """
+    """make a custom presentation method for each file types"""
 
     def custom_presenter(self, **keywords):
         """docstring is assigned a few lines down the line"""
@@ -42,22 +41,19 @@ def make_presenter(source_getter, attribute=None):
 
 
 def sheet_presenter(attribute=None):
-    """make a custom presentation method for sheet
-    """
+    """make a custom presentation method for sheet"""
     source_getter = SOURCE.get_writable_source
     return make_presenter(source_getter, attribute)
 
 
 def book_presenter(attribute=None):
-    """make a custom presentation method for book
-    """
+    """make a custom presentation method for book"""
     source_getter = SOURCE.get_writable_book_source
     return make_presenter(source_getter, attribute)
 
 
 def importer(attribute=None):
-    """make a custom input method for sheet
-    """
+    """make a custom input method for sheet"""
 
     def custom_importer1(self, content, **keywords):
         """docstring is assigned a few lines down the line"""
@@ -79,8 +75,7 @@ def importer(attribute=None):
 
 
 def book_importer(attribute=None):
-    """make a custom input method for book
-    """
+    """make a custom input method for book"""
 
     def custom_book_importer(self, content, **keywords):
         """docstring is assigned a few lines down the line"""
@@ -261,8 +256,7 @@ class SheetMeta(PyexcelObject):
 
     @append_doc(docs.SAVE_AS_OPTIONS)
     def save_as(self, filename, **keywords):
-        """Save the content to a named file
-        """
+        """Save the content to a named file"""
         return save_sheet(self, file_name=filename, **keywords)
 
     def save_to_memory(self, file_type, stream=None, **keywords):

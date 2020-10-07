@@ -1,7 +1,7 @@
 `pyexcel` - Let you focus on data, instead of file formats
 ================================================================================
 
-:Author: C.W.
+:Author: chfw
 :Source code: http://github.com/pyexcel/pyexcel.git
 :Issues: http://github.com/pyexcel/pyexcel/issues
 :License: New BSD License
@@ -200,8 +200,10 @@ For individual excel file formats, please install them as you wish:
    ======================== ======================= ================= ==================
    Package name              Supported file formats  Dependencies     Python versions
    ======================== ======================= ================= ==================
-   `pyexcel-io`_            csv, csvz [#f1]_, tsv,                    2.6, 2.7, 3.3,
-                            tsvz [#f2]_                               3.4, 3.5, 3.6
+   `pyexcel-io`_ >=v0.6.0   csv, csvz [#f1]_, tsv,                    3.6+ 
+                            tsvz [#f2]_                               
+   `pyexcel-io`_ <=0.5.20   same as above                             2.6, 2.7, 3.3,
+                                                                      3.4, 3.5, 3.6
                                                                       pypy
    `pyexcel-xls`_           xls, xlsx(read only),   `xlrd`_,          same as above
                             xlsm(read only)         `xlwt`_
@@ -309,6 +311,7 @@ For compatibility tables of pyexcel-io plugins, please click `here <http://pyexc
     ======== ========== ============= ==================== ============= =============
     pyexcel  pyexcel-io pyexcel-text  pyexcel-handsontable pyexcel-pygal pyexcel-gantt
     ======== ========== ============= ==================== ============= =============
+    0.6.5+   0.6.2+     0.2.6+        0.0.1+               0.0.1         0.0.1
     0.5.15+  0.5.19+    0.2.6+        0.0.1+               0.0.1         0.0.1
     0.5.14   0.5.18     0.2.6+        0.0.1+               0.0.1         0.0.1
     0.5.10+  0.5.11+    0.2.6+        0.0.1+               0.0.1         0.0.1

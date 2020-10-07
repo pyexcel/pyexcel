@@ -198,8 +198,7 @@ def ColumnSeriesReader(file_name=None, sheetname=None, series=0, **keywords):
     message="Deprecated since v0.0.7! Please use class Book instead",
 )
 def BookReader(file_name, **keywords):
-    """For backward compatibility
-    """
+    """For backward compatibility"""
     return load_book(file_name, **keywords)
 
 
