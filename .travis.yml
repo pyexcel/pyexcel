@@ -7,6 +7,10 @@ python:
   - 3.8
   - 3.7
   - 3.6
+matrix:
+  include:
+    - python: 3.6
+      env: MINREQ=1
 
 stages:
   - lint
