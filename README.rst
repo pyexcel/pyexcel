@@ -1002,8 +1002,10 @@ Available Plugins
    ======================== ======================= ================= ==================
    Package name              Supported file formats  Dependencies     Python versions
    ======================== ======================= ================= ==================
-   `pyexcel-io`_            csv, csvz [#f1]_, tsv,                    2.6, 2.7, 3.3,
-                            tsvz [#f2]_                               3.4, 3.5, 3.6
+   `pyexcel-io`_ >=v0.6.0   csv, csvz [#f1]_, tsv,                    3.6+ 
+                            tsvz [#f2]_                               
+   `pyexcel-io`_ <=0.5.20   same as above                             2.6, 2.7, 3.3,
+                                                                      3.4, 3.5, 3.6
                                                                       pypy
    `pyexcel-xls`_           xls, xlsx(read only),   `xlrd`_,          same as above
                             xlsm(read only)         `xlwt`_
