@@ -111,7 +111,7 @@ releases:
     details:
     - '`#126`, dest_sheet_name in save_as will set the sheet name in the output'
     - '`#115`, Fix set membership test to run faster in python2'
-  date: unreleased
+  date: 26.03.2018
   version: 0.5.8
 - changes:
   - action: added
