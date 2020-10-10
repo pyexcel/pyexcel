@@ -143,7 +143,7 @@ Change log
 #. `#140 <https://github.com/pyexcel/pyexcel/issues/140>`_, Direct writes to
    cells yield weird results
 
-0.5.8 - unreleased
+0.5.8 - 26.03.2018
 --------------------------------------------------------------------------------
 
 **added**
