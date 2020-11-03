@@ -82,18 +82,16 @@ class Matrix(SheetMeta):
         :param int column: column index which starts from 0
         :param any new_value: new value if this is to set the value
         """
-        if row < self.number_of_rows() and column < self.number_of_columns():
-            if new_value is None:
-                # get
+        if new_value is None:
+            if row < self.number_of_rows() and column < self.number_of_columns():
                 return self.__array[row][column]
             else:
-                # set
-                self.__array[row][column] = new_value
-        else:
-            if new_value is None:
                 raise IndexError("Index out of range")
-            else:
-                self.paste((row, column), [[new_value]])
+        else:
+            if row >= self.number_of_rows() or column >= self.number_of_columns():
+                _width, self.__array = uniform(self.__array, row+1, column+1)
+
+            self.__array[row][column] = new_value
 
     def row_at(self, index):
         """
@@ -797,12 +795,17 @@ def longest_row_number(array):
         return 0
 
 
-def uniform(array):
+def uniform(array, row_no=0, column_no=0):
     """Fill-in empty strings to empty cells to make it MxN
 
     :param list in_array: a list of arrays
+    :param int row_no: desired minimum row count
+    :param int column_no: desired minimum column length
     """
-    width = longest_row_number(array)
+    width = max(column_no, longest_row_number(array))
+    array_length = len(array)
+    height = max(array_length, row_no)
+
     if width == 0:
         return 0, array
     else:
@@ -813,6 +816,9 @@ def uniform(array):
                     row[index] = constants.DEFAULT_NA
             if row_length < width:
                 row += [constants.DEFAULT_NA] * (width - row_length)
+        for _ in range(array_length, height):
+            row = [constants.DEFAULT_NA] * width
+            array.append(row)
         return width, array
 
 
