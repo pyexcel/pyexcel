@@ -82,14 +82,14 @@ class Matrix(SheetMeta):
         :param int column: column index which starts from 0
         :param any new_value: new value if this is to set the value
         """
-        fits = row < self.number_of_rows() and column < self.number_of_columns()
+        fit = row < self.number_of_rows() and column < self.number_of_columns()
         if new_value is None:
-            if fits:
+            if fit:
                 return self.__array[row][column]
             else:
                 raise IndexError("Index out of range")
         else:
-            if not fits:
+            if not fit:
                 _width, self.__array = uniform(self.__array, row+1, column+1)
 
             self.__array[row][column] = new_value
