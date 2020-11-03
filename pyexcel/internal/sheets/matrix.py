@@ -82,13 +82,14 @@ class Matrix(SheetMeta):
         :param int column: column index which starts from 0
         :param any new_value: new value if this is to set the value
         """
+        fits = row < self.number_of_rows() and column < self.number_of_columns()
         if new_value is None:
-            if row < self.number_of_rows() and column < self.number_of_columns():
+            if fits:
                 return self.__array[row][column]
             else:
                 raise IndexError("Index out of range")
         else:
-            if row >= self.number_of_rows() or column >= self.number_of_columns():
+            if not fits:
                 _width, self.__array = uniform(self.__array, row+1, column+1)
 
             self.__array[row][column] = new_value
@@ -795,16 +796,16 @@ def longest_row_number(array):
         return 0
 
 
-def uniform(array, row_no=0, column_no=0):
+def uniform(array, min_rows=0, min_columns=0):
     """Fill-in empty strings to empty cells to make it MxN
 
     :param list in_array: a list of arrays
     :param int row_no: desired minimum row count
     :param int column_no: desired minimum column length
     """
-    width = max(column_no, longest_row_number(array))
+    width = max(min_columns, longest_row_number(array))
     array_length = len(array)
-    height = max(array_length, row_no)
+    height = max(array_length, min_rows)
 
     if width == 0:
         return 0, array
