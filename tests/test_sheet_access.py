@@ -1,15 +1,10 @@
-import unittest
-
 import pyexcel
 import random
 
+from base import SheetBaseTestcase
 
-class SheetAccessTest(unittest.TestCase):
-    filename = "fixtures/non-uniform-rows.csv"
 
-    def setUp(self):
-        self.sheet = pyexcel.get_sheet(file_name=self.filename)
-
+class SheetAccessTest(SheetBaseTestcase):
     @staticmethod
     def get_random_char():
         i = random.randint(97, 122)
