@@ -1,8 +1,8 @@
 import unittest
-from nose.tools import eq_, raises
 
 import pyexcel
 import random
+
 
 class SheetAccessTest(unittest.TestCase):
     filename = "fixtures/non-uniform-rows.csv"
@@ -22,4 +22,3 @@ class SheetAccessTest(unittest.TestCase):
         self.sheet[cell] = value
 
         self.assertEqual(value, self.sheet[cell])
-    
