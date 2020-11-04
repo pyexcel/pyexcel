@@ -1,4 +1,3 @@
-import pyexcel
 import random
 
 from base import SheetBaseTestcase

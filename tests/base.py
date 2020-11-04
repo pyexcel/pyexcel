@@ -68,7 +68,7 @@ class SheetBaseTestcase():
 
     def setUp(self):
         filename = os.path.join(os.path.dirname(__file__), self.filename)
-        self.sheet = pyexcel.get_sheet(file_name=filename)
+        self.sheet = pe.get_sheet(file_name=filename)
 
 
 class PyexcelBase:
