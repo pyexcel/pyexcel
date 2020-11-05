@@ -19,7 +19,7 @@ class TestSheetAccess(PyexcelSheetBase):
 
     def test_out_of_bounds_read(self):
         with self.assertRaises(IndexError):
-            self[0, 20]
+            self.sheet[0, 20]
 
         with self.assertRaises(IndexError):
-            self[20, 0]
+            self.sheet[20, 0]
