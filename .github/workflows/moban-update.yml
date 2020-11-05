@@ -19,7 +19,7 @@ jobs:
           git status
           git diff --exit-code
       - name: Auto-commit
-        if: failure()
+        if: failure() && github.repository == 'pyexcel/pyexcel'
         uses: docker://cdssnc/auto-commit-github-action
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
