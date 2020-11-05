@@ -5,7 +5,7 @@ pyexcel - Let you focus on data, instead of file formats
 .. image:: https://raw.githubusercontent.com/pyexcel/pyexcel.github.io/master/images/patreon.png
    :target: https://www.patreon.com/chfw
 
-.. image:: https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg
+.. image:: https://raw.githubusercontent.com/pyexcel/pyexcel-mobans/master/images/awesome-badge.svg
    :target: https://awesome-python.com/#specific-formats-processing
 
 .. image:: https://travis-ci.org/pyexcel/pyexcel.svg?branch=master
@@ -21,7 +21,7 @@ pyexcel - Let you focus on data, instead of file formats
    :target: https://anaconda.org/conda-forge/pyexcel
 
 .. image:: https://pepy.tech/badge/pyexcel/month
-   :target: https://pepy.tech/project/pyexcel/month
+   :target: https://pepy.tech/project/pyexcel
 
 .. image:: https://anaconda.org/conda-forge/pyexcel/badges/downloads.svg
    :target: https://anaconda.org/conda-forge/pyexcel
@@ -59,6 +59,8 @@ Known constraints
 ==================
 
 Fonts, colors and charts are not supported.
+
+Nor to read password protected xls, xlsx and ods files.
 
 Introduction
 ================================================================================
