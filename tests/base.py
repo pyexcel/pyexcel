@@ -64,12 +64,18 @@ def create_sample_file2_in_memory(file_type):
     return io
 
 
+<<<<<<< Updated upstream
 class PyexcelSheetBase(unittest.TestCase):
     filename = "fixtures/non-uniform-rows.csv"
 
+=======
+class PyexcelSheetBase():
+>>>>>>> Stashed changes
     def setUp(self):
-        filename = os.path.join(os.path.dirname(__file__), self.filename)
-        self.sheet = pe.get_sheet(file_name=filename)
+        self.sheet = pe.Sheet([
+            [f"{row_no}_{col_no}" for col_no in range(10)]
+            for row_no in range(10)
+        ])
 
 
 class PyexcelBase:

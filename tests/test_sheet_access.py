@@ -23,3 +23,17 @@ class TestSheetAccess(PyexcelSheetBase):
 
         with self.assertRaises(IndexError):
             self.sheet[20, 0]
+        
+    def test_column_edge_case(self):
+        column = self.sheet.number_of_columns()-1
+
+        self.assertEqual(self.sheet[0, column], f"0_{column}")
+        with self.assertRaises(IndexError):
+            self.sheet[0, column+1]
+
+    def test_row_edge_case(self):
+        row = self.sheet.number_of_rows()-1
+
+        self.assertEqual(self.sheet[row, 0], f"{row}_0")
+        with self.assertRaises(IndexError):
+            self.sheet[row+1, 0]
