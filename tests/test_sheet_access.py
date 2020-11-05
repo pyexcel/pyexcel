@@ -23,7 +23,7 @@ class TestSheetAccess(PyexcelSheetBase):
 
         with self.assertRaises(IndexError):
             self.sheet[20, 0]
-        
+
     def test_column_edge_case(self):
         column = self.sheet.number_of_columns()-1
 
