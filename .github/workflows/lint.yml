@@ -15,5 +15,6 @@ jobs:
       - name: lint
         run: |
           pip install flake8
+          pip install -r tests/requirements.txt
           flake8 --exclude=.moban.d,docs,setup.py --builtins=unicode,xrange,long . 
           python setup.py checkdocs
