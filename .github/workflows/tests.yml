@@ -1,0 +1,31 @@
+name: run_tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    strategy:
+        matrix:
+            python-version: [3.6, 3.7, 3.8, 3.9]
+            os: [macOs-latest, ubuntu-latest, windows-latest]
+
+    runs-on: ${{ matrix.os }}
+    name: run tests
+    steps:
+      - uses: actions/checkout@v2
+        with:
+            ref: ${{ github.head_ref }}
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+            python-version: ${{ matrix.python-version }}
+      - name: lint
+        run: |
+          pip install flake8
+          flake8 --exclude=.moban.d,docs,setup.py --builtins=unicode,xrange,long . 
+          python setup.py checkdocs
+      - name: test
+        run: |
+          pip freeze
+          nosetests --with-coverage --cover-package pyexcel --cover-package tests tests --with-doctest --doctest-extension=.rst  docs/source pyexcel
+        
