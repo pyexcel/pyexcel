@@ -24,7 +24,7 @@ jobs:
         run: mv min_requirements.txt requirements.txt
       - name: install
         run: |
-          pip install -r rnd_requirements.txt
+          pip install -r requirements.txt
           pip install -r tests/requirements.txt
       - name: lint
         run: |
