@@ -27,11 +27,6 @@ jobs:
         run: |
           pip install -r requirements.txt
           pip install -r tests/requirements.txt
-      - name: lint
-        run: |
-          pip install flake8
-          flake8 --exclude=.moban.d,docs,setup.py --builtins=unicode,xrange,long . 
-          python setup.py checkdocs
       - name: test
         run: |
           pip freeze

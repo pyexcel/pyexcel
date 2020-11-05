@@ -1,0 +1,19 @@
+name: lint
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: lint code
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+            python-version: 3.8
+      - name: lint
+        run: |
+          pip install flake8
+          flake8 --exclude=.moban.d,docs,setup.py --builtins=unicode,xrange,long . 
+          python setup.py checkdocs
