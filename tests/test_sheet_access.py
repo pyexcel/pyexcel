@@ -3,7 +3,7 @@ import random
 from base import PyexcelSheetBase
 
 
-class SheetAccessTest(PyexcelSheetBase):
+class TestSheetAccess(PyexcelSheetBase):
     @staticmethod
     def get_random_char():
         i = random.randint(97, 122)
