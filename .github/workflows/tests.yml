@@ -5,6 +5,7 @@ on: [push, pull_request]
 jobs:
   test:
     strategy:
+        fail-fast: false
         matrix:
             python-version: [3.6, 3.7, 3.8, 3.9]
             os: [macOs-latest, ubuntu-latest, windows-latest]
@@ -21,7 +22,9 @@ jobs:
             python-version: ${{ matrix.python-version }}
       - name: install min_requirements
         if: matrix.python-version == 3.6
-        run: mv min_requirements.txt requirements.txt
+        run: |
+          rm requirements.txt
+          mv min_requirements.txt requirements.txt
       - name: install
         run: |
           pip install -r requirements.txt
