@@ -63,7 +63,7 @@ def create_sample_file2_in_memory(file_type):
     return io
 
 
-class SheetBaseTestcase():
+class PyexcelSheetBase():
     filename = "fixtures/non-uniform-rows.csv"
 
     def setUp(self):
