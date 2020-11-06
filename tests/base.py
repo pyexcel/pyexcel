@@ -3,6 +3,7 @@ import json
 
 import pyexcel as pe
 
+import unittest
 from nose.tools import eq_, raises
 
 
@@ -61,6 +62,16 @@ def create_sample_file2_in_memory(file_type):
         table.append(array)
     io = pe.save_as(dest_file_type=file_type, array=table)
     return io
+
+
+class PyexcelSheetBase(unittest.TestCase):
+    filename = "fixtures/non-uniform-rows.csv"
+
+    def setUp(self):
+        self.sheet = pe.Sheet([
+            [f"{row_no}_{col_no}" for col_no in range(10)]
+            for row_no in range(10)
+        ])
 
 
 class PyexcelBase:
