@@ -30,6 +30,7 @@ cloud "xls, xlsx" {
 [pyexcel-xls]
 [pyexcel-xlsx]
 [pyexcel-xlsxw]
+[pyexcel-libxlsxw]
 [pyexcel-xlsxr]
 }
 
@@ -43,6 +44,8 @@ cloud "xls, xlsx" {
 [ezodf] <<dependency>>
 [odfpy] <<dependency>>
 [lxml] <<dependency>>
+[libxlsxwpy] <<dependency>>
+[libxlsx] <<dependency>>
 
 [pyexcel public api] -right-> [pyexcel internal api]
 [pyexcel internal api] -right-> [pyexcel plugin interfaces]
@@ -78,6 +81,8 @@ cloud "xls, xlsx" {
 [pyexcel-ods] --- [odfpy]
 [pyexcel-xlsxr] -right- [lxml]
 [sphinxcontrib-excel] -right-> [pyexcel-handsontable]
+[pyexcel-libxlsxw] -right- [libxlsxwpy]
+[libxlsxwpy] -right- [libxlsx]
 
 skinparam component{
 
