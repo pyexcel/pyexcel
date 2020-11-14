@@ -12,14 +12,6 @@ class TestSheetAccess(PyexcelSheetBase):
     def test_out_of_bounds_write(self):
         value = self.get_random_char()
         column = self.get_random_char() + self.get_random_char()
-        cell = column + str(random.randint(1, 30))
-        self.sheet[cell] = value
-
-        self.assertEqual(value, self.sheet[cell])
-
-    def test_out_of_row_bound_write(self):
-        value = self.get_random_char()
-        column = self.get_random_char() + self.get_random_char()
         cell = column + str(random.randint(9, 30))
         self.sheet[cell] = value
 
