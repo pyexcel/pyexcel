@@ -4,6 +4,12 @@ releases:
 - changes:
   - action: Updated
     details:
+    - "`#233`: dynamically resize the table matrix on set_value. sheet['AA1'] = 'test' will work in this release."
+  version: 0.6.6
+  date: 14.11.2020
+- changes:
+  - action: Updated
+    details:
     - "update queryset source to work with pyexcel-io 0.6.0"
   version: 0.6.5
   date: 8.10.2020
