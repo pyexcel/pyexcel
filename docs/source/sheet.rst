@@ -2,9 +2,10 @@ Sheet
 ==========
 
 The sheet api here is much less powerful than pandas DataFrame when the array is of
-significant size. With true honesty, pandas DataFrame is much more powerful and
+significant size. To be honesty, pandas DataFrame is much more powerful and
 provide rich data manipulation apis. When would you consider the sheet api here?
-if your data manipulation steps are not complex, you could elect to use.
+if your data manipulation steps are basic and your data volume is not high, you
+can use them.
 
 
 Random access
@@ -74,6 +75,8 @@ Here is the example code showing how you can randomly access a cell:
 
    In order to set a value to a cell, please use
    sheet[row_index, column_index] = new_value
+
+   or sheet['A1'] = new_value
 
 
 **Random access to rows and columns**
@@ -192,24 +195,6 @@ You can call :meth:`~pyexcel.Sheet.rows()` instead::
 
     >>> list(sheet.rows())
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-
-You can get data from the bottom to the top one by
- calling :meth:`~pyexcel.Sheet.rrows()`::
-
-    >>> list(sheet.rrows())
-    [[7, 8, 9], [4, 5, 6], [1, 2, 3]]
-
-You might want the data arranged vertically. You can call
-:meth:`~pyexcel.Sheet.columns()`::
-
-    >>> list(sheet.columns())
-    [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
-
-You can get columns in reverse sequence as well by calling
-:meth:`~pyexcel.Sheet.rcolumns()`::
-
-    >>> list(sheet.rcolumns())
-    [[3, 6, 9], [2, 5, 8], [1, 4, 7]]
 
 
 **attributes**

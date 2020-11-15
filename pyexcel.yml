@@ -2,9 +2,9 @@ overrides: "pyexcel.yaml"
 name: "pyexcel"
 author: chfw
 nick_name: pyexcel
-version: 0.6.5
-current_version: 0.6.5
-release: 0.6.5
+version: 0.6.6
+current_version: 0.6.6
+release: 0.6.6
 copyright_year: 2014-2020
 branch: master
 is_on_conda: true
@@ -22,11 +22,11 @@ dependencies:
   - texttable>=0.8.2
 extra_dependencies:
   - xls:
-    - pyexcel-xls>=0.5.0
+    - pyexcel-xls>=0.6.0
   - xlsx:
-    - pyexcel-xlsx>=0.5.0
+    - pyexcel-xlsx>=0.6.0
   - ods:
-    - pyexcel-ods3>=0.5.0
+    - pyexcel-ods3>=0.6.0
 test_dependencies:
   - flask
   - SQLAlchemy

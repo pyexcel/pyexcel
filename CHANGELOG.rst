@@ -1,6 +1,15 @@
 Change log
 ================================================================================
 
+0.6.6 - 14.11.2020
+--------------------------------------------------------------------------------
+
+**Updated**
+
+#. `#233 <https://github.com/pyexcel/pyexcel/issues/233>`_: dynamically resize
+   the table matrix on set_value. sheet['AA1'] = 'test' will work in this
+   release.
+
 0.6.5 - 8.10.2020
 --------------------------------------------------------------------------------
 
@@ -143,7 +152,7 @@ Change log
 #. `#140 <https://github.com/pyexcel/pyexcel/issues/140>`_, Direct writes to
    cells yield weird results
 
-0.5.8 - unreleased
+0.5.8 - 26.03.2018
 --------------------------------------------------------------------------------
 
 **added**

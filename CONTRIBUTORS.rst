@@ -1,6 +1,6 @@
 
 
-17 contributors
+18 contributors
 ================================================================================
 
 In alphabetical order:
@@ -20,5 +20,6 @@ In alphabetical order:
 * `Rintze M. Zelle <https://github.com/rmzelle>`_
 * `Simeon Visser <https://github.com/svisser>`_
 * `Simon Allen <https://github.com/garfunkel>`_
+* `simon klemenc <https://github.com/hiaselhans>`_
 * `Tim Gates <https://github.com/timgates42>`_
 * `William Jamir Silva <https://github.com/williamjamir>`_

@@ -30,6 +30,7 @@ cloud "xls, xlsx" {
 [pyexcel-xls]
 [pyexcel-xlsx]
 [pyexcel-xlsxw]
+[pyexcel-libxlsxw]
 [pyexcel-xlsxr]
 }
 
@@ -43,6 +44,8 @@ cloud "xls, xlsx" {
 [ezodf] <<dependency>>
 [odfpy] <<dependency>>
 [lxml] <<dependency>>
+[libxlsxwpy] <<dependency>>
+[libxlsx] <<dependency>>
 
 [pyexcel public api] -right-> [pyexcel internal api]
 [pyexcel internal api] -right-> [pyexcel plugin interfaces]
@@ -60,12 +63,14 @@ cloud "xls, xlsx" {
 [pyexcel-io plugin interfaces] ..> [csv, csvz, tsv, tsvz]
 [pyexcel-io plugin interfaces] ..> [django, sqlalchemy]
 [pyexcel-io plugin interfaces] .up.> [pyexcel-xls]
+[pyexcel-io plugin interfaces] .up.> [pyexcel-xlsxw]
+[pyexcel-io plugin interfaces] .up.> [pyexcel-libxlsxw]
 [pyexcel-io plugin interfaces] .up.> [pyexcel-xlsx]
 [pyexcel-io plugin interfaces] .up.> [pyexcel-xlsxr]
 [pyexcel-io plugin interfaces] .left.> [pyexcel-ods]
 [pyexcel-io plugin interfaces] .right.> [pyexcel-ods3]
-[pyexcel-io plugin interfaces] .right.> [pyexcel-xlsxw]
 [pyexcel-io plugin interfaces] .right.> [pyexcel-odsr]
+
 
 [pyexcel-text] -up- [tabulate]
 [pyexcel-pygal] -up- [pygal]
@@ -73,11 +78,14 @@ cloud "xls, xlsx" {
 [pyexcel-xls] -right- [xlrd]
 [pyexcel-xls] -right- [xlwt]
 [pyexcel-xlsx] -right- [openpyxl]
-[pyexcel-xlsxw] -down- [xlsxwriter]
+[pyexcel-xlsxw] -up- [xlsxwriter]
 [pyexcel-ods3] --- [ezodf]
 [pyexcel-ods] --- [odfpy]
+[pyexcel-odsr] -up- [lxml]
 [pyexcel-xlsxr] -right- [lxml]
 [sphinxcontrib-excel] -right-> [pyexcel-handsontable]
+[pyexcel-libxlsxw] -up- [libxlsxwpy]
+[libxlsxwpy] -right- [libxlsx]
 
 skinparam component{
 

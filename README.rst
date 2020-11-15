@@ -5,7 +5,7 @@ pyexcel - Let you focus on data, instead of file formats
 .. image:: https://raw.githubusercontent.com/pyexcel/pyexcel.github.io/master/images/patreon.png
    :target: https://www.patreon.com/chfw
 
-.. image:: https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg
+.. image:: https://raw.githubusercontent.com/pyexcel/pyexcel-mobans/master/images/awesome-badge.svg
    :target: https://awesome-python.com/#specific-formats-processing
 
 .. image:: https://travis-ci.org/pyexcel/pyexcel.svg?branch=master
@@ -21,7 +21,7 @@ pyexcel - Let you focus on data, instead of file formats
    :target: https://anaconda.org/conda-forge/pyexcel
 
 .. image:: https://pepy.tech/badge/pyexcel/month
-   :target: https://pepy.tech/project/pyexcel/month
+   :target: https://pepy.tech/project/pyexcel
 
 .. image:: https://anaconda.org/conda-forge/pyexcel/badges/downloads.svg
    :target: https://anaconda.org/conda-forge/pyexcel
@@ -29,6 +29,11 @@ pyexcel - Let you focus on data, instead of file formats
 .. image:: https://img.shields.io/gitter/room/gitterHQ/gitter.svg
    :target: https://gitter.im/pyexcel/Lobby
 
+.. image:: https://img.shields.io/static/v1?label=continuous%20templating&message=%E6%A8%A1%E7%89%88%E6%9B%B4%E6%96%B0&color=blue&style=flat-square
+    :target: https://moban.readthedocs.io/en/latest/#at-scale-continous-templating-for-open-source-projects
+
+.. image:: https://img.shields.io/static/v1?label=coding%20style&message=black&color=black&style=flat-square
+    :target: https://github.com/psf/black
 .. image:: https://readthedocs.org/projects/pyexcel/badge/?version=latest
    :target: http://pyexcel.readthedocs.org/en/latest/
 
@@ -54,6 +59,8 @@ Known constraints
 ==================
 
 Fonts, colors and charts are not supported.
+
+Nor to read password protected xls, xlsx and ods files.
 
 Introduction
 ================================================================================
@@ -999,44 +1006,47 @@ Available Plugins
 
 .. table:: A list of file formats supported by external plugins
 
-   ======================== ======================= ================= ==================
-   Package name              Supported file formats  Dependencies     Python versions
-   ======================== ======================= ================= ==================
-   `pyexcel-io`_ >=v0.6.0   csv, csvz [#f1]_, tsv,                    3.6+ 
-                            tsvz [#f2]_                               
-   `pyexcel-io`_ <=0.5.20   same as above                             2.6, 2.7, 3.3,
-                                                                      3.4, 3.5, 3.6
-                                                                      pypy
-   `pyexcel-xls`_           xls, xlsx(read only),   `xlrd`_,          same as above
+   ======================== ======================= =================
+   Package name              Supported file formats  Dependencies
+   ======================== ======================= =================
+   `pyexcel-io`_            csv, csvz [#f1]_, tsv,
+                            tsvz [#f2]_
+   `pyexcel-xls`_           xls, xlsx(read only),   `xlrd`_,
                             xlsm(read only)         `xlwt`_
-   `pyexcel-xlsx`_          xlsx                    `openpyxl`_       same as above
-   `pyexcel-ods3`_          ods                     `pyexcel-ezodf`_, 2.6, 2.7, 3.3, 3.4
-                                                    lxml              3.5, 3.6
-   `pyexcel-ods`_           ods                     `odfpy`_          same as above
-   ======================== ======================= ================= ==================
+   `pyexcel-xlsx`_          xlsx                    `openpyxl`_
+   `pyexcel-ods3`_          ods                     `pyexcel-ezodf`_,
+                                                    lxml
+   `pyexcel-ods`_           ods                     `odfpy`_
+   ======================== ======================= =================
 
 .. table:: Dedicated file reader and writers
 
-   ======================== ======================= ================= ==================
-   Package name              Supported file formats  Dependencies     Python versions
-   ======================== ======================= ================= ==================
-   `pyexcel-xlsxw`_         xlsx(write only)        `XlsxWriter`_     Python 2 and 3
-   `pyexcel-xlsxr`_         xlsx(read only)         lxml              same as above
-   `pyexcel-xlsbr`_         xlsx(read only)         pyxlsb            same as above
-   `pyexcel-odsr`_          read only for ods, fods lxml              same as above
-   `pyexcel-odsw`_          write only for ods      loxun             same as above
-   `pyexcel-htmlr`_         html(read only)         lxml,html5lib     same as above
-   `pyexcel-pdfr`_          pdf(read only)          pdftables         Python 2 only.
-   ======================== ======================= ================= ==================
+   ======================== ======================= =================
+   Package name              Supported file formats  Dependencies
+   ======================== ======================= =================
+   `pyexcel-xlsxw`_         xlsx(write only)        `XlsxWriter`_
+   `pyexcel-libxlsxw`_      xlsx(write only)        `libxlsxwriter`_
+   `pyexcel-xlsxr`_         xlsx(read only)         lxml
+   `pyexcel-xlsbr`_         xlsb(read only)         pyxlsb
+   `pyexcel-odsr`_          read only for ods, fods lxml
+   `pyexcel-odsw`_          write only for ods      loxun
+   `pyexcel-htmlr`_         html(read only)         lxml,html5lib
+   `pyexcel-pdfr`_          pdf(read only)          camelot
+   ======================== ======================= =================
 
 
 Plugin shopping guide
 ------------------------
 
-Except csv files, xls, xlsx and ods files are a zip of a folder containing a lot of
-xml files 
+Since 2020, all pyexcel-io plugins have dropped the support for python version
+lower than 3.6. If you want to use any python verions, please use pyexcel-io
+and its plugins version lower than 0.6.0.
 
-The dedicated readers for excel files can stream read 
+
+Except csv files, xls, xlsx and ods files are a zip of a folder containing a lot of
+xml files
+
+The dedicated readers for excel files can stream read
 
 
 In order to manage the list of plugins installed, you need to use pip to add or remove
@@ -1058,6 +1068,7 @@ You need to append get_array(..., library='pyexcel-odsr').
 .. _pyexcel-pdfr: https://github.com/pyexcel/pyexcel-pdfr
 
 .. _pyexcel-xlsxw: https://github.com/pyexcel/pyexcel-xlsxw
+.. _pyexcel-libxlsxw: https://github.com/pyexcel/pyexcel-libxlsxw
 .. _pyexcel-xlsxr: https://github.com/pyexcel/pyexcel-xlsxr
 .. _pyexcel-xlsbr: https://github.com/pyexcel/pyexcel-xlsbr
 .. _pyexcel-htmlr: https://github.com/pyexcel/pyexcel-htmlr
@@ -1068,6 +1079,7 @@ You need to append get_array(..., library='pyexcel-odsr').
 .. _XlsxWriter: https://github.com/jmcnamara/XlsxWriter
 .. _pyexcel-ezodf: https://github.com/pyexcel/pyexcel-ezodf
 .. _odfpy: https://github.com/eea/odfpy
+.. _libxlsxwriter: http://libxlsxwriter.github.io/getting_started.html
 
 .. table:: Other data renderers
 

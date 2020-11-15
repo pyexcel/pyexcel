@@ -32,7 +32,7 @@ except (ValueError, UnicodeError, locale.Error):
 
 NAME = "pyexcel"
 AUTHOR = "chfw"
-VERSION = "0.6.5"
+VERSION = "0.6.6"
 EMAIL = "info@pyexcel.org"
 LICENSE = "New BSD"
 DESCRIPTION = (
@@ -40,7 +40,7 @@ DESCRIPTION = (
     "data in different excel formats"
 )
 URL = "https://github.com/pyexcel/pyexcel"
-DOWNLOAD_URL = "%s/archive/0.6.5.tar.gz" % URL
+DOWNLOAD_URL = "%s/archive/0.6.6.tar.gz" % URL
 FILES = ["README.rst", "CONTRIBUTORS.rst", "CHANGELOG.rst"]
 KEYWORDS = [
     "python",
@@ -80,19 +80,20 @@ SETUP_COMMANDS = {}
 
 PACKAGES = find_packages(exclude=["ez_setup", "examples", "tests", "tests.*"])
 EXTRAS_REQUIRE = {
-    "xls": ['pyexcel-xls>=0.5.0'],
-    "xlsx": ['pyexcel-xlsx>=0.5.0'],
-    "ods": ['pyexcel-ods3>=0.5.0'],
+    "xls": ['pyexcel-xls>=0.6.0'],
+    "xlsx": ['pyexcel-xlsx>=0.6.0'],
+    "ods": ['pyexcel-ods3>=0.6.0'],
 }
 # You do not need to read beyond this line
 PUBLISH_COMMAND = "{0} setup.py sdist bdist_wheel upload -r pypi".format(sys.executable)
-GS_COMMAND = ("gs pyexcel v0.6.5 " +
-              "Find 0.6.5 in changelog for more details")
+HERE = os.path.abspath(os.path.dirname(__file__))
+
+GS_COMMAND = ("gease pyexcel v0.6.6 " +
+              "Find 0.6.6 in changelog for more details")
 NO_GS_MESSAGE = ("Automatic github release is disabled. " +
                  "Please install gease to enable it.")
 UPLOAD_FAILED_MSG = (
     'Upload failed. please run "%s" yourself.' % PUBLISH_COMMAND)
-HERE = os.path.abspath(os.path.dirname(__file__))
 
 
 class PublishCommand(Command):
@@ -137,7 +138,6 @@ class PublishCommand(Command):
 SETUP_COMMANDS.update({
     "publish": PublishCommand
 })
-
 
 def has_gease():
     """
