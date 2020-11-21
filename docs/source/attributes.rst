@@ -96,7 +96,7 @@ Yet, it is possible assign a absolute url to an online excel file to an instance
 .. testcode::
    :hide:
 
-   >>> patcher.stop()
+   >>> patcher.stop()  # doctest: +SKIP
 
    
 For book
@@ -299,7 +299,7 @@ How about setting content via a url?
 .. testcode::
    :hide:
 
-   >>> patcher.stop()
+   >>> patcher.stop()  # doctest: +SKIP
 
 
 Getters and Setters
