@@ -189,7 +189,7 @@ Suppose you have excel file somewhere hosted::
 .. testcode::
    :hide:
 
-   >>> patcher.stop()
+   >>> patcher.stop()  # doctest: +SKIP
 
 
 For sheet
@@ -230,7 +230,7 @@ Get content
 .. testcode::
    :hide:
 
-   >>> patcher.stop()
+   >>> patcher.stop()  # doctest: +SKIP
 
    
 For book
@@ -287,4 +287,4 @@ How about setting content via a url?
 .. testcode::
    :hide:
 
-   >>> patcher.stop()
+   >>> patcher.stop()  # doctest: +SKIP
