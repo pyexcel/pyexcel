@@ -1,3 +1,5 @@
 https://github.com/pyexcel/pyexcel-pygal/archive/master.zip
 https://github.com/pyexcel/sphinxcontrib-excel/archive/master.zip
 sphinx-copybutton
+pathlib
+
