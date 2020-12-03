@@ -15,6 +15,7 @@ sphinx_extensions:
   - sphinx.ext.intersphinx
   - sphinx.ext.viewcode
   - sphinxcontrib.excel
+  - sphinx-copybutton
 dependencies:
   - lml>=0.0.4
   - pyexcel-io>=0.6.2
