@@ -68,6 +68,16 @@ Introduction
 Feature Highlights
 ===================
 
+Supported file formats:
+
+* csv, tsv
+* csvz, tsvz
+* xls
+* xlsx
+* xlsb
+* ods, fods
+* html, rst, json
+
 .. image:: https://github.com/pyexcel/pyexcel/raw/dev/docs/source/_static/images/architecture.svg
 
 
