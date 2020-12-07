@@ -5,15 +5,7 @@
 Feature Highlights
 ===================
 
-Supported file formats:
-
-* csv, tsv
-* csvz, tsvz
-* xls
-* xlsx
-* xlsb
-* ods, fods
-* html, rst, json
+{% include "supported-file-list.rst.jj2" %}
 
 .. image:: https://github.com/pyexcel/pyexcel/raw/dev/docs/source/_static/images/architecture.svg
 
