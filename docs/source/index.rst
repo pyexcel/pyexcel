@@ -328,7 +328,7 @@ For compatibility tables of pyexcel-io plugins, please click `here <http://pyexc
     ======== ========== ============= ==================== ============= =============
 
 
-.. table:: a list of support file formats
+.. table:: A list of supported file formats
 
     ============ =======================================================
     file format  definition
@@ -338,9 +338,9 @@ For compatibility tables of pyexcel-io plugins, please click `here <http://pyexc
     csvz         a zip file that contains one or many csv files
     tsvz         a zip file that contains one or many tsv files
     xls          a spreadsheet file format created by
-                 MS-Excel 97-2003 [#f1]_
+                 MS-Excel 97-2003 [#f3]_
     xlsx         MS-Excel Extensions to the Office Open XML
-                 SpreadsheetML File Format. [#f2]_
+                 SpreadsheetML File Format. [#f4]_
     xlsm         an MS-Excel Macro-Enabled Workbook file
     ods          open document spreadsheet
     fods         flat open document spreadsheet
@@ -352,8 +352,8 @@ For compatibility tables of pyexcel-io plugins, please click `here <http://pyexc
     ============ =======================================================
 
 
-.. [f1] quoted from `whatis.com <http://whatis.techtarget.com/fileformat/XLS-Worksheet-file-Microsoft-Excel>`_. Technical details can be found at `MSDN XLS <https://msdn.microsoft.com/en-us/library/office/gg615597(v=office.14).aspx>`_
-.. [f2] xlsx is used by MS-Excel 2007, more information can be found at `MSDN XLSX <https://msdn.microsoft.com/en-us/library/dd922181(v=office.12).aspx>`_
+.. [f3] quoted from `whatis.com <http://whatis.techtarget.com/fileformat/XLS-Worksheet-file-Microsoft-Excel>`_. Technical details can be found at `MSDN XLS <https://msdn.microsoft.com/en-us/library/office/gg615597(v=office.14).aspx>`_
+.. [f4] xlsx is used by MS-Excel 2007, more information can be found at `MSDN XLSX <https://msdn.microsoft.com/en-us/library/dd922181(v=office.12).aspx>`_
 
 
 Usage
