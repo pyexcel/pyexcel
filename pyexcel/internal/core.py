@@ -75,4 +75,5 @@ def _seek_at_zero(a_stream):
 
 
 def _one_sheet_tuple(items):
+    items = list(items)
     return items[0][0], items[0][1]
