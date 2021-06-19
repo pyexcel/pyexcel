@@ -90,7 +90,7 @@ class Matrix(SheetMeta):
                 raise IndexError("Index out of range")
         else:
             if not fit:
-                width, array = uniform(self.__array, row+1, column+1)
+                width, array = uniform(self.__array, row + 1, column + 1)
                 self.__width, self.__array = width, array
 
             self.__array[row][column] = new_value
