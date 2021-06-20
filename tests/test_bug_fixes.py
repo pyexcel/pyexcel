@@ -547,6 +547,7 @@ def test_issue_241():
         glob.glob("tests/fixtures/issue_241/*.csv"), "issue_241.xlsx"
     )
     book = get_book(file_name="issue_241.xlsx")
+    book.sort_sheet_names()
     expected = dedent(
         """
     1.csv:
