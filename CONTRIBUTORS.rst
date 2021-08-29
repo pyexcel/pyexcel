@@ -1,6 +1,6 @@
 
 
-18 contributors
+19 contributors
 ================================================================================
 
 In alphabetical order:
@@ -22,4 +22,5 @@ In alphabetical order:
 * `Simon Allen <https://github.com/garfunkel>`_
 * `simon klemenc <https://github.com/hiaselhans>`_
 * `Tim Gates <https://github.com/timgates42>`_
+* `Wesley A. Cheng <https://github.com/wesleyacheng>`_
 * `William Jamir Silva <https://github.com/williamjamir>`_
