@@ -134,7 +134,7 @@ between supported file formats.
 Data visualization
 --------------------------------------------------------------------------------
 
-Via :class:`pyexel.renderer.AbstractRenderer` interface, data visualization
+Via :class:`pyexcel.renderer.AbstractRenderer` interface, data visualization
 is made possible. **pyexcel-chart** is the interface plugin to formalize this
 effort. **pyexcel-pygal** is the first plugin to provide bar, pie, histogram
 charts and more.
