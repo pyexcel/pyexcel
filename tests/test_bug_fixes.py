@@ -536,3 +536,34 @@ def test_pyexcel_issue_176_get_book():
         file_name=os.path.join("tests", "fixtures", "bug_176.xlsx")
     )
     eq_({}, book.bookdict)
+
+
+def test_issue_241():
+    import glob
+
+    from pyexcel import get_book, merge_all_to_a_book
+
+    merge_all_to_a_book(
+        glob.glob("tests/fixtures/issue_241/*.csv"), "issue_241.xlsx"
+    )
+    book = get_book(file_name="issue_241.xlsx")
+    book.sort_sheets()
+    expected = dedent(
+        """
+    1.csv:
+    +---------+---+---------+---------+
+    | header1 |   | header3 | header4 |
+    +---------+---+---------+---------+
+    | 1       | 2 | 3       | 4       |
+    +---------+---+---------+---------+
+    2.csv:
+    +---------+---------+---+---------+
+    | headerA | headerB |   | headerD |
+    +---------+---------+---+---------+
+    | A       |         | C | D       |
+    +---------+---------+---+---------+
+    | F       | G       | M | T       |
+    +---------+---------+---+---------+"""
+    ).lstrip()
+    eq_(str(book), expected)
+    os.unlink('issue_241.xlsx')

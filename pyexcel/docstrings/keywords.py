@@ -513,6 +513,7 @@ We can verify if it was done correctly:
    :hide:
 
     >>> import os
+    >>> pe.free_resources()
     >>> os.unlink("your_file.csv")
     >>> os.unlink("your_file.xlsx")
 

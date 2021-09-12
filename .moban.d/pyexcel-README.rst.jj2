@@ -5,6 +5,8 @@
 Feature Highlights
 ===================
 
+{% include "supported-file-list.rst.jj2" %}
+
 .. image:: https://github.com/pyexcel/pyexcel/raw/dev/docs/source/_static/images/architecture.svg
 
 

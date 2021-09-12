@@ -1,10 +1,9 @@
 overrides: "pyexcel.yaml"
 name: "pyexcel"
-author: chfw
 nick_name: pyexcel
 version: 0.6.6
-current_version: 0.6.6
-release: 0.6.6
+current_version: 0.6.7
+release: 0.6.7
 copyright_year: 2014-2020
 branch: master
 is_on_conda: true
@@ -16,7 +15,9 @@ sphinx_extensions:
   - sphinx.ext.intersphinx
   - sphinx.ext.viewcode
   - sphinxcontrib.excel
+  - sphinx_copybutton
 dependencies:
+  - chardet
   - lml>=0.0.4
   - pyexcel-io>=0.6.2
   - texttable>=0.8.2

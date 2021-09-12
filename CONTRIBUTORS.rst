@@ -1,6 +1,6 @@
 
 
-18 contributors
+19 contributors
 ================================================================================
 
 In alphabetical order:
@@ -17,9 +17,10 @@ In alphabetical order:
 * `John Vandenberg <https://github.com/jayvdb>`_
 * `Linghui Zeng <https://github.com/mathsyouth>`_
 * `nikolas <https://github.com/nikolas>`_
-* `Rintze M. Zelle <https://github.com/rmzelle>`_
+* `Rintze M. Zelle, PhD <https://github.com/rmzelle>`_
 * `Simeon Visser <https://github.com/svisser>`_
 * `Simon Allen <https://github.com/garfunkel>`_
 * `simon klemenc <https://github.com/hiaselhans>`_
 * `Tim Gates <https://github.com/timgates42>`_
+* `Wesley A. Cheng <https://github.com/wesleyacheng>`_
 * `William Jamir Silva <https://github.com/williamjamir>`_

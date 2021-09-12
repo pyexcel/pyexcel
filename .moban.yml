@@ -7,7 +7,6 @@ targets:
   - "docs/source/quickstart.rst": "docs/source/quickstart.rst.jj2"
   - "docs/source/two-liners.rst": "docs/source/two-liners.rst.jj2"
   - "docs/source/bigdata.rst": "docs/source/bigdata.rst.jj2"
-  - .travis.yml: pyexcel-travis.yml.jj2
   - MANIFEST.in: CUSTOM_MANIFEST.in.jj2
   - README.rst: pyexcel-README.rst.jj2
   - "docs/source/guide.rst": "docs/source/guide.rst.jj2"

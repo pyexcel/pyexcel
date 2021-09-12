@@ -4,10 +4,9 @@
 
     elementary functions to read and write generic excel content
 
-    :copyright: (c) 2015-2020 by Onni Software Ltd.
+    :copyright: (c) 2015-2021 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel._compact import PY2
 from pyexcel.internal import SOURCE
 from pyexcel.constants import DEFAULT_NO_DATA
 from pyexcel.internal.generators import BookStream, SheetStream
@@ -67,21 +66,14 @@ def _save_any(a_source, instance):
 
 
 def _seek_at_zero(a_stream):
-    if PY2:
-        try:
-            a_stream.seek(0)
-        except IOError:
-            pass
-    else:
-        import io
+    import io
 
-        try:
-            a_stream.seek(0)
-        except io.UnsupportedOperation:
-            pass
+    try:
+        a_stream.seek(0)
+    except io.UnsupportedOperation:
+        pass
 
 
 def _one_sheet_tuple(items):
-    if not PY2:
-        items = list(items)
+    items = list(items)
     return items[0][0], items[0][1]

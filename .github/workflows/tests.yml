@@ -1,0 +1,32 @@
+name: run_tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    strategy:
+        fail-fast: false
+        matrix:
+            python-version: [3.6, 3.7, 3.8, 3.9]
+            os: [macOs-latest, ubuntu-latest, windows-latest]
+
+    runs-on:  ${{ matrix.os }}
+    name: run tests
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+            python-version:  ${{ matrix.python-version }}
+      - name: install
+        run: |
+          pip --use-deprecated=legacy-resolver install -r requirements.txt
+          pip --use-deprecated=legacy-resolver install -r tests/requirements.txt
+      - name: test
+        run: |
+          pip freeze
+          nosetests --verbosity=3 --with-coverage --cover-package pyexcel --cover-package tests tests --with-doctest --doctest-extension=.rst  docs/source pyexcel
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1
+        with:
+          name:  ${{ matrix.os }} Python ${{ matrix.python-version }}

@@ -8,8 +8,8 @@ pyexcel - Let you focus on data, instead of file formats
 .. image:: https://raw.githubusercontent.com/pyexcel/pyexcel-mobans/master/images/awesome-badge.svg
    :target: https://awesome-python.com/#specific-formats-processing
 
-.. image:: https://travis-ci.org/pyexcel/pyexcel.svg?branch=master
-   :target: http://travis-ci.org/pyexcel/pyexcel
+.. image:: https://github.com/pyexcel/pyexcel/workflows/run_tests/badge.svg
+   :target: http://github.com/pyexcel/pyexcel/actions
 
 .. image:: https://codecov.io/gh/pyexcel/pyexcel/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/pyexcel/pyexcel
@@ -67,6 +67,30 @@ Introduction
 
 Feature Highlights
 ===================
+
+.. table:: A list of supported file formats
+
+    ============ =======================================================
+    file format  definition
+    ============ =======================================================
+    csv          comma separated values
+    tsv          tab separated values
+    csvz         a zip file that contains one or many csv files
+    tsvz         a zip file that contains one or many tsv files
+    xls          a spreadsheet file format created by
+                 MS-Excel 97-2003 
+    xlsx         MS-Excel Extensions to the Office Open XML
+                 SpreadsheetML File Format.
+    xlsm         an MS-Excel Macro-Enabled Workbook file
+    ods          open document spreadsheet
+    fods         flat open document spreadsheet
+    json         java script object notation
+    html         html table of the data structure
+    simple       simple presentation
+    rst          rStructured Text presentation of the data
+    mediawiki    media wiki table
+    ============ =======================================================
+
 
 .. image:: https://github.com/pyexcel/pyexcel/raw/dev/docs/source/_static/images/architecture.svg
 
