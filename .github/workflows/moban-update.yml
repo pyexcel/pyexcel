@@ -17,13 +17,25 @@ jobs:
         run: |
           pip install moban gitfs2 pypifs moban-jinja2-github moban-ansible
           moban
-          git status
-      - name: Do early exit
-        if: failure()
-        run: Exit
-      - name: check changes
-        if: success()
+  run_commit:
+    needs: run_moban
+    runs-on: ubuntu-latest
+    name: synchronize templates via moban
+    if: !contains(needs.check.outputs.status, 'failure')    
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.PAT }}
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.7'
+      - name: install dependencies
         run: |
+          pip install moban gitfs2 pypifs moban-jinja2-github moban-ansible
+          moban
+          git status
           git diff --exit-code
       - name: Auto-commit
         if: failure()
