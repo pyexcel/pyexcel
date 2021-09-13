@@ -4,8 +4,6 @@ jobs:
   run_moban:
     runs-on: ubuntu-latest
     name: synchronize templates via moban
-    outputs:
-      status: ${{ join(steps.*.conclusion) }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -15,25 +13,7 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: '3.7'
-      - name: install dependencies
-        run: |
-          pip install moban gitfs2 pypifs moban-jinja2-github moban-ansible
-          moban
-  run_commit:
-    needs: run_moban
-    if: "!contains(needs.check.outputs.status, 'failure')"
-    runs-on: ubuntu-latest
-    name: do commit
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
-          token: ${{ secrets.PAT }}
-      - name: Set up Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: '3.7'
-      - name: install dependencies
+      - name: check changes
         run: |
           pip install moban gitfs2 pypifs moban-jinja2-github moban-ansible
           moban
@@ -48,5 +28,3 @@ jobs:
           args: >-
             This is an auto-commit, updating project meta data,
             such as changelog.rst, contributors.rst
-      - name: Exit
-        run: echo "I am done"
