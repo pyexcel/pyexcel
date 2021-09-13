@@ -4,7 +4,7 @@
 
     Excel book
 
-    :copyright: (c) 2014-2019 by Onni Software Ltd.
+    :copyright: (c) 2014-2021 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
 from pyexcel import _compact as compact
@@ -82,7 +82,7 @@ class Book(BookMeta):
         """
         Return the number of sheets
         """
-        return len(self.__name_array)
+        return len(self)
 
     def sheet_names(self):
         """

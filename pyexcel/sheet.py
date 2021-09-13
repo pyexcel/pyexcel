@@ -7,6 +7,7 @@
     :copyright: (c) 2014-2019 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
+import copy
 from collections import defaultdict
 
 from pyexcel import _compact as compact
@@ -164,8 +165,6 @@ class Sheet(Matrix):
             self.transpose()
 
     def clone(self):
-        import copy
-
         new_sheet = Sheet(
             copy.deepcopy(self.get_internal_array()),
             name_columns_by_row=self.__row_index,

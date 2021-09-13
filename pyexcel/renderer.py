@@ -144,11 +144,7 @@ class BinaryRenderer(Renderer):
     """
     Renderer pyexcel data into a binary object
     """
-
-    def __init__(self, file_type):
-        Renderer.__init__(self, file_type)
-        if compact.PY3_AND_ABOVE:
-            self.WRITE_FLAG = "wb"
+    WRITE_FLAG = "wb"
 
     def get_io(self):
         io = compact.BytesIO()
