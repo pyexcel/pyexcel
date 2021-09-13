@@ -4,7 +4,7 @@ releases:
 - changes:
   - action: Updated
     details:
-    - "`#243`: fix small typo
+    - "`#243`: fix small typo."
     - add chardet as explicit depedency
   version: 0.6.7
   date: 12.09.2021
