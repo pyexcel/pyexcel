@@ -18,9 +18,10 @@ jobs:
           pip install moban gitfs2 pypifs moban-jinja2-github moban-ansible
           moban
           git status
-      - name: check changes
+      - name: Do early exit
         if: failure()
         run: Exit
+      - name: check changes
         if: success()
         run: |
           git diff --exit-code
