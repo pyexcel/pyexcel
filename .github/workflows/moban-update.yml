@@ -21,7 +21,7 @@ jobs:
           moban
   run_commit:
     needs: run_moban
-    if: !contains(needs.check.outputs.status, 'failure')    
+    if: "!contains(needs.check.outputs.status, 'failure')"
     runs-on: ubuntu-latest
     name: do commit
     steps:
