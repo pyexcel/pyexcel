@@ -19,6 +19,9 @@ jobs:
           moban
           git status
       - name: check changes
+        if: failure()
+        run: Exit
+        if: success()
         run: |
           git diff --exit-code
       - name: Auto-commit
@@ -30,3 +33,5 @@ jobs:
           args: >-
             This is an auto-commit, updating project meta data,
             such as changelog.rst, contributors.rst
+      - name: Exit
+        run: echo "I am done"
