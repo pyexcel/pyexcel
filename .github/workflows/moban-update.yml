@@ -13,9 +13,11 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: '3.7'
-      - name: check changes
+      - name: install dependencies
         run: |
           pip install moban gitfs2 pypifs moban-jinja2-github moban-ansible
+      - name: check changes
+        run: |
           moban
           git status
           git diff --exit-code
