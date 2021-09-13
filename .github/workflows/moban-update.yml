@@ -4,6 +4,8 @@ jobs:
   run_moban:
     runs-on: ubuntu-latest
     name: synchronize templates via moban
+    outputs:
+      status: ${{ join(steps.*.conclusion) }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -20,7 +22,7 @@ jobs:
   run_commit:
     needs: run_moban
     runs-on: ubuntu-latest
-    name: synchronize templates via moban
+    name: do commit
     if: !contains(needs.check.outputs.status, 'failure')    
     steps:
       - uses: actions/checkout@v2
