@@ -16,10 +16,10 @@ jobs:
       - name: install dependencies
         run: |
           pip install moban gitfs2 pypifs moban-jinja2-github moban-ansible
-      - name: check changes
-        run: |
           moban
           git status
+      - name: check changes
+        run: |
           git diff --exit-code
       - name: Auto-commit
         if: failure()
