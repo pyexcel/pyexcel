@@ -30,7 +30,7 @@ Feature Highlights
 Hidden feature: partial read
 ===============================================
 
-Most pyexcel users do not know, but other library users were requesting `the similar features <https://github.com/jazzband/tablib/issues/467>`_
+Most pyexcel users do not know, but other library users were requesting `partial read <https://github.com/jazzband/tablib/issues/467>`_
 
 {%include "partial-data.rst.jj2" %}
 
