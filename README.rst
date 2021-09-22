@@ -553,7 +553,7 @@ for the output file, you can specify any of the supported formats
 Hidden feature: partial read
 ===============================================
 
-Most pyexcel users do not know, but other library users were requesting `the similar features <https://github.com/jazzband/tablib/issues/467>`_
+Most pyexcel users do not know, but other library users were requesting `partial read <https://github.com/jazzband/tablib/issues/467>`_
 
 
 When you are dealing with huge amount of data, e.g. 64GB, obviously you would not
