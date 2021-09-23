@@ -7,7 +7,6 @@
     :copyright: (c) 2015-2020 by Onni Software Ltd.
     :license: New BSD License
 """
-import warnings
 from functools import partial
 
 from pyexcel.core import get_book, get_sheet
@@ -200,11 +199,3 @@ def ColumnSeriesReader(file_name=None, sheetname=None, series=0, **keywords):
 def BookReader(file_name, **keywords):
     """For backward compatibility"""
     return load_book(file_name, **keywords)
-
-
-def deprecated_pyexcel_ext(version, module_name):
-    """Warn the deprecated usage"""
-    warnings.warn(
-        "Deprecated usage since v%s! Explicit import " % version
-        + "is no longer required. %s is auto imported." % module_name
-    )
