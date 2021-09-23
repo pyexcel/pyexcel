@@ -229,9 +229,9 @@ For individual excel file formats, please install them as you wish:
 Plugin shopping guide
 ------------------------
 
-Since 2020, all pyexcel-io plugins have dropped the support for python version
-lower than 3.6. If you want to use any python verions, please use pyexcel-io
-and its plugins version lower than 0.6.0.
+Since 2020, all pyexcel-io plugins have dropped the support for python versions
+which are lower than 3.6. If you want to use any of those Python versions, please use pyexcel-io
+and its plugins versions that are lower than 0.6.0.
 
 
 Except csv files, xls, xlsx and ods files are a zip of a folder containing a lot of
