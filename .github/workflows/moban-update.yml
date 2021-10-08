@@ -21,10 +21,8 @@ jobs:
           git diff --exit-code
       - name: Auto-commit
         if: failure()
-        uses: docker://cdssnc/auto-commit-github-action
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          args: >-
+          commit_message: >-
             This is an auto-commit, updating project meta data,
             such as changelog.rst, contributors.rst
