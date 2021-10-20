@@ -12,7 +12,7 @@ moban_jinja2_github
 flask
 SQLAlchemy
 pyexcel-xlsx>=0.4.1
-pyexcel-xls==0.6.0
+pyexcel-xls<=0.6.1
 pyexcel-text>=0.2.0
 psutil
 pyexcel-pygal
