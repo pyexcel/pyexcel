@@ -4,7 +4,7 @@
 
     List of apis that become deprecated but was kept for backward compatibility
 
-    :copyright: (c) 2015-2020 by Onni Software Ltd.
+    :copyright: (c) 2015-2022 by Onni Software Ltd.
     :license: New BSD License
 """
 from functools import partial
