@@ -6,7 +6,7 @@
     write data in different excel formats: csv, ods, xls, xlsx
     and xlsm. It does not support formulas, styles and charts.
 
-    :copyright: (c) 2014-2019 by Onni Software Ltd.
+    :copyright: (c) 2014-2022 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
 from .book import Book
