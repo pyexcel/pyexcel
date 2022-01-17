@@ -1,3 +1,17 @@
+What's breaking in 0.7.0
+================================================================================
+
+The following statements will stop working::
+
+    import pyexcel.ext.ods
+    import pyexcel.ext.ods3
+    import pyexcel.ext.text
+    import pyexcel.ext.xls
+    import pyexcel.ext.xlsx
+
+as they were deprecated since v0.2.2
+
+
 What's breaking in 0.6.0
 ================================================================================
 
