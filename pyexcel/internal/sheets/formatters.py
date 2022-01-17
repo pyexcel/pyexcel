@@ -4,7 +4,7 @@
 
     These utilities help format the content
 
-    :copyright: (c) 2014-2019 by Onni Software Ltd.
+    :copyright: (c) 2014-2022 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
 import json
@@ -12,7 +12,6 @@ import datetime
 from decimal import Decimal
 
 from pyexcel import constants as constants
-from pyexcel._compact import PY2
 
 
 def string_to_format(value, target_format):
@@ -107,10 +106,6 @@ CONVERSION_FUNCTIONS = {
     None: empty_to_format,
     Decimal: float_to_format,
 }
-
-if PY2:
-    CONVERSION_FUNCTIONS[unicode] = string_to_format
-    CONVERSION_FUNCTIONS[long] = float_to_format
 
 
 def default_formatter(value, to_type):
