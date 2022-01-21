@@ -15,7 +15,7 @@ Change log
 **Updated**
 
 #. `#243 <https://github.com/pyexcel/pyexcel/issues/243>`_: fix small typo.
-#. add chardet as explicit depedency
+#. add chardet as explicit dependency
 
 0.6.6 - 14.11.2020
 --------------------------------------------------------------------------------
