@@ -16,7 +16,7 @@ In alphabetical order:
 * `Joel Nothman <https://github.com/jnothman>`_
 * `John Vandenberg <https://github.com/jayvdb>`_
 * `Linghui Zeng <https://github.com/mathsyouth>`_
-* `nikolas <https://github.com/nikolas>`_
+* `Nik Nyby <https://github.com/nikolas>`_
 * `Rintze M. Zelle, PhD <https://github.com/rmzelle>`_
 * `Simeon Visser <https://github.com/svisser>`_
 * `Simon Allen <https://github.com/garfunkel>`_

@@ -1,4 +1,4 @@
-name: run_tests
+name: Run unit tests on Windows and Mac
 
 on: [push, pull_request]
 
