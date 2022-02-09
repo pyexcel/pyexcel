@@ -9,13 +9,18 @@
 """
 from . import keywords
 
-__GET_SHEET__ = (
-    keywords.EXAMPLE_NOTE_PAGINATION
-    + keywords.SOURCE_PARAMS_TABLE
+
+__GET_ARRAY__ = (
+    keywords.SOURCE_PARAMS_TABLE
     + """
 **Parameters**
     """
     + keywords.SOURCE_PARAMS
+)
+
+__GET_SHEET__ = (
+    keywords.EXAMPLE_NOTE_PAGINATION
+    + __GET_ARRAY__
 )
 
 __GET_BOOK__ = (
@@ -92,7 +97,7 @@ django model     dest_models, dest_initializers,
 
 GET_SHEET = __GET_SHEET__
 
-GET_ARRAY = __GET_SHEET__
+GET_ARRAY = __GET_ARRAY__
 
 IGET_ARRAY = __GET_SHEET__ + I_NOTE
 
