@@ -142,18 +142,20 @@ Get a list of dictionaries
 ********************************************************************************
 
 
-Suppose you want to process the following coffee data (data source `coffee chart <https://cspinet.org/eating-healthy/ingredients-of-concern/caffeine-chart>`_ on the center for science in the public interest):
+Suppose you want to process `History of Classical Music <https://www.naxos.com/education/brief_history.asp>`_:
 
 
-Top 5 coffeine drinks:
+History of Classical Music:
 
-=====================================  ===============  =============
-Coffees                                Serving Size     Caffeine (mg)
-Starbucks Coffee Blonde Roast          venti(20 oz)     475
-Dunkin' Donuts Coffee with Turbo Shot  large(20 oz.)    398
-Starbucks Coffee Pike Place Roast      grande(16 oz.)   310
-Panera Coffee Light Roast              regular(16 oz.)  300
-=====================================  ===============  =============
+===============  =============  ====================================
+Name             Period         Representative Composers
+Medieval         c.1150-c.1400  Machaut, Landini
+Renaissance      c.1400-c.1600  Gibbons, Frescobaldi
+Baroque          c.1600-c.1750  JS Bach, Vivaldi
+Classical        c.1750-c.1830  Joseph Haydn, Wolfgan Amadeus Mozart
+Earley Romantic  c.1830-c.1860  Chopin, Mendelssohn, Schumann, Liszt
+Late Romantic    c.1860-c.1920  Wagner,Verdi
+===============  =============  ====================================
 
 
 Let's get a list of dictionary out from the xls file:
@@ -166,12 +168,14 @@ And let's check what do we have:
 
 .. code-block:: python
 
-   >>> for r in records:
-   ...     print(f"{r['Serving Size']} of {r['Coffees']} has {r['Caffeine (mg)']} mg")
-   venti(20 oz) of Starbucks Coffee Blonde Roast has 475 mg
-   large(20 oz.) of Dunkin' Donuts Coffee with Turbo Shot has 398 mg
-   grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg
-   regular(16 oz.) of Panera Coffee Light Roast has 300 mg
+   >>> for row in records:
+   ...     print(f"{row['Representative Composers']} are from {row['Name']} period ({row['Period']})")
+   Machaut, Landini are from Medieval period (c.1150-c.1400)
+   Gibbons, Frescobaldi are from Renaissance period (c.1400-c.1600)
+   JS Bach, Vivaldi are from Baroque period (c.1600-c.1750)
+   Joseph Haydn, Wolfgan Amadeus Mozart are from Classical period (c.1750-c.1830)
+   Chopin, Mendelssohn, Schumann, Liszt are from Earley Romantic period (c.1830-c.1860)
+   Wagner,Verdi are from Late Romantic period (c.1860-c.1920)
 
 
 Get two dimensional array
@@ -182,11 +186,13 @@ Instead, what if you have to use `pyexcel.get_array` to do the same:
 .. code-block:: python
 
    >>> for row in p.get_array(file_name="your_file.xls", start_row=1):
-   ...     print(f"{row[1]} of {row[0]} has {row[2]} mg")
-   venti(20 oz) of Starbucks Coffee Blonde Roast has 475 mg
-   large(20 oz.) of Dunkin' Donuts Coffee with Turbo Shot has 398 mg
-   grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg
-   regular(16 oz.) of Panera Coffee Light Roast has 300 mg
+   ...     print(f"{row[2]} are from {row[0]} period ({row[1]})")
+   Machaut, Landini are from Medieval period (c.1150-c.1400)
+   Gibbons, Frescobaldi are from Renaissance period (c.1400-c.1600)
+   JS Bach, Vivaldi are from Baroque period (c.1600-c.1750)
+   Joseph Haydn, Wolfgan Amadeus Mozart are from Classical period (c.1750-c.1830)
+   Chopin, Mendelssohn, Schumann, Liszt are from Earley Romantic period (c.1830-c.1860)
+   Wagner,Verdi are from Late Romantic period (c.1860-c.1920)
 
 
 where `start_row` skips the header row.
@@ -212,9 +218,10 @@ And check what do we have:
    True
    >>> for key, values in my_dict.items():
    ...     print(key + " : " + ','.join([str(item) for item in values]))
-   Coffees : Starbucks Coffee Blonde Roast,Dunkin' Donuts Coffee with Turbo Shot,Starbucks Coffee Pike Place Roast,Panera Coffee Light Roast
-   Serving Size : venti(20 oz),large(20 oz.),grande(16 oz.),regular(16 oz.)
-   Caffeine (mg) : 475,398,310,300
+   Name : Medieval,Renaissance,Baroque,Classical,Earley Romantic,Late Romantic
+   Period : c.1150-c.1400,c.1400-c.1600,c.1600-c.1750,c.1750-c.1830,c.1830-c.1860,c.1860-c.1920
+   Representative Composers : Machaut, Landini,Gibbons, Frescobaldi,JS Bach, Vivaldi,Joseph Haydn, Wolfgan Amadeus Mozart,Chopin, Mendelssohn, Schumann, Liszt,Wagner,Verdi
+
 
 Please note that my_dict is an OrderedDict.
 
