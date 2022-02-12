@@ -5,11 +5,14 @@ releases:
   - action: Fixed
     details:
     - "`#250`: RecursionError raised on deepcopy of a sheet"
+  - action: Updated
+    details:
+    - "`#255`: pyexcel.get_array documentation page seems to be a copy of pyexcel.get_sheet"
   - action: Removed
     details:
     - "`#249`: drop the support for dummy import statements pyexcel.ext.*"
   version: 0.7.0
-  date: tbd
+  date: 12.2.2022
 - changes:
   - action: Updated
     details:

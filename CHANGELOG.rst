@@ -1,13 +1,18 @@
 Change log
 ================================================================================
 
-0.7.0 - tbd
+0.7.0 - 12.2.2022
 --------------------------------------------------------------------------------
 
 **Fixed**
 
 #. `#250 <https://github.com/pyexcel/pyexcel/issues/250>`_: RecursionError
    raised on deepcopy of a sheet
+
+**Updated**
+
+#. `#255 <https://github.com/pyexcel/pyexcel/issues/255>`_: pyexcel.get_array
+   documentation page seems to be a copy of pyexcel.get_sheet
 
 **Removed**
 
