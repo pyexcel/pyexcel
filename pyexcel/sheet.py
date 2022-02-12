@@ -172,6 +172,9 @@ class Sheet(Matrix):
         )
         return new_sheet
 
+    def __deepcopy__(self, memo):
+        return self.clone()
+
     def transpose(self):
         self.__column_names, self.__row_names = (
             self.__row_names,
