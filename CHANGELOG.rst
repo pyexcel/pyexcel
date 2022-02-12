@@ -1,6 +1,32 @@
 Change log
 ================================================================================
 
+0.7.0 - 12.2.2022
+--------------------------------------------------------------------------------
+
+**Fixed**
+
+#. `#250 <https://github.com/pyexcel/pyexcel/issues/250>`_: RecursionError
+   raised on deepcopy of a sheet
+
+**Updated**
+
+#. `#255 <https://github.com/pyexcel/pyexcel/issues/255>`_: pyexcel.get_array
+   documentation page seems to be a copy of pyexcel.get_sheet
+
+**Removed**
+
+#. `#249 <https://github.com/pyexcel/pyexcel/issues/249>`_: drop the support for
+   dummy import statements pyexcel.ext.*
+
+0.6.7 - 12.09.2021
+--------------------------------------------------------------------------------
+
+**Updated**
+
+#. `#243 <https://github.com/pyexcel/pyexcel/issues/243>`_: fix small typo.
+#. add chardet as explicit dependency
+
 0.6.6 - 14.11.2020
 --------------------------------------------------------------------------------
 

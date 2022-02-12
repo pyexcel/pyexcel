@@ -4,9 +4,10 @@
 
     Building on top of matrix, adding named columns and rows support
 
-    :copyright: (c) 2014-2019 by Onni Software Ltd.
+    :copyright: (c) 2014-2022 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
+import copy
 from collections import defaultdict
 
 from pyexcel import _compact as compact
@@ -164,14 +165,15 @@ class Sheet(Matrix):
             self.transpose()
 
     def clone(self):
-        import copy
-
         new_sheet = Sheet(
             copy.deepcopy(self.get_internal_array()),
             name_columns_by_row=self.__row_index,
             name_rows_by_column=self.__column_index,
         )
         return new_sheet
+
+    def __deepcopy__(self, memo):
+        return self.clone()
 
     def transpose(self):
         self.__column_names, self.__row_names = (

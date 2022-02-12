@@ -567,3 +567,10 @@ def test_issue_241():
     ).lstrip()
     eq_(str(book), expected)
     os.unlink('issue_241.xlsx')
+
+
+def test_issue_250():
+    from copy import deepcopy
+
+    s = p.Sheet()
+    deepcopy(s)

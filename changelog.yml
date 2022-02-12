@@ -2,10 +2,22 @@ name: pyexcel
 organisation: pyexcel
 releases:
 - changes:
+  - action: Fixed
+    details:
+    - "`#250`: RecursionError raised on deepcopy of a sheet"
   - action: Updated
     details:
-    - "`#243`: fix small typo
-    - add chardet as explicit depedency
+    - "`#255`: pyexcel.get_array documentation page seems to be a copy of pyexcel.get_sheet"
+  - action: Removed
+    details:
+    - "`#249`: drop the support for dummy import statements pyexcel.ext.*"
+  version: 0.7.0
+  date: 12.2.2022
+- changes:
+  - action: Updated
+    details:
+    - "`#243`: fix small typo."
+    - add chardet as explicit dependency
   version: 0.6.7
   date: 12.09.2021
 - changes:

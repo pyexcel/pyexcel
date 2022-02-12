@@ -1,10 +1,10 @@
 overrides: "pyexcel.yaml"
 name: "pyexcel"
 nick_name: pyexcel
-version: 0.6.6
-current_version: 0.6.7
-release: 0.6.7
-copyright_year: 2014-2020
+version: 0.7.0
+current_version: 0.7.0
+release: 0.7.0
+copyright_year: 2014-2022
 branch: master
 is_on_conda: true
 setup_use_markers: true
@@ -32,7 +32,7 @@ test_dependencies:
   - flask
   - SQLAlchemy
   - pyexcel-xlsx>=0.4.1
-  - pyexcel-xls>=0.4.1
+  - pyexcel-xls<=0.6.2
   - pyexcel-text>=0.2.0
   - psutil
   - pyexcel-pygal
