@@ -4,7 +4,12 @@ Change log
 0.7.0 - tbd
 --------------------------------------------------------------------------------
 
-**Updated**
+**Fixed**
+
+#. `#250 <https://github.com/pyexcel/pyexcel/issues/250>`_: RecursionError
+   raised on deepcopy of a sheet
+
+**Removed**
 
 #. `#249 <https://github.com/pyexcel/pyexcel/issues/249>`_: drop the support for
    dummy import statements pyexcel.ext.*
