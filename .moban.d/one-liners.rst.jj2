@@ -22,7 +22,7 @@ Get a list of dictionaries
    ... Renaissance,c.1400-c.1600,"Gibbons, Frescobaldi"
    ... Baroque,c.1600-c.1750,"JS Bach, Vivaldi"
    ... Classical,c.1750-c.1830,"Joseph Haydn, Wolfgan Amadeus Mozart"
-   ... Earley Romantic,c.1830-c.1860,"Chopin, Mendelssohn, Schumann, Liszt"
+   ... Early Romantic,c.1830-c.1860,"Chopin, Mendelssohn, Schumann, Liszt"
    ... Late Romantic,c.1860-c.1920,"Wagner,Verdi"
    ... """.strip()
    >>> sheet = p.get_sheet(file_content=content, file_type='csv')
@@ -42,7 +42,7 @@ Suppose you want to process `History of Classical Music <https://www.naxos.com/e
    Renaissance,c.1400-c.1600,"Gibbons, Frescobaldi"
    Baroque,c.1600-c.1750,"JS Bach, Vivaldi"
    Classical,c.1750-c.1830,"Joseph Haydn, Wolfgan Amadeus Mozart"
-   Earley Romantic,c.1830-c.1860,"Chopin, Mendelssohn, Schumann, Liszt"
+   Early Romantic,c.1830-c.1860,"Chopin, Mendelssohn, Schumann, Liszt"
    Late Romantic,c.1860-c.1920,"Wagner,Verdi"
 
 
@@ -56,7 +56,7 @@ Medieval         c.1150-c.1400  Machaut, Landini
 Renaissance      c.1400-c.1600  Gibbons, Frescobaldi
 Baroque          c.1600-c.1750  JS Bach, Vivaldi
 Classical        c.1750-c.1830  Joseph Haydn, Wolfgan Amadeus Mozart
-Earley Romantic  c.1830-c.1860  Chopin, Mendelssohn, Schumann, Liszt
+Early Romantic  c.1830-c.1860  Chopin, Mendelssohn, Schumann, Liszt
 Late Romantic    c.1860-c.1920  Wagner,Verdi
 ===============  =============  ====================================
 
