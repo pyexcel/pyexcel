@@ -155,6 +155,7 @@ Baroque          c.1600-c.1750  JS Bach, Vivaldi
 Classical        c.1750-c.1830  Joseph Haydn, Wolfgan Amadeus Mozart
 Early Romantic   c.1830-c.1860  Chopin, Mendelssohn, Schumann, Liszt
 Late Romantic    c.1860-c.1920  Wagner,Verdi
+Modernist        20th century   Sergei Rachmaninoff,Calude Debussy
 ===============  =============  ====================================
 
 
@@ -176,6 +177,7 @@ And let's check what do we have:
    Joseph Haydn, Wolfgan Amadeus Mozart are from Classical period (c.1750-c.1830)
    Chopin, Mendelssohn, Schumann, Liszt are from Earley Romantic period (c.1830-c.1860)
    Wagner,Verdi are from Late Romantic period (c.1860-c.1920)
+   Sergei Rachmaninoff,Calude Debussy are from Modernist period (20th century)
 
 
 Get two dimensional array
@@ -193,6 +195,7 @@ Instead, what if you have to use `pyexcel.get_array` to do the same:
    Joseph Haydn, Wolfgan Amadeus Mozart are from Classical period (c.1750-c.1830)
    Chopin, Mendelssohn, Schumann, Liszt are from Earley Romantic period (c.1830-c.1860)
    Wagner,Verdi are from Late Romantic period (c.1860-c.1920)
+   Sergei Rachmaninoff,Calude Debussy are from Modernist period (20th century)
 
 
 where `start_row` skips the header row.
@@ -218,9 +221,9 @@ And check what do we have:
    True
    >>> for key, values in my_dict.items():
    ...     print(key + " : " + ','.join([str(item) for item in values]))
-   Name : Medieval,Renaissance,Baroque,Classical,Earley Romantic,Late Romantic
-   Period : c.1150-c.1400,c.1400-c.1600,c.1600-c.1750,c.1750-c.1830,c.1830-c.1860,c.1860-c.1920
-   Representative Composers : Machaut, Landini,Gibbons, Frescobaldi,JS Bach, Vivaldi,Joseph Haydn, Wolfgan Amadeus Mozart,Chopin, Mendelssohn, Schumann, Liszt,Wagner,Verdi
+   Name : Medieval,Renaissance,Baroque,Classical,Early Romantic,Late Romantic,Modernist
+   Period : c.1150-c.1400,c.1400-c.1600,c.1600-c.1750,c.1750-c.1830,c.1830-c.1860,c.1860-c.1920,20th century
+   Representative Composers : Machaut, Landini,Gibbons, Frescobaldi,JS Bach, Vivaldi,Joseph Haydn, Wolfgan Amadeus Mozart,Chopin, Mendelssohn, Schumann, Liszt,Wagner,Verdi,Sergei Rachmaninoff,Calude Debussy
 
 
 Please note that my_dict is an OrderedDict.
