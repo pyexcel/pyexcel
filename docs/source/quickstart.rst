@@ -94,13 +94,11 @@ Get a dictionary
 
 You can get a dictionary too:
 
-Now let's get a dictionary out from the spreadsheet:
-
 .. code-block:: python
 
    >>> my_dict = p.get_dict(file_name="your_file.xls", name_columns_by_row=0)
 
-And check what do we have:
+And let's have a look inside:
 
 .. code-block:: python
 
