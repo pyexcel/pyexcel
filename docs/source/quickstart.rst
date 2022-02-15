@@ -121,23 +121,37 @@ Get a dictionary of two dimensional array
    :hide:
 
    >>> a_dictionary_of_two_dimensional_arrays = {
-   ...      'Sheet 1':
+   ...      'Top Violinist':
    ...          [
-   ...              [1.0, 2.0, 3.0],
-   ...              [4.0, 5.0, 6.0],
-   ...              [7.0, 8.0, 9.0]
+   ...              ["Name", "Period", "Nationality"],
+   ...              ["Antonio Vivaldi", "1678-1741", "Italian"],
+   ...              ["Niccolo Paganini","1782-1840", "Italian"],
+   ...              ["Pablo de Sarasate","1852-1904", "Spainish"],
+   ...              ["Eugene Ysaye", "1858-1931", "Belgian"],
+   ...              ["Fritz Kreisler", "1875-1962", "Astria-American"],
+   ...              ["Jascha Heifetz", "1901-1987", "Russian-American"],
+   ...              ["David Oistrakh", "1908-1974", "Russian"],
+   ...              ["Yehundi Menuhin","1916-1999", "American"],
+   ...              ["Itzhak Perlman","1945-", "Israeli-American"],
+   ...              ["Hilary Hahn","1979-","American"]
    ...          ],
-   ...      'Sheet 2':
+   ...      'Noteable Violin Makers':
    ...          [
-   ...              ['X', 'Y', 'Z'],
-   ...              [1.0, 2.0, 3.0],
-   ...              [4.0, 5.0, 6.0]
+   ...              ['Maker', 'Period', 'Country'],
+   ...              ['Antonio Stradivari', '1644-1737', 'Cremona, Italy'],
+   ...              ['Giovanni Paolo Maggini', '1580-1630', 'Botticino, Italy'],
+   ...              ['Amati Family', '1500-1740', 'Cremona, Italy'],
+   ...              ['Guarneri Family', '1626-1744', 'Cremona, Italy'],
+   ...              ['Rugeri Family', '1628-1719', 'Cremona, Italy'],
+   ...              ['Carlo Bergonzi', '1683-1747', 'Cremona, Italy'],
+   ...              ['Jacob Stainer', '1617-1683', 'Austria'],
    ...          ],
-   ...      'Sheet 3':
+   ...      'Most Expensive Violins':
    ...          [
-   ...              ['O', 'P', 'Q'],
-   ...              [3.0, 2.0, 1.0],
-   ...              [4.0, 3.0, 2.0]
+   ...              ['Name', 'Estimated Value', 'Location'],
+   ...              ['Messiah Stradivarious', '$ 20,000,000', 'Ashmolean Museum in Oxford, England'],
+   ...              ['Vieuxtemps Guarneri', '$ 16,000,000', 'On loan to Anne Akiko Meyers'],
+   ...              ['Lady Blunt', '$ 15,900,000', 'Anonymous bidder'],
    ...          ]
    ...  }
    >>> data = OrderedDict()
