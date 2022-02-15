@@ -216,6 +216,7 @@ Suppose you have a multiple sheet book as the following:
 {% else %}
 
 Top Violinist:
+
 =================  =========  ================
 Name               Period     Nationality
 Antonio Vivaldi    1678-1741  Italian
@@ -229,7 +230,9 @@ Yehundi Menuhin    1916-1999  American
 Itzhak Perlman     1945-      Israeli-American
 Hilary Hahn        1979-      American
 =================  =========  ================
+
 Noteable Violin Makers:
+
 ======================  =========  ================
 Maker                   Period     Country
 Antonio Stradivari      1644-1737  Cremona, Italy
@@ -240,7 +243,9 @@ Rugeri Family           1628-1719  Cremona, Italy
 Carlo Bergonzi          1683-1747  Cremona, Italy
 Jacob Stainer           1617-1683  Austria
 ======================  =========  ================
+
 Most Expensive Violins:
+
 =====================  ===============  ===================================
 Name                   Estimated Value  Location
 Messiah Stradivarious  $ 20,000,000     Ashmolean Museum in Oxford, England
