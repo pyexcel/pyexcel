@@ -211,7 +211,7 @@ Suppose you have a multiple sheet book as the following:
    Messiah Stradivarious,"$ 20,000,000","Ashmolean Museum in Oxford, England"
    Vieuxtemps Guarneri,"$ 16,000,000",On loan to Anne Akiko Meyers
    Lady Blunt,"$ 15,900,000",Anonymous bidder
-   ---pyexcel---
+
 
 {% else %}
 
