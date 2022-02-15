@@ -175,7 +175,7 @@ And let's check what do we have:
    Gibbons, Frescobaldi are from Renaissance period (c.1400-c.1600)
    JS Bach, Vivaldi are from Baroque period (c.1600-c.1750)
    Joseph Haydn, Wolfgan Amadeus Mozart are from Classical period (c.1750-c.1830)
-   Chopin, Mendelssohn, Schumann, Liszt are from Earley Romantic period (c.1830-c.1860)
+   Chopin, Mendelssohn, Schumann, Liszt are from Early Romantic period (c.1830-c.1860)
    Wagner,Verdi are from Late Romantic period (c.1860-c.1920)
    Sergei Rachmaninoff,Calude Debussy are from Modernist period (20th century)
 
@@ -193,7 +193,7 @@ Instead, what if you have to use `pyexcel.get_array` to do the same:
    Gibbons, Frescobaldi are from Renaissance period (c.1400-c.1600)
    JS Bach, Vivaldi are from Baroque period (c.1600-c.1750)
    Joseph Haydn, Wolfgan Amadeus Mozart are from Classical period (c.1750-c.1830)
-   Chopin, Mendelssohn, Schumann, Liszt are from Earley Romantic period (c.1830-c.1860)
+   Chopin, Mendelssohn, Schumann, Liszt are from Early Romantic period (c.1830-c.1860)
    Wagner,Verdi are from Late Romantic period (c.1860-c.1920)
    Sergei Rachmaninoff,Calude Debussy are from Modernist period (20th century)
 
@@ -233,29 +233,38 @@ Get a dictionary of two dimensional array
 Suppose you have a multiple sheet book as the following:
 
 
-pyexcel:Sheet 1:
-
-=====================  =  =
-1                      2  3
-4                      5  6
-7                      8  9
-=====================  =  =
-
-pyexcel:Sheet 2:
-
-=====================  =  =
-X                      Y  Z
-1                      2  3
-4                      5  6
-=====================  =  =
-
-pyexcel:Sheet 3:
-
-=====================  =  =
-O                      P  Q
-3                      2  1
-4                      3  2
-=====================  =  =
+Top Violinist:
+=================  =========  ================
+Name               Period     Nationality
+Antonio Vivaldi    1678-1741  Italian
+Niccolo Paganini   1782-1840  Italian
+Pablo de Sarasate  1852-1904  Spainish
+Eugene Ysaye       1858-1931  Belgian
+Fritz Kreisler     1875-1962  Astria-American
+Jascha Heifetz     1901-1987  Russian-American
+David Oistrakh     1908-1974  Russian
+Yehundi Menuhin    1916-1999  American
+Itzhak Perlman     1945-      Israeli-American
+Hilary Hahn        1979-      American
+=================  =========  ================
+Noteable Violin Makers:
+======================  =========  ================
+Maker                   Period     Country
+Antonio Stradivari      1644-1737  Cremona, Italy
+Giovanni Paolo Maggini  1580-1630  Botticino, Italy
+Amati Family            1500-1740  Cremona, Italy
+Guarneri Family         1626-1744  Cremona, Italy
+Rugeri Family           1628-1719  Cremona, Italy
+Carlo Bergonzi          1683-1747  Cremona, Italy
+Jacob Stainer           1617-1683  Austria
+======================  =========  ================
+Most Expensive Violins:
+=====================  ===============  ===================================
+Name                   Estimated Value  Location
+Messiah Stradivarious  $ 20,000,000     Ashmolean Museum in Oxford, England
+Vieuxtemps Guarneri    $ 16,000,000     On loan to Anne Akiko Meyers
+Lady Blunt             $ 15,900,000     Anonymous bidder
+=====================  ===============  ===================================
 
 
 Here is the code to obtain those sheets as a single dictionary:
@@ -273,9 +282,9 @@ And check:
    >>> import json
    >>> for key, item in book_dict.items():
    ...     print(json.dumps({key: item}))
-   {"Sheet 1": [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}
-   {"Sheet 2": [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]}
-   {"Sheet 3": [["O", "P", "Q"], [3, 2, 1], [4, 3, 2]]}
+   {"Most Expensive Violins": [["Name", "Estimated Value", "Location"], ["Messiah Stradivarious", "$ 20,000,000", "Ashmolean Museum in Oxford, England"], ["Vieuxtemps Guarneri", "$ 16,000,000", "On loan to Anne Akiko Meyers"], ["Lady Blunt", "$ 15,900,000", "Anonymous bidder"]]}
+   {"Noteable Violin Makers": [["Maker", "Period", "Country"], ["Antonio Stradivari", "1644-1737", "Cremona, Italy"], ["Giovanni Paolo Maggini", "1580-1630", "Botticino, Italy"], ["Amati Family", "1500-1740", "Cremona, Italy"], ["Guarneri Family", "1626-1744", "Cremona, Italy"], ["Rugeri Family", "1628-1719", "Cremona, Italy"], ["Carlo Bergonzi", "1683-1747", "Cremona, Italy"], ["Jacob Stainer", "1617-1683", "Austria"]]}
+   {"Top Violinist": [["Name", "Period", "Nationality"], ["Antonio Vivaldi", "1678-1741", "Italian"], ["Niccolo Paganini", "1782-1840", "Italian"], ["Pablo de Sarasate", "1852-1904", "Spainish"], ["Eugene Ysaye", "1858-1931", "Belgian"], ["Fritz Kreisler", "1875-1962", "Astria-American"], ["Jascha Heifetz", "1901-1987", "Russian-American"], ["David Oistrakh", "1908-1974", "Russian"], ["Yehundi Menuhin", "1916-1999", "American"], ["Itzhak Perlman", "1945-", "Israeli-American"], ["Hilary Hahn", "1979-", "American"]]}
 
 
 Write data
