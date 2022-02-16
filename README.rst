@@ -302,7 +302,7 @@ Suppose you have the following array:
 
 .. code-block:: python
 
-   >>> data = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+   >>> data = [['G', 'D', 'A', 'E'], ['Thomastik-Infield Domaints', 'Thomastik-Infield Domaints', 'Thomastik-Infield Domaints', 'Pirastro'], ['Silver wound', '', 'Aluminum wound', 'Gold Label Steel']]
 
 And here is the code to save it as an excel file :
 
@@ -316,13 +316,13 @@ Let's verify it:
 
     >>> p.get_sheet(file_name="example.xls")
     pyexcel_sheet1:
-    +---+---+---+
-    | 1 | 2 | 3 |
-    +---+---+---+
-    | 4 | 5 | 6 |
-    +---+---+---+
-    | 7 | 8 | 9 |
-    +---+---+---+
+    +----------------------------+----------------------------+----------------------------+------------------+
+    | G                          | D                          | A                          | E                |
+    +----------------------------+----------------------------+----------------------------+------------------+
+    | Thomastik-Infield Domaints | Thomastik-Infield Domaints | Thomastik-Infield Domaints | Pirastro         |
+    +----------------------------+----------------------------+----------------------------+------------------+
+    | Silver wound               |                            | Aluminum wound             | Gold Label Steel |
+    +----------------------------+----------------------------+----------------------------+------------------+
 
 
 And here is the code to save it as a csv file :
@@ -337,13 +337,13 @@ Let's verify it:
 
 .. code-block:: python
 
-   >>> with open("example.csv") as f:
-   ...     for line in f.readlines():
-   ...         print(line.rstrip())
-   ...
-   1:2:3
-   4:5:6
-   7:8:9
+    >>> with open("example.csv") as f:
+    ...     for line in f.readlines():
+    ...         print(line.rstrip())
+    ...
+    G:D:A:E
+    Thomastik-Infield Domaints:Thomastik-Infield Domaints:Thomastik-Infield Domaints:Pirastro
+    Silver wound::Aluminum wound:Gold Label Steel
 
 Export a list of dictionaries
 **********************************
