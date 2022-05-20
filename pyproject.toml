@@ -1,6 +1,53 @@
 [build-system]
-requires = ["setuptools>=42.2", "wheel", "setuptools_scm[toml]>=3.4.3"]
+requires = ["setuptools>=61.2.0", "wheel", "setuptools_scm[toml]>=3.4.3"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyexcel"
+authors = [{name = "C.W.", email = "info@pyexcel.org"}]
+license = {text = "New BSD"}
+description = "A wrapper library that provides one API to read, manipulate and writedata in different excel formats"
+keywords = ["python", "tsv", "tsvzcsv", "csvz", "xls", "xlsx", "ods"]
+readme = "README.rst"
+classifiers = [
+    "Topic :: Software Development :: Libraries",
+    "Programming Language :: Python",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Development Status :: 3 - Alpha",
+]
+requires-python = ">=3.6"
+dependencies = [
+    "chardet",
+    "lml>=0.0.4",
+    "pyexcel-io>=0.6.2",
+    "texttable>=0.8.2",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/pyexcel/pyexcel"
+Download = "https://github.com/pyexcel/pyexcel/archive/0.7.0.tar.gz"
+
+[project.optional-dependencies]
+xls = ["pyexcel-xls>=0.6.0"]
+xlsx = ["pyexcel-xlsx>=0.6.0"]
+ods = ["pyexcel-ods3>=0.6.0"]
+testing = ["nose"]
+
+[tool.setuptools]
+zip-safe = false
+include-package-data = true
+
+[tool.setuptools.packages.find]
+exclude = ["ez_setup", "examples", "tests", "tests.*"]
+namespaces = false
 
 [tool.setuptools_scm]
 write_to = "pyexcel/__version__.py"
+
+[tool.distutils.bdist_wheel]
+universal = 1

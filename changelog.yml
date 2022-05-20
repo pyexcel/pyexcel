@@ -4,6 +4,11 @@ releases:
 - changes:
   - action: Updated
     details:
+    - "`Moved the metadata into `pyproject.toml`. For building a wheel you need `setuptools >=61.1`, which has dropped compatibility to all the pythons before 3.7. But the wheel can still be installed on older pythons. If you need to build using an older python, just fetch `setup.cfg` from `0.7.1`."
+    version: 0.7.2
+- changes:
+  - action: Updated
+    details:
     - "`Moved the metadata into `setup.cfg`. For building you need `setuptools >=41.2` and it is recommended to use `python3 -m build`."
     version: 0.7.1
 - changes:
