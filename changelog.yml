@@ -2,6 +2,11 @@ name: pyexcel
 organisation: pyexcel
 releases:
 - changes:
+  - action: Updated
+    details:
+    - "`Moved the metadata into `setup.cfg`. For building you need `setuptools >=41.2` and it is recommended to use `python3 -m build`."
+    version: 0.7.1
+- changes:
   - action: Fixed
     details:
     - "`#250`: RecursionError raised on deepcopy of a sheet"

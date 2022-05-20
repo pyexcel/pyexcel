@@ -1,3 +1,6 @@
+# generated version file
+pyexcel/__version__.py
+
 # moban hashes
 .moban.hashes
 

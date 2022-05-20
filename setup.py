@@ -6,16 +6,11 @@ Template by pypi-mobans
 
 import os
 import sys
-import codecs
 import locale
 import platform
 from shutil import rmtree
 
-from setuptools import Command, setup, find_packages
-
-PY2 = sys.version_info[0] == 2
-PY26 = PY2 and sys.version_info[1] < 7
-PY33 = sys.version_info < (3, 4)
+from setuptools import Command, setup
 
 # Work around mbcs bug in distutils.
 # http://bugs.python.org/issue10945
@@ -30,61 +25,7 @@ try:
 except (ValueError, UnicodeError, locale.Error):
     locale.setlocale(locale.LC_ALL, "en_US.UTF-8")
 
-NAME = "pyexcel"
-AUTHOR = "C.W."
-VERSION = "0.7.0"
-EMAIL = "info@pyexcel.org"
-LICENSE = "New BSD"
-DESCRIPTION = (
-    "A wrapper library that provides one API to read, manipulate and write" +
-    "data in different excel formats"
-)
-URL = "https://github.com/pyexcel/pyexcel"
-DOWNLOAD_URL = "%s/archive/0.7.0.tar.gz" % URL
-FILES = ["README.rst", "CONTRIBUTORS.rst", "CHANGELOG.rst"]
-KEYWORDS = [
-    "python",
-    'tsv',
-    'tsvz'
-    'csv',
-    'csvz',
-    'xls',
-    'xlsx',
-    'ods'
-]
 
-CLASSIFIERS = [
-    "Topic :: Software Development :: Libraries",
-    "Programming Language :: Python",
-    "Intended Audience :: Developers",
-
-    "Programming Language :: Python :: 3 :: Only",
-
-
-
-    "Programming Language :: Python :: 3.6",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-
-    'Development Status :: 3 - Alpha',
-]
-
-PYTHON_REQUIRES = ">=3.6"
-
-INSTALL_REQUIRES = [
-    "chardet",
-    "lml>=0.0.4",
-    "pyexcel-io>=0.6.2",
-    "texttable>=0.8.2",
-]
-SETUP_COMMANDS = {}
-
-PACKAGES = find_packages(exclude=["ez_setup", "examples", "tests", "tests.*"])
-EXTRAS_REQUIRE = {
-    "xls": ['pyexcel-xls>=0.6.0'],
-    "xlsx": ['pyexcel-xlsx>=0.6.0'],
-    "ods": ['pyexcel-ods3>=0.6.0'],
-}
 # You do not need to read beyond this line
 PUBLISH_COMMAND = "{0} setup.py sdist bdist_wheel upload -r pypi".format(sys.executable)
 HERE = os.path.abspath(os.path.dirname(__file__))
@@ -136,9 +77,9 @@ class PublishCommand(Command):
         sys.exit()
 
 
-SETUP_COMMANDS.update({
+SETUP_COMMANDS = {
     "publish": PublishCommand
-})
+}
 
 def has_gease():
     """
@@ -153,68 +94,8 @@ def has_gease():
         return False
 
 
-def read_files(*files):
-    """Read files into setup"""
-    text = ""
-    for single_file in files:
-        content = read(single_file)
-        text = text + content + "\n"
-    return text
-
-
-def read(afile):
-    """Read a file into setup"""
-    the_relative_file = os.path.join(HERE, afile)
-    with codecs.open(the_relative_file, "r", "utf-8") as opened_file:
-        content = filter_out_test_code(opened_file)
-        content = "".join(list(content))
-        return content
-
-
-def filter_out_test_code(file_handle):
-    found_test_code = False
-    for line in file_handle.readlines():
-        if line.startswith(".. testcode:"):
-            found_test_code = True
-            continue
-        if found_test_code is True:
-            if line.startswith("  "):
-                continue
-            else:
-                empty_line = line.strip()
-                if len(empty_line) == 0:
-                    continue
-                else:
-                    found_test_code = False
-                    yield line
-        else:
-            for keyword in ["|version|", "|today|"]:
-                if keyword in line:
-                    break
-            else:
-                yield line
-
-
 if __name__ == "__main__":
     setup(
         test_suite="tests",
-        name=NAME,
-        author=AUTHOR,
-        version=VERSION,
-        author_email=EMAIL,
-        description=DESCRIPTION,
-        url=URL,
-        download_url=DOWNLOAD_URL,
-        long_description=read_files(*FILES),
-        license=LICENSE,
-        keywords=KEYWORDS,
-        python_requires=PYTHON_REQUIRES,
-        extras_require=EXTRAS_REQUIRE,
-        tests_require=["nose"],
-        install_requires=INSTALL_REQUIRES,
-        packages=PACKAGES,
-        include_package_data=True,
-        zip_safe=False,
-        classifiers=CLASSIFIERS,
         cmdclass=SETUP_COMMANDS
     )

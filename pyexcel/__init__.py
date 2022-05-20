@@ -46,5 +46,7 @@ from .deprecated import (
     load_from_records,
     load_book_from_memory,
 )
-from .__version__ import __author__, __version__
+from .__version__ import version as __version__
+
+__author__ = "C.W."
 from .internal.garbagecollector import free_resources
