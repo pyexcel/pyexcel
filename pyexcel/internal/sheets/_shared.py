@@ -80,7 +80,7 @@ def excel_cell_position(pos_chars: str) -> Tuple[int, int]:
     match = re.match("([A-Za-z]+)([0-9]+)", pos_chars)
 
     if match:
-        return int(match.group(2)) - 1, _get_index(match.group(1).upper())
+        return int(match.group(2)) - 1, excel_column_index(match.group(1))
     else:
         raise IndexError(f"invalid index: {pos_chars}")
 
@@ -93,9 +93,9 @@ INDEX_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 INDEX_BASE = len(INDEX_CHARS)
 
 
-def _get_index(index_chars: str) -> int:
+def excel_column_index(index_chars: str) -> int:
     index = -1
-    for i, char in enumerate(index_chars[::-1]):
+    for i, char in enumerate(index_chars.upper()[::-1]):
         # going from right to left, the multiplicator is:
         # 26^0 = 1
         # 26^1 = 26
