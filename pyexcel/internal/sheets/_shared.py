@@ -9,6 +9,7 @@
 """
 import re
 import types
+from typing import Tuple
 from functools import partial
 
 from pyexcel._compact import PY2
@@ -71,47 +72,36 @@ def analyse_slice(aslice, upper_bound):
     return my_range
 
 
-def excel_column_index(index_chars):
-    """translate MS excel column position to index"""
-    if len(index_chars) < 1:
-        return -1
-    else:
-        return _get_index(index_chars.upper())
+def excel_cell_position(pos_chars: str) -> Tuple[int, int]:
+    """
+    translate MS excel position to index
+    Return: (row: int, column: int)
+    """
+    match = re.match("([A-Za-z]+)([0-9]+)", pos_chars)
 
-
-def excel_cell_position(pos_chars):
-    """translate MS excel position to index"""
-    if len(pos_chars) < 2:
-        return -1, -1
-    group = re.match("([A-Za-z]+)([0-9]+)", pos_chars)
-    if group:
-        return int(group.group(2)) - 1, excel_column_index(group.group(1))
+    if match:
+        return int(match.group(2)) - 1, _get_index(match.group(1).upper())
     else:
-        raise IndexError
+        raise IndexError(f"invalid index: {pos_chars}")
 
 
 """
 In order to easily compute the actual index of 'X' or 'AX', these utility
 functions were written
 """
-_INDICES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+INDEX_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+INDEX_BASE = len(INDEX_CHARS)
 
 
-def _get_index(index_chars):
-    length = len(index_chars)
-    index_chars_length = len(_INDICES)
-    if length > 1:
-        index = 0
-        for i in range(0, length):
-            if i < (length - 1):
-                index += (_INDICES.index(index_chars[i]) + 1) * (
-                    index_chars_length ** (length - 1 - i)
-                )
-            else:
-                index += _INDICES.index(index_chars[i])
-        return index
-    else:
-        return _INDICES.index(index_chars[0])
+def _get_index(index_chars: str) -> int:    
+    index = -1
+    for i, char in enumerate(index_chars[::-1]):
+        # going from right to left, the multiplicator is:
+        # 26^0 = 1
+        # 26^1 = 26
+        index += (1+INDEX_CHARS.index(char)) * INDEX_BASE ** i
+
+    return index
 
 
 def names_to_indices(names, series):

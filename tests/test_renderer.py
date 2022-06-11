@@ -1,4 +1,4 @@
-from _compact import BytesIO
+from ._compact import BytesIO
 from pyexcel.renderer import (
     Renderer,
     DbRenderer,

@@ -1,5 +1,5 @@
 import pyexcel as p
-from base import (
+from .base import (
     PyexcelBase,
     clean_up_files,
     create_generic_file,

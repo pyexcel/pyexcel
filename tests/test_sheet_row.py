@@ -1,5 +1,5 @@
 from pyexcel import Sheet
-from _compact import OrderedDict
+from ._compact import OrderedDict
 
 from nose.tools import eq_, raises, assert_not_in
 

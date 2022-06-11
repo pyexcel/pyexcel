@@ -6,29 +6,9 @@ Template by pypi-mobans
 
 import os
 import sys
-import codecs
-import locale
-import platform
 from shutil import rmtree
 
 from setuptools import Command, setup, find_packages
-
-PY2 = sys.version_info[0] == 2
-PY26 = PY2 and sys.version_info[1] < 7
-PY33 = sys.version_info < (3, 4)
-
-# Work around mbcs bug in distutils.
-# http://bugs.python.org/issue10945
-# This work around is only if a project supports Python < 3.4
-
-# Work around for locale not being set
-try:
-    lc = locale.getlocale()
-    pf = platform.system()
-    if pf != "Windows" and lc == (None, None):
-        locale.setlocale(locale.LC_ALL, "C.UTF-8")
-except (ValueError, UnicodeError, locale.Error):
-    locale.setlocale(locale.LC_ALL, "en_US.UTF-8")
 
 NAME = "pyexcel"
 AUTHOR = "C.W."
@@ -41,7 +21,7 @@ DESCRIPTION = (
 )
 URL = "https://github.com/pyexcel/pyexcel"
 DOWNLOAD_URL = "%s/archive/0.7.0.tar.gz" % URL
-FILES = ["README.rst", "CONTRIBUTORS.rst", "CHANGELOG.rst"]
+README_FILES = ["README.rst", "CONTRIBUTORS.rst", "CHANGELOG.rst"]
 KEYWORDS = [
     "python",
     'tsv',
@@ -155,17 +135,14 @@ def has_gease():
 
 def read_files(*files):
     """Read files into setup"""
-    text = ""
-    for single_file in files:
-        content = read(single_file)
-        text = text + content + "\n"
-    return text
+    return "\n".join([read(filename) for filename in files])
 
 
-def read(afile):
+def read(filename):
     """Read a file into setup"""
-    the_relative_file = os.path.join(HERE, afile)
-    with codecs.open(the_relative_file, "r", "utf-8") as opened_file:
+    filename_absolute = os.path.join(HERE, filename)
+
+    with open(filename_absolute) as opened_file:
         content = filter_out_test_code(opened_file)
         content = "".join(list(content))
         return content
@@ -205,7 +182,7 @@ if __name__ == "__main__":
         description=DESCRIPTION,
         url=URL,
         download_url=DOWNLOAD_URL,
-        long_description=read_files(*FILES),
+        long_description=read_files(*README_FILES),
         license=LICENSE,
         keywords=KEYWORDS,
         python_requires=PYTHON_REQUIRES,
@@ -216,5 +193,5 @@ if __name__ == "__main__":
         include_package_data=True,
         zip_safe=False,
         classifiers=CLASSIFIERS,
-        cmdclass=SETUP_COMMANDS
+        #cmdclass=SETUP_COMMANDS
     )

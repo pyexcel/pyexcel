@@ -7,7 +7,7 @@ from textwrap import dedent
 
 import psutil
 import pyexcel as p
-from _compact import StringIO, OrderedDict
+from ._compact import StringIO, OrderedDict
 
 from nose.tools import eq_
 

@@ -42,7 +42,7 @@ class TestAllExamples:
                     fn(path)
 
 
-class TestPyexcelServer(TestCase):
+class x(TestCase):
     """
     This test tells how difficult to test unicode vs bytes when
     dealing with csv files in relation to pyexcel. and this

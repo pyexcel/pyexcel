@@ -593,7 +593,7 @@ class Sheet(Matrix):
                 column = aset[1]
             return self.cell_value(row, column)
         else:
-            return Matrix.__getitem__(self, aset)
+            return super().__getitem__(aset)
 
     def __setitem__(self, aset, c):
         if isinstance(aset, tuple):
@@ -608,7 +608,7 @@ class Sheet(Matrix):
                 column = aset[1]
             self.cell_value(row, column, c)
         else:
-            Matrix.__setitem__(self, aset, c)
+            super().__setitem__(aset, c)
 
     def __len__(self):
         return self.number_of_rows()
