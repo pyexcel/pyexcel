@@ -295,7 +295,7 @@ class TestMatrixRow:
             assert 1 == 1
 
 
-class TestMatrix:
+class TestMatrix(unittest.TestCase):
     def setUp(self):
         self.data = [
             ["a", "b", "c", "d"],
@@ -306,26 +306,27 @@ class TestMatrix:
     def test_empty_array_input(self):
         """Test empty array as input to Matrix"""
         m = Matrix([])
-        assert m.number_of_columns() == 0
-        assert m.number_of_rows() == 0
+        self.assertEqual(m.number_of_columns(), 0)
+        self.assertEqual(m.number_of_rows(), 0)
 
     def test_update_a_cell(self):
         r = Matrix(self.data)
         r[0, 0] = "k"
-        assert r[0, 0] == "k"
+        self.assertEqual(r[0, 0], "k")
+        
         d = datetime.date(2014, 10, 1)
         r.cell_value(0, 1, d)
-        assert isinstance(r[0, 1], datetime.date) is True
-        assert r[0, 1].strftime("%d/%m/%y") == "01/10/14"
+        self.assertTrue(isinstance(r[0, 1], datetime.date))
+        self.assertEqual(r[0, 1].strftime("%d/%m/%y"), "01/10/14")
         r["A1"] = "p"
-        assert r[0, 0] == "p"
+        self.assertEqual(r[0, 0], "p")
         r[0, 1] = 16
-        assert r["B1"] == 16
+        self.assertEqual(r["B1"], 16)
 
     def test_old_style_access(self):
         r = Matrix(self.data)
         r[0, 0] = "k"
-        assert r[0][0] == "k"
+        self.assertEqual(r[0][0], "k")
 
     def test_wrong_index_type(self):
         r = Matrix(self.data)
@@ -342,7 +343,7 @@ class TestMatrix:
         result = [[1, 4], [2, 5], [3, 6]]
         m = Matrix(data)
         m.transpose()
-        eq_(result, m.get_internal_array())
+        self.assertEqual(result, m.get_internal_array())
 
     def test_set_column_at(self):
         r = Matrix(self.data)
@@ -352,10 +353,10 @@ class TestMatrix:
         except IndexError:
             assert 1 == 1
 
-    @raises(IndexError)
     def test_delete_rows_with_invalid_list(self):
         m = Matrix([])
-        m.delete_rows("ab")  # bang, cannot delete
+        with self.assertRaises(IndexError):
+            m.delete_rows("ab")  # bang, cannot delete
 
 
 class TestIteratableArray(PyexcelIteratorBase):
