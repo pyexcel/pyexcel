@@ -313,7 +313,7 @@ class TestMatrix(unittest.TestCase):
         r = Matrix(self.data)
         r[0, 0] = "k"
         self.assertEqual(r[0, 0], "k")
-        
+
         d = datetime.date(2014, 10, 1)
         r.cell_value(0, 1, d)
         self.assertTrue(isinstance(r[0, 1], datetime.date))
