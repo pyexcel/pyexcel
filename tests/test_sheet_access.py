@@ -10,7 +10,7 @@ class TestSheetAccess(PyexcelSheetBase):
     def get_random_char():
         i = random.randint(97, 122)
         return chr(i)
-        
+
     def test_out_of_bounds_write(self):
         value = self.get_random_char()
         column = self.get_random_char() + self.get_random_char()

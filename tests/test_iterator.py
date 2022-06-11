@@ -440,7 +440,7 @@ class TestUtilityFunctions(unittest.TestCase):
         chars = "Z"
         index = _shared.excel_column_index(chars)
         self.assertEqual(index, 25)
-        
+
         chars = "AB"
         index = _shared.excel_column_index(chars)
         self.assertEqual(index, 27)
@@ -452,8 +452,8 @@ class TestUtilityFunctions(unittest.TestCase):
     def test_excel_cell_position(self):
         with self.assertRaises(KeyError):
             row, column = _shared.excel_cell_position("A")
-            
-        self.assertEqual(_shared.excel_cell_position("A1"), (0,0))
+
+        self.assertEqual(_shared.excel_cell_position("A1"), (0, 0))
         self.assertEqual(_shared.excel_cell_position("Z1"), (0, 25))
         self.assertEqual(_shared.excel_cell_position("AA1"), (0, 26))
         self.assertEqual(_shared.excel_cell_position("AAB111"), (110, 703))
@@ -462,13 +462,13 @@ class TestUtilityFunctions(unittest.TestCase):
         a = slice(None, 3)
         bound = 4
 
-        self.assertEqual(_shared.analyse_slice(a, bound), [0,1,2])
-        
+        self.assertEqual(_shared.analyse_slice(a, bound), [0, 1, 2])
+
         a = slice(1, None)
         bound = 4
         expected = [1, 2, 3]
         self.assertEqual(_shared.analyse_slice(a, bound), expected)
-        
+
         a = slice(2, 1)  # invalid series
         bound = 4
 
