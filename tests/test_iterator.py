@@ -327,15 +327,15 @@ class TestMatrix:
         r[0, 0] = "k"
         assert r[0][0] == "k"
 
-    @raises(IndexError)
     def test_wrong_index_type(self):
         r = Matrix(self.data)
-        r["string"][0]  # bang, cannot get
+        with self.assertRaises(KeyError):
+            r["string"][0]  # bang, cannot get
 
-    @raises(IndexError)
-    def test_wrong_index_type2(self):
+    def test_wrong_index_type_set(self):
         r = Matrix(self.data)
-        r["string"] = "k"  # bang, cannot set
+        with self.assertRaises(KeyError):
+            r["string"] = "k"  # bang, cannot set
 
     def test_transpose(self):
         data = [[1, 2, 3], [4, 5, 6]]
