@@ -53,7 +53,7 @@ class SourcePluginManager(PluginManager):
         return plugin
 
     def register_a_plugin(self, plugin_cls, plugin_info):
-        """ for dynamically loaded plugin """
+        """for dynamically loaded plugin"""
         PluginManager.register_a_plugin(self, plugin_cls, plugin_info)
         self._register_a_plugin_info(plugin_info)
 

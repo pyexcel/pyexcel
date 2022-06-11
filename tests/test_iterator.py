@@ -2,11 +2,11 @@ import os
 import copy
 import datetime
 
-from .base import PyexcelIteratorBase, create_sample_file2
 from pyexcel import Reader, SeriesReader, save_as, get_sheet
 from pyexcel.internal.sheets import Matrix, _shared
 
 from nose.tools import eq_, raises
+from .base import PyexcelIteratorBase, create_sample_file2
 
 
 class TestMatrixColumn:

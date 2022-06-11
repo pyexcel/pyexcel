@@ -1,4 +1,3 @@
-from ._compact import BytesIO
 from pyexcel.renderer import (
     Renderer,
     DbRenderer,
@@ -7,6 +6,7 @@ from pyexcel.renderer import (
 )
 
 from nose.tools import raises
+from ._compact import BytesIO
 
 
 @raises(NotImplementedError)

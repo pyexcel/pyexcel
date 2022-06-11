@@ -356,7 +356,7 @@ class Sheet(Matrix):
             Matrix.delete_columns(self, [index])
 
     def named_row_at(self, name):
-        """Get a row by its name """
+        """Get a row by its name"""
         index = name
         index = self.rownames.index(name)
         row_array = self.row_at(index)

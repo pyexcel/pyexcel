@@ -1,12 +1,12 @@
 import pyexcel as p
+
+from nose.tools import eq_, raises
 from .base import (
     PyexcelBase,
     clean_up_files,
     create_generic_file,
     create_sample_file1,
 )
-
-from nose.tools import eq_, raises
 
 
 class TestReader:

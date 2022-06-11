@@ -1,9 +1,8 @@
 import random
 
-from .base import PyexcelSheetBase
-
-
 from pyexcel.internal.sheets._shared import excel_cell_position
+
+from .base import PyexcelSheetBase
 
 
 class TestSheetAccess(PyexcelSheetBase):

@@ -1,5 +1,7 @@
 import unittest
+
 from pyexcel import Sheet
+
 from ._compact import OrderedDict
 
 
@@ -11,7 +13,7 @@ class TestSheetColumn(unittest.TestCase):
             [4, 5, 6],
             [7, 8, 9],
         ]
-    
+
     def test_negative_row_index(self):
         s = Sheet(self.data, "test")
         data = s.column[-1]
@@ -37,9 +39,9 @@ class TestSheetColumn(unittest.TestCase):
         s.name_columns_by_row(0)
         data = OrderedDict({"Column 4": [10, 11, 12]})
         s1 = s.column + data
-        
+
         self.assertEqual(s1.column.Column_4, [10, 11, 12])
-        
+
         # check that we don't have the column in the original sheet
         with self.assertRaises((AttributeError)):
             self.assertEqual(s.column.Column_4, [10, 11, 12])
@@ -125,7 +127,10 @@ class TestSheetColumn2(unittest.TestCase):
         custom_columns = ["C1", "C2", "C3"]
         with self.assertRaises((NotImplementedError)):
             Sheet(
-                self.data, "test", colnames=custom_columns, name_columns_by_row=0
+                self.data,
+                "test",
+                colnames=custom_columns,
+                name_columns_by_row=0,
             )
 
     def test_formatter_by_named_column(self):

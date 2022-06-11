@@ -93,13 +93,13 @@ INDEX_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 INDEX_BASE = len(INDEX_CHARS)
 
 
-def _get_index(index_chars: str) -> int:    
+def _get_index(index_chars: str) -> int:
     index = -1
     for i, char in enumerate(index_chars[::-1]):
         # going from right to left, the multiplicator is:
         # 26^0 = 1
         # 26^1 = 26
-        index += (1+INDEX_CHARS.index(char)) * INDEX_BASE ** i
+        index += (1 + INDEX_CHARS.index(char)) * INDEX_BASE**i
 
     return index
 

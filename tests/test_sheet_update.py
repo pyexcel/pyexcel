@@ -1,4 +1,6 @@
 import pyexcel as pe
+
+from nose.tools import eq_, raises
 from .base import (
     PyexcelSheetRWBase,
     clean_up_files,
@@ -6,8 +8,6 @@ from .base import (
     create_sample_file1_series,
 )
 from ._compact import OrderedDict
-
-from nose.tools import eq_, raises
 
 
 class TestReader:

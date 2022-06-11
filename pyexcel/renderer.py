@@ -144,6 +144,7 @@ class BinaryRenderer(Renderer):
     """
     Renderer pyexcel data into a binary object
     """
+
     WRITE_FLAG = "wb"
 
     def get_io(self):

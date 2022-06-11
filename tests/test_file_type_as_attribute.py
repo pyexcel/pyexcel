@@ -3,11 +3,11 @@ from textwrap import dedent
 
 from pyexcel import Book, Sheet, get_book
 from pyexcel import constants as constants
-from ._compact import StringIO, OrderedDict
 from pyexcel.source import AbstractSource, MemorySourceMixin
 from pyexcel.plugins import SourceInfo
 
 from nose.tools import eq_, raises
+from ._compact import StringIO, OrderedDict
 
 FIXTURE = "dummy"
 

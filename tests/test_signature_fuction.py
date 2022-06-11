@@ -2,10 +2,10 @@ import os
 from types import GeneratorType
 
 import pyexcel as pe
-from .db import Base, Session, Signature, Signature2, engine
-from ._compact import OrderedDict
 
 from nose.tools import eq_, raises
+from .db import Base, Session, Signature, Signature2, engine
+from ._compact import OrderedDict
 
 
 def test_unknown_file_type_exception():
@@ -772,7 +772,7 @@ def _produce_ordered_dict():
     data_dict.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
     data_dict.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
     data_dict.update(
-        {"Sheet3": [[u"X", u"Y", u"Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]}
+        {"Sheet3": [["X", "Y", "Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]}
     )
     return data_dict
 

@@ -10,9 +10,9 @@
 """
 import copy
 import types
+from typing import Tuple, Union
 from functools import partial
 from itertools import chain
-from typing import Tuple
 
 from pyexcel import _compact as compact
 from pyexcel import constants as constants
@@ -24,7 +24,7 @@ from pyexcel.internal.sheets.extended_list import PyexcelList
 
 from . import _shared as utils
 
-MatrixIndex = Tuple[int, int] | str
+MatrixIndex = Union[Tuple[int, int], str]
 
 
 class Matrix(SheetMeta):
@@ -484,7 +484,7 @@ class Matrix(SheetMeta):
         elif isinstance(index, int):
             print(constants.MESSAGE_DEPRECATED_ROW_COLUMN)
             return self.row_at(index)
-        
+
         raise IndexError
 
     def contains(self, predicate):
