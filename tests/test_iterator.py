@@ -473,4 +473,4 @@ class TestUtilityFunctions(unittest.TestCase):
         bound = 4
 
         with self.assertRaises(ValueError):
-            result = _shared.analyse_slice(a, bound)  # bang
+            _shared.analyse_slice(a, bound)  # bang
