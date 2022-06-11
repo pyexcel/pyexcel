@@ -1,6 +1,7 @@
 import os
 import copy
 import datetime
+import unittest
 
 from pyexcel import Reader, SeriesReader, save_as, get_sheet
 from pyexcel.internal.sheets import Matrix, _shared
@@ -429,47 +430,47 @@ class TestHatIterators:
             os.unlink(self.testfile)
 
 
-class TestUtilityFunctions:
+class TestUtilityFunctions(unittest.TestCase):
     def test_excel_column_index(self):
         chars = ""
         index = _shared.excel_column_index(chars)
-        assert index == -1
+
+        self.assertEqual(index, -1)
+
         chars = "Z"
         index = _shared.excel_column_index(chars)
-        assert index == 25
+        self.assertEqual(index, 25)
+        
         chars = "AB"
         index = _shared.excel_column_index(chars)
-        assert index == 27
+        self.assertEqual(index, 27)
+
         chars = "AAB"
         index = _shared.excel_column_index(chars)
-        eq_(index, 703)
+        self.assertEqual(index, 703)
 
     def test_excel_cell_position(self):
-        pos_chars = "A"
-        row, column = _shared.excel_cell_position(pos_chars)
-        assert row == -1
-        assert column == -1
-        pos_chars = "A1"
-        row, column = _shared.excel_cell_position(pos_chars)
-        assert row == 0
-        assert column == 0
-        pos_chars = "AAB111"
-        row, column = _shared.excel_cell_position(pos_chars)
-        assert row == 110
-        eq_(column, 703)
+        with self.assertRaises(KeyError):
+            row, column = _shared.excel_cell_position("A")
+            
+        self.assertEqual(_shared.excel_cell_position("A1"), (0,0))
+        self.assertEqual(_shared.excel_cell_position("Z1"), (0, 25))
+        self.assertEqual(_shared.excel_cell_position("AA1"), (0, 26))
+        self.assertEqual(_shared.excel_cell_position("AAB111"), (110, 703))
 
-    @raises(ValueError)
     def test_analyse_slice(self):
         a = slice(None, 3)
         bound = 4
-        expected = [0, 1, 2]
-        result = _shared.analyse_slice(a, bound)
-        assert expected == result
+
+        self.assertEqual(_shared.analyse_slice(a, bound), [0,1,2])
+        
         a = slice(1, None)
         bound = 4
         expected = [1, 2, 3]
-        result = _shared.analyse_slice(a, bound)
-        assert expected == result
+        self.assertEqual(_shared.analyse_slice(a, bound), expected)
+        
         a = slice(2, 1)  # invalid series
         bound = 4
-        result = _shared.analyse_slice(a, bound)  # bang
+
+        with self.assertRaises(ValueError):
+            result = _shared.analyse_slice(a, bound)  # bang

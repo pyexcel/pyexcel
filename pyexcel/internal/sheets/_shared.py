@@ -82,7 +82,7 @@ def excel_cell_position(pos_chars: str) -> Tuple[int, int]:
     if match:
         return int(match.group(2)) - 1, excel_column_index(match.group(1))
     else:
-        raise IndexError(f"invalid index: {pos_chars}")
+        raise KeyError(f"invalid index: {pos_chars}")
 
 
 """
