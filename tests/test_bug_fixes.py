@@ -7,9 +7,9 @@ from textwrap import dedent
 
 import psutil
 import pyexcel as p
-from _compact import StringIO, OrderedDict
 
 from nose.tools import eq_
+from ._compact import StringIO, OrderedDict
 
 
 def test_bug_01():
@@ -166,7 +166,7 @@ def test_issue_51_normal_dict_in_records():
 
 
 def test_issue_55_unicode_in_headers():
-    headers = [u"Äkkilähdöt", u"Matkakirjoituksia", u"Matkatoimistot"]
+    headers = ["Äkkilähdöt", "Matkakirjoituksia", "Matkatoimistot"]
     content = [headers, [1, 2, 3]]
     sheet = p.Sheet(content)
     sheet.name_columns_by_row(0)
@@ -566,7 +566,7 @@ def test_issue_241():
     +---------+---------+---+---------+"""
     ).lstrip()
     eq_(str(book), expected)
-    os.unlink('issue_241.xlsx')
+    os.unlink("issue_241.xlsx")
 
 
 def test_issue_250():

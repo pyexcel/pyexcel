@@ -10,6 +10,7 @@
 """
 import copy
 import types
+from typing import Tuple, Union
 from functools import partial
 from itertools import chain
 
@@ -22,6 +23,8 @@ from pyexcel.internal.sheets.formatters import to_format
 from pyexcel.internal.sheets.extended_list import PyexcelList
 
 from . import _shared as utils
+
+MatrixIndex = Union[Tuple[int, int], str]
 
 
 class Matrix(SheetMeta):
@@ -460,29 +463,29 @@ class Matrix(SheetMeta):
                         del self.__array[i][j]
             self.__width = longest_row_number(self.__array)
 
-    def __setitem__(self, aset, cell_value):
+    def __setitem__(self, index: MatrixIndex, cell_value):
         """Override the operator to set items"""
-        if isinstance(aset, tuple):
-            return self.cell_value(aset[0], aset[1], cell_value)
-        elif isinstance(aset, str):
-            row, column = utils.excel_cell_position(aset)
+        if isinstance(index, tuple):
+            return self.cell_value(index[0], index[1], cell_value)
+        elif isinstance(index, str):
+            row, column = utils.excel_cell_position(index)
             return self.cell_value(row, column, cell_value)
-        else:
-            raise IndexError
 
-    def __getitem__(self, aset):
+        raise IndexError
+
+    def __getitem__(self, index: MatrixIndex):
         """By default, this class recognize from top to bottom
         from left to right"""
-        if isinstance(aset, tuple):
-            return self.cell_value(aset[0], aset[1])
-        elif isinstance(aset, str):
-            row, column = utils.excel_cell_position(aset)
+        if isinstance(index, tuple):
+            return self.cell_value(index[0], index[1])
+        elif isinstance(index, str):
+            row, column = utils.excel_cell_position(index)
             return self.cell_value(row, column)
-        elif isinstance(aset, int):
+        elif isinstance(index, int):
             print(constants.MESSAGE_DEPRECATED_ROW_COLUMN)
-            return self.row_at(aset)
-        else:
-            raise IndexError
+            return self.row_at(index)
+
+        raise IndexError
 
     def contains(self, predicate):
         """Has something in the table"""

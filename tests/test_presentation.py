@@ -22,7 +22,7 @@ class TestPresentation(TestCase):
         self.assertEqual(str(s), content)
 
     def test_irregular_usage(self):
-        """textable doesn't like empty string """
+        """textable doesn't like empty string"""
         content = [[1, 2, 3], [4, 588, 6], [7, 8]]  # one empty string
         s = pe.Sheet(content)
         content = dedent(

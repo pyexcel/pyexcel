@@ -1,7 +1,7 @@
 import pyexcel as pe
-from _compact import OrderedDict
 
 from nose.tools import eq_, raises
+from ._compact import OrderedDict
 
 
 class Attributable:
@@ -187,10 +187,10 @@ class TestBook:
     def setUp(self):
         self.content = OrderedDict()
         self.content.update(
-            {"Sheet1": [[u"X", u"Y", u"Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]}
+            {"Sheet1": [["X", "Y", "Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]}
         )
         self.content.update(
-            {"Sheet2": [[u"A", u"B", u"C"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]}
+            {"Sheet2": [["A", "B", "C"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]}
         )
         self.result1 = [
             {"Y": 4, "X": 1, "Z": 7},
@@ -223,9 +223,7 @@ class TestBook:
 
     def test_model_save_to_models(self):
         model = FakeDjangoModel("Sheet1")
-        data = {
-            "Sheet1": [[u"X", u"Y", u"Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]
-        }
+        data = {"Sheet1": [["X", "Y", "Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]}
         pe.save_book_as(dest_models=[model, None, None], bookdict=data)
         assert model.objects.objs == self.result1
 
@@ -235,7 +233,7 @@ class TestBook:
         # with an exception.
         model = FakeDjangoModel("Sheet1")
         book = pe.Book(
-            {"Sheet1": [[u"X", u"Y", u"Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]}
+            {"Sheet1": [["X", "Y", "Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]}
         )
         book.save_to_django_models([model])
         assert model.objects.objs == self.result1

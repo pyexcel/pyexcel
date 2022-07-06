@@ -1,12 +1,13 @@
 import os
 import copy
 import datetime
+import unittest
 
-from base import PyexcelIteratorBase, create_sample_file2
 from pyexcel import Reader, SeriesReader, save_as, get_sheet
 from pyexcel.internal.sheets import Matrix, _shared
 
 from nose.tools import eq_, raises
+from .base import PyexcelIteratorBase, create_sample_file2
 
 
 class TestMatrixColumn:
@@ -294,7 +295,7 @@ class TestMatrixRow:
             assert 1 == 1
 
 
-class TestMatrix:
+class TestMatrix(unittest.TestCase):
     def setUp(self):
         self.data = [
             ["a", "b", "c", "d"],
@@ -305,43 +306,44 @@ class TestMatrix:
     def test_empty_array_input(self):
         """Test empty array as input to Matrix"""
         m = Matrix([])
-        assert m.number_of_columns() == 0
-        assert m.number_of_rows() == 0
+        self.assertEqual(m.number_of_columns(), 0)
+        self.assertEqual(m.number_of_rows(), 0)
 
     def test_update_a_cell(self):
         r = Matrix(self.data)
         r[0, 0] = "k"
-        assert r[0, 0] == "k"
+        self.assertEqual(r[0, 0], "k")
+
         d = datetime.date(2014, 10, 1)
         r.cell_value(0, 1, d)
-        assert isinstance(r[0, 1], datetime.date) is True
-        assert r[0, 1].strftime("%d/%m/%y") == "01/10/14"
+        self.assertTrue(isinstance(r[0, 1], datetime.date))
+        self.assertEqual(r[0, 1].strftime("%d/%m/%y"), "01/10/14")
         r["A1"] = "p"
-        assert r[0, 0] == "p"
+        self.assertEqual(r[0, 0], "p")
         r[0, 1] = 16
-        assert r["B1"] == 16
+        self.assertEqual(r["B1"], 16)
 
     def test_old_style_access(self):
         r = Matrix(self.data)
         r[0, 0] = "k"
-        assert r[0][0] == "k"
+        self.assertEqual(r[0][0], "k")
 
-    @raises(IndexError)
     def test_wrong_index_type(self):
         r = Matrix(self.data)
-        r["string"][0]  # bang, cannot get
+        with self.assertRaises(KeyError):
+            r["string"][0]  # bang, cannot get
 
-    @raises(IndexError)
-    def test_wrong_index_type2(self):
+    def test_wrong_index_type_set(self):
         r = Matrix(self.data)
-        r["string"] = "k"  # bang, cannot set
+        with self.assertRaises(KeyError):
+            r["string"] = "k"  # bang, cannot set
 
     def test_transpose(self):
         data = [[1, 2, 3], [4, 5, 6]]
         result = [[1, 4], [2, 5], [3, 6]]
         m = Matrix(data)
         m.transpose()
-        eq_(result, m.get_internal_array())
+        self.assertEqual(result, m.get_internal_array())
 
     def test_set_column_at(self):
         r = Matrix(self.data)
@@ -351,10 +353,10 @@ class TestMatrix:
         except IndexError:
             assert 1 == 1
 
-    @raises(IndexError)
     def test_delete_rows_with_invalid_list(self):
         m = Matrix([])
-        m.delete_rows("ab")  # bang, cannot delete
+        with self.assertRaises(IndexError):
+            m.delete_rows("ab")  # bang, cannot delete
 
 
 class TestIteratableArray(PyexcelIteratorBase):
@@ -429,47 +431,47 @@ class TestHatIterators:
             os.unlink(self.testfile)
 
 
-class TestUtilityFunctions:
+class TestUtilityFunctions(unittest.TestCase):
     def test_excel_column_index(self):
         chars = ""
         index = _shared.excel_column_index(chars)
-        assert index == -1
+
+        self.assertEqual(index, -1)
+
         chars = "Z"
         index = _shared.excel_column_index(chars)
-        assert index == 25
+        self.assertEqual(index, 25)
+
         chars = "AB"
         index = _shared.excel_column_index(chars)
-        assert index == 27
+        self.assertEqual(index, 27)
+
         chars = "AAB"
         index = _shared.excel_column_index(chars)
-        eq_(index, 703)
+        self.assertEqual(index, 703)
 
     def test_excel_cell_position(self):
-        pos_chars = "A"
-        row, column = _shared.excel_cell_position(pos_chars)
-        assert row == -1
-        assert column == -1
-        pos_chars = "A1"
-        row, column = _shared.excel_cell_position(pos_chars)
-        assert row == 0
-        assert column == 0
-        pos_chars = "AAB111"
-        row, column = _shared.excel_cell_position(pos_chars)
-        assert row == 110
-        eq_(column, 703)
+        with self.assertRaises(KeyError):
+            row, column = _shared.excel_cell_position("A")
 
-    @raises(ValueError)
+        self.assertEqual(_shared.excel_cell_position("A1"), (0, 0))
+        self.assertEqual(_shared.excel_cell_position("Z1"), (0, 25))
+        self.assertEqual(_shared.excel_cell_position("AA1"), (0, 26))
+        self.assertEqual(_shared.excel_cell_position("AAB111"), (110, 703))
+
     def test_analyse_slice(self):
         a = slice(None, 3)
         bound = 4
-        expected = [0, 1, 2]
-        result = _shared.analyse_slice(a, bound)
-        assert expected == result
+
+        self.assertEqual(_shared.analyse_slice(a, bound), [0, 1, 2])
+
         a = slice(1, None)
         bound = 4
         expected = [1, 2, 3]
-        result = _shared.analyse_slice(a, bound)
-        assert expected == result
+        self.assertEqual(_shared.analyse_slice(a, bound), expected)
+
         a = slice(2, 1)  # invalid series
         bound = 4
-        result = _shared.analyse_slice(a, bound)  # bang
+
+        with self.assertRaises(ValueError):
+            _shared.analyse_slice(a, bound)  # bang

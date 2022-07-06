@@ -22,9 +22,9 @@ class TestToRecord(TestCase):
     def test_book_reader_to_records(self):
         r = pe.SeriesReader(self.testfile)
         result = [
-            {u"Y": 4.0, u"X": 1.0, u"Z": 7.0},
-            {u"Y": 5.0, u"X": 2.0, u"Z": 8.0},
-            {u"Y": 6.0, u"X": 3.0, u"Z": 9.0},
+            {"Y": 4.0, "X": 1.0, "Z": 7.0},
+            {"Y": 5.0, "X": 2.0, "Z": 8.0},
+            {"Y": 6.0, "X": 3.0, "Z": 9.0},
         ]
         eq_(result, list(r.records))
 
@@ -57,9 +57,9 @@ class TestToRecord(TestCase):
         r = pe.SeriesReader(self.testfile)
         custom_headers = ["O", "P", "Q"]
         result = [
-            {u"P": 4.0, u"O": 1.0, u"Q": 7.0},
-            {u"P": 5.0, u"O": 2.0, u"Q": 8.0},
-            {u"P": 6.0, u"O": 3.0, u"Q": 9.0},
+            {"P": 4.0, "O": 1.0, "Q": 7.0},
+            {"P": 5.0, "O": 2.0, "Q": 8.0},
+            {"P": 6.0, "O": 3.0, "Q": 9.0},
         ]
         actual = r.to_records(custom_headers)
         eq_(result, list(actual))

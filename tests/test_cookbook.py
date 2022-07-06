@@ -1,9 +1,9 @@
 import os
 
 import pyexcel as pe
-from base import clean_up_files
 
 from nose.tools import eq_, raises
+from .base import clean_up_files
 
 
 class TestSpliting:
@@ -12,7 +12,7 @@ class TestSpliting:
         self.content4 = {
             "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
             "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
-            "Sheet3": [[u"X", u"Y", u"Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]],
+            "Sheet3": [["X", "Y", "Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]],
         }
         pe.save_book_as(dest_file_name=self.testfile4, bookdict=self.content4)
 
@@ -87,7 +87,7 @@ class TestCookbook:
         self.content4 = {
             "Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]],
             "Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]],
-            "Sheet3": [[u"X", u"Y", u"Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]],
+            "Sheet3": [["X", "Y", "Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]],
         }
         pe.save_book_as(dest_file_name=self.testfile4, bookdict=self.content4)
 
