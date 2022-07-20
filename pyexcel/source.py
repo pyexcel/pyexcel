@@ -59,7 +59,7 @@ class MemorySourceMixin(object):
     """
 
     def get_content(self):
-        """Get memory repsentation of the formatted data
+        """Get memory representation of the formatted data
 
         e.g. StringIO instance which contains the csv formatted data
         """

@@ -484,7 +484,7 @@ class Sheet(Matrix):
         Rearrange the sheet.
 
         :ivar new_ordered_columns: new columns
-        :ivar exclusion: to exlucde named column or not. defaults to False
+        :ivar exclusion: to exclude named column or not. defaults to False
 
         Example::
 
@@ -628,7 +628,7 @@ class _RepresentedString(object):
 
 
 def make_names_unique(alist):
-    """Append the number of occurences to duplicated names"""
+    """Append the number of occurrences to duplicated names"""
     duplicates = {}
     new_names = []
     for item in alist:

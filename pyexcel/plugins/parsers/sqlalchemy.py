@@ -14,7 +14,7 @@ from pyexcel_io.database import common as sql
 
 
 class SQLAlchemyExporter(DbParser):
-    """export data via sqlalchmey"""
+    """export data via sqlalchemy"""
 
     def parse_db(
         self, argument, export_columns_list=None, on_demand=False, **keywords

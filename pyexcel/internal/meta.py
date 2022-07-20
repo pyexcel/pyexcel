@@ -173,7 +173,7 @@ class PyexcelObject(object):
             +---+
 
         Where b.stream.xls.getvalue() is equivalent to b.xls. In some situation
-        b.stream.xls is prefered than b.xls.
+        b.stream.xls is preferred than b.xls.
 
         Sheet examples::
 
@@ -187,7 +187,7 @@ class PyexcelObject(object):
             +---+
 
         Where s.stream.xls.getvalue() is equivalent to s.xls. In some situation
-        s.stream.xls is prefered than s.xls.
+        s.stream.xls is preferred than s.xls.
 
         It is similar to :meth:`~pyexcel.Book.save_to_memory`.
         """

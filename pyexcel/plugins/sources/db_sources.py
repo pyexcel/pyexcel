@@ -90,7 +90,7 @@ class BookDbSource(AbstractSource):
         return data
 
     def get_params(self):
-        """form the paraneters for the db parser and renderer"""
+        """form the parameters for the db parser and renderer"""
         pass
 
     def get_source_info(self):
