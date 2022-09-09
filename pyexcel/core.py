@@ -87,7 +87,7 @@ def isave_as(**keywords):
     """
     Save a sheet from a data source to another one with less memory
 
-    It is simliar to :meth:`pyexcel.save_as` except that it does
+    It is similar to :meth:`pyexcel.save_as` except that it does
     not accept parameters for :class:`pyexcel.Sheet`. And it read
     when it writes.
     """
@@ -117,7 +117,7 @@ def isave_book_as(**keywords):
     """
     Save a book from a data source to another one
 
-    It is simliar to :meth:`pyexcel.save_book_as` but it read
+    It is similar to :meth:`pyexcel.save_book_as` but it read
     when it writes. This function provide some speedup but
     the output data is not made uniform.
     """

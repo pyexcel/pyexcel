@@ -713,7 +713,7 @@ class Matrix(SheetMeta):
         Example::
 
             >>> import pyexcel as pe
-            >>> # Given a dictinoary as the following
+            >>> # Given a dictionary as the following
             >>> data = {
             ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
             ...     "3": [1.25, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
@@ -740,7 +740,7 @@ class Matrix(SheetMeta):
         Example::
 
             >>> import pyexcel as pe
-            >>> # Given a dictinoary as the following
+            >>> # Given a dictionary as the following
             >>> data = {
             ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
             ...     "3": [1.25, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],

@@ -42,7 +42,7 @@ class WriteSheetToMemory(AbstractSource, MemorySourceMixin):
 # pylint: disable=W0223
 class WriteBookToMemory(WriteSheetToMemory):
     """
-    Multiple sheet data source for writting back to memory
+    Multiple sheet data source for writing back to memory
     """
 
     def write_data(self, book):
