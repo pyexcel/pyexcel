@@ -7,10 +7,10 @@
     :copyright: (c) 2015-2022 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel import constants as constants
+from pyexcel import constants
 
 
-class AbstractSource(object):
+class AbstractSource():
     """
     Define a data source for use with the signature functions
 
@@ -52,7 +52,7 @@ class AbstractSource(object):
         raise NotImplementedError("")
 
 
-class MemorySourceMixin(object):
+class MemorySourceMixin():
     """A memory source should an internal memory stream
 
     And it is desirable to get its internal stream

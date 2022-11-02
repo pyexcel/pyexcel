@@ -7,13 +7,11 @@
     :copyright: (c) 2015-2022 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel._compact import OrderedDict
-from pyexcel.internal import common as common
-from pyexcel.renderer import DbRenderer
-
 from pyexcel_io import save_data
 from pyexcel_io.database import common as sql
-
+from pyexcel._compact import OrderedDict
+from pyexcel.internal import common
+from pyexcel.renderer import DbRenderer
 
 class SQLAlchemyRenderer(DbRenderer):
     """Import data into database"""

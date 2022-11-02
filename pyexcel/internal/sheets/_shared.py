@@ -17,7 +17,7 @@ from pyexcel._compact import PY2
 from .formatters import to_format
 
 
-class CommonPropertyAmongRowNColumn(object):
+class CommonPropertyAmongRowNColumn():
     """
     Group reusable functions from row and column
     """
@@ -59,7 +59,7 @@ def analyse_slice(aslice, upper_bound):
         stop = min(aslice.stop, upper_bound)
     if start > stop:
         raise ValueError
-    elif start < stop:
+    if start < stop:
         if aslice.step:
             my_range = range(start, stop, aslice.step)
         else:
@@ -81,8 +81,7 @@ def excel_cell_position(pos_chars: str) -> Tuple[int, int]:
 
     if match:
         return int(match.group(2)) - 1, excel_column_index(match.group(1))
-    else:
-        raise KeyError(f"invalid index: {pos_chars}")
+    raise KeyError(f"invalid index: {pos_chars}")
 
 
 """
@@ -119,6 +118,4 @@ def names_to_indices(names, series):
 def abs(value):
     if value < 0:
         return value * -1
-
-    else:
-        return value
+    return value

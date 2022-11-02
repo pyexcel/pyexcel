@@ -1,9 +1,6 @@
 import copy
-
-from pyexcel import Sheet, load_from_dict, load_from_records
-
 from nose.tools import eq_, raises
-
+from pyexcel import Sheet, load_from_dict, load_from_records
 
 @raises(TypeError)
 def test_non_filter():

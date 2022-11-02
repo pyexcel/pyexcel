@@ -15,7 +15,7 @@ from functools import partial
 from itertools import chain
 
 from pyexcel import _compact as compact
-from pyexcel import constants as constants
+from pyexcel import constants
 from pyexcel.internal.meta import SheetMeta
 from pyexcel.internal.sheets.row import Row
 from pyexcel.internal.sheets.column import Column
@@ -63,8 +63,7 @@ class Matrix(SheetMeta):
         """The number of columns"""
         if self.number_of_rows() > 0:
             return self.__width
-        else:
-            return 0
+        return 0
 
     def row_range(self):
         """
@@ -89,14 +88,12 @@ class Matrix(SheetMeta):
         if new_value is None:
             if fit:
                 return self.__array[row][column]
-            else:
-                raise IndexError("Index out of range")
-        else:
-            if not fit:
-                width, array = uniform(self.__array, row + 1, column + 1)
-                self.__width, self.__array = width, array
+            raise IndexError("Index out of range")
+        if not fit:
+            width, array = uniform(self.__array, row + 1, column + 1)
+            self.__width, self.__array = width, array
 
-            self.__array[row][column] = new_value
+        self.__array[row][column] = new_value
 
     def row_at(self, index):
         """
@@ -105,13 +102,12 @@ class Matrix(SheetMeta):
         if index in self.row_range():
             return PyexcelList(copy.deepcopy(self.__array[index]))
 
-        elif index < 0 and utils.abs(index) in self.row_range():
+        if index < 0 and utils.abs(index) in self.row_range():
             return PyexcelList(
                 copy.deepcopy(self.__array[index + self.number_of_rows()])
             )
 
-        else:
-            raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
+        raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
 
     def set_row_at(self, row_index, data_array):
         """Update a row data range"""
@@ -193,14 +189,13 @@ class Matrix(SheetMeta):
                 cell_array.append(self.cell_value(i, index))
             return cell_array
 
-        elif index < 0 and utils.abs(index) in self.column_range():
+        if index < 0 and utils.abs(index) in self.column_range():
             reverse_index = self.number_of_columns() + index
             for i in self.row_range():
                 cell_array.append(self.cell_value(i, reverse_index))
             return cell_array
 
-        else:
-            raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
+        raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
 
     def set_column_at(self, column_index, data_array, starting=0):
         """Updates a column data range
@@ -467,7 +462,7 @@ class Matrix(SheetMeta):
         """Override the operator to set items"""
         if isinstance(index, tuple):
             return self.cell_value(index[0], index[1], cell_value)
-        elif isinstance(index, str):
+        if isinstance(index, str):
             row, column = utils.excel_cell_position(index)
             return self.cell_value(row, column, cell_value)
 
@@ -478,10 +473,10 @@ class Matrix(SheetMeta):
         from left to right"""
         if isinstance(index, tuple):
             return self.cell_value(index[0], index[1])
-        elif isinstance(index, str):
+        if isinstance(index, str):
             row, column = utils.excel_cell_position(index)
             return self.cell_value(row, column)
-        elif isinstance(index, int):
+        if isinstance(index, int):
             print(constants.MESSAGE_DEPRECATED_ROW_COLUMN)
             return self.row_at(index)
 
@@ -796,8 +791,7 @@ def longest_row_number(array):
     if len(array) > 0:
         # map runs len() against each member of the array
         return max(map(len, array))
-    else:
-        return 0
+    return 0
 
 
 def uniform(array, min_rows=0, min_columns=0):
@@ -813,18 +807,17 @@ def uniform(array, min_rows=0, min_columns=0):
 
     if width == 0:
         return 0, array
-    else:
-        for row in array:
-            row_length = len(row)
-            for index in range(0, row_length):
-                if row[index] is None:
-                    row[index] = constants.DEFAULT_NA
-            if row_length < width:
-                row += [constants.DEFAULT_NA] * (width - row_length)
-        for _ in range(array_length, height):
-            row = [constants.DEFAULT_NA] * width
-            array.append(row)
-        return width, array
+    for row in array:
+        row_length = len(row)
+        for index in range(0, row_length):
+            if row[index] is None:
+                row[index] = constants.DEFAULT_NA
+        if row_length < width:
+            row += [constants.DEFAULT_NA] * (width - row_length)
+    for _ in range(array_length, height):
+        row = [constants.DEFAULT_NA] * width
+        array.append(row)
+    return width, array
 
 
 def transpose(in_array):

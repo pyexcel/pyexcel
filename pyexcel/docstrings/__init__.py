@@ -21,7 +21,7 @@ from .core import (
     IGET_RECORDS,
     SAVE_BOOK_AS,
     GET_BOOK_DICT,
-    ISAVE_BOOK_AS,
+    ISAVE_BOOK_AS
 )
 from .meta import SAVE_AS_OPTIONS
 from .garbagecollector import FREE_RESOURCES

@@ -1,11 +1,11 @@
+from nose.tools import eq_, raises
 import pyexcel as p
 
-from nose.tools import eq_, raises
 from .base import (
     PyexcelBase,
     clean_up_files,
     create_generic_file,
-    create_sample_file1,
+    create_sample_file1
 )
 
 
@@ -146,7 +146,7 @@ class TestCSVReaderDialect:
         )
 
     def test_delimiter(self):
-        with open(self.testfile) as test_file:
+        with open(self.testfile, encoding='utf-8') as test_file:
             content = "1:2:3:45:6:7:89:10:11:12"
             expected = ""
             for line in test_file:

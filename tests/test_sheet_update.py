@@ -1,11 +1,11 @@
+from nose.tools import eq_, raises
 import pyexcel as pe
 
-from nose.tools import eq_, raises
 from .base import (
     PyexcelSheetRWBase,
     clean_up_files,
     create_sample_file1,
-    create_sample_file1_series,
+    create_sample_file1_series
 )
 from ._compact import OrderedDict
 

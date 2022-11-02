@@ -1,6 +1,6 @@
-from pyexcel.parser import DbParser, AbstractParser
-
 from nose.tools import raises
+
+from pyexcel.parser import DbParser, AbstractParser
 
 
 @raises(NotImplementedError)

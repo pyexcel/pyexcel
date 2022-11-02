@@ -1,8 +1,6 @@
 from textwrap import dedent
-
-from pyexcel import Sheet
-
 from nose.tools import eq_
+from pyexcel import Sheet
 
 
 def test_project():

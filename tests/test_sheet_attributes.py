@@ -2,10 +2,10 @@
 import copy
 from textwrap import dedent
 
+from nose.tools import eq_, raises
+
 from pyexcel.sheet import Sheet, make_names_unique
 from pyexcel.internal.meta import PyexcelObject
-
-from nose.tools import eq_, raises
 
 
 def test_sheet_content():

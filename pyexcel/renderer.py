@@ -10,7 +10,7 @@
 from pyexcel import _compact as compact
 
 
-class AbstractRenderer(object):
+class AbstractRenderer():
     """
     Close some functions that will not be used
     """
@@ -82,7 +82,7 @@ class Renderer(AbstractRenderer):
         self, file_name, sheet, write_title=True, **keywords
     ):
         self.set_write_title(write_title)
-        with open(file_name, self.WRITE_FLAG) as outfile:
+        with open(file_name, self.WRITE_FLAG, encoding="utf-8") as outfile:
             self.set_output_stream(outfile)
             self.render_sheet(sheet, **keywords)
 
@@ -97,7 +97,7 @@ class Renderer(AbstractRenderer):
         self, file_name, book, write_title=True, **keywords
     ):
         self.set_write_title(write_title)
-        with open(file_name, self.WRITE_FLAG) as outfile:
+        with open(file_name, self.WRITE_FLAG, encoding="utf-8") as outfile:
             self.set_output_stream(outfile)
             self.render_book(book, **keywords)
 

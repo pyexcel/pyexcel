@@ -6,9 +6,10 @@ from datetime import datetime
 from textwrap import dedent
 
 import psutil
+from nose.tools import eq_
 import pyexcel as p
 
-from nose.tools import eq_
+
 from ._compact import StringIO, OrderedDict
 
 

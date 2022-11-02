@@ -7,15 +7,16 @@
     :copyright: (c) 2015-2022 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel import constants as constants
-from pyexcel import exceptions as exceptions
 from lml.plugin import PluginManager
+from pyexcel_io import constants as io_constants
+from pyexcel import constants
 from pyexcel.internal.attributes import (
     register_book_attribute,
-    register_sheet_attribute,
+    register_sheet_attribute
 )
 
-from pyexcel_io import constants as io_constants
+from pyexcel import exceptions
+
 
 REGISTRY_KEY_FORMAT = "%s-%s"
 # ignore the following attributes
@@ -43,9 +44,7 @@ class SourcePluginManager(PluginManager):
                 module_name = _get_me_pypi_package_name(plugin.__module__)
                 if library and module_name != library:
                     continue
-
-                else:
-                    break
+                break
 
         else:
             # nothing is found, no break
@@ -139,16 +138,14 @@ def _error_handler(action, **keywords):
                 constants.FILE_TYPE_NOT_SUPPORTED_FMT % (file_type, action)
             )
 
-        else:
-            if "on_demand" in keywords:
-                keywords.pop("on_demand")
-            msg = "Please check if there were typos in "
-            msg += "function parameters: %s. Otherwise "
-            msg += "unrecognized parameters were given."
-            raise exceptions.UnknownParameters(msg % keywords)
+        if "on_demand" in keywords:
+            keywords.pop("on_demand")
+        msg = "Please check if there were typos in "
+        msg += "function parameters: %s. Otherwise "
+        msg += "unrecognized parameters were given."
+        raise exceptions.UnknownParameters(msg % keywords)
 
-    else:
-        raise exceptions.UnknownParameters("No parameters found!")
+    raise exceptions.UnknownParameters("No parameters found!")
 
 
 def _get_me_pypi_package_name(module_name):

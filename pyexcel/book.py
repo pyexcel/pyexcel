@@ -128,8 +128,7 @@ class Book(BookMeta):
         """Override operator[]"""
         if isinstance(key, int):
             return self.sheet_by_index(key)
-        else:
-            return self.sheet_by_name(key)
+        return self.sheet_by_name(key)
 
     def __delitem__(self, other):
         """
@@ -220,12 +219,11 @@ def to_book(bookstream):
     """Convert a bookstream to Book"""
     if isinstance(bookstream, Book):
         return bookstream
-    else:
-        return Book(
-            bookstream.to_dict(),
-            filename=bookstream.filename,
-            path=bookstream.path,
-        )
+    return Book(
+        bookstream.to_dict(),
+        filename=bookstream.filename,
+        path=bookstream.path,
+    )
 
 
 def local_uuid():

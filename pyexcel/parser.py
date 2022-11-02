@@ -10,7 +10,7 @@
 from pyexcel.internal import garbagecollector as gc
 
 
-class AbstractParser(object):
+class AbstractParser():
     """
     Parsing data from tabular data such as excel file
     """

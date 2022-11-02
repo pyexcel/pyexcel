@@ -11,7 +11,7 @@ import copy
 from collections import defaultdict
 
 from pyexcel import _compact as compact
-from pyexcel import constants as constants
+from pyexcel import constants
 from pyexcel._compact import OrderedDict
 from pyexcel.internal.sheets.row import Row as NamedRow
 from pyexcel.internal.sheets.column import Column as NamedColumn
@@ -592,8 +592,7 @@ class Sheet(Matrix):
             else:
                 column = aset[1]
             return self.cell_value(row, column)
-        else:
-            return super().__getitem__(aset)
+        return super().__getitem__(aset)
 
     def __setitem__(self, aset, c):
         if isinstance(aset, tuple):
@@ -614,7 +613,7 @@ class Sheet(Matrix):
         return self.number_of_rows()
 
 
-class _RepresentedString(object):
+class _RepresentedString():
     """present in text"""
 
     def __init__(self, text):
