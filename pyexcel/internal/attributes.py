@@ -7,7 +7,7 @@
     :copyright: (c) 2015-2022 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel import constants as constants
+from pyexcel import constants
 
 ATTRIBUTE_REGISTRY = {
     constants.SHEET: {

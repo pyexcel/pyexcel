@@ -1,6 +1,6 @@
+from nose.tools import eq_, raises, assert_not_in
 from pyexcel import Sheet
 
-from nose.tools import eq_, raises, assert_not_in
 from ._compact import OrderedDict
 
 

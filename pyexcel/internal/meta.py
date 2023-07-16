@@ -10,7 +10,7 @@
 import sys
 from functools import partial
 
-from pyexcel import constants as constants
+from pyexcel import constants
 from pyexcel import docstrings as docs
 from pyexcel._compact import PY2, append_doc
 from pyexcel.internal import SOURCE
@@ -143,7 +143,7 @@ REGISTER_BOOK_IO = partial(
 )
 
 
-class StreamAttribute(object):
+class StreamAttribute():
     """Provide access to get_*_stream methods"""
 
     def __init__(self, cls):
@@ -154,7 +154,7 @@ class StreamAttribute(object):
         return getter(file_type=name)
 
 
-class PyexcelObject(object):
+class PyexcelObject():
     """parent class for pyexcel.Sheet and pyexcel.Book"""
 
     @property

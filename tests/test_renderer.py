@@ -1,11 +1,12 @@
+from nose.tools import raises
 from pyexcel.renderer import (
     Renderer,
     DbRenderer,
     BinaryRenderer,
-    AbstractRenderer,
+    AbstractRenderer
 )
 
-from nose.tools import raises
+
 from ._compact import BytesIO
 
 

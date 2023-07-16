@@ -11,7 +11,7 @@ import json
 import datetime
 from decimal import Decimal
 
-from pyexcel import constants as constants
+from pyexcel import constants
 
 
 def string_to_format(value, target_format):

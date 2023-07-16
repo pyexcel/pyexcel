@@ -142,7 +142,7 @@ def read(filename):
     """Read a file into setup"""
     filename_absolute = os.path.join(HERE, filename)
 
-    with open(filename_absolute) as opened_file:
+    with open(filename_absolute, encoding='utf-8') as opened_file:
         content = filter_out_test_code(opened_file)
         content = "".join(list(content))
         return content
@@ -157,13 +157,11 @@ def filter_out_test_code(file_handle):
         if found_test_code is True:
             if line.startswith("  "):
                 continue
-            else:
-                empty_line = line.strip()
-                if len(empty_line) == 0:
-                    continue
-                else:
-                    found_test_code = False
-                    yield line
+            empty_line = line.strip()
+            if len(empty_line) == 0:
+                continue
+            found_test_code = False
+            yield line
         else:
             for keyword in ["|version|", "|today|"]:
                 if keyword in line:

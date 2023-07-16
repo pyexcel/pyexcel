@@ -8,15 +8,15 @@
     :license: New BSD License
 """
 import re
-
-from pyexcel import constants as constants
+from pyexcel_io import manager
+from pyexcel import constants
 from pyexcel import docstrings as docs
 from pyexcel.book import Book, to_book
 from pyexcel.sheet import Sheet
 from pyexcel._compact import OrderedDict, append_doc, zip_longest
 from pyexcel.internal import core as sources
 
-from pyexcel_io import manager as manager
+
 
 STARTS_WITH_DEST = "^dest_(.*)"
 SAVE_AS_EXCEPTION = (

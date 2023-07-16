@@ -1,8 +1,7 @@
 import os
-
+from nose.tools import eq_, raises
 import pyexcel as pe
 
-from nose.tools import eq_, raises
 from .base import clean_up_files
 
 

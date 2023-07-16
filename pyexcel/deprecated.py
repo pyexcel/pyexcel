@@ -133,8 +133,7 @@ def Reader(file_name=None, sheetname=None, **keywords):
             sheet_name=sheetname,
             **keywords
         )
-    else:
-        return get_sheet(file_name=file_name, sheet_name=sheetname, **keywords)
+    return get_sheet(file_name=file_name, sheet_name=sheetname, **keywords)
 
 
 @partial(
@@ -157,13 +156,12 @@ def SeriesReader(file_name=None, sheetname=None, series=0, **keywords):
             name_columns_by_row=series,
             **keywords
         )
-    else:
-        return load(
-            file_name,
-            sheetname=sheetname,
-            name_columns_by_row=series,
-            **keywords
-        )
+    return load(
+        file_name,
+        sheetname=sheetname,
+        name_columns_by_row=series,
+        **keywords
+    )
 
 
 @partial(
@@ -183,13 +181,12 @@ def ColumnSeriesReader(file_name=None, sheetname=None, series=0, **keywords):
             name_rows_by_column=series,
             **keywords
         )
-    else:
-        return load(
-            file_name,
-            sheetname=sheetname,
-            name_rows_by_column=series,
-            **keywords
-        )
+    return load(
+        file_name,
+        sheetname=sheetname,
+        name_rows_by_column=series,
+        **keywords
+    )
 
 
 @partial(

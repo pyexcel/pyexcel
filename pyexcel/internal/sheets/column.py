@@ -228,7 +228,7 @@ class Column(utils.CommonPropertyAmongRowNColumn):
         if is_sheet:
             return self._ref.named_column_at(aslice)
 
-        elif isinstance(aslice, slice):
+        if isinstance(aslice, slice):
             my_range = utils.analyse_slice(
                 aslice, self._ref.number_of_columns()
             )
@@ -242,8 +242,7 @@ class Column(utils.CommonPropertyAmongRowNColumn):
         if utils.abs(index) in self._ref.column_range():
             return self._ref.column_at(index)
 
-        else:
-            raise IndexError
+        raise IndexError
 
     def __iadd__(self, other):
         """Overload += sign

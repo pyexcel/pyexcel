@@ -22,8 +22,7 @@ def get_sheet_stream(**keywords):
     if sheets:
         sheet_name, data = _one_sheet_tuple(sheets.items())
         return SheetStream(sheet_name, data)
-    else:
-        return SheetStream(DEFAULT_NO_DATA, [[]])
+    return SheetStream(DEFAULT_NO_DATA, [[]])
 
 
 def get_book_stream(**keywords):

@@ -1,8 +1,8 @@
 import os
 
+from nose.tools import eq_, raises
 import pyexcel as pe
 
-from nose.tools import eq_, raises
 from .base import PyexcelMultipleSheetBase, clean_up_files, create_sample_file1
 from ._compact import OrderedDict
 

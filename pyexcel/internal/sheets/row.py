@@ -193,7 +193,7 @@ class Row(utils.CommonPropertyAmongRowNColumn):
         index = aslice
         if compact.is_string(type(aslice)):
             return self._ref.named_row_at(aslice)
-        elif isinstance(aslice, slice):
+        if isinstance(aslice, slice):
             my_range = utils.analyse_slice(aslice, self._ref.number_of_rows())
             results = []
             for i in my_range:
@@ -202,8 +202,7 @@ class Row(utils.CommonPropertyAmongRowNColumn):
 
         if abs(index) in self._ref.row_range():
             return self._ref.row_at(index)
-        else:
-            raise IndexError
+        raise IndexError
 
     def __iadd__(self, other):
         """Overload += sign

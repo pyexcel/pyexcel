@@ -2,10 +2,9 @@ import os
 import json
 import unittest
 
-import pyexcel as pe
-
 from nose.tools import eq_, raises
 
+import pyexcel as pe
 
 def clean_up_files(file_list):
     for f in file_list:
@@ -285,7 +284,7 @@ def to_one_dimensional_array(iterator):
     """convert a reader to one dimensional array"""
     array = []
     for i in iterator:
-        if type(i) == list:
+        if isinstance(i, list):
             array += i
         else:
             array.append(i)
