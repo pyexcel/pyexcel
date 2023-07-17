@@ -7,10 +7,11 @@
     :copyright: (c) 2015-2022 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel_io import manager
-from pyexcel_io import save_data
 from pyexcel.renderer import AbstractRenderer
 from pyexcel.constants import DEFAULT_SHEET_NAME
+
+from pyexcel_io import manager, save_data
+
 
 class ExcelRenderer(AbstractRenderer):
     """Output data into excel format"""

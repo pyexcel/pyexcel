@@ -7,9 +7,10 @@
     :copyright: (c) 2015-2022 by Onni Software Ltd.
     :license: New BSD License
 """
+from pyexcel.plugins import PyexcelPluginChain
+
 from pyexcel_io.plugins import READERS
 from pyexcel_io.constants import DB_SQL, DB_DJANGO
-from pyexcel.plugins import PyexcelPluginChain
 
 PyexcelPluginChain(__name__).add_a_parser(
     relative_plugin_class_path="excel.ExcelParser",

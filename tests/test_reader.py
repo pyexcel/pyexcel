@@ -1,6 +1,6 @@
-from nose.tools import eq_, raises
 import pyexcel as p
 
+from nose.tools import eq_, raises
 from .base import (
     PyexcelBase,
     clean_up_files,

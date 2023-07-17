@@ -2,9 +2,10 @@ import os
 import json
 import unittest
 
+import pyexcel as pe
+
 from nose.tools import eq_, raises
 
-import pyexcel as pe
 
 def clean_up_files(file_list):
     for f in file_list:

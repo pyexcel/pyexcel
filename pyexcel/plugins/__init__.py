@@ -9,9 +9,10 @@
 """
 import types
 from itertools import product
+
+from pyexcel import constants
 from lml.plugin import PluginInfo, PluginInfoChain
 from pyexcel._compact import is_string
-from pyexcel import constants
 from pyexcel.exceptions import FileTypeNotSupported
 from pyexcel.internal.plugins import PARSER, RENDERER
 

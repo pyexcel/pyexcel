@@ -10,9 +10,9 @@
 """
 from types import GeneratorType
 
+from pyexcel import constants
 from texttable import Texttable
 from pyexcel.renderer import Renderer
-from pyexcel import constants
 from pyexcel.internal.sheets.formatters import to_format
 
 

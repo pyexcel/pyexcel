@@ -2,10 +2,8 @@ import os
 import sys
 import glob
 import json
-from unittest import TestCase
-
 import importlib
-
+from unittest import TestCase
 
 import pyexcel as pe
 

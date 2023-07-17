@@ -1,7 +1,10 @@
 import os
-from nose.tools import eq_
+
 from pyexcel import iget_array
 from pyexcel.internal import garbagecollector as gc
+
+from nose.tools import eq_
+
 
 def test_gc():
     gc.free_resources()

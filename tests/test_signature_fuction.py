@@ -1,9 +1,9 @@
 import os
 from types import GeneratorType
-from nose.tools import eq_, raises
+
 import pyexcel as pe
 
-
+from nose.tools import eq_, raises
 from .db import Base, Session, Signature, Signature2, engine
 from ._compact import OrderedDict
 

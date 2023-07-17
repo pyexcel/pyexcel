@@ -1,8 +1,10 @@
 import os
 from textwrap import dedent
 
-from nose.tools import eq_
 import pyexcel as pe
+
+from nose.tools import eq_
+
 
 def test_write_texttable():
     content = [[1, 2]]

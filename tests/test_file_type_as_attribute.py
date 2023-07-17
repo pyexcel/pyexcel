@@ -1,12 +1,11 @@
 import os
 from textwrap import dedent
-from nose.tools import eq_, raises
-from pyexcel import Book, Sheet, get_book
-from pyexcel import constants
+
+from pyexcel import Book, Sheet, get_book, constants
 from pyexcel.source import AbstractSource, MemorySourceMixin
 from pyexcel.plugins import SourceInfo
 
-
+from nose.tools import eq_, raises
 from ._compact import StringIO, OrderedDict
 
 FIXTURE = "dummy"

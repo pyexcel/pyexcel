@@ -7,11 +7,11 @@
     :copyright: (c) 2015-2022 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel_io import get_data
-from pyexcel_io.constants import DB_QUERYSET
 from pyexcel import constants
 from pyexcel.source import AbstractSource
 
+from pyexcel_io import get_data
+from pyexcel_io.constants import DB_QUERYSET
 from . import params
 
 
