@@ -146,7 +146,7 @@ class Row(utils.CommonPropertyAmongRowNColumn):
             my_range = utils.analyse_slice(locator, self._ref.number_of_rows())
             self._ref.delete_rows(my_range)
         elif isinstance(locator, tuple):
-            self._ref.filter(row_indices=(list(locator)))
+            self._ref.filter(row_indices=list(locator))
         elif isinstance(locator, list):
             self._ref.filter(row_indices=locator)
         elif isinstance(locator, types.LambdaType):

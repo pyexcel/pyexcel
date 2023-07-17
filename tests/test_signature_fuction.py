@@ -323,7 +323,7 @@ class TestSavingToDatabase:
         adict = {"X": [1, 4], "Y": [2, 5], "Z": [3, 6]}
         sheet = pe.get_sheet(adict=adict, name_columns_by_row=0)
         sheet.save_to_database(self.session, Signature)
-        result = pe.get_dict(session=self.session, table=(Signature))
+        result = pe.get_dict(session=self.session, table=Signature)
         assert adict == result
 
     def test_save_an_array(self):
