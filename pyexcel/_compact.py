@@ -12,7 +12,6 @@
 # pylint: disable=import-error
 # pylint: disable=no-name-in-module
 # pylint: disable=invalid-name
-# pylint: disable=redefined-variable-type
 # pylint: disable=too-few-public-methods
 # pylint: disable=ungrouped-imports
 import sys
