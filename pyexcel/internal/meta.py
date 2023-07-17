@@ -36,7 +36,7 @@ def make_presenter(source_getter, attribute=None):
 
         return content
 
-    custom_presenter.__doc__ = "Get data in %s format" % attribute
+    custom_presenter.__doc__ = f"Get data in {attribute} format"
     return custom_presenter
 
 
@@ -70,7 +70,7 @@ def importer(attribute=None):
         named_content = get_sheet_stream(**keywords)
         self.init(named_content.payload, named_content.name, **sheet_params)
 
-    custom_importer1.__doc__ = "Set data in %s format" % attribute
+    custom_importer1.__doc__ = f"Set data in {attribute} format"
     return custom_importer1
 
 
@@ -88,7 +88,7 @@ def book_importer(attribute=None):
         sheets, filename, path = _get_book(**keywords)
         self.init(sheets=sheets, filename=filename, path=path)
 
-    custom_book_importer.__doc__ = "Set data in %s format" % attribute
+    custom_book_importer.__doc__ = f"Set data in {attribute} format"
     return custom_book_importer
 
 
@@ -226,7 +226,7 @@ class PyexcelObject():
 
             setattr(
                 memory_content,
-                "_repr_%s_" % file_type,
+                f"_repr_{file_type}_",
                 partial(get_content, memory_content),
             )
         return memory_content

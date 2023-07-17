@@ -117,9 +117,9 @@ class SourcePluginManager(PluginManager):
                 elif target == "sheet":
                     register_sheet_attribute(target, action, attr)
                 else:
-                    raise Exception("Known target: %s" % target)
+                    raise Exception(f"Known target: {target}")
 
-                debug_attribute += "%s " % attr
+                debug_attribute += f"{attr} "
                 self.keywords[attr] = plugin_info.key
                 anything = True
             debug_attribute += ", "

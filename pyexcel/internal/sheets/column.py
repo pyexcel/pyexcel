@@ -288,7 +288,7 @@ class Column(utils.CommonPropertyAmongRowNColumn):
         if attr not in self._ref.colnames:
             the_attr = the_attr.replace("_", " ")
             if the_attr not in self._ref.colnames:
-                raise AttributeError("%s is not found" % attr)
+                raise AttributeError(f"{attr} is not found")
 
         return self._ref.named_column_at(the_attr)
 

@@ -31,8 +31,8 @@ def test_bug_01():
 
 def test_issue_03():
     file_prefix = "issue_03_test"
-    csv_file = "%s.csv" % file_prefix
-    xls_file = "%s.xls" % file_prefix
+    csv_file = f"{file_prefix}.csv"
+    xls_file = f"{file_prefix}.xls"
     my_sheet_name = "mysheetname"
     data = [[1, 1]]
     sheet = p.Sheet(data, name=my_sheet_name)

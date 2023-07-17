@@ -7,9 +7,9 @@ def default_getter(attribute=None):
 
     def none_presenter(_, **__):
         """docstring is assigned a few lines down the line"""
-        raise NotImplementedError("%s getter is not defined." % attribute)
+        raise NotImplementedError(f"{attribute} getter is not defined.")
 
-    none_presenter.__doc__ = "%s getter is not defined." % attribute
+    none_presenter.__doc__ = f"{attribute} getter is not defined."
     return none_presenter
 
 
@@ -22,9 +22,9 @@ def default_setter(attribute=None):
 
     def none_importer(_x, _y, **_z):
         """docstring is assigned a few lines down the line"""
-        raise NotImplementedError("%s setter is not defined." % attribute)
+        raise NotImplementedError(f"{attribute} setter is not defined.")
 
-    none_importer.__doc__ = "%s setter is not defined." % attribute
+    none_importer.__doc__ = f"{attribute} setter is not defined."
     return none_importer
 
 
@@ -52,5 +52,5 @@ def make_a_property(
     else:
         attribute = attribute
     setattr(cls, attribute, attribute_property)
-    setattr(cls, "get_%s" % attribute, getter)
-    setattr(cls, "set_%s" % attribute, setter)
+    setattr(cls, f"get_{attribute}", getter)
+    setattr(cls, f"set_{attribute}", setter)

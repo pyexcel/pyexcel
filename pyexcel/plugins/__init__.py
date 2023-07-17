@@ -26,7 +26,7 @@ class SourceInfo(PluginInfo):
     def tags(self):
         target_action_list = product(self.targets, self.actions)
         for target, action in target_action_list:
-            yield "%s-%s" % (target, action)
+            yield f"{target}-{action}"
 
     def is_my_business(self, action, **keywords):
         """
