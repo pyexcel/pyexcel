@@ -13,12 +13,14 @@ class TestSQL(TestCase):
         Base.metadata.drop_all(engine)
         Base.metadata.create_all(engine)
         p1 = Pyexcel(
-            id=0, name="Adam", weight=11.25, birth=datetime.date(2014, 11, 11),
+            id=0, name="Adam", weight=11.25,
+            birth=datetime.date(2014, 11, 11),
         )
         session = Session()
         session.add(p1)
         p1 = Pyexcel(
-            id=1, name="Smith", weight=12.25, birth=datetime.date(2014, 11, 12),
+            id=1, name="Smith", weight=12.25,
+            birth=datetime.date(2014, 11, 12),
         )
         session.add(p1)
         session.commit()

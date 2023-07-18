@@ -267,19 +267,22 @@ class TestiGetRecords:
             file_content=content.getvalue(), file_type="xls",
         )
         eq_(
-            list(records), [{"X": 1, "Y": 2, "Z": 3}, {"X": 4, "Y": 5, "Z": 6}],
+            list(records), [{"X": 1, "Y": 2, "Z": 3},
+                            {"X": 4, "Y": 5, "Z": 6}],
         )
 
     def test_get_records_from_array(self):
         data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
         result = pe.iget_records(array=data)
-        eq_(list(result), [{"X": 1, "Y": 2, "Z": 3}, {"X": 4, "Y": 5, "Z": 6}])
+        eq_(list(result), [{"X": 1, "Y": 2, "Z": 3},
+                           {"X": 4, "Y": 5, "Z": 6}])
 
     def test_get_records_from_irregular_array(self):
         data = [["X", "Y", "Z"], [1, 2, 3], [4, 5]]
         result = pe.iget_records(array=data)
         eq_(
-            list(result), [{"X": 1, "Y": 2, "Z": 3}, {"X": 4, "Y": 5, "Z": ""}],
+            list(result), [{"X": 1, "Y": 2, "Z": 3},
+                           {"X": 4, "Y": 5, "Z": ""}],
         )
 
     def test_get_records_from_dict(self):
@@ -750,7 +753,9 @@ class TestiSaveAs:
         testfile2 = "testfile2.csv"
         sheet.save_as(testfile)
         pe.isave_as(
-            file_name=testfile, dest_file_name=testfile2, name_columns_by_row=0,
+            file_name=testfile,
+            dest_file_name=testfile2,
+            name_columns_by_row=0,
         )
 
     def test_save_file_as_texttable(self):
