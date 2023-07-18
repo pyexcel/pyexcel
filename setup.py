@@ -20,7 +20,7 @@ DESCRIPTION = (
     "data in different excel formats"
 )
 URL = "https://github.com/pyexcel/pyexcel"
-DOWNLOAD_URL = "%s/archive/0.7.0.tar.gz" % URL
+DOWNLOAD_URL = f"{URL}/archive/0.7.0.tar.gz"
 README_FILES = ["README.rst", "CONTRIBUTORS.rst", "CHANGELOG.rst"]
 KEYWORDS = [
     "python",
@@ -30,7 +30,7 @@ KEYWORDS = [
     'csvz',
     'xls',
     'xlsx',
-    'ods'
+    'ods',
 ]
 
 CLASSIFIERS = [
@@ -66,7 +66,7 @@ EXTRAS_REQUIRE = {
     "ods": ['pyexcel-ods3>=0.6.0'],
 }
 # You do not need to read beyond this line
-PUBLISH_COMMAND = "{0} setup.py sdist bdist_wheel upload -r pypi".format(sys.executable)
+PUBLISH_COMMAND = f"{sys.executable} setup.py sdist bdist_wheel upload -r pypi"
 HERE = os.path.abspath(os.path.dirname(__file__))
 
 GS_COMMAND = ("gease pyexcel v0.7.0 " +
@@ -74,7 +74,7 @@ GS_COMMAND = ("gease pyexcel v0.7.0 " +
 NO_GS_MESSAGE = ("Automatic github release is disabled. " +
                  "Please install gease to enable it.")
 UPLOAD_FAILED_MSG = (
-    'Upload failed. please run "%s" yourself.' % PUBLISH_COMMAND)
+    f'Upload failed. please run "{PUBLISH_COMMAND}" yourself.')
 
 
 class PublishCommand(Command):
@@ -86,7 +86,7 @@ class PublishCommand(Command):
     @staticmethod
     def status(s):
         """Prints things in bold."""
-        print("\033[1m{0}\033[0m".format(s))
+        print(f"\x1b[1m{s}\x1b[0m")
 
     def initialize_options(self):
         pass
@@ -117,8 +117,9 @@ class PublishCommand(Command):
 
 
 SETUP_COMMANDS.update({
-    "publish": PublishCommand
+    "publish": PublishCommand,
 })
+
 
 def has_gease():
     """
@@ -191,5 +192,5 @@ if __name__ == "__main__":
         include_package_data=True,
         zip_safe=False,
         classifiers=CLASSIFIERS,
-        cmdclass=SETUP_COMMANDS
+        cmdclass=SETUP_COMMANDS,
     )

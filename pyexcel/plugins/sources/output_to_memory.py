@@ -22,7 +22,7 @@ class WriteSheetToMemory(AbstractSource, MemorySourceMixin):
         file_type=None,
         file_stream=None,
         renderer_library=None,
-        **keywords
+        **keywords,
     ):
         AbstractSource.__init__(self, **keywords)
 
@@ -35,7 +35,7 @@ class WriteSheetToMemory(AbstractSource, MemorySourceMixin):
 
     def write_data(self, sheet):
         self._renderer.render_sheet_to_stream(
-            self._content, sheet, **self._keywords
+            self._content, sheet, **self._keywords,
         )
 
 
@@ -47,5 +47,5 @@ class WriteBookToMemory(WriteSheetToMemory):
 
     def write_data(self, book):
         self._renderer.render_book_to_stream(
-            self._content, book, **self._keywords
+            self._content, book, **self._keywords,
         )

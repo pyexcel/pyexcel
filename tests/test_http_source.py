@@ -32,7 +32,7 @@ class TestHttpBookSource(TestCase):
         csv:
         +---+---+---+
         | 1 | 2 | 3 |
-        +---+---+---+"""
+        +---+---+---+""",
         ).strip("\n")
         self.assertEqual(str(book), content)
 
@@ -43,7 +43,7 @@ class TestHttpBookSource(TestCase):
         csv:
         +---+---+---+
         | 1 | 2 | 3 |
-        +---+---+---+"""
+        +---+---+---+""",
         ).strip("\n")
         self.assertEqual(str(book), content)
 
@@ -54,6 +54,6 @@ class TestHttpBookSource(TestCase):
         csv:
         +---+---+---+
         | 1 | 2 | 3 |
-        +---+---+---+"""
+        +---+---+---+""",
         ).strip("\n")
         self.assertEqual(str(sheet), content)

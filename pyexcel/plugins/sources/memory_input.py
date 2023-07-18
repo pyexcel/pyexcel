@@ -23,7 +23,7 @@ class ReadExcelFileMemory(AbstractSource):
         file_type=None,
         file_stream=None,
         parser_library=None,
-        **keywords
+        **keywords,
     ):
         self.__file_type = file_type
         self.__file_stream = file_stream
@@ -34,11 +34,11 @@ class ReadExcelFileMemory(AbstractSource):
     def get_data(self):
         if self.__file_stream is not None:
             sheets = self.__parser.parse_file_stream(
-                self.__file_stream, **self._keywords
+                self.__file_stream, **self._keywords,
             )
         else:
             sheets = self.__parser.parse_file_content(
-                self.__file_content, **self._keywords
+                self.__file_content, **self._keywords,
             )
         return sheets
 

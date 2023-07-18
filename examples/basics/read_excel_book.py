@@ -21,7 +21,7 @@ def main(base_dir):
     # the default iterator for a **Book* instance is a SheetIterator
     for sheet in book:
         # Each sheet has name
-        print("sheet: %s" % sheet.name)
+        print(f"sheet: {sheet.name}")
         # Once you have a sheet instance, you can regard it as
         # a Reader instance. You can iterate its member in the way
         # you wanted it

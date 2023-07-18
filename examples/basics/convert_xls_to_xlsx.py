@@ -34,7 +34,7 @@ import pyexcel as pe
 def main(base_dir):
     pe.save_book_as(
         file_name=os.path.join(base_dir, "multiple-sheets.xls"),
-        dest_file_name=os.path.join(base_dir, "multiple-sheets.xlsx")
+        dest_file_name=os.path.join(base_dir, "multiple-sheets.xlsx"),
     )
 
 

@@ -1,7 +1,8 @@
 import os
-from nose.tools import eq_, raises
+
 import pyexcel as pe
 
+from nose.tools import eq_, raises
 from .base import clean_up_files
 
 
@@ -24,20 +25,20 @@ class TestSpliting:
     def test_split_a_book_2(self):
         """use default output file name"""
         pe.cookbook.split_a_book(self.testfile4)
-        assert os.path.exists("Sheet1_%s" % self.testfile4)
-        assert os.path.exists("Sheet2_%s" % self.testfile4)
-        assert os.path.exists("Sheet3_%s" % self.testfile4)
+        assert os.path.exists(f"Sheet1_{self.testfile4}")
+        assert os.path.exists(f"Sheet2_{self.testfile4}")
+        assert os.path.exists(f"Sheet3_{self.testfile4}")
 
     def test_extract_a_book(self):
         pe.cookbook.extract_a_sheet_from_a_book(
-            self.testfile4, "Sheet1", "extracted.csv"
+            self.testfile4, "Sheet1", "extracted.csv",
         )
         assert os.path.exists("Sheet1_extracted.csv")
 
     def test_extract_a_book_2(self):
         """Use default output file name"""
         pe.cookbook.extract_a_sheet_from_a_book(self.testfile4, "Sheet1")
-        assert os.path.exists("Sheet1_%s" % self.testfile4)
+        assert os.path.exists(f"Sheet1_{self.testfile4}")
 
     def tearDown(self):
         file_list = [
@@ -100,7 +101,7 @@ class TestCookbook:
     def test_update_columns2(self):
         custom_column = {"Z": [33, 44, 55, 66, 77]}
         pe.cookbook.update_columns(self.testfile, custom_column)
-        r = pe.SeriesReader("pyexcel_%s" % self.testfile)
+        r = pe.SeriesReader(f"pyexcel_{self.testfile}")
         data = r.dict
         assert data["Z"] == custom_column["Z"]
         pe.cookbook.update_columns(self.testfile, custom_column, "test4.xls")
@@ -120,12 +121,12 @@ class TestCookbook:
         except ValueError:
             assert 1 == 1
         pe.cookbook.update_rows(self.testfile, custom_column)
-        r = pe.Reader("pyexcel_%s" % self.testfile)
+        r = pe.Reader(f"pyexcel_{self.testfile}")
         assert custom_column["1"] == r.row_at(1)[1:]
         try:
             # try not to overwrite a file
             pe.cookbook.update_rows(self.testfile, custom_column)
-            r = pe.SeriesReader("pyexcel_%s" % self.testfile)
+            r = pe.SeriesReader(f"pyexcel_{self.testfile}")
             assert 1 == 2
         except NotImplementedError:
             assert 1 == 1
@@ -244,7 +245,7 @@ class TestCookbook:
             self.testfile2,
             self.testfile3,
             self.testfile4,
-            "pyexcel_%s" % self.testfile,
+            f"pyexcel_{self.testfile}",
             "pyexcel_merged.csv",
             "merged.xlsx",
             "merged.xls",

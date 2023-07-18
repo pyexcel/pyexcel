@@ -21,7 +21,7 @@ def main(base_dir):
     data = {
         "Sheet 1": [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
         "Sheet 2": [['X', 'Y', 'Z'], [1, 2, 3], [4, 5, 6]],
-        "Sheet 3": [['O', 'P', 'Q'], [3, 2, 1], [4, 3, 2]]
+        "Sheet 3": [['O', 'P', 'Q'], [3, 2, 1], [4, 3, 2]],
     }
     # In order to keep the order of the sheets, please use OrderedDict
 

@@ -7,12 +7,12 @@
     :copyright: (c) 2015-2022 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel_io import save_data
-from pyexcel_io.database import common as django
-
 from pyexcel._compact import OrderedDict
 from pyexcel.internal import common
 from pyexcel.renderer import DbRenderer
+
+from pyexcel_io import save_data
+from pyexcel_io.database import common as django
 
 NO_COLUMN_NAMES = "Only sheet with column names is accepted"
 
@@ -21,7 +21,7 @@ class DjangoRenderer(DbRenderer):
     """Import data into database"""
 
     def render_sheet_to_stream(
-        self, model, sheet, init=None, mapdict=None, **keywords
+        self, model, sheet, init=None, mapdict=None, **keywords,
     ):
         headers = common.get_sheet_headers(sheet)
         importer = django.DjangoModelImporter()
@@ -34,7 +34,7 @@ class DjangoRenderer(DbRenderer):
             importer,
             {adapter.get_name(): sheet.get_internal_array()},
             file_type=self._file_type,
-            **keywords
+            **keywords,
         )
 
     def render_book_to_stream(
@@ -44,7 +44,7 @@ class DjangoRenderer(DbRenderer):
         inits=None,
         mapdicts=None,
         batch_size=None,
-        **keywords
+        **keywords,
     ):
         colnames_array = common.get_book_headers_in_array(book)
         new_models = [model for model in models if model is not None]
@@ -72,5 +72,5 @@ class DjangoRenderer(DbRenderer):
             to_store,
             file_type=self._file_type,
             batch_size=batch_size,
-            **keywords
+            **keywords,
         )

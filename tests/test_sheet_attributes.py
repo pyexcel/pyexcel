@@ -2,10 +2,10 @@
 import copy
 from textwrap import dedent
 
-from nose.tools import eq_, raises
-
 from pyexcel.sheet import Sheet, make_names_unique
 from pyexcel.internal.meta import PyexcelObject
+
+from nose.tools import eq_, raises
 
 
 def test_sheet_content():
@@ -15,7 +15,7 @@ def test_sheet_content():
         """
     +---+---+
     | 1 | 2 |
-    +---+---+"""
+    +---+---+""",
     ).strip("\n")
     eq_(str(sheet.content), expected)
 
@@ -29,7 +29,7 @@ def test_random_access():
     pyexcel sheet:
     +---+-----+
     | 1 | 100 |
-    +---+-----+"""
+    +---+-----+""",
     ).strip("\n")
     sheet[0, 1] = 100
     eq_(str(sheet), expected)
@@ -55,7 +55,7 @@ def test_named_sheet_access():
     |  A  | B |
     +=====+===+
     | 100 | 2 |
-    +-----+---+"""
+    +-----+---+""",
     ).strip("\n")
     sheet[0, "A"] = 100
     print(str(sheet))
@@ -75,7 +75,7 @@ def test_named_sheet_access_to_unknown_area():
     | 1   | 2 |
     +-----+---+
     | 100 |   |
-    +-----+---+"""
+    +-----+---+""",
     ).strip("\n")
     sheet[1, "A"] = 100
     print(str(sheet))
@@ -97,7 +97,7 @@ def test_data_frame_access():
     |   |  A  | B |
     +===+=====+===+
     | R | 100 | 2 |
-    +---+-----+---+"""
+    +---+-----+---+""",
     ).strip("\n")
     sheet["R", "A"] = 100
     print(str(sheet))
@@ -114,7 +114,7 @@ def test_html_representation():
     <tbody>
     <tr><td style="text-align: right;">1</td><td style="text-align: right;">2</td></tr>
     </tbody>
-    </table>"""  # noqa: E501
+    </table>""",  # noqa: E501
     ).strip("\n")
     eq_(str(sheet._repr_html_()), expected)
 

@@ -160,7 +160,7 @@ def split_a_book(file_name, outfilename=None):
     else:
         saveas = file_name
     for sheet in book:
-        filename = "%s_%s" % (sheet.name, saveas)
+        filename = f"{sheet.name}_{saveas}"
         sheet.save_as(filename)
 
 
@@ -177,5 +177,5 @@ def extract_a_sheet_from_a_book(file_name, sheetname, outfilename=None):
     else:
         saveas = file_name
     sheet = book[sheetname]
-    file_name = "%s_%s" % (sheetname, saveas)
+    file_name = f"{sheetname}_{saveas}"
     sheet.save_as(file_name)

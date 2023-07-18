@@ -1,12 +1,11 @@
 import os
 from textwrap import dedent
-from nose.tools import eq_, raises
-from pyexcel import Book, Sheet, get_book
-from pyexcel import constants
+
+from pyexcel import Book, Sheet, get_book, constants
 from pyexcel.source import AbstractSource, MemorySourceMixin
 from pyexcel.plugins import SourceInfo
 
-
+from nose.tools import eq_, raises
 from ._compact import StringIO, OrderedDict
 
 FIXTURE = "dummy"
@@ -76,7 +75,7 @@ def test_set_csv_attribute():
     csv:
     +---+---+---+
     | a | b | c |
-    +---+---+---+"""
+    +---+---+---+""",
     ).strip("\n")
     eq_(str(sheet), expected)
 
@@ -91,7 +90,7 @@ def test_set_csv_attribute2():
     +---+---+---+
     | a | b | c |
     +===+===+===+
-    +---+---+---+"""
+    +---+---+---+""",
     ).strip("\n")
     eq_(str(sheet), expected)
 
@@ -106,7 +105,7 @@ def test_get_csv_stream():
 
 def test_book_attribute():
     book = get_book(
-        file_name=os.path.join("tests", "fixtures", "test-multiple.csvz")
+        file_name=os.path.join("tests", "fixtures", "test-multiple.csvz"),
     )
     expected = (
         "---pyexcel:sheet1---\r\n"
@@ -167,7 +166,7 @@ def test_set_array():
     pyexcel_sheet1:
     +---+---+
     | 1 | 2 |
-    +---+---+"""
+    +---+---+""",
     ).strip()
     eq_(str(c), expected)
     eq_(c.array, test_array)
@@ -186,7 +185,7 @@ def test_set_records():
     | 11  | a    |
     +-----+------+
     | 12  | b    |
-    +-----+------+"""
+    +-----+------+""",
     ).strip()
     eq_(str(s), expected)
     s.name_columns_by_row(0)
@@ -208,7 +207,7 @@ def test_set_dict():
     | 2 | 3 |
     +---+---+
     | 3 | 4 |
-    +---+---+"""
+    +---+---+""",
     ).strip()
     eq_(expected, str(s))
     s.name_columns_by_row(0)
@@ -227,7 +226,7 @@ def test_set_bookdict():
     sheet2:
     +---+
     | 2 |
-    +---+"""
+    +---+""",
     ).strip()
     eq_(str(b), expected)
     expected = OrderedDict([("sheet1", [[1]]), ("sheet2", [[2]])])
