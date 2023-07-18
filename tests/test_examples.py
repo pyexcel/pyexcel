@@ -2,7 +2,7 @@ import os
 import sys
 import glob
 import json
-import implib
+import imp
 from unittest import TestCase
 
 import pyexcel as pe
