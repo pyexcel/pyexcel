@@ -112,12 +112,9 @@ def test_html_representation():
     pyexcel sheet:
     <table>
     <tbody>
-    <tr>
-    <td style="text-align: right;">1</td>
-    <td style="text-align: right;">2</td>
-    </tr>
+    <tr><td style="text-align: right;">1</td><td style="text-align: right;">2</td></tr>
     </tbody>
-    </table>""",
+    </table>""",  # noqa: E501
     ).strip("\n")
     eq_(str(sheet._repr_html_()), expected)
 
