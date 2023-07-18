@@ -17,7 +17,8 @@ DEPRECATED_LOADER = partial(
     message="Deprecated since v0.1.5! Please use get_sheet instead.",
 )
 DEPRECATED_BOOK_LOADER = partial(
-    deprecated, message="Deprecated since v0.1.5! Please use get_book instead.",
+    deprecated,
+    message="Deprecated since v0.1.5! Please use get_book instead.",
 )
 
 
@@ -144,7 +145,8 @@ def Reader(file_name=None, sheetname=None, **keywords):
     ),
 )
 def SeriesReader(file_name=None, sheetname=None, series=0, **keywords):
-    """A single sheet excel file reader and it has column headers in a selected row
+    """A single sheet excel file reader and it
+    has column headers in a selected row
 
     use as class would fail
     changed since 0.0.7
@@ -169,7 +171,8 @@ def SeriesReader(file_name=None, sheetname=None, series=0, **keywords):
     message="Please use class Sheet(..., name_rows_by_column=0..) instead",
 )
 def ColumnSeriesReader(file_name=None, sheetname=None, series=0, **keywords):
-    """A single sheet excel file reader and it has row headers in a selected column
+    """A single sheet excel file reader and
+    it has row headers in a selected column
 
     use as class would fail
     changed since 0.0.7
