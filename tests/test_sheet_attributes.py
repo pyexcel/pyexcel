@@ -112,7 +112,10 @@ def test_html_representation():
     pyexcel sheet:
     <table>
     <tbody>
-    <tr><td style="text-align: right;">1</td><td style="text-align: right;">2</td></tr>
+    <tr>
+    <td style="text-align: right;">1</td>
+    <td style="text-align: right;">2</td>
+    </tr>
     </tbody>
     </table>""",
     ).strip("\n")
