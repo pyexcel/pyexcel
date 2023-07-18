@@ -159,7 +159,7 @@ class Column(utils.CommonPropertyAmongRowNColumn):
 
         """
         is_sheet = compact.is_string(type(aslice)) and hasattr(
-            self._ref, "delete_named_column_at"
+            self._ref, "delete_named_column_at",
         )
         if is_sheet:
             self._ref.delete_named_column_at(aslice)
@@ -168,7 +168,7 @@ class Column(utils.CommonPropertyAmongRowNColumn):
             self._ref.delete_columns(indices)
         elif isinstance(aslice, slice):
             my_range = utils.analyse_slice(
-                aslice, self._ref.number_of_columns()
+                aslice, self._ref.number_of_columns(),
             )
             self._ref.delete_columns(my_range)
         elif isinstance(aslice, str):
@@ -200,13 +200,13 @@ class Column(utils.CommonPropertyAmongRowNColumn):
     def __setitem__(self, aslice, a_column):
         """Override the operator to set items"""
         is_sheet = compact.is_string(type(aslice)) and hasattr(
-            self._ref, "set_named_column_at"
+            self._ref, "set_named_column_at",
         )
         if is_sheet:
             self._ref.set_named_column_at(aslice, a_column)
         elif isinstance(aslice, slice):
             my_range = utils.analyse_slice(
-                aslice, self._ref.number_of_columns()
+                aslice, self._ref.number_of_columns(),
             )
             for i in my_range:
                 self._ref.set_column_at(i, a_column)
@@ -223,14 +223,14 @@ class Column(utils.CommonPropertyAmongRowNColumn):
         from left to right"""
         index = aslice
         is_sheet = compact.is_string(type(aslice)) and hasattr(
-            self._ref, "named_column_at"
+            self._ref, "named_column_at",
         )
         if is_sheet:
             return self._ref.named_column_at(aslice)
 
         if isinstance(aslice, slice):
             my_range = utils.analyse_slice(
-                aslice, self._ref.number_of_columns()
+                aslice, self._ref.number_of_columns(),
             )
             results = []
             for i in my_range:
@@ -255,7 +255,7 @@ class Column(utils.CommonPropertyAmongRowNColumn):
             self._ref.extend_columns(copy.deepcopy(other))
         elif hasattr(other, "get_internal_array"):
             self._ref.extend_columns_with_rows(
-                copy.deepcopy(other.get_internal_array())
+                copy.deepcopy(other.get_internal_array()),
             )
         else:
             raise TypeError
@@ -273,7 +273,7 @@ class Column(utils.CommonPropertyAmongRowNColumn):
             new_instance.extend_columns(copy.deepcopy(other))
         elif hasattr(other, "get_internal_array"):
             new_instance.extend_columns_with_rows(
-                copy.deepcopy(other.get_internal_array())
+                copy.deepcopy(other.get_internal_array()),
             )
         else:
             raise TypeError
@@ -305,7 +305,7 @@ class Column(utils.CommonPropertyAmongRowNColumn):
         if len(self._ref.colnames) > 0:
             new_indices = utils.names_to_indices(columns, self._ref.colnames)
         converter = utils.CommonPropertyAmongRowNColumn.get_converter(
-            theformatter
+            theformatter,
         )
 
         if isinstance(new_indices, list):

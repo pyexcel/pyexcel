@@ -31,10 +31,10 @@ class ExcelRenderer(AbstractRenderer):
 
     def render_sheet_to_stream(self, file_stream, sheet, **keywords):
         self.render_sheet_to_file(
-            file_stream, sheet, file_type=self._file_type, **keywords
+            file_stream, sheet, file_type=self._file_type, **keywords,
         )
 
     def render_book_to_stream(self, file_stream, book, **keywords):
         self.render_book_to_file(
-            file_stream, book, file_type=self._file_type, **keywords
+            file_stream, book, file_type=self._file_type, **keywords,
         )

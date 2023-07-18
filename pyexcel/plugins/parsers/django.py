@@ -17,7 +17,7 @@ class DjangoExporter(DbParser):
     """Export data from django model"""
 
     def parse_db(
-        self, argument, export_columns_list=None, on_demand=True, **keywords
+        self, argument, export_columns_list=None, on_demand=True, **keywords,
     ):
         models = argument
         exporter = django.DjangoModelExporter()
@@ -28,7 +28,7 @@ class DjangoExporter(DbParser):
             exporter.append(adapter)
         if on_demand:
             sheets, _ = iget_data(
-                exporter, file_type=self._file_type, **keywords
+                exporter, file_type=self._file_type, **keywords,
             )
         else:
             sheets = get_data(exporter, file_type=self._file_type, **keywords)

@@ -72,7 +72,7 @@ class PyexcelSheetBase(unittest.TestCase):
             [
                 [f"{row_no}_{col_no}" for col_no in range(10)]
                 for row_no in range(10)
-            ]
+            ],
         )
 
 

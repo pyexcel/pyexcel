@@ -97,7 +97,7 @@ def attribute(
     file_type,
     instance_name="Sheet",
     description=constants.OUT_FILE_TYPE_DOC_STRING,
-    **keywords
+    **keywords,
 ):
     """
     create custom attributes for each class
@@ -261,12 +261,12 @@ class SheetMeta(PyexcelObject):
 
     def save_to_memory(self, file_type, stream=None, **keywords):
         stream = save_sheet(
-            self, file_type=file_type, file_stream=stream, **keywords
+            self, file_type=file_type, file_stream=stream, **keywords,
         )
         return stream
 
     def save_to_django_model(
-        self, model, initializer=None, mapdict=None, batch_size=None
+        self, model, initializer=None, mapdict=None, batch_size=None,
     ):
         """Save to database table through django model
 
@@ -285,7 +285,7 @@ class SheetMeta(PyexcelObject):
         )
 
     def save_to_database(
-        self, session, table, initializer=None, mapdict=None, auto_commit=True
+        self, session, table, initializer=None, mapdict=None, auto_commit=True,
     ):
         """Save data in sheet to database table
 
@@ -330,12 +330,12 @@ class BookMeta(PyexcelObject):
                        xlsx, and ods, an instance of BytesIO.
         """
         stream = save_book(
-            self, file_type=file_type, file_stream=stream, **keywords
+            self, file_type=file_type, file_stream=stream, **keywords,
         )
         return stream
 
     def save_to_django_models(
-        self, models, initializers=None, mapdicts=None, **keywords
+        self, models, initializers=None, mapdicts=None, **keywords,
     ):
         """
         Save to database table through django model
@@ -361,7 +361,7 @@ class BookMeta(PyexcelObject):
             models=models,
             initializers=initializers,
             mapdicts=mapdicts,
-            **keywords
+            **keywords,
         )
 
     def save_to_database(

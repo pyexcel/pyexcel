@@ -91,7 +91,7 @@ class DictReader(ArrayReader):
         if isinstance(self._native_sheet[keys[0]], list):
             sorted_values = (self._native_sheet[key] for key in keys)
             for row in zip_longest(
-                *sorted_values, fillvalue=constants.DEFAULT_NA
+                *sorted_values, fillvalue=constants.DEFAULT_NA,
             ):
                 yield row
         else:

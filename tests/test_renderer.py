@@ -2,7 +2,7 @@ from pyexcel.renderer import (
     Renderer,
     DbRenderer,
     BinaryRenderer,
-    AbstractRenderer
+    AbstractRenderer,
 )
 
 from nose.tools import raises

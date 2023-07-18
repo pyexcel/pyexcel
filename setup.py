@@ -30,7 +30,7 @@ KEYWORDS = [
     'csvz',
     'xls',
     'xlsx',
-    'ods'
+    'ods',
 ]
 
 CLASSIFIERS = [
@@ -117,7 +117,7 @@ class PublishCommand(Command):
 
 
 SETUP_COMMANDS.update({
-    "publish": PublishCommand
+    "publish": PublishCommand,
 })
 
 def has_gease():
@@ -191,5 +191,5 @@ if __name__ == "__main__":
         include_package_data=True,
         zip_safe=False,
         classifiers=CLASSIFIERS,
-        cmdclass=SETUP_COMMANDS
+        cmdclass=SETUP_COMMANDS,
     )

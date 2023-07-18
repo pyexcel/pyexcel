@@ -19,7 +19,7 @@ class SQLAlchemyRenderer(DbRenderer):
     """Import data into database"""
 
     def render_sheet_to_stream(
-        self, file_stream, sheet, init=None, mapdict=None, **keywords
+        self, file_stream, sheet, init=None, mapdict=None, **keywords,
     ):
         headers = common.get_sheet_headers(sheet)
         importer = sql.SQLTableImporter(file_stream[0])
@@ -32,11 +32,11 @@ class SQLAlchemyRenderer(DbRenderer):
             importer,
             {adapter.get_name(): sheet.get_internal_array()},
             file_type=self._file_type,
-            **keywords
+            **keywords,
         )
 
     def render_book_to_stream(
-        self, file_stream, book, inits=None, mapdicts=None, **keywords
+        self, file_stream, book, inits=None, mapdicts=None, **keywords,
     ):
         session, tables = file_stream
         thebook = book

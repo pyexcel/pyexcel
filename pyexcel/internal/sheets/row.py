@@ -249,7 +249,7 @@ class Row(utils.CommonPropertyAmongRowNColumn):
             new_indices = utils.names_to_indices(rows, self._ref.rownames)
 
         converter = utils.CommonPropertyAmongRowNColumn.get_converter(
-            theformatter
+            theformatter,
         )
         if isinstance(new_indices, list):
             for rindex in self._ref.row_range():

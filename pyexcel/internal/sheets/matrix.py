@@ -104,7 +104,7 @@ class Matrix(SheetMeta):
 
         if index < 0 and utils.abs(index) in self.row_range():
             return PyexcelList(
-                copy.deepcopy(self.__array[index + self.number_of_rows()])
+                copy.deepcopy(self.__array[index + self.number_of_rows()]),
             )
 
         raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
@@ -437,7 +437,7 @@ class Matrix(SheetMeta):
             set_index = starting_column + index
             if set_index < number_of_columns:
                 self.set_column_at(
-                    set_index, column, starting=topleft_corner[0]
+                    set_index, column, starting=topleft_corner[0],
                 )
             else:
                 real_column = [constants.DEFAULT_NA] * topleft_corner[0]

@@ -13,7 +13,7 @@ def test_save_to():
     io = manager.get_io(file_type)
     g = (i for i in [[1, 2], [3, 4]])
     ss = WriteSheetToMemory(
-        file_type=file_type, file_stream=io, lineterminator="\n"
+        file_type=file_type, file_stream=io, lineterminator="\n",
     )
     sheet_stream = SheetStream("test", g)
     ss.write_data(sheet_stream)
@@ -22,7 +22,7 @@ def test_save_to():
         """\
     1,2
     3,4
-    """
+    """,
     )
     assert content == expected
 

@@ -160,7 +160,7 @@ class TestCSVSingleSheet:
                 "multiple1__Sheet1__0.csv",
                 "multiple1__Sheet2__1.csv",
                 "multiple1__Sheet3__2.csv",
-            ]
+            ],
         )
 
 
@@ -529,6 +529,6 @@ def _produce_ordered_dict():
     data_dict.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
     data_dict.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
     data_dict.update(
-        {"Sheet3": [["X", "Y", "Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]}
+        {"Sheet3": [["X", "Y", "Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]},
     )
     return data_dict

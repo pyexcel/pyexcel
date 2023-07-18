@@ -40,7 +40,7 @@ class SheetQuerySetSource(AbstractSource):
         column_limit=None,
         skip_row_func=None,
         skip_column_func=None,
-        **keywords
+        **keywords,
     ):
         self.__sheet_name = sheet_name
         if self.__sheet_name is None:
@@ -73,6 +73,6 @@ class SheetQuerySetSource(AbstractSource):
             self.__query_sets,
             file_type=DB_QUERYSET,
             column_names=self.__column_names,
-            **local_params
+            **local_params,
         )
         return data
