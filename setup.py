@@ -120,6 +120,7 @@ SETUP_COMMANDS.update({
     "publish": PublishCommand,
 })
 
+
 def has_gease():
     """
     test if github release command is installed
