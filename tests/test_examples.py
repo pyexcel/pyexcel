@@ -18,7 +18,7 @@ def load_from_file(mod_name, file_ext, expected_main="main"):
     py_mod_loader = importlib.machinery.SourceFileLoader(mod_name, os.path.join(mod_name, file_ext))
     py_mod_spec = importlib.util.spec_from_loader(py_mod_loader.name, py_mod_loader)
     py_mod = importlib.util.module_from_spec(py_mod_spec)
-    loader.exec_module(mod_name)
+    py_mod_loader.exec_module(mod_name)
     if py_mod is not None and hasattr(py_mod, expected_main):
         func_inst = getattr(py_mod, expected_main)
     return func_inst
