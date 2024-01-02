@@ -587,8 +587,8 @@ Hence partial read feature is developed to read partial data into memory for
 processing. 
 
 You can paginate by row, by column and by both, hence you dictate what portion of the
-data to read back. But remember only row limit features help you save memory. Let's
-you use this feature to record data from Nth column, take M number of columns and skip
+data to read back. But remember only row limit features help you save memory. You can
+use this feature to record data from Nth column, take M number of columns and skip
 the rest. You are not going to reduce your memory footprint.
 
 Why did not I see above benefit?
