@@ -1,6 +1,6 @@
-from nose.tools import eq_, raises
 import pyexcel as pe
 
+from nose.tools import eq_, raises
 from ._compact import OrderedDict
 
 
@@ -187,10 +187,10 @@ class TestBook:
     def setUp(self):
         self.content = OrderedDict()
         self.content.update(
-            {"Sheet1": [["X", "Y", "Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]}
+            {"Sheet1": [["X", "Y", "Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]},
         )
         self.content.update(
-            {"Sheet2": [["A", "B", "C"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]}
+            {"Sheet2": [["A", "B", "C"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]},
         )
         self.result1 = [
             {"Y": 4, "X": 1, "Z": 7},
@@ -233,7 +233,7 @@ class TestBook:
         # with an exception.
         model = FakeDjangoModel("Sheet1")
         book = pe.Book(
-            {"Sheet1": [["X", "Y", "Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]}
+            {"Sheet1": [["X", "Y", "Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]},
         )
         book.save_to_django_models([model])
         assert model.objects.objs == self.result1

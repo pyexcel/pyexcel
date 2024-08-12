@@ -1,11 +1,11 @@
-from nose.tools import eq_, raises
 import pyexcel as p
 
+from nose.tools import eq_, raises
 from .base import (
     PyexcelBase,
     clean_up_files,
     create_generic_file,
-    create_sample_file1
+    create_sample_file1,
 )
 
 
@@ -142,7 +142,7 @@ class TestCSVReaderDialect:
             array = [i + 1, i + 2, i + 3, i + 4]
             table.append(array)
         p.save_as(
-            dest_file_name=self.testfile, dest_delimiter=":", array=table
+            dest_file_name=self.testfile, dest_delimiter=":", array=table,
         )
 
     def test_delimiter(self):

@@ -29,7 +29,7 @@ class WriteSheetToFile(AbstractSource):
 
     def write_data(self, sheet):
         self._renderer.render_sheet_to_file(
-            self._file_name, sheet, **self._keywords
+            self._file_name, sheet, **self._keywords,
         )
 
 
@@ -39,5 +39,5 @@ class WriteBookToFile(WriteSheetToFile):
 
     def write_data(self, book):
         self._renderer.render_book_to_file(
-            self._file_name, book, **self._keywords
+            self._file_name, book, **self._keywords,
         )

@@ -403,7 +403,7 @@ class Sheet(Matrix):
             Matrix.extend_rows(self, incoming_data)
         elif len(self.rownames) > 0:
             raise TypeError(
-                constants.MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED
+                constants.MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED,
             )
         else:
             Matrix.extend_rows(self, rows)
@@ -429,7 +429,7 @@ class Sheet(Matrix):
             Matrix.extend_columns(self, incoming_data)
         elif len(self.colnames) > 0:
             raise TypeError(
-                constants.MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED
+                constants.MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED,
             )
         else:
             Matrix.extend_columns(self, columns)

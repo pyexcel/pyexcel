@@ -2,10 +2,8 @@ import os
 import sys
 import glob
 import json
+import imp
 from unittest import TestCase
-
-import importlib
-
 
 import pyexcel as pe
 
@@ -15,7 +13,7 @@ PY2 = sys.version_info[0] == 2
 def load_from_file(mod_name, file_ext, expected_main="main"):
     func_inst = None
     py_mod = None
-    py_mod = importlib.load_source(mod_name, os.path.join(mod_name, file_ext))
+    py_mod = imp.load_source(mod_name, os.path.join(mod_name, file_ext))
     if py_mod is not None and hasattr(py_mod, expected_main):
         func_inst = getattr(py_mod, expected_main)
     return func_inst
@@ -53,7 +51,7 @@ class x(TestCase):
 
     def setUp(self):
         app = load_from_file(
-            os.path.join("examples", "memoryfile"), "pyexcel_server.py", "app"
+            os.path.join("examples", "memoryfile"), "pyexcel_server.py", "app",
         )
         self.app = app.test_client()
 
@@ -84,7 +82,7 @@ class x(TestCase):
             # for the same reason, python 3 socket receve bytes
             # to convert bytes to str is to do a decode
             self.assertEqual(
-                json.loads(response.data.decode("utf-8")), expected
+                json.loads(response.data.decode("utf-8")), expected,
             )
 
     def test_download(self):

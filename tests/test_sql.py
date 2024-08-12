@@ -2,10 +2,9 @@ import datetime
 from textwrap import dedent
 from unittest import TestCase
 
-from nose.tools import eq_, raises
-
 import pyexcel as pe
 
+from nose.tools import eq_, raises
 from .db import Base, Pyexcel, Session, engine
 
 
@@ -14,12 +13,14 @@ class TestSQL(TestCase):
         Base.metadata.drop_all(engine)
         Base.metadata.create_all(engine)
         p1 = Pyexcel(
-            id=0, name="Adam", weight=11.25, birth=datetime.date(2014, 11, 11)
+            id=0, name="Adam", weight=11.25,
+            birth=datetime.date(2014, 11, 11),
         )
         session = Session()
         session.add(p1)
         p1 = Pyexcel(
-            id=1, name="Smith", weight=12.25, birth=datetime.date(2014, 11, 12)
+            id=1, name="Smith", weight=12.25,
+            birth=datetime.date(2014, 11, 12),
         )
         session.add(p1)
         session.commit()
@@ -35,7 +36,7 @@ class TestSQL(TestCase):
         | 2014-11-11 | 0  | Adam  | 11.25  |
         +------------+----+-------+--------+
         | 2014-11-12 | 1  | Smith | 12.25  |
-        +------------+----+-------+--------+"""
+        +------------+----+-------+--------+""",
         ).strip("\n")
         self.assertEqual(str(sheet), content)
 
@@ -55,7 +56,7 @@ class TestSQL(TestCase):
         | 11.25  | 2014-11-11 |
         +--------+------------+
         | 12.25  | 2014-11-12 |
-        +--------+------------+"""
+        +--------+------------+""",
         ).strip("\n")
         self.assertEqual(str(sheet), content)
 
@@ -101,6 +102,6 @@ class TestEmptyTable:
         | birth      | id | name | weight |
         +------------+----+------+--------+
         | 2017-01-11 | 1  | Adam | 3.0    |
-        +------------+----+------+--------+"""
+        +------------+----+------+--------+""",
         ).strip("\n")
         eq_(str(sheet), content)

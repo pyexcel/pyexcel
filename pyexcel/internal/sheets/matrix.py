@@ -104,7 +104,7 @@ class Matrix(SheetMeta):
 
         if index < 0 and utils.abs(index) in self.row_range():
             return PyexcelList(
-                copy.deepcopy(self.__array[index + self.number_of_rows()])
+                copy.deepcopy(self.__array[index + self.number_of_rows()]),
             )
 
         raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
@@ -166,7 +166,7 @@ class Matrix(SheetMeta):
             self._extend_row(rows)
             self.__width, self.__array = uniform(self.__array)
         else:
-            raise TypeError("Cannot use %s" % type(rows))
+            raise TypeError(f"Cannot use {type(rows)}")
 
     def delete_rows(self, row_indices):
         """Deletes specified row indices"""
@@ -437,7 +437,7 @@ class Matrix(SheetMeta):
             set_index = starting_column + index
             if set_index < number_of_columns:
                 self.set_column_at(
-                    set_index, column, starting=topleft_corner[0]
+                    set_index, column, starting=topleft_corner[0],
                 )
             else:
                 real_column = [constants.DEFAULT_NA] * topleft_corner[0]
@@ -859,13 +859,13 @@ def _add(name, left, right):
                 new_key = right.filename
             if new_key in content:
                 uid = local_uuid()
-                new_key = "%s_%s" % (key, uid)
+                new_key = f"{key}_{uid}"
             content[new_key] = right_in_dict[key]
     elif isinstance(right, Matrix):
         new_key = right.name
         if new_key in content:
             uid = local_uuid()
-            new_key = "%s_%s" % (right.name, uid)
+            new_key = f"{right.name}_{uid}"
         content[new_key] = copy.deepcopy(right.get_internal_array())
     else:
         raise TypeError

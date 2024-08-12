@@ -1,8 +1,10 @@
 import os
 from textwrap import dedent
 
-from nose.tools import eq_
 import pyexcel as pe
+
+from nose.tools import eq_
+
 
 def test_write_texttable():
     content = [[1, 2]]
@@ -12,7 +14,7 @@ def test_write_texttable():
     pyexcel_sheet1:
     +---+---+
     | 1 | 2 |
-    +---+---+"""
+    +---+---+""",
     ).strip("\n")
     pe.save_as(array=content, dest_file_name=test_file)
     with open(test_file, "r", encoding='utf-8') as f:
@@ -29,7 +31,7 @@ def test_write_texttable_book():
     Sheet:
     +---+---+
     | 1 | 2 |
-    +---+---+"""
+    +---+---+""",
     ).strip("\n")
     pe.save_book_as(bookdict=content, dest_file_name=test_file)
     with open(test_file, "r", encoding='utf-8') as f:

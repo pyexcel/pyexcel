@@ -7,16 +7,14 @@
     :copyright: (c) 2015-2022 by Onni Software Ltd.
     :license: New BSD License
 """
+from pyexcel import constants, exceptions
 from lml.plugin import PluginManager
-from pyexcel_io import constants as io_constants
-from pyexcel import constants
 from pyexcel.internal.attributes import (
     register_book_attribute,
-    register_sheet_attribute
+    register_sheet_attribute,
 )
 
-from pyexcel import exceptions
-
+from pyexcel_io import constants as io_constants
 
 REGISTRY_KEY_FORMAT = "%s-%s"
 # ignore the following attributes
@@ -57,7 +55,7 @@ class SourcePluginManager(PluginManager):
         self._register_a_plugin_info(plugin_info)
 
     def get_a_plugin(
-        self, target=None, action=None, source_library=None, **keywords
+        self, target=None, action=None, source_library=None, **keywords,
     ):
         """obtain a source plugin for signature functions"""
         key = REGISTRY_KEY_FORMAT % (target, action)
@@ -66,7 +64,7 @@ class SourcePluginManager(PluginManager):
         if "library" in keywords:
             io_library = keywords.pop("library")
         source_cls = self.load_me_now(
-            key, action=action, library=source_library, **keywords
+            key, action=action, library=source_library, **keywords,
         )
         if io_library is not None:
             keywords["library"] = io_library
@@ -76,25 +74,25 @@ class SourcePluginManager(PluginManager):
     def get_source(self, **keywords):
         """obtain a sheet read source plugin for signature functions"""
         return self.get_a_plugin(
-            target=constants.SHEET, action=constants.READ_ACTION, **keywords
+            target=constants.SHEET, action=constants.READ_ACTION, **keywords,
         )
 
     def get_book_source(self, **keywords):
         """obtain a book read source plugin for signature functions"""
         return self.get_a_plugin(
-            target=constants.BOOK, action=constants.READ_ACTION, **keywords
+            target=constants.BOOK, action=constants.READ_ACTION, **keywords,
         )
 
     def get_writable_source(self, **keywords):
         """obtain a sheet write source plugin for signature functions"""
         return self.get_a_plugin(
-            target=constants.SHEET, action=constants.WRITE_ACTION, **keywords
+            target=constants.SHEET, action=constants.WRITE_ACTION, **keywords,
         )
 
     def get_writable_book_source(self, **keywords):
         """obtain a book write source plugin for signature functions"""
         return self.get_a_plugin(
-            target=constants.BOOK, action=constants.WRITE_ACTION, **keywords
+            target=constants.BOOK, action=constants.WRITE_ACTION, **keywords,
         )
 
     def get_keyword_for_parameter(self, key):
@@ -119,9 +117,9 @@ class SourcePluginManager(PluginManager):
                 elif target == "sheet":
                     register_sheet_attribute(target, action, attr)
                 else:
-                    raise Exception("Known target: %s" % target)
+                    raise Exception(f"Known target: {target}")
 
-                debug_attribute += "%s " % attr
+                debug_attribute += f"{attr} "
                 self.keywords[attr] = plugin_info.key
                 anything = True
             debug_attribute += ", "
@@ -135,7 +133,7 @@ def _error_handler(action, **keywords):
         file_type = keywords.get("file_type", None)
         if file_type:
             raise exceptions.FileTypeNotSupported(
-                constants.FILE_TYPE_NOT_SUPPORTED_FMT % (file_type, action)
+                constants.FILE_TYPE_NOT_SUPPORTED_FMT % (file_type, action),
             )
 
         if "on_demand" in keywords:

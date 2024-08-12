@@ -17,7 +17,8 @@ DEPRECATED_LOADER = partial(
     message="Deprecated since v0.1.5! Please use get_sheet instead.",
 )
 DEPRECATED_BOOK_LOADER = partial(
-    deprecated, message="Deprecated since v0.1.5! Please use get_book instead."
+    deprecated,
+    message="Deprecated since v0.1.5! Please use get_book instead.",
 )
 
 
@@ -61,11 +62,11 @@ def load(file_name, sheetname=None, **keywords):
             file_type=file_name[0],
             file_content=file_name[1],
             sheet_name=sheetname,
-            **keywords
+            **keywords,
         )
     else:
         sheet = get_sheet(
-            file_name=file_name, sheet_name=sheetname, **keywords
+            file_name=file_name, sheet_name=sheetname, **keywords,
         )
     return sheet
 
@@ -84,7 +85,7 @@ def load_from_memory(file_type, file_content, sheetname=None, **keywords):
         file_type=file_type,
         file_content=file_content,
         sheet_name=sheetname,
-        **keywords
+        **keywords,
     )
 
 
@@ -131,7 +132,7 @@ def Reader(file_name=None, sheetname=None, **keywords):
             file_type=file_name[0],
             file_content=file_name[1],
             sheet_name=sheetname,
-            **keywords
+            **keywords,
         )
     return get_sheet(file_name=file_name, sheet_name=sheetname, **keywords)
 
@@ -144,7 +145,8 @@ def Reader(file_name=None, sheetname=None, **keywords):
     ),
 )
 def SeriesReader(file_name=None, sheetname=None, series=0, **keywords):
-    """A single sheet excel file reader and it has column headers in a selected row
+    """A single sheet excel file reader and it
+    has column headers in a selected row
 
     use as class would fail
     changed since 0.0.7
@@ -154,13 +156,13 @@ def SeriesReader(file_name=None, sheetname=None, series=0, **keywords):
             file_type=file_name[0],
             file_content=file_name[1],
             name_columns_by_row=series,
-            **keywords
+            **keywords,
         )
     return load(
         file_name,
         sheetname=sheetname,
         name_columns_by_row=series,
-        **keywords
+        **keywords,
     )
 
 
@@ -169,7 +171,8 @@ def SeriesReader(file_name=None, sheetname=None, series=0, **keywords):
     message="Please use class Sheet(..., name_rows_by_column=0..) instead",
 )
 def ColumnSeriesReader(file_name=None, sheetname=None, series=0, **keywords):
-    """A single sheet excel file reader and it has row headers in a selected column
+    """A single sheet excel file reader and
+    it has row headers in a selected column
 
     use as class would fail
     changed since 0.0.7
@@ -179,13 +182,13 @@ def ColumnSeriesReader(file_name=None, sheetname=None, series=0, **keywords):
             file_type=file_name[0],
             file_content=file_name[1],
             name_rows_by_column=series,
-            **keywords
+            **keywords,
         )
     return load(
         file_name,
         sheetname=sheetname,
         name_rows_by_column=series,
-        **keywords
+        **keywords,
     )
 
 

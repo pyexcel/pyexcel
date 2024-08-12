@@ -36,7 +36,7 @@ def make_presenter(source_getter, attribute=None):
 
         return content
 
-    custom_presenter.__doc__ = "Get data in %s format" % attribute
+    custom_presenter.__doc__ = f"Get data in {attribute} format"
     return custom_presenter
 
 
@@ -70,7 +70,7 @@ def importer(attribute=None):
         named_content = get_sheet_stream(**keywords)
         self.init(named_content.payload, named_content.name, **sheet_params)
 
-    custom_importer1.__doc__ = "Set data in %s format" % attribute
+    custom_importer1.__doc__ = f"Set data in {attribute} format"
     return custom_importer1
 
 
@@ -88,7 +88,7 @@ def book_importer(attribute=None):
         sheets, filename, path = _get_book(**keywords)
         self.init(sheets=sheets, filename=filename, path=path)
 
-    custom_book_importer.__doc__ = "Set data in %s format" % attribute
+    custom_book_importer.__doc__ = f"Set data in {attribute} format"
     return custom_book_importer
 
 
@@ -97,7 +97,7 @@ def attribute(
     file_type,
     instance_name="Sheet",
     description=constants.OUT_FILE_TYPE_DOC_STRING,
-    **keywords
+    **keywords,
 ):
     """
     create custom attributes for each class
@@ -226,7 +226,7 @@ class PyexcelObject():
 
             setattr(
                 memory_content,
-                "_repr_%s_" % file_type,
+                f"_repr_{file_type}_",
                 partial(get_content, memory_content),
             )
         return memory_content
@@ -261,12 +261,12 @@ class SheetMeta(PyexcelObject):
 
     def save_to_memory(self, file_type, stream=None, **keywords):
         stream = save_sheet(
-            self, file_type=file_type, file_stream=stream, **keywords
+            self, file_type=file_type, file_stream=stream, **keywords,
         )
         return stream
 
     def save_to_django_model(
-        self, model, initializer=None, mapdict=None, batch_size=None
+        self, model, initializer=None, mapdict=None, batch_size=None,
     ):
         """Save to database table through django model
 
@@ -285,7 +285,7 @@ class SheetMeta(PyexcelObject):
         )
 
     def save_to_database(
-        self, session, table, initializer=None, mapdict=None, auto_commit=True
+        self, session, table, initializer=None, mapdict=None, auto_commit=True,
     ):
         """Save data in sheet to database table
 
@@ -330,12 +330,12 @@ class BookMeta(PyexcelObject):
                        xlsx, and ods, an instance of BytesIO.
         """
         stream = save_book(
-            self, file_type=file_type, file_stream=stream, **keywords
+            self, file_type=file_type, file_stream=stream, **keywords,
         )
         return stream
 
     def save_to_django_models(
-        self, models, initializers=None, mapdicts=None, **keywords
+        self, models, initializers=None, mapdicts=None, **keywords,
     ):
         """
         Save to database table through django model
@@ -361,7 +361,7 @@ class BookMeta(PyexcelObject):
             models=models,
             initializers=initializers,
             mapdicts=mapdicts,
-            **keywords
+            **keywords,
         )
 
     def save_to_database(

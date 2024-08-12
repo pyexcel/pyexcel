@@ -17,7 +17,7 @@ class SheetDjangoSource(SheetDbSource):
     """
 
     def __init__(
-        self, model=None, export_columns=None, sheet_name=None, **keywords
+        self, model=None, export_columns=None, sheet_name=None, **keywords,
     ):
         self.__model = model
         SheetDbSource.__init__(
@@ -25,7 +25,7 @@ class SheetDjangoSource(SheetDbSource):
             DB_DJANGO,
             export_columns=export_columns,
             sheet_name=sheet_name,
-            **keywords
+            **keywords,
         )
 
     def get_export_params(self):

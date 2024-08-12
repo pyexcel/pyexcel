@@ -1,7 +1,8 @@
-from nose.tools import raises
 from pyexcel.source import AbstractSource
 from pyexcel.plugins import FileSourceInfo
 from pyexcel.plugins.sources.output_to_memory import WriteSheetToMemory
+
+from nose.tools import raises
 
 
 def test_source():
@@ -42,6 +43,6 @@ def test_file_source_info_with_file_type():
 
     info = CustomInfo("apth")
     expected = info.is_my_business(
-        "READ", test="unit", file_name="unknow.file", force_file_type="csv"
+        "READ", test="unit", file_name="unknow.file", force_file_type="csv",
     )
     assert expected
