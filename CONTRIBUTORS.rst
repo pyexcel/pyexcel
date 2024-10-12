@@ -1,6 +1,6 @@
 
 
-19 contributors
+21 contributors
 ================================================================================
 
 In alphabetical order:
@@ -11,13 +11,14 @@ In alphabetical order:
 * `Ayan Banerjee <https://github.com/ayan-b>`_
 * `Chris Hill-Scott <https://github.com/quis>`_
 * `Craig Anderson <https://github.com/craiga>`_
-* `Daryl Yu <https://github.com/darylyu>`_
+* `D. Yu <https://github.com/darylyu>`_
 * `J Harley <https://github.com/julzhk>`_
 * `Joel Nothman <https://github.com/jnothman>`_
 * `John Vandenberg <https://github.com/jayvdb>`_
 * `Linghui Zeng <https://github.com/mathsyouth>`_
 * `Mark Mayo <https://github.com/marksmayo>`_
-* `Nik Nyby <https://github.com/nikolas>`_
+* `Mateusz Konieczny <https://github.com/matkoniecz>`_
+* `Nikolas Nyby <https://github.com/nikolas>`_
 * `Rintze M. Zelle, PhD <https://github.com/rmzelle>`_
 * `Simeon Visser <https://github.com/svisser>`_
 * `Simon Allen <https://github.com/garfunkel>`_

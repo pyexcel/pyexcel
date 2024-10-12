@@ -6,9 +6,29 @@ Template by pypi-mobans
 
 import os
 import sys
+import codecs
+import locale
+import platform
 from shutil import rmtree
 
 from setuptools import Command, setup, find_packages
+
+PY2 = sys.version_info[0] == 2
+PY26 = PY2 and sys.version_info[1] < 7
+PY33 = sys.version_info < (3, 4)
+
+# Work around mbcs bug in distutils.
+# http://bugs.python.org/issue10945
+# This work around is only if a project supports Python < 3.4
+
+# Work around for locale not being set
+try:
+    lc = locale.getlocale()
+    pf = platform.system()
+    if pf != "Windows" and lc == (None, None):
+        locale.setlocale(locale.LC_ALL, "C.UTF-8")
+except (ValueError, UnicodeError, locale.Error):
+    locale.setlocale(locale.LC_ALL, "en_US.UTF-8")
 
 NAME = "pyexcel"
 AUTHOR = "C.W."
@@ -20,8 +40,8 @@ DESCRIPTION = (
     "data in different excel formats"
 )
 URL = "https://github.com/pyexcel/pyexcel"
-DOWNLOAD_URL = f"{URL}/archive/0.7.0.tar.gz"
-README_FILES = ["README.rst", "CONTRIBUTORS.rst", "CHANGELOG.rst"]
+DOWNLOAD_URL = "%s/archive/0.7.0.tar.gz" % URL
+FILES = ["README.rst", "CONTRIBUTORS.rst", "CHANGELOG.rst"]
 KEYWORDS = [
     "python",
     'tsv',
@@ -30,7 +50,7 @@ KEYWORDS = [
     'csvz',
     'xls',
     'xlsx',
-    'ods',
+    'ods'
 ]
 
 CLASSIFIERS = [
@@ -66,7 +86,7 @@ EXTRAS_REQUIRE = {
     "ods": ['pyexcel-ods3>=0.6.0'],
 }
 # You do not need to read beyond this line
-PUBLISH_COMMAND = f"{sys.executable} setup.py sdist bdist_wheel upload -r pypi"
+PUBLISH_COMMAND = "{0} setup.py sdist bdist_wheel upload -r pypi".format(sys.executable)
 HERE = os.path.abspath(os.path.dirname(__file__))
 
 GS_COMMAND = ("gease pyexcel v0.7.0 " +
@@ -74,7 +94,7 @@ GS_COMMAND = ("gease pyexcel v0.7.0 " +
 NO_GS_MESSAGE = ("Automatic github release is disabled. " +
                  "Please install gease to enable it.")
 UPLOAD_FAILED_MSG = (
-    f'Upload failed. please run "{PUBLISH_COMMAND}" yourself.')
+    'Upload failed. please run "%s" yourself.' % PUBLISH_COMMAND)
 
 
 class PublishCommand(Command):
@@ -86,7 +106,7 @@ class PublishCommand(Command):
     @staticmethod
     def status(s):
         """Prints things in bold."""
-        print(f"\x1b[1m{s}\x1b[0m")
+        print("\033[1m{0}\033[0m".format(s))
 
     def initialize_options(self):
         pass
@@ -117,9 +137,8 @@ class PublishCommand(Command):
 
 
 SETUP_COMMANDS.update({
-    "publish": PublishCommand,
+    "publish": PublishCommand
 })
-
 
 def has_gease():
     """
@@ -136,14 +155,17 @@ def has_gease():
 
 def read_files(*files):
     """Read files into setup"""
-    return "\n".join([read(filename) for filename in files])
+    text = ""
+    for single_file in files:
+        content = read(single_file)
+        text = text + content + "\n"
+    return text
 
 
-def read(filename):
+def read(afile):
     """Read a file into setup"""
-    filename_absolute = os.path.join(HERE, filename)
-
-    with open(filename_absolute, encoding='utf-8') as opened_file:
+    the_relative_file = os.path.join(HERE, afile)
+    with codecs.open(the_relative_file, "r", "utf-8") as opened_file:
         content = filter_out_test_code(opened_file)
         content = "".join(list(content))
         return content
@@ -158,11 +180,13 @@ def filter_out_test_code(file_handle):
         if found_test_code is True:
             if line.startswith("  "):
                 continue
-            empty_line = line.strip()
-            if len(empty_line) == 0:
-                continue
-            found_test_code = False
-            yield line
+            else:
+                empty_line = line.strip()
+                if len(empty_line) == 0:
+                    continue
+                else:
+                    found_test_code = False
+                    yield line
         else:
             for keyword in ["|version|", "|today|"]:
                 if keyword in line:
@@ -181,7 +205,7 @@ if __name__ == "__main__":
         description=DESCRIPTION,
         url=URL,
         download_url=DOWNLOAD_URL,
-        long_description=read_files(*README_FILES),
+        long_description=read_files(*FILES),
         license=LICENSE,
         keywords=KEYWORDS,
         python_requires=PYTHON_REQUIRES,
@@ -192,5 +216,5 @@ if __name__ == "__main__":
         include_package_data=True,
         zip_safe=False,
         classifiers=CLASSIFIERS,
-        cmdclass=SETUP_COMMANDS,
+        cmdclass=SETUP_COMMANDS
     )
