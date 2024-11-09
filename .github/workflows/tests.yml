@@ -5,7 +5,9 @@ on: [push, pull_request]
 jobs:
 
   test:
-    name:  ${{ matrix.os }} / ${{ matrix.python_version }}    runs-on: ${{ matrix.os }}-latest     strategy:
+    name:  ${{ matrix.os }} / ${{ matrix.python_version }}
+    runs-on: ${{ matrix.os }}-latest 
+    strategy:
       fail-fast: false
       matrix:
         os: [Ubuntu, Windows, macOS]
@@ -20,7 +22,6 @@ jobs:
             python-version:  ${{ matrix.python-version }}
       - name: install
         run: |
-          pip install markupsafe==2.0.1
           pip --use-deprecated=legacy-resolver install -r requirements.txt
           pip --use-deprecated=legacy-resolver install -r tests/requirements.txt
       - name: test
