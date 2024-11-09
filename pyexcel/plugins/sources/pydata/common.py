@@ -7,13 +7,13 @@
     :copyright: (c) 2015-2022 by Onni Software Ltd.
     :license: New BSD License
 """
-from pyexcel import constants as constants
+from pyexcel import constants
 from pyexcel._compact import PY2, OrderedDict, zip_longest
 
 from pyexcel_io.sheet import SheetReader
 
 
-class _FakeIO(object):
+class _FakeIO():
     """emulates a stream object"""
 
     def __init__(self):
@@ -91,7 +91,7 @@ class DictReader(ArrayReader):
         if isinstance(self._native_sheet[keys[0]], list):
             sorted_values = (self._native_sheet[key] for key in keys)
             for row in zip_longest(
-                *sorted_values, fillvalue=constants.DEFAULT_NA
+                *sorted_values, fillvalue=constants.DEFAULT_NA,
             ):
                 yield row
         else:

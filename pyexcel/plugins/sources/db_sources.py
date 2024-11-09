@@ -28,7 +28,7 @@ class SheetDbSource(AbstractSource):
         sheet_name=None,
         parser_library=None,
         renderer_library=None,
-        **keywords
+        **keywords,
     ):
         self._db_type = db_type
         self.__export_columns = export_columns
@@ -43,7 +43,7 @@ class SheetDbSource(AbstractSource):
         data = aparser.parse_file_stream(
             export_params,
             export_columns_list=[self.__export_columns],
-            **self._keywords
+            **self._keywords,
         )
         if self.__sheet_name is not None:
             _set_dictionary_key(data, self.__sheet_name)
@@ -62,7 +62,7 @@ class SheetDbSource(AbstractSource):
             sheet,
             init=init_func,
             mapdict=map_dict,
-            **self._keywords
+            **self._keywords,
         )
 
     def get_import_params(self):
@@ -76,7 +76,7 @@ class BookDbSource(AbstractSource):
     """
 
     def __init__(
-        self, db_type, parser_library=None, renderer_library=None, **keywords
+        self, db_type, parser_library=None, renderer_library=None, **keywords,
     ):
         self.__db_type = db_type
         self.__parser_library = parser_library
@@ -90,7 +90,7 @@ class BookDbSource(AbstractSource):
         return data
 
     def get_params(self):
-        """form the paraneters for the db parser and renderer"""
+        """form the parameters for the db parser and renderer"""
         pass
 
     def get_source_info(self):
@@ -98,7 +98,7 @@ class BookDbSource(AbstractSource):
 
     def write_data(self, book):
         arender = RENDERER.get_a_plugin(
-            self.__db_type, self.__renderer_library
+            self.__db_type, self.__renderer_library,
         )
         init_funcs, map_dicts = _transcode_book_db_keywords(self._keywords)
 
@@ -108,7 +108,7 @@ class BookDbSource(AbstractSource):
             book,
             inits=init_funcs,
             mapdicts=map_dicts,
-            **self._keywords
+            **self._keywords,
         )
 
 

@@ -16,7 +16,7 @@ manipulate and write data in various excel formats. This library makes
 information processing involving excel files an enjoyable task. The data in
 excel files can be turned into :ref:`array or dict<a-list-of-data-structures>`
 with minimal code and vice versa. This library focuses on data
-processing using excel files as storage media hence fonts, colors and charts
+processing using excel files. Therefore, fonts, colors and charts
 were not and will not be considered.
 
 The idea originated from the common usability problem: when an excel file
@@ -200,7 +200,7 @@ For individual excel file formats, please install them as you wish:
    ======================== ======================= =================
    Package name              Supported file formats  Dependencies
    ======================== ======================= =================
-   `pyexcel-io`_            csv, csvz [#f1]_, tsv,
+   `pyexcel-io`_            csv, csvz [#f1]_, tsv,  csvz,tsvz readers depends on `chardet`
                             tsvz [#f2]_
    `pyexcel-xls`_           xls, xlsx(read only),   `xlrd`_,
                             xlsm(read only)         `xlwt`_

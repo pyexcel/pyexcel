@@ -1,6 +1,6 @@
 import random
 
-from base import PyexcelSheetBase
+from .base import PyexcelSheetBase
 
 
 class TestSheetAccess(PyexcelSheetBase):

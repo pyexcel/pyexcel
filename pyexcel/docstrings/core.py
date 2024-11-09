@@ -9,7 +9,6 @@
 """
 from . import keywords
 
-
 __GET_ARRAY__ = (
     keywords.SOURCE_PARAMS_TABLE
     + """
@@ -18,10 +17,7 @@ __GET_ARRAY__ = (
     + keywords.SOURCE_PARAMS
 )
 
-__GET_SHEET__ = (
-    keywords.EXAMPLE_NOTE_PAGINATION
-    + __GET_ARRAY__
-)
+__GET_SHEET__ = keywords.EXAMPLE_NOTE_PAGINATION + __GET_ARRAY__
 
 __GET_BOOK__ = (
     keywords.SOURCE_BOOK_PARAMS_TABLE

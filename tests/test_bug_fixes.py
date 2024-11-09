@@ -7,9 +7,9 @@ from textwrap import dedent
 
 import psutil
 import pyexcel as p
-from _compact import StringIO, OrderedDict
 
 from nose.tools import eq_
+from ._compact import StringIO, OrderedDict
 
 
 def test_bug_01():
@@ -31,8 +31,8 @@ def test_bug_01():
 
 def test_issue_03():
     file_prefix = "issue_03_test"
-    csv_file = "%s.csv" % file_prefix
-    xls_file = "%s.xls" % file_prefix
+    csv_file = f"{file_prefix}.csv"
+    xls_file = f"{file_prefix}.xls"
     my_sheet_name = "mysheetname"
     data = [[1, 1]]
     sheet = p.Sheet(data, name=my_sheet_name)
@@ -96,7 +96,7 @@ def test_issue_29():
     | 2016-03-31 10:59 | 0123 | XS360_EU | 04566651561653122 |
     +------------------+------+----------+-------------------+
     | 15/04/16         | 123  | false    | 456193284757      |
-    +------------------+------+----------+-------------------+"""
+    +------------------+------+----------+-------------------+""",
     )
     eq_(str(s), content.strip("\n"))
 
@@ -120,7 +120,7 @@ def test_issue_29_nominablesheet():
     | 2016-03-31 10:59 | 0123   | XS360_EU | 04566651561653122 |
     +------------------+--------+----------+-------------------+
     | 15/04/16         | 123    | false    | 456193284757      |
-    +------------------+--------+----------+-------------------+"""
+    +------------------+--------+----------+-------------------+""",
     )
     eq_(str(s), content.strip("\n"))
 
@@ -166,7 +166,7 @@ def test_issue_51_normal_dict_in_records():
 
 
 def test_issue_55_unicode_in_headers():
-    headers = [u"Äkkilähdöt", u"Matkakirjoituksia", u"Matkatoimistot"]
+    headers = ["Äkkilähdöt", "Matkakirjoituksia", "Matkatoimistot"]
     content = [headers, [1, 2, 3]]
     sheet = p.Sheet(content)
     sheet.name_columns_by_row(0)
@@ -234,7 +234,7 @@ def test_issue_76():
     tsv_stream.write("1\t2\t3\t4\n")
     tsv_stream.seek(0)
     sheet = p.get_sheet(
-        file_stream=tsv_stream, file_type="csv", delimiter="\t"
+        file_stream=tsv_stream, file_type="csv", delimiter="\t",
     )
     data = [[1, 2, 3, 4], [1, 2, 3, 4]]
     eq_(sheet.array, data)
@@ -349,7 +349,7 @@ def test_issue_92_non_uniform_records():
     |   | 2 |   |
     +---+---+---+
     |   |   | 3 |
-    +---+---+---+"""
+    +---+---+---+""",
     ).strip("\n")
     eq_(str(sheet.content), content)
 
@@ -367,7 +367,7 @@ def test_issue_92_incomplete_records():
     |   | 2 |   |
     +---+---+---+
     |   |   | 3 |
-    +---+---+---+"""
+    +---+---+---+""",
     ).strip("\n")
     eq_(str(sheet.content), content)
 
@@ -525,7 +525,7 @@ def test_pyexcel_issue_140():
 
 def test_pyexcel_issue_176():
     sheet = p.get_sheet(
-        file_name=os.path.join("tests", "fixtures", "bug_176.xlsx")
+        file_name=os.path.join("tests", "fixtures", "bug_176.xlsx"),
     )
     eq_("<No data>", sheet.name)
     eq_([[]], sheet.array)
@@ -533,7 +533,7 @@ def test_pyexcel_issue_176():
 
 def test_pyexcel_issue_176_get_book():
     book = p.get_book(
-        file_name=os.path.join("tests", "fixtures", "bug_176.xlsx")
+        file_name=os.path.join("tests", "fixtures", "bug_176.xlsx"),
     )
     eq_({}, book.bookdict)
 
@@ -544,7 +544,7 @@ def test_issue_241():
     from pyexcel import get_book, merge_all_to_a_book
 
     merge_all_to_a_book(
-        glob.glob("tests/fixtures/issue_241/*.csv"), "issue_241.xlsx"
+        glob.glob("tests/fixtures/issue_241/*.csv"), "issue_241.xlsx",
     )
     book = get_book(file_name="issue_241.xlsx")
     book.sort_sheets()
@@ -563,10 +563,10 @@ def test_issue_241():
     | A       |         | C | D       |
     +---------+---------+---+---------+
     | F       | G       | M | T       |
-    +---------+---------+---+---------+"""
+    +---------+---------+---+---------+""",
     ).lstrip()
     eq_(str(book), expected)
-    os.unlink('issue_241.xlsx')
+    os.unlink("issue_241.xlsx")
 
 
 def test_issue_250():

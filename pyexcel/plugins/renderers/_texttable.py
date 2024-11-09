@@ -10,7 +10,7 @@
 """
 from types import GeneratorType
 
-from pyexcel import constants as constants
+from pyexcel import constants
 from texttable import Texttable
 from pyexcel.renderer import Renderer
 from pyexcel.internal.sheets.formatters import to_format
@@ -28,7 +28,7 @@ def render_text_table(sheet, write_title):
     """return data in text table presentation"""
     content = ""
     if write_title:
-        content += "%s:\n" % sheet.name
+        content += f"{sheet.name}:\n"
     table = Texttable(max_width=0)
     data = sheet.to_array()
     if isinstance(data, GeneratorType):

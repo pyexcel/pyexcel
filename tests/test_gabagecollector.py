@@ -9,7 +9,7 @@ from nose.tools import eq_
 def test_gc():
     gc.free_resources()
     data = iget_array(
-        file_name=os.path.join("tests", "fixtures", "bug_01.csv")
+        file_name=os.path.join("tests", "fixtures", "bug_01.csv"),
     )
     data = list(data)
     eq_(len(gc.GARBAGE), 1)
@@ -19,7 +19,8 @@ def test_gc():
 
 def test_gc_custom():
     gc.free_resources()
-    f = open(os.path.join("tests", "fixtures", "bug_01.csv"), "r")
+    f = open(os.path.join("tests", "fixtures",
+                          "bug_01.csv"), "r", encoding="utf-8")
     gc.append(f)
     eq_(len(gc.GARBAGE), 1)
     gc.free_resources()

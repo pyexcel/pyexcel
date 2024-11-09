@@ -21,7 +21,7 @@ def test_project():
     | 22  | 11  | 33  |
     +-----+-----+-----+
     | 222 | 111 | 333 |
-    +-----+-----+-----+"""
+    +-----+-----+-----+""",
     ).strip()
     sheet = sheet.project(["B", "A", "C"])
     eq_(expected, str(sheet))
@@ -43,7 +43,7 @@ def test_project_for_less():
     | 22  | 33  |
     +-----+-----+
     | 222 | 333 |
-    +-----+-----+"""
+    +-----+-----+""",
     ).strip()
     sheet = sheet.project(["B", "C"])
     eq_(expected, str(sheet))
@@ -65,7 +65,7 @@ def test_project_for_exclusion():
     | 11  |
     +-----+
     | 111 |
-    +-----+"""
+    +-----+""",
     ).strip()
     sheet = sheet.project(["B", "C"], exclusion=True)
     eq_(expected, str(sheet))

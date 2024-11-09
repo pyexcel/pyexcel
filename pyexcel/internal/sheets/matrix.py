@@ -10,11 +10,12 @@
 """
 import copy
 import types
+from typing import Tuple, Union
 from functools import partial
 from itertools import chain
 
 from pyexcel import _compact as compact
-from pyexcel import constants as constants
+from pyexcel import constants
 from pyexcel.internal.meta import SheetMeta
 from pyexcel.internal.sheets.row import Row
 from pyexcel.internal.sheets.column import Column
@@ -22,6 +23,8 @@ from pyexcel.internal.sheets.formatters import to_format
 from pyexcel.internal.sheets.extended_list import PyexcelList
 
 from . import _shared as utils
+
+MatrixIndex = Union[Tuple[int, int], str]
 
 
 class Matrix(SheetMeta):
@@ -60,8 +63,7 @@ class Matrix(SheetMeta):
         """The number of columns"""
         if self.number_of_rows() > 0:
             return self.__width
-        else:
-            return 0
+        return 0
 
     def row_range(self):
         """
@@ -86,14 +88,12 @@ class Matrix(SheetMeta):
         if new_value is None:
             if fit:
                 return self.__array[row][column]
-            else:
-                raise IndexError("Index out of range")
-        else:
-            if not fit:
-                width, array = uniform(self.__array, row + 1, column + 1)
-                self.__width, self.__array = width, array
+            raise IndexError("Index out of range")
+        if not fit:
+            width, array = uniform(self.__array, row + 1, column + 1)
+            self.__width, self.__array = width, array
 
-            self.__array[row][column] = new_value
+        self.__array[row][column] = new_value
 
     def row_at(self, index):
         """
@@ -102,13 +102,12 @@ class Matrix(SheetMeta):
         if index in self.row_range():
             return PyexcelList(copy.deepcopy(self.__array[index]))
 
-        elif index < 0 and utils.abs(index) in self.row_range():
+        if index < 0 and utils.abs(index) in self.row_range():
             return PyexcelList(
-                copy.deepcopy(self.__array[index + self.number_of_rows()])
+                copy.deepcopy(self.__array[index + self.number_of_rows()]),
             )
 
-        else:
-            raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
+        raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
 
     def set_row_at(self, row_index, data_array):
         """Update a row data range"""
@@ -167,7 +166,7 @@ class Matrix(SheetMeta):
             self._extend_row(rows)
             self.__width, self.__array = uniform(self.__array)
         else:
-            raise TypeError("Cannot use %s" % type(rows))
+            raise TypeError(f"Cannot use {type(rows)}")
 
     def delete_rows(self, row_indices):
         """Deletes specified row indices"""
@@ -190,14 +189,13 @@ class Matrix(SheetMeta):
                 cell_array.append(self.cell_value(i, index))
             return cell_array
 
-        elif index < 0 and utils.abs(index) in self.column_range():
+        if index < 0 and utils.abs(index) in self.column_range():
             reverse_index = self.number_of_columns() + index
             for i in self.row_range():
                 cell_array.append(self.cell_value(i, reverse_index))
             return cell_array
 
-        else:
-            raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
+        raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
 
     def set_column_at(self, column_index, data_array, starting=0):
         """Updates a column data range
@@ -439,7 +437,7 @@ class Matrix(SheetMeta):
             set_index = starting_column + index
             if set_index < number_of_columns:
                 self.set_column_at(
-                    set_index, column, starting=topleft_corner[0]
+                    set_index, column, starting=topleft_corner[0],
                 )
             else:
                 real_column = [constants.DEFAULT_NA] * topleft_corner[0]
@@ -460,29 +458,29 @@ class Matrix(SheetMeta):
                         del self.__array[i][j]
             self.__width = longest_row_number(self.__array)
 
-    def __setitem__(self, aset, cell_value):
+    def __setitem__(self, index: MatrixIndex, cell_value):
         """Override the operator to set items"""
-        if isinstance(aset, tuple):
-            return self.cell_value(aset[0], aset[1], cell_value)
-        elif isinstance(aset, str):
-            row, column = utils.excel_cell_position(aset)
+        if isinstance(index, tuple):
+            return self.cell_value(index[0], index[1], cell_value)
+        if isinstance(index, str):
+            row, column = utils.excel_cell_position(index)
             return self.cell_value(row, column, cell_value)
-        else:
-            raise IndexError
 
-    def __getitem__(self, aset):
+        raise IndexError
+
+    def __getitem__(self, index: MatrixIndex):
         """By default, this class recognize from top to bottom
         from left to right"""
-        if isinstance(aset, tuple):
-            return self.cell_value(aset[0], aset[1])
-        elif isinstance(aset, str):
-            row, column = utils.excel_cell_position(aset)
+        if isinstance(index, tuple):
+            return self.cell_value(index[0], index[1])
+        if isinstance(index, str):
+            row, column = utils.excel_cell_position(index)
             return self.cell_value(row, column)
-        elif isinstance(aset, int):
+        if isinstance(index, int):
             print(constants.MESSAGE_DEPRECATED_ROW_COLUMN)
-            return self.row_at(aset)
-        else:
-            raise IndexError
+            return self.row_at(index)
+
+        raise IndexError
 
     def contains(self, predicate):
         """Has something in the table"""
@@ -710,7 +708,7 @@ class Matrix(SheetMeta):
         Example::
 
             >>> import pyexcel as pe
-            >>> # Given a dictinoary as the following
+            >>> # Given a dictionary as the following
             >>> data = {
             ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
             ...     "3": [1.25, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
@@ -737,7 +735,7 @@ class Matrix(SheetMeta):
         Example::
 
             >>> import pyexcel as pe
-            >>> # Given a dictinoary as the following
+            >>> # Given a dictionary as the following
             >>> data = {
             ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
             ...     "3": [1.25, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8],
@@ -793,8 +791,7 @@ def longest_row_number(array):
     if len(array) > 0:
         # map runs len() against each member of the array
         return max(map(len, array))
-    else:
-        return 0
+    return 0
 
 
 def uniform(array, min_rows=0, min_columns=0):
@@ -810,18 +807,17 @@ def uniform(array, min_rows=0, min_columns=0):
 
     if width == 0:
         return 0, array
-    else:
-        for row in array:
-            row_length = len(row)
-            for index in range(0, row_length):
-                if row[index] is None:
-                    row[index] = constants.DEFAULT_NA
-            if row_length < width:
-                row += [constants.DEFAULT_NA] * (width - row_length)
-        for _ in range(array_length, height):
-            row = [constants.DEFAULT_NA] * width
-            array.append(row)
-        return width, array
+    for row in array:
+        row_length = len(row)
+        for index in range(0, row_length):
+            if row[index] is None:
+                row[index] = constants.DEFAULT_NA
+        if row_length < width:
+            row += [constants.DEFAULT_NA] * (width - row_length)
+    for _ in range(array_length, height):
+        row = [constants.DEFAULT_NA] * width
+        array.append(row)
+    return width, array
 
 
 def transpose(in_array):
@@ -863,13 +859,13 @@ def _add(name, left, right):
                 new_key = right.filename
             if new_key in content:
                 uid = local_uuid()
-                new_key = "%s_%s" % (key, uid)
+                new_key = f"{key}_{uid}"
             content[new_key] = right_in_dict[key]
     elif isinstance(right, Matrix):
         new_key = right.name
         if new_key in content:
             uid = local_uuid()
-            new_key = "%s_%s" % (right.name, uid)
+            new_key = f"{right.name}_{uid}"
         content[new_key] = copy.deepcopy(right.get_internal_array())
     else:
         raise TypeError

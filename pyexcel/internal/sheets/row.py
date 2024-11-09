@@ -146,7 +146,7 @@ class Row(utils.CommonPropertyAmongRowNColumn):
             my_range = utils.analyse_slice(locator, self._ref.number_of_rows())
             self._ref.delete_rows(my_range)
         elif isinstance(locator, tuple):
-            self._ref.filter(row_indices=(list(locator)))
+            self._ref.filter(row_indices=list(locator))
         elif isinstance(locator, list):
             self._ref.filter(row_indices=locator)
         elif isinstance(locator, types.LambdaType):
@@ -164,7 +164,7 @@ class Row(utils.CommonPropertyAmongRowNColumn):
         if attr not in self._ref.rownames:
             the_attr = the_attr.replace("_", " ")
             if the_attr not in self._ref.rownames:
-                raise AttributeError("%s is not found" % attr)
+                raise AttributeError(f"{attr} is not found")
 
         return self._ref.named_row_at(the_attr)
 
@@ -193,7 +193,7 @@ class Row(utils.CommonPropertyAmongRowNColumn):
         index = aslice
         if compact.is_string(type(aslice)):
             return self._ref.named_row_at(aslice)
-        elif isinstance(aslice, slice):
+        if isinstance(aslice, slice):
             my_range = utils.analyse_slice(aslice, self._ref.number_of_rows())
             results = []
             for i in my_range:
@@ -202,8 +202,7 @@ class Row(utils.CommonPropertyAmongRowNColumn):
 
         if abs(index) in self._ref.row_range():
             return self._ref.row_at(index)
-        else:
-            raise IndexError
+        raise IndexError
 
     def __iadd__(self, other):
         """Overload += sign
@@ -250,7 +249,7 @@ class Row(utils.CommonPropertyAmongRowNColumn):
             new_indices = utils.names_to_indices(rows, self._ref.rownames)
 
         converter = utils.CommonPropertyAmongRowNColumn.get_converter(
-            theformatter
+            theformatter,
         )
         if isinstance(new_indices, list):
             for rindex in self._ref.row_range():

@@ -29,7 +29,7 @@ Draw charts from your excel data
 `pyexcel-echarts`_  draws 2D, 3D, geo charts from pyexcel data and has awesome animations too, but
 it is under development.
 
-`pyexcel-matplotlib`_ helps you with scientific charts and is under developmement.
+`pyexcel-matplotlib`_ helps you with scientific charts and is under development.
 
 Gantt chart visualization for your excel data
 -------------------------------------------------

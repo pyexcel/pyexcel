@@ -1,8 +1,8 @@
 import os
-import imp
 import sys
 import glob
 import json
+import imp
 from unittest import TestCase
 
 import pyexcel as pe
@@ -42,7 +42,7 @@ class TestAllExamples:
                     fn(path)
 
 
-class TestPyexcelServer(TestCase):
+class x(TestCase):
     """
     This test tells how difficult to test unicode vs bytes when
     dealing with csv files in relation to pyexcel. and this
@@ -51,7 +51,7 @@ class TestPyexcelServer(TestCase):
 
     def setUp(self):
         app = load_from_file(
-            os.path.join("examples", "memoryfile"), "pyexcel_server.py", "app"
+            os.path.join("examples", "memoryfile"), "pyexcel_server.py", "app",
         )
         self.app = app.test_client()
 
@@ -82,7 +82,7 @@ class TestPyexcelServer(TestCase):
             # for the same reason, python 3 socket receve bytes
             # to convert bytes to str is to do a decode
             self.assertEqual(
-                json.loads(response.data.decode("utf-8")), expected
+                json.loads(response.data.decode("utf-8")), expected,
             )
 
     def test_download(self):

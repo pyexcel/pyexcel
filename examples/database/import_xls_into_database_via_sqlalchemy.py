@@ -15,7 +15,6 @@ import os
 import datetime
 
 import pyexcel
-
 from sqlalchemy import Date, Float, Column, String, Integer, create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -41,7 +40,7 @@ Base.metadata.create_all(engine)
 data = [
     ["name", "weight", "birth"],
     ["Adam", 3.4, datetime.date(2017, 2, 3)],
-    ["Smith", 4.2, datetime.date(2014, 11, 12)]
+    ["Smith", 4.2, datetime.date(2014, 11, 12)],
 ]
 pyexcel.save_as(array=data,
                 dest_file_name="birth.xls")

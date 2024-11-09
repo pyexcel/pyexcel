@@ -10,7 +10,7 @@
 from pyexcel import _compact as compact
 
 
-class AbstractRenderer(object):
+class AbstractRenderer():
     """
     Close some functions that will not be used
     """
@@ -79,30 +79,30 @@ class Renderer(AbstractRenderer):
         return compact.StringIO()
 
     def render_sheet_to_file(
-        self, file_name, sheet, write_title=True, **keywords
+        self, file_name, sheet, write_title=True, **keywords,
     ):
         self.set_write_title(write_title)
-        with open(file_name, self.WRITE_FLAG) as outfile:
+        with open(file_name, self.WRITE_FLAG, encoding="utf-8") as outfile:
             self.set_output_stream(outfile)
             self.render_sheet(sheet, **keywords)
 
     def render_sheet_to_stream(
-        self, file_stream, sheet, write_title=True, **keywords
+        self, file_stream, sheet, write_title=True, **keywords,
     ):
         self.set_write_title(write_title)
         self.set_output_stream(file_stream)
         self.render_sheet(sheet, **keywords)
 
     def render_book_to_file(
-        self, file_name, book, write_title=True, **keywords
+        self, file_name, book, write_title=True, **keywords,
     ):
         self.set_write_title(write_title)
-        with open(file_name, self.WRITE_FLAG) as outfile:
+        with open(file_name, self.WRITE_FLAG, encoding="utf-8") as outfile:
             self.set_output_stream(outfile)
             self.render_book(book, **keywords)
 
     def render_book_to_stream(
-        self, file_stream, book, write_title=True, **keywords
+        self, file_stream, book, write_title=True, **keywords,
     ):
         self.set_write_title(write_title)
         self.set_output_stream(file_stream)
@@ -144,6 +144,7 @@ class BinaryRenderer(Renderer):
     """
     Renderer pyexcel data into a binary object
     """
+
     WRITE_FLAG = "wb"
 
     def get_io(self):

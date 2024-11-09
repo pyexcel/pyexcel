@@ -72,7 +72,7 @@ class PyexcelSheetBase(unittest.TestCase):
             [
                 [f"{row_no}_{col_no}" for col_no in range(10)]
                 for row_no in range(10)
-            ]
+            ],
         )
 
 
@@ -285,7 +285,7 @@ def to_one_dimensional_array(iterator):
     """convert a reader to one dimensional array"""
     array = []
     for i in iterator:
-        if type(i) == list:
+        if isinstance(i, list):
             array += i
         else:
             array.append(i)

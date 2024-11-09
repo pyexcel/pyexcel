@@ -15,6 +15,7 @@ jobs:
           python-version: '3.7'
       - name: check changes
         run: |
+          pip install markupsafe==2.0.1
           pip install moban gitfs2 pypifs moban-jinja2-github moban-ansible
           moban
           git status

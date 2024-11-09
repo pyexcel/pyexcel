@@ -14,10 +14,10 @@ from pyexcel_io.database import common as sql
 
 
 class SQLAlchemyExporter(DbParser):
-    """export data via sqlalchmey"""
+    """export data via sqlalchemy"""
 
     def parse_db(
-        self, argument, export_columns_list=None, on_demand=False, **keywords
+        self, argument, export_columns_list=None, on_demand=False, **keywords,
     ):
         session, tables = argument
         exporter = sql.SQLTableExporter(session)
@@ -28,7 +28,7 @@ class SQLAlchemyExporter(DbParser):
             exporter.append(adapter)
         if on_demand:
             sheets, _ = iget_data(
-                exporter, file_type=self._file_type, **keywords
+                exporter, file_type=self._file_type, **keywords,
             )
         else:
             sheets = get_data(exporter, file_type=self._file_type, **keywords)

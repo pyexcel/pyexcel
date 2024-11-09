@@ -128,8 +128,7 @@ class Book(BookMeta):
         """Override operator[]"""
         if isinstance(key, int):
             return self.sheet_by_index(key)
-        else:
-            return self.sheet_by_name(key)
+        return self.sheet_by_name(key)
 
     def __delitem__(self, other):
         """
@@ -153,7 +152,7 @@ class Book(BookMeta):
         for k in current_dict.keys():
             new_key = k
             if len(current_dict.keys()) == 1:
-                new_key = "%s_%s" % (self.filename, k)
+                new_key = f"{self.filename}_{k}"
             content[new_key] = current_dict[k]
         if isinstance(other, Book):
             other_dict = other.to_dict()
@@ -163,13 +162,13 @@ class Book(BookMeta):
                     new_key = other.filename
                 if new_key in content:
                     uid = local_uuid()
-                    new_key = "%s_%s" % (key, uid)
+                    new_key = f"{key}_{uid}"
                 content[new_key] = other_dict[key]
         elif isinstance(other, Sheet):
             new_key = other.name
             if new_key in content:
                 uid = local_uuid()
-                new_key = "%s_%s" % (other.name, uid)
+                new_key = f"{other.name}_{uid}"
             content[new_key] = other.array
         else:
             raise TypeError
@@ -195,13 +194,13 @@ class Book(BookMeta):
                     new_key = other.filename
                 if new_key in self.__name_array:
                     uid = local_uuid()
-                    new_key = "%s_%s" % (name, uid)
+                    new_key = f"{name}_{uid}"
                 self.__sheets[new_key] = Sheet(other[name].array, new_key)
         elif isinstance(other, Sheet):
             new_key = other.name
             if new_key in self.__name_array:
                 uid = local_uuid()
-                new_key = "%s_%s" % (other.name, uid)
+                new_key = f"{other.name}_{uid}"
             self.__sheets[new_key] = Sheet(other.array, new_key)
         else:
             raise TypeError
@@ -220,12 +219,11 @@ def to_book(bookstream):
     """Convert a bookstream to Book"""
     if isinstance(bookstream, Book):
         return bookstream
-    else:
-        return Book(
-            bookstream.to_dict(),
-            filename=bookstream.filename,
-            path=bookstream.path,
-        )
+    return Book(
+        bookstream.to_dict(),
+        filename=bookstream.filename,
+        path=bookstream.path,
+    )
 
 
 def local_uuid():

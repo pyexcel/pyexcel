@@ -1,4 +1,3 @@
-chardet
 lml==0.0.4
 pyexcel-io==0.6.2
 texttable==0.8.3

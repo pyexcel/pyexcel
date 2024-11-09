@@ -4,6 +4,15 @@ releases:
 - changes:
   - action: Fixed
     details:
+    - "`#272`: remove chardet as a requirement"
+  - action: Updated
+    details:
+    - "various typos and linted the code"
+  version: 0.7.1
+  date: 11.09.2024
+- changes:
+  - action: Fixed
+    details:
     - "`#250`: RecursionError raised on deepcopy of a sheet"
   - action: Updated
     details:

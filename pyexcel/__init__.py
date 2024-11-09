@@ -23,16 +23,15 @@ from .core import (
     iget_records,
     save_book_as,
     get_book_dict,
-    isave_book_as,
+    isave_book_as
 )
 from .sheet import Sheet
-
 # flake8: noqa
 from .cookbook import (
     split_a_book,
     merge_all_to_a_book,
     merge_csv_to_a_book,
-    extract_a_sheet_from_a_book,
+    extract_a_sheet_from_a_book
 )
 from .deprecated import (
     Reader,
@@ -44,7 +43,7 @@ from .deprecated import (
     load_from_dict,
     load_from_memory,
     load_from_records,
-    load_book_from_memory,
+    load_book_from_memory
 )
 from .__version__ import __author__, __version__
 from .internal.garbagecollector import free_resources

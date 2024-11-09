@@ -17,7 +17,7 @@ class SheetSQLAlchemySource(SheetDbSource):
     """
 
     def __init__(
-        self, session, table, export_columns=None, sheet_name=None, **keywords
+        self, session, table, export_columns=None, sheet_name=None, **keywords,
     ):
         self.__session = session
         self.__table = table
@@ -26,7 +26,7 @@ class SheetSQLAlchemySource(SheetDbSource):
             DB_SQL,
             export_columns=export_columns,
             sheet_name=sheet_name,
-            **keywords
+            **keywords,
         )
 
     def get_export_params(self):

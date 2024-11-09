@@ -9,14 +9,14 @@
 """
 import re
 
-from pyexcel import constants as constants
+from pyexcel import constants
 from pyexcel import docstrings as docs
 from pyexcel.book import Book, to_book
 from pyexcel.sheet import Sheet
 from pyexcel._compact import OrderedDict, append_doc, zip_longest
 from pyexcel.internal import core as sources
 
-from pyexcel_io import manager as manager
+from pyexcel_io import manager
 
 STARTS_WITH_DEST = "^dest_(.*)"
 SAVE_AS_EXCEPTION = (
@@ -87,7 +87,7 @@ def isave_as(**keywords):
     """
     Save a sheet from a data source to another one with less memory
 
-    It is simliar to :meth:`pyexcel.save_as` except that it does
+    It is similar to :meth:`pyexcel.save_as` except that it does
     not accept parameters for :class:`pyexcel.Sheet`. And it read
     when it writes.
     """
@@ -117,7 +117,7 @@ def isave_book_as(**keywords):
     """
     Save a book from a data source to another one
 
-    It is simliar to :meth:`pyexcel.save_book_as` but it read
+    It is similar to :meth:`pyexcel.save_book_as` but it read
     when it writes. This function provide some speedup but
     the output data is not made uniform.
     """
@@ -211,7 +211,7 @@ def iget_records(custom_headers=None, **keywords):
             if custom_headers:
                 # custom order
                 tmp_dict = dict(
-                    zip_longest(headers, row, fillvalue=constants.DEFAULT_NA)
+                    zip_longest(headers, row, fillvalue=constants.DEFAULT_NA),
                 )
                 ordered_dict = OrderedDict()
                 for name in custom_headers:
@@ -220,7 +220,7 @@ def iget_records(custom_headers=None, **keywords):
             else:
                 # default order
                 yield OrderedDict(
-                    zip_longest(headers, row, fillvalue=constants.DEFAULT_NA)
+                    zip_longest(headers, row, fillvalue=constants.DEFAULT_NA),
                 )
 
 

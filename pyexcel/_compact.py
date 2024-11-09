@@ -12,13 +12,12 @@
 # pylint: disable=import-error
 # pylint: disable=no-name-in-module
 # pylint: disable=invalid-name
-# pylint: disable=redefined-variable-type
 # pylint: disable=too-few-public-methods
 # pylint: disable=ungrouped-imports
 import sys
 import warnings
 from io import BytesIO, StringIO
-from urllib import request as request
+from urllib import request
 from textwrap import dedent
 from itertools import zip_longest
 from collections import OrderedDict
@@ -48,7 +47,7 @@ def is_string(atype):
     """find out if a type is str or not"""
     if atype == str:
         return True
-    elif PY2:
+    if PY2:
         if atype == unicode:
             return True
     return False

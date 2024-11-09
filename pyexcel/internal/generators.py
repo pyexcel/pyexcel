@@ -11,7 +11,7 @@ from pyexcel._compact import OrderedDict
 from pyexcel.internal.common import SheetIterator
 
 
-class SheetStream(object):
+class SheetStream():
     """
     Memory efficient sheet representation
 
@@ -47,7 +47,7 @@ class SheetStream(object):
         return self.payload
 
 
-class BookStream(object):
+class BookStream():
     """
     Memory efficient book representation
 

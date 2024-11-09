@@ -1,9 +1,10 @@
 import datetime
 from unittest import TestCase
 
-from base import clean_up_files
 from pyexcel import SeriesReader, save_as, get_sheet
 from pyexcel.internal.sheets import formatters
+
+from .base import clean_up_files
 
 
 def increase_func(x):
@@ -52,13 +53,13 @@ class TestToFormatFunction:
     def test_float_2_int_format(self):
         value = 1.1111
         n_value = formatters.to_format(int, value)
-        assert type(n_value) == int
+        assert isinstance(n_value, int)
         assert n_value == 1
 
     def test_float_2_date_format(self):
         value = 1.1111
         n_value = formatters.to_format(datetime.datetime, value)
-        assert type(n_value) == float
+        assert isinstance(n_value, float)
         assert n_value == value
 
     def test_int_2_string_format(self):
@@ -69,13 +70,13 @@ class TestToFormatFunction:
     def test_int_2_float_format(self):
         value = 11
         n_value = formatters.to_format(float, value)
-        assert type(n_value) == float
+        assert isinstance(n_value, float)
         assert n_value == value
 
     def test_int_2_date(self):
         value = 11
         n_value = formatters.to_format(datetime.datetime, value)
-        assert type(n_value) == int
+        assert isinstance(n_value, int)
         assert n_value == value
 
     def test_date_conversion(self):
@@ -100,7 +101,7 @@ class TestToFormatFunction:
     def test_boolean_2_date(self):
         value = True
         n_value = formatters.to_format(datetime.datetime, value)
-        assert type(n_value) == bool
+        assert isinstance(n_value, bool)
         assert n_value == value
 
     def test_boolean_2_float(self):
@@ -119,11 +120,11 @@ class TestToFormatFunction:
     def test_empty_to_supported_types(self):
         value = ""
         n_value = formatters.to_format(float, value)
-        assert type(n_value) == float
+        assert isinstance(n_value, float)
         assert n_value == 0
         value = ""
         n_value = formatters.to_format(int, value)
-        assert type(n_value) == int
+        assert isinstance(n_value, int)
         assert n_value == 0
         value = ""
         n_value = formatters.to_format(datetime.datetime, value)

@@ -10,7 +10,7 @@
 NO_COLUMN_NAMES = "Only sheet with column names is accepted"
 
 
-class SheetIterator(object):
+class SheetIterator():
     """
     Sheet Iterator
     """
@@ -30,8 +30,7 @@ class SheetIterator(object):
         if self.current < self.book_reader_ref.number_of_sheets():
             self.current += 1
             return self.book_reader_ref[self.current - 1]
-        else:
-            raise StopIteration
+        raise StopIteration
 
 
 def get_sheet_headers(sheet):

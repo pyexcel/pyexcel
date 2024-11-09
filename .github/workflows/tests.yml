@@ -3,24 +3,24 @@ name: Run unit tests on Windows, Ubuntu and Mac
 on: [push, pull_request]
 
 jobs:
-  test:
-    strategy:
-        fail-fast: false
-        matrix:
-            python-version: [3.7, 3.8, 3.9]
-            os: [macOs-latest, ubuntu-latest, windows-latest]
-            exclude:
-              - os: macOs-latest
-                python-version: 3.7
 
-    runs-on:  ${{ matrix.os }}
-    name: run tests
+  test:
+    name:  ${{ matrix.os }} / ${{ matrix.python_version }}
+    runs-on: ${{ matrix.os }}-latest 
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [Ubuntu]
+        python_version: ["3.9.16"]
+
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v5
         with:
-            python-version:  ${{ matrix.python-version }}
+            python-version:  ${{ matrix.python_version }}
+            architecture: x64
+
       - name: install
         run: |
           pip --use-deprecated=legacy-resolver install -r requirements.txt

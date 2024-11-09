@@ -22,8 +22,9 @@ Get a list of dictionaries
    ... Renaissance,c.1400-c.1600,"Gibbons, Frescobaldi"
    ... Baroque,c.1600-c.1750,"JS Bach, Vivaldi"
    ... Classical,c.1750-c.1830,"Joseph Haydn, Wolfgan Amadeus Mozart"
-   ... Earley Romantic,c.1830-c.1860,"Chopin, Mendelssohn, Schumann, Liszt"
+   ... Early Romantic,c.1830-c.1860,"Chopin, Mendelssohn, Schumann, Liszt"
    ... Late Romantic,c.1860-c.1920,"Wagner,Verdi"
+   ... Modernist,20th century,"Sergei Rachmaninoff,Calude Debussy"
    ... """.strip()
    >>> sheet = p.get_sheet(file_content=content, file_type='csv')
    >>> sheet.save_as("your_file.xls")
@@ -40,8 +41,9 @@ Suppose you want to process `History of Classical Music <https://www.naxos.com/e
    Renaissance,c.1400-c.1600,"Gibbons, Frescobaldi"
    Baroque,c.1600-c.1750,"JS Bach, Vivaldi"
    Classical,c.1750-c.1830,"Joseph Haydn, Wolfgan Amadeus Mozart"
-   Earley Romantic,c.1830-c.1860,"Chopin, Mendelssohn, Schumann, Liszt"
-   Late Romantic,c.1860-c.1920, "Wagner,Verdi"
+   Early Romantic,c.1830-c.1860,"Chopin, Mendelssohn, Schumann, Liszt"
+   Late Romantic,c.1860-c.1920,"Wagner,Verdi"
+   Modernist,20th century,"Sergei Rachmaninoff,Calude Debussy"
 
 
 
@@ -61,8 +63,9 @@ And let's check what do we have:
    Gibbons, Frescobaldi are from Renaissance period (c.1400-c.1600)
    JS Bach, Vivaldi are from Baroque period (c.1600-c.1750)
    Joseph Haydn, Wolfgan Amadeus Mozart are from Classical period (c.1750-c.1830)
-   Chopin, Mendelssohn, Schumann, Liszt are from Earley Romantic period (c.1830-c.1860)
+   Chopin, Mendelssohn, Schumann, Liszt are from Early Romantic period (c.1830-c.1860)
    Wagner,Verdi are from Late Romantic period (c.1860-c.1920)
+   Sergei Rachmaninoff,Calude Debussy are from Modernist period (20th century)
 
 
 Get two dimensional array
@@ -78,8 +81,9 @@ Instead, what if you have to use `pyexcel.get_array` to do the same:
    Gibbons, Frescobaldi are from Renaissance period (c.1400-c.1600)
    JS Bach, Vivaldi are from Baroque period (c.1600-c.1750)
    Joseph Haydn, Wolfgan Amadeus Mozart are from Classical period (c.1750-c.1830)
-   Chopin, Mendelssohn, Schumann, Liszt are from Earley Romantic period (c.1830-c.1860)
+   Chopin, Mendelssohn, Schumann, Liszt are from Early Romantic period (c.1830-c.1860)
    Wagner,Verdi are from Late Romantic period (c.1860-c.1920)
+   Sergei Rachmaninoff,Calude Debussy are from Modernist period (20th century)
 
 
 where `start_row` skips the header row.
@@ -90,13 +94,11 @@ Get a dictionary
 
 You can get a dictionary too:
 
-Now let's get a dictionary out from the spreadsheet:
-
 .. code-block:: python
 
    >>> my_dict = p.get_dict(file_name="your_file.xls", name_columns_by_row=0)
 
-And check what do we have:
+And let's have a look inside:
 
 .. code-block:: python
 
@@ -105,9 +107,9 @@ And check what do we have:
    True
    >>> for key, values in my_dict.items():
    ...     print(key + " : " + ','.join([str(item) for item in values]))
-   Name : Medieval,Renaissance,Baroque,Classical,Earley Romantic,Late Romantic
-   Period : c.1150-c.1400,c.1400-c.1600,c.1600-c.1750,c.1750-c.1830,c.1830-c.1860,c.1860-c.1920
-   Representative Composers : Machaut, Landini,Gibbons, Frescobaldi,JS Bach, Vivaldi,Joseph Haydn, Wolfgan Amadeus Mozart,Chopin, Mendelssohn, Schumann, Liszt,Wagner,Verdi
+   Name : Medieval,Renaissance,Baroque,Classical,Early Romantic,Late Romantic,Modernist
+   Period : c.1150-c.1400,c.1400-c.1600,c.1600-c.1750,c.1750-c.1830,c.1830-c.1860,c.1860-c.1920,20th century
+   Representative Composers : Machaut, Landini,Gibbons, Frescobaldi,JS Bach, Vivaldi,Joseph Haydn, Wolfgan Amadeus Mozart,Chopin, Mendelssohn, Schumann, Liszt,Wagner,Verdi,Sergei Rachmaninoff,Calude Debussy
 
 
 Please note that my_dict is an OrderedDict.
@@ -119,30 +121,40 @@ Get a dictionary of two dimensional array
    :hide:
 
    >>> a_dictionary_of_two_dimensional_arrays = {
-   ...      'Sheet 1':
+   ...      'Top Violinist':
    ...          [
-   ...              [1.0, 2.0, 3.0],
-   ...              [4.0, 5.0, 6.0],
-   ...              [7.0, 8.0, 9.0]
+   ...              ["Name", "Period", "Nationality"],
+   ...              ["Antonio Vivaldi", "1678-1741", "Italian"],
+   ...              ["Niccolo Paganini","1782-1840", "Italian"],
+   ...              ["Pablo de Sarasate","1852-1904", "Spainish"],
+   ...              ["Eugene Ysaye", "1858-1931", "Belgian"],
+   ...              ["Fritz Kreisler", "1875-1962", "Astria-American"],
+   ...              ["Jascha Heifetz", "1901-1987", "Russian-American"],
+   ...              ["David Oistrakh", "1908-1974", "Russian"],
+   ...              ["Yehundi Menuhin","1916-1999", "American"],
+   ...              ["Itzhak Perlman","1945-", "Israeli-American"],
+   ...              ["Hilary Hahn","1979-","American"]
    ...          ],
-   ...      'Sheet 2':
+   ...      'Noteable Violin Makers':
    ...          [
-   ...              ['X', 'Y', 'Z'],
-   ...              [1.0, 2.0, 3.0],
-   ...              [4.0, 5.0, 6.0]
+   ...              ['Maker', 'Period', 'Country'],
+   ...              ['Antonio Stradivari', '1644-1737', 'Cremona, Italy'],
+   ...              ['Giovanni Paolo Maggini', '1580-1630', 'Botticino, Italy'],
+   ...              ['Amati Family', '1500-1740', 'Cremona, Italy'],
+   ...              ['Guarneri Family', '1626-1744', 'Cremona, Italy'],
+   ...              ['Rugeri Family', '1628-1719', 'Cremona, Italy'],
+   ...              ['Carlo Bergonzi', '1683-1747', 'Cremona, Italy'],
+   ...              ['Jacob Stainer', '1617-1683', 'Austria'],
    ...          ],
-   ...      'Sheet 3':
+   ...      'Most Expensive Violins':
    ...          [
-   ...              ['O', 'P', 'Q'],
-   ...              [3.0, 2.0, 1.0],
-   ...              [4.0, 3.0, 2.0]
+   ...              ['Name', 'Estimated Value', 'Location'],
+   ...              ['Messiah Stradivarious', '$ 20,000,000', 'Ashmolean Museum in Oxford, England'],
+   ...              ['Vieuxtemps Guarneri', '$ 16,000,000', 'On loan to Anne Akiko Meyers'],
+   ...              ['Lady Blunt', '$ 15,900,000', 'Anonymous bidder'],
    ...          ]
    ...  }
-   >>> data = OrderedDict()
-   >>> data.update({"Sheet 1": a_dictionary_of_two_dimensional_arrays['Sheet 1']})
-   >>> data.update({"Sheet 2": a_dictionary_of_two_dimensional_arrays['Sheet 2']})
-   >>> data.update({"Sheet 3": a_dictionary_of_two_dimensional_arrays['Sheet 3']})
-   >>> p.save_book_as(bookdict=data, dest_file_name="book.xls")
+   >>> p.save_book_as(bookdict=a_dictionary_of_two_dimensional_arrays, dest_file_name="book.xls")
 
 
 Suppose you have a multiple sheet book as the following:
@@ -150,20 +162,35 @@ Suppose you have a multiple sheet book as the following:
 
 .. pyexcel-table::
 
-   ---pyexcel:Sheet 1---
-   1,2,3
-   4,5,6
-   7,8,9
+   ---pyexcel:Top Violinist---
+   Name,Period,Nationality
+   Antonio Vivaldi,1678-1741,Italian
+   Niccolo Paganini,1782-1840,Italian
+   Pablo de Sarasate,1852-1904,Spainish
+   Eugene Ysaye,1858-1931,Belgian
+   Fritz Kreisler,1875-1962,Astria-American
+   Jascha Heifetz,1901-1987,Russian-American
+   David Oistrakh,1908-1974,Russian
+   Yehundi Menuhin,1916-1999,American
+   Itzhak Perlman,1945-,Israeli-American
+   Hilary Hahn,1979-,American
    ---pyexcel---
-   ---pyexcel:Sheet 2---
-   X,Y,Z
-   1,2,3
-   4,5,6
+   ---pyexcel:Noteable Violin Makers---
+   Maker,Period,Country
+   Antonio Stradivari,1644-1737,"Cremona, Italy"
+   Giovanni Paolo Maggini,1580-1630,"Botticino, Italy"
+   Amati Family,1500-1740,"Cremona, Italy"
+   Guarneri Family,1626-1744,"Cremona, Italy"
+   Rugeri Family,1628-1719,"Cremona, Italy"
+   Carlo Bergonzi,1683-1747,"Cremona, Italy"
+   Jacob Stainer,1617-1683,Austria
    ---pyexcel---
-   ---pyexcel:Sheet 3---
-   O,P,Q
-   3,2,1
-   4,3,2
+   ---pyexcel:Most Expensive Violins---
+   Name,Estimated Value,Location
+   Messiah Stradivarious,"$ 20,000,000","Ashmolean Museum in Oxford, England"
+   Vieuxtemps Guarneri,"$ 16,000,000",On loan to Anne Akiko Meyers
+   Lady Blunt,"$ 15,900,000",Anonymous bidder
+
 
 
 Here is the code to obtain those sheets as a single dictionary:
@@ -181,9 +208,9 @@ And check:
    >>> import json
    >>> for key, item in book_dict.items():
    ...     print(json.dumps({key: item}))
-   {"Sheet 1": [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}
-   {"Sheet 2": [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]}
-   {"Sheet 3": [["O", "P", "Q"], [3, 2, 1], [4, 3, 2]]}
+   {"Most Expensive Violins": [["Name", "Estimated Value", "Location"], ["Messiah Stradivarious", "$ 20,000,000", "Ashmolean Museum in Oxford, England"], ["Vieuxtemps Guarneri", "$ 16,000,000", "On loan to Anne Akiko Meyers"], ["Lady Blunt", "$ 15,900,000", "Anonymous bidder"]]}
+   {"Noteable Violin Makers": [["Maker", "Period", "Country"], ["Antonio Stradivari", "1644-1737", "Cremona, Italy"], ["Giovanni Paolo Maggini", "1580-1630", "Botticino, Italy"], ["Amati Family", "1500-1740", "Cremona, Italy"], ["Guarneri Family", "1626-1744", "Cremona, Italy"], ["Rugeri Family", "1628-1719", "Cremona, Italy"], ["Carlo Bergonzi", "1683-1747", "Cremona, Italy"], ["Jacob Stainer", "1617-1683", "Austria"]]}
+   {"Top Violinist": [["Name", "Period", "Nationality"], ["Antonio Vivaldi", "1678-1741", "Italian"], ["Niccolo Paganini", "1782-1840", "Italian"], ["Pablo de Sarasate", "1852-1904", "Spainish"], ["Eugene Ysaye", "1858-1931", "Belgian"], ["Fritz Kreisler", "1875-1962", "Astria-American"], ["Jascha Heifetz", "1901-1987", "Russian-American"], ["David Oistrakh", "1908-1974", "Russian"], ["Yehundi Menuhin", "1916-1999", "American"], ["Itzhak Perlman", "1945-", "Israeli-American"], ["Hilary Hahn", "1979-", "American"]]}
 
 
 .. testcode::
@@ -203,7 +230,7 @@ Suppose you have the following array:
 
 .. code-block:: python
 
-   >>> data = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+   >>> data = [['G', 'D', 'A', 'E'], ['Thomastik-Infield Domaints', 'Thomastik-Infield Domaints', 'Thomastik-Infield Domaints', 'Pirastro'], ['Silver wound', '', 'Aluminum wound', 'Gold Label Steel']]
 
 And here is the code to save it as an excel file :
 
@@ -217,13 +244,13 @@ Let's verify it:
 
     >>> p.get_sheet(file_name="example.xls")
     pyexcel_sheet1:
-    +---+---+---+
-    | 1 | 2 | 3 |
-    +---+---+---+
-    | 4 | 5 | 6 |
-    +---+---+---+
-    | 7 | 8 | 9 |
-    +---+---+---+
+    +----------------------------+----------------------------+----------------------------+------------------+
+    | G                          | D                          | A                          | E                |
+    +----------------------------+----------------------------+----------------------------+------------------+
+    | Thomastik-Infield Domaints | Thomastik-Infield Domaints | Thomastik-Infield Domaints | Pirastro         |
+    +----------------------------+----------------------------+----------------------------+------------------+
+    | Silver wound               |                            | Aluminum wound             | Gold Label Steel |
+    +----------------------------+----------------------------+----------------------------+------------------+
 
 .. testcode::
    :hide:
@@ -243,13 +270,13 @@ Let's verify it:
 
 .. code-block:: python
 
-   >>> with open("example.csv") as f:
-   ...     for line in f.readlines():
-   ...         print(line.rstrip())
-   ...
-   1:2:3
-   4:5:6
-   7:8:9
+    >>> with open("example.csv") as f:
+    ...     for line in f.readlines():
+    ...         print(line.rstrip())
+    ...
+    G:D:A:E
+    Thomastik-Infield Domaints:Thomastik-Infield Domaints:Thomastik-Infield Domaints:Pirastro
+    Silver wound::Aluminum wound:Gold Label Steel
 
 Export a list of dictionaries
 **********************************

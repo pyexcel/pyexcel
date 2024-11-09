@@ -11,7 +11,7 @@ import copy
 from collections import defaultdict
 
 from pyexcel import _compact as compact
-from pyexcel import constants as constants
+from pyexcel import constants
 from pyexcel._compact import OrderedDict
 from pyexcel.internal.sheets.row import Row as NamedRow
 from pyexcel.internal.sheets.column import Column as NamedColumn
@@ -356,7 +356,7 @@ class Sheet(Matrix):
             Matrix.delete_columns(self, [index])
 
     def named_row_at(self, name):
-        """Get a row by its name """
+        """Get a row by its name"""
         index = name
         index = self.rownames.index(name)
         row_array = self.row_at(index)
@@ -403,7 +403,7 @@ class Sheet(Matrix):
             Matrix.extend_rows(self, incoming_data)
         elif len(self.rownames) > 0:
             raise TypeError(
-                constants.MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED
+                constants.MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED,
             )
         else:
             Matrix.extend_rows(self, rows)
@@ -429,7 +429,7 @@ class Sheet(Matrix):
             Matrix.extend_columns(self, incoming_data)
         elif len(self.colnames) > 0:
             raise TypeError(
-                constants.MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED
+                constants.MESSAGE_DATA_ERROR_ORDEREDDICT_IS_EXPECTED,
             )
         else:
             Matrix.extend_columns(self, columns)
@@ -484,7 +484,7 @@ class Sheet(Matrix):
         Rearrange the sheet.
 
         :ivar new_ordered_columns: new columns
-        :ivar exclusion: to exlucde named column or not. defaults to False
+        :ivar exclusion: to exclude named column or not. defaults to False
 
         Example::
 
@@ -592,8 +592,7 @@ class Sheet(Matrix):
             else:
                 column = aset[1]
             return self.cell_value(row, column)
-        else:
-            return Matrix.__getitem__(self, aset)
+        return super().__getitem__(aset)
 
     def __setitem__(self, aset, c):
         if isinstance(aset, tuple):
@@ -608,13 +607,13 @@ class Sheet(Matrix):
                 column = aset[1]
             self.cell_value(row, column, c)
         else:
-            Matrix.__setitem__(self, aset, c)
+            super().__setitem__(aset, c)
 
     def __len__(self):
         return self.number_of_rows()
 
 
-class _RepresentedString(object):
+class _RepresentedString():
     """present in text"""
 
     def __init__(self, text):
@@ -628,7 +627,7 @@ class _RepresentedString(object):
 
 
 def make_names_unique(alist):
-    """Append the number of occurences to duplicated names"""
+    """Append the number of occurrences to duplicated names"""
     duplicates = {}
     new_names = []
     for item in alist:
