@@ -18,7 +18,8 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
-            python-version:  ${{ matrix.python_version }}
+            python-version:  ${{ matrix.python_version }}            architecture: x64
+
       - name: install
         run: |
           pip --use-deprecated=legacy-resolver install -r requirements.txt
