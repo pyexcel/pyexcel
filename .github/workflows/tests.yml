@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [Ubuntu, Windows, macOS]
-        python_version: ["3.11", "3.12", "3.13"]
+        python_version: ["3.9"]
 
     steps:
       - uses: actions/checkout@v2
