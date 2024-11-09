@@ -16,3 +16,4 @@ pyexcel-xls<=0.6.2
 pyexcel-text>=0.2.0
 psutil
 pyexcel-pygal
+jinja2
