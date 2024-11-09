@@ -9,7 +9,7 @@ build:
   os: ubuntu-22.04
   tools:
     python:
-      version: "3.12"
+      version: 3.12
 
 # Build documentation in the docs/ directory with Sphinx
 sphinx:
