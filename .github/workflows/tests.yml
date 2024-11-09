@@ -13,7 +13,6 @@ jobs:
         os: [Ubuntu, Windows, macOS]
         python_version: ["3.11", "3.12", "3.13"]
 
-    name: run tests
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
