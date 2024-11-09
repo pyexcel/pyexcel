@@ -69,7 +69,8 @@ html_static_path = ['_static']
 # -- Options for intersphinx extension ---------------------------------------
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/3/': None}
+intersphinx_mapping = {'python': ('https://docs.python.org/3',
+                                  'python-inv.txt')}
 # TODO: html_theme not configurable upstream
 html_theme = 'default'
 def setup(app):
