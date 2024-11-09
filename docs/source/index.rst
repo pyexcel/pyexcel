@@ -200,7 +200,7 @@ For individual excel file formats, please install them as you wish:
    ======================== ======================= =================
    Package name              Supported file formats  Dependencies
    ======================== ======================= =================
-   `pyexcel-io`_            csv, csvz [#f1]_, tsv,
+   `pyexcel-io`_            csv, csvz [#f1]_, tsv,  csvz,tsvz readers depends on `chardet`
                             tsvz [#f2]_
    `pyexcel-xls`_           xls, xlsx(read only),   `xlrd`_,
                             xlsm(read only)         `xlwt`_
