@@ -7,7 +7,6 @@
     :copyright: (c) 2014-2022 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-from pyexcel import _compact as compact
 from pyexcel.sheet import Sheet
 from pyexcel.internal.meta import BookMeta
 from pyexcel.internal.common import SheetIterator
@@ -36,7 +35,7 @@ class Book(BookMeta):
         self.__path = None
         self.__name_array = []
         self.filename = None
-        self.__sheets = compact.OrderedDict()
+        self.__sheets = {}
         self.init(sheets=sheets, filename=filename, path=path)
 
     def init(self, sheets=None, filename="memory", path=None):
@@ -209,7 +208,7 @@ class Book(BookMeta):
 
     def to_dict(self):
         """Convert the book to a dictionary"""
-        the_dict = compact.OrderedDict()
+        the_dict = {}
         for sheet in self:
             the_dict.update({sheet.name: sheet.array})
         return the_dict
