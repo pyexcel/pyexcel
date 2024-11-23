@@ -18,7 +18,7 @@ In alphabetical order:
 * `Linghui Zeng <https://github.com/mathsyouth>`_
 * `Mark Mayo <https://github.com/marksmayo>`_
 * `Mateusz Konieczny <https://github.com/matkoniecz>`_
-* `Nikolas Nyby <https://github.com/nikolas>`_
+* `nikolas <https://github.com/nikolas>`_
 * `Rintze M. Zelle, PhD <https://github.com/rmzelle>`_
 * `Simeon Visser <https://github.com/svisser>`_
 * `Simon Allen <https://github.com/garfunkel>`_
