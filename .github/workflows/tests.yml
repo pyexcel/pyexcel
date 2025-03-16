@@ -25,6 +25,7 @@ jobs:
         run: |
           pip --use-deprecated=legacy-resolver install -r requirements.txt
           pip --use-deprecated=legacy-resolver install -r tests/requirements.txt
+          pip --use-deprecated=legacy-resolver install -r rnd_requirements.txt          
       - name: test
         run: |
           pip freeze
