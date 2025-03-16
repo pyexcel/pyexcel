@@ -29,6 +29,7 @@ extra_dependencies:
   - ods:
     - pyexcel-ods3>=0.6.0
 test_dependencies:
+  - chardet
   - flask
   - SQLAlchemy
   - pyexcel-xlsx>=0.4.1
