@@ -38,14 +38,11 @@ pyexcel - Let you focus on data, instead of file formats
 Support the project
 ================================================================================
 
-If your company has embedded pyexcel and its components into a revenue generating
-product, please support me on github, or `patreon <https://www.patreon.com/bePatron?u=5537627>`_
-maintain the project and develop it further.
-
-With your financial support, I will be able to invest a little bit more time in coding,
-documentation and writing interesting posts.
-
-
+If your company uses pyexcel and its components in a revenue-generating product,
+please consider supporting the project on GitHub or
+`Patreon <https://www.patreon.com/bePatron?u=5537627>`_. Your financial
+support will enable me to dedicate more time to coding, improving documentation,
+and creating engaging content.
 Known constraints
 ==================
 

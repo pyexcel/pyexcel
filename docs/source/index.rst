@@ -11,38 +11,37 @@
 Introduction
 -------------
 
-**pyexcel** provides **one** application programming interface to read,
-manipulate and write data in various excel formats. This library makes
-information processing involving excel files an enjoyable task. The data in
-excel files can be turned into :ref:`array or dict<a-list-of-data-structures>`
-with minimal code and vice versa. This library focuses on data
-processing using excel files. Therefore, fonts, colors and charts
-were not and will not be considered.
+**pyexcel** provides **one** unified API for reading, manipulating, and writing data
+in various Excel formats. It simplifies the process
+of handling Excel files, making it an enjoyable task. Data in Excel files
+can be easily converted into :ref:`arrays or dictionaries<a-list-of-data-structures>`
+with minimal code, and vice versa. This library focuses **purely on data
+processing and does not address features like fonts, colors, or charts**.
 
-The idea originated from the common usability problem: when an excel file
-driven web application is delivered for non-developer users (ie: team assistant,
-human resource administrator etc). The fact is that not everyone knows (or cares)
-about the differences between various excel formats: csv, xls, xlsx are all
-the same to them. Instead of training those users about file formats, this
-library helps web developers to handle most of the excel file
-formats by providing a common programming interface. To add a specific excel
-file format type to you application, all you need is to install an extra pyexcel
-plugin. Hence no code changes to your application and no issues with excel file
-formats any more. Looking at the community, this library and its associated ones
-try to become a small and easy to install alternative to Pandas.
 
+
+The idea behind pyexcel originated from a common usability problem: when Excel-driven
+web applications are delivered to non-developer users (e.g., project assistants, human
+resources administrators), they often are not aware of the differences
+between file formats such as CSV, XLS, and XLSX. Rather than training users on these
+formats, pyexcel provides web developers with a unified interface to handle most
+Excel file types.
+
+
+To add support for a specific Excel format in your application, simply install an
+additional pyexcel plugin—no code changes required. This eliminates issues with
+different file formats. In the broader community, pyexcel and its associated
+libraries aim to be a simple, easy-to-install alternative to Pandas, where minimal
+data manipulation is needed.
 
 Support the project
 ================================================================================
 
-If your company has embedded pyexcel and its components into a revenue generating
-product, please support me on github, or `patreon <https://www.patreon.com/bePatron?u=5537627>`_
-maintain the project and develop it further.
-
-With your financial support, I will be able to invest a little bit more time in coding,
-documentation and writing interesting posts.
-
-
+If your company uses pyexcel and its components in a revenue-generating product,
+please consider supporting the project on GitHub or
+`Patreon <https://www.patreon.com/bePatron?u=5537627>`_. Your financial
+support will enable me to dedicate more time to coding, improving documentation,
+and creating engaging content.
 Installation
 -------------
 
