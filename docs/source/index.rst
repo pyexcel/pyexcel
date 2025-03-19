@@ -42,6 +42,8 @@ please consider supporting the project on GitHub or
 `Patreon <https://www.patreon.com/bePatron?u=5537627>`_. Your financial
 support will enable me to dedicate more time to coding, improving documentation,
 and creating engaging content.
+
+
 Installation
 -------------
 
