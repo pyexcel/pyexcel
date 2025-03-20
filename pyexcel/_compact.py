@@ -66,7 +66,8 @@ def deprecated(func, message="Deprecated!"):
 
 def append_doc(value):
     def _doc(func):
-        func.__doc__ = dedent(func.__doc__) + "\n" + value
+        if func.__doc__:
+            func.__doc__ = dedent(func.__doc__) + "\n" + value
         return func
 
     return _doc
