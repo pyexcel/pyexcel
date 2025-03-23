@@ -21,7 +21,7 @@ from urllib import request
 from textwrap import dedent
 from itertools import zip_longest
 
-OrderedDict = dict
+from collections import OrderedDict
 
 PY2 = sys.version_info[0] == 2
 PY26 = PY2 and sys.version_info[1] < 7

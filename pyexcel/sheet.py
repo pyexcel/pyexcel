@@ -395,7 +395,7 @@ class Sheet(Matrix):
         :param ordereddist/list rows: a list of rows.
         """
         incoming_data = []
-        if isinstance(rows, dict):
+        if isinstance(rows, compact.OrderedDict):
             keys = rows.keys()
             for k in keys:
                 self.rownames.append(k)
@@ -421,7 +421,7 @@ class Sheet(Matrix):
         :param ordereddist/list columns: a list of columns
         """
         incoming_data = []
-        if isinstance(columns, dict):
+        if isinstance(columns, compact.OrderedDict):
             keys = columns.keys()
             for k in keys:
                 self.colnames.append(k)
