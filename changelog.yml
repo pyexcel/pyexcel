@@ -5,7 +5,7 @@ releases:
   - action: Fixed
     details:
     - "`#270`: apenddoc breaks interpreter optimization"
-    - "`#274`: Replace deprecated imp module with importlib"
+    - "`#274`: Replace deprecated imp module with importlib - enforce its dependency on lml>=0.2.0"
   version: 0.7.2
   date: 23.03.2025
 - changes:
