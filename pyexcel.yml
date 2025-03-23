@@ -3,7 +3,7 @@ name: "pyexcel"
 nick_name: pyexcel
 version: 0.7.2
 current_version: 0.7.2
-release: 0.7.1
+release: 0.7.2
 copyright_year: 2014-2025
 branch: master
 is_on_conda: true
@@ -18,7 +18,7 @@ sphinx_extensions:
   - sphinxcontrib.excel
   - sphinx_copybutton
 dependencies:
-  - lml>=0.0.4
+  - lml>=0.2.0
   - pyexcel-io>=0.6.2
   - texttable>=0.8.2
 extra_dependencies:
