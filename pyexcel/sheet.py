@@ -464,7 +464,7 @@ class Sheet(Matrix):
             else:
                 headers = self.colnames
             for row in self.rows():
-                the_dict = dict(zip(headers, row))
+                the_dict = OrderedDict(zip(headers, row))
                 yield the_dict
 
         elif len(self.rownames) > 0:
@@ -473,7 +473,7 @@ class Sheet(Matrix):
             else:
                 headers = self.rownames
             for column in self.columns():
-                the_dict = dict(zip(headers, column))
+                the_dict = OrderedDict(zip(headers, column))
                 yield the_dict
 
         else:
@@ -543,7 +543,7 @@ class Sheet(Matrix):
 
     def to_dict(self, row=False):
         """Returns a dictionary"""
-        the_dict = dict()
+        the_dict = OrderedDict()
         if len(self.colnames) > 0 and row is False:
             for column in self.named_columns():
                 the_dict.update(column)
