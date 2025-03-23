@@ -1,7 +1,7 @@
 """
 import_xls_into_database_via_sqlalchemy.py
 
-:copyright: (c) 2014-2017 by Onni Software Ltd.
+:copyright: (c) 2014-2025 by Onni Software Ltd.
 :license: New BSD License, see LICENSE for more details
 
 This code snippet shows you how to import data from an excel
