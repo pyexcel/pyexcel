@@ -8,9 +8,6 @@ pyexcel - Let you focus on data, instead of file formats
 .. image:: https://raw.githubusercontent.com/pyexcel/pyexcel-mobans/master/images/awesome-badge.svg
    :target: https://awesome-python.com/#specific-formats-processing
 
-.. image:: https://github.com/pyexcel/pyexcel/workflows/run_tests/badge.svg
-   :target: http://github.com/pyexcel/pyexcel/actions
-
 .. image:: https://codecov.io/gh/pyexcel/pyexcel/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/pyexcel/pyexcel
 
@@ -19,6 +16,7 @@ pyexcel - Let you focus on data, instead of file formats
 
 .. image:: https://anaconda.org/conda-forge/pyexcel/badges/version.svg
    :target: https://anaconda.org/conda-forge/pyexcel
+
 
 .. image:: https://pepy.tech/badge/pyexcel/month
    :target: https://pepy.tech/project/pyexcel
@@ -40,19 +38,11 @@ pyexcel - Let you focus on data, instead of file formats
 Support the project
 ================================================================================
 
-If your company has embedded pyexcel and its components into a revenue generating
-product, please support me on github, `patreon <https://www.patreon.com/bePatron?u=5537627>`_
-or `bounty source <https://salt.bountysource.com/teams/chfw-pyexcel>`_ to maintain
-the project and develop it further.
-
-If you are an individual, you are welcome to support me too and for however long
-you feel like. As my backer, you will receive
-`early access to pyexcel related contents <https://www.patreon.com/pyexcel/posts>`_.
-
-And your issues will get prioritized if you would like to become my patreon as `pyexcel pro user`.
-
-With your financial support, I will be able to invest
-a little bit more time in coding, documentation and writing interesting posts.
+If your company uses pyexcel and its components in a revenue-generating product,
+please consider supporting the project on GitHub or
+`Patreon <https://www.patreon.com/bePatron?u=5537627>`_. Your financial
+support will enable me to dedicate more time to coding, improving documentation,
+and creating engaging content.
 
 
 Known constraints

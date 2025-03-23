@@ -23,12 +23,12 @@ DESCRIPTION = (
 # -- Project information -----------------------------------------------------
 
 project = 'pyexcel'
-copyright = '2014-2024 Onni Software Ltd.'
+copyright = '2014-2025 Onni Software Ltd.'
 author = 'C.W.'
 # The short X.Y version
-version = '0.7.1'
+version = '0.7.2'
 # The full version, including alpha/beta/rc tags
-release = '0.7.1'
+release = '0.7.2'
 
 # -- General configuration ---------------------------------------------------
 
@@ -58,7 +58,7 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -69,11 +69,11 @@ html_static_path = ['_static']
 # -- Options for intersphinx extension ---------------------------------------
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/3/': None}
+intersphinx_mapping = {'python': ('https://docs.python.org/3',
+                                  'python-inv.txt')}
 # TODO: html_theme not configurable upstream
-html_theme = 'default'
 def setup(app):
-    app.add_stylesheet('theme_overrides.css')
+    app.add_css_file('theme_overrides.css')
 
 
 

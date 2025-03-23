@@ -4,7 +4,7 @@
 
     Compatibles
 
-    :copyright: (c) 2014-2022 by Onni Software Ltd.
+    :copyright: (c) 2014-2025 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
 # flake8: noqa
@@ -20,6 +20,7 @@ from io import BytesIO, StringIO
 from urllib import request
 from textwrap import dedent
 from itertools import zip_longest
+
 from collections import OrderedDict
 
 PY2 = sys.version_info[0] == 2
@@ -66,7 +67,8 @@ def deprecated(func, message="Deprecated!"):
 
 def append_doc(value):
     def _doc(func):
-        func.__doc__ = dedent(func.__doc__) + "\n" + value
+        if func.__doc__:
+            func.__doc__ = dedent(func.__doc__) + "\n" + value
         return func
 
     return _doc

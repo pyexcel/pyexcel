@@ -4,13 +4,13 @@
 
     Excel book
 
-    :copyright: (c) 2014-2022 by Onni Software Ltd.
+    :copyright: (c) 2014-2025 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
-from pyexcel import _compact as compact
 from pyexcel.sheet import Sheet
 from pyexcel.internal.meta import BookMeta
 from pyexcel.internal.common import SheetIterator
+from pyexcel._compact import OrderedDict
 
 LOCAL_UUID = 0
 
@@ -36,7 +36,7 @@ class Book(BookMeta):
         self.__path = None
         self.__name_array = []
         self.filename = None
-        self.__sheets = compact.OrderedDict()
+        self.__sheets = OrderedDict()
         self.init(sheets=sheets, filename=filename, path=path)
 
     def init(self, sheets=None, filename="memory", path=None):
@@ -147,7 +147,7 @@ class Book(BookMeta):
             book3 = book1 + book2["Sheet 1"]
 
         """
-        content = {}
+        content = OrderedDict()
         current_dict = self.to_dict()
         for k in current_dict.keys():
             new_key = k
@@ -209,7 +209,7 @@ class Book(BookMeta):
 
     def to_dict(self):
         """Convert the book to a dictionary"""
-        the_dict = compact.OrderedDict()
+        the_dict = OrderedDict()
         for sheet in self:
             the_dict.update({sheet.name: sheet.array})
         return the_dict

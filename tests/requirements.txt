@@ -9,6 +9,7 @@ collective.checkdocs
 pygments
 moban
 moban_jinja2_github
+chardet
 flask
 SQLAlchemy
 pyexcel-xlsx>=0.4.1

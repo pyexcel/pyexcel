@@ -12,11 +12,11 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
-          python-version: '3.7'
+          python-version: '3.11'
       - name: check changes
         run: |
           pip install markupsafe==2.0.1
-          pip install moban gitfs2 pypifs moban-jinja2-github moban-ansible
+          pip install ruamel.yaml moban gitfs2 pypifs moban-jinja2-github moban-ansible
           moban
           git status
           git diff --exit-code

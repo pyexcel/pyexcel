@@ -4,7 +4,7 @@
 
     Building on top of matrix, adding named columns and rows support
 
-    :copyright: (c) 2014-2022 by Onni Software Ltd.
+    :copyright: (c) 2014-2025 by Onni Software Ltd.
     :license: New BSD License, see LICENSE for more details
 """
 import copy
@@ -294,7 +294,7 @@ class Sheet(Matrix):
     def named_column_at(self, name):
         """Get a column by its name"""
         index = name
-        if compact.is_string(type(index)):
+        if isinstance(index, str):
             index = self.colnames.index(name)
         column_array = self.column_at(index)
         return column_array
@@ -307,7 +307,7 @@ class Sheet(Matrix):
         the given array except the column name.
         """
         index = name
-        if compact.is_string(type(index)):
+        if isinstance(index, str):
             index = self.colnames.index(name)
         self.set_column_at(index, column_array)
 
@@ -370,7 +370,7 @@ class Sheet(Matrix):
         the given array except the row name.
         """
         index = name
-        if compact.is_string(type(index)):
+        if isinstance(index, str):
             index = self.rownames.index(name)
         self.set_row_at(index, row_array)
 
@@ -464,7 +464,7 @@ class Sheet(Matrix):
             else:
                 headers = self.colnames
             for row in self.rows():
-                the_dict = compact.OrderedDict(zip(headers, row))
+                the_dict = OrderedDict(zip(headers, row))
                 yield the_dict
 
         elif len(self.rownames) > 0:
@@ -473,7 +473,7 @@ class Sheet(Matrix):
             else:
                 headers = self.rownames
             for column in self.columns():
-                the_dict = compact.OrderedDict(zip(headers, column))
+                the_dict = OrderedDict(zip(headers, column))
                 yield the_dict
 
         else:
@@ -543,7 +543,7 @@ class Sheet(Matrix):
 
     def to_dict(self, row=False):
         """Returns a dictionary"""
-        the_dict = compact.OrderedDict()
+        the_dict = OrderedDict()
         if len(self.colnames) > 0 and row is False:
             for column in self.named_columns():
                 the_dict.update(column)

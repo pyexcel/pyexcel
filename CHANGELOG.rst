@@ -1,6 +1,18 @@
 Change log
 ================================================================================
 
+0.7.2 - 23.03.2025
+--------------------------------------------------------------------------------
+
+**Fixed**
+
+#. `#270 <https://github.com/pyexcel/pyexcel/issues/270>`_: apenddoc breaks
+   interpreter optimization
+#. `#274 <https://github.com/pyexcel/pyexcel/issues/274>`_: Replace deprecated
+   imp module with importlib - enforced pyexcel's dependency on lml>=0.2.0. This
+   will have an implication for linux distribution makers for pyexcel. However,
+   this is a reaction to the potential removal of __import__ syntax.
+
 0.7.1 - 11.09.2024
 --------------------------------------------------------------------------------
 

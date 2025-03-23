@@ -1,6 +1,6 @@
 """
 formater01.py
-:copyright: (c) 2014-2017 by Onni Software Ltd.
+:copyright: (c) 2014-2025 by Onni Software Ltd.
 :license: New BSD License, see LICENSE for more details
 
 This file shows you how to use column format function
