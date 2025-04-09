@@ -53,7 +53,7 @@ class FileSourceInfo(SourceInfo):
                             file_name, action,
                         )
                     else:
-                        raise IOError("Unsupported file type")
+                        raise IOError(f"Unsupported file type, {type(file_name)}")
             else:
                 file_type = keywords.get("file_type")
 
