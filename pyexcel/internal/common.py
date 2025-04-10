@@ -1,16 +1,17 @@
 """
-    pyexcel.internal.common
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.internal.common
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Defintion for the shared objects
+Defintion for the shared objects
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 NO_COLUMN_NAMES = "Only sheet with column names is accepted"
 
 
-class SheetIterator():
+class SheetIterator:
     """
     Sheet Iterator
     """

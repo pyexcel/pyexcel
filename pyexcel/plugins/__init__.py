@@ -1,13 +1,15 @@
 """
-    pyexcel.plugins
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.plugins
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Public interface for plugins
+Public interface for plugins
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 import types
+from pathlib import Path
 from itertools import product
 
 from pyexcel import constants
@@ -44,16 +46,20 @@ class FileSourceInfo(SourceInfo):
         status = SourceInfo.is_my_business(self, action, **keywords)
         if status:
             file_name = keywords.get("file_name", None)
+            if isinstance(file_name, Path):
+                file_name = str(file_name.resolve())
             if file_name:
                 file_type = keywords.get("force_file_type")
 
                 if file_type is None:
                     if is_string(type(file_name)):
                         file_type = find_file_type_from_file_name(
-                            file_name, action,
+                            file_name,
+                            action,
                         )
                     else:
-                        raise IOError(f"Unsupported file type, {type(file_name)}")
+                        message = f"Unsupported file type, {type(file_name)}"
+                        raise IOError(message)
             else:
                 file_type = keywords.get("file_type")
 
@@ -142,7 +148,8 @@ class PyexcelPluginChain(PluginInfoChain):
         default.update(keywords)
         self.add_a_plugin_instance(
             SourceInfo(
-                self._get_abs_path(relative_plugin_class_path), **default,
+                self._get_abs_path(relative_plugin_class_path),
+                **default,
             ),
         )
         return self
@@ -155,7 +162,8 @@ class PyexcelPluginChain(PluginInfoChain):
         default.update(keywords)
         self.add_a_plugin_instance(
             InputSourceInfo(
-                self._get_abs_path(relative_plugin_class_path), **default,
+                self._get_abs_path(relative_plugin_class_path),
+                **default,
             ),
         )
         return self
@@ -168,7 +176,8 @@ class PyexcelPluginChain(PluginInfoChain):
         default.update(keywords)
         self.add_a_plugin_instance(
             OutputSourceInfo(
-                self._get_abs_path(relative_plugin_class_path), **default,
+                self._get_abs_path(relative_plugin_class_path),
+                **default,
             ),
         )
         return self

@@ -1,12 +1,13 @@
 """
-    pyexcel.plugins.sources.file_input
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.plugins.sources.file_input
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Representation of input file sources
+Representation of input file sources
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 import os
 
 from pyexcel.source import AbstractSource

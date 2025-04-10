@@ -1,12 +1,13 @@
 """
-    pyexcel.formatters
-    ~~~~~~~~~~~~~~~~~~~
+pyexcel.formatters
+~~~~~~~~~~~~~~~~~~~
 
-    These utilities help format the content
+These utilities help format the content
 
-    :copyright: (c) 2014-2025 by Onni Software Ltd.
-    :license: New BSD License, see LICENSE for more details
+:copyright: (c) 2014-2025 by Onni Software Ltd.
+:license: New BSD License, see LICENSE for more details
 """
+
 import json
 import datetime
 from decimal import Decimal

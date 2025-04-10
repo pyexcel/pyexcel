@@ -1,12 +1,13 @@
 """
-    pyexcel.core
-    ~~~~~~~~~~~~~~~~~~~
+pyexcel.core
+~~~~~~~~~~~~~~~~~~~
 
-    A list of pyexcel signature functions
+A list of pyexcel signature functions
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 import re
 
 from pyexcel import constants

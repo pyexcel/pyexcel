@@ -1,17 +1,18 @@
 """
-    pyexcel.internal.generators
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.internal.generators
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Defintion for the sheet and book generators.
+Defintion for the sheet and book generators.
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from pyexcel._compact import OrderedDict
 from pyexcel.internal.common import SheetIterator
 
 
-class SheetStream():
+class SheetStream:
     """
     Memory efficient sheet representation
 
@@ -47,7 +48,7 @@ class SheetStream():
         return self.payload
 
 
-class BookStream():
+class BookStream:
     """
     Memory efficient book representation
 

@@ -1,12 +1,13 @@
 """
-    pyexcel.plugin.renderers.django
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.plugin.renderers.django
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Export data into django models
+Export data into django models
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from pyexcel._compact import OrderedDict
 from pyexcel.internal import common
 from pyexcel.renderer import DbRenderer
@@ -21,7 +22,12 @@ class DjangoRenderer(DbRenderer):
     """Import data into database"""
 
     def render_sheet_to_stream(
-        self, model, sheet, init=None, mapdict=None, **keywords,
+        self,
+        model,
+        sheet,
+        init=None,
+        mapdict=None,
+        **keywords,
     ):
         headers = common.get_sheet_headers(sheet)
         importer = django.DjangoModelImporter()

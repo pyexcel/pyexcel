@@ -1,12 +1,13 @@
 """
-    pyexcel.plugins.sources.http
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.plugins.sources.http
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Representation of http sources
+Representation of http sources
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from pyexcel import constants
 from pyexcel.source import AbstractSource
 from pyexcel._compact import PY2, request

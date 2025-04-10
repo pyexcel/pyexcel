@@ -1,12 +1,13 @@
 """
-    pyexcel.internal
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.internal
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Pyexcel internals that subjected to change
+Pyexcel internals that subjected to change
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from lml.loader import scan_plugins_regex
 from pyexcel.internal.plugins import PARSER, RENDERER  # noqa
 from pyexcel.internal.generators import BookStream, SheetStream  # noqa

@@ -1,12 +1,13 @@
 """
-    pyexcel.internal.garbagecollector
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.internal.garbagecollector
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Simple garbage collector
+Simple garbage collector
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from pyexcel import docstrings as docs
 from pyexcel._compact import append_doc
 

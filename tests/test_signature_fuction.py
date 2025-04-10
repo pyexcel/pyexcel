@@ -227,7 +227,8 @@ class TestGetRecords:
         data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
         content = pe.save_as(dest_file_type="xls", array=data)
         records = pe.get_records(
-            file_content=content.getvalue(), file_type="xls",
+            file_content=content.getvalue(),
+            file_type="xls",
         )
         eq_(records, [{"X": 1, "Y": 2, "Z": 3}, {"X": 4, "Y": 5, "Z": 6}])
 
@@ -264,25 +265,25 @@ class TestiGetRecords:
         data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
         content = pe.save_as(dest_file_type="xls", array=data)
         records = pe.get_records(
-            file_content=content.getvalue(), file_type="xls",
+            file_content=content.getvalue(),
+            file_type="xls",
         )
         eq_(
-            list(records), [{"X": 1, "Y": 2, "Z": 3},
-                            {"X": 4, "Y": 5, "Z": 6}],
+            list(records),
+            [{"X": 1, "Y": 2, "Z": 3}, {"X": 4, "Y": 5, "Z": 6}],
         )
 
     def test_get_records_from_array(self):
         data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
         result = pe.iget_records(array=data)
-        eq_(list(result), [{"X": 1, "Y": 2, "Z": 3},
-                           {"X": 4, "Y": 5, "Z": 6}])
+        eq_(list(result), [{"X": 1, "Y": 2, "Z": 3}, {"X": 4, "Y": 5, "Z": 6}])
 
     def test_get_records_from_irregular_array(self):
         data = [["X", "Y", "Z"], [1, 2, 3], [4, 5]]
         result = pe.iget_records(array=data)
         eq_(
-            list(result), [{"X": 1, "Y": 2, "Z": 3},
-                           {"X": 4, "Y": 5, "Z": ""}],
+            list(result),
+            [{"X": 1, "Y": 2, "Z": 3}, {"X": 4, "Y": 5, "Z": ""}],
         )
 
     def test_get_records_from_dict(self):
@@ -317,7 +318,9 @@ class TestSavingToDatabase:
         sheet = pe.get_sheet(adict=adict, name_columns_by_row=0)
         sheet.save_to_database(self.session, Signature)
         result = pe.get_dict(
-            session=self.session, table=Signature, name_columns_by_row=0,
+            session=self.session,
+            table=Signature,
+            name_columns_by_row=0,
         )
         print(result)
         assert adict == result
@@ -376,7 +379,9 @@ class TestSavingToDatabase:
             return Signature(X=row["X"], Y=row["Y"], Z=row["Z"])
 
         sheet.save_to_database(
-            self.session, Signature, initializer=make_signature,
+            self.session,
+            Signature,
+            initializer=make_signature,
         )
         result = pe.get_dict(session=self.session, table=Signature)
         assert result == {"X": [1, 4], "Y": [2, 5], "Z": [3, 6]}
@@ -478,7 +483,8 @@ class TestSQL:
 
     def test_get_book_from_sql(self):
         book_dict = pe.get_book_dict(
-            session=Session(), tables=[Signature, Signature2],
+            session=Session(),
+            tables=[Signature, Signature2],
         )
         expected = OrderedDict()
         expected.update({"signature": [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]})
@@ -519,7 +525,8 @@ class TestSQL:
             tables=[Signature, Signature2],
         )
         book_dict = pe.get_book_dict(
-            file_content=test_file.getvalue(), file_type="xls",
+            file_content=test_file.getvalue(),
+            file_type="xls",
         )
         expected = OrderedDict()
         expected.update({"signature": [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]})
@@ -685,7 +692,9 @@ class TestIGetBook:
 class TestSaveAs:
     def test_force_file_type(self):
         pe.save_as(
-            array=[[1, 2]], dest_file_name="a.txt", dest_force_file_type="csv",
+            array=[[1, 2]],
+            dest_file_name="a.txt",
+            dest_force_file_type="csv",
         )
         actual = pe.get_array(file_name="a.txt", force_file_type="csv")
         eq_([[1, 2]], actual)

@@ -1,12 +1,13 @@
 """
-    pyexcel.internal.plugins
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.internal.plugins
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Renderer and parser plugin manager
+Renderer and parser plugin manager
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from lml.plugin import PluginManager
 
 

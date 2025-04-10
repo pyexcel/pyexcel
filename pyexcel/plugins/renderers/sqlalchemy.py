@@ -1,12 +1,13 @@
 """
-    pyexcel.plugin.renderers.sqlalchemy
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.plugin.renderers.sqlalchemy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Export data into database datables
+Export data into database datables
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from pyexcel._compact import OrderedDict
 from pyexcel.internal import common
 from pyexcel.renderer import DbRenderer
@@ -19,7 +20,12 @@ class SQLAlchemyRenderer(DbRenderer):
     """Import data into database"""
 
     def render_sheet_to_stream(
-        self, file_stream, sheet, init=None, mapdict=None, **keywords,
+        self,
+        file_stream,
+        sheet,
+        init=None,
+        mapdict=None,
+        **keywords,
     ):
         headers = common.get_sheet_headers(sheet)
         importer = sql.SQLTableImporter(file_stream[0])
@@ -36,7 +42,12 @@ class SQLAlchemyRenderer(DbRenderer):
         )
 
     def render_book_to_stream(
-        self, file_stream, book, inits=None, mapdicts=None, **keywords,
+        self,
+        file_stream,
+        book,
+        inits=None,
+        mapdicts=None,
+        **keywords,
     ):
         session, tables = file_stream
         thebook = book

@@ -1,12 +1,13 @@
 """
-    pyexcel.plugin.parsers.django
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.plugin.parsers.django
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Export data into database datables
+Export data into database datables
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from pyexcel.parser import DbParser
 
 from pyexcel_io import get_data, iget_data
@@ -17,7 +18,11 @@ class DjangoExporter(DbParser):
     """Export data from django model"""
 
     def parse_db(
-        self, argument, export_columns_list=None, on_demand=True, **keywords,
+        self,
+        argument,
+        export_columns_list=None,
+        on_demand=True,
+        **keywords,
     ):
         models = argument
         exporter = django.DjangoModelExporter()
@@ -28,7 +33,9 @@ class DjangoExporter(DbParser):
             exporter.append(adapter)
         if on_demand:
             sheets, _ = iget_data(
-                exporter, file_type=self._file_type, **keywords,
+                exporter,
+                file_type=self._file_type,
+                **keywords,
             )
         else:
             sheets = get_data(exporter, file_type=self._file_type, **keywords)

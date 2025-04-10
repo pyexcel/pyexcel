@@ -1,12 +1,13 @@
 """
-    pyexcel.docstrings.meta
-    ~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.docstrings.meta
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Reusible docstrings for pyexcel.internal.meta
+Reusible docstrings for pyexcel.internal.meta
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from .keywords import CSV_PARAMS
 
 SAVE_AS_OPTIONS = (

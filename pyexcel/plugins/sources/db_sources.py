@@ -1,12 +1,13 @@
 """
-    pyexcel.plugins.sources.db_sources
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.plugins.sources.db_sources
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Generic database sources
+Generic database sources
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from pyexcel.source import AbstractSource
 from pyexcel._compact import PY2
 from pyexcel.internal import PARSER, RENDERER
@@ -76,7 +77,11 @@ class BookDbSource(AbstractSource):
     """
 
     def __init__(
-        self, db_type, parser_library=None, renderer_library=None, **keywords,
+        self,
+        db_type,
+        parser_library=None,
+        renderer_library=None,
+        **keywords,
     ):
         self.__db_type = db_type
         self.__parser_library = parser_library
@@ -98,7 +103,8 @@ class BookDbSource(AbstractSource):
 
     def write_data(self, book):
         arender = RENDERER.get_a_plugin(
-            self.__db_type, self.__renderer_library,
+            self.__db_type,
+            self.__renderer_library,
         )
         init_funcs, map_dicts = _transcode_book_db_keywords(self._keywords)
 

@@ -1,12 +1,13 @@
 """
-    pyexcel.cookbook
-    ~~~~~~~~~~~~~~~~~~~
+pyexcel.cookbook
+~~~~~~~~~~~~~~~~~~~
 
-    Cookbook for pyexcel
+Cookbook for pyexcel
 
-    :copyright: (c) 2014-2025 by Onni Software Ltd.
-    :license: New BSD License, see LICENSE for more details
+:copyright: (c) 2014-2025 by Onni Software Ltd.
+:license: New BSD License, see LICENSE for more details
 """
+
 import os
 
 from pyexcel.book import Book

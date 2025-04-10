@@ -1,12 +1,13 @@
 """
-    pyexcel._compact
-    ~~~~~~~~~~~~~~~~~~~
+pyexcel._compact
+~~~~~~~~~~~~~~~~~~~
 
-    Compatibles
+Compatibles
 
-    :copyright: (c) 2014-2025 by Onni Software Ltd.
-    :license: New BSD License, see LICENSE for more details
+:copyright: (c) 2014-2025 by Onni Software Ltd.
+:license: New BSD License, see LICENSE for more details
 """
+
 # flake8: noqa
 # pylint: disable=unused-import
 # pylint: disable=import-error
@@ -20,7 +21,6 @@ from io import BytesIO, StringIO
 from urllib import request
 from textwrap import dedent
 from itertools import zip_longest
-
 from collections import OrderedDict
 
 PY2 = sys.version_info[0] == 2

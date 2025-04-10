@@ -1,11 +1,11 @@
 """
-    pyexcel.exceptions
-    ~~~~~~~~~~~~~~~~~~~
+pyexcel.exceptions
+~~~~~~~~~~~~~~~~~~~
 
-    Exceptions appeared in pyexcel
+Exceptions appeared in pyexcel
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
 
 

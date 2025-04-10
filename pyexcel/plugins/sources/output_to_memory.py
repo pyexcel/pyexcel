@@ -1,12 +1,13 @@
 """
-    pyexcel.plugins.sources.output_to_memory
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.plugins.sources.output_to_memory
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Representation of output file sources
+Representation of output file sources
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from pyexcel.source import AbstractSource, MemorySourceMixin
 from pyexcel.internal import RENDERER
 
@@ -35,7 +36,9 @@ class WriteSheetToMemory(AbstractSource, MemorySourceMixin):
 
     def write_data(self, sheet):
         self._renderer.render_sheet_to_stream(
-            self._content, sheet, **self._keywords,
+            self._content,
+            sheet,
+            **self._keywords,
         )
 
 
@@ -47,5 +50,7 @@ class WriteBookToMemory(WriteSheetToMemory):
 
     def write_data(self, book):
         self._renderer.render_book_to_stream(
-            self._content, book, **self._keywords,
+            self._content,
+            book,
+            **self._keywords,
         )

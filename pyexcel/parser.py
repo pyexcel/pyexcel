@@ -1,16 +1,17 @@
 """
-    pyexcel.parser
-    ~~~~~~~~~~~~~~~~~~~
+pyexcel.parser
+~~~~~~~~~~~~~~~~~~~
 
-    Extract tabular data from external file, stream or content
+Extract tabular data from external file, stream or content
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from pyexcel.internal import garbagecollector as gc
 
 
-class AbstractParser():
+class AbstractParser:
     """
     Parsing data from tabular data such as excel file
     """
