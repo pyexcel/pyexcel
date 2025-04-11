@@ -37,5 +37,4 @@ def reset():
     """
     After everything has been closed, reset the array
     """
-    global GARBAGE
-    GARBAGE = []
+    GARBAGE.clear()
