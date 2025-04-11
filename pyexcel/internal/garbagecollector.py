@@ -18,7 +18,6 @@ def append(item):
     """
     add garbage to the global list of garbages
     """
-    global GARBAGE
     GARBAGE.append(item)
 
 
