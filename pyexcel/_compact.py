@@ -22,6 +22,7 @@ from urllib import request
 from textwrap import dedent
 from itertools import zip_longest
 from collections import OrderedDict
+from pathlib import Path
 
 PY2 = sys.version_info[0] == 2
 PY26 = PY2 and sys.version_info[1] < 7
@@ -72,3 +73,9 @@ def append_doc(value):
         return func
 
     return _doc
+
+
+def get_string_file_name(file_name):
+    if isinstance(file_name, Path):
+        file_name = str(file_name.resolve())
+    return file_name

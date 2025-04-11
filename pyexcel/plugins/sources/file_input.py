@@ -12,6 +12,7 @@ import os
 
 from pyexcel.source import AbstractSource
 from pyexcel.internal import PARSER
+from pyexcel._compact import get_string_file_name
 
 
 # pylint: disable=W0223
@@ -19,7 +20,7 @@ class ReadExcelFromFile(AbstractSource):
     """Pick up 'file_name' field and do single sheet based read and write"""
 
     def __init__(self, file_name=None, parser_library=None, **keywords):
-        self.__file_name = file_name
+        self.__file_name = get_string_file_name(file_name)
 
         if "force_file_type" in keywords:
             file_type = keywords.get("force_file_type")

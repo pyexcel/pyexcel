@@ -9,12 +9,11 @@ Public interface for plugins
 """
 
 import types
-from pathlib import Path
 from itertools import product
 
 from pyexcel import constants
 from lml.plugin import PluginInfo, PluginInfoChain
-from pyexcel._compact import is_string
+from pyexcel._compact import is_string, get_string_file_name
 from pyexcel.exceptions import FileTypeNotSupported
 from pyexcel.internal.plugins import PARSER, RENDERER
 
@@ -46,8 +45,7 @@ class FileSourceInfo(SourceInfo):
         status = SourceInfo.is_my_business(self, action, **keywords)
         if status:
             file_name = keywords.get("file_name", None)
-            if isinstance(file_name, Path):
-                file_name = str(file_name.resolve())
+            file_name = get_string_file_name(file_name)
             if file_name:
                 file_type = keywords.get("force_file_type")
 
