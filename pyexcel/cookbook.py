@@ -12,7 +12,7 @@ import os
 
 from pyexcel.book import Book
 from pyexcel.core import save_as, get_book, get_sheet
-from pyexcel._compact import OrderedDict
+from pyexcel._compact import OrderedDict, get_string_file_name
 from pyexcel.constants import MESSAGE_WARNING
 
 DEFAULT_OUT_FILE = "pyexcel_merged.csv"
@@ -32,9 +32,10 @@ def update_columns(in_file_name, column_dicts, out_file_name=None):
 
 
     """
+    in_file_name = get_string_file_name(in_file_name)
     default_out_file = OUT_FILE_FORMATTER % in_file_name
     if out_file_name:
-        default_out_file = out_file_name
+        default_out_file = get_string_file_name(out_file_name)
     if os.path.exists(default_out_file):
         raise NotImplementedError(MESSAGE_WARNING)
     sheet = get_sheet(file_name=in_file_name, name_columns_by_row=0)
@@ -54,9 +55,10 @@ def update_rows(in_file_name, row_dicts, out_file_name=None):
     :param dict row_dicts: dictionaries of rows
     :param str out_file_name: save the sheet as
     """
+    in_file_name = get_string_file_name(in_file_name)
     default_out_file = OUT_FILE_FORMATTER % in_file_name
     if out_file_name:
-        default_out_file = out_file_name
+        default_out_file = get_string_file_name(out_file_name)
     if os.path.exists(default_out_file):
         raise NotImplementedError(MESSAGE_WARNING)
     sheet = get_sheet(file_name=in_file_name, name_rows_by_column=0)
@@ -71,6 +73,7 @@ def merge_files(file_array, out_file_name=DEFAULT_OUT_FILE):
     """merge many files horizontally column after column
     :param str out_file_name: save the sheet as
     """
+    out_file_name = get_string_file_name(out_file_name)
     if os.path.exists(out_file_name):
         raise NotImplementedError(MESSAGE_WARNING)
     content = []
@@ -90,6 +93,7 @@ def merge_two_files(file1, file2, out_file_name=DEFAULT_OUT_FILE):
     :param str file2: an accessible file name
     :param str out_file_name: save the sheet as
     """
+    out_file_name = get_string_file_name(out_file_name)
     if os.path.exists(out_file_name):
         raise NotImplementedError(MESSAGE_WARNING)
     files = [file1, file2]
@@ -102,6 +106,7 @@ def merge_readers(reader_array, out_file_name=DEFAULT_OUT_FILE):
     With FilterableReader and SeriesReader, you can do custom filtering
     :param str out_file_name: save the sheet as
     """
+    out_file_name = get_string_file_name(out_file_name)
     if os.path.exists(out_file_name):
         raise NotImplementedError(MESSAGE_WARNING)
     content = OrderedDict()
