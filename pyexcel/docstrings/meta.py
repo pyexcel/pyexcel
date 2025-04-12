@@ -2,7 +2,7 @@
 pyexcel.docstrings.meta
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Reusible docstrings for pyexcel.internal.meta
+Reusable docstrings for pyexcel.internal.meta
 
 :copyright: (c) 2015-2025 by Onni Software Ltd.
 :license: New BSD License

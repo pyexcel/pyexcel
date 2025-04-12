@@ -2,7 +2,7 @@
 pyexcel.internal.common
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Defintion for the shared objects
+Definition for the shared objects
 
 :copyright: (c) 2015-2025 by Onni Software Ltd.
 :license: New BSD License

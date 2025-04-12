@@ -2,7 +2,7 @@
 pyexcel.docstrings.core
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Reusible docstrings for pyexcel.core
+Reusable docstrings for pyexcel.core
 
 :copyright: (c) 2015-2025 by Onni Software Ltd.
 :license: New BSD License

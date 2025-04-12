@@ -2,7 +2,7 @@
 pyexcel.docstrings.keywords
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Reusible docstrings for keywords in signature functions
+Reusable docstrings for keywords in signature functions
 
 :copyright: (c) 2015-2025 by Onni Software Ltd.
 :license: New BSD License

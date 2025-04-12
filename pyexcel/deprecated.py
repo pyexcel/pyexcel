@@ -2,7 +2,7 @@
 pyexcel.deprecated
 ~~~~~~~~~~~~~~~~~~~
 
-List of apis that become deprecated but was kept for backward compatibility
+List of APIs that become deprecated but was kept for backward compatibility
 
 :copyright: (c) 2015-2025 by Onni Software Ltd.
 :license: New BSD License
