@@ -1,15 +1,17 @@
 """
-    pyexcel.plugins.sources.file_input
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.plugins.sources.file_input
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Representation of input file sources
+Representation of input file sources
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 import os
 
 from pyexcel.source import AbstractSource
+from pyexcel._compact import get_string_file_name
 from pyexcel.internal import PARSER
 
 
@@ -18,7 +20,7 @@ class ReadExcelFromFile(AbstractSource):
     """Pick up 'file_name' field and do single sheet based read and write"""
 
     def __init__(self, file_name=None, parser_library=None, **keywords):
-        self.__file_name = file_name
+        self.__file_name = get_string_file_name(file_name)
 
         if "force_file_type" in keywords:
             file_type = keywords.get("force_file_type")

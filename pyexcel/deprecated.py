@@ -1,12 +1,13 @@
 """
-    pyexcel.deprecated
-    ~~~~~~~~~~~~~~~~~~~
+pyexcel.deprecated
+~~~~~~~~~~~~~~~~~~~
 
-    List of apis that become deprecated but was kept for backward compatibility
+List of APIs that become deprecated but was kept for backward compatibility
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from functools import partial
 
 from pyexcel.core import get_book, get_sheet
@@ -66,7 +67,9 @@ def load(file_name, sheetname=None, **keywords):
         )
     else:
         sheet = get_sheet(
-            file_name=file_name, sheet_name=sheetname, **keywords,
+            file_name=file_name,
+            sheet_name=sheetname,
+            **keywords,
         )
     return sheet
 

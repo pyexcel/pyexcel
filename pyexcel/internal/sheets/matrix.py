@@ -1,13 +1,14 @@
 """
-    pyexcel.internal.sheets.matrix
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.internal.sheets.matrix
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Matrix, a data model that accepts any types, spread sheet style
-    of lookup.
+Matrix, a data model that accepts any types, spread sheet style
+of lookup.
 
-    :copyright: (c) 2014-2025 by Onni Software Ltd.
-    :license: New BSD License, see LICENSE for more details
+:copyright: (c) 2014-2025 by Onni Software Ltd.
+:license: New BSD License, see LICENSE for more details
 """
+
 import copy
 import types
 from typing import Tuple, Union
@@ -437,7 +438,9 @@ class Matrix(SheetMeta):
             set_index = starting_column + index
             if set_index < number_of_columns:
                 self.set_column_at(
-                    set_index, column, starting=topleft_corner[0],
+                    set_index,
+                    column,
+                    starting=topleft_corner[0],
                 )
             else:
                 real_column = [constants.DEFAULT_NA] * topleft_corner[0]

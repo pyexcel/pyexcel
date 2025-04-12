@@ -1,12 +1,13 @@
 """
-    pyexcel.plugins.sources.sheet_stream_source
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.plugins.sources.sheet_stream_source
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Representation of array source
+Representation of array source
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from pyexcel.source import AbstractSource, MemorySourceMixin
 from pyexcel.plugins.sources import params
 

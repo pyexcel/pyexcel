@@ -1,12 +1,13 @@
 """
-    pyexcel._compact
-    ~~~~~~~~~~~~~~~~~~~
+pyexcel._compact
+~~~~~~~~~~~~~~~~~~~
 
-    Compatibles
+Compatibles
 
-    :copyright: (c) 2014-2025 by Onni Software Ltd.
-    :license: New BSD License, see LICENSE for more details
+:copyright: (c) 2014-2025 by Onni Software Ltd.
+:license: New BSD License, see LICENSE for more details
 """
+
 # flake8: noqa
 # pylint: disable=unused-import
 # pylint: disable=import-error
@@ -18,9 +19,9 @@ import sys
 import warnings
 from io import BytesIO, StringIO
 from urllib import request
+from pathlib import Path
 from textwrap import dedent
 from itertools import zip_longest
-
 from collections import OrderedDict
 
 PY2 = sys.version_info[0] == 2
@@ -72,3 +73,9 @@ def append_doc(value):
         return func
 
     return _doc
+
+
+def get_string_file_name(file_name):
+    if isinstance(file_name, Path):
+        file_name = str(file_name.resolve())
+    return file_name

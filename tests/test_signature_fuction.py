@@ -1,5 +1,6 @@
 import os
 from types import GeneratorType
+from pathlib import Path
 
 import pyexcel as pe
 
@@ -112,6 +113,12 @@ class TestGetSheet:
         expected = [[1, 2, 3]]
         eq_(sheet.to_array(), expected)
 
+    def test_get_sheet_from_txt_via_pathlib(self):
+        test_file = os.path.join("tests", "fixtures", "force_type.txt")
+        sheet = pe.get_sheet(file_name=Path(test_file), force_file_type="csv")
+        expected = [[1, 2, 3]]
+        eq_(sheet.to_array(), expected)
+
 
 class TestGetArray:
     def setUp(self):
@@ -190,6 +197,15 @@ class TestGetDict:
         assert result == {"X": [1, 4], "Y": [2, 5], "Z": [3, 6]}
         os.unlink(testfile)
 
+    def test_get_dict_from_file_via_path(self):
+        data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
+        sheet = pe.Sheet(data)
+        testfile = "testfile.xls"
+        sheet.save_as(testfile)
+        result = pe.get_dict(file_name=Path(testfile))
+        assert result == {"X": [1, 4], "Y": [2, 5], "Z": [3, 6]}
+        os.unlink(testfile)
+
     def test_get_dict_from_memory(self):
         data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
         content = pe.save_as(dest_file_type="xls", array=data)
@@ -223,11 +239,21 @@ class TestGetRecords:
         eq_(result, [{"X": 1, "Y": 2, "Z": 3}, {"X": 4, "Y": 5, "Z": 6}])
         os.unlink(testfile)
 
+    def test_get_records_from_file_path(self):
+        data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
+        sheet = pe.Sheet(data)
+        testfile = "testfile.xls"
+        sheet.save_as(testfile)
+        result = pe.get_records(file_name=Path(testfile))
+        eq_(result, [{"X": 1, "Y": 2, "Z": 3}, {"X": 4, "Y": 5, "Z": 6}])
+        os.unlink(testfile)
+
     def test_get_records_from_memory(self):
         data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
         content = pe.save_as(dest_file_type="xls", array=data)
         records = pe.get_records(
-            file_content=content.getvalue(), file_type="xls",
+            file_content=content.getvalue(),
+            file_type="xls",
         )
         eq_(records, [{"X": 1, "Y": 2, "Z": 3}, {"X": 4, "Y": 5, "Z": 6}])
 
@@ -260,29 +286,38 @@ class TestiGetRecords:
         eq_(list(result), [{"X": 1, "Y": 2, "Z": 3}, {"X": 4, "Y": 5, "Z": 6}])
         os.unlink(testfile)
 
+    def test_get_records_from_file_path(self):
+        data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
+        sheet = pe.Sheet(data)
+        testfile = "testfile.xls"
+        sheet.save_as(testfile)
+        result = pe.iget_records(file_name=Path(testfile))
+        eq_(list(result), [{"X": 1, "Y": 2, "Z": 3}, {"X": 4, "Y": 5, "Z": 6}])
+        os.unlink(testfile)
+
     def test_get_records_from_memory(self):
         data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
         content = pe.save_as(dest_file_type="xls", array=data)
         records = pe.get_records(
-            file_content=content.getvalue(), file_type="xls",
+            file_content=content.getvalue(),
+            file_type="xls",
         )
         eq_(
-            list(records), [{"X": 1, "Y": 2, "Z": 3},
-                            {"X": 4, "Y": 5, "Z": 6}],
+            list(records),
+            [{"X": 1, "Y": 2, "Z": 3}, {"X": 4, "Y": 5, "Z": 6}],
         )
 
     def test_get_records_from_array(self):
         data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
         result = pe.iget_records(array=data)
-        eq_(list(result), [{"X": 1, "Y": 2, "Z": 3},
-                           {"X": 4, "Y": 5, "Z": 6}])
+        eq_(list(result), [{"X": 1, "Y": 2, "Z": 3}, {"X": 4, "Y": 5, "Z": 6}])
 
     def test_get_records_from_irregular_array(self):
         data = [["X", "Y", "Z"], [1, 2, 3], [4, 5]]
         result = pe.iget_records(array=data)
         eq_(
-            list(result), [{"X": 1, "Y": 2, "Z": 3},
-                           {"X": 4, "Y": 5, "Z": ""}],
+            list(result),
+            [{"X": 1, "Y": 2, "Z": 3}, {"X": 4, "Y": 5, "Z": ""}],
         )
 
     def test_get_records_from_dict(self):
@@ -317,7 +352,9 @@ class TestSavingToDatabase:
         sheet = pe.get_sheet(adict=adict, name_columns_by_row=0)
         sheet.save_to_database(self.session, Signature)
         result = pe.get_dict(
-            session=self.session, table=Signature, name_columns_by_row=0,
+            session=self.session,
+            table=Signature,
+            name_columns_by_row=0,
         )
         print(result)
         assert adict == result
@@ -376,7 +413,9 @@ class TestSavingToDatabase:
             return Signature(X=row["X"], Y=row["Y"], Z=row["Z"])
 
         sheet.save_to_database(
-            self.session, Signature, initializer=make_signature,
+            self.session,
+            Signature,
+            initializer=make_signature,
         )
         result = pe.get_dict(session=self.session, table=Signature)
         assert result == {"X": [1, 4], "Y": [2, 5], "Z": [3, 6]}
@@ -478,7 +517,8 @@ class TestSQL:
 
     def test_get_book_from_sql(self):
         book_dict = pe.get_book_dict(
-            session=Session(), tables=[Signature, Signature2],
+            session=Session(),
+            tables=[Signature, Signature2],
         )
         expected = OrderedDict()
         expected.update({"signature": [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]})
@@ -519,7 +559,8 @@ class TestSQL:
             tables=[Signature, Signature2],
         )
         book_dict = pe.get_book_dict(
-            file_content=test_file.getvalue(), file_type="xls",
+            file_content=test_file.getvalue(),
+            file_type="xls",
         )
         expected = OrderedDict()
         expected.update({"signature": [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]})
@@ -542,6 +583,16 @@ class TestGetBook:
         book = pe.Book(content)
         book.save_as(test_file)
         book2 = pe.get_book(file_name=test_file)
+        assert book2.to_dict() == content
+        os.unlink(test_file)
+
+    def test_get_book_from_file_path(self):
+        test_file = "test_get_book.xls"
+        content = _produce_ordered_dict()
+
+        book = pe.Book(content)
+        book.save_as(test_file)
+        book2 = pe.get_book(file_name=Path(test_file))
         assert book2.to_dict() == content
         os.unlink(test_file)
 
@@ -607,6 +658,18 @@ class TestIGetBook:
         book = pe.Book(content)
         book.save_as(test_file)
         book_stream = pe.iget_book(file_name=test_file)
+        assert book_stream.to_dict() != content
+        book3 = pe.Book(book_stream.to_dict())
+        eq_(book3.to_dict(), content)
+        os.unlink(test_file)
+
+    def test_get_book_from_file_path(self):
+        test_file = "test_get_book.xls"
+        content = _produce_ordered_dict()
+
+        book = pe.Book(content)
+        book.save_as(test_file)
+        book_stream = pe.iget_book(file_name=Path(test_file))
         assert book_stream.to_dict() != content
         book3 = pe.Book(book_stream.to_dict())
         eq_(book3.to_dict(), content)
@@ -685,9 +748,21 @@ class TestIGetBook:
 class TestSaveAs:
     def test_force_file_type(self):
         pe.save_as(
-            array=[[1, 2]], dest_file_name="a.txt", dest_force_file_type="csv",
+            array=[[1, 2]],
+            dest_file_name="a.txt",
+            dest_force_file_type="csv",
         )
         actual = pe.get_array(file_name="a.txt", force_file_type="csv")
+        eq_([[1, 2]], actual)
+        os.unlink("a.txt")
+
+    def test_force_file_type_with_pathlib(self):
+        pe.save_as(
+            array=[[1, 2]],
+            dest_file_name="a.txt",
+            dest_force_file_type="csv",
+        )
+        actual = pe.get_array(file_name=Path("a.txt"), force_file_type="csv")
         eq_([[1, 2]], actual)
         os.unlink("a.txt")
 
@@ -708,6 +783,19 @@ class TestSaveAs:
         testfile2 = "testfile2.csv"
         sheet.save_as(testfile)
         pe.save_as(file_name=testfile, dest_file_name=testfile2)
+        sheet = pe.get_sheet(file_name=testfile2)
+        sheet.format(int)
+        eq_(sheet.to_array(), data)
+        os.unlink(testfile)
+        os.unlink(testfile2)
+
+    def test_save_file_as_another_one_using_path(self):
+        data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
+        sheet = pe.Sheet(data)
+        testfile = "testfile.xls"
+        testfile2 = "testfile2.csv"
+        sheet.save_as(testfile)
+        pe.save_as(file_name=Path(testfile), dest_file_name=Path(testfile2))
         sheet = pe.get_sheet(file_name=testfile2)
         sheet.format(int)
         eq_(sheet.to_array(), data)
@@ -740,6 +828,18 @@ class TestiSaveAs:
         testfile2 = "testfile2.csv"
         sheet.save_as(testfile)
         pe.isave_as(file_name=testfile, dest_file_name=testfile2)
+        sheet = pe.get_sheet(file_name=testfile2)
+        eq_(sheet.to_array(), data)
+        os.unlink(testfile)
+        os.unlink(testfile2)
+
+    def test_save_file_as_another_one_using_pathlib(self):
+        data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
+        sheet = pe.Sheet(data)
+        testfile = "testfile.xls"
+        testfile2 = "testfile2.csv"
+        sheet.save_as(testfile)
+        pe.isave_as(file_name=Path(testfile), dest_file_name=Path(testfile2))
         sheet = pe.get_sheet(file_name=testfile2)
         eq_(sheet.to_array(), data)
         os.unlink(testfile)

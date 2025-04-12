@@ -1,16 +1,17 @@
 """
-    pyexcel.source
-    ~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.source
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Generic data source definition
+Generic data source definition
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from pyexcel import constants
 
 
-class AbstractSource():
+class AbstractSource:
     """
     Define a data source for use with the signature functions
 
@@ -52,7 +53,7 @@ class AbstractSource():
         raise NotImplementedError("")
 
 
-class MemorySourceMixin():
+class MemorySourceMixin:
     """A memory source should an internal memory stream
 
     And it is desirable to get its internal stream

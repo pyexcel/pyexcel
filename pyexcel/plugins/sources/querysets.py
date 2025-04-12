@@ -1,12 +1,13 @@
 """
-    pyexcel.plugins.sources.querysets
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.plugins.sources.querysets
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Representation of querysets
+Representation of querysets
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from pyexcel import constants
 from pyexcel.source import AbstractSource
 

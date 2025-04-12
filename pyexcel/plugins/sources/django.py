@@ -1,12 +1,13 @@
 """
-    pyexcel.plugins.sources.django
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.plugins.sources.django
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Representation of django sources
+Representation of django sources
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from pyexcel_io.constants import DB_DJANGO
 from .db_sources import BookDbSource, SheetDbSource
 
@@ -17,7 +18,11 @@ class SheetDjangoSource(SheetDbSource):
     """
 
     def __init__(
-        self, model=None, export_columns=None, sheet_name=None, **keywords,
+        self,
+        model=None,
+        export_columns=None,
+        sheet_name=None,
+        **keywords,
     ):
         self.__model = model
         SheetDbSource.__init__(

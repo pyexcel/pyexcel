@@ -4,6 +4,13 @@ releases:
 - changes:
   - action: Fixed
     details:
+    - "`#263`: support pathlib from python 3.4"
+    - "`#267`: better error message for file_name"
+  version: 0.7.3
+  date: 12.04.2025
+- changes:
+  - action: Fixed
+    details:
     - "`#270`: apenddoc breaks interpreter optimization"
     - "`#274`: Replace deprecated imp module with importlib - enforced pyexcel's dependency on lml>=0.2.0. This will have an implication for linux distribution makers for pyexcel. However, this is a reaction to the potential removal of __import__ syntax."
   version: 0.7.2

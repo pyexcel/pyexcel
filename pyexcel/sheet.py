@@ -1,12 +1,13 @@
 """
-    pyexcel.sheet
-    ~~~~~~~~~~~~~~~~~~~~~
+pyexcel.sheet
+~~~~~~~~~~~~~~~~~~~~~
 
-    Building on top of matrix, adding named columns and rows support
+Building on top of matrix, adding named columns and rows support
 
-    :copyright: (c) 2014-2025 by Onni Software Ltd.
-    :license: New BSD License, see LICENSE for more details
+:copyright: (c) 2014-2025 by Onni Software Ltd.
+:license: New BSD License, see LICENSE for more details
 """
+
 import copy
 from collections import defaultdict
 
@@ -613,7 +614,7 @@ class Sheet(Matrix):
         return self.number_of_rows()
 
 
-class _RepresentedString():
+class _RepresentedString:
     """present in text"""
 
     def __init__(self, text):

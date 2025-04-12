@@ -1,12 +1,13 @@
 """
-    pyexcel.plugins.renderers
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.plugins.renderers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    A list of built-in renderers
+A list of built-in renderers
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from pyexcel.plugins import PyexcelPluginChain
 
 from pyexcel_io.plugins import WRITERS
@@ -16,7 +17,8 @@ PyexcelPluginChain(__name__).add_a_renderer(
     relative_plugin_class_path="sqlalchemy.SQLAlchemyRenderer",
     file_types=[DB_SQL],
 ).add_a_renderer(
-    relative_plugin_class_path="django.DjangoRenderer", file_types=[DB_DJANGO],
+    relative_plugin_class_path="django.DjangoRenderer",
+    file_types=[DB_DJANGO],
 ).add_a_renderer(
     relative_plugin_class_path="excel.ExcelRenderer",
     file_types=WRITERS.get_all_formats(),

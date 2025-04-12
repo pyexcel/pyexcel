@@ -1,12 +1,13 @@
 """
-    pyexcel.plugins.sources.pydata.bookdictsource
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.plugins.sources.pydata.bookdictsource
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Representation of book dict source
+Representation of book dict source
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from pyexcel.source import AbstractSource, MemorySourceMixin
 from pyexcel._compact import PY2, OrderedDict
 from pyexcel.plugins.sources import params

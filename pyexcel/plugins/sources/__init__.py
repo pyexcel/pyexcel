@@ -1,12 +1,13 @@
 """
-    pyexcel.plugins.sources
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.plugins.sources
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    A list of built-in sources
+A list of built-in sources
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from pyexcel.plugins import PyexcelPluginChain
 from pyexcel.internal import PARSER, RENDERER
 

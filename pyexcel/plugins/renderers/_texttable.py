@@ -1,13 +1,14 @@
 """
-    pyexcel.plugin.renderers._texttable
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.plugin.renderers._texttable
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Export data into texttable format. It also serves the default
-    presentation of pyexcel sheet and book.
+Export data into texttable format. It also serves the default
+presentation of pyexcel sheet and book.
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from types import GeneratorType
 
 from pyexcel import constants

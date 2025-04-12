@@ -142,11 +142,13 @@ class TestCSVReaderDialect:
             array = [i + 1, i + 2, i + 3, i + 4]
             table.append(array)
         p.save_as(
-            dest_file_name=self.testfile, dest_delimiter=":", array=table,
+            dest_file_name=self.testfile,
+            dest_delimiter=":",
+            array=table,
         )
 
     def test_delimiter(self):
-        with open(self.testfile, encoding='utf-8') as test_file:
+        with open(self.testfile, encoding="utf-8") as test_file:
             content = "1:2:3:45:6:7:89:10:11:12"
             expected = ""
             for line in test_file:

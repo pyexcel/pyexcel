@@ -1,12 +1,13 @@
 """
-    pyexcel.internal.meta
-    ~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.internal.meta
+~~~~~~~~~~~~~~~~~~~~~~
 
-    Annotate sheet and book class' attributes
+Annotate sheet and book class' attributes
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 import sys
 from functools import partial
 
@@ -143,7 +144,7 @@ REGISTER_BOOK_IO = partial(
 )
 
 
-class StreamAttribute():
+class StreamAttribute:
     """Provide access to get_*_stream methods"""
 
     def __init__(self, cls):
@@ -154,7 +155,7 @@ class StreamAttribute():
         return getter(file_type=name)
 
 
-class PyexcelObject():
+class PyexcelObject:
     """parent class for pyexcel.Sheet and pyexcel.Book"""
 
     @property
@@ -261,12 +262,19 @@ class SheetMeta(PyexcelObject):
 
     def save_to_memory(self, file_type, stream=None, **keywords):
         stream = save_sheet(
-            self, file_type=file_type, file_stream=stream, **keywords,
+            self,
+            file_type=file_type,
+            file_stream=stream,
+            **keywords,
         )
         return stream
 
     def save_to_django_model(
-        self, model, initializer=None, mapdict=None, batch_size=None,
+        self,
+        model,
+        initializer=None,
+        mapdict=None,
+        batch_size=None,
     ):
         """Save to database table through django model
 
@@ -285,7 +293,12 @@ class SheetMeta(PyexcelObject):
         )
 
     def save_to_database(
-        self, session, table, initializer=None, mapdict=None, auto_commit=True,
+        self,
+        session,
+        table,
+        initializer=None,
+        mapdict=None,
+        auto_commit=True,
     ):
         """Save data in sheet to database table
 
@@ -330,12 +343,19 @@ class BookMeta(PyexcelObject):
                        xlsx, and ods, an instance of BytesIO.
         """
         stream = save_book(
-            self, file_type=file_type, file_stream=stream, **keywords,
+            self,
+            file_type=file_type,
+            file_stream=stream,
+            **keywords,
         )
         return stream
 
     def save_to_django_models(
-        self, models, initializers=None, mapdicts=None, **keywords,
+        self,
+        models,
+        initializers=None,
+        mapdicts=None,
+        **keywords,
     ):
         """
         Save to database table through django model

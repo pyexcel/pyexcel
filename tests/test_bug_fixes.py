@@ -234,7 +234,9 @@ def test_issue_76():
     tsv_stream.write("1\t2\t3\t4\n")
     tsv_stream.seek(0)
     sheet = p.get_sheet(
-        file_stream=tsv_stream, file_type="csv", delimiter="\t",
+        file_stream=tsv_stream,
+        file_type="csv",
+        delimiter="\t",
     )
     data = [[1, 2, 3, 4], [1, 2, 3, 4]]
     eq_(sheet.array, data)
@@ -544,7 +546,8 @@ def test_issue_241():
     from pyexcel import get_book, merge_all_to_a_book
 
     merge_all_to_a_book(
-        glob.glob("tests/fixtures/issue_241/*.csv"), "issue_241.xlsx",
+        glob.glob("tests/fixtures/issue_241/*.csv"),
+        "issue_241.xlsx",
     )
     book = get_book(file_name="issue_241.xlsx")
     book.sort_sheets()

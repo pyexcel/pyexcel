@@ -1,12 +1,13 @@
 """
-    pyexcel.internal.sheets._shared
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.internal.sheets._shared
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Locally shared utility functions
+Locally shared utility functions
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 import re
 import types
 from typing import Tuple
@@ -17,7 +18,7 @@ from pyexcel._compact import PY2
 from .formatters import to_format
 
 
-class CommonPropertyAmongRowNColumn():
+class CommonPropertyAmongRowNColumn:
     """
     Group reusable functions from row and column
     """

@@ -1,12 +1,13 @@
 """
-    pyexcel.docstrings.core
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.docstrings.core
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Reusible docstrings for pyexcel.core
+Reusable docstrings for pyexcel.core
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from . import keywords
 
 __GET_ARRAY__ = (

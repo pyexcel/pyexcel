@@ -1,12 +1,13 @@
 """
-    pyexcel.internal.core
-    ~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.internal.core
+~~~~~~~~~~~~~~~~~~~~~~
 
-    elementary functions to read and write generic excel content
+elementary functions to read and write generic excel content
 
-    :copyright: (c) 2015-2021 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2021 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from pyexcel.internal import SOURCE
 from pyexcel.constants import DEFAULT_NO_DATA
 from pyexcel.internal.generators import BookStream, SheetStream

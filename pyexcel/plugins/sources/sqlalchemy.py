@@ -1,12 +1,13 @@
 """
-    pyexcel.plugins.sources.sqlalchemy
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.plugins.sources.sqlalchemy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Representation of sqlalchemy sources
+Representation of sqlalchemy sources
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from pyexcel_io.constants import DB_SQL
 from .db_sources import BookDbSource, SheetDbSource
 
@@ -17,7 +18,12 @@ class SheetSQLAlchemySource(SheetDbSource):
     """
 
     def __init__(
-        self, session, table, export_columns=None, sheet_name=None, **keywords,
+        self,
+        session,
+        table,
+        export_columns=None,
+        sheet_name=None,
+        **keywords,
     ):
         self.__session = session
         self.__table = table

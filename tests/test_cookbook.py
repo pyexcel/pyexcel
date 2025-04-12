@@ -31,7 +31,9 @@ class TestSpliting:
 
     def test_extract_a_book(self):
         pe.cookbook.extract_a_sheet_from_a_book(
-            self.testfile4, "Sheet1", "extracted.csv",
+            self.testfile4,
+            "Sheet1",
+            "extracted.csv",
         )
         assert os.path.exists("Sheet1_extracted.csv")
 

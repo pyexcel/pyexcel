@@ -1,12 +1,13 @@
 """
-    pyexcel.plugins.parsers
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyexcel.plugins.parsers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    A list of built-in parsers
+A list of built-in parsers
 
-    :copyright: (c) 2015-2022 by Onni Software Ltd.
-    :license: New BSD License
+:copyright: (c) 2015-2025 by Onni Software Ltd.
+:license: New BSD License
 """
+
 from pyexcel.plugins import PyexcelPluginChain
 
 from pyexcel_io.plugins import READERS
@@ -19,5 +20,6 @@ PyexcelPluginChain(__name__).add_a_parser(
     relative_plugin_class_path="sqlalchemy.SQLAlchemyExporter",
     file_types=[DB_SQL],
 ).add_a_parser(
-    relative_plugin_class_path="django.DjangoExporter", file_types=[DB_DJANGO],
+    relative_plugin_class_path="django.DjangoExporter",
+    file_types=[DB_DJANGO],
 )

@@ -1,16 +1,17 @@
 """
-    pyexcel.book
-    ~~~~~~~~~~~~~~~~~~~
+pyexcel.book
+~~~~~~~~~~~~~~~~~~~
 
-    Excel book
+Excel book
 
-    :copyright: (c) 2014-2025 by Onni Software Ltd.
-    :license: New BSD License, see LICENSE for more details
+:copyright: (c) 2014-2025 by Onni Software Ltd.
+:license: New BSD License, see LICENSE for more details
 """
+
 from pyexcel.sheet import Sheet
+from pyexcel._compact import OrderedDict
 from pyexcel.internal.meta import BookMeta
 from pyexcel.internal.common import SheetIterator
-from pyexcel._compact import OrderedDict
 
 LOCAL_UUID = 0
 
