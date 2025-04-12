@@ -1,12 +1,12 @@
 Change log
 ================================================================================
 
-0.7.2 - 00.04.2025
+0.7.3 - 12.04.2025
 --------------------------------------------------------------------------------
 
 **Fixed**
 
-#. `#260 <https://github.com/pyexcel/pyexcel/issues/260>`_: support pathlib from
+#. `#263 <https://github.com/pyexcel/pyexcel/issues/263>`_: support pathlib from
    python 3.4
 #. `#267 <https://github.com/pyexcel/pyexcel/issues/267>`_: better error message
    for file_name
