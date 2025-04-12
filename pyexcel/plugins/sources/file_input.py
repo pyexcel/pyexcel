@@ -11,8 +11,8 @@ Representation of input file sources
 import os
 
 from pyexcel.source import AbstractSource
-from pyexcel.internal import PARSER
 from pyexcel._compact import get_string_file_name
+from pyexcel.internal import PARSER
 
 
 # pylint: disable=W0223

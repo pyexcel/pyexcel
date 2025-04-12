@@ -87,6 +87,7 @@ class Renderer(AbstractRenderer):
         **keywords,
     ):
         self.set_write_title(write_title)
+        file_name = compact.get_string_file_name(file_name)
         with open(file_name, self.WRITE_FLAG, encoding="utf-8") as outfile:
             self.set_output_stream(outfile)
             self.render_sheet(sheet, **keywords)
