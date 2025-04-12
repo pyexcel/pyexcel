@@ -3,7 +3,7 @@ name: "pyexcel"
 nick_name: pyexcel
 version: 0.7.3
 current_version: 0.7.3
-release: 0.7.2
+release: 0.7.3
 copyright_year: 2014-2025
 branch: master
 is_on_conda: true

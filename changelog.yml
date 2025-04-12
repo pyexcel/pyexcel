@@ -4,10 +4,10 @@ releases:
 - changes:
   - action: Fixed
     details:
-    - "`#260`: support pathlib from python 3.4"
+    - "`#263`: support pathlib from python 3.4"
     - "`#267`: better error message for file_name"
-  version: 0.7.2
-  date: 00.04.2025
+  version: 0.7.3
+  date: 12.04.2025
 - changes:
   - action: Fixed
     details:
