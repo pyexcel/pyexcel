@@ -377,9 +377,9 @@ Let's verify its order:
    >>> book_dict = p.get_book_dict(file_name="book.xls")
    >>> for key, item in book_dict.items():
    ...     print(json.dumps({key: item}))
-   {"Sheet 2": [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]}
+   {"Sheet 2": [["Name", "Country", "Revenue"], ["Delta Air Lines", "US", 61.6], ["American Airlines Holdings", "US", 57.1], ["American Airlines Group", "US", 54.2]]}
    {"Sheet 1": [["Name", "Revenue"], ["Lockheed Martin", "65.4 billion USD"], ["Airbus", "78.9 billion USD"], ["Boeing", "58.16 billion USD"]]}
-   {"Sheet 3": [["O", "P", "Q"], [3, 2, 1], [4, 3, 2]]}
+   {"Sheet 3": [["Model", "Passenger limt"], ["Airbus A380-800", 853], ["Boeing 747-400", 660], ["Boeing 747-8", 605]]}
 
 Please notice that "Sheet 2" is the first item in the *book_dict*, meaning the order of sheets are preserved.
 
