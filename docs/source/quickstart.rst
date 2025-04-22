@@ -390,31 +390,32 @@ Transcoding
 .. note::
 
    Please note that `pyexcel-cli` can perform file transcoding at command line.
-   No need to open your editor, save the problem, then python run.
+   No need to open your editor, save the code, then python run.
 
 .. testcode::
    :hide:
 
    >>> import datetime
    >>> data = [
-   ...    ["name", "weight", "birth"],
-   ...    ["Adam", 3.4, datetime.date(2015, 2, 3)],
-   ...    ["Smith", 4.2, datetime.date(2014, 11, 12)]
+   ...    ["Country", "New US tariffs, %", "Tariffs charged to the USA"],
+   ...    ["China", 34, 67],
+   ...    ["EU", 20, 39],
+   ...    ["United Kingdom", 10, 10]
    ... ]
-   >>> p.save_as(array=data, dest_file_name="birth.xls")
+   >>> p.save_as(array=data, dest_file_name="trump_tariffs.xls")
 
 
 The following code does a simple file format transcoding from xls to csv:
 
 .. code-block:: python
 
-   >>> p.save_as(file_name="birth.xls", dest_file_name="birth.csv")
+   >>> p.save_as(file_name="trump_tariffs.xls", dest_file_name="trump_tariffs.csv")
 
 Again it is really simple. Let's verify what we have gotten:
 
 .. code-block:: python
 
-   >>> sheet = p.get_sheet(file_name="birth.csv")
+   >>> sheet = p.get_sheet(file_name="trump_tariffs.csv")
    >>> sheet
    birth.csv:
    +-------+--------+----------+
@@ -434,14 +435,14 @@ Let use previous example and save it as xlsx instead
 
 .. code-block:: python
 
-   >>> p.save_as(file_name="birth.xls",
-   ...           dest_file_name="birth.xlsx") # change the file extension
+   >>> p.save_as(file_name="trump_tariffs.xls",
+   ...           dest_file_name="trump_tariffs.xlsx") # change the file extension
 
 Again let's verify what we have gotten:
 
 .. code-block:: python
 
-   >>> sheet = p.get_sheet(file_name="birth.xlsx")
+   >>> sheet = p.get_sheet(file_name="trump_tariffs.xlsx")
    >>> sheet
    pyexcel_sheet1:
    +-------+--------+----------+
