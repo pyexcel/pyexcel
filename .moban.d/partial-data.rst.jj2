@@ -40,10 +40,7 @@ In addition, pyexcel's csv readers can read partial data into memory too.
    :hide:
 
     >>> import sys
-    >>> if sys.version_info[0] < 3:
-    ...     from StringIO import StringIO
-    ... else:
-    ...     from io import StringIO
+    >>> from io import StringIO
     >>> from pyexcel_io._compact import OrderedDict
 
 {% endif %}
