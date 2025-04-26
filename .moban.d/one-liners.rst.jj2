@@ -632,6 +632,8 @@ for the output file, you can specify any of the supported formats
 .. testcode::
    :hide:
 
+   >>> os.unlink("henley.xls")
+   >>> os.unlink("high_speed_rail.xls")
    >>> os.unlink("Sheet 1_output.xls")
    >>> os.unlink("megabook.xls")
    >>> os.unlink('trump_tariffs.xls')
