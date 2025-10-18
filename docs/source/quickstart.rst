@@ -570,4 +570,3 @@ for the output file, you can specify any of the supported formats
    >>> os.unlink("book.xls")
    >>> os.unlink("your_file.xls")
    >>> os.unlink("example.csv")
-   >>> os.unlink("output.xls")
