@@ -3,7 +3,7 @@ from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
 import pyexcel as pe
-from pyexcel._compact import PY2, BytesIO, StringIO
+from pyexcel._compact import BytesIO, StringIO
 
 
 class TestHttpBookSource(TestCase):
@@ -11,10 +11,7 @@ class TestHttpBookSource(TestCase):
         self.patcher = patch("pyexcel._compact.request.urlopen")
         mock_open = self.patcher.start()
         self.mocked_info = MagicMock()
-        if PY2:
-            io = StringIO("1,2,3")
-        else:
-            io = BytesIO("1,2,3".encode("utf-8"))
+        io = BytesIO("1,2,3".encode("utf-8"))
         io.info = self.mocked_info
         mock_open.return_value = io
 
@@ -23,10 +20,7 @@ class TestHttpBookSource(TestCase):
 
     def test_url_source_via_content_type(self):
         book = pe.get_book(url="xx.csv")
-        if PY2:
-            self.mocked_info.type.return_value = "text/csv"
-        else:
-            self.mocked_info.get_content_type.return_value = "text/csv"
+        self.mocked_info.get_content_type.return_value = "text/csv"
         content = dedent(
             """
         csv:
