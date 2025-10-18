@@ -9,7 +9,7 @@ Representation of book dict source
 """
 
 from pyexcel.source import AbstractSource, MemorySourceMixin
-from pyexcel._compact import PY2, OrderedDict
+from pyexcel._compact import OrderedDict
 from pyexcel.plugins.sources import params
 
 from .common import _FakeIO
@@ -40,8 +40,7 @@ class BookDictSource(AbstractSource, MemorySourceMixin):
 
 def _convert_dict_to_ordered_dict(the_dict):
     keys = the_dict.keys()
-    if not PY2:
-        keys = list(keys)
+    keys = list(keys)
     keys = sorted(keys)
     ret = OrderedDict()
     for key in keys:

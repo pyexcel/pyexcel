@@ -13,8 +13,6 @@ import types
 from typing import Tuple
 from functools import partial
 
-from pyexcel._compact import PY2
-
 from .formatters import to_format
 
 
@@ -65,9 +63,9 @@ def analyse_slice(aslice, upper_bound):
             my_range = range(start, stop, aslice.step)
         else:
             my_range = range(start, stop)
-        if not PY2:
-            # for py3, my_range is a range object
-            my_range = list(my_range)
+
+        # for py3, my_range is a range object
+        my_range = list(my_range)
     else:
         my_range = [start]
     return my_range
