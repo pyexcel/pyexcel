@@ -8,7 +8,6 @@ Annotate sheet and book class' attributes
 :license: New BSD License
 """
 
-import sys
 from functools import partial
 
 from pyexcel import constants
