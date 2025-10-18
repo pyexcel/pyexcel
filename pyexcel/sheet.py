@@ -441,8 +441,6 @@ class Sheet(Matrix):
         ret += list(self.rows())
         if len(self.rownames) > 0:
             ret = [[value[0]] + value[1] for value in zip(self.rownames, ret)]
-            if not compact.PY2:
-                ret = list(ret)
         if len(self.colnames) > 0:
             if len(self.rownames) > 0:
                 ret.insert(0, [constants.DEFAULT_NA] + self.colnames)
