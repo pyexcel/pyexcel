@@ -164,7 +164,7 @@ Export a list of dictionaries
     >>> records = [
     ...     {"year": 1903, "country": "Germany", "speed": "206.7km/h"},
     ...     {"year": 1964, "country": "Japan", "speed": "210km/h"},
-    ...     {"year": 2008, "country": "China", "speed": "350km/h"}
+    ...     {"year": 2008, "country": "China", "speed": "350km/h"},
     ...     {"year": 2025, "country": "China", "speed": "400km/h"}    
     ... ]
     >>> p.isave_as(records=records, dest_file_name='high_speed_rail.xls')

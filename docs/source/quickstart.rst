@@ -559,18 +559,15 @@ for the output file, you can specify any of the supported formats
 .. testcode::
    :hide:
 
-   >>> os.unlink("henley.xls")
    >>> os.unlink("high_speed_rail.xls")
    >>> os.unlink("Sheet 1_output.xls")
    >>> os.unlink("megabook.xls")
    >>> os.unlink('trump_tariffs.xls')
    >>> os.unlink('trump_tariffs.csv')
    >>> os.unlink('trump_tariffs.xlsx')
-   >>> os.unlink('high_speed_rail.xls')
    >>> os.unlink('henley.xlsx')
    >>> os.unlink('ccs.csv')
    >>> os.unlink("book.xls")
    >>> os.unlink("your_file.xls")
    >>> os.unlink("example.csv")
-   >>> os.unlink("example.xls")
    >>> os.unlink("output.xls")
