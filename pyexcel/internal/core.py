@@ -7,6 +7,7 @@ elementary functions to read and write generic excel content
 :copyright: (c) 2015-2021 by Onni Software Ltd.
 :license: New BSD License
 """
+from io import UnsupportedOperation
 
 from pyexcel.internal import SOURCE
 from pyexcel.constants import DEFAULT_NO_DATA
@@ -66,11 +67,9 @@ def _save_any(a_source, instance):
 
 
 def _seek_at_zero(a_stream):
-    import io
-
     try:
         a_stream.seek(0)
-    except io.UnsupportedOperation:
+    except UnsupportedOperation:
         pass
 
 

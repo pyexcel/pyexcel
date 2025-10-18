@@ -13,7 +13,7 @@ from functools import partial
 
 from pyexcel import constants
 from pyexcel import docstrings as docs
-from pyexcel._compact import PY2, append_doc
+from pyexcel._compact import append_doc
 from pyexcel.internal import SOURCE
 from pyexcel.internal.core import save_book, save_sheet, get_sheet_stream
 from pyexcel.internal.utils import make_a_property
@@ -236,12 +236,6 @@ class PyexcelObject:
         return self.html
 
     def __repr__(self):
-        if PY2:
-            default_encoding = sys.getdefaultencoding()
-            if default_encoding == "ascii":
-                result = self.texttable
-                return result.encode("utf-8")
-
         return self.texttable
 
     def __str__(self):
