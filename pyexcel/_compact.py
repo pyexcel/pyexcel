@@ -24,8 +24,6 @@ from textwrap import dedent
 from itertools import zip_longest
 from collections import OrderedDict
 
-PY2 = sys.version_info[0] == 2
-PY26 = PY2 and sys.version_info[1] < 7
 PY3_AND_ABOVE = sys.version_info[0] >= 3
 
 
@@ -49,9 +47,6 @@ def is_string(atype):
     """find out if a type is str or not"""
     if atype == str:
         return True
-    if PY2:
-        if atype == unicode:
-            return True
     return False
 
 
