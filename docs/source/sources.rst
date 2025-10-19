@@ -163,10 +163,10 @@ book dict
 
    >>> from unittest.mock import patch, MagicMock
    >>> import pyexcel as pe
-   >>> from pyexcel._compact import StringIO, PY2, BytesIO
+   >>> from pyexcel._compact import StringIO, BytesIO
    >>> patcher = patch('pyexcel._compact.request.urlopen')
    >>> urlopen = patcher.start()
-   >>> io = StringIO("1,2,3") if PY2 else BytesIO("1,2,3".encode('utf-8'))
+   >>> io = BytesIO("1,2,3".encode('utf-8'))
    >>> x = MagicMock()
    >>> x.type.return_value = "text/csv"
    >>> io.info = x
