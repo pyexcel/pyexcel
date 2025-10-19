@@ -3,7 +3,7 @@ from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
 import pyexcel as pe
-from pyexcel._compact import BytesIO, StringIO
+from pyexcel._compact import BytesIO
 
 
 class TestHttpBookSource(TestCase):
