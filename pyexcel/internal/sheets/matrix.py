@@ -46,7 +46,7 @@ class Matrix(SheetMeta):
             tmp_array = list(array)
 
         try:
-            self.__width, self.__array = uniform(array)
+            self.__width, self.__array = uniform(tmp_array)
         except TypeError:
             raise TypeError("Invalid two dimensional array")
         self.row = Row(self)
