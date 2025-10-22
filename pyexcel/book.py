@@ -34,9 +34,9 @@ class Book(BookMeta):
         :param path: the relative path or absolute path
         :param keywords: additional parameters to be passed on
         """
+        self.filename = None
         self.__path = None
         self.__name_array = []
-        self.filename = None
         self.__sheets = OrderedDict()
         self.init(sheets=sheets, filename=filename, path=path)
 
@@ -83,7 +83,7 @@ class Book(BookMeta):
         """
         Return the number of sheets
         """
-        return len(self)
+        return len(self.__name_array)
 
     def sheet_names(self):
         """
