@@ -26,7 +26,6 @@ from collections import OrderedDict
 
 PY3_AND_ABOVE = sys.version_info[0] >= 3
 
-
 Iterator = object
 irange = range
 czip = zip
@@ -45,9 +44,7 @@ def is_array_type(an_array, atype):
 
 def is_string(atype):
     """find out if a type is str or not"""
-    if atype == str:
-        return True
-    return False
+    return atype == str
 
 
 def deprecated(func, message="Deprecated!"):
@@ -65,6 +62,8 @@ def append_doc(value):
     def _doc(func):
         if func.__doc__:
             func.__doc__ = dedent(func.__doc__) + "\n" + value
+        else:
+            func.__doc__ = value
         return func
 
     return _doc
