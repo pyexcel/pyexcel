@@ -960,7 +960,7 @@ def test_save_as_has_not_dest_parameters():
     data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
     pe.save_as(
         array=data,
-        file_name='test.csv')
+        file_name='test.csv'
     )
 
     
@@ -969,5 +969,5 @@ def test_isave_as_has_not_dest_parameters():
     data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
     pe.isave_as(
         array=data,
-        file_name='test.csv')
+        file_name='test.csv'
     )
