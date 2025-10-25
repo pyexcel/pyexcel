@@ -28,7 +28,7 @@ author = 'C.W.'
 # The short X.Y version
 version = '0.7.4'
 # The full version, including alpha/beta/rc tags
-release = '0.7.3'
+release = '0.7.4'
 
 # -- General configuration ---------------------------------------------------
 
