@@ -7,6 +7,7 @@ elementary functions to read and write generic excel content
 :copyright: (c) 2015-2021 by Onni Software Ltd.
 :license: New BSD License
 """
+
 from io import UnsupportedOperation
 
 from pyexcel.internal import SOURCE

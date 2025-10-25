@@ -7,9 +7,9 @@ Second level abstraction
 :copyright: (c) 2015-2025 by Onni Software Ltd.
 :license: New BSD License
 """
-from lml.plugin import PluginManager
 
 from pyexcel import constants, exceptions
+from lml.plugin import PluginManager
 from pyexcel.internal.attributes import (
     register_book_attribute,
     register_sheet_attribute,

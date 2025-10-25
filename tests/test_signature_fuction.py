@@ -945,29 +945,13 @@ def test_source_library_parameter_2():
     )
 
 
-@raises(Exception)
-def test_source_library_parameter_2():
-    data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
-    pe.save_as(
-        array=data,
-        dest_file_name="test_file.xls",
-        source_library="pyexcel-unknown",
-    )
-
-    
 @raises(RuntimeError)
 def test_save_as_has_not_dest_parameters():
     data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
-    pe.save_as(
-        array=data,
-        file_name='test.csv'
-    )
+    pe.save_as(array=data, file_name="test.csv")
 
-    
+
 @raises(RuntimeError)
 def test_isave_as_has_not_dest_parameters():
     data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
-    pe.isave_as(
-        array=data,
-        file_name='test.csv'
-    )
+    pe.isave_as(array=data, file_name="test.csv")

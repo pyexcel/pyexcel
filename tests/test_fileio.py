@@ -1,6 +1,6 @@
 import os
-from textwrap import dedent
 from pathlib import Path
+from textwrap import dedent
 
 import pyexcel as pe
 

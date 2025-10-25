@@ -25,8 +25,7 @@ SAVE_AS_EXCEPTION = (
     + "pyexce.Sheet. Please use pyexcel.save_as instead."
 )
 DEST_PARAMETERS_MISSING = (
-    "One or more 'dest_' prefixed " +
-    "parameters are required."
+    "One or more 'dest_' prefixed " + "parameters are required."
 )
 
 
