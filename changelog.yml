@@ -4,6 +4,12 @@ releases:
 - changes:
   - action: Fixed
     details:
+    - "`#257`: provide meaningful error messages where dest_* params are missing in save_as and isave_as"
+  version: 0.7.4
+  date: 25.10.2025
+- changes:
+  - action: Fixed
+    details:
     - "`#263`: support pathlib from python 3.4"
     - "`#267`: better error message for file_name"
   version: 0.7.3
