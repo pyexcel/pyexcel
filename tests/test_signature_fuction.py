@@ -509,7 +509,7 @@ class TestSQL:
         )
         assert book_dict == expected
 
-    @raises(pe.exceptions.UnknownParameters)
+    @raises(RuntimeError)
     def test_save_book_as_file_from_sql_compactibility(self):
         test_file = "book_from_sql.xls"
         pe.save_book_as(
