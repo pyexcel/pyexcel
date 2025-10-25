@@ -24,10 +24,7 @@ from textwrap import dedent
 from itertools import zip_longest
 from collections import OrderedDict
 
-PY2 = sys.version_info[0] == 2
-PY26 = PY2 and sys.version_info[1] < 7
 PY3_AND_ABOVE = sys.version_info[0] >= 3
-
 
 Iterator = object
 irange = range
@@ -47,12 +44,7 @@ def is_array_type(an_array, atype):
 
 def is_string(atype):
     """find out if a type is str or not"""
-    if atype == str:
-        return True
-    if PY2:
-        if atype == unicode:
-            return True
-    return False
+    return atype == str
 
 
 def deprecated(func, message="Deprecated!"):
@@ -70,6 +62,8 @@ def append_doc(value):
     def _doc(func):
         if func.__doc__:
             func.__doc__ = dedent(func.__doc__) + "\n" + value
+        else:
+            func.__doc__ = value
         return func
 
     return _doc

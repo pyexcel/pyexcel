@@ -9,7 +9,6 @@ Generic database sources
 """
 
 from pyexcel.source import AbstractSource
-from pyexcel._compact import PY2
 from pyexcel.internal import PARSER, RENDERER
 
 from . import params
@@ -119,10 +118,7 @@ class BookDbSource(AbstractSource):
 
 
 def _set_dictionary_key(adict, sheet_name):
-    if PY2:
-        (old_sheet_name, array) = adict.items()[0]
-    else:
-        (old_sheet_name, array) = list(adict.items())[0]
+    (old_sheet_name, array) = list(adict.items())[0]
     adict[sheet_name] = array
     adict.pop(old_sheet_name)
 

@@ -109,7 +109,7 @@ CONVERSION_FUNCTIONS = {
 }
 
 
-def default_formatter(value, to_type):
+def default_formatter(value, _):
     return json.dumps(value)
 
 

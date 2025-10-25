@@ -384,23 +384,26 @@ Suppose you want to save the below dictionary to an excel file :
 .. code-block:: python
 
    >>> a_dictionary_of_two_dimensional_arrays = {
-   ...      'Sheet 1':
+   ...      'Top 3 Aircraft Manufacturers':
    ...          [
-   ...              [1.0, 2.0, 3.0],
-   ...              [4.0, 5.0, 6.0],
-   ...              [7.0, 8.0, 9.0]
+   ...              ['Name', 'Revenue'],
+   ...              ['Lockheed Martin', '65.4 billion USD'],
+   ...              ['Airbus', '78.9 billion USD'],
+   ...              ['Boeing', '58.16 billion USD']
    ...          ],
-   ...      'Sheet 2':
+   ...      'Top 3 Airlines':
    ...          [
-   ...              ['X', 'Y', 'Z'],
-   ...              [1.0, 2.0, 3.0],
-   ...              [4.0, 5.0, 6.0]
+   ...              ['Name', 'Country', 'Revenue'],
+   ...              ['Delta Air Lines', 'US', 61.6],
+   ...              ['American Airlines Holdings', 'US', 57.1],
+   ...              ['American Airlines Group', 'US', 54.2]
    ...          ],
-   ...      'Sheet 3':
+   ...      'Biggest 3 Airoplanes':
    ...          [
-   ...              ['O', 'P', 'Q'],
-   ...              [3.0, 2.0, 1.0],
-   ...              [4.0, 3.0, 2.0]
+   ...              ['Model', 'Passenger limt'],
+   ...              ['Airbus A380-800', 853],
+   ...              ['Boeing 747-400', 660],
+   ...              ['Boeing 747-8', 605]
    ...          ]
    ...  }
 
@@ -419,9 +422,9 @@ pass on an ordered dictionary to the function itself. For example:
 .. code-block:: python
 
    >>> data = OrderedDict()
-   >>> data.update({"Sheet 2": a_dictionary_of_two_dimensional_arrays['Sheet 2']})
-   >>> data.update({"Sheet 1": a_dictionary_of_two_dimensional_arrays['Sheet 1']})
-   >>> data.update({"Sheet 3": a_dictionary_of_two_dimensional_arrays['Sheet 3']})
+   >>> data.update({"Sheet 2": a_dictionary_of_two_dimensional_arrays['Top 3 Airlines']})
+   >>> data.update({"Sheet 1": a_dictionary_of_two_dimensional_arrays['Top 3 Aircraft Manufacturers']})
+   >>> data.update({"Sheet 3": a_dictionary_of_two_dimensional_arrays['Biggest 3 Airoplanes']})
    >>> p.save_book_as(bookdict=data, dest_file_name="book.xls")
 
 Let's verify its order:
@@ -431,9 +434,9 @@ Let's verify its order:
    >>> book_dict = p.get_book_dict(file_name="book.xls")
    >>> for key, item in book_dict.items():
    ...     print(json.dumps({key: item}))
-   {"Sheet 2": [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]}
-   {"Sheet 1": [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}
-   {"Sheet 3": [["O", "P", "Q"], [3, 2, 1], [4, 3, 2]]}
+   {"Sheet 2": [["Name", "Country", "Revenue"], ["Delta Air Lines", "US", 61.6], ["American Airlines Holdings", "US", 57.1], ["American Airlines Group", "US", 54.2]]}
+   {"Sheet 1": [["Name", "Revenue"], ["Lockheed Martin", "65.4 billion USD"], ["Airbus", "78.9 billion USD"], ["Boeing", "58.16 billion USD"]]}
+   {"Sheet 3": [["Model", "Passenger limt"], ["Airbus A380-800", 853], ["Boeing 747-400", 660], ["Boeing 747-8", 605]]}
 
 Please notice that "Sheet 2" is the first item in the *book_dict*, meaning the order of sheets are preserved.
 
@@ -444,29 +447,32 @@ Transcoding
 .. note::
 
    Please note that `pyexcel-cli` can perform file transcoding at command line.
-   No need to open your editor, save the problem, then python run.
+   No need to open your editor, save the code, then python run.
 
 
 The following code does a simple file format transcoding from xls to csv:
 
 .. code-block:: python
 
-   >>> p.save_as(file_name="birth.xls", dest_file_name="birth.csv")
+   >>> p.save_as(file_name="trump_tariffs.xls", dest_file_name="trump_tariffs.csv")
 
 Again it is really simple. Let's verify what we have gotten:
 
 .. code-block:: python
 
-   >>> sheet = p.get_sheet(file_name="birth.csv")
+   >>> sheet = p.get_sheet(file_name="trump_tariffs.csv")
    >>> sheet
-   birth.csv:
-   +-------+--------+----------+
-   | name  | weight | birth    |
-   +-------+--------+----------+
-   | Adam  | 3.4    | 03/02/15 |
-   +-------+--------+----------+
-   | Smith | 4.2    | 12/11/14 |
-   +-------+--------+----------+
+   trump_tariffs.csv:
+   +----------------+-------------------+----------------------------+
+   | Country        | New US tariffs, % | Tariffs charged to the USA |
+   +----------------+-------------------+----------------------------+
+   | China          | 34                | 67                         |
+   +----------------+-------------------+----------------------------+
+   | EU             | 20                | 39                         |
+   +----------------+-------------------+----------------------------+
+   | United Kingdom | 10                | 10                         |
+   +----------------+-------------------+----------------------------+
+
 
 .. NOTE::
 
@@ -477,23 +483,25 @@ Let use previous example and save it as xlsx instead
 
 .. code-block:: python
 
-   >>> p.save_as(file_name="birth.xls",
-   ...           dest_file_name="birth.xlsx") # change the file extension
+   >>> p.save_as(file_name="trump_tariffs.xls",
+   ...           dest_file_name="trump_tariffs.xlsx") # change the file extension
 
 Again let's verify what we have gotten:
 
 .. code-block:: python
 
-   >>> sheet = p.get_sheet(file_name="birth.xlsx")
+   >>> sheet = p.get_sheet(file_name="trump_tariffs.xlsx")
    >>> sheet
    pyexcel_sheet1:
-   +-------+--------+----------+
-   | name  | weight | birth    |
-   +-------+--------+----------+
-   | Adam  | 3.4    | 03/02/15 |
-   +-------+--------+----------+
-   | Smith | 4.2    | 12/11/14 |
-   +-------+--------+----------+
+   +----------------+-------------------+----------------------------+
+   | Country        | New US tariffs, % | Tariffs charged to the USA |
+   +----------------+-------------------+----------------------------+
+   | China          | 34                | 67                         |
+   +----------------+-------------------+----------------------------+
+   | EU             | 20                | 39                         |
+   +----------------+-------------------+----------------------------+
+   | United Kingdom | 10                | 10                         |
+   +----------------+-------------------+----------------------------+
 
 
 Excel book merge and split operation in one line
@@ -781,7 +789,7 @@ And let's check what do we have:
    grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg
    regular(16 oz.) of Panera Coffee Light Roast has 300 mg
 
-Please do not forgot the second line to close the opened file handle:
+Please do not forget the second line to close the opened file handle:
 
 .. code-block:: python
 
@@ -801,7 +809,7 @@ Instead, what if you have to use `pyexcel.get_array` to do the same:
    grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg
    regular(16 oz.) of Panera Coffee Light Roast has 300 mg
 
-Again, do not forgot the second line:
+Again, do not forget the second line:
 
 .. code-block:: python
 
@@ -877,7 +885,8 @@ Export a list of dictionaries
     >>> records = [
     ...     {"year": 1903, "country": "Germany", "speed": "206.7km/h"},
     ...     {"year": 1964, "country": "Japan", "speed": "210km/h"},
-    ...     {"year": 2008, "country": "China", "speed": "350km/h"}
+    ...     {"year": 2008, "country": "China", "speed": "350km/h"},
+    ...     {"year": 2025, "country": "China", "speed": "400km/h"}    
     ... ]
     >>> p.isave_as(records=records, dest_file_name='high_speed_rail.xls')
 

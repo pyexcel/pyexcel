@@ -61,7 +61,7 @@ And let's check what do we have:
    grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg
    regular(16 oz.) of Panera Coffee Light Roast has 300 mg
 
-Please do not forgot the second line to close the opened file handle:
+Please do not forget the second line to close the opened file handle:
 
 .. code-block:: python
 
@@ -81,7 +81,7 @@ Instead, what if you have to use `pyexcel.get_array` to do the same:
    grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg
    regular(16 oz.) of Panera Coffee Light Roast has 300 mg
 
-Again, do not forgot the second line:
+Again, do not forget the second line:
 
 .. code-block:: python
 
@@ -164,7 +164,8 @@ Export a list of dictionaries
     >>> records = [
     ...     {"year": 1903, "country": "Germany", "speed": "206.7km/h"},
     ...     {"year": 1964, "country": "Japan", "speed": "210km/h"},
-    ...     {"year": 2008, "country": "China", "speed": "350km/h"}
+    ...     {"year": 2008, "country": "China", "speed": "350km/h"},
+    ...     {"year": 2025, "country": "China", "speed": "400km/h"}    
     ... ]
     >>> p.isave_as(records=records, dest_file_name='high_speed_rail.xls')
 

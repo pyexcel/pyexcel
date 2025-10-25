@@ -34,20 +34,17 @@ class Matrix(SheetMeta):
     """
 
     def __init__(self, array):
-        """Constructor
-
-        The reason a deep copy was not made here is because
-        the data sheet could be huge. It could be costly to
-        copy every cell to a new memory area
-        :param list array: a list of arrays
         """
+        :param list array: a list of arrays or a generator
+        """
+        tmp_array = array
         if isinstance(array, types.GeneratorType):
-            self.__width, self.__array = uniform(list(array))
-        else:
-            try:
-                self.__width, self.__array = uniform(array)
-            except TypeError:
-                raise TypeError("Invalid two dimensional array")
+            tmp_array = list(array)
+
+        try:
+            self.__width, self.__array = uniform(tmp_array)
+        except TypeError:
+            raise TypeError("Invalid two dimensional array")
         self.row = Row(self)
         self.column = Column(self)
         self.name = "matrix"
@@ -276,13 +273,13 @@ class Matrix(SheetMeta):
 
         example::
 
-            >>> import pyexcel as pe
+            >>> import pyexcel as p
             >>> data = [
             ...     [1],
             ...     [2],
             ...     [3]
             ... ]
-            >>> matrix = pe.Sheet(data)
+            >>> matrix = p.Sheet(data)
             >>> matrix
             pyexcel sheet:
             +---+
@@ -346,7 +343,7 @@ class Matrix(SheetMeta):
 
         example::
 
-            >>> import pyexcel as pe
+            >>> import pyexcel as p
             >>> data = [
             ...     # 0 1  2  3  4 5   6
             ...     [1, 2, 3, 4, 5, 6, 7], #  0
@@ -355,7 +352,7 @@ class Matrix(SheetMeta):
             ...     [41, 42, 43, 44, 45, 46, 47],
             ...     [51, 52, 53, 54, 55, 56, 57]  # 4
             ... ]
-            >>> s = pe.Sheet(data)
+            >>> s = p.Sheet(data)
             >>> # cut  1<= row < 4, 1<= column < 5
             >>> data = s.cut([1, 1], [4, 5])
             >>> s.paste([4,6], rows=data)
@@ -517,13 +514,13 @@ class Matrix(SheetMeta):
 
         .. testcode::
 
-            >>> import pyexcel as pe
+            >>> import pyexcel as p
             >>> data = [
             ...     [1, 2, 3, 4],
             ...     [5, 6, 7, 8],
             ...     [9, 10, 11, 12]
             ... ]
-            >>> m = pe.internal.sheets.Matrix(data)
+            >>> m = p.internal.sheets.Matrix(data)
             >>> print(list(m.enumerate()))
             [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
@@ -538,13 +535,13 @@ class Matrix(SheetMeta):
         bottom row to top row and from right to left
         example::
 
-            >>> import pyexcel as pe
+            >>> import pyexcel as p
             >>> data = [
             ...     [1, 2, 3, 4],
             ...     [5, 6, 7, 8],
             ...     [9, 10, 11, 12]
             ... ]
-            >>> m = pe.internal.sheets.Matrix(data)
+            >>> m = p.internal.sheets.Matrix(data)
             >>> print(list(m.reverse()))
             [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
 
@@ -560,13 +557,13 @@ class Matrix(SheetMeta):
         leftmost column to rightmost row and from top to bottom
         example::
 
-            import pyexcel as pe
+            import pyexcel as p
             data = [
                 [1, 2, 3, 4],
                 [5, 6, 7, 8],
                 [9, 10, 11, 12]
             ]
-            m = pe.internal.sheets.Matrix(data)
+            m = p.internal.sheets.Matrix(data)
             print(list(m.vertical()))
 
         output::
@@ -583,14 +580,14 @@ class Matrix(SheetMeta):
         column to leftmost row and from bottom to top
         example::
 
-            import pyexcel as pe
+            import pyexcel as p
             data = [
                 [1, 2, 3, 4],
                 [5, 6, 7, 8],
                 [9, 10, 11, 12]
             ]
-            m = pe.internal.sheets.Matrix(data)
-            print(pe.utils.to_array(m.rvertical())
+            m = p.internal.sheets.Matrix(data)
+            print(p.utils.to_array(m.rvertical())
 
         output::
 
@@ -608,14 +605,14 @@ class Matrix(SheetMeta):
 
         example::
 
-            import pyexcel as pe
+            import pyexcel as p
             data = [
                 [1, 2, 3, 4],
                 [5, 6, 7, 8],
                 [9, 10, 11, 12]
             ]
-            m = pe.internal.sheets.Matrix(data)
-            print(pe.utils.to_array(m.rows()))
+            m = p.internal.sheets.Matrix(data)
+            print(p.utils.to_array(m.rows()))
 
         output::
 
@@ -632,14 +629,14 @@ class Matrix(SheetMeta):
 
         .. testcode::
 
-            import pyexcel as pe
+            import pyexcel as p
             data = [
                 [1, 2, 3, 4],
                 [5, 6, 7, 8],
                 [9, 10, 11, 12]
             ]
-            m = pe.internal.sheets.Matrix(data)
-            print(pe.utils.to_array(m.rrows()))
+            m = p.internal.sheets.Matrix(data)
+            print(p.utils.to_array(m.rrows()))
 
         .. testoutput::
 
@@ -656,13 +653,13 @@ class Matrix(SheetMeta):
 
         .. testcode::
 
-            import pyexcel as pe
+            import pyexcel as p
             data = [
                 [1, 2, 3, 4],
                 [5, 6, 7, 8],
                 [9, 10, 11, 12]
             ]
-            m = pe.internal.sheets.Matrix(data)
+            m = p.internal.sheets.Matrix(data)
             print(list(m.columns()))
 
         .. testoutput::
@@ -680,14 +677,14 @@ class Matrix(SheetMeta):
 
         example::
 
-            import pyexcel as pe
+            import pyexcel as p
             data = [
                 [1, 2, 3, 4],
                 [5, 6, 7, 8],
                 [9, 10, 11, 12]
             ]
-            m = pe.internal.sheets.Matrix(data)
-            print(pe.utils.to_array(m.rcolumns()))
+            m = p.internal.sheets.Matrix(data)
+            print(p.utils.to_array(m.rcolumns()))
 
         output::
 
@@ -710,7 +707,7 @@ class Matrix(SheetMeta):
 
         Example::
 
-            >>> import pyexcel as pe
+            >>> import pyexcel as p
             >>> # Given a dictionary as the following
             >>> data = {
             ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
@@ -718,7 +715,7 @@ class Matrix(SheetMeta):
             ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
             ...     "7": [1, '',]
             ...     }
-            >>> sheet = pe.get_sheet(adict=data)
+            >>> sheet = p.get_sheet(adict=data)
             >>> sheet.row[1]
             [1, 1.25, 2, 1]
             >>> sheet.format(str)
@@ -737,7 +734,7 @@ class Matrix(SheetMeta):
 
         Example::
 
-            >>> import pyexcel as pe
+            >>> import pyexcel as p
             >>> # Given a dictionary as the following
             >>> data = {
             ...     "1": [1, 2, 3, 4, 5, 6, 7, 8],
@@ -745,7 +742,7 @@ class Matrix(SheetMeta):
             ...     "5": [2, 3, 4, 5, 6, 7, 8, 9],
             ...     "7": [1, '',]
             ...     }
-            >>> sheet = pe.get_sheet(adict=data)
+            >>> sheet = p.get_sheet(adict=data)
             >>> sheet.row[1]
             [1, 1.25, 2, 1]
             >>> inc = lambda value: (float(value) if value != '' else 0)+1

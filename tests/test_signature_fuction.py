@@ -23,35 +23,17 @@ def test_unknown_parameter_exception():
     msg += "function parameters: %s. Otherwise "
     msg += "unrecognized parameters were given."
 
-    unknown_parameter = dict(something="else")
+    unknown_parameter = dict(something="else", dest_something="dont")
 
     try:
         pe.get_sheet(**unknown_parameter)
     except pe.exceptions.UnknownParameters as e:
         eq_(str(e), msg % unknown_parameter)
 
-    try:
-        pe.save_as(**unknown_parameter)
-    except pe.exceptions.UnknownParameters as e:
-        eq_(str(e), msg % unknown_parameter)
 
-    try:
-        pe.save_book_as(**unknown_parameter)
-    except pe.exceptions.UnknownParameters as e:
-        eq_(str(e), msg % unknown_parameter)
-
-    try:
-        pe.isave_as(**unknown_parameter)
-    except pe.exceptions.UnknownParameters as e:
-        eq_(str(e), msg % unknown_parameter)
-    pe.free_resources()
-
-
+@raises(RuntimeError)
 def test_out_file_parameter():
-    try:
-        pe.save_as(array=[[1]], out_file="b", colnames=["X", "Y", "Z"])
-    except pe.exceptions.UnknownParameters as e:
-        eq_(str(e), "No parameters found!")
+    pe.save_as(array=[[1]], out_file="b", colnames=["X", "Y", "Z"])
 
 
 def test_nominal_parameters():
@@ -527,7 +509,7 @@ class TestSQL:
         )
         assert book_dict == expected
 
-    @raises(pe.exceptions.UnknownParameters)
+    @raises(RuntimeError)
     def test_save_book_as_file_from_sql_compactibility(self):
         test_file = "book_from_sql.xls"
         pe.save_book_as(
@@ -943,3 +925,21 @@ def test_source_library_parameter_2():
         dest_file_name="test_file.xls",
         source_library="pyexcel-unknown",
     )
+
+
+@raises(RuntimeError)
+def test_isave_as_has_not_dest_parameters():
+    data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
+    pe.isave_as(array=data, file_name="test.csv")
+
+
+@raises(RuntimeError)
+def test_save_book_as_has_not_dest_parameters():
+    data = {"sheet": [[1]]}
+    pe.save_book_as(array=data, file_name="test.csv")
+
+
+@raises(RuntimeError)
+def test_isave_book_as_has_not_dest_parameters():
+    data = {"sheet": [[1]]}
+    pe.isave_book_as(array=data, file_name="test.csv")

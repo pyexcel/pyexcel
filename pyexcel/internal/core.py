@@ -8,6 +8,8 @@ elementary functions to read and write generic excel content
 :license: New BSD License
 """
 
+from io import UnsupportedOperation
+
 from pyexcel.internal import SOURCE
 from pyexcel.constants import DEFAULT_NO_DATA
 from pyexcel.internal.generators import BookStream, SheetStream
@@ -66,11 +68,9 @@ def _save_any(a_source, instance):
 
 
 def _seek_at_zero(a_stream):
-    import io
-
     try:
         a_stream.seek(0)
-    except io.UnsupportedOperation:
+    except UnsupportedOperation:
         pass
 
 

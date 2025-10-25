@@ -9,7 +9,7 @@ Representation of array, dict, records and book dict sources
 """
 
 from pyexcel import constants
-from pyexcel._compact import PY2, OrderedDict, zip_longest
+from pyexcel._compact import OrderedDict, zip_longest
 
 from pyexcel_io.sheet import SheetReader
 
@@ -82,8 +82,7 @@ class DictReader(ArrayReader):
 
     def row_iterator(self):
         keys = self._native_sheet.keys()
-        if not PY2:
-            keys = list(keys)
+        keys = list(keys)
         if not isinstance(self._native_sheet, OrderedDict):
             keys = sorted(keys)
         if self._keywords.get("with_keys", True):

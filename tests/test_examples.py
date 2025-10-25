@@ -1,13 +1,10 @@
 import os
 import imp
-import sys
 import glob
 import json
 from unittest import TestCase
 
 import pyexcel as pe
-
-PY2 = sys.version_info[0] == 2
 
 
 def load_from_file(mod_name, file_ext, expected_main="main"):
@@ -42,7 +39,7 @@ class TestAllExamples:
                     fn(path)
 
 
-class x(TestCase):
+class Unicode(TestCase):
     """
     This test tells how difficult to test unicode vs bytes when
     dealing with csv files in relation to pyexcel. and this
@@ -62,31 +59,27 @@ class x(TestCase):
         expected = {"result": {"X": [1, 4], "Y": [2, 5], "Z": [3, 6]}}
         io = pe.save_as(dest_file_type="csv", array=data)
         io.seek(0)
-        if not PY2:
-            # have to convert it to bytesio
-            # because python 3 socket sends only bytes
-            from io import BytesIO
+        # have to convert it to bytesio
+        # because python 3 socket sends only bytes
+        from io import BytesIO
 
-            nio = BytesIO()
-            # to convert str to bytes is to do a encode
-            nio.write(io.getvalue().encode("utf-8"))
-            io = nio
-            io.seek(0)
+        nio = BytesIO()
+        # to convert str to bytes is to do a encode
+        nio.write(io.getvalue().encode("utf-8"))
+        io = nio
+        io.seek(0)
         response = self.app.post(
             "/upload",
             buffered=True,
             data={"excel": (io, "test.csv")},
             content_type="multipart/form-data",
         )
-        if PY2:
-            self.assertEqual(json.loads(response.data), expected)
-        else:
-            # for the same reason, python 3 socket receve bytes
-            # to convert bytes to str is to do a decode
-            self.assertEqual(
-                json.loads(response.data.decode("utf-8")),
-                expected,
-            )
+        # for the same reason, python 3 socket receve bytes
+        # to convert bytes to str is to do a decode
+        self.assertEqual(
+            json.loads(response.data.decode("utf-8")),
+            expected,
+        )
 
     def test_download(self):
         response = self.app.get("/download")

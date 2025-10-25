@@ -10,7 +10,7 @@ Representation of http sources
 
 from pyexcel import constants
 from pyexcel.source import AbstractSource
-from pyexcel._compact import PY2, request
+from pyexcel._compact import request
 from pyexcel.internal import PARSER
 
 from . import params
@@ -47,10 +47,7 @@ class HttpSource(AbstractSource):
     def get_data(self):
         connection = request.urlopen(self.__url)
         info = connection.info()
-        if PY2:
-            mime_type = info.type
-        else:
-            mime_type = info.get_content_type()
+        mime_type = info.get_content_type()
         file_type = FILE_TYPE_MIME_TABLE.get(mime_type, None)
         if file_type is None:
             file_type = _get_file_type_from_url(self.__url)

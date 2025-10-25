@@ -14,9 +14,6 @@ from lml.plugin import PluginManager
 class IOPluginManager(PluginManager):
     """Generic plugin manager for renderer and parser"""
 
-    def __init__(self, name):
-        PluginManager.__init__(self, name)
-
     def get_a_plugin(self, key, library=None):
         """get a plugin to handle the file type"""
         __file_type = None

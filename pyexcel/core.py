@@ -24,6 +24,9 @@ SAVE_AS_EXCEPTION = (
     "This function does not accept parameters for "
     + "pyexce.Sheet. Please use pyexcel.save_as instead."
 )
+DEST_PARAMETERS_MISSING = (
+    "One or more 'dest_' prefixed " + "parameters are required."
+)
 
 
 @append_doc(docs.GET_SHEET)
@@ -71,6 +74,8 @@ def save_as(**keywords):
     Save a sheet from a data source to another one
     """
     dest_keywords, source_keywords = _split_keywords(**keywords)
+    if not dest_keywords:
+        raise RuntimeError(DEST_PARAMETERS_MISSING)
     sheet_params = {}
     for field in constants.VALID_SHEET_PARAMETERS:
         if field in source_keywords:
@@ -93,6 +98,8 @@ def isave_as(**keywords):
     when it writes.
     """
     dest_keywords, source_keywords = _split_keywords(**keywords)
+    if not dest_keywords:
+        raise RuntimeError(DEST_PARAMETERS_MISSING)
     for field in constants.VALID_SHEET_PARAMETERS:
         if field in source_keywords:
             raise Exception(SAVE_AS_EXCEPTION)
@@ -108,6 +115,8 @@ def save_book_as(**keywords):
     Save a book from a data source to another one
     """
     dest_keywords, source_keywords = _split_keywords(**keywords)
+    if not dest_keywords:
+        raise RuntimeError(DEST_PARAMETERS_MISSING)
     book = sources.get_book_stream(**source_keywords)
     book = to_book(book)
     return sources.save_book(book, **dest_keywords)
@@ -123,6 +132,8 @@ def isave_book_as(**keywords):
     the output data is not made uniform.
     """
     dest_keywords, source_keywords = _split_keywords(**keywords)
+    if not dest_keywords:
+        raise RuntimeError(DEST_PARAMETERS_MISSING)
     book = sources.get_book_stream(on_demand=True, **source_keywords)
     return sources.save_book(book, **dest_keywords)
 
