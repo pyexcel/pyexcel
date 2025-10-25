@@ -23,7 +23,7 @@ def test_unknown_parameter_exception():
     msg += "function parameters: %s. Otherwise "
     msg += "unrecognized parameters were given."
 
-    unknown_parameter = dict(something="else")
+    unknown_parameter = dict(something="else", dest_something="dont")
 
     try:
         pe.get_sheet(**unknown_parameter)
@@ -47,11 +47,9 @@ def test_unknown_parameter_exception():
     pe.free_resources()
 
 
+@raises(RuntimeError)
 def test_out_file_parameter():
-    try:
-        pe.save_as(array=[[1]], out_file="b", colnames=["X", "Y", "Z"])
-    except pe.exceptions.UnknownParameters as e:
-        eq_(str(e), "No parameters found!")
+    pe.save_as(array=[[1]], out_file="b", colnames=["X", "Y", "Z"])
 
 
 def test_nominal_parameters():
@@ -943,12 +941,6 @@ def test_source_library_parameter_2():
         dest_file_name="test_file.xls",
         source_library="pyexcel-unknown",
     )
-
-
-@raises(RuntimeError)
-def test_save_as_has_not_dest_parameters():
-    data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
-    pe.save_as(array=data, file_name="test.csv")
 
 
 @raises(RuntimeError)
