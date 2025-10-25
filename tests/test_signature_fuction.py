@@ -30,22 +30,6 @@ def test_unknown_parameter_exception():
     except pe.exceptions.UnknownParameters as e:
         eq_(str(e), msg % unknown_parameter)
 
-    try:
-        pe.save_as(**unknown_parameter)
-    except pe.exceptions.UnknownParameters as e:
-        eq_(str(e), msg % unknown_parameter)
-
-    try:
-        pe.save_book_as(**unknown_parameter)
-    except pe.exceptions.UnknownParameters as e:
-        eq_(str(e), msg % unknown_parameter)
-
-    try:
-        pe.isave_as(**unknown_parameter)
-    except pe.exceptions.UnknownParameters as e:
-        eq_(str(e), msg % unknown_parameter)
-    pe.free_resources()
-
 
 @raises(RuntimeError)
 def test_out_file_parameter():
@@ -947,3 +931,15 @@ def test_source_library_parameter_2():
 def test_isave_as_has_not_dest_parameters():
     data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
     pe.isave_as(array=data, file_name="test.csv")
+
+
+@raises(RuntimeError)
+def test_save_book_as_has_not_dest_parameters():
+    data = {"sheet": [[1]]}
+    pe.save_book_as(array=data, file_name="test.csv")
+
+
+@raises(RuntimeError)
+def test_isave_book_as_has_not_dest_parameters():
+    data = {"sheet": [[1]]}
+    pe.isave_book_as(array=data, file_name="test.csv")
