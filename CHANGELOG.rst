@@ -641,4 +641,4 @@ Change log
 #. various iterators for the reader
 #. row and column filters for the reader
 #. utilities to get array and dictionary out from excel files.
-#. cookbok receipes for some common and simple usage of this library.
+#. cookbook recipes for some common and simple usage of this library.
