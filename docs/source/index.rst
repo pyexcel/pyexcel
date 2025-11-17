@@ -93,7 +93,7 @@ Here is what you will get in excel:
 
 .. pyexcel-table::
 
-   ---pyexcel:example table---
+   ---pyexcel:your_file---
    Name,Age
    Adam,28
    Beatrice,29
@@ -345,12 +345,6 @@ For compatibility tables of pyexcel-io plugins, please click `here <http://pyexc
     mediawiki    media wiki table
     ============ =======================================================
 
-
-.. testcode::
-   :hide:
-
-   >>> import os
-   >>> os.unlink("your_file.xls")
 
 Design
 --------------------
