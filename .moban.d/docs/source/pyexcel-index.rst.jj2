@@ -24,17 +24,6 @@ Installation
 
 {%include "installation.rst.jj2" %}
 
-Suppose you have the following data in a dictionary:
-
-========= ====
-Name      Age
-========= ====
-Adam      28
-Beatrice  29
-Ceri      30
-Dean      26
-========= ====
-
 you can easily save it into an excel file using the following code:
 
 .. code-block:: python
@@ -61,7 +50,18 @@ you can easily save it into an excel file using the following code:
    ... ]
    >>> pyexcel.save_as(records=a_list_of_dictionaries, dest_file_name="your_file.xls")
 
-And here's how to obtain the records:
+Here is what you will get in excel:
+
+.. pyexcel-table::
+
+   ---pyexcel:example table---
+   Name,Age
+   Adam,28
+   Beatrice,29
+   Ceri,30
+   Dean,26
+
+And here's how to read it back as records:
 
 .. code-block:: python
 
@@ -156,6 +156,7 @@ For compatibility tables of pyexcel-io plugins, please click `here <http://pyexc
     ======== ========== ============= ==================== ============= =============
     pyexcel  pyexcel-io pyexcel-text  pyexcel-handsontable pyexcel-pygal pyexcel-gantt
     ======== ========== ============= ==================== ============= =============
+    0.7.*+   0.6.2+     0.2.6+        0.0.1+               0.0.1         0.0.1
     0.6.5+   0.6.2+     0.2.6+        0.0.1+               0.0.1         0.0.1
     0.5.15+  0.5.19+    0.2.6+        0.0.1+               0.0.1         0.0.1
     0.5.14   0.5.18     0.2.6+        0.0.1+               0.0.1         0.0.1
@@ -168,60 +169,6 @@ For compatibility tables of pyexcel-io plugins, please click `here <http://pyexc
 
 
 {% include "supported-file-list.rst.jj2" %}
-
-Usage
-------
-
-.. testcode::
-   :hide:
-
-   >>> import pyexcel
-   >>> # make sure you had pyexcel-xls pip-installed
-   >>> a_list_of_dictionaries = [
-   ...     {
-   ...         "Name": 'Adam',
-   ...         "Age": 28
-   ...     },
-   ...     {
-   ...         "Name": 'Beatrice',
-   ...         "Age": 29
-   ...     },
-   ...     {
-   ...         "Name": 'Ceri',
-   ...         "Age": 30
-   ...     },
-   ...     {
-   ...         "Name": 'Dean',
-   ...         "Age": 26
-   ...     }
-   ... ]
-   >>> pyexcel.save_as(records=a_list_of_dictionaries, dest_file_name="your_file.xls")
-
-Suppose you want to process the following excel data :
-
-.. pyexcel-table::
-
-   ---pyexcel:example table---
-   Name,Age
-   Adam,28
-   Beatrice,29
-   Ceri,30
-   Dean,26
-
-
-Here are the example usages:
-
-.. code-block:: python
-
-   >>> import pyexcel as pe
-   >>> records = pe.iget_records(file_name="your_file.xls")
-   >>> for record in records:
-   ...     print("%s is aged at %d" % (record['Name'], record['Age']))
-   Adam is aged at 28
-   Beatrice is aged at 29
-   Ceri is aged at 30
-   Dean is aged at 26
-   >>> pe.free_resources()
 
 .. testcode::
    :hide:
