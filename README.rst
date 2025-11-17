@@ -5,9 +5,6 @@ pyexcel - Let you focus on data, instead of file formats
 .. image:: https://raw.githubusercontent.com/pyexcel/pyexcel.github.io/master/images/patreon.png
    :target: https://www.patreon.com/chfw
 
-.. image:: https://raw.githubusercontent.com/pyexcel/pyexcel-mobans/master/images/awesome-badge.svg
-   :target: https://awesome-python.com/#specific-formats-processing
-
 .. image:: https://codecov.io/gh/pyexcel/pyexcel/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/pyexcel/pyexcel
 
@@ -23,9 +20,6 @@ pyexcel - Let you focus on data, instead of file formats
 
 .. image:: https://anaconda.org/conda-forge/pyexcel/badges/downloads.svg
    :target: https://anaconda.org/conda-forge/pyexcel
-
-.. image:: https://img.shields.io/gitter/room/gitterHQ/gitter.svg
-   :target: https://gitter.im/pyexcel/Lobby
 
 .. image:: https://img.shields.io/static/v1?label=continuous%20templating&message=%E6%A8%A1%E7%89%88%E6%9B%B4%E6%96%B0&color=blue&style=flat-square
     :target: https://moban.readthedocs.io/en/latest/#at-scale-continous-templating-for-open-source-projects

@@ -42,3 +42,4 @@ python_requires: ">=3.6"
 min_python_version: "3.6"
 skip_readme: true
 moban_command: false
+use_pytest: true
