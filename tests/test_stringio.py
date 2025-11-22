@@ -3,9 +3,9 @@ import sys
 
 import pyexcel as pe
 
-from nose.tools import eq_, raises
 from .base import create_sample_file1
 from ._compact import BytesIO
+from .nose_tools import eq_, raises
 
 
 def do_read_stringio(file_name):

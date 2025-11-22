@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pyexcel as pe
 
-from nose.tools import eq_
+from .nose_tools import eq_
 
 
 class TestPath:

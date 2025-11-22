@@ -2,9 +2,9 @@ import os
 
 import pyexcel as pe
 
-from nose.tools import eq_, raises
 from .base import PyexcelMultipleSheetBase, clean_up_files, create_sample_file1
 from ._compact import OrderedDict
+from .nose_tools import eq_, raises
 
 
 class TestXlsNXlsmMultipleSheets(PyexcelMultipleSheetBase):

@@ -2,7 +2,7 @@ from textwrap import dedent
 
 from pyexcel import Sheet
 
-from nose.tools import eq_
+from .nose_tools import eq_
 
 
 def test_project():

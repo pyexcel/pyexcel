@@ -2,9 +2,10 @@ import os
 import json
 import unittest
 
+import pytest
 import pyexcel as pe
 
-from nose.tools import eq_, raises
+from .nose_tools import eq_, raises
 
 
 def clean_up_files(file_list):
@@ -76,6 +77,7 @@ class PyexcelSheetBase(unittest.TestCase):
         )
 
 
+@pytest.mark.parametrize((), [])
 class PyexcelBase:
     def _write_test_file(self, filename):
         """

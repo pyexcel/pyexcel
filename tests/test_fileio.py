@@ -4,7 +4,7 @@ from textwrap import dedent
 
 import pyexcel as pe
 
-from nose.tools import eq_
+from .nose_tools import eq_
 
 
 def test_write_texttable():

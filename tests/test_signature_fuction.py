@@ -4,9 +4,9 @@ from pathlib import Path
 
 import pyexcel as pe
 
-from nose.tools import eq_, raises
 from .db import Base, Session, Signature, Signature2, engine
 from ._compact import OrderedDict
+from .nose_tools import eq_, raises
 
 
 def test_unknown_file_type_exception():
