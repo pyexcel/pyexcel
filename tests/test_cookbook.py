@@ -1,6 +1,5 @@
 import os
 
-import pytest
 import pyexcel as p
 
 from .base import clean_up_files
