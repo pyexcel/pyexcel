@@ -1,10 +1,11 @@
 import os
+import unittest
 from pathlib import Path
 
 import pyexcel as pe
 
 from .nose_tools import eq_
-import unittest
+
 
 class TestPath(unittest.TestCase):
     def setUp(self):

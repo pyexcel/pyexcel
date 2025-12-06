@@ -1,3 +1,5 @@
+import unittest
+
 import pyexcel as pe
 
 from .base import (
@@ -8,7 +10,6 @@ from .base import (
 )
 from ._compact import OrderedDict
 from .nose_tools import eq_, raises
-import unittest
 
 
 class TestReader(unittest.TestCase):

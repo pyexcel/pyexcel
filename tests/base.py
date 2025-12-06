@@ -4,6 +4,7 @@ import unittest
 
 import pyexcel as pe
 from pyexcel.internal.sheets import Matrix, _shared
+
 from ._compact import OrderedDict
 from .nose_tools import eq_, raises
 
@@ -155,7 +156,7 @@ class PyexcelMultipleSheetBase(unittest.TestCase):
 
     def tearDown(self):
         self._clean_up()
-    
+
     def _write_test_file(self, filename):
         pe.save_book_as(dest_file_name=filename, bookdict=self.content)
 
@@ -317,7 +318,6 @@ class PyexcelSheetRWBase(unittest.TestCase):
     def tearDown(self):
         clean_up_files([self.testfile])
 
-    
     @raises(TypeError)
     def test_extend_rows(self):
         r2 = self.testclass(self.testfile)

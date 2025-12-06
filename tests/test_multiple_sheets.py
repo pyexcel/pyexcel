@@ -1,11 +1,16 @@
 import os
+import unittest
 
 import pyexcel as pe
 
-from .base import PyexcelMultipleSheetBase, clean_up_files, create_sample_file1, _produce_ordered_dict
+from .base import (
+    PyexcelMultipleSheetBase,
+    clean_up_files,
+    create_sample_file1,
+    _produce_ordered_dict,
+)
 from ._compact import OrderedDict
 from .nose_tools import eq_, raises
-import unittest
 
 
 class TestCSVNXlsMultipleSheets(unittest.TestCase):

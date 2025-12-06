@@ -1,8 +1,8 @@
 import os
 import sys
+import unittest
 
 import pyexcel as pe
-import unittest
 
 from .base import create_sample_file1
 from ._compact import BytesIO
