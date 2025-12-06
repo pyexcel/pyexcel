@@ -3,7 +3,7 @@ import json
 import unittest
 
 import pyexcel as pe
-from pyexcel.internal.sheets import Matrix, _shared
+from pyexcel.internal.sheets import Matrix
 
 from ._compact import OrderedDict
 from .nose_tools import eq_, raises

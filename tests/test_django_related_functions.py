@@ -265,6 +265,6 @@ def test_load_book_from_django_model():
 @raises(Exception)
 def test_more_sheets_than_models():
     content = get_content()
-    content = update({"IgnoreMe": [[1, 2, 3]]})
+    content = content.update({"IgnoreMe": [[1, 2, 3]]})
     model = FakeDjangoModel("Sheet1")
     pe.save_book_as(dest_models=[model], bookdict=content)
