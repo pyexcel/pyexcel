@@ -2,6 +2,12 @@ name: pyexcel
 organisation: pyexcel
 releases:
 - changes:
+  - action: Updated
+    details:
+    - migrate to pytest as nose is deprecated beyond python 3.9
+  version: 0.7.5
+  date: tbd
+- changes:
   - action: Fixed
     details:
     - "`#257`: provide meaningful error messages where dest_* params are missing in save_as and isave_as"
