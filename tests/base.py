@@ -4,7 +4,7 @@ import unittest
 
 import pyexcel as pe
 from pyexcel.internal.sheets import Matrix, _shared
-
+from ._compact import OrderedDict
 from .nose_tools import eq_, raises
 
 
@@ -147,6 +147,15 @@ class PyexcelBase(unittest.TestCase):
 
 
 class PyexcelMultipleSheetBase(unittest.TestCase):
+    def setUp(self):
+        self.testfile = "multiple1.xls"
+        self.testfile2 = "multiple1.xlsm"
+        self.content = _produce_ordered_dict()
+        self._write_test_file(self.testfile)
+
+    def tearDown(self):
+        self._clean_up()
+    
     def _write_test_file(self, filename):
         pe.save_book_as(dest_file_name=filename, bookdict=self.content)
 
@@ -319,3 +328,13 @@ def to_one_dimensional_array(iterator):
         else:
             array.append(i)
     return array
+
+
+def _produce_ordered_dict():
+    data_dict = OrderedDict()
+    data_dict.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
+    data_dict.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
+    data_dict.update(
+        {"Sheet3": [["X", "Y", "Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]},
+    )
+    return data_dict
