@@ -302,6 +302,22 @@ class PyexcelIteratorBase(unittest.TestCase):
 
 
 class PyexcelSheetRWBase(unittest.TestCase):
+    def setUp(self):
+        """
+        Make a test csv file as:
+
+        a,b,c,d
+        e,f,g,h
+        i,j,1.1,1
+        """
+        self.testclass = pe.Reader
+        self.testfile = "testcsv.xls"
+        create_sample_file1(self.testfile)
+
+    def tearDown(self):
+        clean_up_files([self.testfile])
+
+    
     @raises(TypeError)
     def test_extend_rows(self):
         r2 = self.testclass(self.testfile)

@@ -8,9 +8,10 @@ from .base import (
 )
 from ._compact import OrderedDict
 from .nose_tools import eq_, raises
+import unittest
 
 
-class TestReader:
+class TestReader(unittest.TestCase):
     def setUp(self):
         """
         Make a test csv file as:
@@ -31,24 +32,7 @@ class TestReader:
         clean_up_files([self.testfile])
 
 
-class TestReader2(PyexcelSheetRWBase):
-    def setUp(self):
-        """
-        Make a test csv file as:
-
-        a,b,c,d
-        e,f,g,h
-        i,j,1.1,1
-        """
-        self.testclass = pe.Reader
-        self.testfile = "testcsv.xls"
-        create_sample_file1(self.testfile)
-
-    def tearDown(self):
-        clean_up_files([self.testfile])
-
-
-class TestSeriesReader:
+class TestSeriesReader(unittest.TestCase):
     def setUp(self):
         """
         Make a test csv file as:

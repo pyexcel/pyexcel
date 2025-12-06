@@ -65,7 +65,7 @@ class TestSQL(TestCase):
         self.assertEqual(str(sheet), content)
 
 
-class TestEmptyTable:
+class TestEmptyTable(TestCase):
     def setUp(self):
         Base.metadata.drop_all(engine)
         Base.metadata.create_all(engine)

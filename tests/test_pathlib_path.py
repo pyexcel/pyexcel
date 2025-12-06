@@ -4,9 +4,9 @@ from pathlib import Path
 import pyexcel as pe
 
 from .nose_tools import eq_
+import unittest
 
-
-class TestPath:
+class TestPath(unittest.TestCase):
     def setUp(self):
         self.test_data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
 
