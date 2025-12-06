@@ -1,24 +1,17 @@
 import os
+import unittest
 
 import pyexcel as pe
 
-from nose.tools import eq_, raises
-from .base import PyexcelMultipleSheetBase, clean_up_files, create_sample_file1
-from ._compact import OrderedDict
+from .base import (
+    clean_up_files,
+    create_sample_file1,
+    _produce_ordered_dict,
+)
+from .nose_tools import eq_, raises
 
 
-class TestXlsNXlsmMultipleSheets(PyexcelMultipleSheetBase):
-    def setUp(self):
-        self.testfile = "multiple1.xls"
-        self.testfile2 = "multiple1.xlsm"
-        self.content = _produce_ordered_dict()
-        self._write_test_file(self.testfile)
-
-    def tearDown(self):
-        self._clean_up()
-
-
-class TestCSVNXlsMultipleSheets:
+class TestCSVNXlsMultipleSheets(unittest.TestCase):
     def setUp(self):
         self.testfile = "multiple1.csv"
         self.content = _produce_ordered_dict()
@@ -43,7 +36,7 @@ class TestCSVNXlsMultipleSheets:
             os.unlink("multiple1__Sheet3__2.csv")
 
 
-class TestCSVzMultipleSheets:
+class TestCSVzMultipleSheets(unittest.TestCase):
     def setUp(self):
         self.testfile = "multiple1.csvz"
         self.content = _produce_ordered_dict()
@@ -64,7 +57,7 @@ class TestCSVzMultipleSheets:
             os.unlink("multiple1.csvz")
 
 
-class TestSingleSheetReaderForMulitpleSheetBook:
+class TestSingleSheetReaderForMulitpleSheetBook(unittest.TestCase):
     def setUp(self):
         self.testfile = "multiple1.xls"
         self.content = _produce_ordered_dict()
@@ -96,7 +89,7 @@ class TestSingleSheetReaderForMulitpleSheetBook:
             os.unlink(self.testfile)
 
 
-class TestReader:
+class TestReader(unittest.TestCase):
     def setUp(self):
         """
         Make a test csv file as:
@@ -118,7 +111,7 @@ class TestReader:
             os.unlink(self.testfile)
 
 
-class TestCSVSingleSheet:
+class TestCSVSingleSheet(unittest.TestCase):
     def _write_test_file(self, filename, content):
         """
         Make a test file as:
@@ -164,7 +157,7 @@ class TestCSVSingleSheet:
         )
 
 
-class TestCSVZSingleSheet:
+class TestCSVZSingleSheet(unittest.TestCase):
     def _write_test_file(self, filename, content):
         """
         Make a test file as:
@@ -204,7 +197,7 @@ class TestCSVZSingleSheet:
         clean_up_files([self.testfile])
 
 
-class TestAddBooks:
+class TestAddBooks(unittest.TestCase):
     def _write_test_file(self, filename, content):
         """
         Make a test file as:
@@ -486,7 +479,7 @@ class TestAddBooks:
             os.unlink(self.test_single_sheet_file)
 
 
-class TestMergeCSVsIntoOne:
+class TestMergeCSVsIntoOne(unittest.TestCase):
     def test_merging(self):
         # set up
         import pyexcel as pe
@@ -522,13 +515,3 @@ class TestMergeCSVsIntoOne:
         os.unlink("2.csv")
         os.unlink("3.csv")
         os.unlink("merged.csv")
-
-
-def _produce_ordered_dict():
-    data_dict = OrderedDict()
-    data_dict.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
-    data_dict.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
-    data_dict.update(
-        {"Sheet3": [["X", "Y", "Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]},
-    )
-    return data_dict

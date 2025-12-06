@@ -1,11 +1,12 @@
 import os
 import sys
+import unittest
 
 import pyexcel as pe
 
-from nose.tools import eq_, raises
 from .base import create_sample_file1
 from ._compact import BytesIO
+from .nose_tools import eq_, raises
 
 
 def do_read_stringio(file_name):
@@ -60,7 +61,7 @@ def do_write_stringio2(file_type):
     eq_(result, actual)
 
 
-class TestIO:
+class TestIO(unittest.TestCase):
     @raises(IOError)
     def test_wrong_io_input(self):
         pe.Reader(1000)
@@ -127,11 +128,11 @@ def test_save_sheet_to_sys_stdout():
     data = [[1]]
     sheet = pe.Sheet(data)
     stream = sheet.save_to_memory("csv", sys.stdout)
-    eq_(stream.getvalue(), "1\r\n")
+    eq_(stream.read(), "1\r\n")
 
 
 def test_save_book_to_sys_stdout():
     data = {"sheet": [[1]]}
     book = pe.Book(data)
     stream = book.save_to_memory("csv", sys.stdout)
-    eq_(stream.getvalue(), "1\r\n")
+    eq_(stream.read(), "1\r\n")

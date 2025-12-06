@@ -3,8 +3,10 @@ import json
 import unittest
 
 import pyexcel as pe
+from pyexcel.internal.sheets import Matrix
 
-from nose.tools import eq_, raises
+from ._compact import OrderedDict
+from .nose_tools import eq_, raises
 
 
 def clean_up_files(file_list):
@@ -76,7 +78,21 @@ class PyexcelSheetBase(unittest.TestCase):
         )
 
 
-class PyexcelBase:
+class PyexcelBase(unittest.TestCase):
+    def setUp(self):
+        """
+        Make a test csv file as:
+
+        1,1,1,1
+        2,2,2,2
+        3,3,3,3
+        """
+        self.testfile = "testcsv.csv"
+        self._write_test_file(self.testfile)
+
+    def tearDown(self):
+        clean_up_files([self.testfile])
+
     def _write_test_file(self, filename):
         """
         Make a test csv file as:
@@ -131,7 +147,16 @@ class PyexcelBase:
         r.row[2:1]  # bang
 
 
-class PyexcelMultipleSheetBase:
+class PyexcelMultipleSheetBase(unittest.TestCase):
+    def setUp(self):
+        self.testfile = "multiple1.xls"
+        self.testfile2 = "multiple1.xlsm"
+        self.content = _produce_ordered_dict()
+        self._write_test_file(self.testfile)
+
+    def tearDown(self):
+        self._clean_up()
+
     def _write_test_file(self, filename):
         pe.save_book_as(dest_file_name=filename, bookdict=self.content)
 
@@ -193,7 +218,21 @@ class PyexcelMultipleSheetBase:
         assert value == 4
 
 
-class PyexcelIteratorBase:
+class PyexcelIteratorBase(unittest.TestCase):
+    def setUp(self):
+        """
+        Make a test csv file as:
+
+        1,2,3,4
+        5,6,7,8
+        9,10,11,12
+        """
+        self.array = []
+        for i in [0, 4, 8]:
+            array = [i + 1, i + 2, i + 3, i + 4]
+            self.array.append(array)
+        self.iteratable = Matrix(self.array)
+
     @raises(IndexError)
     def test_random_access(self):
         self.iteratable.cell_value(100, 100)
@@ -263,7 +302,22 @@ class PyexcelIteratorBase:
         eq_(result, actual)
 
 
-class PyexcelSheetRWBase:
+class PyexcelSheetRWBase(unittest.TestCase):
+    def setUp(self):
+        """
+        Make a test csv file as:
+
+        a,b,c,d
+        e,f,g,h
+        i,j,1.1,1
+        """
+        self.testclass = pe.Reader
+        self.testfile = "testcsv.xls"
+        create_sample_file1(self.testfile)
+
+    def tearDown(self):
+        clean_up_files([self.testfile])
+
     @raises(TypeError)
     def test_extend_rows(self):
         r2 = self.testclass(self.testfile)
@@ -290,3 +344,13 @@ def to_one_dimensional_array(iterator):
         else:
             array.append(i)
     return array
+
+
+def _produce_ordered_dict():
+    data_dict = OrderedDict()
+    data_dict.update({"Sheet1": [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]})
+    data_dict.update({"Sheet2": [[4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]})
+    data_dict.update(
+        {"Sheet3": [["X", "Y", "Z"], [1, 4, 7], [2, 5, 8], [3, 6, 9]]},
+    )
+    return data_dict

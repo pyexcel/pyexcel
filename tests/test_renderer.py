@@ -5,8 +5,8 @@ from pyexcel.renderer import (
     AbstractRenderer,
 )
 
-from nose.tools import raises
 from ._compact import BytesIO
+from .nose_tools import raises
 
 
 @raises(NotImplementedError)

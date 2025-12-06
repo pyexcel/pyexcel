@@ -1,6 +1,6 @@
 from pyexcel.internal.sheets.extended_list import PyexcelList
 
-from nose.tools import eq_
+from .nose_tools import eq_
 
 
 def test_pyexcel_list():

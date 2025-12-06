@@ -1,15 +1,17 @@
+import unittest
+
 import pyexcel as p
 
-from nose.tools import eq_, raises
 from .base import (
     PyexcelBase,
     clean_up_files,
     create_generic_file,
     create_sample_file1,
 )
+from .nose_tools import eq_, raises
 
 
-class TestReader:
+class TestReader(unittest.TestCase):
     def setUp(self):
         """
         Make a test csv file as:
@@ -85,27 +87,7 @@ class TestReader:
         clean_up_files([self.testfile])
 
 
-class TestCSVReader(PyexcelBase):
-    """
-    Test CSV reader
-    """
-
-    def setUp(self):
-        """
-        Make a test csv file as:
-
-        1,1,1,1
-        2,2,2,2
-        3,3,3,3
-        """
-        self.testfile = "testcsv.csv"
-        self._write_test_file(self.testfile)
-
-    def tearDown(self):
-        clean_up_files([self.testfile])
-
-
-class TestCSVReader2:
+class TestCSVReader2(unittest.TestCase):
     def setUp(self):
         """
         Make a test csv file as:
@@ -127,7 +109,7 @@ class TestCSVReader2:
         clean_up_files([self.testfile])
 
 
-class TestCSVReaderDialect:
+class TestCSVReaderDialect(unittest.TestCase):
     def setUp(self):
         """
         Make a test csv file as:
@@ -217,7 +199,7 @@ class TestXLSMReader(PyexcelBase):
         clean_up_files([self.testfile])
 
 
-class TestSeriesReader3:
+class TestSeriesReader3(unittest.TestCase):
     def setUp(self):
         self.testfile = "test.xlsx"
         self.content = [
@@ -249,7 +231,7 @@ class TestSeriesReader3:
         clean_up_files([self.testfile])
 
 
-class TestSeriesReader4:
+class TestSeriesReader4(unittest.TestCase):
     def setUp(self):
         self.testfile = "test.xls"
         self.content = [
@@ -290,7 +272,7 @@ class TestSeriesReader4:
         clean_up_files([self.testfile])
 
 
-class TestSeriesReader5:
+class TestSeriesReader5(unittest.TestCase):
     def setUp(self):
         self.testfile = "test.xls"
         self.content = [
