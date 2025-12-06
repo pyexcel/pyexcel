@@ -1,4 +1,5 @@
 import copy
+import unittest
 
 from pyexcel import Sheet, load_from_dict, load_from_records
 
@@ -24,7 +25,7 @@ def test_sheet_len():
     eq_(len(sheet), 1)
 
 
-class TestNegativeIndices:
+class TestNegativeIndices(unittest.TestCase):
     def setUp(self):
         self.data = [
             [1, 2, 3, 4, 5, 6, 7, 8],
@@ -41,7 +42,7 @@ class TestNegativeIndices:
         eq_(data, self.data[-2])
 
 
-class TestFormatter:
+class TestFormatter(unittest.TestCase):
     def setUp(self):
         self.data = [
             [1, 2, 3, 4, 5, 6, 7, 8],
@@ -125,7 +126,7 @@ class TestFormatter:
         s.paste((1, 2))
 
 
-class TestUniquenessOfNames:
+class TestUniquenessOfNames(unittest.TestCase):
     def test_column_names(self):
         data = [
             [1, 2, 3],
@@ -240,7 +241,7 @@ class TestSheetRegion:
         assert expected == s.to_array()
 
 
-class TestLoadingFunction:
+class TestLoadingFunction(unittest.TestCase):
     def test_load_from_dict(self):
         content = {"a": [1, 2, 3, 5], "b": [4, 5, 6, 7, 8]}
         sheet = load_from_dict(content, name_columns_by_row=0)
@@ -253,7 +254,7 @@ class TestLoadingFunction:
         assert sheet.to_dict() == expected
 
 
-class TestSheetTops:
+class TestSheetTops(unittest.TestCase):
     def test_top(self):
         data = [
             # 0 1  2  3  4 5   6

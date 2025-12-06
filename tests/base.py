@@ -2,8 +2,8 @@ import os
 import json
 import unittest
 
-import pytest
 import pyexcel as pe
+from pyexcel.internal.sheets import Matrix, _shared
 
 from .nose_tools import eq_, raises
 
@@ -77,8 +77,21 @@ class PyexcelSheetBase(unittest.TestCase):
         )
 
 
-@pytest.mark.parametrize((), [])
-class PyexcelBase:
+class PyexcelBase(unittest.TestCase):
+    def setUp(self):
+        """
+        Make a test csv file as:
+
+        1,1,1,1
+        2,2,2,2
+        3,3,3,3
+        """
+        self.testfile = "testcsv.csv"
+        self._write_test_file(self.testfile)
+
+    def tearDown(self):
+        clean_up_files([self.testfile])
+
     def _write_test_file(self, filename):
         """
         Make a test csv file as:
@@ -133,7 +146,7 @@ class PyexcelBase:
         r.row[2:1]  # bang
 
 
-class PyexcelMultipleSheetBase:
+class PyexcelMultipleSheetBase(unittest.TestCase):
     def _write_test_file(self, filename):
         pe.save_book_as(dest_file_name=filename, bookdict=self.content)
 
@@ -195,7 +208,21 @@ class PyexcelMultipleSheetBase:
         assert value == 4
 
 
-class PyexcelIteratorBase:
+class PyexcelIteratorBase(unittest.TestCase):
+    def setUp(self):
+        """
+        Make a test csv file as:
+
+        1,2,3,4
+        5,6,7,8
+        9,10,11,12
+        """
+        self.array = []
+        for i in [0, 4, 8]:
+            array = [i + 1, i + 2, i + 3, i + 4]
+            self.array.append(array)
+        self.iteratable = Matrix(self.array)
+
     @raises(IndexError)
     def test_random_access(self):
         self.iteratable.cell_value(100, 100)
@@ -265,7 +292,7 @@ class PyexcelIteratorBase:
         eq_(result, actual)
 
 
-class PyexcelSheetRWBase:
+class PyexcelSheetRWBase(unittest.TestCase):
     @raises(TypeError)
     def test_extend_rows(self):
         r2 = self.testclass(self.testfile)

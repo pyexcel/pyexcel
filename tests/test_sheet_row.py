@@ -1,10 +1,12 @@
+import unittest
+
 from pyexcel import Sheet
 
 from ._compact import OrderedDict
 from .nose_tools import eq_, raises, assert_not_in
 
 
-class TestSheetRow:
+class TestSheetRow(unittest.TestCase):
     def setUp(self):
         self.data = [
             ["Row 0", -1, -2, -3],
