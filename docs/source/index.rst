@@ -5,7 +5,6 @@
 :Source code: http://github.com/pyexcel/pyexcel.git
 :Issues: http://github.com/pyexcel/pyexcel/issues
 :License: New BSD License
-:Development: |release|
 :Released: |version|
 :Generated: |today|
 
