@@ -195,9 +195,9 @@ def get_records(name_columns_by_row=0, **keywords):
 @append_doc(docs.IGET_ARRAY)
 def iget_array(**keywords):
     """
-    Obtain a generator of an two dimensional array from an excel source
+    Obtain a generator of a two-dimensional array from an excel source
 
-    It is similiar to :meth:`pyexcel.get_array` but it has less memory
+    It is similar to :meth:`pyexcel.get_array` but it has less memory
     footprint.
     """
     sheet_stream = sources.get_sheet_stream(on_demand=True, **keywords)
@@ -209,7 +209,7 @@ def iget_records(custom_headers=None, **keywords):
     """
     Obtain a generator of a list of records from an excel source
 
-    It is similiar to :meth:`pyexcel.get_records` but it has less memory
+    It is similar to :meth:`pyexcel.get_records` but it has less memory
     footprint but requires the headers to be in the first row. And the
     data matrix should be of equal length. It should consume less memory
     and should work well with large files.

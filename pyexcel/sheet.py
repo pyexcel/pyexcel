@@ -204,7 +204,7 @@ class Sheet(Matrix):
         del self.column[column_index]
 
     def group_rows_by_column(self, column_index_or_name):
-        """Group rows with similiar column into a two dimensional array.
+        """Group rows with similar column into a two-dimensional array.
 
         Example::
 

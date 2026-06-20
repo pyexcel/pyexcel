@@ -33,7 +33,7 @@ I_NOTE = (
 When you use this function to work on physical files, this function
 will leave its file handle open. When you finish the operation
 on its data, you need to call :func:`pyexcel.free_resources` to
-close file hande(s).
+close file handle(s).
 
 """
     + keywords.I_NOTE
