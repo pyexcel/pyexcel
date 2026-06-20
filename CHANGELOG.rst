@@ -8,6 +8,11 @@ Change log
 
 #. migrate to pytest as nose is deprecated beyond python 3.9
 
+**Fixed**
+
+#. `#296 <https://github.com/pyexcel/pyexcel/issues/296>`_: provide thread-safe
+   support for free_resources() and append
+
 0.7.4 - 25.10.2025
 --------------------------------------------------------------------------------
 
