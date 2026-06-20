@@ -5,6 +5,9 @@ releases:
   - action: Updated
     details:
     - migrate to pytest as nose is deprecated beyond python 3.9
+  - action: Fixed
+    details:
+    - "`#296`: provide thread-safe support for free_resources() and append"
   version: 0.7.5
   date: tbd
 - changes:
