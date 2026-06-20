@@ -1,12 +1,13 @@
 import os
+import unittest
 
 import pyexcel as pe
 
-from nose.tools import eq_, raises
 from .base import clean_up_files
+from .nose_tools import eq_, raises
 
 
-class TestSpliting:
+class TestSpliting(unittest.TestCase):
     def setUp(self):
         self.testfile4 = "multiple_sheets.xls"
         self.content4 = {
@@ -55,7 +56,7 @@ class TestSpliting:
         clean_up_files(file_list)
 
 
-class TestCookbook:
+class TestCookbook(unittest.TestCase):
     def setUp(self):
         """
         Make a test csv file as:

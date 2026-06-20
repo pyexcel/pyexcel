@@ -16,8 +16,7 @@ Then install relevant development requirements:
 #. pip install -r requirements.txt
 #. pip install -r tests/requirements.txt
 
-Once you have finished your changes, please provide test case(s), relevant documentation
-and update changelog.yml
+Once you have finished your changes, please provide test case(s), relevant documentation.
 
 .. note::
 
@@ -52,3 +51,8 @@ Please run::
     $ make format
 
 so as to beautify your code otherwise your build may fail your unit test.
+
+Before you raise pull request
+--------------------------------------------------------------------------------
+
+Please edit 'changelog.yml' and record your changes

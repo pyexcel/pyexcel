@@ -4,7 +4,7 @@ pyexcel.docstrings.core
 
 Reusable docstrings for pyexcel.core
 
-:copyright: (c) 2015-2025 by Onni Software Ltd.
+:copyright: (c) 2014-2026 by C Wang
 :license: New BSD License
 """
 
@@ -33,7 +33,7 @@ I_NOTE = (
 When you use this function to work on physical files, this function
 will leave its file handle open. When you finish the operation
 on its data, you need to call :func:`pyexcel.free_resources` to
-close file hande(s).
+close file handle(s).
 
 """
     + keywords.I_NOTE

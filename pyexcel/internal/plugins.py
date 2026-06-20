@@ -4,7 +4,7 @@ pyexcel.internal.plugins
 
 Renderer and parser plugin manager
 
-:copyright: (c) 2015-2025 by Onni Software Ltd.
+:copyright: (c) 2014-2026 by C Wang
 :license: New BSD License
 """
 
@@ -16,12 +16,12 @@ class IOPluginManager(PluginManager):
 
     def get_a_plugin(self, key, library=None):
         """get a plugin to handle the file type"""
-        __file_type = None
+        file_type = None
         if key:
-            __file_type = key.lower()
-        plugin_cls = self.load_me_now(__file_type, library=library)
+            file_type = key.lower()
+        plugin_cls = self.load_me_now(file_type, library=library)
 
-        return plugin_cls(__file_type)
+        return plugin_cls(file_type)
 
     def get_all_file_types(self):
         """get all supported file types"""

@@ -4,8 +4,8 @@ from unittest import TestCase
 
 import pyexcel as pe
 
-from nose.tools import eq_, raises
 from .db import Base, Pyexcel, Session, engine
+from .nose_tools import eq_, raises
 
 
 class TestSQL(TestCase):
@@ -65,7 +65,7 @@ class TestSQL(TestCase):
         self.assertEqual(str(sheet), content)
 
 
-class TestEmptyTable:
+class TestEmptyTable(TestCase):
     def setUp(self):
         Base.metadata.drop_all(engine)
         Base.metadata.create_all(engine)

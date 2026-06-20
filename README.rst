@@ -5,9 +5,6 @@ pyexcel - Let you focus on data, instead of file formats
 .. image:: https://raw.githubusercontent.com/pyexcel/pyexcel.github.io/master/images/patreon.png
    :target: https://www.patreon.com/chfw
 
-.. image:: https://raw.githubusercontent.com/pyexcel/pyexcel-mobans/master/images/awesome-badge.svg
-   :target: https://awesome-python.com/#specific-formats-processing
-
 .. image:: https://codecov.io/gh/pyexcel/pyexcel/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/pyexcel/pyexcel
 
@@ -23,9 +20,6 @@ pyexcel - Let you focus on data, instead of file formats
 
 .. image:: https://anaconda.org/conda-forge/pyexcel/badges/downloads.svg
    :target: https://anaconda.org/conda-forge/pyexcel
-
-.. image:: https://img.shields.io/gitter/room/gitterHQ/gitter.svg
-   :target: https://gitter.im/pyexcel/Lobby
 
 .. image:: https://img.shields.io/static/v1?label=continuous%20templating&message=%E6%A8%A1%E7%89%88%E6%9B%B4%E6%96%B0&color=blue&style=flat-square
     :target: https://moban.readthedocs.io/en/latest/#at-scale-continous-templating-for-open-source-projects
@@ -74,13 +68,12 @@ Feature Highlights
     xlsm         an MS-Excel Macro-Enabled Workbook file
     ods          open document spreadsheet
     fods         flat open document spreadsheet
-    json         java script object notation
+    json         JavaScript object notation
     html         html table of the data structure
     simple       simple presentation
     rst          rStructured Text presentation of the data
     mediawiki    media wiki table
     ============ =======================================================
-
 
 .. image:: https://github.com/pyexcel/pyexcel/raw/dev/docs/source/_static/images/architecture.svg
 
@@ -94,7 +87,7 @@ Feature Highlights
    * Python data structures: dictionary, records and array
 
 2. One API to read and write data in various excel file formats.
-3. For large data sets, data streaming are supported. A genenerator can be returned to you. Checkout iget_records, iget_array, isave_as and isave_book_as.
+3. For large data sets, data streaming are supported. A generator can be returned to you. Check out iget_records, iget_array, isave_as and isave_book_as.
 
 
 
@@ -292,7 +285,7 @@ Suppose you have the following array:
 
 .. code-block:: python
 
-   >>> data = [['G', 'D', 'A', 'E'], ['Thomastik-Infield Domaints', 'Thomastik-Infield Domaints', 'Thomastik-Infield Domaints', 'Pirastro'], ['Silver wound', '', 'Aluminum wound', 'Gold Label Steel']]
+   >>> data = [['G', 'D', 'A', 'E'], ['Thomastik-Infeld Dominants', 'Thomastik-Infeld Dominants', 'Thomastik-Infeld Dominants', 'Pirastro'], ['Silver wound', '', 'Aluminum wound', 'Gold Label Steel']]
 
 And here is the code to save it as an excel file :
 
@@ -309,7 +302,7 @@ Let's verify it:
     +----------------------------+----------------------------+----------------------------+------------------+
     | G                          | D                          | A                          | E                |
     +----------------------------+----------------------------+----------------------------+------------------+
-    | Thomastik-Infield Domaints | Thomastik-Infield Domaints | Thomastik-Infield Domaints | Pirastro         |
+    | Thomastik-Infeld Dominants | Thomastik-Infeld Dominants | Thomastik-Infeld Dominants | Pirastro         |
     +----------------------------+----------------------------+----------------------------+------------------+
     | Silver wound               |                            | Aluminum wound             | Gold Label Steel |
     +----------------------------+----------------------------+----------------------------+------------------+
@@ -332,7 +325,7 @@ Let's verify it:
     ...         print(line.rstrip())
     ...
     G:D:A:E
-    Thomastik-Infield Domaints:Thomastik-Infield Domaints:Thomastik-Infield Domaints:Pirastro
+    Thomastik-Infeld Dominants:Thomastik-Infeld Dominants:Thomastik-Infeld Dominants:Pirastro
     Silver wound::Aluminum wound:Gold Label Steel
 
 Export a list of dictionaries
@@ -356,14 +349,14 @@ Export a dictionary of single key value pair
     >>> henley_on_thames_facts = {
     ...     "area": "5.58 square meters",
     ...     "population": "11,619",
-    ...     "civial parish": "Henley-on-Thames",
+    ...     "civil parish": "Henley-on-Thames",
     ...     "latitude": "51.536",
     ...     "longitude": "-0.898"
     ... }
     >>> p.save_as(adict=henley_on_thames_facts, dest_file_name='henley.xlsx')
 
 
-Export a dictionary of single dimensonal array
+Export a dictionary of single dimensional array
 ********************************************************************************
 
 .. code-block:: python
@@ -596,18 +589,18 @@ This feature depends heavily on the implementation details.
 
 `pyexcel-xls`_ (xlrd), `pyexcel-xlsx`_ (openpyxl), `pyexcel-ods`_ (odfpy) and
 `pyexcel-ods3`_ (pyexcel-ezodf) will read all data into memory. Because xls,
-xlsx and ods file are effective a zipped folder, all four will unzip the folder
+xlsx and ods file are effectively a zipped folder, all four will unzip the folder
 and read the content in xml format in **full**, so as to make sense of all details.
 
-Hence, during the partial data is been returned, the memory consumption won't
+Hence, while the partial data is being returned, the memory consumption won't
 differ from reading the whole data back. Only after the partial
-data is returned, the memory comsumption curve shall jump the cliff. So pagination
+data is returned, the memory consumption curve shall jump the cliff. So pagination
 code here only limits the data returned to your program.
 
 With that said, `pyexcel-xlsxr`_, `pyexcel-odsr`_ and `pyexcel-htmlr`_ DOES read
 partial data into memory. Those three are implemented in such a way that they
 consume the xml(html) when needed. When they have read designated portion of the
-data, they stop, even if they are half way through.
+data, they stop, even if they are halfway through.
 
 In addition, pyexcel's csv readers can read partial data into memory too.
 
@@ -664,7 +657,7 @@ And you could as well do the same for columns:
    | 26 | 36 |
    +----+----+
 
-Obvious, you could do both at the same time:
+Obviously, you could do both at the same time:
 
 .. code-block:: python
 
@@ -761,7 +754,7 @@ Get a list of dictionaries
 
 Suppose you want to process the following coffee data again:
 
-Top 5 coffeine drinks:
+Top 5 caffeine drinks:
 
 =====================================  ===============  =============
 Coffees                                Serving Size     Caffeine (mg)
@@ -898,13 +891,13 @@ Export a dictionary of single key value pair
     >>> henley_on_thames_facts = {
     ...     "area": "5.58 square meters",
     ...     "population": "11,619",
-    ...     "civial parish": "Henley-on-Thames",
+    ...     "civil parish": "Henley-on-Thames",
     ...     "latitude": "51.536",
     ...     "longitude": "-0.898"
     ... }
     >>> p.isave_as(adict=henley_on_thames_facts, dest_file_name='henley.xlsx')
 
-Export a dictionary of single dimensonal array
+Export a dictionary of single dimensional array
 ********************************************************************************
 
 .. code-block:: python

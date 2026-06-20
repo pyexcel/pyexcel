@@ -4,7 +4,7 @@ pyexcel.internal.meta
 
 Annotate sheet and book class' attributes
 
-:copyright: (c) 2015-2025 by Onni Software Ltd.
+:copyright: (c) 2014-2026 by C Wang
 :license: New BSD License
 """
 
@@ -359,7 +359,7 @@ class BookMeta(PyexcelObject):
                        between the tables. For example, **Car** is made
                        by **Car Maker**. **Car Maker** table should be
                        specified before **Car** table.
-        :param initializers: a list of intialization functions for your
+        :param initializers: a list of initialization functions for your
                              tables and the sequence should match tables,
         :param mapdicts: custom map dictionary for your data columns
                          and the sequence should match tables
@@ -395,7 +395,7 @@ class BookMeta(PyexcelObject):
                        tables. For example, **Car** is made by **Car Maker**.
                        **Car Maker** table should
                        be specified before **Car** table.
-        :param initializers: a list of intialization functions for your
+        :param initializers: a list of initialization functions for your
                              tables and the sequence should match tables,
         :param mapdicts: custom map dictionary for your data columns
                          and the sequence should match tables

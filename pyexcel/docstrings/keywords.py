@@ -4,7 +4,7 @@ pyexcel.docstrings.keywords
 
 Reusable docstrings for keywords in signature functions
 
-:copyright: (c) 2015-2025 by Onni Software Ltd.
+:copyright: (c) 2014-2026 by C Wang
 :license: New BSD License
 """
 
@@ -148,7 +148,7 @@ SKIPPING_FUNC_PROTOCOL = """
 PAGINATION_PARAMS = (
     """
 start_row : int
-    defaults to 0. It allows you to skip rows at the begginning
+    defaults to 0. It allows you to skip rows at the beginning
 
 row_limit: int
     defaults to -1, meaning till the end of the whole sheet. It allows

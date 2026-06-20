@@ -1,12 +1,13 @@
 import os
+import unittest
 from types import GeneratorType
 from pathlib import Path
 
 import pyexcel as pe
 
-from nose.tools import eq_, raises
 from .db import Base, Session, Signature, Signature2, engine
 from ._compact import OrderedDict
+from .nose_tools import eq_, raises
 
 
 def test_unknown_file_type_exception():
@@ -43,7 +44,7 @@ def test_nominal_parameters():
         eq_(str(e), "No parameters found!")
 
 
-class TestGetSheet:
+class TestGetSheet(unittest.TestCase):
     def test_get_sheet_from_file(self):
         data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
         sheet = pe.Sheet(data)
@@ -102,7 +103,7 @@ class TestGetSheet:
         eq_(sheet.to_array(), expected)
 
 
-class TestGetArray:
+class TestGetArray(unittest.TestCase):
     def setUp(self):
         self.test_data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
 
@@ -134,7 +135,7 @@ class TestGetArray:
         eq_(result, self.test_data)
 
 
-class TestiGetArray:
+class TestiGetArray(unittest.TestCase):
     def setUp(self):
         self.test_data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
 
@@ -169,7 +170,7 @@ class TestiGetArray:
         eq_(list(result), self.test_data)
 
 
-class TestGetDict:
+class TestGetDict(unittest.TestCase):
     def test_get_dict_from_file(self):
         data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
         sheet = pe.Sheet(data)
@@ -211,7 +212,7 @@ class TestGetDict:
         assert result == expected
 
 
-class TestGetRecords:
+class TestGetRecords(unittest.TestCase):
     def test_get_records_from_file(self):
         data = [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]]
         sheet = pe.Sheet(data)
@@ -255,7 +256,7 @@ class TestGetRecords:
         eq_(result, [{"X": 1, "Y": 2, "Z": 3}, {"X": 4, "Y": 5, "Z": 6}])
 
 
-class TestiGetRecords:
+class TestiGetRecords(unittest.TestCase):
     def tearDown(self):
         pe.free_resources()
 
@@ -313,7 +314,7 @@ class TestiGetRecords:
         eq_(list(result), [{"X": 1, "Y": 2, "Z": 3}, {"X": 4, "Y": 5, "Z": 6}])
 
 
-class TestSavingToDatabase:
+class TestSavingToDatabase(unittest.TestCase):
     def setUp(self):
         Base.metadata.drop_all(engine)
         Base.metadata.create_all(engine)
@@ -459,7 +460,7 @@ class TestSavingToDatabase:
         assert result == {"A": [1, 4], "B": [2, 5], "C": [3, 6]}
 
 
-class TestSQL:
+class TestSQL(unittest.TestCase):
     def setUp(self):
         Base.metadata.drop_all(engine)
         Base.metadata.create_all(engine)
@@ -552,7 +553,7 @@ class TestSQL:
         assert book_dict == expected
 
 
-class TestGetBook:
+class TestGetBook(unittest.TestCase):
     def test_get_book_from_book_dict(self):
         content = _produce_ordered_dict()
         book = pe.get_book(bookdict=content)
@@ -627,7 +628,7 @@ class TestGetBook:
         eq_(expected, result[test_sheet_name])
 
 
-class TestIGetBook:
+class TestIGetBook(unittest.TestCase):
     def test_get_book_from_book_dict(self):
         content = _produce_ordered_dict()
         book = pe.iget_book(bookdict=content)
@@ -727,7 +728,7 @@ class TestIGetBook:
         os.unlink(test_file)
 
 
-class TestSaveAs:
+class TestSaveAs(unittest.TestCase):
     def test_force_file_type(self):
         pe.save_as(
             array=[[1, 2]],
@@ -799,7 +800,7 @@ class TestSaveAs:
         eq_(array, [["X", "Y", "Z"], [1, 2, 3], [4, 5, 6]])
 
 
-class TestiSaveAs:
+class TestiSaveAs(unittest.TestCase):
     def tearDown(self):
         pe.free_resources()
 

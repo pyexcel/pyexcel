@@ -8,8 +8,8 @@ from textwrap import dedent
 import psutil
 import pyexcel as p
 
-from nose.tools import eq_
 from ._compact import StringIO, OrderedDict
+from .nose_tools import eq_
 
 
 def test_bug_01():

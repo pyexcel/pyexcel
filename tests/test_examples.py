@@ -1,16 +1,17 @@
 import os
-import imp
 import glob
 import json
 from unittest import TestCase
+from importlib.machinery import SourceFileLoader
 
 import pyexcel as pe
 
 
 def load_from_file(mod_name, file_ext, expected_main="main"):
     func_inst = None
-    py_mod = None
-    py_mod = imp.load_source(mod_name, os.path.join(mod_name, file_ext))
+    py_mod = SourceFileLoader(
+        mod_name, os.path.join(mod_name, file_ext)
+    ).load_module()
     if py_mod is not None and hasattr(py_mod, expected_main):
         func_inst = getattr(py_mod, expected_main)
     return func_inst

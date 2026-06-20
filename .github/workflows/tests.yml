@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [Ubuntu]
-        python_version: ["3.9.16"]
+        python_version: ["3.9.25", "3.12.12", "3.13.9", "3.14.1"]
 
     steps:
       - uses: actions/checkout@v2
@@ -29,7 +29,8 @@ jobs:
       - name: test
         run: |
           pip freeze
-          nosetests --verbosity=3 --with-coverage --cover-package pyexcel --cover-package tests tests --with-doctest --doctest-extension=.rst  docs/source pyexcel
+          make test
+
       - name: Upload coverage
         uses: codecov/codecov-action@v1
         with:

@@ -2,9 +2,9 @@
 pyexcel._compact
 ~~~~~~~~~~~~~~~~~~~
 
-Compatibles
+Compatibility
 
-:copyright: (c) 2014-2025 by Onni Software Ltd.
+:copyright: (c) 2014-2026 by C Wang
 :license: New BSD License, see LICENSE for more details
 """
 
@@ -51,7 +51,7 @@ def deprecated(func, message="Deprecated!"):
     """Print deprecated message"""
 
     def inner(*arg, **keywords):
-        """Print deperecated message"""
+        """Print deprecated message"""
         warnings.warn(message, DeprecationWarning)
         return func(*arg, **keywords)
 

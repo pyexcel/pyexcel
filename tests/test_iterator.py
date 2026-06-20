@@ -6,11 +6,11 @@ import unittest
 from pyexcel import Reader, SeriesReader, save_as, get_sheet
 from pyexcel.internal.sheets import Matrix, _shared
 
-from nose.tools import eq_, raises
 from .base import PyexcelIteratorBase, create_sample_file2
+from .nose_tools import eq_, raises
 
 
-class TestMatrixColumn:
+class TestMatrixColumn(unittest.TestCase):
     def setUp(self):
         self.data = [[1, 2, 3, 4, 5, 6], [1, 2, 3, 4], [1]]
         self.data3 = [[1, 1], [2, 2]]
@@ -172,7 +172,7 @@ class TestMatrixColumn:
             assert 1 == 1
 
 
-class TestMatrixRow:
+class TestMatrixRow(unittest.TestCase):
     def setUp(self):
         self.data = [
             ["a", "b", "c", "d"],
@@ -359,22 +359,6 @@ class TestMatrix(unittest.TestCase):
             m.delete_rows("ab")  # bang, cannot delete
 
 
-class TestIteratableArray(PyexcelIteratorBase):
-    def setUp(self):
-        """
-        Make a test csv file as:
-
-        1,2,3,4
-        5,6,7,8
-        9,10,11,12
-        """
-        self.array = []
-        for i in [0, 4, 8]:
-            array = [i + 1, i + 2, i + 3, i + 4]
-            self.array.append(array)
-        self.iteratable = Matrix(self.array)
-
-
 class TestIterator(PyexcelIteratorBase):
     def setUp(self):
         """
@@ -393,7 +377,7 @@ class TestIterator(PyexcelIteratorBase):
             os.unlink(self.testfile)
 
 
-class TestHatIterators:
+class TestHatIterators(unittest.TestCase):
     def setUp(self):
         self.testfile = "test.xlsm"
         self.content = [

@@ -1,6 +1,20 @@
 Change log
 ================================================================================
 
+0.7.5 - 20.06.2026
+--------------------------------------------------------------------------------
+
+**Updated**
+
+#. migrate to pytest as nose is deprecated beyond python 3.9
+
+**Fixed**
+
+#. `#296 <https://github.com/pyexcel/pyexcel/issues/296>`_: provide thread-safe
+   support for free_resources() and append
+#. github copilot has found and correct lots of typos within the docs and
+   docstrings. and it has contributed to the fix of 296.
+
 0.7.4 - 25.10.2025
 --------------------------------------------------------------------------------
 
@@ -641,4 +655,4 @@ Change log
 #. various iterators for the reader
 #. row and column filters for the reader
 #. utilities to get array and dictionary out from excel files.
-#. cookbok receipes for some common and simple usage of this library.
+#. cookbook recipes for some common and simple usage of this library.

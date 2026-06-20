@@ -4,7 +4,7 @@ pyexcel.plugin.renderers.excel
 
 Export data into excel files
 
-:copyright: (c) 2015-2025 by Onni Software Ltd.
+:copyright: (c) 2014-2026 by C Wang
 :license: New BSD License
 """
 

@@ -5,8 +5,8 @@ from pyexcel import Book, Sheet, get_book, constants
 from pyexcel.source import AbstractSource, MemorySourceMixin
 from pyexcel.plugins import SourceInfo
 
-from nose.tools import eq_, raises
 from ._compact import StringIO, OrderedDict
+from .nose_tools import eq_, raises
 
 FIXTURE = "dummy"
 

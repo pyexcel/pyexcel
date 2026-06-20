@@ -4,7 +4,7 @@ pyexcel.cookbook
 
 Cookbook for pyexcel
 
-:copyright: (c) 2014-2025 by Onni Software Ltd.
+:copyright: (c) 2014-2026 by C Wang
 :license: New BSD License, see LICENSE for more details
 """
 
@@ -49,7 +49,7 @@ def update_columns(in_file_name, column_dicts, out_file_name=None):
 def update_rows(in_file_name, row_dicts, out_file_name=None):
     """Update one or more rows of a data file with series
 
-    data stucture: key should an integer of the row to be updated
+    data structure: key should an integer of the row to be updated
     value should be an array of the data
     :param str in_file_name: an accessible file name
     :param dict row_dicts: dictionaries of rows

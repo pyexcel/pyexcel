@@ -1,7 +1,7 @@
 from pyexcel.internal.common import get_book_headers_in_array
 from pyexcel.internal.generators import BookStream
 
-from nose.tools import eq_
+from .nose_tools import eq_
 
 
 def test_book_stream():

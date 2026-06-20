@@ -4,7 +4,7 @@ pyexcel.sheet
 
 Building on top of matrix, adding named columns and rows support
 
-:copyright: (c) 2014-2025 by Onni Software Ltd.
+:copyright: (c) 2014-2026 by C Wang
 :license: New BSD License, see LICENSE for more details
 """
 
@@ -204,7 +204,7 @@ class Sheet(Matrix):
         del self.column[column_index]
 
     def group_rows_by_column(self, column_index_or_name):
-        """Group rows with similiar column into a two dimensional array.
+        """Group rows with similar column into a two-dimensional array.
 
         Example::
 

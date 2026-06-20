@@ -1,6 +1,6 @@
 import pyexcel as p
 
-from nose.tools import eq_
+from .nose_tools import eq_
 
 
 def test_a_dictionary_of_sheet():

@@ -4,7 +4,7 @@ pyexcel.book
 
 Excel book
 
-:copyright: (c) 2014-2025 by Onni Software Ltd.
+:copyright: (c) 2014-2026 by C Wang
 :license: New BSD License, see LICENSE for more details
 """
 
@@ -36,12 +36,11 @@ class Book(BookMeta):
         """
         self.filename = None
         self.__path = None
-        self.__name_array = []
         self.__sheets = OrderedDict()
         self.init(sheets=sheets, filename=filename, path=path)
 
     def init(self, sheets=None, filename="memory", path=None):
-        """indpendent function so that it could be called multiple times"""
+        """independent function so that it could be called multiple times"""
         self.__path = path
         self.filename = filename
         self.load_from_sheets(sheets)
@@ -55,8 +54,7 @@ class Book(BookMeta):
         """
         if sheets is None:
             return
-        keys = sheets.keys()
-        for name in keys:
+        for name in sheets.keys():
             value = sheets[name]
             if isinstance(value, Sheet):
                 sheet = value
@@ -68,28 +66,33 @@ class Book(BookMeta):
             self.__sheets.update({name: sheet})
             # this provide the convenience of access the sheet
             self.__dict__[name.replace(" ", "_")] = sheet
-        self.__name_array = list(self.__sheets.keys())
 
     def __iter__(self):
         return SheetIterator(self)
 
     def __len__(self):
-        return len(self.__name_array)
+        return len(self.__sheets)
 
     def sort_sheets(self, key=None, reverse=False):
-        self.__name_array = sorted(self.__name_array, key=key, reverse=reverse)
+        sorted_sheet_names = sorted(
+            self.__sheets.keys(), key=key, reverse=reverse
+        )
+        self.__sheets = OrderedDict(
+            (sheet_name, self.__sheets[sheet_name])
+            for sheet_name in sorted_sheet_names
+        )
 
     def number_of_sheets(self):
         """
         Return the number of sheets
         """
-        return len(self.__name_array)
+        return len(self.__sheets)
 
     def sheet_names(self):
         """
         Return all sheet names
         """
-        return self.__name_array
+        return list(self.__sheets.keys())
 
     def sheet_by_name(self, name):
         """
@@ -101,8 +104,9 @@ class Book(BookMeta):
         """
         Get the sheet with the specified index
         """
-        if index < len(self.__name_array):
-            sheet_name = self.__name_array[index]
+        sheet_names = self.sheet_names()
+        if index < len(sheet_names):
+            sheet_name = sheet_names[index]
             return self.sheet_by_name(sheet_name)
 
     def remove_sheet(self, sheet):
@@ -110,16 +114,15 @@ class Book(BookMeta):
         Remove a sheet
         """
         if isinstance(sheet, int):
-            if sheet < len(self.__name_array):
-                sheet_name = self.__name_array[sheet]
+            sheet_names = self.sheet_names()
+            if sheet < len(sheet_names):
+                sheet_name = sheet_names[sheet]
                 del self.__sheets[sheet_name]
-                self.__name_array = list(self.__sheets.keys())
             else:
                 raise IndexError
         elif isinstance(sheet, str):
-            if sheet in self.__name_array:
+            if sheet in self.__sheets:
                 del self.__sheets[sheet]
-                self.__name_array = list(self.__sheets.keys())
             else:
                 raise KeyError
         else:
@@ -150,17 +153,19 @@ class Book(BookMeta):
         """
         content = OrderedDict()
         current_dict = self.to_dict()
-        for k in current_dict.keys():
-            new_key = k
-            if len(current_dict.keys()) == 1:
-                new_key = f"{self.filename}_{k}"
-            content[new_key] = current_dict[k]
+        if len(current_dict) == 1:
+            for single_key in current_dict.keys():
+                new_key = f"{self.filename}_{single_key}"
+                content[new_key] = current_dict[single_key]
+        else:
+            content.update(current_dict)
         if isinstance(other, Book):
             other_dict = other.to_dict()
             for key in other_dict.keys():
-                new_key = key
                 if len(other_dict.keys()) == 1:
-                    new_key = other.filename
+                    new_key = f"{other.filename}_{key}"
+                else:
+                    new_key = key
                 if new_key in content:
                     uid = local_uuid()
                     new_key = f"{key}_{uid}"
@@ -193,20 +198,27 @@ class Book(BookMeta):
                 new_key = name
                 if len(names) == 1:
                     new_key = other.filename
-                if new_key in self.__name_array:
+                if new_key in self.__sheets:
                     uid = local_uuid()
                     new_key = f"{name}_{uid}"
                 self.__sheets[new_key] = Sheet(other[name].array, new_key)
         elif isinstance(other, Sheet):
-            new_key = other.name
-            if new_key in self.__name_array:
-                uid = local_uuid()
-                new_key = f"{other.name}_{uid}"
-            self.__sheets[new_key] = Sheet(other.array, new_key)
+            self._add_a_sheet(other)
         else:
             raise TypeError
-        self.__name_array = list(self.__sheets.keys())
         return self
+
+    def _add_a_sheet(self, sheet):
+        """
+        Add a sheet to the book
+
+        :param sheet: an instance of Sheet
+        """
+        new_key = sheet.name
+        if new_key in self.__sheets:
+            uid = local_uuid()
+            new_key = f"{sheet.name}_{uid}"
+        self.__sheets[new_key] = Sheet(sheet.array, new_key)
 
     def to_dict(self):
         """Convert the book to a dictionary"""

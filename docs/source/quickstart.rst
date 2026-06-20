@@ -230,7 +230,7 @@ Suppose you have the following array:
 
 .. code-block:: python
 
-   >>> data = [['G', 'D', 'A', 'E'], ['Thomastik-Infield Domaints', 'Thomastik-Infield Domaints', 'Thomastik-Infield Domaints', 'Pirastro'], ['Silver wound', '', 'Aluminum wound', 'Gold Label Steel']]
+   >>> data = [['G', 'D', 'A', 'E'], ['Thomastik-Infeld Dominants', 'Thomastik-Infeld Dominants', 'Thomastik-Infeld Dominants', 'Pirastro'], ['Silver wound', '', 'Aluminum wound', 'Gold Label Steel']]
 
 And here is the code to save it as an excel file :
 
@@ -247,7 +247,7 @@ Let's verify it:
     +----------------------------+----------------------------+----------------------------+------------------+
     | G                          | D                          | A                          | E                |
     +----------------------------+----------------------------+----------------------------+------------------+
-    | Thomastik-Infield Domaints | Thomastik-Infield Domaints | Thomastik-Infield Domaints | Pirastro         |
+    | Thomastik-Infeld Dominants | Thomastik-Infeld Dominants | Thomastik-Infeld Dominants | Pirastro         |
     +----------------------------+----------------------------+----------------------------+------------------+
     | Silver wound               |                            | Aluminum wound             | Gold Label Steel |
     +----------------------------+----------------------------+----------------------------+------------------+
@@ -275,7 +275,7 @@ Let's verify it:
     ...         print(line.rstrip())
     ...
     G:D:A:E
-    Thomastik-Infield Domaints:Thomastik-Infield Domaints:Thomastik-Infield Domaints:Pirastro
+    Thomastik-Infeld Dominants:Thomastik-Infeld Dominants:Thomastik-Infeld Dominants:Pirastro
     Silver wound::Aluminum wound:Gold Label Steel
 
 Export a list of dictionaries
@@ -299,14 +299,14 @@ Export a dictionary of single key value pair
     >>> henley_on_thames_facts = {
     ...     "area": "5.58 square meters",
     ...     "population": "11,619",
-    ...     "civial parish": "Henley-on-Thames",
+    ...     "civil parish": "Henley-on-Thames",
     ...     "latitude": "51.536",
     ...     "longitude": "-0.898"
     ... }
     >>> p.save_as(adict=henley_on_thames_facts, dest_file_name='henley.xlsx')
 
 
-Export a dictionary of single dimensonal array
+Export a dictionary of single dimensional array
 ********************************************************************************
 
 .. code-block:: python

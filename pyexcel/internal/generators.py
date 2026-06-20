@@ -2,9 +2,9 @@
 pyexcel.internal.generators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Defintion for the sheet and book generators.
+Definition for the sheet and book generators.
 
-:copyright: (c) 2015-2025 by Onni Software Ltd.
+:copyright: (c) 2014-2026 by C Wang
 :license: New BSD License
 """
 
@@ -52,9 +52,9 @@ class BookStream:
     """
     Memory efficient book representation
 
-    Comparing with :class:`pyexcel.Book`, the instace of
+    Comparing with :class:`pyexcel.Book`, the instance of
     this class uses :class:`pyexcel.generators.SheetStream` as
-    its internal repesentation of sheet objects. Because `SheetStream`
+    its internal representation of sheet objects. Because `SheetStream`
     does not read data into memory, it is memory efficient.
     """
 

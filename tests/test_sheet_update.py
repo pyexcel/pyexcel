@@ -1,16 +1,17 @@
+import unittest
+
 import pyexcel as pe
 
-from nose.tools import eq_, raises
 from .base import (
-    PyexcelSheetRWBase,
     clean_up_files,
     create_sample_file1,
     create_sample_file1_series,
 )
 from ._compact import OrderedDict
+from .nose_tools import eq_, raises
 
 
-class TestReader:
+class TestReader(unittest.TestCase):
     def setUp(self):
         """
         Make a test csv file as:
@@ -31,24 +32,7 @@ class TestReader:
         clean_up_files([self.testfile])
 
 
-class TestReader2(PyexcelSheetRWBase):
-    def setUp(self):
-        """
-        Make a test csv file as:
-
-        a,b,c,d
-        e,f,g,h
-        i,j,1.1,1
-        """
-        self.testclass = pe.Reader
-        self.testfile = "testcsv.xls"
-        create_sample_file1(self.testfile)
-
-    def tearDown(self):
-        clean_up_files([self.testfile])
-
-
-class TestSeriesReader:
+class TestSeriesReader(unittest.TestCase):
     def setUp(self):
         """
         Make a test csv file as:

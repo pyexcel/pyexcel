@@ -2,6 +2,16 @@ name: pyexcel
 organisation: pyexcel
 releases:
 - changes:
+  - action: Updated
+    details:
+    - migrate to pytest as nose is deprecated beyond python 3.9
+  - action: Fixed
+    details:
+    - "`#296`: provide thread-safe support for free_resources() and append"
+    - github copilot has found and correct lots of typos within the docs and docstrings. and it has contributed to the fix of 296. 
+  version: 0.7.5
+  date: 20.06.2026
+- changes:
   - action: Fixed
     details:
     - "`#257`: provide meaningful error messages where dest_* params are missing in save_as and isave_as"
@@ -503,6 +513,6 @@ releases:
     - various iterators for the reader
     - row and column filters for the reader
     - utilities to get array and dictionary out from excel files.
-    - cookbok receipes for some common and simple usage of this library.
+    - cookbook recipes for some common and simple usage of this library.
   date: 14.09.2014
   version: 0.0.1
