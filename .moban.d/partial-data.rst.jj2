@@ -19,18 +19,18 @@ This feature depends heavily on the implementation details.
 
 `pyexcel-xls`_ (xlrd), `pyexcel-xlsx`_ (openpyxl), `pyexcel-ods`_ (odfpy) and
 `pyexcel-ods3`_ (pyexcel-ezodf) will read all data into memory. Because xls,
-xlsx and ods file are effective a zipped folder, all four will unzip the folder
+xlsx and ods file are effectively a zipped folder, all four will unzip the folder
 and read the content in xml format in **full**, so as to make sense of all details.
 
-Hence, during the partial data is been returned, the memory consumption won't
+Hence, while the partial data is being returned, the memory consumption won't
 differ from reading the whole data back. Only after the partial
-data is returned, the memory comsumption curve shall jump the cliff. So pagination
+data is returned, the memory consumption curve shall jump the cliff. So pagination
 code here only limits the data returned to your program.
 
 With that said, `pyexcel-xlsxr`_, `pyexcel-odsr`_ and `pyexcel-htmlr`_ DOES read
 partial data into memory. Those three are implemented in such a way that they
 consume the xml(html) when needed. When they have read designated portion of the
-data, they stop, even if they are half way through.
+data, they stop, even if they are halfway through.
 
 In addition, pyexcel's csv readers can read partial data into memory too.
 
@@ -97,7 +97,7 @@ And you could as well do the same for columns:
    | 26 | 36 |
    +----+----+
 
-Obvious, you could do both at the same time:
+Obviously, you could do both at the same time:
 
 .. code-block:: python
 

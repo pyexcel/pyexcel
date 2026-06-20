@@ -338,13 +338,12 @@ For compatibility tables of pyexcel-io plugins, please click `here <http://pyexc
     xlsm         an MS-Excel Macro-Enabled Workbook file
     ods          open document spreadsheet
     fods         flat open document spreadsheet
-    json         java script object notation
+    json         JavaScript object notation
     html         html table of the data structure
     simple       simple presentation
     rst          rStructured Text presentation of the data
     mediawiki    media wiki table
     ============ =======================================================
-
 
 Design
 --------------------
