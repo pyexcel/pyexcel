@@ -1,10 +1,8 @@
-import unittest
-
 from pyexcel import Sheet
 
 from ._compact import OrderedDict
 from .nose_tools import eq_, raises, assert_not_in
-
+import unittest
 
 class TestSheetRow(unittest.TestCase):
     def setUp(self):
