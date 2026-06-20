@@ -5,7 +5,7 @@ pyexcel.internal.sheets.matrix
 Matrix, a data model that accepts any types, spread sheet style
 of lookup.
 
-:copyright: (c) 2014-2025 by Onni Software Ltd.
+:copyright: (c) 2014-2026 by C Wang
 :license: New BSD License, see LICENSE for more details
 """
 
