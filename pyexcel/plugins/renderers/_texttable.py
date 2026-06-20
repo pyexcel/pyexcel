@@ -5,7 +5,7 @@ pyexcel.plugin.renderers._texttable
 Export data into texttable format. It also serves the default
 presentation of pyexcel sheet and book.
 
-:copyright: (c) 2015-2025 by Onni Software Ltd.
+:copyright: (c) 2014-2026 by C Wang
 :license: New BSD License
 """
 
