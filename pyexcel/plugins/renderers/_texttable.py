@@ -18,7 +18,7 @@ from pyexcel.internal.sheets.formatters import to_format
 
 
 class TextTableRenderer(Renderer):
-    """Default texttable presetation"""
+    """Default texttable presentation"""
 
     def render_sheet(self, sheet):
         content = render_text_table(sheet, self._write_title)

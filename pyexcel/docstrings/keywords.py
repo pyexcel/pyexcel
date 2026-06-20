@@ -148,7 +148,7 @@ SKIPPING_FUNC_PROTOCOL = """
 PAGINATION_PARAMS = (
     """
 start_row : int
-    defaults to 0. It allows you to skip rows at the begginning
+    defaults to 0. It allows you to skip rows at the beginning
 
 row_limit: int
     defaults to -1, meaning till the end of the whole sheet. It allows
