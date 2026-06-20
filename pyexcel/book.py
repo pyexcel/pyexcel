@@ -55,8 +55,7 @@ class Book(BookMeta):
         """
         if sheets is None:
             return
-        keys = sheets.keys()
-        for name in keys:
+        for name in sheets.keys():
             value = sheets[name]
             if isinstance(value, Sheet):
                 sheet = value
@@ -68,7 +67,7 @@ class Book(BookMeta):
             self.__sheets.update({name: sheet})
             # this provide the convenience of access the sheet
             self.__dict__[name.replace(" ", "_")] = sheet
-        self.__name_array = list(self.__sheets.keys())
+        self.__name_array = list(sheets.keys())
 
     def __iter__(self):
         return SheetIterator(self)
@@ -150,27 +149,25 @@ class Book(BookMeta):
         """
         content = OrderedDict()
         current_dict = self.to_dict()
-        for k in current_dict.keys():
-            new_key = k
-            if len(current_dict.keys()) == 1:
-                new_key = f"{self.filename}_{k}"
-            content[new_key] = current_dict[k]
+        if len(current_dict) == 1:
+            for single_key in current_dict.keys():
+                new_key = f"{self.filename}_{single_key}"
+                content[new_key] = current_dict[single_key]
+        else:
+            content.update(current_dict)
         if isinstance(other, Book):
-            other_dict = other.to_dict()
+            other_dict = other.to_dict()    
             for key in other_dict.keys():
-                new_key = key
                 if len(other_dict.keys()) == 1:
-                    new_key = other.filename
+                    new_key = f"{other.filename}_{key}"
+                else:
+                    new_key = key
                 if new_key in content:
                     uid = local_uuid()
                     new_key = f"{key}_{uid}"
                 content[new_key] = other_dict[key]
         elif isinstance(other, Sheet):
-            new_key = other.name
-            if new_key in content:
-                uid = local_uuid()
-                new_key = f"{other.name}_{uid}"
-            content[new_key] = other.array
+            self._add_a_sheet(other)
         else:
             raise TypeError
         output = Book()
@@ -198,15 +195,24 @@ class Book(BookMeta):
                     new_key = f"{name}_{uid}"
                 self.__sheets[new_key] = Sheet(other[name].array, new_key)
         elif isinstance(other, Sheet):
-            new_key = other.name
-            if new_key in self.__name_array:
-                uid = local_uuid()
-                new_key = f"{other.name}_{uid}"
-            self.__sheets[new_key] = Sheet(other.array, new_key)
+            self._add_a_sheet(other)
         else:
             raise TypeError
         self.__name_array = list(self.__sheets.keys())
         return self
+    
+    def _add_a_sheet(self, sheet):
+        """
+        Add a sheet to the book
+
+        :param sheet: an instance of Sheet
+        """
+        new_key = sheet.name
+        if new_key in self.__name_array:
+            uid = local_uuid()
+            new_key = f"{sheet.name}_{uid}"
+        self.__sheets[new_key] = Sheet(sheet.array, new_key)
+        self.__name_array = list(self.__sheets.keys())
 
     def to_dict(self):
         """Convert the book to a dictionary"""
