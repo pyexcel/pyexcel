@@ -1,0 +1,36 @@
+name: Run unit tests on macOS
+
+on: [push, pull_request]
+
+jobs:
+
+  test:
+    name: macOS / ${{ matrix.python_version }}
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python_version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python_version }}
+          architecture: x64
+
+      - name: install
+        run: |
+          pip install -r requirements.txt
+          pip install -r tests/requirements.txt
+          pip install -r rnd_requirements.txt
+      - name: test
+        run: |
+          pip freeze
+          bash test.sh
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          name: macOS Python ${{ matrix.python_version }}
