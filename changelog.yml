@@ -8,8 +8,9 @@ releases:
   - action: Fixed
     details:
     - "`#296`: provide thread-safe support for free_resources() and append"
+    - github copilot has found and correct lots of typos within the docs and docstrings. and it has contributed to the fix of 296. 
   version: 0.7.5
-  date: tbd
+  date: 20.06.2026
 - changes:
   - action: Fixed
     details:
