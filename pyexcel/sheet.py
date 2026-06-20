@@ -4,7 +4,7 @@ pyexcel.sheet
 
 Building on top of matrix, adding named columns and rows support
 
-:copyright: (c) 2014-2025 by Onni Software Ltd.
+:copyright: (c) 2014-2026 by C Wang
 :license: New BSD License, see LICENSE for more details
 """
 
