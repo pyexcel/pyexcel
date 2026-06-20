@@ -4,7 +4,7 @@ nick_name: pyexcel
 version: 0.7.4
 current_version: 0.7.5
 release: 0.7.4
-copyright_year: 2014-2025
+copyright_year: 2014-2026
 branch: master
 is_on_conda: true
 setup_use_markers: true
