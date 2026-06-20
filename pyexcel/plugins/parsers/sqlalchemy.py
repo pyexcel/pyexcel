@@ -4,7 +4,7 @@ pyexcel.plugin.parsers.sqlalchemy
 
 Export data into database datables
 
-:copyright: (c) 2015-2025 by Onni Software Ltd.
+:copyright: (c) 2014-2026 by C Wang
 :license: New BSD License
 """
 
