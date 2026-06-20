@@ -167,7 +167,11 @@ class Book(BookMeta):
                     new_key = f"{key}_{uid}"
                 content[new_key] = other_dict[key]
         elif isinstance(other, Sheet):
-            self._add_a_sheet(other)
+            new_key = other.name
+            if new_key in content:
+                uid = local_uuid()
+                new_key = f"{other.name}_{uid}"
+            content[new_key] = other.array
         else:
             raise TypeError
         output = Book()
