@@ -3,11 +3,7 @@ import unittest
 
 import pyexcel as pe
 
-from .base import (
-    clean_up_files,
-    create_sample_file1,
-    _produce_ordered_dict,
-)
+from .base import clean_up_files, create_sample_file1, _produce_ordered_dict
 from .nose_tools import eq_, raises
 
 

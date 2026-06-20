@@ -8,8 +8,10 @@ Extract tabular data from external file, stream or content
 :license: New BSD License
 """
 
+from typing import IO, Any, Union, TextIO, BinaryIO
+
 from pyexcel.internal import garbagecollector as gc
-from typing import Any, Union, TextIO, BinaryIO, IO
+
 
 class AbstractParser:
     """
@@ -25,7 +27,9 @@ class AbstractParser:
         """
         raise NotImplementedError("parse_file is not implemented")
 
-    def parse_file_stream(self, file_stream: Union[TextIO, BinaryIO], **keywords):
+    def parse_file_stream(
+        self, file_stream: Union[TextIO, BinaryIO], **keywords
+    ):
         """
         Parse data from a file stream
         """

@@ -1,10 +1,10 @@
 import os
+import unittest
 
 import pyexcel as pe
 
-from .nose_tools import eq_, raises
 from .base import clean_up_files
-import unittest
+from .nose_tools import eq_, raises
 
 
 class TestSpliting(unittest.TestCase):

@@ -156,7 +156,7 @@ class Book(BookMeta):
         else:
             content.update(current_dict)
         if isinstance(other, Book):
-            other_dict = other.to_dict()    
+            other_dict = other.to_dict()
             for key in other_dict.keys():
                 if len(other_dict.keys()) == 1:
                     new_key = f"{other.filename}_{key}"
@@ -200,7 +200,7 @@ class Book(BookMeta):
             raise TypeError
         self.__name_array = list(self.__sheets.keys())
         return self
-    
+
     def _add_a_sheet(self, sheet):
         """
         Add a sheet to the book
