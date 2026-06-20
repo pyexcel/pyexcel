@@ -37,7 +37,7 @@ Suppose you want to process the following coffee data:
 
 .. pyexcel-table::
 
-   ---pyexcel:Huge list of coffeine drinks---
+   ---pyexcel:Huge list of caffeine drinks---
    Coffees,Serving Size,Caffeine (mg)
    Starbucks Coffee Blonde Roast,venti(20 oz),475
    Dunkin' Donuts Coffee with Turbo Shot,large(20 oz.),398
@@ -177,13 +177,13 @@ Export a dictionary of single key value pair
     >>> henley_on_thames_facts = {
     ...     "area": "5.58 square meters",
     ...     "population": "11,619",
-    ...     "civial parish": "Henley-on-Thames",
+    ...     "civil parish": "Henley-on-Thames",
     ...     "latitude": "51.536",
     ...     "longitude": "-0.898"
     ... }
     >>> p.isave_as(adict=henley_on_thames_facts, dest_file_name='henley.xlsx')
 
-Export a dictionary of single dimensonal array
+Export a dictionary of single dimensional array
 ********************************************************************************
 
 .. code-block:: python
