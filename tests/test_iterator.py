@@ -358,6 +358,19 @@ class TestMatrix(unittest.TestCase):
         with self.assertRaises(IndexError):
             m.delete_rows("ab")  # bang, cannot delete
 
+    def test_delete_rows_with_negative_index(self):
+        m = Matrix(self.data)
+        m.delete_rows([-1])
+        self.assertEqual(m.number_of_rows(), 2)
+        self.assertEqual(m.row[0], ["a", "b", "c", "d"])
+        self.assertEqual(m.row[1], ["e", "f", "g", "h"])
+
+    def test_delete_columns_with_negative_index(self):
+        m = Matrix(self.data)
+        m.delete_columns([-1])
+        self.assertEqual(m.number_of_columns(), 3)
+        self.assertEqual(m.row[0], ["a", "b", "c"])
+
 
 class TestIterator(PyexcelIteratorBase):
     def setUp(self):

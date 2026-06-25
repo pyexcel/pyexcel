@@ -317,6 +317,8 @@ class Sheet(Matrix):
 
         :param list column_indices: a list of column indices
         """
+        ncols = len(self.__column_names) if len(self.__column_names) > 0 else self.number_of_columns()
+        column_indices = [i if i >= 0 else ncols + i for i in column_indices]
         Matrix.delete_columns(self, column_indices)
         if len(self.__column_names) > 0:
             new_series = [
@@ -331,6 +333,8 @@ class Sheet(Matrix):
 
         :param list row_indices: a list of row indices
         """
+        nrows = len(self.__row_names) if len(self.__row_names) > 0 else self.number_of_rows()
+        row_indices = [i if i >= 0 else nrows + i for i in row_indices]
         Matrix.delete_rows(self, row_indices)
         if len(self.__row_names) > 0:
             new_series = [
