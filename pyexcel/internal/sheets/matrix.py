@@ -453,7 +453,9 @@ class Matrix(SheetMeta):
             raise TypeError(constants.MESSAGE_DATA_ERROR_DATA_TYPE_MISMATCH)
         if len(column_indices) > 0:
             ncols = self.number_of_columns()
-            column_indices = [j if j >= 0 else ncols + j for j in column_indices]
+            column_indices = [
+                j if j >= 0 else ncols + j for j in column_indices
+            ]
             unique_list = _unique(column_indices)
             sorted_list = sorted(unique_list, reverse=True)
             for i in self.row_range():

@@ -45,6 +45,8 @@ I will follow these rules for all future changelog updates in [changelog.yml](ch
 
 ## Version bump exclusions (important)
 - Do **not** edit [setup.py](setup.py) for version bumps.
+- Do **not** edit [setup.cfg](setup.cfg) for version bumps.
+- Do **not** search [setup.cfg](setup.cfg) for version references.
 - Do **not** edit [pyexcel/__init__.py](pyexcel/__init__.py) for version bumps.
 - Do **not** edit [docs/source/conf.py](docs/source/conf.py) for version bumps.
 - Do **not** edit [pyexcel/__version__.py](pyexcel/__version__.py) for version bumps.

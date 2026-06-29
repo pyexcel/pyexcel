@@ -8,10 +8,11 @@ Simple garbage collector
 :license: New BSD License
 """
 
+from typing import Any, List, Iterator, cast
+from threading import local
+
 from pyexcel import docstrings as docs
 from pyexcel._compact import append_doc
-from threading import local
-from typing import Any, Iterator, List, cast
 
 
 class _ThreadLocalGarbage:
