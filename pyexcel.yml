@@ -1,9 +1,9 @@
 overrides: "pyexcel.yaml"
 name: "pyexcel"
 nick_name: pyexcel
-version: 0.7.5
-current_version: 0.7.5
-release: 0.7.5
+version: 0.7.6
+current_version: 0.7.6
+release: 0.7.6
 copyright_year: 2014-2026
 branch: master
 is_on_conda: true

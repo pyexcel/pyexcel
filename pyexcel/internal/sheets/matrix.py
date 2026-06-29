@@ -171,10 +171,12 @@ class Matrix(SheetMeta):
         if isinstance(row_indices, list) is False:
             raise IndexError
         if len(row_indices) > 0:
+            nrows = self.number_of_rows()
+            row_indices = [i if i >= 0 else nrows + i for i in row_indices]
             unique_list = _unique(row_indices)
             sorted_list = sorted(unique_list, reverse=True)
             for i in sorted_list:
-                if i < self.number_of_rows() and i >= 0:
+                if i < nrows and i >= 0:
                     del self.__array[i]
 
     def column_at(self, index):
@@ -450,11 +452,15 @@ class Matrix(SheetMeta):
         if isinstance(column_indices, list) is False:
             raise TypeError(constants.MESSAGE_DATA_ERROR_DATA_TYPE_MISMATCH)
         if len(column_indices) > 0:
+            ncols = self.number_of_columns()
+            column_indices = [
+                j if j >= 0 else ncols + j for j in column_indices
+            ]
             unique_list = _unique(column_indices)
             sorted_list = sorted(unique_list, reverse=True)
             for i in self.row_range():
                 for j in sorted_list:
-                    if j < self.number_of_columns() and j >= 0:
+                    if j < ncols and j >= 0:
                         del self.__array[i][j]
             self.__width = longest_row_number(self.__array)
 

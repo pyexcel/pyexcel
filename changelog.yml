@@ -2,6 +2,12 @@ name: pyexcel
 organisation: pyexcel
 releases:
 - changes:
+  - action: Fixed
+    details:
+    - "`#307`: honor negative indices in delete_rows and delete_columns"
+  version: 0.7.6
+  date: 29.06.2026
+- changes:
   - action: Updated
     details:
     - migrate to pytest as nose is deprecated beyond python 3.9
