@@ -4,7 +4,7 @@ releases:
 - changes:
   - action: Fixed
     details:
-    - "`#310`: fix broken indentation in iget_records memory-reduction patch and restore CONTRIBUTORS.rst"
+    - "`#310`: fix broken indentation in iget_records memory-reduction patch"
   version: 0.7.7
   date: 01.07.2026
 - changes:
