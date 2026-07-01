@@ -4,6 +4,12 @@ releases:
 - changes:
   - action: Fixed
     details:
+    - "`#310`: fix broken indentation in iget_records memory-reduction patch and restore CONTRIBUTORS.rst"
+  version: 0.7.7
+  date: 01.07.2026
+- changes:
+  - action: Fixed
+    details:
     - "`#307`: honor negative indices in delete_rows and delete_columns"
   version: 0.7.6
   date: 29.06.2026
