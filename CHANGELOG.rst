@@ -7,8 +7,7 @@ Change log
 **Fixed**
 
 #. `#310 <https://github.com/pyexcel/pyexcel/issues/310>`_: fix broken
-   indentation in iget_records memory-reduction patch and restore
-   CONTRIBUTORS.rst
+   indentation in iget_records memory-reduction patch
 
 0.7.6 - 29.06.2026
 --------------------------------------------------------------------------------
