@@ -225,13 +225,13 @@ def iget_records(custom_headers=None, **keywords):
                 tmp_dict = dict(
                     zip_longest(headers, row, fillvalue=constants.DEFAULT_NA),
                 )
-                # Release row and tmp_dict before yielding so the generator
-                # frame does not hold the raw row data while the caller
-                # processes the record (reduces peak memory with wide rows).
+                # Release row before yielding so the generator frame does not
+                # hold the raw row data while the caller processes the record
+                # (reduces peak memory with wide rows).
                 row = None  # noqa: F841
                 ordered_dict = OrderedDict()
                 for name in custom_headers:
-                    ordered_dict[name] = tmp_dict.pop(name, constants.DEFAULT_NA)
+                    ordered_dict[name] = tmp_dict[name]
                 tmp_dict = None  # noqa: F841
                 yield ordered_dict
             else:
