@@ -241,7 +241,7 @@ del tmp_dict
                 )
                 # Release the raw row before yielding so the generator frame
                 # does not hold it while the caller processes the record.
-                row = None  # noqa: F841
+del row
                 yield ordered_dict
 
 
