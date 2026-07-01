@@ -86,7 +86,7 @@ class Book(BookMeta):
         """
         Return the number of sheets
         """
-        return len(self.__sheets)
+        return len(self)
 
     def sheet_names(self):
         """
@@ -162,19 +162,11 @@ class Book(BookMeta):
         if isinstance(other, Book):
             other_dict = other.to_dict()
             for key in other_dict.keys():
-                if len(other_dict.keys()) == 1:
-                    new_key = f"{other.filename}_{key}"
-                else:
-                    new_key = key
-                if new_key in content:
-                    uid = local_uuid()
-                    new_key = f"{key}_{uid}"
+                preferred = f"{other.filename}_{key}" if len(other_dict) == 1 else key
+                new_key = _unique_key(preferred, content, base=key)
                 content[new_key] = other_dict[key]
         elif isinstance(other, Sheet):
-            new_key = other.name
-            if new_key in content:
-                uid = local_uuid()
-                new_key = f"{other.name}_{uid}"
+            new_key = _unique_key(other.name, content)
             content[new_key] = other.array
         else:
             raise TypeError
@@ -195,12 +187,8 @@ class Book(BookMeta):
         if isinstance(other, Book):
             names = other.sheet_names()
             for name in names:
-                new_key = name
-                if len(names) == 1:
-                    new_key = other.filename
-                if new_key in self.__sheets:
-                    uid = local_uuid()
-                    new_key = f"{name}_{uid}"
+                preferred = other.filename if len(names) == 1 else name
+                new_key = _unique_key(preferred, self.__sheets, base=name)
                 self.__sheets[new_key] = Sheet(other[name].array, new_key)
         elif isinstance(other, Sheet):
             self._add_a_sheet(other)
@@ -214,10 +202,7 @@ class Book(BookMeta):
 
         :param sheet: an instance of Sheet
         """
-        new_key = sheet.name
-        if new_key in self.__sheets:
-            uid = local_uuid()
-            new_key = f"{sheet.name}_{uid}"
+        new_key = _unique_key(sheet.name, self.__sheets)
         self.__sheets[new_key] = Sheet(sheet.array, new_key)
 
     def to_dict(self):
@@ -244,3 +229,12 @@ def local_uuid():
     global LOCAL_UUID
     LOCAL_UUID = LOCAL_UUID + 1
     return LOCAL_UUID
+
+
+def _unique_key(preferred, existing, base=None):
+    """Return preferred if not in existing, else return base (or preferred) suffixed with a local uuid."""
+    if base is None:
+        base = preferred
+    if preferred in existing:
+        return f"{base}_{local_uuid()}"
+    return preferred
