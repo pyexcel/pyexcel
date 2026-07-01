@@ -234,7 +234,8 @@ def local_uuid():
 
 
 def _unique_key(preferred, existing, base=None):
-    """Return preferred if not in existing, else return base (or preferred) suffixed with a local uuid."""
+    """Return preferred if not in existing, else return base (or preferred) s
+    uffixed with a local uuid."""
     if base is None:
         base = preferred
     if preferred in existing:
