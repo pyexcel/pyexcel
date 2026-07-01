@@ -228,11 +228,11 @@ def iget_records(custom_headers=None, **keywords):
                 # Release row before yielding so the generator frame does not
                 # hold the raw row data while the caller processes the record
                 # (reduces peak memory with wide rows).
-del row
-ordered_dict = OrderedDict()
-for name in custom_headers:
-    ordered_dict[name] = tmp_dict[name]
-del tmp_dict
+                del row
+                ordered_dict = OrderedDict()
+                for name in custom_headers:
+                    ordered_dict[name] = tmp_dict[name]
+                del tmp_dict
                 yield ordered_dict
             else:
                 # default order
@@ -241,7 +241,7 @@ del tmp_dict
                 )
                 # Release the raw row before yielding so the generator frame
                 # does not hold it while the caller processes the record.
-del row
+                del row
                 yield ordered_dict
 
 
