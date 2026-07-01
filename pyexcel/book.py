@@ -162,7 +162,9 @@ class Book(BookMeta):
         if isinstance(other, Book):
             other_dict = other.to_dict()
             for key in other_dict.keys():
-                preferred = f"{other.filename}_{key}" if len(other_dict) == 1 else key
+                preferred = (
+                    f"{other.filename}_{key}" if len(other_dict) == 1 else key
+                )
                 new_key = _unique_key(preferred, content, base=key)
                 content[new_key] = other_dict[key]
         elif isinstance(other, Sheet):
