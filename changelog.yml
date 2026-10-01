@@ -6,6 +6,7 @@ releases:
     details:
     - "`#310`: fix broken indentation in iget_records memory-reduction patch"
     - "`#285`: display timedelta values as strings without JSON serialization errors"
+    - "`#258`: preserve exported column header and row label values when combining sheets"
   version: 0.7.7
   date: 01.07.2026
 - changes:
