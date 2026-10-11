@@ -1,6 +1,8 @@
 import datetime
 from unittest import TestCase
 
+import pytest
+
 from pyexcel import SeriesReader, save_as, get_sheet
 from pyexcel.internal.sheets import formatters
 
@@ -44,6 +46,33 @@ class TestToFormatFunction:
         value = "abc"
         n_value = formatters.to_format(int, value)
         assert n_value == value
+
+    @pytest.mark.parametrize(
+        "value, expected",
+        [
+            ("9007199254740993", 9007199254740993),
+            ("9223372036854775807", 9223372036854775807),
+            ("-9007199254740993", -9007199254740993),
+            ("0009007199254740993", 9007199254740993),
+            ("9_007_199_254_740_993", 9007199254740993),
+        ],
+    )
+    def test_csv_integer_text_keeps_precision(self, value, expected):
+        sheet = get_sheet(
+            file_type="csv", file_content=value,
+            auto_detect_int=False, auto_detect_float=False,
+        )
+        assert sheet[0, 0] == value
+
+        sheet.column.format(0, int)
+
+        assert sheet[0, 0] == expected
+
+    @pytest.mark.parametrize(
+        "value, expected", [("11.11", 11), ("1e3", 1000), ("abc", "abc")]
+    )
+    def test_integer_text_conversion_fallbacks(self, value, expected):
+        assert formatters.to_format(int, value) == expected
 
     def test_float_2_string_format(self):
         value = 1.0

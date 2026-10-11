@@ -24,10 +24,12 @@ def string_to_format(value, target_format):
             ret = value
     elif target_format == int:
         try:
-            ret = float(value)
-            ret = int(ret)
+            ret = int(value)
         except ValueError:
-            ret = value
+            try:
+                ret = int(float(value))
+            except ValueError:
+                ret = value
     else:
         ret = value
 
