@@ -353,15 +353,12 @@ class Sheet(Matrix):
             self.__row_names = new_series
 
     def delete_named_column_at(self, name):
-        """Works only after you named columns by a row
+        """Delete one column by name or index.
 
-        Given name to identify the column index, set the column to
-        the given array except the column name.
-        :param str name: a column name
+        Other column names and all row names are preserved.
+        :param str or int name: a column name or index
         """
         if isinstance(name, int):
-            if len(self.rownames) > 0:
-                self.rownames.pop(name)
             self.delete_columns([name])
         else:
             index = self.colnames.index(name)
@@ -388,14 +385,12 @@ class Sheet(Matrix):
         self.set_row_at(index, row_array)
 
     def delete_named_row_at(self, name):
-        """Take the first column as row names
+        """Delete one row by name or index.
 
-        Given name to identify the row index, set the row to
-        the given array except the row name.
+        Other row names and all column names are preserved.
+        :param str or int name: a row name or index
         """
         if isinstance(name, int):
-            if len(self.rownames) > 0:
-                self.rownames.pop(name)
             self.delete_rows([name])
         else:
             index = self.rownames.index(name)
