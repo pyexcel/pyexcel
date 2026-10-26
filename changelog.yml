@@ -6,6 +6,7 @@ releases:
     details:
     - "`#310`: fix broken indentation in iget_records memory-reduction patch"
     - "`#285`: display timedelta values as strings without JSON serialization errors"
+    - "preserve row and column labels when deleting a named row or column by integer index"
   version: 0.7.7
   date: 01.07.2026
 - changes:
