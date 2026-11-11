@@ -168,8 +168,9 @@ class Sheet(Matrix):
     def clone(self):
         new_sheet = Sheet(
             copy.deepcopy(self.get_internal_array()),
-            name_columns_by_row=self.__row_index,
-            name_rows_by_column=self.__column_index,
+            name=self.name,
+            colnames=copy.deepcopy(self.colnames),
+            rownames=copy.deepcopy(self.rownames),
         )
         return new_sheet
 

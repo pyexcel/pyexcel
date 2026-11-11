@@ -2,6 +2,9 @@ name: pyexcel
 organisation: pyexcel
 releases:
 - changes:
+  - action: updated
+    details:
+    - "Preserve live data, row and column names, and sheet name when cloning or deep copying a Sheet."
   - action: Fixed
     details:
     - "`#310`: fix broken indentation in iget_records memory-reduction patch"
