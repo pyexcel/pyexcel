@@ -71,6 +71,13 @@ def date_to_format(value, target_format):
     return ret
 
 
+def timedelta_to_format(value, target_format):
+    """Convert a duration to text without wrapping at 24 hours."""
+    if target_format == str:
+        return str(value)
+    return default_formatter(value, target_format)
+
+
 def boolean_to_format(value, target_format):
     """Convert bool to specified format"""
     if target_format == float:
@@ -103,6 +110,7 @@ CONVERSION_FUNCTIONS = {
     datetime.datetime: date_to_format,
     datetime.time: date_to_format,
     datetime.date: date_to_format,
+    datetime.timedelta: timedelta_to_format,
     bool: boolean_to_format,
     None: empty_to_format,
     Decimal: float_to_format,

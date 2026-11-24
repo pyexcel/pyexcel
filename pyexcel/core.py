@@ -225,15 +225,24 @@ def iget_records(custom_headers=None, **keywords):
                 tmp_dict = dict(
                     zip_longest(headers, row, fillvalue=constants.DEFAULT_NA),
                 )
+                # Release row before yielding so the generator frame does not
+                # hold the raw row data while the caller processes the record
+                # (reduces peak memory with wide rows).
+                del row
                 ordered_dict = OrderedDict()
                 for name in custom_headers:
                     ordered_dict[name] = tmp_dict[name]
+                del tmp_dict
                 yield ordered_dict
             else:
                 # default order
-                yield OrderedDict(
+                ordered_dict = OrderedDict(
                     zip_longest(headers, row, fillvalue=constants.DEFAULT_NA),
                 )
+                # Release the raw row before yielding so the generator frame
+                # does not hold it while the caller processes the record.
+                del row
+                yield ordered_dict
 
 
 @append_doc(docs.GET_BOOK_DICT)

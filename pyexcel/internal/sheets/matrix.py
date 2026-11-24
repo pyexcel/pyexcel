@@ -764,14 +764,14 @@ class Matrix(SheetMeta):
                 self.cell_value(row, column, value)
 
     def __iadd__(self, other):
-        return _add(self.name, self.__array, other)
+        return _add(self.name, self.to_array(), other)
 
     def __add__(self, other):
         """Overload the + sign
 
         :returns: a new book
         """
-        return _add(self.name, copy.deepcopy(self.__array), other)
+        return _add(self.name, copy.deepcopy(self.to_array()), other)
 
     def clone(self):
         return Matrix(copy.deepcopy(self.__array))
@@ -872,7 +872,7 @@ def _add(name, left, right):
         if new_key in content:
             uid = local_uuid()
             new_key = f"{right.name}_{uid}"
-        content[new_key] = copy.deepcopy(right.get_internal_array())
+        content[new_key] = copy.deepcopy(right.to_array())
     else:
         raise TypeError
     new_book = Book()
