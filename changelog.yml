@@ -4,6 +4,12 @@ releases:
 - changes:
   - action: Fixed
     details:
+    - "`#258`: preserve row and column names when adding sheets to build a book"
+  version: 0.7.8
+  date: tbd
+- changes:
+  - action: Fixed
+    details:
     - "`#310`: fix broken indentation in iget_records memory-reduction patch"
     - "`#285`: display timedelta values as strings without JSON serialization errors"
   version: 0.7.7
