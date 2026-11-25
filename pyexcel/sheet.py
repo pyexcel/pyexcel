@@ -237,16 +237,15 @@ class Sheet(Matrix):
         groups = defaultdict(list)
 
         if isinstance(column_index_or_name, int):
-            for row in self.to_array():
-                groups[row[column_index_or_name]].append(row)
+            column_index = column_index_or_name
         else:
             if len(self.colnames) == 0:
                 self.name_columns_by_row(0)
             column_index = self.colnames.index(column_index_or_name)
-            for row in self.rows():
-                if len(groups[row[column_index]]) == 0:
-                    groups[row[column_index]].append(self.colnames)
-                groups[row[column_index]].append(row)
+        for row in self.rows():
+            if not groups[row[column_index]] and self.colnames:
+                groups[row[column_index]].append(self.colnames)
+            groups[row[column_index]].append(row)
         return Book(groups)
 
     def top(self, lines=5):
