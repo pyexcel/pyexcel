@@ -639,15 +639,25 @@ class _RepresentedString:
 
 def make_names_unique(alist):
     """Append the number of occurrences to duplicated names"""
-    duplicates = {}
-    new_names = []
+    normalized = []
     for item in alist:
         if not compact.is_string(type(item)):
             item = str(item)
-        item = item.strip()
+        normalized.append(item.strip())
+
+    reserved = set(normalized)
+    duplicates = {}
+    new_names = []
+    for item in normalized:
         if item in duplicates:
-            duplicates[item] = duplicates[item] + 1
-            new_names.append("%s-%d" % (item, duplicates[item]))
+            suffix = duplicates[item] + 1
+            candidate = "%s-%d" % (item, suffix)
+            while candidate in reserved:
+                suffix += 1
+                candidate = "%s-%d" % (item, suffix)
+            duplicates[item] = suffix
+            reserved.add(candidate)
+            new_names.append(candidate)
         else:
             duplicates[item] = 0
             new_names.append(item)
