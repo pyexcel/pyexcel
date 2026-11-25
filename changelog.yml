@@ -2,6 +2,12 @@ name: pyexcel
 organisation: pyexcel
 releases:
 - changes:
+  - action: updated
+    details:
+    - Accept the first row and column through their valid negative indices.
+  version: 0.7.8
+  date: tbd
+- changes:
   - action: Fixed
     details:
     - "`#310`: fix broken indentation in iget_records memory-reduction patch"

@@ -97,13 +97,10 @@ class Matrix(SheetMeta):
         """
         Gets the data at the specified row
         """
+        if index < 0:
+            index += self.number_of_rows()
         if index in self.row_range():
             return PyexcelList(copy.deepcopy(self.__array[index]))
-
-        if index < 0 and utils.abs(index) in self.row_range():
-            return PyexcelList(
-                copy.deepcopy(self.__array[index + self.number_of_rows()]),
-            )
 
         raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
 
@@ -184,15 +181,11 @@ class Matrix(SheetMeta):
         Gets the data at the specified column
         """
         cell_array = PyexcelList()
+        if index < 0:
+            index += self.number_of_columns()
         if index in self.column_range():
             for i in self.row_range():
                 cell_array.append(self.cell_value(i, index))
-            return cell_array
-
-        if index < 0 and utils.abs(index) in self.column_range():
-            reverse_index = self.number_of_columns() + index
-            for i in self.row_range():
-                cell_array.append(self.cell_value(i, reverse_index))
             return cell_array
 
         raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)

@@ -246,7 +246,9 @@ class Column(utils.CommonPropertyAmongRowNColumn):
 
         if isinstance(aslice, str):
             index = utils.excel_column_index(aslice)
-        if utils.abs(index) in self._ref.column_range():
+        if index < 0:
+            index += self._ref.number_of_columns()
+        if index in self._ref.column_range():
             return self._ref.column_at(index)
 
         raise IndexError
