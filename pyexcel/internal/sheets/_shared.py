@@ -76,9 +76,9 @@ def excel_cell_position(pos_chars: str) -> Tuple[int, int]:
     translate MS excel position to index
     Return: (row: int, column: int)
     """
-    match = re.match("([A-Za-z]+)([0-9]+)", pos_chars)
+    match = re.fullmatch("([A-Za-z]+)([0-9]+)", pos_chars)
 
-    if match:
+    if match and int(match.group(2)) > 0:
         return int(match.group(2)) - 1, excel_column_index(match.group(1))
     raise KeyError(f"invalid index: {pos_chars}")
 
