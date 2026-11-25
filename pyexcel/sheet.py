@@ -550,7 +550,12 @@ class Sheet(Matrix):
                 new_dict[column] = the_dict[column]
 
         array = get_array(adict=new_dict)
-        return Sheet(array, name=self.name, name_columns_by_row=0)
+        return Sheet(
+            array,
+            name=self.name,
+            name_columns_by_row=0,
+            rownames=self.rownames[:],
+        )
 
     def to_dict(self, row=False):
         """Returns a dictionary"""
