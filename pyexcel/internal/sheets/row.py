@@ -201,7 +201,9 @@ class Row(utils.CommonPropertyAmongRowNColumn):
                 results.append(self._ref.row_at(i))
             return results
 
-        if abs(index) in self._ref.row_range():
+        if index < 0:
+            index += self._ref.number_of_rows()
+        if index in self._ref.row_range():
             return self._ref.row_at(index)
         raise IndexError
 
